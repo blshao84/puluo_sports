@@ -11,11 +11,9 @@
 /logs/**/*
 *.DS_Store
 project/project/**/*
-project/target/config-classes/*
-project/target/config-classes/**
-project/target/config-classes/**/*
-project/target/config-classes/*.class
-target/
+project/target/**/*
+project/target/**/**/*
+target/**/*
 logs/**
 bin
 sdklog
