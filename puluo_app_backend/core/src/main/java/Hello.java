@@ -1,0 +1,3 @@
+class HelloJava {
+    String name;
+}

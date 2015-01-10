@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<button_group>
+	<button button_type="click" button_name="网上商城">
+		<sub_button_group>
+					<sub_button button_type="click" button_name="每日签到" button_key="CHECKIN"></sub_button>
+					<sub_button button_type="click" button_name="试试手气" button_key="LOTTERY"></sub_button>
+					<sub_button button_type="view" button_name="一键购物" button_url="http://www.dqxmt.com/reserve_mobile"></sub_button>
+		</sub_button_group>
+	</button>
+	<button button_type="click" button_name="天狗">
+		<sub_button_group>
+			<sub_button button_type="view" button_name="超市活动" button_url="http://m.51tiangou.com/index.html?activityType=1&amp;source_type=2&amp;source_weixin_id=gh_a74ef232264d"></sub_button>
+			<sub_button button_type="view" button_name="百货活动" button_url="http://m.51tiangou.com/index.html?source_type=2&amp;source_weixin_id=gh_a74ef232264d "></sub_button>
+		</sub_button_group>
+	</button>
+	<button button_type="click" button_name="更多">
+		<sub_button_group>
+			<sub_button button_type="view" button_name="个人信息" button_url="http://m.51tiangou.com/account/personal_info.html?source_type=2&amp;source_weixin_id=gh_a74ef232264d"></sub_button>
+			<sub_button button_type="view" button_name="天狗客服" button_url="http://m.51tiangou.com/account/tgouService.html?source_type=2&amp;source_weixin_id=gh_a74ef232264d"></sub_button>
+			<sub_button button_type="view" button_name="我的活动" button_url="http://m.51tiangou.com/couponCode/couponCodeList.html?source_type=2&amp;source_weixin_id=gh_a74ef232264d"></sub_button>
+			<sub_button button_type="view" button_name="我的订单" button_url="http://m.51tiangou.com/order/orderList.html?source_type=2&amp;source_weixin_id=gh_a74ef232264d "></sub_button>
+		</sub_button_group>
+	</button>
+
+</button_group>
