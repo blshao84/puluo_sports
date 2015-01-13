@@ -12,6 +12,7 @@ resolvers ++= Seq(
             "releases"        at "http://repo1.maven.org/maven2/"
         )
 
+jetty()
 
 unmanagedResourceDirectories in Test <+= (baseDirectory) { _ / "src/main/webapp" }
 

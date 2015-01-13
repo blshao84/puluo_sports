@@ -10,8 +10,16 @@ import net.liftweb.json.JsonDSL._
 import net.liftweb.http.LiftResponse
 import net.liftweb.common.Full
 import com.unuotech.util.JuheSMSClient
+import net.liftweb.http.PlainTextResponse
+import com.puluo.test.TestConstants
 object MessagingService extends RestHelper {
   serve {
+    case "login" :: _ Get _ => {
+      val x = new TestConstants().login
+      JsonResponse(x)
+      //PlainTextResponse(x)
+      
+    }
     case "admin" :: "sms" :: "stat" :: _ Get _ => smsUsageStat
     case "admin" :: "sms" :: "activate" :: _ Get _ => smsActivate
     case "admin" :: "sms" :: "logout" :: _ Get _ => smsLogout
