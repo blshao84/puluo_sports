@@ -10,9 +10,9 @@ import net.liftweb.sitemap.Loc._
 import net.liftweb.mapper.{ DB, Schemifier, DefaultConnectionIdentifier, StandardDBVendor, MapperRules }
 import net.liftweb.mapper.MetaMapper
 import org.apache.commons.fileupload.FileUpload
-import com.unuotech.config.Configurations
-import com.unuotech.snippet.api.MessagingService
-import com.unuotech.util.SMSClient
+import com.puluo.config.Configurations
+import com.puluo.snippet.api.MessagingService
+import com.puluo.util.SMSClient
 import net.liftweb.http.js.jquery.JQuery14Artifacts
 
 trait BootResult

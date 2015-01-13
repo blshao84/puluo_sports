@@ -1,4 +1,4 @@
-package com.unuotech.snippet.api
+/*package com.puluo.snippet.api
 
 import net.liftweb.http.JsonResponse
 import net.liftweb.http.rest.RestHelper
@@ -13,28 +13,18 @@ import net.liftweb.util.StringHelpers
 import java.io.FileOutputStream
 import java.io.FileInputStream
 import java.io.File
-import com.unuotech.snippet.proto.TestAsyncUpload
-import com.unuotech.util.ImageUtil
-import com.unuotech.snippet.util.ImageUploadResult
+import com.puluo.util.ImageUtil
 import net.liftweb.common.Logger
 import net.liftweb.common.Loggable
-import com.unuotech.config.Configurations
-import com.unuotech.snippet.update.ImageUploadSnippet
-import com.unuotech.snippet.PromotionUploadSnippet
-import com.unuotech.snippet.StoreEventUploadSnippet
+import com.puluo.config.Configurations
 import javax.imageio.ImageIO
 import net.liftweb.http.PlainTextResponse
-import com.unuotech.model.user.Customer
-import com.unuotech.model.StockImage
 import net.liftweb.http.JavaScriptResponse
 import net.liftweb.http.js.JsCmds
-import com.unuotech.model.sales.Stock
 import net.liftweb.http.Req
 import net.liftweb.json.Serialization
 import net.liftweb.json.DefaultFormats
-import com.unuotech.snippet.util.JQueryFileUploadResult
-import com.unuotech.snippet.util.FileUploadError
-import com.unuotech.snippet.util.JQueryFileUploadResultSet
+
 
 //import mongo.MongoStorage
 
@@ -55,7 +45,7 @@ object UploadManager extends RestHelper with Loggable {
     }
 
     case "resize" :: uuid :: fileType :: Nil Get req => {
-      if (S.loggedIn_? && Customer.currentUser.get.superUser.get) {
+      if (S.loggedIn_?) {
         val s0 = System.currentTimeMillis()
         val root = Configurations.imageServerRoot + uuid + "." + fileType
         val image = ImageIO.read(new File(root))
@@ -65,17 +55,17 @@ object UploadManager extends RestHelper with Loggable {
       } else PlainTextResponse("您没登陆或者没有权限")
     }
     case "rename" :: "all" :: Nil Get req => {
-      if (S.loggedIn_? && Customer.currentUser.get.superUser.get) {
+      if (S.loggedIn_?) {
         renameAllImages
       } else PlainTextResponse("您没登陆或者没有权限")
     }
     case "resize" :: "all" :: Nil Get req => {
-      if (S.loggedIn_? && Customer.currentUser.get.superUser.get) {
+      if (S.loggedIn_? ) {
         resizeAllImages
       } else PlainTextResponse("您没登陆或者没有权限")
     }
     case "resize" :: "large" :: Nil Get req => {
-      if (S.loggedIn_? && Customer.currentUser.get.superUser.get) {
+      if (S.loggedIn_? ) {
         resizeLargeImages
       } else PlainTextResponse("您没登陆或者没有权限")
     }
@@ -98,8 +88,8 @@ object UploadManager extends RestHelper with Loggable {
       val result = ojv.map(_._1).getOrElse(ImageUploadResult.ERROR)
       logger.info("保存文件 %s".format(result))
       logger.info("返回数据 %s".format(ret))
-      val jr = JQueryFileUploadResultSet(Seq(JQueryFileUploadResult(result))).jsonValue
-      logger.info("jquery-file-upload的返回值：%s".format(jr))
+      //val jr = JQueryFileUploadResultSet(Seq(JQueryFileUploadResult(result))).jsonValue
+      //logger.info("jquery-file-upload的返回值：%s".format(jr))
       JsonResponse(jr)
     } catch {
       case e: Exception => JsonResponse(JQueryFileUploadResultSet(Seq(FileUploadError("error",0,""))).jsonValue)
@@ -190,7 +180,7 @@ object UploadManager extends RestHelper with Loggable {
         val parts = fileName.split('.')
         val uuid = parts(0)
         val fileType = parts(1)
-        if (fileName.endsWith("-medium." + fileType) /*|| fileName.endsWith("-small." + fileType)*/ ) {
+        if (fileName.endsWith("-medium." + fileType) || fileName.endsWith("-small." + fileType) ) {
           logger.info(fileName + " 已经生成")
           processed.add(uuid)
           None
@@ -272,3 +262,4 @@ object UploadManager extends RestHelper with Loggable {
     PlainTextResponse("转换%s文件，总计%s秒".format(originalFiles.size, (s3 - s0) / 1000.0))
   }
 }
+*/

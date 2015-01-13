@@ -1,18 +1,14 @@
-package com.unuotech.config
+package com.puluo.config
 
 import net.liftweb.http.LiftRules
 import java.util.Date
 import org.joda.time.LocalDate
-import com.unuotech.model.entity.LegalEntity
-import com.unuotech.model.entity.LegalEntityType
 import net.liftweb.common.Full
 import net.liftweb.util.Props
-import com.unuotech.util.StringUtil
+import com.puluo.util.StringUtil
 import net.liftweb.mapper.By
-import com.unuotech.model.sales.RetailerConfiguration
 
 object Configurations {
-  lazy val retailers = LegalEntity.findAll(By(LegalEntity.legalEntityType, LegalEntityType.RETAILER)).map(e => (e.name.get, e)).toMap
   /**
    * SNS connections
    */

@@ -1,4 +1,4 @@
-package com.unuotech.util
+package com.puluo.util
 
 import scala.util.Random
 

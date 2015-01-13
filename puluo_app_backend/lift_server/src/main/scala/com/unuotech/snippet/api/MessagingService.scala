@@ -1,15 +1,14 @@
-package com.unuotech.snippet.api
+package com.puluo.snippet.api
 
 import net.liftweb.http.rest.RestHelper
-import com.unuotech.util.SMSClient
+import com.puluo.util.SMSClient
 import net.liftweb.http.S
 import net.liftweb.http.JsonResponse
 import net.liftweb.json.JsonAST.JString
-import com.unuotech.model.user.Customer
 import net.liftweb.json.JsonDSL._
 import net.liftweb.http.LiftResponse
 import net.liftweb.common.Full
-import com.unuotech.util.JuheSMSClient
+import com.puluo.util.JuheSMSClient
 import net.liftweb.http.PlainTextResponse
 import com.puluo.test.TestConstants
 object MessagingService extends RestHelper {
@@ -18,7 +17,7 @@ object MessagingService extends RestHelper {
       val x = new TestConstants().login
       JsonResponse(x)
       //PlainTextResponse(x)
-      
+
     }
     case "admin" :: "sms" :: "stat" :: _ Get _ => smsUsageStat
     case "admin" :: "sms" :: "activate" :: _ Get _ => smsActivate
@@ -71,10 +70,7 @@ object MessagingService extends RestHelper {
 
   def entitle(func: () => LiftResponse) = {
     if (S.loggedIn_?) {
-      val user = Customer.currentUser.get
-      if (user.superUser.get) {
-        func()
-      } else JsonResponse(Map("error" -> "用户没有查看该统计信息的权限"))
+      func()
     } else {
       JsonResponse(Map("error" -> "用户没有登录"))
     }

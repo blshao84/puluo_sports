@@ -1,12 +1,11 @@
-package com.unuotech.config
+package com.puluo.config
 
 import net.liftweb.http.LiftRules
 import net.liftweb.sitemap.Menu
 import net.liftweb.sitemap.Loc.LocGroup
 import net.liftweb.sitemap.NormalLocPath
 import net.liftweb.common.Full
-import com.unuotech.util.StringUtil
-import com.unuotech.model.user.Customer
+import com.puluo.util.StringUtil
 import bootstrap.liftweb.Boot
 import net.liftweb.common.Loggable
 import net.liftweb.json.DefaultFormats

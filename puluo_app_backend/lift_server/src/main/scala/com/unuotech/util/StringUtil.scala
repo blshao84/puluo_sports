@@ -1,6 +1,6 @@
-package com.unuotech.util
+package com.puluo.util
 
-import com.unuotech.config.Configurations
+import com.puluo.config.Configurations
 import net.sourceforge.pinyin4j.PinyinHelper
 
 object StringUtil {

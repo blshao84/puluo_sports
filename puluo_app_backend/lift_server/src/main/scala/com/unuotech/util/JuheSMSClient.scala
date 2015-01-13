@@ -1,4 +1,4 @@
-package com.unuotech.util
+package com.puluo.util
 
 import net.liftweb.common.Loggable
 import org.apache.http.impl.client.DefaultHttpClient
@@ -9,10 +9,8 @@ import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import net.liftweb.json.JValue
 import net.liftweb.json._
-import com.unuotech.config.Configurations
+import com.puluo.config.Configurations
 import bootstrap.liftweb.Boot
-import com.unuotech.model.sales.Stock
-import com.unuotech.model.user.WeiChatCheckIn
 import org.joda.time.LocalDate
 import net.liftweb.mapper.By
 

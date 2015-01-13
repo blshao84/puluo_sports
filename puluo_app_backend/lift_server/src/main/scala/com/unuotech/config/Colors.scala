@@ -1,4 +1,4 @@
-package com.unuotech.config
+package com.puluo.config
 
 /**
  * 每个颜色的序号与数据库的商品属性绑定， ！非常！重要，任何情况下不可以改变！

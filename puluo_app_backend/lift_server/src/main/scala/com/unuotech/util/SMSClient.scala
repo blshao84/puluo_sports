@@ -1,11 +1,11 @@
-package com.unuotech.util
+package com.puluo.util
 
 import cn.emay.sdk.client.api.Client
 import cn.emay.sdk.client.api.MO
 import cn.emay.sdk.client.api.StatusReport
 import cn.emay.sdk.client.listener.ReceiveMessageListener
 import cn.emay.sdk.communication.socket.ResponseMsg
-import com.unuotech.config.Configurations
+import com.puluo.config.Configurations
 import net.liftweb.common.Loggable
 import scala.collection.JavaConversions._
 import net.liftweb.util.Mailer
