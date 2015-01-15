@@ -1,0 +1,18 @@
+dependencies {
+    compile group:'org.apache.httpcomponents',name:'httpmime',version:'4.2.2'
+    compile group:'dom4j',name:'dom4j',version:'1.6.1'
+    compile group:'postgresql',name:'postgresql',version:'9.0-801.jdbc4'
+    compile group:'ch.qos.logback',name:'logback-classic',version:'0.9.28'
+    compile group:'org.specs2',name:"specs2_$scalaVersion",version:'2.3.7'
+    compile group:'com.h2database',name:'h2',version:'1.3.167'
+    compile group:'org.scalatest',name:"scalatest_$scalaVersion",version:'2.0'
+    compile group:'org.apache.httpcomponents',name:'httpclient',version:'4.2.3'
+    compile group:'commons-httpclient',name:'commons-httpclient',version:'3.1'
+    compile group:'com.belerweb',name:'pinyin4j',version:'2.5.0'
+    compile group:'net.sf.json-lib',name:'json-lib',version:'2.4',classifier: 'jdk15'
+    compile group:'jaxen',name:'jaxen',version:'1.1.6'
+    compile group:"org.apache.httpcomponents",name:"httpmime",version:"4.2.2"
+    compile group:'log4j',name:'log4j',version:'1.2.17'
+    compile files('lib/netpayclient.jar')
+    compile files('lib/emayclient.jar')
+}

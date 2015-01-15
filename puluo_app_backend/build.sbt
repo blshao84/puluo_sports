@@ -12,7 +12,7 @@ resolvers ++= Seq(
             "releases"        at "http://repo1.maven.org/maven2/"
         )
 
-jetty()
+jetty(port=1234)
 
 unmanagedResourceDirectories in Test <+= (baseDirectory) { _ / "src/main/webapp" }
 
@@ -22,7 +22,6 @@ javacOptions ++= Seq("-encoding", "UTF-8")
 
 conflictWarning in ThisBuild := ConflictWarning.disable
 
-lazy val root = (project in file(".")).
-  aggregate(lift_server, core)
-lazy val lift_server = project.dependsOn(core)
+lazy val root = (project in file(".")).aggregate(lift_server, core)
 lazy val core = project
+lazy val lift_server = project.dependsOn(core)

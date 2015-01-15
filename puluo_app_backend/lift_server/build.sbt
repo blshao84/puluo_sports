@@ -3,6 +3,8 @@ name := "lift_server"
 
 libraryDependencies += "javax.servlet" % "javax.servlet-api" % "3.1.0" % "provided"
 
+jetty()
+
 libraryDependencies ++= {
   val liftVersion = "2.6-M2"
   Seq(
@@ -34,3 +36,4 @@ libraryDependencies ++= {
     "jaxen" % "jaxen" % "1.1.6" withSources()
         )
 }
+

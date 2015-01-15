@@ -1,3 +1,4 @@
+package com.puluo.api.test;
 /*package com.puluo.snippet.api
 
 import net.liftweb.http.JsonResponse

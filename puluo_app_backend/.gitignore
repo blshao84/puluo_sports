@@ -6,8 +6,8 @@
 .classpath
 .idea_modules/**/*
 .idea/**/*
-.settings/org.scala-ide.sdt.core.prefs
-
+.settings/**/*
+build/**/*
 /logs/**/*
 *.DS_Store
 project/project/**/*
@@ -17,6 +17,7 @@ target/**/*
 target/
 project/target/
 logs/**
+.gradle/**/*
 bin
 sdklog
 sdklog/**/*

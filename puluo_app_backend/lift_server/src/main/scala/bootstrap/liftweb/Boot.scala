@@ -11,9 +11,9 @@ import net.liftweb.mapper.{ DB, Schemifier, DefaultConnectionIdentifier, Standar
 import net.liftweb.mapper.MetaMapper
 import org.apache.commons.fileupload.FileUpload
 import com.puluo.config.Configurations
-import com.puluo.snippet.api.MessagingService
 import com.puluo.util.SMSClient
 import net.liftweb.http.js.jquery.JQuery14Artifacts
+import com.puluo.api.test.TestAPI
 
 trait BootResult
 case class DSIBootResult(val db: Option[Int]) extends BootResult
@@ -67,7 +67,7 @@ class Boot extends DSI with Loggable {
     })
     // make requests utf-8
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
-    LiftRules.dispatch.append(MessagingService)
+    LiftRules.dispatch.append(TestAPI)
 
     LiftRules.handleMimeFile = OnDiskFileParamHolder.apply
 

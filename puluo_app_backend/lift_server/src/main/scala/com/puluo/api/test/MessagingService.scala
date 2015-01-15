@@ -1,4 +1,4 @@
-package com.puluo.snippet.api
+/*package com.puluo.api.test
 
 import net.liftweb.http.rest.RestHelper
 import com.puluo.util.SMSClient
@@ -76,4 +76,4 @@ object MessagingService extends RestHelper {
     }
   }
 
-}
+}*/
