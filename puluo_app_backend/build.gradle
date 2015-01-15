@@ -42,3 +42,7 @@ dependencies {
         "org.specs2:specs2_$scalaVersion:$specs2Version"
 }
 }
+
+task wrapper(type: Wrapper) {
+        gradleVersion = '2.2.1'
+}
