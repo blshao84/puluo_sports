@@ -1,4 +1,5 @@
 dependencies {
+    compile group:'org.springframework',name:'spring-jdbc',version:'4.1.4.RELEASE'
     compile group:'org.apache.httpcomponents',name:'httpmime',version:'4.2.2'
     compile group:'dom4j',name:'dom4j',version:'1.6.1'
     compile group:'postgresql',name:'postgresql',version:'9.0-801.jdbc4'
