@@ -1,4 +1,4 @@
-package com.joyrec.util.fn;
+package com.puluo.util;
 
 import java.io.Serializable;
 

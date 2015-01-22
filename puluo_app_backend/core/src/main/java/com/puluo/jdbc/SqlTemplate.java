@@ -23,7 +23,6 @@ import com.puluo.util.Strs;
 public class SqlTemplate extends JdbcTemplate implements SqlReader,SqlWriter
 {
     private static final Log LOG = LogFactory.getLog(SqlTemplate.class);
-
  
     @Override
     public DataSource getDataSource()

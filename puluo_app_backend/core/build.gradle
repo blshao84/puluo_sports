@@ -1,5 +1,13 @@
 dependencies {
+    compile group:'com.jolbox',name:'bonecp',version:'0.8.0.RELEASE'
+    compile group:'org.springframework',name:'spring-aop',version:'4.1.4.RELEASE'
+    compile group:'org.springframework',name:'spring-beans',version:'4.1.4.RELEASE'
+    compile group:'org.springframework',name:'spring-context',version:'4.1.4.RELEASE'
+    compile group:'org.springframework',name:'spring-context-support',version:'4.1.4.RELEASE'
+    compile group:'org.springframework',name:'spring-expression',version:'4.1.4.RELEASE'
     compile group:'org.springframework',name:'spring-jdbc',version:'4.1.4.RELEASE'
+    compile group:'org.springframework',name:'spring-test',version:'4.1.4.RELEASE'
+    compile group:'org.springframework',name:'spring-tx',version:'4.1.4.RELEASE'
     compile group:'org.apache.httpcomponents',name:'httpmime',version:'4.2.2'
     compile group:'dom4j',name:'dom4j',version:'1.6.1'
     compile group:'postgresql',name:'postgresql',version:'9.0-801.jdbc4'
