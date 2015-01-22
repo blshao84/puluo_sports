@@ -19,18 +19,7 @@ public abstract class TestBeanFactory {
 	private static final String fileName = "puluo-test.xml";
 
 	static {
-		File dir = new File("");
-        LOGGER.info("DIR=" + dir.getAbsolutePath());
-        // System.out.println("LIST=" + dir.listFiles());
-        if (dir.isDirectory() && !ArrayUtils.isEmpty(dir.listFiles()))
-        {
-            LOGGER.info("reading the config file {} from {}",fileName, dir);
-            context = new FileSystemXmlApplicationContext(fileName);
-        }
-        else
-        {
 		context = new ClassPathXmlApplicationContext(fileName);
-        }
 	}
 
 	public static <T> T getBean(Class<T> beanClass, String... beanName) {
