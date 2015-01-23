@@ -28,16 +28,31 @@
 		<property name="dataSource" ref="source"></property>
 	</bean>
 	
+	<bean id="db2" class="com.puluo.jdbc.SqlTemplate">
+		<property name="dataSource" ref="source"></property>
+	</bean>
+	
+	<bean id="allWriters" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<ref bean="db"/>
+			</list>
+		</constructor-arg>
+	</bean>
+	<bean id="allReaders" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<ref bean="db2"/>
+			</list>
+		</constructor-arg>
+	</bean>
 	<bean id="testDalTemplate" abstract="true">
-		<property name="writers" ref="db"></property>
-		<property name="readers" ref="db"></property>
+		<property name="writers" ref="allWriters"></property>
+		<property name="readers" ref="allReaders"></property>
 	</bean>
 
-	<bean id="PgDummyEntity" class="com.puluo.db.impl.PgDummyImpl"
-		parent="testDalTemplate">
-		<property name="fullTableName" value="pgdummy-test"></property>
-		<property name="id" value="1"></property>
-		<property name="name" value="test"></property>
+	<bean id="pgDummyDao" class="com.puluo.db.impl.PgDummyDao" parent="testDalTemplate">
+		<property name="fullTableName" value="pgdummy"></property>
 	</bean>
 
 </beans>

@@ -1,4 +1,4 @@
-package com.puluo.db;
+package com.puluo.entity;
 
 public interface PgDummy {
 	public Long id();

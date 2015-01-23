@@ -21,13 +21,13 @@ public abstract class DalTemplate
         return fullTableName;
     }
 
-    protected SqlReader getReader()
+    public SqlReader getReader()
     {
         SqlReader reader = readers.get(((Long) (System.currentTimeMillis() % readerSize)).intValue());
         return reader;
     }
 
-    protected SqlWriter getWriter()
+    public SqlWriter getWriter()
     {
         SqlWriter writer = writers.get(((Long) (System.currentTimeMillis() % writerSize)).intValue());
         return writer;

@@ -1,27 +1,36 @@
 package com.puluo.db.test;
 
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
-import com.puluo.db.PgDummy;
-import com.puluo.db.impl.PgDummyImpl;
+import com.puluo.db.impl.PgDummyDao;
+import com.puluo.entity.PgDummy;
+import com.puluo.entity.impl.PgDummyImpl;
 import com.puluo.util.TestBeanFactory;
 
-
-
 public class DalEntityTest {
-	@Test
-	public  void testEntityInit() {
-		 PgDummy dummy = TestBeanFactory.getBean(PgDummyImpl.class, "PgDummyEntity");
-		 Long id = dummy.id();
-		 String name = dummy.name();
-		 Assert.assertEquals("dummy entity's id should be 1",1L, id.longValue());
-		 Assert.assertEquals("dummy entity's name should be test","test", name);
-		 Assert.assertEquals("dummy entity's toString should be pgdummy-test:1test","pgdummy-test:1test", dummy.toString());
+	@BeforeClass
+	public static void setUpDB() {
+		PgDummyImpl dummy1 = new PgDummyImpl(1L, "a");
+		PgDummyImpl dummy2 = new PgDummyImpl(2L, "b");
+		PgDummyDao dummyDao = TestBeanFactory.getBean(PgDummyDao.class,
+				"pgDummyDao");
+		dummyDao.createTable();
+		dummyDao.save(dummy1);
+		dummyDao.save(dummy2);
 	}
-	
+
 	@Test
-	public void testEntitySave() {
-		
+	public void testEntityLoad() {
+		PgDummyDao dummyDao = TestBeanFactory.getBean(PgDummyDao.class,
+				"pgDummyDao");
+		PgDummy dummy1 = dummyDao.getById(1L);
+		PgDummy dummy2 = dummyDao.getById(2L);
+		assertEquals("dummy1's id should be a", dummy1.id().longValue(), 1L);
+		assertEquals("dummy2's id should be a", dummy2.id().longValue(), 2L);
+		assertEquals("dummy1's name should be a", dummy1.name(), "a");
+		assertEquals("dummy2's name should be b", dummy2.name(), "b");
 	}
 
 }
