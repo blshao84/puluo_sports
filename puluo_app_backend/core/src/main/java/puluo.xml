@@ -23,7 +23,8 @@
 		<!-- 数据库驱动 -->
 		<property name="driverClass" value="org.postgresql.Driver" />
 		<!-- 相应驱动的jdbcUrl,你懂的 -->
-		<property name="jdbcUrl" value="jdbc:postgresql://183.131.76.93:2345/database" />
+		<property name="jdbcUrl"
+			value="jdbc:postgresql://183.131.76.93:2345/database" />
 		<!-- 数据库的用户名 -->
 		<property name="username" value="puluo" />
 		<!-- 数据库的密码 -->
@@ -49,7 +50,8 @@
 		<!-- 数据库驱动 -->
 		<property name="driverClass" value="org.postgresql.Driver" />
 		<!-- 相应驱动的jdbcUrl,你懂的 -->
-		<property name="jdbcUrl" value="jdbc:postgresql://183.131.76.93:2345/database" />
+		<property name="jdbcUrl"
+			value="jdbc:postgresql://183.131.76.93:2345/database" />
 		<!-- 数据库的用户名 -->
 		<property name="username" value="puluo" />
 		<!-- 数据库的密码 -->
@@ -83,15 +85,24 @@
 		<property name="dataSource" ref="readSource"></property>
 	</bean>
 
-
-	<bean id="dalTemplate" abstract="true">
-		<property name="writers" ref="writer"></property>
-		<property name="readers" ref="reader"></property>
+	<bean id="allWriters" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<ref bean="db" />
+			</list>
+		</constructor-arg>
+	</bean>
+	<bean id="allReaders" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<ref bean="db" />
+			</list>
+		</constructor-arg>
 	</bean>
 
-	<bean id="PgDummyEntity" class="com.puluo.db.impl.PgDummyImpl"
-		parent="dalTemplate">
-		<property name="fullTableName" value="pgdummy"></property>
+	<bean id="dalTemplate" abstract="true">
+		<property name="writers" ref="allWriters"></property>
+		<property name="readers" ref="allReaders"></property>
 	</bean>
 
 </beans>
