@@ -1,5 +1,9 @@
 package com.puluo.entity;
 
+import java.sql.Date;
+import java.sql.Time;
+
+
 public interface ReservationInterface {
 
 	String getUserId(String idreservation);
@@ -10,5 +14,17 @@ public interface ReservationInterface {
 	
 	String setEventId(String idreservation, String idevent);
 	
+	int getStatus(String idreservation);
 	
+	String setStatus(String idreservation, int idevent);
+	
+	Date getDate(String idreservation);
+	
+	String setDate(String idreservation, Date date);
+	
+	Time getTime(String idreservation);
+	
+	String setTime(String idreservation, Time time);
+	
+	String findReservationId(String iduser, String idevent, int status, Date date, Time time);
 }
