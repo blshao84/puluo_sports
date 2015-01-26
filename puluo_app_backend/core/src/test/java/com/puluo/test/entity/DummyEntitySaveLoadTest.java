@@ -11,7 +11,7 @@ import com.puluo.dao.impl.BeanTestFactory;
 import com.puluo.entity.PgDummy;
 import com.puluo.entity.impl.PgDummyImpl;
 
-public class EntitySaveLoadTest {
+public class DummyEntitySaveLoadTest {
 	@BeforeClass
 	public static void setUpDB() {
 		PgDummyImpl dummy1 = new PgDummyImpl(1L, "a");
