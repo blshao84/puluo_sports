@@ -6,7 +6,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import com.puluo.util.BeanFactory;
 import com.puluo.util.BeanFactoryHelper;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;

@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 
 
-public interface MessageInterface {
+public interface PuluoPrivateMessage {
 
 	String getTextContent(String idmessage);
 	

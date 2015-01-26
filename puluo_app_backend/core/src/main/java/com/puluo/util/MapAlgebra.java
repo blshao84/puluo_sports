@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package com.puluo.math;
+package com.puluo.util;
 
 import java.util.Map;
 

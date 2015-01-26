@@ -4,7 +4,7 @@ import java.sql.Time;
 import java.sql.Date;
 
 
-public interface PostInterface {
+public interface PuluoPost {
 
 	String getTextContent(String idpost);
 	

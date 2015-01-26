@@ -3,7 +3,7 @@ package com.puluo.entity;
 import java.sql.Date;
 
 
-public interface UserInterface {
+public interface PuluoUser {
 
 	int getType(String iduser);
 	

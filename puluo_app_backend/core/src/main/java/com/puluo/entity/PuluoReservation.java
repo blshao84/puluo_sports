@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 
 
-public interface ReservationInterface {
+public interface PuluoReservation {
 
 	String getUserId(String idreservation);
 	

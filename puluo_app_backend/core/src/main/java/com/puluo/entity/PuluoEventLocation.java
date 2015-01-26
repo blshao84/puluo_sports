@@ -1,6 +1,6 @@
 package com.puluo.entity;
 
-public interface LocationInterface {
+public interface PuluoEventLocation {
 
 	String getAddress(String idlocation);
 	
