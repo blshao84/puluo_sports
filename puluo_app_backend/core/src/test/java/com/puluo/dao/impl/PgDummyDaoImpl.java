@@ -1,4 +1,4 @@
-package com.puluo.db.impl;
+package com.puluo.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import com.puluo.dao.PgDummyDao;
 import com.puluo.entity.PgDummy;
 import com.puluo.entity.impl.PgDummyImpl;
 import com.puluo.jdbc.DalTemplate;
@@ -13,7 +14,7 @@ import com.puluo.jdbc.SqlReader;
 import com.puluo.jdbc.SqlWriter;
 import com.puluo.util.PuluoException;
 
-public class PgDummyDao extends DalTemplate {
+public class PgDummyDaoImpl extends DalTemplate implements PgDummyDao{
 
 	public void createTable() {
 		String createSQL = new StringBuilder().append("create table ")

@@ -51,7 +51,7 @@
 		<property name="readers" ref="allReaders"></property>
 	</bean>
 
-	<bean id="pgDummyDao" class="com.puluo.db.impl.PgDummyDao" parent="testDalTemplate">
+	<bean id="pgDummyDao" class="com.puluo.dao.impl.PgDummyDaoImpl" parent="testDalTemplate">
 		<property name="fullTableName" value="pgdummy"></property>
 	</bean>
 

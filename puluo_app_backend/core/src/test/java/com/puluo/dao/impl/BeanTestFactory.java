@@ -1,4 +1,4 @@
-package com.puluo.util;
+package com.puluo.dao.impl;
 
 import java.io.File;
 
@@ -6,13 +6,18 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import com.puluo.util.BeanFactory;
+import com.puluo.util.BeanFactoryHelper;
+import com.puluo.util.Log;
+import com.puluo.util.LogFactory;
+
 /**
  * beanFactory 提供bean容器，封装bean的生命周期及字节码生成
  * 
  * @author mefan
  * 
  */
-public abstract class TestBeanFactory {
+public abstract class BeanTestFactory {
 	private static final Log LOGGER = LogFactory.getLog(BeanFactory.class);
 	private static final ApplicationContext context;
 
