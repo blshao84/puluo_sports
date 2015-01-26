@@ -56,6 +56,10 @@ subprojects {
         scalaCompileOptions.useAnt = false
     }
 
+    tasks.withType(JavaCompile) { 
+    	options.encoding = "UTF-8" 
+    }
+    	 
     dependencies {
         scalaCompiler "org.scala-lang:scala-compiler:$scalaVersion.$scalaMinor"
         scalaLibrary "org.scala-lang:scala-library:$scalaVersion.$scalaMinor"
