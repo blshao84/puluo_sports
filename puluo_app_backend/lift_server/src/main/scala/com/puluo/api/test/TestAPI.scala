@@ -1,13 +1,13 @@
 package com.puluo.api.test
 
 import net.liftweb.http.rest.RestHelper
-import com.puluo.test.TestConstants
 import net.liftweb.http.JsonResponse
+import com.puluo.api.ApiTest
 
 object TestAPI extends RestHelper {
   serve {
     case "test" :: _ Get _ => {
-      val x = new TestConstants().test
+      val x = new ApiTest().test
       JsonResponse(x)
     }
   }

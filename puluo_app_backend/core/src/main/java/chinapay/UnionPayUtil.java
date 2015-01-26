@@ -9,7 +9,13 @@ import java.math.BigInteger;
 
 import chinapay.Des;
 import chinapay.DesKey;
+import chinapay.PrivateKey;
 
+/**
+ * This class is copied from UnionPay jars to hack around the impl
+ * @author blshao
+ *
+ */
 public class UnionPayUtil {
 
 	public static boolean buildKey(PrivateKey key, String MerID, int KeyUsage,
