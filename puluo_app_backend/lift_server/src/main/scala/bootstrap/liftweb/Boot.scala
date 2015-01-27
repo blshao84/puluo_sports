@@ -14,17 +14,15 @@ import com.puluo.config.Configurations
 import com.puluo.util.SMSClient
 import net.liftweb.http.js.jquery.JQuery14Artifacts
 import com.puluo.api.test.TestAPI
+import com.puluo.api.PuluoFileUploader
+import com.puluo.service.PuluoImageService
 
 trait BootResult
 case class DSIBootResult(val db: Option[Int]) extends BootResult
 case class CustomFilter(test: Boolean) extends AnyLocParam
 
-trait DSI {
-  def createDSI: StandardDBVendor
-  def setupDB: Int
-}
 
-class Boot extends DSI with Loggable {
+class Boot extends Loggable {
   def createDSI: net.liftweb.mapper.StandardDBVendor = ??? 
   
   def setupDB: Int = ???
@@ -36,26 +34,11 @@ class Boot extends DSI with Loggable {
     //LiftRules.loggedInTest = Full(() => Customer.loggedIn_?)
   }
 
-  def setupPayment() = {
-    /**** paypal settings ****/
-  }
-
-  def setupEmailServer() = {
-    //email server
-    System.setProperty("mail.smtp.host", Configurations.smtpHost)
-    System.setProperty("mail.smtp.user", Configurations.smtpUser)
-    System.setProperty("mail.smtp.auth", "true")
-    System.setProperty("mail.smtp.from", Configurations.smtpSender)
-    Mailer.authenticator = Full(new javax.mail.Authenticator {
-      override def getPasswordAuthentication(): javax.mail.PasswordAuthentication =
-        new javax.mail.PasswordAuthentication(Configurations.smtpUser, Configurations.smtpPassword)
-    })
-  }
-
   def setupNewSiteMap() = {
 
     SiteMap.enforceUniqueLinks = false
-    val menus = List()
+    val menus:List[Menu] = Nil
+    
 
     LiftRules.setSiteMap(SiteMap(menus: _*))
   }
@@ -68,6 +51,7 @@ class Boot extends DSI with Loggable {
     // make requests utf-8
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
     LiftRules.dispatch.append(TestAPI)
+    LiftRules.dispatch.append(PuluoFileUploader)
 
     LiftRules.handleMimeFile = OnDiskFileParamHolder.apply
 
@@ -89,11 +73,6 @@ class Boot extends DSI with Loggable {
       Full(() => LiftRules.jsArtifacts.hide("loading").cmd)
   }
 
-  def setupMisc() = {
-    val url = LiftRules.defaultGetResource("/logback.xml").get
-    Logger.setup = Full(Logback.withFile(url))
-    SMSClient.init
-  }
   def boot {
     val result = doBoot
     Unit
@@ -102,22 +81,18 @@ class Boot extends DSI with Loggable {
   def doBoot: BootResult = {
     setupJS()
     setupUX()
-    setupPayment()
-    setupEmailServer()
-    //setupSiteMap()
     setupNewSiteMap()
     setupRequestConfig()
     setupErrorHandling()
-    setupMisc()
     setupFileUpload
-
     DSIBootResult(None)
   }
 
   def setupFileUpload = {
+    PuluoImageService.init();
     LiftRules.maxMimeFileSize = 2000000L
     LiftRules.maxMimeSize = 2000000L
-    //LiftRules.dispatch.append(UploadManager)
+    LiftRules.dispatch.append(PuluoFileUploader)
 
     //Show the spinny image when an Ajax call starts
     LiftRules.ajaxStart =
