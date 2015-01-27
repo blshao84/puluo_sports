@@ -1,7 +1,7 @@
 package com.puluo.entity;
 
-import java.sql.Time;
 import java.sql.Date;
+import java.sql.Time;
 
 
 public interface PuluoPost {

@@ -1,6 +1,6 @@
 package com.puluo.dao.impl;
 
-import com.puluo.dao.*;
+import com.puluo.dao.PgDummyDao;
 
 public class DaoTestApi {
 	public static PgDummyDao pgDummy = 

@@ -6,8 +6,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.puluo.dao.impl.DaoTestApi;
-import com.puluo.dao.impl.PgDummyDaoImpl;
-import com.puluo.dao.impl.BeanTestFactory;
 import com.puluo.entity.PgDummy;
 import com.puluo.entity.impl.PgDummyImpl;
 

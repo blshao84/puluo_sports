@@ -1,21 +1,6 @@
 package com.puluo.entity.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
-
 import com.puluo.entity.PgDummy;
-import com.puluo.jdbc.DalTemplate;
-import com.puluo.jdbc.SqlReader;
-import com.puluo.jdbc.SqlWriter;
-import com.puluo.util.PuluoException;
 
 public class PgDummyImpl implements PgDummy {
 	private String name;

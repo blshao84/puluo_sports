@@ -7,10 +7,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 
-import chinapay.Des;
-import chinapay.DesKey;
-import chinapay.PrivateKey;
-
 /**
  * This class is copied from UnionPay jars to hack around the impl
  * @author blshao

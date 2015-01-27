@@ -8,8 +8,6 @@ package com.puluo.util;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-import com.puluo.util.Pair;
-
 /**
  *
  * @author hd2210

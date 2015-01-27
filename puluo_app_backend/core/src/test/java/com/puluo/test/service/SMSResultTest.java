@@ -1,8 +1,10 @@
 package com.puluo.test.service;
 
-import org.junit.Test;
-import com.puluo.service.util.JuheSMSResult;
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+import com.puluo.service.util.JuheSMSResult;
 
 public class SMSResultTest {
 	@Test

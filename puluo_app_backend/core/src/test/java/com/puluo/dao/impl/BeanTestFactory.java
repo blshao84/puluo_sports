@@ -1,10 +1,7 @@
 package com.puluo.dao.impl;
 
-import java.io.File;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.puluo.util.BeanFactoryHelper;
 import com.puluo.util.Log;
