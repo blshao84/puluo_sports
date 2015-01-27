@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.puluo.payment.config.UnionPayConf;
-import com.puluo.payment.unionpay.utils.UnionPayUtils;
+import com.puluo.payment.unionpay.UnionPayUtils;
 
 
 /**

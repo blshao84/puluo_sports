@@ -1,4 +1,4 @@
-package com.puluo.payment.unionpay.utils;
+package com.puluo.payment.unionpay;
 
 import com.puluo.payment.config.UnionPayConf;
 import com.puluo.payment.example.UnionPayQuery;

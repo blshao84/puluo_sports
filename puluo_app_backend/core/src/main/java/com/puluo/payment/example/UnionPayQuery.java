@@ -1,7 +1,7 @@
 package com.puluo.payment.example;
 
 import com.puluo.payment.config.UnionPayConf;
-import com.puluo.payment.unionpay.utils.UnionPayUtils;
+import com.puluo.payment.unionpay.UnionPayUtils;
 
 
 /**

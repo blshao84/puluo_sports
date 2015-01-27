@@ -1,4 +1,4 @@
-package com.puluo.payment.unionpay.utils;
+package com.puluo.payment.unionpay;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.security.KeyStore;
