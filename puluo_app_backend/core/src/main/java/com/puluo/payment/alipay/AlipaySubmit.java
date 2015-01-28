@@ -1,4 +1,4 @@
-package com.puluo.payment.alipay.utils;
+package com.puluo.payment.alipay;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

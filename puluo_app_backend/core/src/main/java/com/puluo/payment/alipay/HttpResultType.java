@@ -2,7 +2,7 @@
  * Alipay.com Inc.
  * Copyright (c) 2004-2005 All Rights Reserved.
  */
-package com.puluo.payment.alipay.utils;
+package com.puluo.payment.alipay;
 
 /* *
  *类名：HttpResultType

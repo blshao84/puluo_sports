@@ -1,5 +1,5 @@
 
-package com.puluo.payment.alipay.utils;
+package com.puluo.payment.alipay;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
