@@ -15,11 +15,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import com.google.gson.Gson;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
-import com.puluo.util.Strs;
 
 public class PuluoImageService {
-	private static final Log LOGGER = LogFactory.getLog(PuluoImageService.class);
-	
+	private final Log LOGGER = LogFactory.getLog(PuluoImageService.class);
+
 	private static class ImageUploadResult {
 		@SuppressWarnings("unused")
 		private String filePath;
@@ -37,25 +36,27 @@ public class PuluoImageService {
 		}
 	}
 
-	private static final String spaceName = "puluodev";
-	private static final String username = "puluodev";
-	private static final String password = "puLuo20!5";
-	private static UpYun upyun = new UpYun(spaceName, username, password);
 
-	static {
-		upyun.setTimeout(60);
-		upyun.setApiDomain(UpYun.ED_AUTO);
+	private UpYun upyun;
+
+
+	public PuluoImageService() {
+		this.upyun = upyun;
 	}
-
-	public static void init() {}
 	
-	public static String saveImage(byte[] data, String filePath) {
+	public PuluoImageService(UpYun upyun) {
+		this.upyun = upyun;
+	}
+	
+
+	public String saveImage(byte[] data, String filePath) {
 		// upyun.setContentMD5(UpYun.md5(data));
 		LOGGER.info("sending raw data to upyun ...");
 		long t1 = System.currentTimeMillis();
 		boolean result = upyun.writeFile(filePath, data, true);
 		long t2 = System.currentTimeMillis();
-		LOGGER.info(String.format("saving data is done in %s seconds",(t2-t1)/1000.0));
+		LOGGER.info(String.format("saving data is done in %s seconds",
+				(t2 - t1) / 1000.0));
 		return new ImageUploadResult(filePath, result).toJson();
 	}
 

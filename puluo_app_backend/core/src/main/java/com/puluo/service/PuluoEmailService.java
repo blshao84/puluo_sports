@@ -20,25 +20,31 @@ import com.puluo.util.LogFactory;
 public class PuluoEmailService {
 	private static final Log LOGGER = LogFactory
 			.getLog(PuluoEmailService.class);
-	public static final String host = "smtpcloud.sohu.com";
-	public static final String username = "postmaster@unuotech.sendcloud.org";
-	public static final String password = "zkW71LVkBOsxkACe";
+	private String host;
+	private String username;
+	private String password;
 
-	public static boolean sendTextEmail(String from, String to, String subject,
+	public PuluoEmailService(String host, String username, String password) {
+		this.host = host;
+		this.username = username;
+		this.password = password;
+	}
+
+	public boolean sendTextEmail(String from, String to, String subject,
 			String content) {
 		return sendEmailImpl(from, to, new ArrayList<String>(),
 				new ArrayList<String>(), subject, content);
 	}
 
-	public static boolean sendTextEmailFromSupport(String to, String subject,
+	public boolean sendTextEmailFromSupport(String to, String subject,
 			String content) {
 		return sendEmailImpl("contact@puluosports.com", to,
 				new ArrayList<String>(), new ArrayList<String>(), subject,
 				content);
 	}
 
-	private static boolean sendEmailImpl(String from, String to,
-			List<String> cc, List<String> bcc, String subject, String content) {
+	private boolean sendEmailImpl(String from, String to, List<String> cc,
+			List<String> bcc, String subject, String content) {
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -68,7 +74,7 @@ public class PuluoEmailService {
 			message.setSubject(MimeUtility.encodeText(subject, "utf-8", "Q"));
 			message.setText(MimeUtility.encodeText(content, "utf-8", "Q"));
 			Transport.send(message);
-			LOGGER.info(String.format("成功发送email至%s",to));
+			LOGGER.info(String.format("成功发送email至%s", to));
 			return true;
 
 		} catch (MessagingException e) {

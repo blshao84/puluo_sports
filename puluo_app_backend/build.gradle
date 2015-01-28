@@ -43,8 +43,9 @@ subprojects {
 
     repositories {
         mavenCentral()
+   	jcenter()
     }
-
+ 
     eclipse {
         classpath.containers += ["org.scala-ide.sdt.launching.SCALA_CONTAINER"]
         classpath.minusConfigurations = [configurations.scalaLibrary]
@@ -68,6 +69,7 @@ subprojects {
         "com.h2database:h2:1.3.155"
         testCompile "junit:junit:4.5",
         "org.specs2:specs2_$scalaVersion:$specs2Version"
+   	testCompile "org.mockito:mockito-core:1.+"
     }
 
 }

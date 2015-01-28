@@ -89,7 +89,6 @@ class Boot extends Loggable {
   }
 
   def setupFileUpload = {
-    PuluoImageService.init();
     LiftRules.maxMimeFileSize = 2000000L
     LiftRules.maxMimeSize = 2000000L
     LiftRules.dispatch.append(PuluoFileUploader)

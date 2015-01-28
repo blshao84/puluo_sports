@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.net.URLEncoder;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -16,19 +17,23 @@ import com.puluo.util.LogFactory;
 class JuheSMSClient {
 	private static final Log LOGGER = LogFactory.getLog(JuheSMSClient.class);
 
-	private static DefaultHttpClient client = new DefaultHttpClient();
+	private  HttpClient client; 
+	private  String baseURL;
 
-	private static String urlBase = "http://v.juhe.cn/sms/send?key=172b8ec174b8a780cd7ac841386ac502&dtype=json&";
-
-	public static JuheSMSResult sendVerificationCode(String mobile, String code) {
+	public JuheSMSClient(HttpClient client, String baseURL) {
+		this.client = client;
+		this.baseURL = baseURL;
+	}
+	
+	public JuheSMSResult sendVerificationCode(String mobile, String code) {
 		String values = String.format("#code#=%s&#company#=大庆优诺", code);
 		return doSend(1, values, mobile);
 	}
 
-	private static JuheSMSResult doSend(int templateId, String templateValue,
+	private JuheSMSResult doSend(int templateId, String templateValue,
 			String mobile) {
 		try {
-			String url = new StringBuilder(urlBase).append("mobile=")
+			String url = new StringBuilder(baseURL).append("mobile=")
 					.append(mobile).append("&tpl_id=").append(templateId)
 					.append("&tpl_value=")
 					.append(URLEncoder.encode(templateValue, "utf-8"))
@@ -48,7 +53,7 @@ class JuheSMSClient {
 		}
 	}
 
-	private static String inputstream2String(InputStream is) throws IOException {
+	private String inputstream2String(InputStream is) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int i = -1;
 		i = is.read();
