@@ -17,7 +17,7 @@ import com.puluo.api.test.TestAPI
 import com.puluo.api.PuluoFileUploader
 import com.puluo.service.PuluoImageService
 import com.puluo.api.util.LoggedIn
-import com.puluo.api.PuluoLogin
+import com.puluo.api.PuluoAuth
 
 trait BootResult
 case class DSIBootResult(val db: Option[Int]) extends BootResult
@@ -58,7 +58,7 @@ class Boot extends Loggable {
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
     LiftRules.dispatch.append(withAuthentication guard TestAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoFileUploader)
-    LiftRules.dispatch.append(PuluoLogin)
+    LiftRules.dispatch.append(PuluoAuth)
     LiftRules.handleMimeFile = OnDiskFileParamHolder.apply
 
 
