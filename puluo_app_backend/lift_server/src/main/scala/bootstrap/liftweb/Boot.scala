@@ -16,6 +16,8 @@ import net.liftweb.http.js.jquery.JQuery14Artifacts
 import com.puluo.api.test.TestAPI
 import com.puluo.api.PuluoFileUploader
 import com.puluo.service.PuluoImageService
+import com.puluo.api.util.LoggedIn
+import com.puluo.api.PuluoLogin
 
 trait BootResult
 case class DSIBootResult(val db: Option[Int]) extends BootResult
@@ -44,15 +46,19 @@ class Boot extends Loggable {
   }
 
   def setupRequestConfig() = {
+    val withAuthentication: PartialFunction[Req, Unit] = { 
+      case _ if LoggedIn.is => 
+    }
+    
     // setup the 404 handler 
     LiftRules.uriNotFound.prepend(NamedPF("404handler") {
       case (req, failure) => NotFoundAsTemplate(ParsePath(List("404"), "html", false, false))
     })
     // make requests utf-8
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
-    LiftRules.dispatch.append(TestAPI)
-    LiftRules.dispatch.append(PuluoFileUploader)
-
+    LiftRules.dispatch.append(withAuthentication guard TestAPI)
+    LiftRules.dispatch.append(withAuthentication guard PuluoFileUploader)
+    LiftRules.dispatch.append(PuluoLogin)
     LiftRules.handleMimeFile = OnDiskFileParamHolder.apply
 
 
