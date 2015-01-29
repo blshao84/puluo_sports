@@ -19,15 +19,10 @@ import com.puluo.service.PuluoImageService
 import com.puluo.api.util.LoggedIn
 import com.puluo.api.PuluoAuth
 
-trait BootResult
-case class DSIBootResult(val db: Option[Int]) extends BootResult
-case class CustomFilter(test: Boolean) extends AnyLocParam
 
 
 class Boot extends Loggable {
-  def createDSI: net.liftweb.mapper.StandardDBVendor = ??? 
-  
-  def setupDB: Int = ???
+
 
   def setupUX() = {
     /**** user experience settings ****/
@@ -80,18 +75,16 @@ class Boot extends Loggable {
   }
 
   def boot {
-    val result = doBoot
-    Unit
+    doBoot
   }
 
-  def doBoot: BootResult = {
+  def doBoot:Unit = {
     setupJS()
     setupUX()
     setupNewSiteMap()
     setupRequestConfig()
     setupErrorHandling()
     setupFileUpload
-    DSIBootResult(None)
   }
 
   def setupFileUpload = {
