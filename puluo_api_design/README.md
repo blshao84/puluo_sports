@@ -22,13 +22,25 @@ This guide describes a set of HTTP+JSON API design practices, originally
   *  [Response](#response)
   *  [Stability](#stability)
   *  [Status](#status)
+* Authentication
+  *  [Register](#register)
+  *  [Login](#login)
+  *  [Update Password](#update_password)
 * [User](#user)
   *  [User Profile](#user_info)
   *  [User Profile Update]
-  *  [User s]
+* [Setting](#setting)
 * [Social Graph](#social_graph)
 * [Message](#message)
+  *  [Send Message](#send_msg)
+  *  [List Message](#list_msg) 
 * [Event](#event)
+  * [User Event](#user_activity)
+  * [Event Registration](#event_registration)
+  * [Event Detail](#event_detail)
+  * [Event Images](#event_imgs)
+  * [All Events](#all_events)
+  * [Search](#search_event)
 * [Memories](#mem)
 * [Service](#service)
 
