@@ -6,13 +6,13 @@ import java.sql.Time;
 
 public interface PuluoPrivateMessage {
 
-	String getTextContent(String idmessage);
-	
-	String getImgContent(String idmessage);
-	
-	String getDateTime(String idmessage);
-	
-	int getType(String idmessage);
-	
-	String[] findMessageId(String iduser, String idfriend, Date date, Time time);
+	String idMessage();
+	String textContent();
+	String imgContent();
+	Date msgDate();
+	Time msgTime();
+	int type();
+	int direction();
+	String idUser();
+	String idFriend();
 }
