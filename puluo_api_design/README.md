@@ -41,10 +41,12 @@ Note that the url is included only when relevant and may not be present in the r
 |Method|Usage|
 | ------------- |:-------------:| 
 |GET|used for retrieving lists and individual objects|
-|PATCH|used for updating existing objects|
-|POST|used for creating new objects|
+|POST|used for updating existing objects|
+|PUT|used for creating new objects|
 
-We don't support 'DELETE' method. Data can only be invalidated (through PATCH).
+* We don't support 'DELETE' method. Data can only be invalidated (through POST).
+* We don't support 'PATCH' method. Incremental updates are done by POST.
+
 ##### Parameters  
 Values that can be provided for an action are divided between optional and required values. 
 Parameters should be JSON encoded and passed in the request body.
@@ -97,56 +99,650 @@ Puluo errors result from problems on the server side and must be addressed inter
 
 ### Authentication 
 
-##### Register  
-##### Login  
-##### Logout  
-##### Update Password  
+##### Register
+Create a new user and returns error if the user already exists
 
+`PUT /users/register`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|mobile|Long|user's mobile number|12346789000|
+|password|String|SHA-HASH of user's plain text password|cd8460a5e0f2c2af596f170009bffc02df06b54d|
+
+###### Curl Example
+
+```
+$ curl -n -X PUT https://api.puluo.com/users/register
+-H "Content-Type: application/json" \
+-d '{
+  "mobile": "12346789000",
+  "password": "cd8460a5e0f2c2af596f170009bffc02df06b54d"
+}'
+```
+
+###### Response Example
+
+```
+HTTP/1.1 201 Created
+Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
+```
+
+```
+{
+  "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
+  "mobile": "12346789000",
+  "password": "cd8460a5e0f2c2af596f170009bffc02df06b54d",
+  "created_at": "2012-01-01T12:00:00Z",
+  "updated_at": "2012-01-01T12:00:00Z"
+}
+```
+
+##### Login  
+
+Login a user to the system by creating a session him.
+Successful login (or the user has already logged in) returns the user's uuid and session's created_at
+
+`POST /users/login`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|mobile|Long|user's login id|12346789000|
+|password|String|SHA-HASH of user's plain text password|cd8460a5e0f2c2af596f170009bffc02df06b54d|
+
+###### Curl Example
+```
+$ curl -n -X POST https://api.puluo.com/users/login
+-H "Content-Type: application/json" \
+-d '{
+  "mobile": "12346789000",
+  "password": "cd8460a5e0f2c2af596f170009bffc02df06b54d"
+}'
+```
+
+###### Response Example
+
+```
+HTTP/1.1 201 Created
+Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
+```
+
+```
+{
+  "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013", //user's uuid
+  "created_at": "2012-01-01T12:00:00Z" //session created time
+}
+```
+
+##### Logout
+Destroy current session and all states saved in the session.
+
+`POST /users/logout`
+
+
+###### Curl Example
+```
+$ curl -n -X POST https://api.puluo.com/users/logout
+-H "Content-Type: application/json" 
+```  
+
+###### Response Example
+
+```
+HTTP/1.1 201 Created
+Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
+```
+
+```
+{
+  "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013", //user's uuid
+  "duration_seconds": "12345" //session created time
+}
+```
+
+##### Update Password  
+Update a user's password
+
+`POST /users/credential/update`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|password|String|SHA-HASH of user's current password|cd8460a5e0f2c2af596f170009bffc02df06b54d|
+|new_password|String|SHA-HASH of user's new password|cd8460a5e0f2c2af596f170009bffc02df06b54d|
+
+###### Curl Example
+```
+$ curl -n -X POST https://api.puluo.com/users/credential/update
+-H "Content-Type: application/json" \
+-d '{
+  "password": "cd8460a5e0f2c2af596f170009bffc02df06b54d",
+  "new_password": "cd8460a5e0f2c2af596f170009bffc02df06b54d"
+}'
+```
+###### Response Example
+
+```
+HTTP/1.1 201 Created
+Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
+```
+
+```
+{
+  "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
+  "created_at": "2012-01-01T12:00:00Z",
+  "updated_at": "2012-01-01T12:00:00Z"
+}
+```
 
 ### User  
 
-##### User Profile  
-##### User Memory 
-##### User Profile Update 
+##### User Profile 
+
+Get a user's complete profile
+
+`GET /users/{user_mobile_or_uuid}`
+
+###### Curl Example
+
+```
+
+$ curl -n -X GET https://api.puluo.com/users/{user_mobile_or_uuid}
+```
+
+###### Response Example
+
+```
+HTTP/1.1 200 Created
+Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
+```
+
+```
+{
+  "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
+  "public_info":{
+  	"firstName": Tracey,
+    "lastName":  Boyd,
+	"thumbnail": "http://upyun/puluo/userThumb.jpg!200",
+	"largeImage": "http://upyun/puluo/userThumb.jpg",
+	"saying": "I’ve got an app for that."
+	"likes": 2,
+	"banned": 0, // has the viewing user banned this users. 
+	"following": 1 // Is the user following this user.
+  },
+  "private_info": { // this info is only visible for the logged in user
+    "email": "tracey.boyd@kotebo.com",
+	"sex": "m",
+	"birthdate": 9/12/84,
+	"occupation": "Internet Plumber",
+	"country": "USA",
+	"state": "Washington",
+	"city": "Seattle",
+	"zip": "234234",
+  },
+  "created_at": "2012-01-01T12:00:00Z",
+  "updated_at": "2012-01-01T12:00:00Z"
+}
+```
+
+
+##### User Profile Update
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+``` 
 ##### User Search  
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```
 
 
 ### Setting 
 ##### User Setting 
-##### User Setting Update  
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```
+##### User Setting Update
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```  
 
 
 ### Social Graph 
-##### List Friends 
+##### List Friends
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+``` 
 ##### Request Friend 
-##### Delete Friend  
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```
+##### Delete Friend
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```  
 ##### Deny Friend 
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```
 
 
 ### Message  
-##### Send Message  
-##### List Message  
+##### Send Message 
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+``` 
+##### List Message
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```  
 ##### Search Message  
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```
 
 
 ### Event  
 ##### Event Registration 
-##### Event Detail 
-##### Event Memory 
-##### All Events 
-##### Event Search 
+Some description here
+`API Type and Name`
 
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```
+##### Event Detail 
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```
+##### Event Memory 
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```
+##### All Events 
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```
+##### Event Search 
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```
 
 ### Timeline 
-##### User Timeline  
-##### Like Timeline  
+##### User Timeline
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```  
+##### Like Timeline
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```  
 ##### Comment Timeline
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```
 ##### Delete Timeline Comment
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```
 
 
 ### Service 
-##### Email 
+##### Email
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+``` 
 ##### Image Upload 
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```
 ##### SMS  
+Some description here
+`API Type and Name`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|||||
+
+###### Curl Example
+```
+$ curl -n -X API_TYPE_NAME
+-H "Content-Type: application/json" \
+-d '{
+  "email": "someone@example.org",
+  "role": "admin"
+}'
+```
 
 
