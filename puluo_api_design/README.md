@@ -265,10 +265,10 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 {
   "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
   "public_info":{
-  	"firstName": Tracey,
-    "lastName":  Boyd,
+  	"first_name": Tracey,
+    "last_name":  Boyd,
 	"thumbnail": "http://upyun/puluo/userThumb.jpg!200",
-	"largeImage": "http://upyun/puluo/userThumb.jpg",
+	"large_image": "http://upyun/puluo/userThumb.jpg",
 	"saying": "I’ve got an app for that."
 	"likes": 2,
 	"banned": 0, // has the viewing user banned this users. 
@@ -291,44 +291,129 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 
 
 ##### User Profile Update
-Some description here
-`API Type and Name`
 
-###### Required Parameters
+Update user profile
+
+`POST /users/update`
+
+###### Optional Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|first_name|String|user's first name|"Tracy"|
+|last_name|String|user's last name|"Boyd"|
+|thumbnail|String|link to thumbnail of user's profile image|"http://upyun/puluo/userThumb.jpg!200"|
+|large_image|String|link to user's profile image|"http://upyun/puluo/userThumb.jpg!200"|
+|saying|String| some words user put on his profile|"i've got an app for that"|
+|email|String| user's email | "tracey.boyd@kotebo.com" |
+|sex|String| user's sex | "M" |
+|birthday|Date| user's birthday | 1984-09-12 |
+|country|String| user's country | "USA" |
+|state|String| user's state |"Washington" |
+|city|String| user's city | "Seattle" |
+|zip|String| user's zip code | "234234" |
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl -n -X POST /users/update
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "first_name": "baolin",
+  "country": "China",
+  "state": "Shanghai",
+  "city": "Shanghai"
 }'
 ``` 
-##### User Search  
-Some description here
-`API Type and Name`
 
-###### Required Parameters
+###### Response Example
+
+```
+HTTP/1.1 200 Created
+Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
+```
+
+```
+{
+  "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
+  "public_info":{
+  	"first_name": Tracey,
+    "last_name":  Boyd,
+	"thumbnail": "http://upyun/puluo/userThumb.jpg!200",
+	"large_image": "http://upyun/puluo/userThumb.jpg",
+	"saying": "I’ve got an app for that."
+  },
+  "private_info": { // this info is only visible for the logged in user
+    "email": "tracey.boyd@kotebo.com",
+	"sex": "m",
+	"birthdate": 9/12/84,
+	"occupation": "Internet Plumber",
+	"country": "USA",
+	"state": "Washington",
+	"city": "Seattle",
+	"zip": "234234"
+  },
+  "created_at": "2012-01-01T12:00:00Z",
+  "updated_at": "2012-01-01T12:00:00Z"
+}
+```
+
+
+##### User Search  
+
+Search user by parameters. If more parameters are specified, search conditions are 'AND' together.
+
+`POST /users/search`
+
+###### Optional Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|first_name|String|user's first name|"Tracy"|
+|last_name|String|user's last name|"Boyd"|
+|email|String| user's email | "tracey.boyd@kotebo.com" |
+|mobile|String| user's mobile | "1234567780" |
+
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl -n -X POST /users/update
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "first_name": "baolin"
 }'
+``` 
+
+###### Response Example
+
+```
+HTTP/1.1 200 Created
+Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 ```
 
+```
+{
+  [
+  	{
+	  "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
+	  "public_info":{
+	  	"first_name": baolins,
+	    "last_name":  Boyd,
+		"email": "tracey.boyd@kotebo.com",
+		"mobile": "123456789000"
+	  }
+  	},
+  	{
+	  "uuid": "ze2345d54-75b4-3234-adb2-ajfs230948jsdf",
+	  "public_info":{
+	  	"first_name": baolins,
+	    "last_name":  Shao,
+		"email": "blshao@qq.com",
+		"mobile": "18646655333"
+	  }
+  	}
+  ]
+}
+```
 
 ### Setting 
 ##### User Setting 
