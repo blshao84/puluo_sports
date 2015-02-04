@@ -6,7 +6,7 @@ import net.liftweb.http.OkResponse
 
 object PuluoAuth extends RestHelper{
   serve {
-    case "login" :: Nil Get _ => {
+    case "login" :: Nil Post _ => {
       LoggedIn(true)
       OkResponse()
     }

@@ -457,83 +457,250 @@ $ curl -n -X API_TYPE_NAME
 
 
 ### Social Graph 
+
 ##### List Friends
-Some description here
-`API Type and Name`
 
-###### Required Parameters
+Get a user's friends list
 
-|Name|Type|Description|Example|
-| ------------- |:-------------|:----- |:-----|
-|||||
+`GET /users/friends`
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
--H "Content-Type: application/json" \
--d '{
-  "email": "someone@example.org",
-  "role": "admin"
-}'
+$ curl -n -X GET /users/friends
+
 ``` 
+
+###### Response Example
+
+```
+HTTP/1.1 200 Created
+Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
+```
+
+```
+{
+  [
+  	{
+	  "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
+	  "public_info":{
+	  	"first_name": baolins,
+	    "last_name":  Boyd,
+		"email": "tracey.boyd@kotebo.com",
+		"mobile": "123456789000"
+	  }
+  	},
+  	{
+	  "uuid": "ze2345d54-75b4-3234-adb2-ajfs230948jsdf",
+	  "public_info":{
+	  	"first_name": baolins,
+	    "last_name":  Shao,
+		"email": "blshao@qq.com",
+		"mobile": "18646655333"
+	  }
+  	}
+  ]
+}
+```
+
 ##### Request Friend 
-Some description here
-`API Type and Name`
+
+Send a private message of type 'FriendRequest' to another user
+
+`PUT /users/friends/request`
 
 ###### Required Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|user_uuid|String|user's uuid|de305d54-75b4-431b-adb2-eb6b9e546013|
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl -n -X PUT https://api.puluo.com/users/friends/request
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "user_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
 }'
 ```
+
+###### Response Example
+
+```
+HTTP/1.1 200 Created
+Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
+```
+
+```
+{
+	friend_request:{
+		request_id:"",
+		status:"pending",
+		messages:[
+			{
+				msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				from_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				to_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
+				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
+				content:"hi, this is Tracy!",
+				approval:"pending",
+				created_at:"2012-01-01T12:00:00Z"
+			}
+		]
+		created_at:"2012-01-01T12:00:00Z",
+		updated_at:"2012-01-01T12:00:00Z"
+	}
+}
+```
+
 ##### Delete Friend
-Some description here
-`API Type and Name`
+
+De-friend two users. Delete all their past messages.
+
+`POST /users/friends/delete`
 
 ###### Required Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|user_uuid|String|the other user's uuid|de305d54-75b4-431b-adb2-eb6b9e546013|
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl -n -X POST https://api.puluo.com/users/friends/delete
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "user_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013"
 }'
 ```  
+
+###### Response Example
+
+```
+HTTP/1.1 200 Created
+Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
+```
+
+```
+{
+	past_messages:[
+		{
+			msg_uuid:"de305d54-75b4-431b-adb2-eb6b9e546013"
+		},
+		{
+			msg_uuid:"de305d54-75b4-431b-adb2-eb6b9e546013"
+		}
+	]	
+}
+```
+
 ##### Deny Friend 
-Some description here
-`API Type and Name`
+
+Deny a friend request.
+
+`POST /users/friends/deny`
 
 ###### Required Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|user_uuid|String|a user's uuid|de305d54-75b4-431b-adb2-eb6b9e546013|
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl -n -X POST https://api.puluo.com/users/friends/deny
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "user_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013"
 }'
 ```
 
+###### Response Example
+
+```
+{
+	friend_request:{
+		request_id:"",
+		status:"denied",
+		messages:[
+			{
+				msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				from_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				to_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
+				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
+				content:"hi, this is Tracy!",
+				created_at:"2012-01-01T12:00:00Z"
+			},
+			{
+				msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				from_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				to_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
+				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
+				content:"hi, this is Tracy!",
+				created_at:"2012-01-01T12:00:00Z"
+			}
+		],
+		created_at:"2012-01-01T12:00:00Z",
+		updated_at:"2012-01-01T12:00:00Z"
+	}
+}
+```
+
+##### Approve Friend 
+
+Approve a friend request.
+
+`POST /users/friends/approve`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|user_uuid|String|a user's uuid|de305d54-75b4-431b-adb2-eb6b9e546013|
+
+###### Curl Example
+```
+$ curl -n -X POST https://api.puluo.com/users/friends/deny
+-H "Content-Type: application/json" \
+-d '{
+  "user_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013"
+}'
+```
+
+###### Response Example
+
+```
+{
+	friend_request:{
+		request_id:"",
+		status:"approved",
+		messages:[
+			{
+				msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				from_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				to_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
+				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
+				content:"hi, this is Tracy!",
+				created_at:"2012-01-01T12:00:00Z"
+			},
+			{
+				msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				from_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				to_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
+				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
+				content:"hi, this is Tracy!",
+				created_at:"2012-01-01T12:00:00Z"
+			}
+		],
+		created_at:"2012-01-01T12:00:00Z",
+		updated_at:"2012-01-01T12:00:00Z"
+	}
+}
+```
 
 ### Message  
 ##### Send Message 
