@@ -9,7 +9,7 @@ import com.puluo.service.PuluoService
 
 object PuluoFileUploader extends RestHelper with Loggable {
   serve {
-    case "upload" :: "image" :: Nil Post req => {
+    case "services" :: "image" :: Nil Post req => {
       logger.info("receiving file ...")
       val results = req.uploadedFiles.map { fph =>
         PuluoService.image.saveImage(fph.file, fph.fileName)

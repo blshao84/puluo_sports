@@ -703,298 +703,545 @@ $ curl -n -X POST https://api.puluo.com/users/friends/deny
 ```
 
 ### Message  
+
 ##### Send Message 
-Some description here
-`API Type and Name`
+
+Current user send a message to his/her friend
+Currently, we only support text messages.
+
+`PUT /users/message/send`
 
 ###### Required Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|to_uuid|String|the other user's uuid|de305d54-75b4-431b-adb2-eb6b9e546013|
+|content|String|content of message| "hello" |
+|content_type|String|type of content, e.g. Text or Image| "Text" |
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl -n -X PUT https://api.puluo.com/users/message/send
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "to_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
+  "content": "hello",
+  "content_type":"text"
 }'
 ``` 
+
+###### Response Example
+
+```
+{
+	msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
+	from_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+	to_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+	from_user_thumbnail:"http://upyun.com/puluo/xxxx",
+	to_user_thumbnail:"http://upyun.com/puluo/xxxx",
+	content:"hi, this is Tracy!",
+	created_at:"2012-01-01T12:00:00Z"				
+}
+```
+
 ##### List Message
-Some description here
-`API Type and Name`
+
+Get messages from a specific user since a specific time
+
+`GET /users/messages`
 
 ###### Required Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|user_uuid|String|the other user's uuid|"de305d54-75b4-431b-adb2-eb6b9e546013"|
+|since|Time| all returned messages should be after this time |"2012-01-01T12:00:00Z"|
+
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl -n -X GET https://api.puluo.com/users/messages
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "user_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
+  "since": ""2012-01-01T12:00:00Z""
 }'
 ```  
-##### Search Message  
-Some description here
-`API Type and Name`
+###### Response Example
 
-###### Required Parameters
-
-|Name|Type|Description|Example|
-| ------------- |:-------------|:----- |:-----|
-|||||
-
-###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
--H "Content-Type: application/json" \
--d '{
-  "email": "someone@example.org",
-  "role": "admin"
-}'
+{
+		messages:[
+			{
+				msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				from_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				to_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
+				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
+				content:"hi, this is Tracy!",
+				created_at:"2012-01-01T12:00:00Z"
+			},
+			{
+				msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				from_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				to_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
+				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
+				content:"hi, this is Tracy!",
+				created_at:"2012-01-01T12:00:00Z"
+			}
+		]
+}
 ```
-
 
 ### Event  
+
 ##### Event Registration 
-Some description here
-`API Type and Name`
+
+Create orders and returns links to alipay
+
+`GET /events/payment`
 
 ###### Required Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|event_uuid|String|uuid of event|de305d54-75b4-431b-adb2-eb6b9e546013|
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl -n -X GET https://api.puluo.com/events/payment
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "event_uuid":"de305d54-75b4-431b-adb2-eb6b9e546013"
 }'
 ```
+###### Response Example
+
+```
+{
+	"link": "https://alipay.com/xxxx",
+  	"order_uuid":"de305d54-75b4-431b-adb2-eb6b9e546013"
+}
+```
+
 ##### Event Detail 
-Some description here
-`API Type and Name`
 
-###### Required Parameters
+Get detail information of an event
 
-|Name|Type|Description|Example|
-| ------------- |:-------------|:----- |:-----|
-|||||
+`GET /events/{event_uuid}`
+
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
--H "Content-Type: application/json" \
--d '{
-  "email": "someone@example.org",
-  "role": "admin"
-}'
+$ curl -n -X GET /events/de305d54-75b4-431b-adb2-eb6b9e546013
 ```
+###### Response Example
+
+```
+{
+	"status" : "open", //status includes 'open', 'closed', 'cancel', 'full'.
+	"event_name": "Weapons of Ass Reduction",
+	"event_time": "2012-01-01T12:00:00Z", //
+	"address": "888 Happy Mansion",
+	"city": "Beijing",
+	"phone": "86-555-5555",
+	"coach_name": "Mr. Bob Smith",
+	"coach_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
+	"thumbnail": "http://upyun.com/puluo/head.jpg",
+	"registered_users": 23,
+	"capacity": 30,
+	"likes":1,
+	"geo_location":{
+		"lattitude":"",
+		"":""	
+	},
+	"details": "Get fit with friends.",
+	"images": [
+		"http://upyun.com/puluo/image1.jpg",
+		"http://upyun.com/puluo/image2.jpg"
+	]
+}
+```
+
 ##### Event Memory 
-Some description here
-`API Type and Name`
 
-###### Required Parameters
+Get list of user image links of an event
 
-|Name|Type|Description|Example|
-| ------------- |:-------------|:----- |:-----|
-|||||
+`GET /events/memory`
 
-###### Curl Example
-```
-$ curl -n -X API_TYPE_NAME
--H "Content-Type: application/json" \
--d '{
-  "email": "someone@example.org",
-  "role": "admin"
-}'
-```
-##### All Events 
-Some description here
-`API Type and Name`
-
-###### Required Parameters
+###### Optional Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|max_count|Int|max number of links returned| 10 |
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl -n -X GET https://api.puluo.com/events/memory
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "max_count": "5"
 }'
 ```
-##### Event Search 
-Some description here
-`API Type and Name`
 
-###### Required Parameters
+###### Response Example
+
+```
+{
+	"memories": [
+		"http://upyun.com/puluo/image1.jpg",
+		"http://upyun.com/puluo/image2.jpg"
+	]
+}
+```
+
+##### Events Search 
+
+If keyword is specified, search events from name and description and then 
+return 'max_count' sorted and filtered events from the 'n'-th item.
+
+If keyword is not specified, return all events with sorting and filter.
+
+`GET /events/search`
+
+###### Optional Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|event_date|Date| date of event| 2015-01-08|
+|keyword|String|keyword to search | "Boxing" |
+|sort|String| sorting parameter | "distance" |
+|sort_direction|String| direction of sort | "Asc" or "Desc" |
+|user_lattitude|String| lattitude of user | "" |
+|user_xxx|String| xxx of user | "" |
+|range_from|Int|starting index of all query events | 10 |
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl -n -X GET /events/search
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "keyword": "yoga",
+  "event_date": "2014-02-18",
+  "sort":"distance",
+  "sort_direction":"desc",
+  "user_lattitude":"xxx",
+  "user_xx":"xxx",
+  "range_from":"10"
 }'
+```
+
+###### Response Example
+
+```
+{
+	events:[
+		{
+			"status" : "open", //status includes 'open', 'closed', 'cancel', 'full'.
+			"event_name": "Weapons of Ass Reduction",
+			"event_time": "2012-01-01T12:00:00Z", //
+			"address": "888 Happy Mansion",
+			"city": "Beijing",
+			"phone": "86-555-5555",
+			"coach_name": "Mr. Bob Smith",
+			"coach_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
+			"thumbnail": "http://upyun.com/puluo/head.jpg",
+			"registered_users": 23,
+			"capacity": 30,
+			"likes":1,
+			"geo_location":{
+				"lattitude":"",
+				"":""	
+			},
+			"details": "Get fit with friends.",
+			"images": [
+				"http://upyun.com/puluo/image1.jpg",
+				"http://upyun.com/puluo/image2.jpg"
+			]
+		}	
+	]
+}
 ```
 
 ### Timeline 
+
 ##### User Timeline
-Some description here
-`API Type and Name`
 
-###### Required Parameters
+Get a list of events user attended/to attend
+
+`GET /users/timeline`
+
+###### Optional Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|user_uuid|String|user's uuid|de305d54-75b4-431b-adb2-eb6b9e546013|
+|since_time|Time|returned events should be after 'since_time'|2012-01-01T12:00:00Z|
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl -n -X https://api.puluo.com/users/timeline
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "user_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013"
 }'
 ```  
+
+###### Response Example
+
+```
+{
+	timelines:[
+		{
+			timeline_uuid:"",
+			event:{
+				event_uuid:"de305d54-75b4-431b-adb2-eb6b9e546013",
+				event_name:"Weapon of big ass reduction",
+				created_at:"2012-01-01T12:00:00Z"
+			},
+			my_words:"This is an awesome event",
+			likes:[
+				{
+					user_uuid:"de305d54-75b4-431b-adb2-eb6b9e546013",
+					user_name:"Bob",
+					created_at:"2012-01-01T12:00:00Z"
+				},
+				{
+					user_uuid:"de305d54-75b4-431b-adb2-eb6b9e546013",
+					user_name:"Bob",
+					created_at:"2012-01-01T12:00:00Z"
+				}
+			],
+			comments:[
+				{
+					comment_uuid:"",
+					reply_to_uuid:"",
+					user_uuid:"de305d54-75b4-431b-adb2-eb6b9e546013",
+					user_name:"Bob",
+					content:"",
+					read:"false",
+					created_at:"2012-01-01T12:00:00Z"
+				}
+			],
+			created_at:"2012-01-01T12:00:00Z",
+			updated_at:"2012-01-01T12:00:00Z"
+		}
+	]
+}
+```
+
 ##### Like Timeline
-Some description here
-`API Type and Name`
+
+Like an event on a user's timeline
+
+`PUT /users/timeline/like`
 
 ###### Required Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|timeline_uuid|String|uuid of timeline|de305d54-75b4-431b-adb2-eb6b9e546013|
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl -n -X PUT https://api.puluo.com/users/timeline/like
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "timeline_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013"
 }'
 ```  
+###### Response Example
+
+```
+{
+	status:"success"
+}
+```
+
+##### Remove Timeline Like
+
+Remove a like to an event on a user's timeline
+
+`PUT /users/timeline/delike`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|timeline_uuid|String|uuid of timeline|de305d54-75b4-431b-adb2-eb6b9e546013|
+
+###### Curl Example
+```
+$ curl -n -X PUT https://api.puluo.com/users/timeline/delike
+-H "Content-Type: application/json" \
+-d '{
+  "timeline_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013"
+}'
+```  
+###### Response Example
+
+```
+{
+	status:"success"
+}
+```
+
 ##### Comment Timeline
-Some description here
-`API Type and Name`
+
+Add a new comment or reply to a comment from user's timeline
+
+`PUT /users/timeline/comment`
 
 ###### Required Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|timeline_uuid|String|uuid of timeline|de305d54-75b4-431b-adb2-eb6b9e546013|
+|content|String|content of comment|"awsome"|
+
+###### Optional Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|reply_to|String|comment uuid |de305d54-75b4-431b-adb2-eb6b9e546013|
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl -n -X https://api.puluo.com/users/timeline/comment
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "timeline_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
+  "content":"awesome",
+  "reply_to": "de305d54-75b4-431b-adb2-eb6b9e546013"
 }'
 ```
+###### Response Example
+
+```
+{
+	status:"success"
+}
+```
+
 ##### Delete Timeline Comment
-Some description here
-`API Type and Name`
+Delete a comment from user's timeline
+
+`PUT /users/timeline/comment/delete`
 
 ###### Required Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|comment_uuid|String|uuid of comment|de305d54-75b4-431b-adb2-eb6b9e546013|
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl -n -X https://api.puluo.com/users/timeline/comment
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "comment_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013"
 }'
 ```
+###### Response Example
 
+```
+{
+	status:"success"
+}
+```
 
 ### Service 
+
 ##### Email
-Some description here
-`API Type and Name`
+
+Send notification email to users
+
+`PUT /services/email`
 
 ###### Required Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|email_type|String| type of email | "order notification" |
 
 ###### Curl Example
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl -n -X PUT https://api.puluo.com/services/email
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "email_type": "order_notification"
 }'
 ``` 
+
+###### Response Example
+
+```
+{
+	email:"baolins@ms.com",
+	status:"success"
+}
+```
+
 ##### Image Upload 
-Some description here
-`API Type and Name`
 
-###### Required Parameters
+Upload images to server
 
-|Name|Type|Description|Example|
-| ------------- |:-------------|:----- |:-----|
-|||||
+`POST /service/images`
+
 
 ###### Curl Example
+
 ```
-$ curl -n -X API_TYPE_NAME
--H "Content-Type: application/json" \
--d '{
-  "email": "someone@example.org",
-  "role": "admin"
-}'
+$ curl -n -X POST https://api.puluo.com/images
 ```
+
+###### Response Example
+
+```
+{
+	images:[
+		{
+			image_link:"http://upyun.com/puluo/xxxx",
+			status:"success"
+		},
+		{
+			image_link:"http://upyun.com/puluo/xxxx",
+			status:"success"
+		}
+	]
+}
+```
+
 ##### SMS  
-Some description here
-`API Type and Name`
+
+Send notification SMS to users
+
+`PUT /services/sms`
 
 ###### Required Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|sms_type|String| type of sms | "order notification" |
 
 ###### Curl Example
+
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl -n -X PUT https://api.puluo.com/services/sms
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "sms_type": "order notification"
 }'
+``` 
+
+###### Response Example
+
+```
+{
+	email:"baolins@ms.com",
+	status:"success"
+}
 ```
 
 
