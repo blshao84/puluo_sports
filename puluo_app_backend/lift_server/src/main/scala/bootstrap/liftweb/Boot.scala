@@ -16,8 +16,8 @@ import net.liftweb.http.js.jquery.JQuery14Artifacts
 import com.puluo.api.test.TestAPI
 import com.puluo.api.PuluoFileUploader
 import com.puluo.service.PuluoImageService
-import com.puluo.api.util.LoggedIn
 import com.puluo.api.PuluoAuth
+import com.puluo.api.util.PuluoSession
 
 
 
@@ -42,7 +42,7 @@ class Boot extends Loggable {
 
   def setupRequestConfig() = {
     val withAuthentication: PartialFunction[Req, Unit] = { 
-      case _ if LoggedIn.is => 
+      case _ if PuluoSession.login => 
     }
     
     // setup the 404 handler 
