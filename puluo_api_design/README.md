@@ -8,15 +8,17 @@ The primary purpose of this set of APIs is to support front-end mobile applicati
 ### Overview  
 This section describes how Puluo API works in general and practices we use among all APIs.
 ##### Authentication  
-We use token based authorization for all APIs. Each request must be associated with a valid (not expired) token,
-and the server is always able to match a token to a user in the system. 
-A token can only be acquired by 'login' api. 
+We use session based authentication for all APIs. 
+Each request must be through an authenticated, non-expired session, 
+and the server is always able to match a session to a user in the system. 
+A session is authenticated through successful login or registration.
+
 ##### Caching
 ETag is not supported in this version.  
 ##### Clients 
 Clients **MUST** address requests using HTTPS.
 ##### cURL Examples
-cURL examples are not available in this version.
+cURL Examples are not available in this version.
 ##### Errors  
 Failing responses will have an appropriate status and a JSON body containing more details about a particular error.
 See error responses for more example ids.
@@ -109,12 +111,12 @@ Create a new user and returns error if the user already exists
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
 |mobile|Long|user's mobile number|12346789000|
-|password|String|SHA-HASH of user's plain text password|cd8460a5e0f2c2af596f170009bffc02df06b54d|
+|password|String|SHA-256 of user's plain text password|cd8460a5e0f2c2af596f170009bffc02df06b54d|
 
-###### Curl Example
+###### cURL Example
 
 ```
-$ curl -n -X PUT https://api.puluo.com/users/register
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X PUT https://api.puluo.com/users/register
 -H "Content-Type: application/json" \
 -d '{
   "mobile": "12346789000",
@@ -151,11 +153,11 @@ Successful login (or the user has already logged in) returns the user's uuid and
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
 |mobile|Long|user's login id|12346789000|
-|password|String|SHA-HASH of user's plain text password|cd8460a5e0f2c2af596f170009bffc02df06b54d|
+|password|String|SHA-256 of user's plain text password|cd8460a5e0f2c2af596f170009bffc02df06b54d|
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X POST https://api.puluo.com/users/login
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://api.puluo.com/users/login
 -H "Content-Type: application/json" \
 -d '{
   "mobile": "12346789000",
@@ -183,9 +185,9 @@ Destroy current session and all states saved in the session.
 `POST /users/logout`
 
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X POST https://api.puluo.com/users/logout
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://api.puluo.com/users/logout
 -H "Content-Type: application/json" 
 ```  
 
@@ -212,12 +214,12 @@ Update a user's password
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|password|String|SHA-HASH of user's current password|cd8460a5e0f2c2af596f170009bffc02df06b54d|
-|new_password|String|SHA-HASH of user's new password|cd8460a5e0f2c2af596f170009bffc02df06b54d|
+|password|String|SHA-256 of user's current password|cd8460a5e0f2c2af596f170009bffc02df06b54d|
+|new_password|String|SHA-256 of user's new password|cd8460a5e0f2c2af596f170009bffc02df06b54d|
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X POST https://api.puluo.com/users/credential/update
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://api.puluo.com/users/credential/update
 -H "Content-Type: application/json" \
 -d '{
   "password": "cd8460a5e0f2c2af596f170009bffc02df06b54d",
@@ -247,11 +249,11 @@ Get a user's complete profile
 
 `GET /users/{user_mobile_or_uuid}`
 
-###### Curl Example
+###### cURL Example
 
 ```
 
-$ curl -n -X GET https://api.puluo.com/users/{user_mobile_or_uuid}
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://api.puluo.com/users/{user_mobile_or_uuid}
 ```
 
 ###### Response Example
@@ -272,7 +274,8 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 	"saying": "I’ve got an app for that."
 	"likes": 2,
 	"banned": 0, // has the viewing user banned this users. 
-	"following": 1 // Is the user following this user.
+	"following": 1, // Is the user following this user.
+	"is_coach":false
   },
   "private_info": { // this info is only visible for the logged in user
     "email": "tracey.boyd@kotebo.com",
@@ -313,9 +316,9 @@ Update user profile
 |city|String| user's city | "Seattle" |
 |zip|String| user's zip code | "234234" |
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X POST /users/update
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST /users/update
 -H "Content-Type: application/json" \
 -d '{
   "first_name": "baolin",
@@ -374,9 +377,9 @@ Search user by parameters. If more parameters are specified, search conditions a
 |mobile|String| user's mobile | "1234567780" |
 
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X POST /users/update
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST /users/update
 -H "Content-Type: application/json" \
 -d '{
   "first_name": "baolin"
@@ -416,57 +419,92 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 ```
 
 ### Setting 
+
 ##### User Setting 
-Some description here
-`API Type and Name`
 
-###### Required Parameters
+Get user's setting
 
-|Name|Type|Description|Example|
-| ------------- |:-------------|:----- |:-----|
-|||||
+`GET /users/privacy/{user_mobile_or_uuid}`
 
-###### Curl Example
+###### cURL Example
+
 ```
-$ curl -n -X API_TYPE_NAME
--H "Content-Type: application/json" \
--d '{
-  "email": "someone@example.org",
-  "role": "admin"
-}'
+
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://api.puluo.com/users/{user_mobile_or_uuid}
+
 ```
+
+###### Response Example
+
+```
+HTTP/1.1 200 Created
+Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
+```
+
+```
+{
+	"user_uuid":"",
+	"auto_add_friend":true,
+	"allow_stranger_view_timeline":true,
+	"allow_searched":true
+}
+```
+
 ##### User Setting Update
-Some description here
-`API Type and Name`
+Update user setting
 
-###### Required Parameters
+`POST /users/setting/update`
+
+###### Optional Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|||||
+|auto_add_friend|boolean|allow anyone to add the user as friend without approval|true|
+|allow_stranger_view_timeline|boolean|allow everyone to view the user's timeline|true|
+|allow_searchedl|boolean|allow the user to be searched |true|
 
-###### Curl Example
+
+###### cURL Example
 ```
-$ curl -n -X API_TYPE_NAME
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST /users/setting/update
 -H "Content-Type: application/json" \
 -d '{
-  "email": "someone@example.org",
-  "role": "admin"
+  "auto_add_friend": "true"
 }'
-```  
+``` 
 
+###### Response Example
+
+```
+HTTP/1.1 200 Created
+Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
+```
+
+```
+HTTP/1.1 200 Created
+Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
+```
+
+```
+{
+	"user_uuid":"",
+	"auto_add_friend":true,
+	"allow_stranger_view_timeline":true,
+	"allow_searched":true
+}
+```
 
 ### Social Graph 
 
 ##### List Friends
 
-Get a user's friends list
+Get a user's own friends list
 
 `GET /users/friends`
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X GET /users/friends
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET /users/friends
 
 ``` 
 
@@ -514,9 +552,9 @@ Send a private message of type 'FriendRequest' to another user
 | ------------- |:-------------|:----- |:-----|
 |user_uuid|String|user's uuid|de305d54-75b4-431b-adb2-eb6b9e546013|
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X PUT https://api.puluo.com/users/friends/request
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X PUT https://api.puluo.com/users/friends/request
 -H "Content-Type: application/json" \
 -d '{
   "user_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
@@ -565,9 +603,9 @@ De-friend two users. Delete all their past messages.
 | ------------- |:-------------|:----- |:-----|
 |user_uuid|String|the other user's uuid|de305d54-75b4-431b-adb2-eb6b9e546013|
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X POST https://api.puluo.com/users/friends/delete
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://api.puluo.com/users/friends/delete
 -H "Content-Type: application/json" \
 -d '{
   "user_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013"
@@ -606,9 +644,9 @@ Deny a friend request.
 | ------------- |:-------------|:----- |:-----|
 |user_uuid|String|a user's uuid|de305d54-75b4-431b-adb2-eb6b9e546013|
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X POST https://api.puluo.com/users/friends/deny
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://api.puluo.com/users/friends/deny
 -H "Content-Type: application/json" \
 -d '{
   "user_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013"
@@ -660,9 +698,9 @@ Approve a friend request.
 | ------------- |:-------------|:----- |:-----|
 |user_uuid|String|a user's uuid|de305d54-75b4-431b-adb2-eb6b9e546013|
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X POST https://api.puluo.com/users/friends/deny
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://api.puluo.com/users/friends/deny
 -H "Content-Type: application/json" \
 -d '{
   "user_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013"
@@ -719,9 +757,9 @@ Currently, we only support text messages.
 |content|String|content of message| "hello" |
 |content_type|String|type of content, e.g. Text or Image| "Text" |
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X PUT https://api.puluo.com/users/message/send
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X PUT https://api.puluo.com/users/message/send
 -H "Content-Type: application/json" \
 -d '{
   "to_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
@@ -748,9 +786,9 @@ $ curl -n -X PUT https://api.puluo.com/users/message/send
 
 Get messages from a specific user since a specific time
 
-`GET /users/messages`
+`POST /users/messages`
 
-###### Required Parameters
+###### Optional Parameters
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
@@ -758,9 +796,9 @@ Get messages from a specific user since a specific time
 |since|Time| all returned messages should be after this time |"2012-01-01T12:00:00Z"|
 
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X GET https://api.puluo.com/users/messages
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://api.puluo.com/users/messages
 -H "Content-Type: application/json" \
 -d '{
   "user_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
@@ -800,21 +838,13 @@ $ curl -n -X GET https://api.puluo.com/users/messages
 
 Create orders and returns links to alipay
 
-`GET /events/payment`
+`GET /events/payment/{event_uuid}`
 
-###### Required Parameters
 
-|Name|Type|Description|Example|
-| ------------- |:-------------|:----- |:-----|
-|event_uuid|String|uuid of event|de305d54-75b4-431b-adb2-eb6b9e546013|
-
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X GET https://api.puluo.com/events/payment
--H "Content-Type: application/json" \
--d '{
-  "event_uuid":"de305d54-75b4-431b-adb2-eb6b9e546013"
-}'
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://api.puluo.com/events/payment/de305d54-75b4-431b-adb2-eb6b9e546013
+
 ```
 ###### Response Example
 
@@ -829,12 +859,12 @@ $ curl -n -X GET https://api.puluo.com/events/payment
 
 Get detail information of an event
 
-`GET /events/{event_uuid}`
+`GET /events/detail/{event_uuid}`
 
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X GET /events/de305d54-75b4-431b-adb2-eb6b9e546013
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET /events/detail/de305d54-75b4-431b-adb2-eb6b9e546013
 ```
 ###### Response Example
 
@@ -868,7 +898,7 @@ $ curl -n -X GET /events/de305d54-75b4-431b-adb2-eb6b9e546013
 
 Get list of user image links of an event
 
-`GET /events/memory`
+`POST /events/memory`
 
 ###### Optional Parameters
 
@@ -876,9 +906,9 @@ Get list of user image links of an event
 | ------------- |:-------------|:----- |:-----|
 |max_count|Int|max number of links returned| 10 |
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X GET https://api.puluo.com/events/memory
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://api.puluo.com/events/memory
 -H "Content-Type: application/json" \
 -d '{
   "max_count": "5"
@@ -903,7 +933,7 @@ return 'max_count' sorted and filtered events from the 'n'-th item.
 
 If keyword is not specified, return all events with sorting and filter.
 
-`GET /events/search`
+`POST /events/search`
 
 ###### Optional Parameters
 
@@ -917,9 +947,9 @@ If keyword is not specified, return all events with sorting and filter.
 |user_xxx|String| xxx of user | "" |
 |range_from|Int|starting index of all query events | 10 |
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X GET /events/search
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET /events/search
 -H "Content-Type: application/json" \
 -d '{
   "keyword": "yoga",
@@ -970,7 +1000,7 @@ $ curl -n -X GET /events/search
 
 Get a list of events user attended/to attend
 
-`GET /users/timeline`
+`POST /users/timeline`
 
 ###### Optional Parameters
 
@@ -979,9 +1009,9 @@ Get a list of events user attended/to attend
 |user_uuid|String|user's uuid|de305d54-75b4-431b-adb2-eb6b9e546013|
 |since_time|Time|returned events should be after 'since_time'|2012-01-01T12:00:00Z|
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X https://api.puluo.com/users/timeline
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X https://api.puluo.com/users/timeline
 -H "Content-Type: application/json" \
 -d '{
   "user_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013"
@@ -1043,9 +1073,9 @@ Like an event on a user's timeline
 | ------------- |:-------------|:----- |:-----|
 |timeline_uuid|String|uuid of timeline|de305d54-75b4-431b-adb2-eb6b9e546013|
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X PUT https://api.puluo.com/users/timeline/like
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X PUT https://api.puluo.com/users/timeline/like
 -H "Content-Type: application/json" \
 -d '{
   "timeline_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013"
@@ -1071,9 +1101,9 @@ Remove a like to an event on a user's timeline
 | ------------- |:-------------|:----- |:-----|
 |timeline_uuid|String|uuid of timeline|de305d54-75b4-431b-adb2-eb6b9e546013|
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X PUT https://api.puluo.com/users/timeline/delike
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X PUT https://api.puluo.com/users/timeline/delike
 -H "Content-Type: application/json" \
 -d '{
   "timeline_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013"
@@ -1106,9 +1136,9 @@ Add a new comment or reply to a comment from user's timeline
 | ------------- |:-------------|:----- |:-----|
 |reply_to|String|comment uuid |de305d54-75b4-431b-adb2-eb6b9e546013|
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X https://api.puluo.com/users/timeline/comment
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X https://api.puluo.com/users/timeline/comment
 -H "Content-Type: application/json" \
 -d '{
   "timeline_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
@@ -1135,9 +1165,9 @@ Delete a comment from user's timeline
 | ------------- |:-------------|:----- |:-----|
 |comment_uuid|String|uuid of comment|de305d54-75b4-431b-adb2-eb6b9e546013|
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X https://api.puluo.com/users/timeline/comment
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X https://api.puluo.com/users/timeline/comment
 -H "Content-Type: application/json" \
 -d '{
   "comment_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013"
@@ -1165,9 +1195,9 @@ Send notification email to users
 | ------------- |:-------------|:----- |:-----|
 |email_type|String| type of email | "order notification" |
 
-###### Curl Example
+###### cURL Example
 ```
-$ curl -n -X PUT https://api.puluo.com/services/email
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X PUT https://api.puluo.com/services/email
 -H "Content-Type: application/json" \
 -d '{
   "email_type": "order_notification"
@@ -1190,10 +1220,10 @@ Upload images to server
 `POST /service/images`
 
 
-###### Curl Example
+###### cURL Example
 
 ```
-$ curl -n -X POST https://api.puluo.com/images
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://api.puluo.com/images
 ```
 
 ###### Response Example
@@ -1225,10 +1255,10 @@ Send notification SMS to users
 | ------------- |:-------------|:----- |:-----|
 |sms_type|String| type of sms | "order notification" |
 
-###### Curl Example
+###### cURL Example
 
 ```
-$ curl -n -X PUT https://api.puluo.com/services/sms
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X PUT https://api.puluo.com/services/sms
 -H "Content-Type: application/json" \
 -d '{
   "sms_type": "order notification"
