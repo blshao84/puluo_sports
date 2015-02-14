@@ -5,12 +5,12 @@ import com.puluo.util.Strs;
 
 public class JuheSMSResult {
 
-	public static class JeheSMSResultDetail {
+	public static class JuheSMSResultDetail {
 		public int count;
 		public int fee;
 		public long sid;
 
-		public JeheSMSResultDetail(int count, int fee, long sid) {
+		public JuheSMSResultDetail(int count, int fee, long sid) {
 			this.count = count;
 			this.fee = fee;
 			this.sid = sid;
@@ -35,7 +35,7 @@ public class JuheSMSResult {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			JeheSMSResultDetail other = (JeheSMSResultDetail) obj;
+			JuheSMSResultDetail other = (JuheSMSResultDetail) obj;
 			if (count != other.count)
 				return false;
 			if (fee != other.fee)
@@ -48,12 +48,12 @@ public class JuheSMSResult {
 	}
 
 	public String reason;
-	public JeheSMSResultDetail result;
+	public JuheSMSResultDetail result;
 	public int errorCode;
 	
 	public JuheSMSResult(String reason, int count, int fee, long sid,
 			int errorCode) {
-		JeheSMSResultDetail result = new JeheSMSResultDetail(count,fee,sid);
+		JuheSMSResultDetail result = new JuheSMSResultDetail(count,fee,sid);
 		this.result = result;
 		this.reason = reason;
 		this.errorCode = errorCode;

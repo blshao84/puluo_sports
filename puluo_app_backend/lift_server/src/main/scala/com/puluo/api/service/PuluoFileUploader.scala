@@ -1,11 +1,10 @@
-package com.puluo.api
+package com.puluo.api.service
 
 import net.liftweb.http.rest.RestHelper
 import net.liftweb.common.Loggable
-import net.liftweb.http.FileParamHolder
 import net.liftweb.http.JsonResponse
-import com.puluo.service.PuluoImageService
 import com.puluo.service.PuluoService
+import net.liftweb.http.js.JsExp.strToJsExp
 
 object PuluoFileUploader extends RestHelper with Loggable {
   serve {
