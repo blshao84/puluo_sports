@@ -136,8 +136,8 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
   "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
   "mobile": "12346789000",
   "password": "cd8460a5e0f2c2af596f170009bffc02df06b54d",
-  "created_at": "2012-01-01T12:00:00Z",
-  "updated_at": "2012-01-01T12:00:00Z"
+  "created_at": "2012-01-01 12:00:00",
+  "updated_at": "2012-01-01 12:00:00"
 }
 ```
 
@@ -175,7 +175,7 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 ```
 {
   "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013", //user's uuid
-  "created_at": "2012-01-01T12:00:00Z" //session created time
+  "created_at": "2012-01-01 12:00:00" //session created time
 }
 ```
 
@@ -236,8 +236,8 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 ```
 {
   "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
-  "created_at": "2012-01-01T12:00:00Z",
-  "updated_at": "2012-01-01T12:00:00Z"
+  "created_at": "2012-01-01 12:00:00",
+  "updated_at": "2012-01-01 12:00:00"
 }
 ```
 
@@ -273,22 +273,22 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 	"large_image": "http://upyun/puluo/userThumb.jpg",
 	"saying": "I’ve got an app for that."
 	"likes": 2,
-	"banned": 0, // has the viewing user banned this users. 
+	"banned": false, // has the viewing user banned this users. 
 	"following": 1, // Is the user following this user.
 	"is_coach":false
   },
   "private_info": { // this info is only visible for the logged in user
     "email": "tracey.boyd@kotebo.com",
 	"sex": "m",
-	"birthdate": 9/12/84,
+	"birthday": "1984-09-12",
 	"occupation": "Internet Plumber",
 	"country": "USA",
 	"state": "Washington",
 	"city": "Seattle",
-	"zip": "234234",
+	"zip": "234234"
   },
-  "created_at": "2012-01-01T12:00:00Z",
-  "updated_at": "2012-01-01T12:00:00Z"
+  "created_at": "2012-01-01 12:00:00",
+  "updated_at": "2012-01-01 12:00:00"
 }
 ```
 
@@ -355,8 +355,8 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 	"city": "Seattle",
 	"zip": "234234"
   },
-  "created_at": "2012-01-01T12:00:00Z",
-  "updated_at": "2012-01-01T12:00:00Z"
+  "created_at": "2012-01-01 12:00:00",
+  "updated_at": "2012-01-01 12:00:00"
 }
 ```
 
@@ -582,11 +582,11 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				content:"hi, this is Tracy!",
 				approval:"pending",
-				created_at:"2012-01-01T12:00:00Z"
+				created_at:"2012-01-01 12:00:00"
 			}
 		]
-		created_at:"2012-01-01T12:00:00Z",
-		updated_at:"2012-01-01T12:00:00Z"
+		created_at:"2012-01-01 12:00:00",
+		updated_at:"2012-01-01 12:00:00"
 	}
 }
 ```
@@ -668,7 +668,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://api.pu
 				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				content:"hi, this is Tracy!",
-				created_at:"2012-01-01T12:00:00Z"
+				created_at:"2012-01-01 12:00:00"
 			},
 			{
 				msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
@@ -677,11 +677,11 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://api.pu
 				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				content:"hi, this is Tracy!",
-				created_at:"2012-01-01T12:00:00Z"
+				created_at:"2012-01-01 12:00:00"
 			}
 		],
-		created_at:"2012-01-01T12:00:00Z",
-		updated_at:"2012-01-01T12:00:00Z"
+		created_at:"2012-01-01 12:00:00",
+		updated_at:"2012-01-01 12:00:00"
 	}
 }
 ```
@@ -722,7 +722,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://api.pu
 				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				content:"hi, this is Tracy!",
-				created_at:"2012-01-01T12:00:00Z"
+				created_at:"2012-01-01 12:00:00"
 			},
 			{
 				msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
@@ -731,11 +731,11 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://api.pu
 				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				content:"hi, this is Tracy!",
-				created_at:"2012-01-01T12:00:00Z"
+				created_at:"2012-01-01 12:00:00"
 			}
 		],
-		created_at:"2012-01-01T12:00:00Z",
-		updated_at:"2012-01-01T12:00:00Z"
+		created_at:"2012-01-01 12:00:00",
+		updated_at:"2012-01-01 12:00:00"
 	}
 }
 ```
@@ -778,7 +778,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X PUT https://api.pul
 	from_user_thumbnail:"http://upyun.com/puluo/xxxx",
 	to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 	content:"hi, this is Tracy!",
-	created_at:"2012-01-01T12:00:00Z"				
+	created_at:"2012-01-01 12:00:00"				
 }
 ```
 
@@ -793,7 +793,7 @@ Get messages from a specific user since a specific time
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
 |user_uuid|String|the other user's uuid|"de305d54-75b4-431b-adb2-eb6b9e546013"|
-|since|Time| all returned messages should be after this time |"2012-01-01T12:00:00Z"|
+|since|Time| all returned messages should be after this time |"2012-01-01 12:00:00"|
 
 
 ###### cURL Example
@@ -802,7 +802,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://api.pul
 -H "Content-Type: application/json" \
 -d '{
   "user_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
-  "since": ""2012-01-01T12:00:00Z""
+  "since": ""2012-01-01 12:00:00""
 }'
 ```  
 ###### Response Example
@@ -817,7 +817,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://api.pul
 				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				content:"hi, this is Tracy!",
-				created_at:"2012-01-01T12:00:00Z"
+				created_at:"2012-01-01 12:00:00"
 			},
 			{
 				msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
@@ -826,7 +826,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://api.pul
 				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				content:"hi, this is Tracy!",
-				created_at:"2012-01-01T12:00:00Z"
+				created_at:"2012-01-01 12:00:00"
 			}
 		]
 }
@@ -872,7 +872,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET /events/detail/
 {
 	"status" : "open", //status includes 'open', 'closed', 'cancel', 'full'.
 	"event_name": "Weapons of Ass Reduction",
-	"event_time": "2012-01-01T12:00:00Z", //
+	"event_time": "2012-01-01 12:00:00", //
 	"address": "888 Happy Mansion",
 	"city": "Beijing",
 	"phone": "86-555-5555",
@@ -970,7 +970,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET /events/search
 		{
 			"status" : "open", //status includes 'open', 'closed', 'cancel', 'full'.
 			"event_name": "Weapons of Ass Reduction",
-			"event_time": "2012-01-01T12:00:00Z", //
+			"event_time": "2012-01-01 12:00:00", //
 			"address": "888 Happy Mansion",
 			"city": "Beijing",
 			"phone": "86-555-5555",
@@ -1007,7 +1007,7 @@ Get a list of events user attended/to attend
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
 |user_uuid|String|user's uuid|de305d54-75b4-431b-adb2-eb6b9e546013|
-|since_time|Time|returned events should be after 'since_time'|2012-01-01T12:00:00Z|
+|since_time|Time|returned events should be after 'since_time'|2012-01-01 12:00:00|
 
 ###### cURL Example
 ```
@@ -1028,19 +1028,19 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X https://api.puluo.c
 			event:{
 				event_uuid:"de305d54-75b4-431b-adb2-eb6b9e546013",
 				event_name:"Weapon of big ass reduction",
-				created_at:"2012-01-01T12:00:00Z"
+				created_at:"2012-01-01 12:00:00"
 			},
 			my_words:"This is an awesome event",
 			likes:[
 				{
 					user_uuid:"de305d54-75b4-431b-adb2-eb6b9e546013",
 					user_name:"Bob",
-					created_at:"2012-01-01T12:00:00Z"
+					created_at:"2012-01-01 12:00:00"
 				},
 				{
 					user_uuid:"de305d54-75b4-431b-adb2-eb6b9e546013",
 					user_name:"Bob",
-					created_at:"2012-01-01T12:00:00Z"
+					created_at:"2012-01-01 12:00:00"
 				}
 			],
 			comments:[
@@ -1051,11 +1051,11 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X https://api.puluo.c
 					user_name:"Bob",
 					content:"",
 					read:"false",
-					created_at:"2012-01-01T12:00:00Z"
+					created_at:"2012-01-01 12:00:00"
 				}
 			],
-			created_at:"2012-01-01T12:00:00Z",
-			updated_at:"2012-01-01T12:00:00Z"
+			created_at:"2012-01-01 12:00:00",
+			updated_at:"2012-01-01 12:00:00"
 		}
 	]
 }

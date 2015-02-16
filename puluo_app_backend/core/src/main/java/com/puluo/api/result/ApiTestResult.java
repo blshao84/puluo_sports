@@ -1,5 +1,6 @@
 package com.puluo.api.result;
 
+
 import com.google.gson.Gson;
 
 public class ApiTestResult {
