@@ -194,7 +194,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://api.pu
 ###### Response Example
 
 ```
-HTTP/1.1 201 Created
+HTTP/1.1 200 Created
 Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 ```
 
@@ -229,7 +229,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://api.pu
 ###### Response Example
 
 ```
-HTTP/1.1 201 Created
+HTTP/1.1 200 Created
 Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 ```
 
