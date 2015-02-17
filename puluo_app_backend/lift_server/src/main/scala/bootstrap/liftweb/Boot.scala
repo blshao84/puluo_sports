@@ -23,11 +23,14 @@ import net.liftweb.util.Helpers.pfToGuardable
 import net.liftweb.util.NamedPF
 import net.liftweb.util.Props
 import net.liftweb.util.Vendor.valToVendor
-
-
+import com.puluo.api.service.PuluoServiceAPI
+import com.puluo.api.timeline.PuluoTimelineAPI
+import com.puluo.api.message.PuluoMessageAPI
+import com.puluo.api.user.PuluoUserAPI
+import com.puluo.api.graph.PuluoGraphAPI
+import com.puluo.api.event.PuluoEventAPI
 
 class Boot extends Loggable {
-
 
   def setupUX() = {
     /**** user experience settings ****/
@@ -39,17 +42,16 @@ class Boot extends Loggable {
   def setupNewSiteMap() = {
 
     SiteMap.enforceUniqueLinks = false
-    val menus:List[Menu] = Nil
-    
+    val menus: List[Menu] = Nil
 
     LiftRules.setSiteMap(SiteMap(menus: _*))
   }
 
   def setupRequestConfig() = {
-    val withAuthentication: PartialFunction[Req, Unit] = { 
-      case _ if PuluoSession.login => 
+    val withAuthentication: PartialFunction[Req, Unit] = {
+      case _ if PuluoSession.login =>
     }
-    
+
     // setup the 404 handler 
     LiftRules.uriNotFound.prepend(NamedPF("404handler") {
       case (req, failure) => NotFoundAsTemplate(ParsePath(List("404"), "html", false, false))
@@ -57,16 +59,19 @@ class Boot extends Loggable {
     // make requests utf-8
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
     LiftRules.dispatch.append(withAuthentication guard TestAPI)
+    LiftRules.dispatch.append(withAuthentication guard PuluoEventAPI)
+    LiftRules.dispatch.append(withAuthentication guard PuluoGraphAPI)
+    LiftRules.dispatch.append(withAuthentication guard PuluoMessageAPI)
+    LiftRules.dispatch.append(withAuthentication guard PuluoServiceAPI)
+    LiftRules.dispatch.append(withAuthentication guard PuluoTimelineAPI)
+    LiftRules.dispatch.append(withAuthentication guard PuluoUserAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoFileUploader)
     LiftRules.dispatch.append(PuluoAuthAPI)
     LiftRules.handleMimeFile = OnDiskFileParamHolder.apply
 
-
   }
   def setupJS() = {
-    /*FoBo.InitParam.JQuery = FoBo.JQuery191
-    FoBo.InitParam.ToolKit = FoBo.Bootstrap232
-    FoBo.init()*/
+
     // set the JSArtifacts
     LiftRules.jsArtifacts = JQuery14Artifacts
 
@@ -83,7 +88,7 @@ class Boot extends Loggable {
     doBoot
   }
 
-  def doBoot:Unit = {
+  def doBoot: Unit = {
     setupJS()
     setupUX()
     setupNewSiteMap()
