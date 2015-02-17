@@ -1,8 +1,9 @@
 package com.puluo.api.result;
 
 import com.google.gson.Gson;
+import com.puluo.util.HasJSON;
 
-public class UserProfileResult {
+public class UserProfileResult extends HasJSON{
 	public String uuid;
 	public UserPublicProfileResult public_info;
 	public UserPrivateProfileResult private_info;
@@ -18,11 +19,6 @@ public class UserProfileResult {
 		this.private_info = private_info;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
-	}
-
-	public String toJson() {
-		Gson gson = new Gson();
-		return gson.toJson(this);
 	}
 
 	public static UserProfileResult dummy() {

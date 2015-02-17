@@ -1,9 +1,8 @@
 package com.puluo.api.result;
 
+import com.puluo.util.HasJSON;
 
-import com.google.gson.Gson;
-
-public class ApiTestResult {
+public class ApiTestResult extends HasJSON {
 	public String result;
 
 
@@ -12,9 +11,4 @@ public class ApiTestResult {
 		this.result = result;
 	}
 
-
-	public String toJson() {
-		Gson gson = new Gson();
-		return gson.toJson(this);
-	}
 }

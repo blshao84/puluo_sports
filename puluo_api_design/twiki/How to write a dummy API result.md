@@ -46,7 +46,7 @@ For example, 'created_at' should be of type string and in the code we should use
 a DateTime object to string. Code of UserProfileResult looks like below:
 
 ```
-public class UserProfileResult {
+public class UserProfileResult extends HasJSON{
 	public String uuid;
 	public UserPublicProfileResult public_info;
 	public UserPrivateProfileResult private_info;
@@ -69,6 +69,7 @@ public class UserProfileResult {
 ``` 
 
 * The outter-most result should have a toJson method which converts itself to a json string.
+This is achieved by extending from 'HasJSON' class, which defines the following method:
 
 ```
 
@@ -90,4 +91,5 @@ public class UserProfileResult {
 
 ```
 
-* Write a test to prevent accidental result schema change. Take a look at UserProfileResultTest in core project.
+* Write a test to prevent accidental result schema change. Take a look at PuluoAPIResultTest in core project.
+We should add an @Test test case for each result type.
