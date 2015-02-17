@@ -16,7 +16,7 @@ object PuluoEventAPI extends RestHelper {
     case "events" :: "memory" :: Nil Post _ => {
       ???
     }
-        case "events" :: "search" :: Nil Post _ => {
+    case "events" :: "search" :: Nil Post _ => {
       ???
     }
   }

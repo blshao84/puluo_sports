@@ -1,17 +1,17 @@
 package com.puluo.api;
+
 import com.puluo.api.result.ApiTestResult;
 
-public class ApiTest implements PuluoAPI {
+public class ApiTest extends PuluoAPI<ApiTestResult> {
 
 	public String msg;
-	
+
 	public ApiTest(String msg) {
 		this.msg = msg;
 	}
 
 	@Override
-	public String result() {
-		ApiTestResult r = new ApiTestResult(msg);
-		return r.toJson();
+	public ApiTestResult rawResult() {
+		return new ApiTestResult(msg);
 	}
 }

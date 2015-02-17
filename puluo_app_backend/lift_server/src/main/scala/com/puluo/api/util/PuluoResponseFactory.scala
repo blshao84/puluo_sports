@@ -10,7 +10,7 @@ import com.puluo.api.PuluoAPI
 
 object PuluoResponseFactory {
 
-  def createJSONResponse(api:PuluoAPI, code: Int = 200): LiftResponse = {
+  def createJSONResponse(api:PuluoAPI[_], code: Int = 200): LiftResponse = {
     val jvalue = parse(api.result)
     JsonResponse(jvalue, requestHeader, JsonResponse.cookies, code)
   }

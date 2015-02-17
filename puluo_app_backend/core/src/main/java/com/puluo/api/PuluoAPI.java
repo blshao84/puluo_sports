@@ -1,7 +1,13 @@
 package com.puluo.api;
 
+import com.puluo.util.HasJSON;
 
-public interface PuluoAPI {
+
+public abstract class PuluoAPI<R extends HasJSON> {
 	
-	public String result();
+	public abstract R rawResult();
+	
+	public  String result() {
+		return rawResult().toJson();
+	}
 }
