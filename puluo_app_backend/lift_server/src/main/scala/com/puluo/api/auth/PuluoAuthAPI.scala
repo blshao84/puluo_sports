@@ -6,7 +6,7 @@ import com.puluo.api.util.PuluoSession
 import com.puluo.api.util.SessionInfo
 import net.liftweb.http.js.JsExp.strToJsExp
 
-object PuluoAuth extends RestHelper{
+object PuluoAuthAPI extends RestHelper{
   serve {
     case "login" :: Nil Post _ => {
       PuluoSession(SessionInfo(true))

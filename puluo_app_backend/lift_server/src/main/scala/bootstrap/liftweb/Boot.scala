@@ -1,6 +1,6 @@
 package bootstrap.liftweb
 
-import com.puluo.api.auth.PuluoAuth
+import com.puluo.api.auth.PuluoAuthAPI
 import com.puluo.api.service.PuluoFileUploader
 import com.puluo.api.test.TestAPI
 import com.puluo.api.util.PuluoSession
@@ -58,7 +58,7 @@ class Boot extends Loggable {
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
     LiftRules.dispatch.append(withAuthentication guard TestAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoFileUploader)
-    LiftRules.dispatch.append(PuluoAuth)
+    LiftRules.dispatch.append(PuluoAuthAPI)
     LiftRules.handleMimeFile = OnDiskFileParamHolder.apply
 
 
