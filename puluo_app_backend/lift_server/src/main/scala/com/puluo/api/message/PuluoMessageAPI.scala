@@ -7,6 +7,11 @@ import net.liftweb.http.js.JsExp.strToJsExp
 
 object PuluoMessageAPI extends RestHelper {
   serve {
-    case _ => ???
+    case "users" :: "message" :: "send" :: Nil Put _ => {
+      ???
+    }
+    case "users" :: "messages" :: Nil Post _ => {
+      ???
+    }
   }
 }

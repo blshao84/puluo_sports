@@ -7,6 +7,17 @@ import net.liftweb.http.js.JsExp.strToJsExp
 
 object PuluoEventAPI extends RestHelper {
   serve {
-    case _ => ???
+    case "events" :: "payment" :: eventUUID :: Nil Get _ => {
+      ???
+    }
+    case "events" :: "detail" :: eventUUID :: Nil Get _ => {
+      ???
+    }
+    case "events" :: "memory" :: Nil Post _ => {
+      ???
+    }
+        case "events" :: "search" :: Nil Post _ => {
+      ???
+    }
   }
 }

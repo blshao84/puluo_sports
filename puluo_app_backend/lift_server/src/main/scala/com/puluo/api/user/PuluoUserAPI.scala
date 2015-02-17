@@ -7,6 +7,20 @@ import net.liftweb.http.js.JsExp.strToJsExp
 
 object PuluoUserAPI extends RestHelper {
   serve {
-    case _ => ???
+    case "users" :: mobileOrUUID :: Nil Get _ => {
+      ???
+    }
+    case "users" :: "update" :: Nil Post _ => {
+      ???
+    }
+    case "users" :: "search" :: Nil Post _ => {
+      ???
+    }
+    case "users" :: "privacy" :: mobileOrUUID :: Nil Get _ => {
+      ???
+    }
+    case "users" :: "setting" :: "update" :: Nil Post _ => {
+      ???
+    }
   }
 }
