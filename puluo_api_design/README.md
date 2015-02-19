@@ -395,7 +395,7 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 
 ```
 {
-  [
+  	"details":[
   	{
 	  "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
 	  "public_info":{
@@ -517,7 +517,7 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 
 ```
 {
-  [
+  	"details":[
   	{
 	  "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
 	  "public_info":{
@@ -584,7 +584,7 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 				approval:"pending",
 				created_at:"2012-01-01 12:00:00"
 			}
-		]
+		],
 		created_at:"2012-01-01 12:00:00",
 		updated_at:"2012-01-01 12:00:00"
 	}
@@ -809,26 +809,26 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://api.pul
 
 ```
 {
-		messages:[
-			{
-				msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
-				from_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
-				to_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
-				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
-				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
-				content:"hi, this is Tracy!",
-				created_at:"2012-01-01 12:00:00"
-			},
-			{
-				msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
-				from_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
-				to_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
-				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
-				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
-				content:"hi, this is Tracy!",
-				created_at:"2012-01-01 12:00:00"
-			}
-		]
+	messages:[
+		{
+			msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
+			from_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+			to_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+			from_user_thumbnail:"http://upyun.com/puluo/xxxx",
+			to_user_thumbnail:"http://upyun.com/puluo/xxxx",
+			content:"hi, this is Tracy!",
+			created_at:"2012-01-01 12:00:00"
+		},
+		{
+			msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
+			from_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+			to_user:"de305d54-75b4-431b-adb2-eb6b9e546013",
+			from_user_thumbnail:"http://upyun.com/puluo/xxxx",
+			to_user_thumbnail:"http://upyun.com/puluo/xxxx",
+			content:"hi, this is Tracy!",
+			created_at:"2012-01-01 12:00:00"
+		}
+	]
 }
 ```
 
