@@ -339,8 +339,8 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 {
   "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
   "public_info":{
-  	"first_name": Tracey,
-    "last_name":  Boyd,
+  	"first_name": "Tracey",
+    "last_name":  "Boyd",
 	"thumbnail": "http://upyun/puluo/userThumb.jpg!200",
 	"large_image": "http://upyun/puluo/userThumb.jpg",
 	"saying": "I’ve got an app for that."
@@ -348,7 +348,7 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
   "private_info": { // this info is only visible for the logged in user
     "email": "tracey.boyd@kotebo.com",
 	"sex": "m",
-	"birthdate": 9/12/84,
+	"birthday": "1984-09-12",
 	"occupation": "Internet Plumber",
 	"country": "USA",
 	"state": "Washington",
