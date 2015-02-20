@@ -267,8 +267,8 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 {
   "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
   "public_info":{
-  	"first_name": Tracey,
-    "last_name":  Boyd,
+  	"first_name": "Tracey",
+    "last_name":  "Boyd",
 	"thumbnail": "http://upyun/puluo/userThumb.jpg!200",
 	"large_image": "http://upyun/puluo/userThumb.jpg",
 	"saying": "I’ve got an app for that."
