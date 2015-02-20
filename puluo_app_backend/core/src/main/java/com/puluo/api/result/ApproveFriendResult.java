@@ -21,12 +21,12 @@ public class ApproveFriendResult extends HasJSON {
 class FriendApproveResult {
 	public String request_id;
 	public String status;
-	public List<ApproveMessagesResult> messages;
+	public List<MessageResult> messages;
 	public String created_at;
 	public String updated_at;
 	
 	public FriendApproveResult(String request_id, String status,
-			List<ApproveMessagesResult> messages, String created_at, String updated_at) {
+			List<MessageResult> messages, String created_at, String updated_at) {
 		super();
 		this.request_id = request_id;
 		this.status = status;
@@ -36,12 +36,25 @@ class FriendApproveResult {
 	}
 
 	public static FriendApproveResult dummy() {
-		return new FriendApproveResult("", "approved", ApproveMessagesResult.dummy(),
+		List<MessageResult> messages = new ArrayList<MessageResult>();
+		messages.add(new MessageResult(
+				"de305d54-75b4-431b-adb2-eb6b9e546013",
+				"de305d54-75b4-431b-adb2-eb6b9e546013",
+				"de305d54-75b4-431b-adb2-eb6b9e546013",
+				"http://upyun.com/puluo/xxxx", "http://upyun.com/puluo/xxxx",
+				"hi, this is Tracy!", "2012-01-01 12:00:00"));
+		messages.add(new MessageResult(
+				"de305d54-75b4-431b-adb2-eb6b9e546013",
+				"de305d54-75b4-431b-adb2-eb6b9e546013",
+				"de305d54-75b4-431b-adb2-eb6b9e546013",
+				"http://upyun.com/puluo/xxxx", "http://upyun.com/puluo/xxxx",
+				"hi, this is Tracy!", "2012-01-01 12:00:00"));
+		return new FriendApproveResult("", "approved", messages,
 				"2012-01-01 12:00:00", "2012-01-01 12:00:00");
 	}
 }
 
-class ApproveMessagesResult {
+/* class ApproveMessagesResult {
 	public String msg_id;
 	public String from_user;
 	public String to_user;
@@ -77,4 +90,4 @@ class ApproveMessagesResult {
 				"hi, this is Tracy!", "2012-01-01 12:00:00"));
 		return result;
 	}
-}
+} */

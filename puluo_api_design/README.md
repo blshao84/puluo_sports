@@ -581,7 +581,6 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				content:"hi, this is Tracy!",
-				approval:"pending",
 				created_at:"2012-01-01 12:00:00"
 			}
 		],

@@ -21,12 +21,12 @@ public class RequestFriendResult extends HasJSON {
 class FriendRequestResult {
 	public String request_id;
 	public String status;
-	public List<RequestMessagesResult> messages;
+	public List<MessageResult> messages;
 	public String created_at;
 	public String updated_at;
 	
 	public FriendRequestResult(String request_id, String status,
-			List<RequestMessagesResult> messages, String created_at, String updated_at) {
+			List<MessageResult> messages, String created_at, String updated_at) {
 		super();
 		this.request_id = request_id;
 		this.status = status;
@@ -36,12 +36,18 @@ class FriendRequestResult {
 	}
 
 	public static FriendRequestResult dummy() {
-		return new FriendRequestResult("", "pending", RequestMessagesResult.dummy(),
+		List<MessageResult> messages = new ArrayList<MessageResult>();
+		messages.add(new MessageResult("de305d54-75b4-431b-adb2-eb6b9e546013",
+				"de305d54-75b4-431b-adb2-eb6b9e546013",
+				"de305d54-75b4-431b-adb2-eb6b9e546013",
+				"http://upyun.com/puluo/xxxx", "http://upyun.com/puluo/xxxx",
+				"hi, this is Tracy!", "2012-01-01 12:00:00"));
+		return new FriendRequestResult("", "pending", messages,
 				"2012-01-01 12:00:00", "2012-01-01 12:00:00");
 	}
 }
 
-class RequestMessagesResult {
+/* class RequestMessagesResult {
 	public String msg_id;
 	public String from_user;
 	public String to_user;
@@ -74,4 +80,4 @@ class RequestMessagesResult {
 				"hi, this is Tracy!", "pending", "2012-01-01 12:00:00"));
 		return result;
 	}
-}
+} */

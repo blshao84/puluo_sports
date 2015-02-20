@@ -1,9 +1,7 @@
 package com.puluo.api.result;
 
-import com.puluo.util.HasJSON;
-
-public class SendMessageResult extends HasJSON {
-	public String msg_id;
+public class SendMessageResult extends MessageResult {
+	/* public String msg_id;
 	public String from_user;
 	public String to_user;
 	public String from_user_thumbnail;
@@ -22,8 +20,15 @@ public class SendMessageResult extends HasJSON {
 		this.to_user_thumbnail = to_user_thumbnail;
 		this.content = content;
 		this.created_at = created_at;
+	} */
+
+	public SendMessageResult(String msg_id, String from_user, String to_user,
+			String from_user_thumbnail, String to_user_thumbnail,
+			String content, String created_at) {
+		super(msg_id, from_user, to_user, from_user_thumbnail, to_user_thumbnail,
+				content, created_at);
 	}
-	
+
 	public static SendMessageResult dummy() {
 		return new SendMessageResult("de305d54-75b4-431b-adb2-eb6b9e546013",
 				"de305d54-75b4-431b-adb2-eb6b9e546013",

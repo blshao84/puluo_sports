@@ -218,7 +218,6 @@ public class PuluoAPIResultTest {
 						+"\"from_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 						+"\"to_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 						+"\"content\":\"hi, this is Tracy!\","
-						+"\"approval\":\"pending\","
 						+"\"created_at\":\"2012-01-01 12:00:00\""
 						+"}"
 					+"],"
@@ -355,5 +354,19 @@ public class PuluoAPIResultTest {
 				+"}";
 		String actualJsonResult = ListMessageResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
+	}
+	
+	public static void main(String[] args) {
+		PuluoAPIResultTest test = new PuluoAPIResultTest();
+		test.testApproveFriendResult();
+		System.out.println("testApproveFriendResult   DONE!");
+		test.testDenyFriendResult();
+		System.out.println("testDenyFriendResult      DONE!");
+		test.testListMessageResult();
+		System.out.println("testListMessageResult     DONE!");
+		test.testRequestFriendResult();
+		System.out.println("testRequestFriendResult   DONE!");
+		test.testSendMessageResult();
+		System.out.println("testSendMessageResult     DONE!");
 	}
 }

@@ -21,12 +21,12 @@ public class DenyFriendResult extends HasJSON {
 class FriendDenyResult {
 	public String request_id;
 	public String status;
-	public List<DenyMessagesResult> messages;
+	public List<MessageResult> messages;
 	public String created_at;
 	public String updated_at;
 	
 	public FriendDenyResult(String request_id, String status,
-			List<DenyMessagesResult> messages, String created_at, String updated_at) {
+			List<MessageResult> messages, String created_at, String updated_at) {
 		super();
 		this.request_id = request_id;
 		this.status = status;
@@ -36,12 +36,25 @@ class FriendDenyResult {
 	}
 
 	public static FriendDenyResult dummy() {
-		return new FriendDenyResult("", "denied", DenyMessagesResult.dummy(),
+		List<MessageResult> messages = new ArrayList<MessageResult>();
+		messages.add(new MessageResult(
+				"de305d54-75b4-431b-adb2-eb6b9e546013",
+				"de305d54-75b4-431b-adb2-eb6b9e546013",
+				"de305d54-75b4-431b-adb2-eb6b9e546013",
+				"http://upyun.com/puluo/xxxx", "http://upyun.com/puluo/xxxx",
+				"hi, this is Tracy!", "2012-01-01 12:00:00"));
+		messages.add(new MessageResult(
+				"de305d54-75b4-431b-adb2-eb6b9e546013",
+				"de305d54-75b4-431b-adb2-eb6b9e546013",
+				"de305d54-75b4-431b-adb2-eb6b9e546013",
+				"http://upyun.com/puluo/xxxx", "http://upyun.com/puluo/xxxx",
+				"hi, this is Tracy!", "2012-01-01 12:00:00"));
+		return new FriendDenyResult("", "denied", messages,
 				"2012-01-01 12:00:00", "2012-01-01 12:00:00");
 	}
 }
 
-class DenyMessagesResult {
+/* class DenyMessagesResult {
 	public String msg_id;
 	public String from_user;
 	public String to_user;
@@ -77,4 +90,4 @@ class DenyMessagesResult {
 				"hi, this is Tracy!", "2012-01-01 12:00:00"));
 		return result;
 	}
-}
+} */
