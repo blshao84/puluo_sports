@@ -26,7 +26,7 @@
 	<bean id="fileSource" class="com.jolbox.bonecp.BoneCPDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="org.h2.Driver" />
-		<property name="jdbcUrl" value="jdbc:h2:test/testdb" />
+		<property name="jdbcUrl" value="jdbc:h2:data/testdb" />
 	</bean>
 
 

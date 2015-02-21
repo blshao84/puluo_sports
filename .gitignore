@@ -37,23 +37,10 @@ sdklog/sdkclient_EMAYSDK_info
 
 src/main/webapp/.idea/*
 
-database/unit_test.trace.db
 
 .history
 
 .settings/org.eclipse.wst.xsl.core.prefs
-
-database/target/.history
-
-database/unit_test.trace.db
-
-database/unit_test.h2.db
-
-*.db
-
-O2OMall.sublime-project
-
-O2OMall.sublime-workspace
 
 *.class
 
