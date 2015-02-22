@@ -3,10 +3,10 @@ package com.puluo.entity.impl;
 import java.sql.Date;
 import java.sql.Time;
 
-import com.puluo.entity.PuluoPost;
+import com.puluo.entity.PuluoTimelinePost;
 
 
-public class PuluoPostImpl implements PuluoPost {
+public class PuluoPostImpl implements PuluoTimelinePost {
 
 	private String idpost;
 	private String textcontent;

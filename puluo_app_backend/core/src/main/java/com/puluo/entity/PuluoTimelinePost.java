@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 
 
-public interface PuluoPost {
+public interface PuluoTimelinePost {
 
 	String idPost();
 	String textContent();
