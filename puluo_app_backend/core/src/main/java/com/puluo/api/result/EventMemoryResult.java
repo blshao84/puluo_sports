@@ -3,13 +3,12 @@ package com.puluo.api.result;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.Gson;
 import com.puluo.util.HasJSON;
 
 
 public class EventMemoryResult extends HasJSON{
 
-	public List<String> memories = new ArrayList<String>();
+	public List<String> memories;
 	
 	public EventMemoryResult(ArrayList<String> memories) {
 		super();

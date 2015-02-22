@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+
 import org.joda.time.DateTime;
 
 public class TimeUtils {
@@ -38,5 +39,33 @@ public class TimeUtils {
         }
         return format;
     }
+    
+    public static DateTime parseDateTime(String dt) {
+		String[] dateTime = dt.split(" ");
+		if(dateTime.length ==2){
+			String dateString = dateTime[0];
+			String timeString = dateTime[1];
+			String[] dates = dateString.split("-");
+			String[] times = timeString.split(":");
+			if(dates.length==3 && times.length==3){
+				String yearString = dates[0];
+				String monthString = dates[1];
+				String dayString = dates[2];
+				String hourString = times[0];
+				String minString = times[1];
+				String secString = times[2];
+				
+				int year = Integer.parseInt(yearString);
+				int month = Integer.parseInt(monthString);
+				int day = Integer.parseInt(dayString);
+				int hour = Integer.parseInt(hourString);
+				int min = Integer.parseInt(minString);
+				int sec = Integer.parseInt(secString);
+				
+				return new DateTime(year,month,day,hour,min,sec);
+			} else return null;
+		} else return null;
+		
+	}
     
 }

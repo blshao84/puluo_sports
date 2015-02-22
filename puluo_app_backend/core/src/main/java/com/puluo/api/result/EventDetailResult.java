@@ -2,16 +2,14 @@ package com.puluo.api.result;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.joda.time.DateTime;
 
-import com.google.gson.Gson;
 import com.puluo.util.HasJSON;
 
 
 public class EventDetailResult extends HasJSON{
 	public String status;
 	public String event_name;
-	public DateTime event_time;
+	public String event_time;
 	public String address;
 	public String city;
 	public String phone;
@@ -26,7 +24,7 @@ public class EventDetailResult extends HasJSON{
 	public List<String> images;
 	
 	public EventDetailResult(String status,
-			String event_name, DateTime event_time, String address,
+			String event_name, String event_time, String address,
 			String city, String phone, String coach_name, String coach_uuid,
 			String thumbnail, int registered_users, int capacity, int likes,
 			EventLocationResult geo_location, String details, List<String> images) {
@@ -54,9 +52,9 @@ public class EventDetailResult extends HasJSON{
 		sample.add("http://upyun.com/puluo/image2.jpg");
 		
 		return new EventDetailResult("open", "Weapons of Ass Reduction", 
-				DateTime.parse("2012-01-01 12:00:00"), "888 Happy Mansion", "beijing", "86-555-5555",
+				"2012-01-01 12:00:00", "888 Happy Mansion", "beijing", "86-555-5555",
 				"Mr. Bob Smith", "de305d54-75b4-431b-adb2-eb6b9e546014", "http://upyun.com/puluo/head.jpg", 
-				22, 30, 2, EventLocationResult.dummy(), "Get fit with friends.", sample);
+				22, 30, 2,  new EventLocationResult("39.92889","116.38833"), "Get fit with friends.", sample);
 	}
 }
 
@@ -68,10 +66,5 @@ class EventLocationResult {
 		super();
 		this.latitude = latitude;
 		this.longitude = longitude;
-	}
-
-	public static EventLocationResult dummy() {
-		
-		return new EventLocationResult("39.92889","116.38833");
 	}
 }
