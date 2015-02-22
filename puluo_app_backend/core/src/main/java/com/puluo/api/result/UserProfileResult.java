@@ -3,6 +3,7 @@ package com.puluo.api.result;
 import com.google.gson.Gson;
 import com.puluo.util.HasJSON;
 
+
 public class UserProfileResult extends HasJSON{
 	public String uuid;
 	public UserPublicProfileResult public_info;
@@ -27,7 +28,6 @@ public class UserProfileResult extends HasJSON{
 				UserPrivateProfileResult.dummy(), "2012-01-01 12:00:00",
 				"2012-01-01 12:00:00");
 	}
-
 }
 
 class UserPublicProfileResult {

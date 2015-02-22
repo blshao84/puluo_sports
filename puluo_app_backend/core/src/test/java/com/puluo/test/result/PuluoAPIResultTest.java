@@ -2,11 +2,14 @@ package com.puluo.test.result;
 
 import static org.junit.Assert.assertEquals;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import com.puluo.api.result.ApproveFriendResult;
 import com.puluo.api.result.DeleteFriendResult;
 import com.puluo.api.result.DenyFriendResult;
+import com.puluo.api.result.EmailServiceResult;
+import com.puluo.api.result.EventDetailResult;
 import com.puluo.api.result.ListFriendsResult;
 import com.puluo.api.result.ListMessageResult;
 import com.puluo.api.result.RequestFriendResult;
@@ -20,6 +23,7 @@ import com.puluo.api.result.UserRegistrationResult;
 import com.puluo.api.result.UserSearchResult;
 import com.puluo.api.result.UserSettingResult;
 import com.puluo.api.result.UserSettingUpdateResult;
+import com.puluo.api.result.UserTimelineResult;
 
 public class PuluoAPIResultTest {
 
@@ -355,6 +359,92 @@ public class PuluoAPIResultTest {
 		String actualJsonResult = ListMessageResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
+	
+	/*@Test
+	public void testEventDetailResult(){	
+		String expectedJsonResult = 
+			"{"
+				+"\"status\":\"open\","
+				+"\"event_name\":\"Weapons of Ass Reduction\","
+				+"\"event_time\":\"2012-01-01 12:00:00\","
+				+"\"address\":\"888 Happy Mansion\","
+				+"\"city\":\"beijing\","
+				+"\"phone\":\"86-555-5555\","
+				+"\"coach_name\":\"Mr. Bob Smith\","
+				+"\"coach_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546014\","
+				+"\"thumbnail\":\"http://upyun.com/puluo/head.jpg\","
+				+"\"registered_users\":22,"
+				+"\"capacity\":30,"
+				+"\"likes\":2,"
+				+"\"geo_location\":{"
+				+ "\"latitude\":\"39.92889\","
+				+ "\"longitude\":\"116.38833\","
+				+ "},"
+				+"\"details\":\"Get fit with friends.\","
+				+ "\"images\":["
+					+ "{"
+						+"\"user_uuid\":\"http://upyun.com/puluo/image1.jpg\","
+					+ "},"
+					+ "{"
+						+"\"user_uuid\":\"http://upyun.com/puluo/image2.jpg\","
+					+ "}"
+				+ "]"
+			+"}";		
+		String actualJsonResult = EventDetailResult.dummy().toJson();
+		assertEquals(actualJsonResult, expectedJsonResult);
+	}
+	
+	@Test
+	public void testUserTimelineResult(){	
+		String expectedJsonResult = 
+			"{"
+				+"\"timeline_uuid\":,"
+				+"\"event\":{"
+				+ "\"event_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
+				+ "\"event_name\":\"Weapon of big ass reduction\","
+				+ "\"created_at\":\"2012-01-01 12:00:00\","
+				+ "},"
+				+"\"my_words\":\"This is an awesome event\","
+				+ "\"likes\":["
+					+ "{"
+						+"\"user_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
+						+"\"user_name\":\"Bob\","
+						+"\"created_at\":\"2012-01-01 12:00:00\","
+					+ "},"
+					+ "{"
+						+"\"user_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
+						+"\"user_name\":\"Bob\","
+						+"\"created_at\":\"2012-01-01 12:00:00\","
+					+ "}"
+				+ "]"
+				+ "\"comments\":["
+					+ "{"
+						+"\"comment_uuid\":,"
+						+"\"reply_to_uuid\":,"
+						+"\"user_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
+						+"\"user_name\":\"Bob\","
+						+"\"content\":,"
+						+"\"reply_to_uuid\":\"false\","
+						+"\"created_at\":\"2012-01-01 12:00:00\","
+					+ "},"
+				+ "]"
+				+"\"created_at\":\"Weapons of Ass Reduction\","
+				+"\"updated_at\":\"888 Happy Mansion\""
+			+"}";		
+		String actualJsonResult = UserTimelineResult.dummy().toJson();
+		assertEquals(actualJsonResult, expectedJsonResult);
+	}*/
+	
+	@Test
+	public void testEmailServiceResult(){
+		String expectedJsonResult = "{"
+					+"\"email\":\"bshao@163.com\","
+					+"\"status\":\"success\""
+				+"}";
+		String actualJsonResult = EmailServiceResult.dummy().toJson();
+		assertEquals(actualJsonResult, expectedJsonResult);
+	}
+	
 	
 	public static void main(String[] args) {
 		PuluoAPIResultTest test = new PuluoAPIResultTest();
