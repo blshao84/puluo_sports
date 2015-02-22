@@ -84,7 +84,7 @@ Successful login (or the user has already logged in) returns the user's uuid and
 * Entity: PuluoPrivateMessage
 * EntityDAO: 
   - PuluoPrivateMessage
-    + `public boolean saveMessage(message:PuluoPrivateMessage)`
+    + `public boolean saveMessage(PuluoPrivateMessage message)`
 
 ##### Delete Friend
 
@@ -101,9 +101,9 @@ Successful login (or the user has already logged in) returns the user's uuid and
 * Entity: PuluoPrivateMessage
 * EntityDAO: 
   - PuluoPrivateMessage
-    + `public updateMessage(message:PuluoPrivateMessage)`
-    + `public getFriendRequestMessage(String userUUID)`
-    + `public boolean saveMessage(message:PuluoPrivateMessage)`
+    + `public updateMessage(PuluoPrivateMessage message)`
+    + `public PuluoPrivateMessage getFriendRequestMessage(String userUUID)`
+    + `public boolean saveMessage(PuluoPrivateMessage message)`
 
 ##### Approve Friend 
 
@@ -111,10 +111,11 @@ Successful login (or the user has already logged in) returns the user's uuid and
 * Entity: PuluoPrivateMessage
 * EntityDAO: 
   - PuluoPrivateMessage
-    + `public updateMessage(message:PuluoPrivateMessage)`
-    + `public getFriendRequestMessage(String userUUID)`
-    + `public boolean saveMessage(message:PuluoPrivateMessage)`
-
+    + `public updateMessage(PuluoPrivateMessage message)`
+    + `public PuluoPrivateMessage getFriendRequestMessage(String userUUID)`
+    + `public boolean saveMessage(PuluoPrivateMessage message)`
+  - PuluoUserFriendship
+    + `public List<PuluoUserFriendship> addOneFriend(String userUUID, String frendUUID)`
 
 ### Message  
 
