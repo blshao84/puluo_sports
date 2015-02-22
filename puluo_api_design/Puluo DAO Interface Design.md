@@ -42,6 +42,7 @@ Successful login (or the user has already logged in) returns the user's uuid and
 
 
 ### User  
+
 ##### User Profile 
 
 * 功能：Get a user's complete profile
@@ -72,23 +73,47 @@ Successful login (or the user has already logged in) returns the user's uuid and
 ##### List Friends
 
 * 功能：Get a user's own friends list
+* Entity: PuluoUserFriendship
+* EntityDAO:
+  - PuluoUserFriendship
+    + `public List<PuluoUserFriendship> getFriendListByUUID(String uuid)`
 
 ##### Request Friend 
 
 * 功能：Send a private message of type 'FriendRequest' to another user
+* Entity: PuluoPrivateMessage
+* EntityDAO: 
+  - PuluoPrivateMessage
+    + `public boolean saveMessage(message:PuluoPrivateMessage)`
 
 ##### Delete Friend
 
 * 功能：De-friend two users. Delete all their past messages.
+* Entity: PuluoUserFriendship
+* EntityDAO:
+  - PuluoUserFriendship
+    + `public List<PuluoUserFriendship> deleteOneFriend(String userUUID, String frendUUID)`
+
 
 ##### Deny Friend 
 
 * 功能：Deny a friend request.
+* Entity: PuluoPrivateMessage
+* EntityDAO: 
+  - PuluoPrivateMessage
+    + `public updateMessage(message:PuluoPrivateMessage)`
+    + `public getFriendRequestMessage(String userUUID)`
+    + `public boolean saveMessage(message:PuluoPrivateMessage)`
 
 ##### Approve Friend 
 
 * 功能：Approve a friend request.
-
+* Entity: PuluoPrivateMessage
+* EntityDAO: 
+  - PuluoPrivateMessage
+    + `public updateMessage(message:PuluoPrivateMessage)`
+    + `public getFriendRequestMessage(String userUUID)`
+    + `public boolean saveMessage(message:PuluoPrivateMessage)`
 
 
 ### Message  
@@ -155,6 +180,10 @@ If keyword is not specified, return all events with sorting and filter.
 ##### Image Upload 
 
 * 功能：Upload images to server
+* Entity: PuluoEventPhoto
+* EntityDAO:
+  - PuluoEventPhoto
+    + `public boolean saveEventPhoto(PuluoEventPhoto photo)`
 
 ##### SMS  
 
