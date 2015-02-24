@@ -10,8 +10,8 @@ public class ListFriendsAPI extends PuluoAPI<ListFriendsResult> {
 	}
 
 	@Override
-	public ListFriendsResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 }

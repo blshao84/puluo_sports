@@ -19,9 +19,9 @@ public class UserSearchAPI extends PuluoAPI<UserSearchResult> {
 	}
 
 	@Override
-	public UserSearchResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }

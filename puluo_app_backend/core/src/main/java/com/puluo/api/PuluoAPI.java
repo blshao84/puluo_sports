@@ -4,11 +4,12 @@ import com.puluo.api.result.ApiErrorResult;
 import com.puluo.util.HasJSON;
 
 public abstract class PuluoAPI<R extends HasJSON> {
+	
+	protected R rawResult;
 
-	public abstract R rawResult();
-
+	public abstract void execute();
+	
 	public String result() {
-		R rawResult = rawResult();
 		if (rawResult != null)
 			return rawResult.toJson();
 		else

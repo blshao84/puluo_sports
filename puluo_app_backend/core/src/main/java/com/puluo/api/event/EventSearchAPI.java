@@ -30,8 +30,8 @@ public class EventSearchAPI extends PuluoAPI<EventSearchResult> {
 	}
 
 	@Override
-	public EventSearchResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 }

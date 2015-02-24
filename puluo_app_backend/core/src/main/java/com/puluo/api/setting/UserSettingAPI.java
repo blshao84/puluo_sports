@@ -22,10 +22,11 @@ public class UserSettingAPI extends PuluoAPI<UserSettingResult> {
 			this.uuid = mobileOrUUID;
 		}
 	}
+	
 	@Override
-	public UserSettingResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	private boolean isMobile(String m) {

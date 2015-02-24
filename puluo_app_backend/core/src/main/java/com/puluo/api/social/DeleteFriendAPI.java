@@ -12,9 +12,9 @@ public class DeleteFriendAPI extends PuluoAPI<DeleteFriendResult> {
 	}
 
 	@Override
-	public DeleteFriendResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }

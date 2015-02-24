@@ -12,7 +12,7 @@ import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
 
 public class DaoApi {
-	public static PuluoEventDao eventDao = BeanTestFactory.getBean(
+	public static PuluoEventDao eventDao = BeanFactory.getBean(
 			PuluoEventDao.class, "eventDao");
 	public static PuluoEventLocationDao eventLocationDao = BeanFactory.getBean(
 			PuluoEventLocationDao.class, "eventLocationDao");

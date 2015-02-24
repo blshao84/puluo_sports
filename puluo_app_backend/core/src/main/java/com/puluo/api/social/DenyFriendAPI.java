@@ -12,9 +12,9 @@ public class DenyFriendAPI extends PuluoAPI<DenyFriendResult> {
 	}
 
 	@Override
-	public DenyFriendResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }

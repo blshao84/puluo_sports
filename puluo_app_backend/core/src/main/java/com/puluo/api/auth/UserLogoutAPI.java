@@ -17,9 +17,9 @@ public class UserLogoutAPI extends PuluoAPI<UserLogoutResult> {
 
 
 	@Override
-	public UserLogoutResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }

@@ -18,9 +18,9 @@ public class UserPasswordUpdateAPI extends PuluoAPI<UserPasswordUpdateResult> {
 
 
 	@Override
-	public UserPasswordUpdateResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }

@@ -14,8 +14,8 @@ public class EmailServiceAPI extends PuluoAPI<EmailServiceResult> {
 	}
 
 	@Override
-	public EmailServiceResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 }

@@ -14,8 +14,8 @@ public class ImageUploadServiceAPI extends PuluoAPI<ImageUploadServiceResult> {
 	}
 
 	@Override
-	public ImageUploadServiceResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 }

@@ -12,9 +12,9 @@ public class ApproveFriendAPI extends PuluoAPI<ApproveFriendResult> {
 	}
 
 	@Override
-	public ApproveFriendResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }

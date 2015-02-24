@@ -17,8 +17,8 @@ public class UserSettingUpdateAPI extends PuluoAPI<UserSettingUpdateResult> {
 	}
 	
 	@Override
-	public UserSettingUpdateResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 }

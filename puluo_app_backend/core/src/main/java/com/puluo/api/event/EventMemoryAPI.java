@@ -16,8 +16,8 @@ public class EventMemoryAPI extends PuluoAPI<EventMemoryResult>{
 	}
 
 	@Override
-	public EventMemoryResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 }

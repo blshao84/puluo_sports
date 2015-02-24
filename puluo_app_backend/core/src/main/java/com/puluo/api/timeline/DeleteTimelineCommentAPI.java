@@ -14,8 +14,8 @@ public class DeleteTimelineCommentAPI extends PuluoAPI<DeleteTimelineCommentResu
 	}
 
 	@Override
-	public DeleteTimelineCommentResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 }

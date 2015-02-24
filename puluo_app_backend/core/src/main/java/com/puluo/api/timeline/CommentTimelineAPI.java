@@ -19,8 +19,8 @@ public class CommentTimelineAPI extends PuluoAPI<CommentTimelineResult> {
 	}
 
 	@Override
-	public CommentTimelineResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 }

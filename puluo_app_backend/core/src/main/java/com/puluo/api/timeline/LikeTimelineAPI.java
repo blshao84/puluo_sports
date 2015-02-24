@@ -14,8 +14,8 @@ public class LikeTimelineAPI extends PuluoAPI<LikeTimelineResult> {
 	}
 
 	@Override
-	public LikeTimelineResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 }

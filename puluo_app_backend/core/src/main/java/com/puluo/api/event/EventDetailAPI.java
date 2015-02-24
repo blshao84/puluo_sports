@@ -14,8 +14,8 @@ public class EventDetailAPI extends PuluoAPI<EventDetailResult> {
 	}
 
 	@Override
-	public EventDetailResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 }

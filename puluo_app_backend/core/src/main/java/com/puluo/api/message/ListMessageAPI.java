@@ -14,8 +14,8 @@ public class ListMessageAPI extends PuluoAPI<ListMessageResult> {
 	}
 
 	@Override
-	public ListMessageResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 }

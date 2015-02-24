@@ -25,9 +25,9 @@ public class UserProfileAPI extends PuluoAPI<UserProfileResult> {
 	}
 
 	@Override
-	public UserProfileResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	private boolean isMobile(String m) {

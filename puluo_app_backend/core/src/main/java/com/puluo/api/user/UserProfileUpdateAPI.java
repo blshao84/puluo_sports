@@ -37,9 +37,9 @@ public class UserProfileUpdateAPI extends PuluoAPI<UserProfileUpdateResult> {
 	}
 
 	@Override
-	public UserProfileUpdateResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }

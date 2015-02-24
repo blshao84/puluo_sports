@@ -11,7 +11,7 @@ public class ApiTest extends PuluoAPI<ApiTestResult> {
 	}
 
 	@Override
-	public ApiTestResult rawResult() {
-		return new ApiTestResult(msg);
+	public void execute() {
+		rawResult = new ApiTestResult(msg);
 	}
 }

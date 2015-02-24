@@ -14,8 +14,8 @@ public class SMSServiceAPI extends PuluoAPI<SMSServiceResult> {
 	}
 
 	@Override
-	public SMSServiceResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 }

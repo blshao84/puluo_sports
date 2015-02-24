@@ -12,9 +12,9 @@ public class RequestFriendAPI extends PuluoAPI<RequestFriendResult> {
 	}
 
 	@Override
-	public RequestFriendResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }

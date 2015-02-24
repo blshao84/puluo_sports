@@ -15,9 +15,9 @@ public class UserRegistrationAPI extends PuluoAPI<UserRegistrationResult> {
 	}
 
 	@Override
-	public UserRegistrationResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }

@@ -16,8 +16,8 @@ public class SendMessageAPI extends PuluoAPI<SendMessageResult> {
 	}
 
 	@Override
-	public SendMessageResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 }

@@ -16,8 +16,8 @@ public class UserTimelineAPI extends PuluoAPI<UserTimelineResult> {
 	}
 
 	@Override
-	public UserTimelineResult rawResult() {
+	public void execute() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 }
