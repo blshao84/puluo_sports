@@ -73,7 +73,7 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil {
     PuluoResponseFactory.createDummyJSONResponse(UserLogoutResult.dummy().toJson())
   }
 
-  private def doRegiste(params: Map[String, String]) = {
+  private def doRegister(params: Map[String, String]) = {
     val mobile = params("mobile")
     val password = params("password")
     val api = new UserRegistrationAPI(mobile,password)
