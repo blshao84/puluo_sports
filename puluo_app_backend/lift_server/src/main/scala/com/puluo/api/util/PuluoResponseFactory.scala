@@ -10,12 +10,19 @@ import com.puluo.api.PuluoAPI
 
 object PuluoResponseFactory {
 
-  def createJSONResponse(api:PuluoAPI[_], code: Int = 200): LiftResponse = {
+  implicit val formats = DefaultFormats
+
+  def createErrorResponse(response: ErrorResponseResult): LiftResponse = {
+    val jvalue = Serialization.write(response)
+    JsonResponse(jvalue, requestHeader, JsonResponse.cookies, 200)
+  }
+
+  def createJSONResponse(api: PuluoAPI[_], code: Int = 200): LiftResponse = {
     val jvalue = parse(api.result)
     JsonResponse(jvalue, requestHeader, JsonResponse.cookies, code)
   }
-  
-  def createDummyJSONResponse(jresult:String, code: Int = 200): LiftResponse = {
+
+  def createDummyJSONResponse(jresult: String, code: Int = 200): LiftResponse = {
     val jvalue = parse(jresult)
     JsonResponse(jvalue, requestHeader, JsonResponse.cookies, code)
   }
@@ -27,3 +34,5 @@ object PuluoResponseFactory {
     ("Request-ID", uuid)
   }
 }
+
+case class ErrorResponseResult(val id: String, val message: String, val url: String)
