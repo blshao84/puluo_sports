@@ -181,7 +181,7 @@ Currently, we only support text messages.
 * Entity: PuluoEvent
 * Entity DAO:
   - PuluoEvent
-    + `public PuluoEvent getEventDetails(String eventID)`
+    + `public PuluoEvent getEventDetails(String idevent)`
 
 
 ##### Event Memory 
@@ -190,7 +190,7 @@ Currently, we only support text messages.
 * Entity: PuluoEvent
 * Entity DAO:
   - PuluoEvent
-    + `public PuluoPaymentAPI registerEvent(String userUUID, PuluoEvent event)`
+    + `public PuluoEventPhoto[] getEventPhotos(String idevent)`
 
 
 ##### Events Search 
@@ -200,7 +200,7 @@ If keyword is not specified, return all events with sorting and filter.
 * Entity: PuluoEvent
 * Entity DAO:
   - PuluoEvent
-    + `public PuluoPaymentAPI registerEvent(String userUUID, PuluoEvent event)`
+    + `public PuluoEvent[] findEvents(String name, String description, int max_count)`
 
 
 
@@ -209,25 +209,45 @@ If keyword is not specified, return all events with sorting and filter.
 ##### User Timeline
 
 * 功能：Get a list of events user attended/to attend
+* Entity: PuluoTimelinePost
+* Entity DAO:
+  - PuluoTimelinePost
+    + `public PuluoTimelinePost[] getUserTimeline(String userUUID)`
 
 
 ##### Like Timeline
 
 * 功能：Like an event on a user's timeline
+* Entity: PuluoTimelinePost
+* Entity DAO:
+  - PuluoTimelinePost
+    + `public String likeUserTimeline(String idpost)`
 
 
 ##### Remove Timeline Like
 
 * 功能：Remove a like to an event on a user's timeline
+* Entity: PuluoTimelinePost
+* Entity DAO:
+  - PuluoTimelinePost
+    + `public String removeLikeUserTimeline(String idpost)`
 
 
 ##### Comment Timeline
 
 * 功能：Add a new comment or reply to a comment from user's timeline
+* Entity: PuluoPostComment
+* Entity DAO:
+  - PuluoPostComment
+    + `public String commentUserTimeline(String idpost)`
 
 
 ##### Delete Timeline Comment
 * 功能：Delete a comment from user's timeline
+* Entity: PuluoPostComment
+* Entity DAO:
+  - PuluoPostComment
+    + `public String removeCommentUserTimeline(String idpost)`
 
 
 
