@@ -16,25 +16,14 @@ import net.liftweb.http.S
 import net.liftweb.common.Full
 import net.liftweb.common.Empty
 import com.puluo.api.util.ErrorResponseResult
+import com.puluo.api.util.PuluoAPIUtil
 
-object PuluoAuthAPI extends RestHelper {
+object PuluoAuthAPI extends RestHelper with PuluoAPIUtil {
   serve {
     case "users" :: "login" :: Nil Post _ => {
-      (S.param("mobile"), S.param("password")) match {
-        case (Full(mobile), Full(password)) => doLogin(mobile,password)
-        case (Empty, _) => {
-          val error = ErrorResponseResult("login", "missing mobile", "")
-          PuluoResponseFactory.createErrorResponse(error)
-        }
-        case (_, Empty) => {
-          val error = ErrorResponseResult("login", "missing password", "")
-          PuluoResponseFactory.createErrorResponse(error)
-        }
-        case _ => {
-          val error = ErrorResponseResult("login", "unknown errors", "")
-          PuluoResponseFactory.createErrorResponse(error)
-        }
-      }
+      callWithParam(Map(
+        "mobile" -> ErrorResponseResult("login", "missing mobile", ""),
+        "password" -> ErrorResponseResult("login", "missing password", "")))(doLogin)
     }
     case "users" :: "logout" :: Nil Post _ => {
       PuluoSession(SessionInfo(None))
@@ -46,10 +35,26 @@ object PuluoAuthAPI extends RestHelper {
     case "users" :: "credential" :: "update" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(UserPasswordUpdateResult.dummy().toJson())
     }
+    case "dummy" :: "users" :: "login" :: Nil Post _ => {
+      PuluoSession(SessionInfo(Some(new UserLoginAPI("","").obtainSession())))
+      PuluoResponseFactory.createDummyJSONResponse(UserLoginResult.dummy().toJson(), 201)
+    }
+    case "dummy" :: "users" :: "logout" :: Nil Post _ => {
+      PuluoSession(SessionInfo(None))
+      PuluoResponseFactory.createDummyJSONResponse(UserLogoutResult.dummy().toJson())
+    }
+    case "dummy" :: "users" :: "register" :: Nil Put _ => {
+      PuluoResponseFactory.createDummyJSONResponse(UserRegistrationResult.dummy().toJson(), 201)
+    }
+    case "dummy" :: "users" :: "credential" :: "update" :: Nil Post _ => {
+      PuluoResponseFactory.createDummyJSONResponse(UserPasswordUpdateResult.dummy().toJson())
+    }
 
   }
 
-  private def doLogin(mobile: String, password: String) = {
+  private def doLogin(params: Map[String, String]) = {
+    val mobile = params("mobile")
+    val password = params("password")
     val api = new UserLoginAPI(mobile, password)
     val sessionOpt = api.obtainSession
     val session = if (sessionOpt == null) None else Some(sessionOpt)

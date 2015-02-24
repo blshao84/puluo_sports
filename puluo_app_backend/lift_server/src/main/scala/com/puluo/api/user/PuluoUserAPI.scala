@@ -28,5 +28,21 @@ object PuluoUserAPI extends RestHelper {
     case "users" :: "setting" :: "update" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(UserSettingUpdateResult.dummy().toJson())
     }
+    
+        case "dummy" ::"users" :: mobileOrUUID :: Nil Get _ => {
+      PuluoResponseFactory.createDummyJSONResponse(UserProfileResult.dummy().toJson())
+    }
+    case "dummy" ::"users" :: "update" :: Nil Post _ => {
+      PuluoResponseFactory.createDummyJSONResponse(UserProfileUpdateResult.dummy().toJson())
+    }
+    case "dummy" ::"users" :: "search" :: Nil Post _ => {
+      PuluoResponseFactory.createDummyJSONResponse(UserSearchResult.dummy().toJson())
+    }
+    case "dummy" ::"users" :: "privacy" :: mobileOrUUID :: Nil Get _ => {
+      PuluoResponseFactory.createDummyJSONResponse(UserSettingResult.dummy().toJson())
+    }
+    case "dummy" ::"users" :: "setting" :: "update" :: Nil Post _ => {
+      PuluoResponseFactory.createDummyJSONResponse(UserSettingUpdateResult.dummy().toJson())
+    }
   }
 }

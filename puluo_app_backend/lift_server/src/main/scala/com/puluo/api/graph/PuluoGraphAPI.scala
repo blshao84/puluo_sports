@@ -28,5 +28,21 @@ object PuluoGraphAPI extends RestHelper {
     case "users" :: "friends" :: "approve" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(ApproveFriendResult.dummy().toJson())
     }
+    
+        case "dummy" ::"users" :: "friends" :: Nil Get _ => {
+      PuluoResponseFactory.createDummyJSONResponse(ListFriendsResult.dummy().toJson())
+    }
+    case "dummy" ::"users" :: "friends" :: "request" :: Nil Put _ => {
+      PuluoResponseFactory.createDummyJSONResponse(RequestFriendResult.dummy().toJson())
+    }
+    case "dummy" ::"users" :: "friends" :: "delete" :: Nil Post _ => {
+      PuluoResponseFactory.createDummyJSONResponse(DeleteFriendResult.dummy().toJson())
+    }
+    case "dummy" ::"users" :: "friends" :: "deny" :: Nil Post _ => {
+      PuluoResponseFactory.createDummyJSONResponse(DenyFriendResult.dummy().toJson())
+    }
+    case "dummy" ::"users" :: "friends" :: "approve" :: Nil Post _ => {
+      PuluoResponseFactory.createDummyJSONResponse(ApproveFriendResult.dummy().toJson())
+    }
   }
 }

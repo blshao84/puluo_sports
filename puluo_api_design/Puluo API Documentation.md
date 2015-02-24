@@ -1,12 +1,14 @@
 # HTTP API Design Guide
 
-## Introduction
-
 This guide describes the design of Puluo APIs: common practices among all APIs and each API's input/output format. 
 The primary purpose of this set of APIs is to support front-end mobile applications. 
 
 ### Overview  
 This section describes how Puluo API works in general and practices we use among all APIs.
+
+##### Dummy Result
+All APIs have a dummy counterpart which returns hard-coded json response for testing and development. For example, if the API's URL is '/users/login', it's dummy API's path is '/dummy/users/login'. In addition, responses returned by dummy interfaces are not consistent nor meaningful. It's primarily to illustrate data format. For example, almost for all types uuids, dummy APIs use the same string.  
+
 ##### Authentication  
 We use session based authentication for all APIs. 
 Each request must be through an authenticated, non-expired session, 

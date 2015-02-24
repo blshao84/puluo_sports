@@ -27,5 +27,21 @@ object PuluoTimelineAPI extends RestHelper {
     case "users" :: "timeline" :: "comment" :: "delete" :: Nil Put _ => {
       PuluoResponseFactory.createDummyJSONResponse(DeleteTimelineCommentResult.dummy().toJson())
     }
+    
+        case "dummy" ::"users" :: "timeline" :: Nil Post _ => {
+      PuluoResponseFactory.createDummyJSONResponse(UserTimelineResult.dummy().toJson())
+    }
+    case "dummy" ::"users" :: "timeline" :: "like" :: Nil Post _ => {
+      PuluoResponseFactory.createDummyJSONResponse(LikeTimelineResult.dummy().toJson())
+    }
+    case "dummy" ::"users" :: "timeline" :: "delike" :: Nil Post _ => {
+      PuluoResponseFactory.createDummyJSONResponse(LikeTimelineResult.dummy().toJson())
+    }
+    case "dummy" ::"users" :: "timeline" :: "comment" :: Nil Put _ => {
+      PuluoResponseFactory.createDummyJSONResponse(CommentTimelineResult.dummy().toJson())
+    }
+    case "dummy" ::"users" :: "timeline" :: "comment" :: "delete" :: Nil Put _ => {
+      PuluoResponseFactory.createDummyJSONResponse(DeleteTimelineCommentResult.dummy().toJson())
+    }
   }
 }

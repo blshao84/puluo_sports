@@ -20,5 +20,15 @@ object PuluoServiceAPI extends RestHelper {
     case "services" :: "sms" :: Nil Put _ => {
       PuluoResponseFactory.createDummyJSONResponse(SMSServiceResult.dummy().toJson(),201)
     }
+    
+        case "dummy" ::"services" :: "email" :: Nil Put _ => {
+      PuluoResponseFactory.createDummyJSONResponse(EmailServiceResult.dummy().toJson(),201)
+    }
+    case "dummy" ::"services" :: "images" :: Nil Post _ => {
+      PuluoResponseFactory.createDummyJSONResponse(ImageUploadServiceResult.dummy().toJson(),201)
+    }
+    case "dummy" ::"services" :: "sms" :: Nil Put _ => {
+      PuluoResponseFactory.createDummyJSONResponse(SMSServiceResult.dummy().toJson(),201)
+    }
   }
 }
