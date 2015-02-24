@@ -1,5 +1,5 @@
 # HTTP API Design Guide
-
+    
 This guide describes the design of Puluo APIs: common practices among all APIs and each API's input/output format. 
 The primary purpose of this set of APIs is to support front-end mobile applications. 
 
