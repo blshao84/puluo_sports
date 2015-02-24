@@ -63,7 +63,7 @@ Successful login (or the user has already logged in) returns the user's uuid and
 * Entity DAO:
   - PuluoUser
     + `public PuluoUser getByUUID(String uuid)`
-    + `public boolean updateUserProfile(PuluoUser user, PuluoUser newuser)`
+    + `public String updateUserProfile(PuluoUser olduser, PuluoUser newuser)`
 
 
 ##### User Search  
@@ -169,7 +169,7 @@ Currently, we only support text messages.
 ##### Event Registration 
 
 * 功能：Create orders and returns links to alipay
-* Entity: PuluoEvent, PuluoUser
+* Entity: PuluoEvent
 * Entity DAO:
   - PuluoEvent
     + `public PuluoPaymentAPI registerEvent(String userUUID, PuluoEvent event)`
@@ -178,17 +178,29 @@ Currently, we only support text messages.
 ##### Event Detail 
 
 * 功能：Get detail information of an event
+* Entity: PuluoEvent
+* Entity DAO:
+  - PuluoEvent
+    + `public PuluoEvent getEventDetails(String eventID)`
 
 
 ##### Event Memory 
 
 * 功能：Get list of user image links of an event
+* Entity: PuluoEvent
+* Entity DAO:
+  - PuluoEvent
+    + `public PuluoPaymentAPI registerEvent(String userUUID, PuluoEvent event)`
 
 
 ##### Events Search 
 
 * 功能：If keyword is specified, search events from name and description and then return 'max_count' sorted and filtered events from the 'n'-th item.
 If keyword is not specified, return all events with sorting and filter.
+* Entity: PuluoEvent
+* Entity DAO:
+  - PuluoEvent
+    + `public PuluoPaymentAPI registerEvent(String userUUID, PuluoEvent event)`
 
 
 
@@ -238,4 +250,3 @@ If keyword is not specified, return all events with sorting and filter.
 ##### SMS  
 
 * 功能：Send notification SMS to users
-
