@@ -30,13 +30,18 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil {
       PuluoResponseFactory.createDummyJSONResponse(UserLogoutResult.dummy().toJson())
     }
     case "users" :: "register" :: Nil Put _ => {
-      PuluoResponseFactory.createDummyJSONResponse(UserRegistrationResult.dummy().toJson(), 201)
+      callWithParam(Map(
+        "mobile" -> ErrorResponseResult("register", "missing mobile", ""),
+        "password" -> ErrorResponseResult("register", "missing password", "")))(doRegister)
     }
     case "users" :: "credential" :: "update" :: Nil Post _ => {
-      PuluoResponseFactory.createDummyJSONResponse(UserPasswordUpdateResult.dummy().toJson())
+      callWithParam(Map(
+        "new_password" -> ErrorResponseResult("update password", "missing new password", ""),
+        "password" -> ErrorResponseResult("update password", "missing password", "")))(doUpdatePassword)
+
     }
     case "dummy" :: "users" :: "login" :: Nil Post _ => {
-      PuluoSession(SessionInfo(Some(new UserLoginAPI("","").obtainSession())))
+      PuluoSession(SessionInfo(Some(new UserLoginAPI("", "").obtainSession())))
       PuluoResponseFactory.createDummyJSONResponse(UserLoginResult.dummy().toJson(), 201)
     }
     case "dummy" :: "users" :: "logout" :: Nil Post _ => {
@@ -60,5 +65,26 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil {
     val session = if (sessionOpt == null) None else Some(sessionOpt)
     PuluoSession(SessionInfo(session))
     PuluoResponseFactory.createDummyJSONResponse(UserLoginResult.dummy().toJson(), 201)
+  }
+
+  private def doLogout = {
+    val api = new UserLogoutAPI(PuluoSession.session)
+    PuluoSession(SessionInfo(None))
+    PuluoResponseFactory.createDummyJSONResponse(UserLogoutResult.dummy().toJson())
+  }
+
+  private def doRegiste(params: Map[String, String]) = {
+    val mobile = params("mobile")
+    val password = params("password")
+    val api = new UserRegistrationAPI(mobile,password)
+    PuluoResponseFactory.createDummyJSONResponse(UserRegistrationResult.dummy().toJson(), 201)
+  }
+
+  private def doUpdatePassword(params: Map[String, String]) = {
+    val newPassword = params("new_password")
+    val password = params("password")
+    val uuid = PuluoSession.userUUID
+    val api = new UserPasswordUpdateAPI(uuid,password,newPassword)
+    PuluoResponseFactory.createDummyJSONResponse(UserPasswordUpdateResult.dummy().toJson())
   }
 }

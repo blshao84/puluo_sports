@@ -8,6 +8,8 @@ import net.liftweb.http.SessionVar
  */
 object PuluoSession extends SessionVar(SessionInfo(None)){
   def login = is.session.isDefined
+  def userUUID = session.userUUID()
+  def session = is.session.get
 }
 
 case class SessionInfo(val session:Option[com.puluo.entity.PuluoSession])

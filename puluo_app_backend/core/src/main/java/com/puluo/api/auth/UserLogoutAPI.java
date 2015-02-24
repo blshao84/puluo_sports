@@ -2,18 +2,17 @@ package com.puluo.api.auth;
 
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.UserLogoutResult;
+import com.puluo.entity.PuluoSession;
 
 public class UserLogoutAPI extends PuluoAPI<UserLogoutResult> {
 
-	/**
-	 * user uuid
-	 */
-	public String uuid;
+
+	public PuluoSession session;
 	
 	
-	public UserLogoutAPI(String uuid) {
+	public UserLogoutAPI(PuluoSession session) {
 		super();
-		this.uuid = uuid;
+		this.session = session;
 	}
 
 
