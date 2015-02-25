@@ -1,6 +1,6 @@
 package com.puluo.entity;
 
-public interface PuluoEventLocation {
+public interface PuluoEventLocation { // TODO fix me
 
 	String idLocation();
 	String address();

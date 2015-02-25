@@ -1,6 +1,6 @@
 package com.puluo.entity;
 
-public interface PuluoEventPhoto {
+public interface PuluoEventPhoto { // TODO fix me
 
 	String idPhoto();
 	int sequence();

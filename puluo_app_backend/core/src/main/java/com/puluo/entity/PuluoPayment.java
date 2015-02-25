@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 
 
-public interface PuluoPayment {
+public interface PuluoPayment { // TODO fix me
 
 	String idPayment();
 	float amount();

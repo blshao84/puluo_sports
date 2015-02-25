@@ -8,11 +8,16 @@ public interface PuluoPrivateMessage {
 
 	String idMessage();
 	String textContent();
-	String imgContent();
-	Date msgDate();
+	String imgContent(); // TODO fix me
+	Date msgDate(); // TODO fix me
 	Time msgTime();
-	int type();
-	int direction();
-	String idUser();
-	String idFriend();
+	int type(); // TODO fix me
+	int direction(); // TODO fix me
+	String idUser(); // TODO fix me
+	String idFriend(); // TODO fix me
+	
+	String fromUserId();
+	String toUserid();
+	String fromUserThumbnail();
+	String toUserThumbnail();
 }

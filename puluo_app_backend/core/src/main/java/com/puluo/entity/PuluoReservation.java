@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 
 
-public interface PuluoReservation {
+public interface PuluoReservation { // TODO fix me
 
 	String idreservation();
 	Date res_date();
