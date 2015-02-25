@@ -1,130 +1,70 @@
 package com.puluo.entity.impl;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.util.List;
 
+import org.joda.time.DateTime;
+
+import com.puluo.entity.PuluoEvent;
+import com.puluo.entity.PuluoPostComment;
+import com.puluo.entity.PuluoTimelineLike;
 import com.puluo.entity.PuluoTimelinePost;
 
 
 public class PuluoPostImpl implements PuluoTimelinePost {
-
-	private String idpost;
-	private String textcontent;
-	private String imgcontent;
-	private Date post_date;
-	private Time post_time;
-	private int type;
-	private String[] post_commentid;
+	
+	protected String uuid;
+	protected String eventUUID;
+	protected String timelineContent;
+	protected DateTime creationTimestamp;
+	protected DateTime upDateTimestamp;
 	
 	
-	public PuluoPostImpl() {}
-	
-	public PuluoPostImpl(String idpost, String textcontent, String imgcontent,
-			Date post_date, Time post_time, int type, String[] post_commentid) {
-		this.idpost = idpost;
-		this.textcontent = textcontent;
-		this.imgcontent = imgcontent;
-		this.post_date = post_date;
-		this.post_time = post_time;
-		this.type = type;
-		this.post_commentid = post_commentid;
+	public PuluoPostImpl(String uuid, String eventUUID, String timelineContent,
+			DateTime creationTimestamp, DateTime upDateTimestamp) {
+		super();
+		this.uuid = uuid;
+		this.eventUUID = eventUUID;
+		this.timelineContent = timelineContent;
+		this.creationTimestamp = creationTimestamp;
+		this.upDateTimestamp = upDateTimestamp;
 	}
-	
+
 	@Override
-	public String idPost() {
-		// TODO Auto-generated method stub
-		return idpost;
+	public String timelineUUID() {
+		return uuid;
 	}
 	
-	@Override
-	public String textContent() {
-		// TODO Auto-generated method stub
-		return textcontent;
-	}
 
 	@Override
-	public String imgContent() {
-		// TODO Auto-generated method stub
-		return imgcontent;
+	public String content() {
+		return timelineContent;
 	}
 
+
 	@Override
-	public Date postDate() {
-		// TODO Auto-generated method stub
-		return post_date;
+	public DateTime createdAt() {
+		return creationTimestamp;
 	}
 
 	@Override
-	public Time postTime() {
-		// TODO Auto-generated method stub
-		return post_time;
+	public DateTime updatedAt() {
+		return upDateTimestamp;
+	}
+	
+	//TODO: the following methods need using id to fetch information from other tables
+	@Override
+	public PuluoEvent event() {
+		return null;
 	}
 
 	@Override
-	public int type() {
-		// TODO Auto-generated method stub
-		return type;
+	public List<PuluoTimelineLike> likes() {
+		return null;
 	}
 
 	@Override
-	public String[] postCommentId() {
-		// TODO Auto-generated method stub
-		return post_commentid;
+	public List<PuluoPostComment> comments() {
+		return null;
 	}
 
-	protected String getIdPost() {
-		return idpost;
-	}
-
-	public void setIdPost(String idpost) {
-		this.idpost = idpost;
-	}
-
-	protected String getTextContent() {
-		return textcontent;
-	}
-
-	public void setTextContent(String textcontent) {
-		this.textcontent = textcontent;
-	}
-
-	protected String getImgContent() {
-		return imgcontent;
-	}
-
-	public void setImgContent(String imgcontent) {
-		this.imgcontent = imgcontent;
-	}
-
-	protected Date getPostDate() {
-		return post_date;
-	}
-
-	public void setPostDate(Date post_date) {
-		this.post_date = post_date;
-	}
-
-	protected Time getPostTime() {
-		return post_time;
-	}
-
-	public void setPostTime(Time post_time) {
-		this.post_time = post_time;
-	}
-
-	protected int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
-	}
-
-	protected String[] getPostCommentId() {
-		return post_commentid;
-	}
-
-	public void setPostCommentId(String[] post_commentid) {
-		this.post_commentid = post_commentid;
-	}
 }

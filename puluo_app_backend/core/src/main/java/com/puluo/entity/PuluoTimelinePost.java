@@ -1,16 +1,18 @@
 package com.puluo.entity;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.util.List;
+
+import org.joda.time.DateTime;
+
 
 
 public interface PuluoTimelinePost {
 
-	String idPost();
-	String textContent();
-	String imgContent();
-	Date postDate();
-	Time postTime();
-	int type();
-	String[] postCommentId();
+	public String timelineUUID();
+	public PuluoEvent event();
+	public String content();
+	public List<PuluoTimelineLike> likes();
+	public List<PuluoPostComment> comments();
+	public DateTime createdAt();
+	public DateTime updatedAt();
 }
