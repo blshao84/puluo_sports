@@ -2,7 +2,6 @@ package com.puluo.entity.impl;
 
 import com.puluo.entity.PuluoEventLocation;
 
-
 public class PuluoEventLocationImpl implements PuluoEventLocation {
 
 	private String idlocation;
@@ -12,10 +11,10 @@ public class PuluoEventLocationImpl implements PuluoEventLocation {
 	private int court;
 	private int capacity;
 	private int type;
-	
-	
-	public PuluoEventLocationImpl() {}
-	
+
+	public PuluoEventLocationImpl() {
+	}
+
 	public PuluoEventLocationImpl(String idlocation, String address,
 			String zip, String name, int court, int capacity, int type) {
 		this.idlocation = idlocation;
@@ -26,7 +25,7 @@ public class PuluoEventLocationImpl implements PuluoEventLocation {
 		this.capacity = capacity;
 		this.type = type;
 	}
-	
+
 	@Override
 	public String idLocation() {
 		// TODO Auto-generated method stub
@@ -69,4 +68,4 @@ public class PuluoEventLocationImpl implements PuluoEventLocation {
 		return type;
 	}
 
-	}
+}
