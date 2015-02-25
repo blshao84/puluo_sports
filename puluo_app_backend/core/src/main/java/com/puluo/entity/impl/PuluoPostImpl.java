@@ -5,25 +5,27 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import com.puluo.entity.PuluoEvent;
-import com.puluo.entity.PuluoPostComment;
+import com.puluo.entity.PuluoTimelineComment;
 import com.puluo.entity.PuluoTimelineLike;
 import com.puluo.entity.PuluoTimelinePost;
-
+import com.puluo.entity.PuluoUser;
 
 public class PuluoPostImpl implements PuluoTimelinePost {
-	
+
 	protected String uuid;
 	protected String eventUUID;
+	protected String ownerUUID;
 	protected String timelineContent;
 	protected DateTime creationTimestamp;
 	protected DateTime upDateTimestamp;
-	
-	
-	public PuluoPostImpl(String uuid, String eventUUID, String timelineContent,
-			DateTime creationTimestamp, DateTime upDateTimestamp) {
+
+	public PuluoPostImpl(String uuid, String eventUUID, String ownerUUID,
+			String timelineContent, DateTime creationTimestamp,
+			DateTime upDateTimestamp) {
 		super();
 		this.uuid = uuid;
 		this.eventUUID = eventUUID;
+		this.ownerUUID = ownerUUID;
 		this.timelineContent = timelineContent;
 		this.creationTimestamp = creationTimestamp;
 		this.upDateTimestamp = upDateTimestamp;
@@ -33,13 +35,11 @@ public class PuluoPostImpl implements PuluoTimelinePost {
 	public String timelineUUID() {
 		return uuid;
 	}
-	
 
 	@Override
 	public String content() {
 		return timelineContent;
 	}
-
 
 	@Override
 	public DateTime createdAt() {
@@ -50,8 +50,14 @@ public class PuluoPostImpl implements PuluoTimelinePost {
 	public DateTime updatedAt() {
 		return upDateTimestamp;
 	}
+
+	// TODO: the following methods need using id to fetch information from other
+	// tables
+	@Override
+	public PuluoUser owner() {
+		return null;
+	}
 	
-	//TODO: the following methods need using id to fetch information from other tables
 	@Override
 	public PuluoEvent event() {
 		return null;
@@ -63,7 +69,7 @@ public class PuluoPostImpl implements PuluoTimelinePost {
 	}
 
 	@Override
-	public List<PuluoPostComment> comments() {
+	public List<PuluoTimelineComment> comments() {
 		return null;
 	}
 

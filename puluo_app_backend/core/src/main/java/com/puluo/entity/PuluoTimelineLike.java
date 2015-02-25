@@ -5,7 +5,9 @@ import org.joda.time.DateTime;
 public interface PuluoTimelineLike {
 	
 	public String userUUID();
+	public String timelineUUID();
 	public String userName();
 	public DateTime createdAt();
-	
+	public PuluoTimelinePost timeline();
+	public PuluoUser user();
 }

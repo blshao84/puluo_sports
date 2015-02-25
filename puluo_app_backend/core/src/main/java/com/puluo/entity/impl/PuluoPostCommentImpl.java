@@ -1,131 +1,75 @@
 package com.puluo.entity.impl;
 
-import java.sql.Date;
-import java.sql.Time;
+import org.joda.time.DateTime;
 
-import com.puluo.entity.PuluoPostComment;
+import com.puluo.entity.PuluoTimelineComment;
+import com.puluo.entity.PuluoTimelinePost;
+import com.puluo.entity.PuluoUser;
 
+public class PuluoPostCommentImpl implements PuluoTimelineComment {
 
-public class PuluoPostCommentImpl implements PuluoPostComment {
+	private final String uuid;
+	private final String timeline_uuid;
+	private final String fromUser_uuid;
+	private final String toUser_uuid;
+	private final String comment_content;
+	private final DateTime creationTimestamp;
+	private final boolean read;
 
-	private String idcomment;
-	private Date comment_date;
-	private Time comment_time;
-	private String content;
-	private String idpost;
-	private String from;
-	private String to;
-	
-
-	public PuluoPostCommentImpl() {}
-	
-	public PuluoPostCommentImpl(String idcomment, Date comment_date,
-			Time comment_time, String content, String idpost, String from,
-			String to) {
-		this.idcomment = idcomment;
-		this.comment_date = comment_date;
-		this.comment_time = comment_time;
-		this.content = content;
-		this.idpost = idpost;
-		this.from = from;
-		this.to = to;
-	}
-	
-	@Override
-	public String idComment() {
-		// TODO Auto-generated method stub
-		return idcomment;
+	public PuluoPostCommentImpl(String uuid, String timeline_uuid,
+			String fromUser_uuid, String toUser_uuid, String comment_content,
+			DateTime creationTimestamp, boolean read) {
+		super();
+		this.uuid = uuid;
+		this.timeline_uuid = timeline_uuid;
+		this.fromUser_uuid = fromUser_uuid;
+		this.toUser_uuid = toUser_uuid;
+		this.comment_content = comment_content;
+		this.creationTimestamp = creationTimestamp;
+		this.read = read;
 	}
 
 	@Override
-	public Date commentDate() {
-		// TODO Auto-generated method stub
-		return comment_date;
+	public String commentUUID() {
+		return uuid;
 	}
 
 	@Override
-	public Time commentTime() {
-		// TODO Auto-generated method stub
-		return comment_time;
+	public String toUserName() {
+		return toUser().name();
 	}
 
 	@Override
 	public String content() {
-		// TODO Auto-generated method stub
-		return content;
+		return comment_content;
 	}
 
 	@Override
-	public String idPost() {
-		// TODO Auto-generated method stub
-		return idpost;
+	public boolean isRead() {
+		return read;
 	}
 
 	@Override
-	public String from() {
+	public DateTime createdAt() {
+		return creationTimestamp;
+	}
+	
+	@Override
+	public PuluoTimelinePost timeline() {
 		// TODO Auto-generated method stub
-		return from;
+		return null;
 	}
 
 	@Override
-	public String to() {
+	public PuluoUser fromUser() {
 		// TODO Auto-generated method stub
-		return to;
+		return null;
 	}
 
-	protected String getIdComment() {
-		return idcomment;
+	@Override
+	public PuluoUser toUser() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public void setIdComment(String idcomment) {
-		this.idcomment = idcomment;
-	}
-
-	protected Date getCommentDate() {
-		return comment_date;
-	}
-
-	public void setCommentDate(Date comment_date) {
-		this.comment_date = comment_date;
-	}
-
-	protected Time getCommentTime() {
-		return comment_time;
-	}
-
-	public void setCommentTime(Time comment_time) {
-		this.comment_time = comment_time;
-	}
-
-	protected String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	protected String getIdPost() {
-		return idpost;
-	}
-
-	public void setIdPost(String idpost) {
-		this.idpost = idpost;
-	}
-
-	protected String getFrom() {
-		return from;
-	}
-
-	public void setFrom(String from) {
-		this.from = from;
-	}
-
-	protected String getTo() {
-		return to;
-	}
-
-	public void setTo(String to) {
-		this.to = to;
-	}
 }
