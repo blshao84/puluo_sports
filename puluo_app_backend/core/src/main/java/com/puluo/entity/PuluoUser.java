@@ -1,6 +1,6 @@
 package com.puluo.entity;
 
-import java.sql.Date;
+import org.joda.time.LocalDate;
 
 
 public interface PuluoUser {
@@ -12,7 +12,7 @@ public interface PuluoUser {
 	String name();
 	String phone();
 	String email();
-	Date birthday();
+	LocalDate birthday();
 	char sex();
 	String zip();
 	String province();

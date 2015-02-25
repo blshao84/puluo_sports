@@ -1,7 +1,6 @@
 package com.puluo.entity;
 
-import java.sql.Date;
-import java.sql.Time;
+import org.joda.time.DateTime;
 
 
 public interface PuluoPrivateMessage {
@@ -9,8 +8,7 @@ public interface PuluoPrivateMessage {
 	String idMessage();
 	String textContent();
 	String imgContent();
-	Date msgDate();
-	Time msgTime();
+	DateTime msgTime();
 	int type();
 	int direction();
 	String idUser();

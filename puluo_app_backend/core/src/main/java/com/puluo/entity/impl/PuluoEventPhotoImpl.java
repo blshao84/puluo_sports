@@ -53,43 +53,4 @@ public class PuluoEventPhotoImpl implements PuluoEventPhoto {
 		return idevent;
 	}
 
-	protected String getIdPhoto() {
-		return idphoto;
 	}
-
-	public void setIdPhoto(String idphoto) {
-		this.idphoto = idphoto;
-	}
-
-	protected int getSequence() {
-		return sequence;
-	}
-
-	public void setSequence(int sequence) {
-		this.sequence = sequence;
-	}
-
-	protected String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	protected int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
-	}
-
-	protected String getIdEvent() {
-		return idevent;
-	}
-
-	public void setIdEvent(String idevent) {
-		this.idevent = idevent;
-	}
-}

@@ -1,7 +1,6 @@
 package com.puluo.entity;
 
-import java.sql.Date;
-import java.sql.Time;
+import org.joda.time.DateTime;
 
 
 public interface PuluoPayment {
@@ -9,8 +8,7 @@ public interface PuluoPayment {
 	String idPayment();
 	float amount();
 	int status();
-	Date paymentDate();
-	Time paymentTime();
+	DateTime paymentTime();
 	String idUser();
 	String idEvent();
 }

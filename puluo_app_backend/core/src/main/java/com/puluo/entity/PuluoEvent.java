@@ -1,14 +1,14 @@
 package com.puluo.entity;
 
-import java.sql.Date;
-import java.sql.Time;
+import org.joda.time.DateTime;
+
+
 
 
 public interface PuluoEvent {
 
 	String idEvent();
-	Date eventDate();
-	Time eventTime();
+	DateTime eventTime();
 	String name();
 	int duration();
 	String description();
