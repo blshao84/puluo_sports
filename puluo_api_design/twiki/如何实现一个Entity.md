@@ -11,3 +11,4 @@
 *   每个entity的实现中，他的成员变量尽可能是`private final`的
 *   每个entity的实现中，他的成员变量尽可能是primitive type。
 *   在命名规则上，成员变量以下划线分割小写单词,e.g. event_uuid。成员函数以首字母大写的方式区分单词,e.g. eventUUID。
+*   每个entity的具体实现中默认不需要为每个成员建立getter/setter。
