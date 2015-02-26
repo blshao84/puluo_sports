@@ -88,14 +88,14 @@
 	<bean id="allWriters" class="java.util.ArrayList">
 		<constructor-arg>
 			<list>
-				<ref bean="db" />
+				<ref bean="writer" />
 			</list>
 		</constructor-arg>
 	</bean>
 	<bean id="allReaders" class="java.util.ArrayList">
 		<constructor-arg>
 			<list>
-				<ref bean="db" />
+				<ref bean="reader" />
 			</list>
 		</constructor-arg>
 	</bean>
@@ -104,5 +104,45 @@
 		<property name="writers" ref="allWriters"></property>
 		<property name="readers" ref="allReaders"></property>
 	</bean>
+	
+	<bean id="eventDao" class="com.puluo.dao.impl.PuluoEventDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_event"></property>
+	</bean>
+	
+	<bean id="eventLocationDao" class="com.puluo.dao.impl.PuluoEventLocationDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_event_location"></property>
+	</bean>
+	
+	<bean id="eventPhotoDao" class="com.puluo.dao.impl.PuluoEventPhotoDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_event_location"></property>
+	</bean>
+	
+	<bean id="paymentDao" class="com.puluo.dao.impl.PuluoPaymentDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_event_location"></property>
+	</bean>
+	
+	<bean id="postDao" class="com.puluo.dao.impl.PuluoPostDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_event_location"></property>
+	</bean>
+	
+	<bean id="privateMessageDao" class="com.puluo.dao.impl.PuluoReservationDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_event_location"></property>
+	</bean>
+	
+	<bean id="reservationDao" class="com.puluo.dao.impl.PuluoPrivateMessageDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_event_location"></property>
+	</bean>
+	
+	<bean id="sessionDao" class="com.puluo.dao.impl.PuluoSessionDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_event_location"></property>
+	</bean>
+	
+	<bean id="userDao" class="com.puluo.dao.impl.PuluoUserDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_event_location"></property>
+	</bean>
+	
+	<bean id="friendshipDao" class="com.puluo.dao.impl.PuluoUserFriendshipDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_event_location"></property>
+	</bean>	
 
 </beans>
