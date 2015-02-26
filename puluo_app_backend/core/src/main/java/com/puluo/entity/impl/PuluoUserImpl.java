@@ -1,5 +1,6 @@
 package com.puluo.entity.impl;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import com.puluo.entity.PuluoUser;
@@ -239,5 +240,107 @@ public class PuluoUserImpl implements PuluoUser {
 
 	protected int getStatus() {
 		return status;
+	}
+
+	@Override
+	public DateTime lastLogin() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long lastDuration() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public DateTime create() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DateTime update() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String firstName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String lastName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String thumbnail() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String largeImage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String mobile() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean autoAddFriend() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean allowStrangerViewTimeline() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean allowSearched() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String saying() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int likes() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean banned() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int following() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean isCoach() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

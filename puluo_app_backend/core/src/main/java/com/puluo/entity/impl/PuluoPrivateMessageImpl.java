@@ -79,4 +79,28 @@ public class PuluoPrivateMessageImpl implements PuluoPrivateMessage {
 		return idfriend;
 	}
 
+	@Override
+	public String fromUserId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String toUserid() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String fromUserThumbnail() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String toUserThumbnail() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

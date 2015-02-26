@@ -3,6 +3,8 @@ package com.puluo.entity.impl;
 import java.util.List;
 
 import com.puluo.entity.PuluoFriendInfo;
+import com.puluo.entity.PuluoFriendRequest;
+import com.puluo.entity.PuluoPrivateMessage;
 import com.puluo.entity.PuluoUserFriendship;
 
 public class PuluoUserFriendshipImpl implements PuluoUserFriendship{
@@ -28,6 +30,18 @@ public class PuluoUserFriendshipImpl implements PuluoUserFriendship{
 	public List<PuluoFriendInfo> friends() {
 		// TODO Auto-generated method stub
 		return friends_info;
+	}
+
+	@Override
+	public PuluoFriendRequest request() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoPrivateMessage[] pastMessages() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

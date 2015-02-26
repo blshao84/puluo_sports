@@ -3,6 +3,7 @@ package com.puluo.entity.impl;
 import org.joda.time.DateTime;
 
 import com.puluo.entity.PuluoEvent;
+import com.puluo.entity.PuluoEventGeoLocation;
 
 
 public class PuluoEventImpl implements PuluoEvent {
@@ -95,6 +96,90 @@ public class PuluoEventImpl implements PuluoEvent {
 	public String[] eventPhotoId() {
 		// TODO Auto-generated method stub
 		return event_photoid;
+	}
+
+	@Override
+	public String status() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String address() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String city() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String phone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String coachName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String coachUuid() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String thumbnail() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int registeredUsers() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int capatcity() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int likes() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public PuluoEventGeoLocation geoLocation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String details() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] images() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] memories() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
