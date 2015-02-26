@@ -13,22 +13,22 @@ import com.puluo.entity.PuluoUser;
 public class PuluoPostImpl implements PuluoTimelinePost {
 
 	protected String uuid;
-	protected String eventUUID;
-	protected String ownerUUID;
-	protected String timelineContent;
-	protected DateTime creationTimestamp;
-	protected DateTime upDateTimestamp;
+	protected String event_uuid;
+	protected String owner_uuid;
+	protected String content;
+	protected DateTime creation_time;
+	protected DateTime update_time;
 
 	public PuluoPostImpl(String uuid, String eventUUID, String ownerUUID,
 			String timelineContent, DateTime creationTimestamp,
 			DateTime upDateTimestamp) {
 		super();
 		this.uuid = uuid;
-		this.eventUUID = eventUUID;
-		this.ownerUUID = ownerUUID;
-		this.timelineContent = timelineContent;
-		this.creationTimestamp = creationTimestamp;
-		this.upDateTimestamp = upDateTimestamp;
+		this.event_uuid = eventUUID;
+		this.owner_uuid = ownerUUID;
+		this.content = timelineContent;
+		this.creation_time = creationTimestamp;
+		this.update_time = upDateTimestamp;
 	}
 
 	@Override
@@ -38,17 +38,17 @@ public class PuluoPostImpl implements PuluoTimelinePost {
 
 	@Override
 	public String content() {
-		return timelineContent;
+		return content;
 	}
 
 	@Override
 	public DateTime createdAt() {
-		return creationTimestamp;
+		return creation_time;
 	}
 
 	@Override
 	public DateTime updatedAt() {
-		return upDateTimestamp;
+		return update_time;
 	}
 
 	// TODO: the following methods need using id to fetch information from other

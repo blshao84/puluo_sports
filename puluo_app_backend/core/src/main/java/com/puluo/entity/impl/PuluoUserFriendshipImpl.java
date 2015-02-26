@@ -10,14 +10,15 @@ import com.puluo.entity.PuluoUserFriendship;
 public class PuluoUserFriendshipImpl implements PuluoUserFriendship{
 
 	private final String user_uuid;
-	private final List<PuluoFriendInfo> friends_info;
+	private final String[] friend_uuids;
 	
 	
-	public PuluoUserFriendshipImpl(String user_uuid,
-			List<PuluoFriendInfo> friends_info) {
+	
+
+	public PuluoUserFriendshipImpl(String user_uuid, String[] friend_uuids) {
 		super();
 		this.user_uuid = user_uuid;
-		this.friends_info = friends_info;
+		this.friend_uuids = friend_uuids;
 	}
 
 	@Override
@@ -29,7 +30,7 @@ public class PuluoUserFriendshipImpl implements PuluoUserFriendship{
 	@Override
 	public List<PuluoFriendInfo> friends() {
 		// TODO Auto-generated method stub
-		return friends_info;
+		return null;
 	}
 
 	@Override
