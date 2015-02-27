@@ -7,32 +7,32 @@ import com.puluo.entity.payment.PuluoOrderStatus;
 
 public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 
-	private String idpayment;
+	private String payment_id;
 	private float amount;
-	private DateTime pay_time;
-	private String iduser;
-	private String idevent;
+	private DateTime payment_time;
+	private String user_id;
+	private String event_id;
 
 	public PuluoPaymentOrderImpl() {
 	}
 
 	public PuluoPaymentOrderImpl(String idpayment, float amount,
 			DateTime pay_time, String iduser, String idevent) {
-		this.idpayment = idpayment;
+		this.payment_id = idpayment;
 		this.amount = amount;
-		this.pay_time = pay_time;
-		this.iduser = iduser;
-		this.idevent = idevent;
+		this.payment_time = pay_time;
+		this.user_id = iduser;
+		this.event_id = idevent;
 	}
 
 	@Override
 	public String idPayment() {
 		// TODO Auto-generated method stub
-		return idpayment;
+		return payment_id;
 	}
 
 	/**
-	 * order status should be computed by all PuluoOrderEvent
+	 * order status should be computed by PuluoOrderEvent
 	 */
 	@Override
 	public float amount() {
@@ -49,19 +49,19 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 	@Override
 	public DateTime paymentTime() {
 		// TODO Auto-generated method stub
-		return pay_time;
+		return payment_time;
 	}
 
 	@Override
 	public String idUser() {
 		// TODO Auto-generated method stub
-		return iduser;
+		return user_id;
 	}
 
 	@Override
 	public String idEvent() {
 		// TODO Auto-generated method stub
-		return idevent;
+		return event_id;
 	}
 
 }
