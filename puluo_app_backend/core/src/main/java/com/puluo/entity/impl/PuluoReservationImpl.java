@@ -6,34 +6,34 @@ import com.puluo.entity.PuluoReservation;
 
 public class PuluoReservationImpl implements PuluoReservation {
 
-	private String iduser;
-	private String idevent;
+	private String user_id;
+	private String event_id;
 	private int status;
 	private DateTime res_time;
-	private String idreservation;
+	private String reservation_id;
 
 	public PuluoReservationImpl() {
 	}
 
 	public PuluoReservationImpl(String iduser, String idevent, int status,
 			DateTime res_time, String idreservation) {
-		this.iduser = iduser;
-		this.idevent = idevent;
+		this.user_id = iduser;
+		this.event_id = idevent;
 		this.status = status;
 		this.res_time = res_time;
-		this.idreservation = idreservation;
+		this.reservation_id = idreservation;
 	}
 
 	@Override
 	public String iduser() {
 		// TODO Auto-generated method stub
-		return iduser;
+		return user_id;
 	}
 
 	@Override
 	public String idevent() {
 		// TODO Auto-generated method stub
-		return idevent;
+		return event_id;
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class PuluoReservationImpl implements PuluoReservation {
 	@Override
 	public String idreservation() {
 		// TODO Auto-generated method stub
-		return idreservation;
+		return reservation_id;
 	}
 
 }

@@ -12,8 +12,8 @@ public class PuluoPrivateMessageImpl implements PuluoPrivateMessage {
 	private DateTime msg_time;
 	private int type;
 	private int direction;
-	private String iduser;
-	private String idfriend;
+	private String user_id;
+	private String friend_id;
 
 	public PuluoPrivateMessageImpl() {
 	}
@@ -27,8 +27,8 @@ public class PuluoPrivateMessageImpl implements PuluoPrivateMessage {
 		this.msg_time = msg_time;
 		this.type = type;
 		this.direction = direction;
-		this.iduser = iduser;
-		this.idfriend = idfriend;
+		this.user_id = iduser;
+		this.friend_id = idfriend;
 	}
 
 	@Override
@@ -70,13 +70,13 @@ public class PuluoPrivateMessageImpl implements PuluoPrivateMessage {
 	@Override
 	public String idUser() {
 		// TODO Auto-generated method stub
-		return iduser;
+		return user_id;
 	}
 
 	@Override
 	public String idFriend() {
 		// TODO Auto-generated method stub
-		return idfriend;
+		return friend_id;
 	}
 
 	@Override

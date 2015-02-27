@@ -8,7 +8,7 @@ import com.puluo.entity.PuluoEventGeoLocation;
 
 public class PuluoEventImpl implements PuluoEvent {
 
-	private String idevent;
+	private String event_id;
 	private DateTime event_time;
 	private String name;
 	private int duration;
@@ -16,7 +16,7 @@ public class PuluoEventImpl implements PuluoEvent {
 	private int level;
 	private float rating;
 	private int type;
-	private String idlocation;
+	private String location_id;
 	private String[] event_photoid;
 	
 
@@ -25,7 +25,7 @@ public class PuluoEventImpl implements PuluoEvent {
 	public PuluoEventImpl(String idevent, DateTime event_time,
 			String name, int duration, String description, int level, float rating,
 			int type, String idlocation, String[] event_photoid) {
-		this.idevent = idevent;
+		this.event_id = idevent;
 		this.event_time = event_time;
 		this.name = name;
 		this.duration = duration;
@@ -33,14 +33,14 @@ public class PuluoEventImpl implements PuluoEvent {
 		this.level = level;
 		this.rating = rating;
 		this.type = type;
-		this.idlocation = idlocation;
+		this.location_id = idlocation;
 		this.event_photoid = event_photoid;
 	}
 	
 	@Override
 	public String idEvent() {
 		// TODO Auto-generated method stub
-		return idevent;
+		return event_id;
 	}
 
 
@@ -89,7 +89,7 @@ public class PuluoEventImpl implements PuluoEvent {
 	@Override
 	public String idLocation() {
 		// TODO Auto-generated method stub
-		return idlocation;
+		return location_id;
 	}
 
 	@Override

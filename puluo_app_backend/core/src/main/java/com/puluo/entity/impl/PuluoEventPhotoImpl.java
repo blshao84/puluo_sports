@@ -5,7 +5,7 @@ import com.puluo.entity.PuluoEventPhoto;
 
 public class PuluoEventPhotoImpl implements PuluoEventPhoto {
 
-	private String idphoto;
+	private String photo_id;
 	private int sequence;
 	private String url;
 	private int type;
@@ -16,7 +16,7 @@ public class PuluoEventPhotoImpl implements PuluoEventPhoto {
 	
 	public PuluoEventPhotoImpl(String idphoto, int sequence, String url,
 			int type, String idevent) {
-		this.idphoto = idphoto;
+		this.photo_id = idphoto;
 		this.sequence = sequence;
 		this.url = url;
 		this.type = type;
@@ -26,7 +26,7 @@ public class PuluoEventPhotoImpl implements PuluoEventPhoto {
 	@Override
 	public String idPhoto() {
 		// TODO Auto-generated method stub
-		return idphoto;
+		return photo_id;
 	}
 
 	@Override
