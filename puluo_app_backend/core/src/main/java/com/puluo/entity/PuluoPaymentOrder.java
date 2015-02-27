@@ -2,12 +2,14 @@ package com.puluo.entity;
 
 import org.joda.time.DateTime;
 
+import com.puluo.entity.payment.PuluoOrderStatus;
 
-public interface PuluoPayment { // TODO fix me
+
+public interface PuluoPaymentOrder { // TODO fix me
 
 	String idPayment();
 	float amount();
-	int status();
+	PuluoOrderStatus status();
 	DateTime paymentTime();
 	String idUser();
 	String idEvent();

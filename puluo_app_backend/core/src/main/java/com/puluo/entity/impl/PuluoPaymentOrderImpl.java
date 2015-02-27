@@ -2,25 +2,24 @@ package com.puluo.entity.impl;
 
 import org.joda.time.DateTime;
 
-import com.puluo.entity.PuluoPayment;
+import com.puluo.entity.PuluoPaymentOrder;
+import com.puluo.entity.payment.PuluoOrderStatus;
 
-public class PuluoPaymentImpl implements PuluoPayment {
+public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 
 	private String idpayment;
 	private float amount;
-	private int status;
 	private DateTime pay_time;
 	private String iduser;
 	private String idevent;
 
-	public PuluoPaymentImpl() {
+	public PuluoPaymentOrderImpl() {
 	}
 
-	public PuluoPaymentImpl(String idpayment, float amount, int status,
+	public PuluoPaymentOrderImpl(String idpayment, float amount,
 			DateTime pay_time, String iduser, String idevent) {
 		this.idpayment = idpayment;
 		this.amount = amount;
-		this.status = status;
 		this.pay_time = pay_time;
 		this.iduser = iduser;
 		this.idevent = idevent;
@@ -32,6 +31,9 @@ public class PuluoPaymentImpl implements PuluoPayment {
 		return idpayment;
 	}
 
+	/**
+	 * order status should be computed by all PuluoOrderEvent
+	 */
 	@Override
 	public float amount() {
 		// TODO Auto-generated method stub
@@ -39,9 +41,9 @@ public class PuluoPaymentImpl implements PuluoPayment {
 	}
 
 	@Override
-	public int status() {
+	public PuluoOrderStatus status() {
 		// TODO Auto-generated method stub
-		return status;
+		return PuluoOrderStatus.Undefined;
 	}
 
 	@Override
