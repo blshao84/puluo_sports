@@ -1,5 +1,11 @@
 package com.puluo.dao;
 
-public interface PuluoPostDao {
+import com.puluo.entity.PuluoTimelinePost;
 
+
+public interface PuluoPostDao {
+	
+	public boolean createTable();
+	
+	public PuluoTimelinePost[] getUserTimeline(String userUUID);
 }

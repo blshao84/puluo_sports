@@ -6,14 +6,13 @@ public interface PuluoUserDao {
 	
 	public boolean createTable();
 	
-	public PuluoUser getByMobile(String mobile);
-	
-	public PuluoUser getByUUID(String uuid);
+	public boolean save(String mobile, String password);
 	
 	public boolean updatePassword(PuluoUser user, String newPassword);
 	
-	public boolean save(String mobile, String password);
+	public boolean updateProfile(PuluoUser olduser, PuluoUser newuser); 
 	
+	public PuluoUser getByMobile(String mobile);
 	
-
+	public PuluoUser getByUUID(String uuid);	
 }

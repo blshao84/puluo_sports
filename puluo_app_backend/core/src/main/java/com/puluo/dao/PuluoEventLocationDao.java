@@ -1,5 +1,5 @@
 package com.puluo.dao;
 
-public interface PuluoEventLocationDao {
+public class PuluoEventLocationDao {
 
 }
