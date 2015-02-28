@@ -171,7 +171,7 @@ Currently, we only support text messages.
 * 功能：Create orders and returns links to alipay
 * Entity: PuluoEvent
 * Entity DAO:
-  - PuluoEvent
+  - PuluoEventRegistration
     + `public PuluoPaymentAPI registerEvent(String userUUID, PuluoEvent event)`
 
 
@@ -180,7 +180,7 @@ Currently, we only support text messages.
 * 功能：Get detail information of an event
 * Entity: PuluoEvent
 * Entity DAO:
-  - PuluoEvent
+  - PuluoEventDetail
     + `public PuluoEvent getEventDetails(String idevent)`
 
 
@@ -189,7 +189,7 @@ Currently, we only support text messages.
 * 功能：Get list of user image links of an event
 * Entity: PuluoEvent
 * Entity DAO:
-  - PuluoEvent
+  - PuluoEventMemory
     + `public PuluoEventPhoto[] getEventPhotos(String idevent)`
 
 
@@ -199,7 +199,7 @@ Currently, we only support text messages.
 If keyword is not specified, return all events with sorting and filter.
 * Entity: PuluoEvent
 * Entity DAO:
-  - PuluoEvent
+  - PuluoEventSearch
     + `public PuluoEvent[] findEvents(String name, String description, int max_count)`
 
 
