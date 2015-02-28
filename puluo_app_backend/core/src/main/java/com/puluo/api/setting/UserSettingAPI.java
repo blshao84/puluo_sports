@@ -2,19 +2,30 @@ package com.puluo.api.setting;
 
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.UserSettingResult;
+import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.impl.DaoApi;
 
-public class UserSettingAPI extends PuluoAPI<UserSettingResult> {
+public class UserSettingAPI extends PuluoAPI<PuluoDSI,UserSettingResult> {
 	public String mobile;
 	public String uuid;
 
 	public UserSettingAPI(String mobile, String uuid) {
-		super();
+		this(mobile, uuid, new DaoApi());
+	}
+
+	public UserSettingAPI(String mobileOrUUID) {
+		this(mobileOrUUID, new DaoApi());
+	}
+	
+	
+	public UserSettingAPI(String mobile, String uuid, PuluoDSI dsi) {
+		this.dsi = dsi;
 		this.mobile = mobile;
 		this.uuid = uuid;
 	}
 
-	public UserSettingAPI(String mobileOrUUID) {
-		super();
+	public UserSettingAPI(String mobileOrUUID, PuluoDSI dsi) {
+		this.dsi = dsi;
 		if (isMobile(mobileOrUUID)) {
 			this.mobile = mobileOrUUID;
 		}

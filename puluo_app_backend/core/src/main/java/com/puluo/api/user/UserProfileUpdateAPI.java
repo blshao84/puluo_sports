@@ -2,8 +2,11 @@ package com.puluo.api.user;
 
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.UserProfileUpdateResult;
+import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.impl.DaoApi;
 
-public class UserProfileUpdateAPI extends PuluoAPI<UserProfileUpdateResult> {
+public class UserProfileUpdateAPI extends
+		PuluoAPI<PuluoDSI, UserProfileUpdateResult> {
 	public String first_name;
 	public String last_name;
 	public String thumbnail;
@@ -16,12 +19,20 @@ public class UserProfileUpdateAPI extends PuluoAPI<UserProfileUpdateResult> {
 	public String state;
 	public String city;
 	public String zip;
-	
+
 	public UserProfileUpdateAPI(String first_name, String last_name,
 			String thumbnail, String large_image, String saying, String email,
 			String sex, String birthday, String country, String state,
 			String city, String zip) {
-		super();
+		this(first_name, last_name, thumbnail, large_image, saying, email, sex,
+				birthday, country, state, city, zip, new DaoApi());
+	}
+
+	public UserProfileUpdateAPI(String first_name, String last_name,
+			String thumbnail, String large_image, String saying, String email,
+			String sex, String birthday, String country, String state,
+			String city, String zip, PuluoDSI dsi) {
+		this.dsi = dsi;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.thumbnail = thumbnail;
@@ -39,7 +50,7 @@ public class UserProfileUpdateAPI extends PuluoAPI<UserProfileUpdateResult> {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

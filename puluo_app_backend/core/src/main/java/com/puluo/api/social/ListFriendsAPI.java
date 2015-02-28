@@ -2,11 +2,16 @@ package com.puluo.api.social;
 
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.ListFriendsResult;
+import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.impl.DaoApi;
 
-public class ListFriendsAPI extends PuluoAPI<ListFriendsResult> {
+public class ListFriendsAPI extends PuluoAPI<PuluoDSI,ListFriendsResult> {
 	
-	public ListFriendsAPI() {
-		super();
+	public ListFriendsAPI(){
+		this(new DaoApi());
+	}
+	public ListFriendsAPI(PuluoDSI dsi) {
+		this.dsi = dsi;
 	}
 
 	@Override

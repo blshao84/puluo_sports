@@ -1,5 +1,6 @@
 package com.puluo.dao.impl;
 
+import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.dao.PuluoEventLocationDao;
 import com.puluo.dao.PuluoEventPhotoDao;
@@ -11,7 +12,7 @@ import com.puluo.dao.PuluoSessionDao;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
 
-public class DaoApi {
+public class DaoApi extends PuluoDSI{
 	public static PuluoEventDao eventDao = BeanFactory.getBean(
 			PuluoEventDao.class, "eventDao");
 	public static PuluoEventLocationDao eventLocationDao = BeanFactory.getBean(

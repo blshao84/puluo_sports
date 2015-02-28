@@ -17,7 +17,7 @@ object PuluoResponseFactory {
     JsonResponse(jvalue, requestHeader, JsonResponse.cookies, 200)
   }
 
-  def createJSONResponse(api: PuluoAPI[_], code: Int = 200): LiftResponse = {
+  def createJSONResponse(api: PuluoAPI[_,_], code: Int = 200): LiftResponse = {
     val jvalue = parse(api.result)
     JsonResponse(jvalue, requestHeader, JsonResponse.cookies, code)
   }

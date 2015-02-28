@@ -4,9 +4,11 @@ import java.util.Date;
 
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.EventSearchResult;
+import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.impl.DaoApi;
 
 
-public class EventSearchAPI extends PuluoAPI<EventSearchResult> {
+public class EventSearchAPI extends PuluoAPI<PuluoDSI,EventSearchResult> {
 
 	public Date event_date;
 	public String keyword;
@@ -18,8 +20,14 @@ public class EventSearchAPI extends PuluoAPI<EventSearchResult> {
 	
 	public EventSearchAPI(Date event_date, String keyword, String sort,
 			String sort_direction, String latitude, String longitude,
-			String categories, int range_from) {
-		super();
+			String categories, int range_from){
+		this(event_date, keyword, sort, sort_direction, latitude, longitude, categories, range_from, new DaoApi());
+	}
+	
+	public EventSearchAPI(Date event_date, String keyword, String sort,
+			String sort_direction, String latitude, String longitude,
+			String categories, int range_from, PuluoDSI dsi) {
+		this.dsi = dsi;
 		this.event_date = event_date;
 		this.keyword = keyword;
 		this.sort = sort;

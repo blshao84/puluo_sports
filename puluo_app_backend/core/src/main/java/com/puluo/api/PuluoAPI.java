@@ -1,12 +1,14 @@
 package com.puluo.api;
 
 import com.puluo.api.result.ApiErrorResult;
+import com.puluo.dao.PuluoDSI;
 import com.puluo.util.HasJSON;
 
-public abstract class PuluoAPI<R extends HasJSON> {
+public abstract class PuluoAPI<DSI extends PuluoDSI, RESULT extends HasJSON> {
 	
-	protected R rawResult;
-
+	protected DSI dsi;
+	protected RESULT rawResult;
+ 
 	public abstract void execute();
 	
 	public String result() {
