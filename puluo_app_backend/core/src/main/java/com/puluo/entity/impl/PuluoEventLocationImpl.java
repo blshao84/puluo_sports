@@ -4,28 +4,19 @@ import com.puluo.entity.PuluoEventLocation;
 
 public class PuluoEventLocationImpl implements PuluoEventLocation {
 
-	private String location_id;
-	private String address;
-	private String zip;
-	private String name;
-	private int court;
-	private int capacity;
-	private int type;
+	private  String location_id;
+	private  String address;
+	private  String zip;
+	private  String name;
+	private String phone;
+	private String city;
+	private String longitude;
+	private String lattitude;
+	private  int court;
+	private  int capacity;
+	private  int type;
 
-	public PuluoEventLocationImpl() {
-	}
-
-	public PuluoEventLocationImpl(String idlocation, String address,
-			String zip, String name, int court, int capacity, int type) {
-		this.location_id = idlocation;
-		this.address = address;
-		this.zip = zip;
-		this.name = name;
-		this.court = court;
-		this.capacity = capacity;
-		this.type = type;
-	}
-
+	
 	@Override
 	public String idLocation() {
 		// TODO Auto-generated method stub
@@ -66,6 +57,30 @@ public class PuluoEventLocationImpl implements PuluoEventLocation {
 	public int type() {
 		// TODO Auto-generated method stub
 		return type;
+	}
+
+	@Override
+	public String lattitude() {
+		// TODO Auto-generated method stub
+		return lattitude;
+	}
+
+	@Override
+	public String longitude() {
+		// TODO Auto-generated method stub
+		return longitude;
+	}
+
+	@Override
+	public String city() {
+		// TODO Auto-generated method stub
+		return city;
+	}
+
+	@Override
+	public String phone() {
+		// TODO Auto-generated method stub
+		return phone;
 	}
 
 }

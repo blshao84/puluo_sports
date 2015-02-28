@@ -7,30 +7,17 @@ import org.joda.time.DateTime;
 
 public interface PuluoEvent {
 
-	String idEvent();
+	String eventUUID();
 	DateTime eventTime();
-	String name();
-	int duration(); // TODO fix me
-	String description(); // TODO fix me
-	int level(); // TODO fix me
-	float rating(); // TODO fix me
-	int type(); // TODO fix me
-	String idLocation(); // TODO fix me
-	String[] eventPhotoId(); // TODO fix me
-	
 	String status();
-	String address();
-	String city();
-	String phone();
-	String coachName();
-	String coachUuid();
-	String thumbnail();
+	String[] images();
+	String[] memories();
 	int registeredUsers();
 	int capatcity();
-	int likes();
-	PuluoEventGeoLocation geoLocation();
-	String details();
-	String[] images();
+	Double price();
+	Double discount();
+	Double discountedPrice();
+	PuluoEventInfo eventInfo();
+	PuluoEventLocation eventLocation();
 	
-	String[] memories();
 }
