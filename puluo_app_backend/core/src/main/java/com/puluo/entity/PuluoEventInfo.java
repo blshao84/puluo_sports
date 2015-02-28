@@ -1,5 +1,7 @@
 package com.puluo.entity;
 
+import java.util.List;
+
 
 public interface PuluoEventInfo {
 	
@@ -8,11 +10,13 @@ public interface PuluoEventInfo {
 	String description(); 
 	String coachName();
 	String coachUuid();
-	String thumbnail();
 	String details();
 	int duration(); 
 	int level(); 
 	int type(); 
 	int likes();
 	float rating(); 	
+	List<PuluoEventPoster> poster();
+	PuluoEventPoster thumbnail();
+
 }

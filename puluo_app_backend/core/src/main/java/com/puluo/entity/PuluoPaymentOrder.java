@@ -5,7 +5,7 @@ import org.joda.time.DateTime;
 import com.puluo.entity.payment.PuluoOrderStatus;
 
 
-public interface PuluoPaymentOrder { // TODO fix me
+public interface PuluoPaymentOrder {
 
 	String idPayment();
 	float amount();

@@ -1,8 +1,8 @@
 package com.puluo.dao;
 
-import com.puluo.entity.PuluoEventPhoto;
+import com.puluo.entity.PuluoEventPoster;
 
 public interface PuluoEventPhotoDao {
 	
-	public boolean saveEventPhoto(PuluoEventPhoto photo);
+	public boolean saveEventPhoto(PuluoEventPoster photo);
 }

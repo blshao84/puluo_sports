@@ -1,10 +1,13 @@
 package com.puluo.entity.impl;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
 
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventLocation;
+import com.puluo.entity.PuluoEventMemory;
 
 public class PuluoEventImpl implements PuluoEvent {
 	private final String uuid;
@@ -55,17 +58,6 @@ public class PuluoEventImpl implements PuluoEvent {
 		return status;
 	}
 
-	@Override
-	public String[] images() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String[] memories() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public int registeredUsers() {
@@ -105,6 +97,12 @@ public class PuluoEventImpl implements PuluoEvent {
 
 	@Override
 	public PuluoEventLocation eventLocation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<PuluoEventMemory> memory() {
 		// TODO Auto-generated method stub
 		return null;
 	}
