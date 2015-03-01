@@ -8,7 +8,6 @@ public abstract class PuluoDSI {
 	public static PuluoPaymentDao paymentDao;
 	public static PuluoPostDao postDao;
 	public static PuluoPrivateMessageDao privateMessageDao;
-	public static PuluoReservationDao reservationDao;
 	public static PuluoSessionDao sessionDao;
 	public static PuluoUserDao userDao;
 	public static PuluoUserFriendshipDao friendshipDao;

@@ -7,10 +7,10 @@ import com.puluo.entity.payment.PuluoOrderStatus;
 
 public interface PuluoPaymentOrder {
 
-	String idPayment();
+	String paymentId();
 	float amount();
 	PuluoOrderStatus status();
 	DateTime paymentTime();
-	String idUser();
-	String idEvent();
+	String userId();
+	String eventId();
 }

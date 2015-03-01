@@ -14,7 +14,7 @@ public class PuluoEventMemoryImpl implements PuluoEventMemory {
 	private String timeline_uuid;
 	
 	@Override
-	public String idPhoto() {
+	public String imageId() {
 		// TODO Auto-generated method stub
 		return uuid;
 	}

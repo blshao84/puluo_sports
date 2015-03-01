@@ -18,7 +18,7 @@ public class PuluoEventLocationImpl implements PuluoEventLocation {
 
 	
 	@Override
-	public String idLocation() {
+	public String locationId() {
 		// TODO Auto-generated method stub
 		return location_id;
 	}

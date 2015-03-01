@@ -32,7 +32,7 @@ public class PuluoPrivateMessageImpl implements PuluoPrivateMessage {
 	}
 
 	@Override
-	public String idMessage() {
+	public String messageId() {
 		// TODO Auto-generated method stub
 		return idmessage;
 	}
@@ -68,13 +68,13 @@ public class PuluoPrivateMessageImpl implements PuluoPrivateMessage {
 	}
 
 	@Override
-	public String idUser() {
+	public String userId() {
 		// TODO Auto-generated method stub
 		return user_id;
 	}
 
 	@Override
-	public String idFriend() {
+	public String friendId() {
 		// TODO Auto-generated method stub
 		return friend_id;
 	}

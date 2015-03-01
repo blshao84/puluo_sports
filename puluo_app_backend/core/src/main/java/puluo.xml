@@ -128,11 +128,7 @@
 	<bean id="privateMessageDao" class="com.puluo.dao.impl.PuluoReservationDaoImpl" parent="dalTemplate">
 		<property name="fullTableName" value="puluo_event_location"></property>
 	</bean>
-	
-	<bean id="reservationDao" class="com.puluo.dao.impl.PuluoPrivateMessageDaoImpl" parent="dalTemplate">
-		<property name="fullTableName" value="puluo_event_location"></property>
-	</bean>
-	
+		
 	<bean id="sessionDao" class="com.puluo.dao.impl.PuluoSessionDaoImpl" parent="dalTemplate">
 		<property name="fullTableName" value="puluo_event_location"></property>
 	</bean>

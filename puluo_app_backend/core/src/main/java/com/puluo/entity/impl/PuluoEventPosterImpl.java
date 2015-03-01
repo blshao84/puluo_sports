@@ -10,7 +10,7 @@ public class PuluoEventPosterImpl implements PuluoEventPoster {
 	private String image_url;
 	
 	@Override
-	public String idPhoto() {
+	public String imageId() {
 		// TODO Auto-generated method stub
 		return uuid;
 	}

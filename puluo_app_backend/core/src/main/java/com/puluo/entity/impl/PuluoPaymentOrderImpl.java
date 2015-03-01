@@ -26,7 +26,7 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 	}
 
 	@Override
-	public String idPayment() {
+	public String paymentId() {
 		// TODO Auto-generated method stub
 		return payment_id;
 	}
@@ -53,13 +53,13 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 	}
 
 	@Override
-	public String idUser() {
+	public String userId() {
 		// TODO Auto-generated method stub
 		return user_id;
 	}
 
 	@Override
-	public String idEvent() {
+	public String eventId() {
 		// TODO Auto-generated method stub
 		return event_id;
 	}

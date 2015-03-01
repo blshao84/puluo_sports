@@ -2,7 +2,7 @@ package com.puluo.entity;
 
 public interface PuluoEventLocation { 
 
-	String idLocation();
+	String locationId();
 	String address();
 	String zip();
 	String name();
