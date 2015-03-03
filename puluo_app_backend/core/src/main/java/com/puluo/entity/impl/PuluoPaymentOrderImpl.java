@@ -1,12 +1,18 @@
 package com.puluo.entity.impl;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
 
 import com.puluo.entity.PuluoPaymentOrder;
+import com.puluo.entity.payment.OrderEvent;
 import com.puluo.entity.payment.impl.PuluoOrderStatus;
 
 public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 
+	/**
+	 * external payment id
+	 */
 	private String payment_id;
 	private float amount;
 	private DateTime payment_time;
@@ -62,6 +68,12 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 	public String eventId() {
 		// TODO Auto-generated method stub
 		return event_id;
+	}
+
+	@Override
+	public List<OrderEvent> events() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
