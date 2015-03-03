@@ -109,36 +109,52 @@
 		<property name="fullTableName" value="puluo_event"></property>
 	</bean>
 	
+	<bean id="eventInfoDao" class="com.puluo.dao.impl.PuluoEventInfoDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_event_info"></property>
+	</bean>
+	
 	<bean id="eventLocationDao" class="com.puluo.dao.impl.PuluoEventLocationDaoImpl" parent="dalTemplate">
 		<property name="fullTableName" value="puluo_event_location"></property>
 	</bean>
 	
-	<bean id="eventPhotoDao" class="com.puluo.dao.impl.PuluoEventPhotoDaoImpl" parent="dalTemplate">
-		<property name="fullTableName" value="puluo_event_location"></property>
+	<bean id="eventMemoryDao" class="com.puluo.dao.impl.PuluoEventMemoryDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_event_memory"></property>
+	</bean>
+	
+	<bean id="eventPosterDao" class="com.puluo.dao.impl.PuluoEventPosterDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_event_poster"></property>
 	</bean>
 	
 	<bean id="paymentDao" class="com.puluo.dao.impl.PuluoPaymentDaoImpl" parent="dalTemplate">
-		<property name="fullTableName" value="puluo_event_location"></property>
+		<property name="fullTableName" value="puluo_payment"></property>
 	</bean>
 	
 	<bean id="postDao" class="com.puluo.dao.impl.PuluoPostDaoImpl" parent="dalTemplate">
 		<property name="fullTableName" value="puluo_event_location"></property>
 	</bean>
 	
-	<bean id="privateMessageDao" class="com.puluo.dao.impl.PuluoReservationDaoImpl" parent="dalTemplate">
-		<property name="fullTableName" value="puluo_event_location"></property>
+	<bean id="postCommentDao" class="com.puluo.dao.impl.PuluoPostCommentDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_post_comment"></property>
+	</bean>
+	
+	<bean id="postLikeDao" class="com.puluo.dao.impl.PuluoPostLikeDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_post_like"></property>
+	</bean>
+	
+	<bean id="privateMessageDao" class="com.puluo.dao.impl.PuluoPrivateMessageDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_message"></property>
 	</bean>
 		
 	<bean id="sessionDao" class="com.puluo.dao.impl.PuluoSessionDaoImpl" parent="dalTemplate">
-		<property name="fullTableName" value="puluo_event_location"></property>
+		<property name="fullTableName" value="puluo_session"></property>
 	</bean>
 	
 	<bean id="userDao" class="com.puluo.dao.impl.PuluoUserDaoImpl" parent="dalTemplate">
-		<property name="fullTableName" value="puluo_event_location"></property>
+		<property name="fullTableName" value="puluo_user"></property>
 	</bean>
 	
 	<bean id="friendshipDao" class="com.puluo.dao.impl.PuluoUserFriendshipDaoImpl" parent="dalTemplate">
-		<property name="fullTableName" value="puluo_event_location"></property>
+		<property name="fullTableName" value="puluo_friendship"></property>
 	</bean>	
 
 </beans>
