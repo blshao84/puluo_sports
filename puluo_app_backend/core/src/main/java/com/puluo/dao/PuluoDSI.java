@@ -15,4 +15,5 @@ public abstract class PuluoDSI {
 	public static PuluoSessionDao sessionDao;
 	public static PuluoUserDao userDao;
 	public static PuluoUserFriendshipDao friendshipDao;
+	public static PuluoOrderEventDao orderEventDao;
 }

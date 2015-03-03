@@ -6,6 +6,7 @@ import com.puluo.dao.PuluoEventInfoDao;
 import com.puluo.dao.PuluoEventLocationDao;
 import com.puluo.dao.PuluoEventMemoryDao;
 import com.puluo.dao.PuluoEventPosterDao;
+import com.puluo.dao.PuluoOrderEventDao;
 import com.puluo.dao.PuluoPaymentDao;
 import com.puluo.dao.PuluoPostCommentDao;
 import com.puluo.dao.PuluoPostDao;
@@ -42,4 +43,6 @@ public class DaoApi extends PuluoDSI {
 			PuluoUserDao.class, "userDao");
 	public static PuluoUserFriendshipDao friendshipDao = BeanFactory.getBean(
 			PuluoUserFriendshipDao.class, "friendshipDao");
+	public static PuluoOrderEventDao orderEventDao = BeanFactory.getBean(
+			PuluoOrderEventDao.class, "orderEventDao");
 }

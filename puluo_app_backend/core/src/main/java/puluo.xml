@@ -156,5 +156,9 @@
 	<bean id="friendshipDao" class="com.puluo.dao.impl.PuluoUserFriendshipDaoImpl" parent="dalTemplate">
 		<property name="fullTableName" value="puluo_friendship"></property>
 	</bean>	
+	
+	<bean id="orderEventDao" class="com.puluo.dao.impl.PuluoOrderEventDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_order_event"></property>
+	</bean>	
 
 </beans>
