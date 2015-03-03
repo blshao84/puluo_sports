@@ -6,35 +6,21 @@ import com.puluo.entity.PuluoUserFriendship;
 
 public class PuluoUserFriendshipImpl implements PuluoUserFriendship {
 
-	private final String from_uuid;
-	private final String to_uuid;
-
-	public PuluoUserFriendshipImpl(String from_uuid, String to_uuid) {
+	private final String user_uuid;
+	private final String[] friend_uuids;
+	
+	public PuluoUserFriendshipImpl(String user_uuid, String[] friend_uuids) {
 		super();
-		this.from_uuid = from_uuid;
-		this.to_uuid = to_uuid;
+		this.user_uuid = user_uuid;
+		this.friend_uuids = friend_uuids;
 	}
-
 	@Override
-	public String fromUserUUID() {
-		// TODO Auto-generated method stub
-		return from_uuid;
-	}
-
-	@Override
-	public String toUserUUID() {
-		// TODO Auto-generated method stub
-		return to_uuid;
-	}
-
-	@Override
-	public List<com.puluo.entity.impl.PuluoFriendInfo> friendsOfFromUser() {
+	public String userUUID() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
-	public List<com.puluo.entity.impl.PuluoFriendInfo> friendsOfToUser() {
+	public List<PuluoFriendInfo> friends() {
 		// TODO Auto-generated method stub
 		return null;
 	}
