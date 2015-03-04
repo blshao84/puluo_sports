@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.payment.OrderEvent;
 import com.puluo.entity.payment.impl.PuluoOrderStatus;
@@ -42,38 +43,32 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 	 */
 	@Override
 	public float amount() {
-		// TODO Auto-generated method stub
 		return amount;
 	}
 
 	@Override
 	public PuluoOrderStatus status() {
-		// TODO Auto-generated method stub
 		return PuluoOrderStatus.Undefined;
 	}
 
 	@Override
 	public DateTime paymentTime() {
-		// TODO Auto-generated method stub
 		return payment_time;
 	}
 
 	@Override
 	public String userId() {
-		// TODO Auto-generated method stub
 		return user_id;
 	}
 
 	@Override
 	public String eventId() {
-		// TODO Auto-generated method stub
 		return event_id;
 	}
 
 	@Override
 	public List<OrderEvent> events() {
-		// TODO Auto-generated method stub
-		return null;
+		return DaoApi.orderEventDao.getOrderEvents(payment_id);
 	}
 
 }

@@ -2,6 +2,7 @@ package com.puluo.entity.payment.impl;
 
 import org.joda.time.DateTime;
 
+import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.payment.OrderEvent;
 
@@ -24,25 +25,21 @@ public class OrderEventImpl implements OrderEvent {
 
 	@Override
 	public String eventUUID() {
-		// TODO Auto-generated method stub
 		return uuid;
 	}
 
 	@Override
 	public PuluoPaymentOrder order() {
-		// TODO Auto-generated method stub
-		return null;
+		return DaoApi.paymentDao.getOrderByUUID(order_uuid);
 	}
 
 	@Override
 	public OrderEventType eventType() {
-		// TODO Auto-generated method stub
 		return type;
 	}
 
 	@Override
 	public DateTime createdAt() {
-		// TODO Auto-generated method stub
 		return created_at;
 	}
 
