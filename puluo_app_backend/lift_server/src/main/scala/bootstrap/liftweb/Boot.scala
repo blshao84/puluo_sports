@@ -58,7 +58,7 @@ class Boot extends Loggable {
     })
     // make requests utf-8
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
-    LiftRules.dispatch.append(withAuthentication guard TestAPI)
+    LiftRules.dispatch.append(TestAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoEventAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoGraphAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoMessageAPI)
