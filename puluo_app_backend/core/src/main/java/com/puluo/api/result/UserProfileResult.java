@@ -1,6 +1,5 @@
 package com.puluo.api.result;
 
-import com.google.gson.Gson;
 import com.puluo.util.HasJSON;
 
 
@@ -71,7 +70,7 @@ class UserPrivateProfileResult {
 	public String birthday;
 	public String occupation;
 	public String country;
-	public String province;
+	public String state;
 	public String city;
 	public String zip;
 
@@ -84,7 +83,7 @@ class UserPrivateProfileResult {
 		this.birthday = birthday;
 		this.occupation = occupation;
 		this.country = country;
-		this.province = province;
+		this.state = province;
 		this.city = city;
 		this.zip = zip;
 	}

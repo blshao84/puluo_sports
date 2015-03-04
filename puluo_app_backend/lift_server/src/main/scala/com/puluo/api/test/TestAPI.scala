@@ -11,6 +11,9 @@ import net.liftweb.json.JsonAST
 
 object TestAPI extends RestHelper {
   serve {
+    case "ping" :: _ Get _ => {
+      PuluoResponseFactory.createDummyJSONResponse("{\"msg\":\"hello world\"}")
+    }
     case "test" :: _ Get _ => {
       val api = new ApiTest("success")
       PuluoResponseFactory.createJSONResponse(api)
