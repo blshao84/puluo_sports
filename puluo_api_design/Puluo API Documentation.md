@@ -285,7 +285,7 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 	"birthday": "1984-09-12",
 	"occupation": "Internet Plumber",
 	"country": "USA",
-	"province": "Washington",
+	"state": "Washington",
 	"city": "Seattle",
 	"zip": "234234"
   },
