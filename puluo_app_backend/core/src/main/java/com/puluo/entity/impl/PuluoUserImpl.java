@@ -18,8 +18,10 @@ public class PuluoUserImpl implements PuluoUser {
 	private LocalDate birthday;
 	private char sex;
 	private String zip;
+	private String country; //added by Xuyang
 	private String province;
 	private String city;
+	private String occupation; //added by Xuyang
 	private String address;
 	private String[] interests;
 	private String description;
@@ -32,8 +34,8 @@ public class PuluoUserImpl implements PuluoUser {
 	
 	public PuluoUserImpl(String iduser, String type, String username,
 			String iconurl, String name, String phone, String email,
-			LocalDate birthday, char sex, String zip, String province, String city,
-			String address, String[] interests, String description,
+			LocalDate birthday, char sex, String zip, String country, String province, String city,
+			String occupation, String address, String[] interests, String description,
 			String[] friends, String privacy, int status) {
 		this.iduser = iduser;
 		this.type = type;
@@ -45,8 +47,10 @@ public class PuluoUserImpl implements PuluoUser {
 		this.birthday = birthday;
 		this.sex = sex;
 		this.zip = zip;
+		this.country = country; //added by Xuyang
 		this.province = province;
 		this.city = city;
+		this.occupation = occupation; //added by Xuyang
 		this.address = address;
 		this.interests = interests;
 		this.description = description;
@@ -116,6 +120,12 @@ public class PuluoUserImpl implements PuluoUser {
 	}
 
 	@Override
+	public String country() { //added by Xuyang
+		// TODO Auto-generated method stub
+		return country;
+	}
+
+	@Override
 	public String province() {
 		// TODO Auto-generated method stub
 		return province;
@@ -125,6 +135,12 @@ public class PuluoUserImpl implements PuluoUser {
 	public String city() {
 		// TODO Auto-generated method stub
 		return city;
+	}
+	
+	@Override
+	public String occupation() { //added by Xuyang
+		// TODO Auto-generated method stub
+		return occupation;
 	}
 
 	@Override

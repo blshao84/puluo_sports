@@ -1,6 +1,7 @@
 package com.puluo.dao;
 
-import com.puluo.entity.PuluoUser;
+import com.puluo.entity.impl.PuluoUserImpl;
+
 
 public interface PuluoUserDao {
 	
@@ -8,11 +9,13 @@ public interface PuluoUserDao {
 	
 	public boolean save(String mobile, String password);
 	
-	public boolean updatePassword(PuluoUser user, String newPassword);
+	public boolean updatePassword(PuluoUserImpl user, String newPassword);
 	
-	public boolean updateProfile(PuluoUser olduser, PuluoUser newuser); 
+	public boolean updateProfile(PuluoUserImpl olduser, PuluoUserImpl newuser); 
 	
-	public PuluoUser getByMobile(String mobile);
+	public PuluoUserImpl getByMobile(String mobile);
 	
-	public PuluoUser getByUUID(String uuid);	
+	public PuluoUserImpl getByUUID(String uuid);
+	
+	public PuluoUserImpl findUser(String first_name, String last_name, String email, String mobile);
 }

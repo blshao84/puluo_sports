@@ -71,12 +71,12 @@ class UserPrivateProfileResult {
 	public String birthday;
 	public String occupation;
 	public String country;
-	public String state;
+	public String province;
 	public String city;
 	public String zip;
 
 	public UserPrivateProfileResult(String email, String sex, String birthday,
-			String occupation, String country, String state, String city,
+			String occupation, String country, String province, String city,
 			String zip) {
 		super();
 		this.email = email;
@@ -84,7 +84,7 @@ class UserPrivateProfileResult {
 		this.birthday = birthday;
 		this.occupation = occupation;
 		this.country = country;
-		this.state = state;
+		this.province = province;
 		this.city = city;
 		this.zip = zip;
 	}

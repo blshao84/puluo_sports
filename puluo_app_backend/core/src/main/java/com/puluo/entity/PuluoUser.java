@@ -17,8 +17,10 @@ public interface PuluoUser {
 	LocalDate birthday();
 	char sex();
 	String zip();
+	String country(); //added by Xuyang
 	String province();
 	String city();
+	String occupation(); //added by Xuyang
 	String address();
 	String[] interests(); // TODO fix me
 	String description(); // TODO fix me
