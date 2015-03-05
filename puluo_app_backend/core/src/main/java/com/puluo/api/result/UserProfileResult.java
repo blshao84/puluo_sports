@@ -21,6 +21,22 @@ public class UserProfileResult extends HasJSON{
 		this.updated_at = updated_at;
 	}
 
+	public UserProfileResult(String uuid, String first_name, String last_name, 
+			String thumbnail, String large_image, String saying, int likes, 
+			boolean banned, int following, boolean is_coach, String email, 
+			String sex, String birthday, String occupation, String country, 
+			String state, String city, String zip, String created_at,
+			String updated_at) {
+		super();
+		this.uuid = uuid;
+		this.public_info = new UserPublicProfileResult(first_name, last_name,
+				thumbnail, large_image, saying, likes, banned, following, is_coach);
+		this.private_info = new UserPrivateProfileResult(email, sex, birthday,
+				occupation, country, state, city, zip);
+		this.created_at = created_at;
+		this.updated_at = updated_at;
+	}
+	
 	public static UserProfileResult dummy() {
 		return new UserProfileResult("de305d54-75b4-431b-adb2-eb6b9e546013",
 				UserPublicProfileResult.dummy(),
@@ -28,6 +44,7 @@ public class UserProfileResult extends HasJSON{
 				"2012-01-01 12:00:00");
 	}
 }
+
 
 class UserPublicProfileResult {
 	public String first_name;
@@ -64,6 +81,7 @@ class UserPublicProfileResult {
 	}
 }
 
+
 class UserPrivateProfileResult {
 	public String email;
 	public String sex;
@@ -75,7 +93,7 @@ class UserPrivateProfileResult {
 	public String zip;
 
 	public UserPrivateProfileResult(String email, String sex, String birthday,
-			String occupation, String country, String province, String city,
+			String occupation, String country, String state, String city,
 			String zip) {
 		super();
 		this.email = email;
@@ -83,7 +101,7 @@ class UserPrivateProfileResult {
 		this.birthday = birthday;
 		this.occupation = occupation;
 		this.country = country;
-		this.state = province;
+		this.state = state;
 		this.city = city;
 		this.zip = zip;
 	}

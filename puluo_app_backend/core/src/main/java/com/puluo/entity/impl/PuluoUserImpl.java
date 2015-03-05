@@ -15,11 +15,11 @@ public class PuluoUserImpl implements PuluoUser {
 	private String name;
 	private String phone;
 	private String email;
-	private LocalDate birthday;
+	private DateTime birthday;
 	private char sex;
 	private String zip;
 	private String country; //added by Xuyang
-	private String province;
+	private String state;
 	private String city;
 	private String occupation; //added by Xuyang
 	private String address;
@@ -34,7 +34,7 @@ public class PuluoUserImpl implements PuluoUser {
 	
 	public PuluoUserImpl(String iduser, String type, String username,
 			String iconurl, String name, String phone, String email,
-			LocalDate birthday, char sex, String zip, String country, String province, String city,
+			DateTime birthday, char sex, String zip, String country, String state, String city,
 			String occupation, String address, String[] interests, String description,
 			String[] friends, String privacy, int status) {
 		this.iduser = iduser;
@@ -48,7 +48,7 @@ public class PuluoUserImpl implements PuluoUser {
 		this.sex = sex;
 		this.zip = zip;
 		this.country = country; //added by Xuyang
-		this.province = province;
+		this.state = state;
 		this.city = city;
 		this.occupation = occupation; //added by Xuyang
 		this.address = address;
@@ -102,7 +102,7 @@ public class PuluoUserImpl implements PuluoUser {
 	}
 
 	@Override
-	public LocalDate birthday() {
+	public DateTime birthday() {
 		// TODO Auto-generated method stub
 		return birthday;
 	}
@@ -126,9 +126,9 @@ public class PuluoUserImpl implements PuluoUser {
 	}
 
 	@Override
-	public String province() {
+	public String state() {
 		// TODO Auto-generated method stub
-		return province;
+		return state;
 	}
 
 	@Override
@@ -210,7 +210,7 @@ public class PuluoUserImpl implements PuluoUser {
 	}
 
 
-	protected LocalDate getBirthday() {
+	protected DateTime getBirthday() {
 		return birthday;
 	}
 
@@ -222,8 +222,8 @@ public class PuluoUserImpl implements PuluoUser {
 		return zip;
 	}
 
-	protected String getProvince() {
-		return province;
+	protected String getState() {
+		return state;
 	}
 
 

@@ -46,12 +46,11 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI,UserProfileResult> {
 		else if(!this.uuid.isEmpty())
 			user = userdao.getByUUID(this.uuid);
 		
-		UserPublicProfileResult pub_profile = new UserPublicProfileResult(user.firstName(),user.lastName(),user.thumbnail(),
-				user.largeImage(),user.saying(),user.likes(),user.banned(),user.following(),user.isCoach());
-		UserPublicProfileResult pri_profile = new UserPrivateProfileResult(user.email(),user.sex(),user.birthday(),user.occupation,
-				user.country,user.province(),user.city(),user.zip());
-		UserProfileResult result = new UserProfileResult();*/
-		
+		UserProfileResult result = new UserProfileResult(user.idUser(),user.firstName(),user.lastName(),
+				user.thumbnail(),user.largeImage(),user.saying(),user.likes(),user.banned(),user.following(),
+				user.isCoach(),user.email(),String.valueOf(user.sex()),user.birthday().toString(),user.occupation(),
+				user.country(),user.state(),user.city(),user.zip(),user.create().toString(),user.update().toString());
+		rawResult = result;*/
 	}
 
 	private boolean isMobile(String m) {

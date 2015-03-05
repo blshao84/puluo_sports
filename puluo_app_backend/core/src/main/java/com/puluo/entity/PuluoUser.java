@@ -14,11 +14,11 @@ public interface PuluoUser {
 	String name(); // TODO fix me
 	String phone(); // TODO fix me
 	String email();
-	LocalDate birthday();
+	DateTime birthday();
 	char sex();
 	String zip();
 	String country(); //added by Xuyang
-	String province();
+	String state();
 	String city();
 	String occupation(); //added by Xuyang
 	String address();
