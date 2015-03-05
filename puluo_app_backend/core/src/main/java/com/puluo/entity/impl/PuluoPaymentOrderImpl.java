@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.payment.OrderEvent;
@@ -19,7 +20,8 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 	private DateTime payment_time;
 	private String user_id;
 	private String event_id;
-
+	private PuluoDSI dsi;
+	
 	public PuluoPaymentOrderImpl() {
 	}
 
@@ -30,6 +32,17 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 		this.payment_time = pay_time;
 		this.user_id = iduser;
 		this.event_id = idevent;
+		this.dsi = DaoApi.getInstance();
+	}
+	
+	public PuluoPaymentOrderImpl(String idpayment, float amount,
+			DateTime pay_time, String iduser, String idevent,PuluoDSI dsi) {
+		this.payment_id = idpayment;
+		this.amount = amount;
+		this.payment_time = pay_time;
+		this.user_id = iduser;
+		this.event_id = idevent;
+		this.dsi = dsi;
 	}
 
 	@Override
@@ -68,7 +81,7 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 
 	@Override
 	public List<OrderEvent> events() {
-		return DaoApi.orderEventDao.getOrderEvents(payment_id);
+		return dsi.orderEventDao().getOrderEvents(payment_id);
 	}
 
 }

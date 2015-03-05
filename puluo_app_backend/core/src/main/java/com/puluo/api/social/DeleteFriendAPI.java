@@ -9,7 +9,7 @@ public class DeleteFriendAPI extends PuluoAPI<PuluoDSI,DeleteFriendResult> {
 	public String user_uuid;
 	
 	public DeleteFriendAPI(String user_uuid){
-		this(user_uuid, new DaoApi());
+		this(user_uuid, DaoApi.getInstance());
 	}
 	public DeleteFriendAPI(String user_uuid, PuluoDSI dsi) {
 		this.dsi = dsi;

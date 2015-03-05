@@ -11,7 +11,7 @@ public class EmailServiceAPI extends PuluoAPI<PuluoDSI,EmailServiceResult> {
 	public String email_type;
 
 	public EmailServiceAPI(String email_type){
-		this(email_type, new DaoApi());
+		this(email_type, DaoApi.getInstance());
 	}
 	public EmailServiceAPI(String email_type, PuluoDSI dsi) {
 		this.dsi = dsi;

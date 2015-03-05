@@ -10,7 +10,7 @@ public class ListMessageAPI extends PuluoAPI<PuluoDSI,ListMessageResult> {
 	public String since;
 	
 	public ListMessageAPI(String user_uuid, String since){
-		this(user_uuid, since, new DaoApi());
+		this(user_uuid, since, DaoApi.getInstance());
 	}
 	public ListMessageAPI(String user_uuid, String since, PuluoDSI dsi) {
 		this.dsi = dsi;

@@ -11,7 +11,7 @@ public class UserPasswordUpdateAPI extends PuluoAPI<PuluoDSI,UserPasswordUpdateR
 	public String new_password;
 	
 	public UserPasswordUpdateAPI(String userUUID,String password, String new_password){
-		this(userUUID, password, new_password, new DaoApi());
+		this(userUUID, password, new_password, DaoApi.getInstance());
 	}
 	
 	public UserPasswordUpdateAPI(String userUUID,String password, String new_password, PuluoDSI dsi) {

@@ -11,7 +11,7 @@ public class SendMessageAPI extends PuluoAPI<PuluoDSI,SendMessageResult> {
 	public String content_type;
 	
 	public SendMessageAPI(String to_uuid, String content, String content_type){
-		this(to_uuid, content, content_type, new DaoApi());
+		this(to_uuid, content, content_type, DaoApi.getInstance());
 	}
 	public SendMessageAPI(String to_uuid, String content, String content_type, PuluoDSI dsi) {
 		this.dsi = dsi;

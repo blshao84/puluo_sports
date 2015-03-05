@@ -11,7 +11,7 @@ public class DeleteTimelineCommentAPI extends PuluoAPI<PuluoDSI,DeleteTimelineCo
 	public String comment_uuid;
 
 	public DeleteTimelineCommentAPI(String comment_uuid){
-		this(comment_uuid, new DaoApi());
+		this(comment_uuid, DaoApi.getInstance());
 	}
 	public DeleteTimelineCommentAPI(String comment_uuid, PuluoDSI dsi) {
 		this.dsi = dsi;

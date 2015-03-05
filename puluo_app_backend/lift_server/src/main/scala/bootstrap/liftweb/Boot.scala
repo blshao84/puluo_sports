@@ -2,7 +2,6 @@ package bootstrap.liftweb
 
 import com.puluo.api.auth.PuluoAuthAPI
 import com.puluo.api.service.PuluoFileUploader
-import com.puluo.api.test.TestAPI
 import com.puluo.api.util.PuluoSession
 import net.liftweb.common.Full
 import net.liftweb.common.Loggable
@@ -29,6 +28,7 @@ import com.puluo.api.message.PuluoMessageAPI
 import com.puluo.api.user.PuluoUserAPI
 import com.puluo.api.graph.PuluoGraphAPI
 import com.puluo.api.event.PuluoEventAPI
+import com.puluo.api.test.DemoAPI
 
 class Boot extends Loggable {
 
@@ -58,7 +58,7 @@ class Boot extends Loggable {
     })
     // make requests utf-8
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
-    LiftRules.dispatch.append(TestAPI)
+    LiftRules.dispatch.append(DemoAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoEventAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoGraphAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoMessageAPI)

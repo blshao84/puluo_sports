@@ -25,7 +25,7 @@ public class UserProfileUpdateAPI extends
 			String sex, String birthday, String country, String state,
 			String city, String zip) {
 		this(first_name, last_name, thumbnail, large_image, saying, email, sex,
-				birthday, country, state, city, zip, new DaoApi());
+				birthday, country, state, city, zip, DaoApi.getInstance());
 	}
 
 	public UserProfileUpdateAPI(String first_name, String last_name,

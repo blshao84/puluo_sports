@@ -13,7 +13,7 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI,UserProfileResult> {
 	public String uuid;
 
 	public UserProfileAPI(String mobile, String uuid){
-		this(mobile, uuid, new DaoApi());
+		this(mobile, uuid, DaoApi.getInstance());
 	}
 	
 	public UserProfileAPI(String mobile, String uuid, PuluoDSI dsi) {
@@ -23,7 +23,7 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI,UserProfileResult> {
 	}
 
 	public UserProfileAPI(String mobileOrUUID){
-		this(mobileOrUUID, new DaoApi());
+		this(mobileOrUUID, DaoApi.getInstance());
 	}
 	
 	public UserProfileAPI(String mobileOrUUID, PuluoDSI dsi) {

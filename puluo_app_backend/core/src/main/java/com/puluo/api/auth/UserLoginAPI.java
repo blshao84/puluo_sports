@@ -15,7 +15,7 @@ public class UserLoginAPI extends PuluoAPI<PuluoDSI,UserLoginResult> {
 	public String password;
 	
 	public UserLoginAPI(String mobile, String password){
-		this(mobile, password, new DaoApi());
+		this(mobile, password, DaoApi.getInstance());
 	}
 	
 	public UserLoginAPI(String mobile, String password, PuluoDSI dsi) {
@@ -30,7 +30,6 @@ public class UserLoginAPI extends PuluoAPI<PuluoDSI,UserLoginResult> {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
 		
 	}
 

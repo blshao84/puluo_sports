@@ -9,7 +9,7 @@ public class DenyFriendAPI extends PuluoAPI<PuluoDSI,DenyFriendResult> {
 	public String user_uuid;
 	
 	public DenyFriendAPI(String user_uuid){
-		this(user_uuid, new DaoApi());
+		this(user_uuid, DaoApi.getInstance());
 	}
 	public DenyFriendAPI(String user_uuid, PuluoDSI dsi) {
 		this.dsi = dsi;

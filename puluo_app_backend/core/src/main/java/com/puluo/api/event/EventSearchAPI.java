@@ -21,7 +21,7 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI,EventSearchResult> {
 	public EventSearchAPI(Date event_date, String keyword, String sort,
 			String sort_direction, String latitude, String longitude,
 			String categories, int range_from){
-		this(event_date, keyword, sort, sort_direction, latitude, longitude, categories, range_from, new DaoApi());
+		this(event_date, keyword, sort, sort_direction, latitude, longitude, categories, range_from, DaoApi.getInstance());
 	}
 	
 	public EventSearchAPI(Date event_date, String keyword, String sort,

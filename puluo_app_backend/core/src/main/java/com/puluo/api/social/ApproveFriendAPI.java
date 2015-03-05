@@ -9,7 +9,7 @@ public class ApproveFriendAPI extends PuluoAPI<PuluoDSI,ApproveFriendResult> {
 	public String user_uuid;
 	
 	public ApproveFriendAPI(String user_uuid){
-		this(user_uuid, new DaoApi());
+		this(user_uuid, DaoApi.getInstance());
 	}
 	public ApproveFriendAPI(String user_uuid, PuluoDSI dsi) {
 		this.dsi = dsi;

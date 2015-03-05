@@ -13,7 +13,7 @@ public class UserSearchAPI extends PuluoAPI<PuluoDSI,UserSearchResult> {
 	
 	public UserSearchAPI(String first_name, String last_name, String email,
 			String mobile){
-		this(first_name, last_name, email, mobile, new DaoApi());
+		this(first_name, last_name, email, mobile, DaoApi.getInstance());
 	}
 	public UserSearchAPI(String first_name, String last_name, String email,
 			String mobile, PuluoDSI dsi) {

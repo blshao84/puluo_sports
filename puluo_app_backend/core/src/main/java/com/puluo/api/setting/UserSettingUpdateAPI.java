@@ -12,7 +12,7 @@ public class UserSettingUpdateAPI extends PuluoAPI<PuluoDSI,UserSettingUpdateRes
 
 	public UserSettingUpdateAPI(boolean auto_add_friend,
 			boolean allow_stranger_view_timeline, boolean allow_searched){
-		this(auto_add_friend, allow_stranger_view_timeline, allow_searched, new DaoApi());
+		this(auto_add_friend, allow_stranger_view_timeline, allow_searched, DaoApi.getInstance());
 	}
 	
 	public UserSettingUpdateAPI(boolean auto_add_friend,

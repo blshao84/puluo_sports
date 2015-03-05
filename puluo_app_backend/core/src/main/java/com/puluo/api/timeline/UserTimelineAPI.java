@@ -12,7 +12,7 @@ public class UserTimelineAPI extends PuluoAPI<PuluoDSI,UserTimelineResult> {
 	public String since_time;
 
 	public UserTimelineAPI(String user_uuid, String since_time){
-		this(user_uuid, since_time, new DaoApi());
+		this(user_uuid, since_time, DaoApi.getInstance());
 	}
 	public UserTimelineAPI(String user_uuid, String since_time, PuluoDSI dsi) {
 		this.dsi = dsi;

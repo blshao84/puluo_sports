@@ -12,7 +12,7 @@ public class UserLogoutAPI extends PuluoAPI<PuluoDSI,UserLogoutResult> {
 	public PuluoSession session;
 	
 	public UserLogoutAPI(PuluoSession session){
-		this(session, new DaoApi());
+		this(session, DaoApi.getInstance());
 	}
 	public UserLogoutAPI(PuluoSession session, PuluoDSI dsi) {
 		this.dsi = dsi;

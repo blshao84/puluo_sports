@@ -11,7 +11,7 @@ public class LikeTimelineAPI extends PuluoAPI<PuluoDSI,LikeTimelineResult> {
 	public String timeline_uuid;
 
 	public LikeTimelineAPI(String timeline_uuid){
-		this(timeline_uuid, new DaoApi());
+		this(timeline_uuid, DaoApi.getInstance());
 	}
 	
 	public LikeTimelineAPI(String timeline_uuid, PuluoDSI dsi) {

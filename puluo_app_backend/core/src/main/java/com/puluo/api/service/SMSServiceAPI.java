@@ -11,7 +11,7 @@ public class SMSServiceAPI extends PuluoAPI<PuluoDSI,SMSServiceResult> {
 	public String sms_type;
 
 	public SMSServiceAPI(String sms_type){
-		this(sms_type, new DaoApi());
+		this(sms_type, DaoApi.getInstance());
 	}
 	public SMSServiceAPI(String sms_type, PuluoDSI dsi) {
 		this.dsi = dsi;

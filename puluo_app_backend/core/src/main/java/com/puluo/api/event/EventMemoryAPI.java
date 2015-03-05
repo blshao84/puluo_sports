@@ -12,7 +12,7 @@ public class EventMemoryAPI extends PuluoAPI<PuluoDSI,EventMemoryResult>{
 	public int max_count;
 
 	public EventMemoryAPI(String event_uuid, int max_count){
-		this(event_uuid, max_count, new DaoApi());
+		this(event_uuid, max_count, DaoApi.getInstance());
 	}
 	public EventMemoryAPI(String event_uuid, int max_count, PuluoDSI dsi) {
 		this.dsi = dsi;

@@ -14,7 +14,7 @@ public class CommentTimelineAPI extends PuluoAPI<PuluoDSI,CommentTimelineResult>
 
 	public CommentTimelineAPI(String timeline_uuid, String comment,
 			String reply_to){
-		this(timeline_uuid, comment, reply_to, new DaoApi());
+		this(timeline_uuid, comment, reply_to, DaoApi.getInstance());
 	}
 	public CommentTimelineAPI(String timeline_uuid, String comment,
 			String reply_to, PuluoDSI dsi) {

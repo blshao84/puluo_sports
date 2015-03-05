@@ -10,7 +10,7 @@ public class EventDetailAPI extends PuluoAPI<PuluoDSI,EventDetailResult> {
 
 	public String event_uuid;
 	public EventDetailAPI(String event_uuid){
-		this(event_uuid, new DaoApi());
+		this(event_uuid, DaoApi.getInstance());
 	}
 	public EventDetailAPI(String event_uuid, PuluoDSI dsi) {
 		this.dsi = dsi;

@@ -11,7 +11,7 @@ public class UserRegistrationAPI extends PuluoAPI<PuluoDSI,UserRegistrationResul
 	public String password;
 	
 	public UserRegistrationAPI(String mobile, String password){
-		this(mobile, password, new DaoApi());
+		this(mobile, password, DaoApi.getInstance());
 	}
 	public UserRegistrationAPI(String mobile, String password, PuluoDSI dsi) {
 		this.dsi = dsi;

@@ -9,7 +9,7 @@ public class RequestFriendAPI extends PuluoAPI<PuluoDSI,RequestFriendResult> {
 	public String user_uuid;
 	
 	public RequestFriendAPI(String user_uuid){
-		this(user_uuid, new DaoApi());
+		this(user_uuid, DaoApi.getInstance());
 	}
 	public RequestFriendAPI(String user_uuid, PuluoDSI dsi) {
 		this.dsi = dsi;

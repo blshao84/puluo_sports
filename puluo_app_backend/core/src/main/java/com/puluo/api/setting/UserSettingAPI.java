@@ -10,11 +10,11 @@ public class UserSettingAPI extends PuluoAPI<PuluoDSI,UserSettingResult> {
 	public String uuid;
 
 	public UserSettingAPI(String mobile, String uuid) {
-		this(mobile, uuid, new DaoApi());
+		this(mobile, uuid, DaoApi.getInstance());
 	}
 
 	public UserSettingAPI(String mobileOrUUID) {
-		this(mobileOrUUID, new DaoApi());
+		this(mobileOrUUID, DaoApi.getInstance());
 	}
 	
 	

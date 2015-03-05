@@ -8,7 +8,7 @@ import com.puluo.dao.impl.DaoApi;
 public class ListFriendsAPI extends PuluoAPI<PuluoDSI,ListFriendsResult> {
 	
 	public ListFriendsAPI(){
-		this(new DaoApi());
+		this(DaoApi.getInstance());
 	}
 	public ListFriendsAPI(PuluoDSI dsi) {
 		this.dsi = dsi;
