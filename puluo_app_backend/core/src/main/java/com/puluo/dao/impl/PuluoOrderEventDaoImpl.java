@@ -15,4 +15,10 @@ public class PuluoOrderEventDaoImpl extends DalTemplate implements
 		return null;
 	}
 
+	@Override
+	public boolean saveOrderEvent(OrderEvent event) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

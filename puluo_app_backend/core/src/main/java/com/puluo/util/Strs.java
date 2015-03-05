@@ -236,4 +236,9 @@ public abstract class Strs
         cs[0] = Character.toUpperCase(cs[0]);
         return String.valueOf(cs);
     }
+    
+    public static String prettyDouble(double d, int format) {
+        String formatter = Strs.join("%.",format,"f");
+        return String.format(formatter, d);
+    }
 }

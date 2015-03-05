@@ -12,6 +12,9 @@ import com.puluo.entity.payment.impl.PuluoOrderStatus;
 
 public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 
+	private long order_num_id;
+	private String order_uuid;
+
 	/**
 	 * external payment id
 	 */
@@ -20,28 +23,37 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 	private DateTime payment_time;
 	private String user_id;
 	private String event_id;
+	private PuluoOrderStatus status;
+
+	/**
+	 * We don't save this member
+	 */
 	private PuluoDSI dsi;
-	
+
 	public PuluoPaymentOrderImpl() {
 	}
 
 	public PuluoPaymentOrderImpl(String idpayment, float amount,
-			DateTime pay_time, String iduser, String idevent) {
+			DateTime pay_time, String iduser, String idevent,
+			PuluoOrderStatus status) {
 		this.payment_id = idpayment;
 		this.amount = amount;
 		this.payment_time = pay_time;
 		this.user_id = iduser;
 		this.event_id = idevent;
+		this.status = status;
 		this.dsi = DaoApi.getInstance();
 	}
-	
+
 	public PuluoPaymentOrderImpl(String idpayment, float amount,
-			DateTime pay_time, String iduser, String idevent,PuluoDSI dsi) {
+			DateTime pay_time, String iduser, String idevent,
+			PuluoOrderStatus status, PuluoDSI dsi) {
 		this.payment_id = idpayment;
 		this.amount = amount;
 		this.payment_time = pay_time;
 		this.user_id = iduser;
 		this.event_id = idevent;
+		this.status = status;
 		this.dsi = dsi;
 	}
 
@@ -82,6 +94,17 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 	@Override
 	public List<OrderEvent> events() {
 		return dsi.orderEventDao().getOrderEvents(payment_id);
+	}
+
+	@Override
+	public String orderUUID() {
+		return order_uuid;
+	}
+
+	@Override
+	public long orderNumericID() {
+		// TODO Auto-generated method stub
+		return order_num_id;
 	}
 
 }

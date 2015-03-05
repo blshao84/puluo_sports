@@ -29,6 +29,7 @@ import com.puluo.api.user.PuluoUserAPI
 import com.puluo.api.graph.PuluoGraphAPI
 import com.puluo.api.event.PuluoEventAPI
 import com.puluo.api.test.DemoAPI
+import net.liftweb.http.provider.HTTPParam
 
 class Boot extends Loggable {
 
@@ -42,7 +43,7 @@ class Boot extends Loggable {
   def setupNewSiteMap() = {
 
     SiteMap.enforceUniqueLinks = false
-    val menus: List[Menu] = Nil
+    val menus: List[Menu] = (Menu("test_bootstrap9") / "proto" / "test" >> net.liftweb.sitemap.Loc.Hidden) :: Nil
 
     LiftRules.setSiteMap(SiteMap(menus: _*))
   }
@@ -56,6 +57,13 @@ class Boot extends Loggable {
     LiftRules.uriNotFound.prepend(NamedPF("404handler") {
       case (req, failure) => NotFoundAsTemplate(ParsePath(List("404"), "html", false, false))
     })
+    // setup cors
+    LiftRules.supplimentalHeaders = s => s.addHeaders(
+      List(//HTTPParam("X-Lift-Version", LiftRules.liftVersion),
+        HTTPParam("Access-Control-Allow-Origin", "*"),
+        HTTPParam("Access-Control-Allow-Credentials", "true"),
+        HTTPParam("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS"),
+        HTTPParam("Access-Control-Allow-Headers", "WWW-Authenticate,Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Content-Type")))
     // make requests utf-8
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
     LiftRules.dispatch.append(DemoAPI)

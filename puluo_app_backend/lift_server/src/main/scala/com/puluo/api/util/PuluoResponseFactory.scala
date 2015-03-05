@@ -17,7 +17,7 @@ object PuluoResponseFactory {
     JsonResponse(jvalue, requestHeader, JsonResponse.cookies, 200)
   }
 
-  def createJSONResponse(api: PuluoAPI[_,_], code: Int = 200): LiftResponse = {
+  def createJSONResponse(api: PuluoAPI[_, _], code: Int = 200): LiftResponse = {
     val jvalue = parse(api.result)
     JsonResponse(jvalue, requestHeader, JsonResponse.cookies, code)
   }
@@ -27,12 +27,19 @@ object PuluoResponseFactory {
     JsonResponse(jvalue, requestHeader, JsonResponse.cookies, code)
   }
 
-  private def requestHeader = requestIdHeader :: Nil
+  private def requestHeader = requestIdHeader :: Nil//accessControlHeader
 
   private def requestIdHeader = {
     val uuid = UUID.randomUUID().toString()
     ("Request-ID", uuid)
   }
+
+  private def accessControlHeader =
+    List(
+      ("Access-Control-Allow-Origin", "*"),
+      ("Access-Control-Allow-Credentials", "true"),
+      ("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, HEAD, OPTIONS"),
+      ("Access-Control-Allow-Headers", "X-Requested-With,Expires,Set-Cookie,Request-ID,Content-Length,Cache-Control,Content-Type,Pragma,Date,X-Lift-Version,X-Frame-Options,Server"))
 }
 
 case class ErrorResponseResult(val id: String, val message: String, val url: String)

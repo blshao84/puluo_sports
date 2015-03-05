@@ -1,12 +1,34 @@
 package com.puluo.entity.payment.impl;
 
+import java.util.List;
+
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.payment.OrderEvent;
 
 public class PuluoOrderStateMachine {
-
-	public static PuluoOrderStatus nextState(PuluoPaymentOrder order, OrderEvent event) {
+	public static PuluoOrderStatus nextState(PuluoPaymentOrder order,
+			List<OrderEvent> events) {
 		PuluoOrderStatus currentStatus = order.status();
+		return nextState(currentStatus, events);
+	}
+
+	public static PuluoOrderStatus nextState(PuluoOrderStatus currentStatus,
+			List<OrderEvent> events) {
+		PuluoOrderStatus nextStatus = currentStatus;
+		for (OrderEvent orderEvent : events) {
+			nextStatus = nextState(nextStatus, orderEvent);
+		}
+		return nextStatus;
+	}
+
+	public static PuluoOrderStatus nextState(PuluoPaymentOrder order,
+			OrderEvent event) {
+		PuluoOrderStatus currentStatus = order.status();
+		return nextState(currentStatus, event);
+	}
+
+	public static PuluoOrderStatus nextState(PuluoOrderStatus currentStatus,
+			OrderEvent event) {
 		PuluoOrderStatus nextStatus = PuluoOrderStatus.Undefined;
 		switch (currentStatus) {
 		case Undefined:
@@ -59,7 +81,7 @@ public class PuluoOrderStateMachine {
 			status = PuluoOrderStatus.Undefined;
 			break;
 		}
-		
+
 		return status;
 
 	}
@@ -77,7 +99,7 @@ public class PuluoOrderStateMachine {
 			status = PuluoOrderStatus.Undefined;
 			break;
 		}
-		
+
 		return status;
 	}
 
@@ -94,7 +116,7 @@ public class PuluoOrderStateMachine {
 			status = PuluoOrderStatus.Undefined;
 			break;
 		}
-		
+
 		return status;
 
 	}
@@ -109,7 +131,7 @@ public class PuluoOrderStateMachine {
 			status = PuluoOrderStatus.Undefined;
 			break;
 		}
-		
+
 		return status;
 
 	}

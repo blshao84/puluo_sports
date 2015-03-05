@@ -9,7 +9,8 @@ import com.puluo.entity.payment.impl.PuluoOrderStatus;
 
 
 public interface PuluoPaymentOrder {
-
+	long orderNumericID();
+	String orderUUID();
 	String paymentId();
 	float amount();
 	PuluoOrderStatus status();

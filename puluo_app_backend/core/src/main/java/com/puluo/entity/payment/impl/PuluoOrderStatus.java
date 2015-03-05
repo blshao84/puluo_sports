@@ -16,4 +16,15 @@ package com.puluo.entity.payment.impl;
  * @author blshao
  *
  */
-public enum PuluoOrderStatus { Undefined, New, Paying, Paid, Complete, Cancel }
+public enum PuluoOrderStatus {
+	Undefined, New, Paying, Paid, Complete, Cancel;
+
+	public boolean isCancel() {
+		return (this == Cancel);
+	}
+
+	public boolean isPaid() {
+		
+		return ((this == Paid) || (this == Complete));
+	}
+}

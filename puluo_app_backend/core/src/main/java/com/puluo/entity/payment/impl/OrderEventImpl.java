@@ -1,5 +1,7 @@
 package com.puluo.entity.payment.impl;
 
+import java.util.UUID;
+
 import org.joda.time.DateTime;
 
 import com.puluo.dao.PuluoDSI;
@@ -16,11 +18,11 @@ public class OrderEventImpl implements OrderEvent {
 	
 	
 	
-	public OrderEventImpl(String uuid, DateTime created_at, String order_uuid,
+	public OrderEventImpl(String order_uuid,
 			OrderEventType type) {
 		super();
-		this.uuid = uuid;
-		this.created_at = created_at;
+		this.uuid = UUID.randomUUID().toString();
+		this.created_at = DateTime.now();
 		this.order_uuid = order_uuid;
 		this.type = type;
 		this.dsi = DaoApi.getInstance();
