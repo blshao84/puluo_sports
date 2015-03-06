@@ -59,8 +59,9 @@ public class PuluoAPIResultTest {
 
 	@Test
 	public void testDummyUserLoginResult() {
-		String expectedJsonResult = "{" + "\"mobile\":\"12346789000\","
-				+ "\"password\":\"cd8460a5e0f2c2af596f170009bffc02df06b54d\""
+		String expectedJsonResult = "{" 
+				+ "\"uuid\":\"cd8460a5e0f2c2af596f170009bffc02df06b54d\","
+				+ "\"created_at\":\"2012-01-01 12:00:00\""
 				+ "}";
 		String actualJsonResult = UserLoginResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
