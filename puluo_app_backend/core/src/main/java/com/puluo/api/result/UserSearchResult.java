@@ -2,8 +2,9 @@ package com.puluo.api.result;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import com.puluo.entity.impl.PuluoUserImpl;
 import com.puluo.util.HasJSON;
+
 
 public class UserSearchResult extends HasJSON {
 	public List<UserSearchResultDetail> details;
@@ -11,6 +12,21 @@ public class UserSearchResult extends HasJSON {
 	public UserSearchResult(List<UserSearchResultDetail> details) {
 		super();
 		this.details = details;
+	}
+	
+	public UserSearchResult() {
+		super();
+	}
+	
+	public boolean setSearchDetails(ArrayList<PuluoUserImpl> users) {
+		
+		details = new ArrayList<UserSearchResultDetail>();
+		for(int i=0;i<users.size();i++) {
+			UserSearchResultDetail tmp = new UserSearchResultDetail(users.get(i).idUser(),
+					users.get(i).firstName(),users.get(i).lastName(),users.get(i).email(),users.get(i).mobile());
+			details.add(tmp);
+		}
+		return true;
 	}
 	
 	public static UserSearchResult dummy() {
@@ -26,6 +42,7 @@ public class UserSearchResult extends HasJSON {
 	}
 }
 
+
 class UserSearchResultDetail {
 	public String uuid;
 	public UserPublicSearchResult public_info;
@@ -36,11 +53,18 @@ class UserSearchResultDetail {
 		this.public_info = public_info;
 	}
 	
+	public UserSearchResultDetail(String uuid, String first_name, String last_name, String email, String mobile) {
+		super();
+		this.uuid = uuid;
+		this.public_info = new UserPublicSearchResult(first_name,last_name,email,mobile);
+	}
+	
 	public static UserSearchResultDetail dummy() {
 		// TODO
 		return null;
 	}
 }
+
 
 class UserPublicSearchResult {
 	public String first_name;

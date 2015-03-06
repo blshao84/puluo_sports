@@ -20,6 +20,20 @@ public class UserProfileUpdateResult extends HasJSON {
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
+	
+	public UserProfileUpdateResult(String uuid, String first_name, String last_name, 
+			String thumbnail, String large_image, String saying, String email, 
+			String sex, String birthday, String occupation, String country, String state, 
+			String city, String zip, String created_at, String updated_at) {
+		super();
+		this.uuid = uuid;
+		this.public_info = new UserPublicProfileUpdateResult(first_name, last_name,
+				thumbnail, large_image, saying);
+		this.private_info = new UserPrivateProfileUpdateResult(email, sex, birthday,
+				occupation, country, state, city, zip);
+		this.created_at = created_at;
+		this.updated_at = updated_at;
+	}
 
 	public static UserProfileUpdateResult dummy() {
 		return new UserProfileUpdateResult("de305d54-75b4-431b-adb2-eb6b9e546013",
@@ -29,6 +43,7 @@ public class UserProfileUpdateResult extends HasJSON {
 	}
 }
 	
+
 class UserPublicProfileUpdateResult {
 	public String first_name;
     public String last_name;
@@ -53,6 +68,7 @@ class UserPublicProfileUpdateResult {
 				"http://upyun/puluo/userThumb.jpg", "I’ve got an app for that.");
 	}
 }
+
 
 class UserPrivateProfileUpdateResult {
 	public String email;

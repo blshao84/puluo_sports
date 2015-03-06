@@ -1,8 +1,10 @@
 package com.puluo.dao.impl;
 
+import java.util.ArrayList;
 import com.puluo.dao.PuluoUserDao;
-import com.puluo.entity.impl.PuluoUserImpl;
+import com.puluo.entity.PuluoUser;
 import com.puluo.jdbc.DalTemplate;
+
 
 public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 
@@ -19,31 +21,33 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 	}
 
 	@Override
-	public boolean updatePassword(PuluoUserImpl user, String newPassword) {
+	public boolean updatePassword(PuluoUser user, String newPassword) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean updateProfile(PuluoUserImpl olduser, PuluoUserImpl newuser) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public PuluoUserImpl getByMobile(String mobile) {
+	public PuluoUser updateProfile(PuluoUser curuser, String first_name, String last_name, 
+			String thumbnail, String large_image, String saying, String email, String sex, 
+			String birthday, String country, String state, String city, String zip) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public PuluoUserImpl getByUUID(String uuid) {
+	public PuluoUser getByMobile(String mobile) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public PuluoUserImpl findUser(String first_name, String last_name,
+	public PuluoUser getByUUID(String uuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<PuluoUser> findUser(String first_name, String last_name,
 			String email, String mobile) {
 		// TODO Auto-generated method stub
 		return null;
