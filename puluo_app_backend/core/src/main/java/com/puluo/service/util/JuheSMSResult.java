@@ -15,6 +15,7 @@ public class JuheSMSResult {
 			this.fee = fee;
 			this.sid = sid;
 		}
+		@Override
 		public String toString() {
 			return Strs.join("count:",count,";","fee:",fee,";","sid:",sid);
 		}
@@ -71,6 +72,7 @@ public class JuheSMSResult {
 		return gson.toJson(this);
 	}
 	
+	@Override
 	public String toString() {
 		return Strs.join("reason:",reason,";","errorCode:",errorCode,";","result:{",result.toString(),"}");
 	}
@@ -108,6 +110,10 @@ public class JuheSMSResult {
 		} else if (!result.equals(other.result))
 			return false;
 		return true;
+	}
+
+	public boolean isSuccess() {
+		return errorCode == 0;
 	}
 	
 	
