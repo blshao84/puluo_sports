@@ -3,12 +3,16 @@ package com.puluo.api.event;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.ApiErrorResult;
 import com.puluo.api.result.EventRegistrationResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoPaymentOrder;
+import com.puluo.entity.impl.PuluoPaymentOrderImpl;
 import com.puluo.entity.payment.OrderEvent;
 import com.puluo.entity.payment.impl.OrderEventImpl;
 import com.puluo.entity.payment.impl.OrderEventType;
@@ -107,10 +111,32 @@ public class EventRegistrationAPI extends
 		return result;
 	}
 
-	
 	private EventRegistrationResult createNewOrder() {
-		//PuluoPaymentOrder order = new P
-		return null;
+		PuluoEvent event = dsi.eventDao().getEventByUUID(event_uuid);
+		if (event == null) {
+			error = new ApiErrorResult("支付错误", String.format(
+					"Event不存在(uuid=%s)", event_uuid), "");
+			return null;
+		} else {
+			Double amount = event.price();
+			DateTime paymentTime = DateTime.now();
+			PuluoPaymentOrder order = new PuluoPaymentOrderImpl("", amount,
+					paymentTime, user_uuid, event_uuid, PuluoOrderStatus.New);
+			OrderEvent placeOrderEvent = new OrderEventImpl(order.orderUUID(),
+					OrderEventType.PlaceOrderEvent);
+			dsi.paymentDao().saveOrder(order);
+			dsi.orderEventDao().saveOrderEvent(placeOrderEvent);
+			PuluoPaymentOrder savedOrder = dsi.paymentDao().getOrderByUUID(order.orderUUID());
+			String paymentLink = AlipayUtil.generateLink(savedOrder);
+			OrderEvent payOrderEvent = new OrderEventImpl(order.orderUUID(),
+					OrderEventType.PayOrderEvent);
+			dsi.orderEventDao().saveOrderEvent(payOrderEvent);
+			PuluoOrderStatus nextStatus2 = PuluoOrderStateMachine.nextState(
+					savedOrder, payOrderEvent);
+			dsi.paymentDao().updateOrderStatus(order, nextStatus2);
+			return new EventRegistrationResult(paymentLink,
+					order.orderUUID(), false);
+		}
 	}
 
 	private void createErrorResult(String errorType, String errorDetail) {

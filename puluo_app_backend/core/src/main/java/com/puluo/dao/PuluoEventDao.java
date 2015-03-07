@@ -8,7 +8,7 @@ public interface PuluoEventDao {
 	
 	public boolean createTable();
 	
-	public PuluoEvent getEventDetails(String idevent);
+	public PuluoEvent getEventByUUID(String idevent);
 	
 	public PuluoEventPoster[] getEventMemoris(String idevent);
 	
