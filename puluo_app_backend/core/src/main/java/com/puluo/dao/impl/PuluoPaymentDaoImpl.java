@@ -26,4 +26,23 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 		return false;
 	}
 
+	@Override
+	public boolean saveOrder(PuluoPaymentOrder order) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public PuluoPaymentOrder getOrderByNumericID(long orderNumericID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean updateOrderPaymentInfo(PuluoPaymentOrder order,
+			String paymentRef) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

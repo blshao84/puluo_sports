@@ -79,9 +79,9 @@ public class PuluoEventInfoImpl implements PuluoEventInfo {
 	}
 
 	@Override
-	public float rating() {
+	public double rating() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 0.0;
 	}
 
 	@Override

@@ -8,26 +8,40 @@ import java.net.URLEncoder;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.puluo.service.util.JuheSMSResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 
-class JuheSMSClient {
+public class JuheSMSClient {
 	private static final Log LOGGER = LogFactory.getLog(JuheSMSClient.class);
 
-	private  HttpClient client; 
-	private  String baseURL;
+	private final HttpClient client;
+	private final String baseURL;
 
 	public JuheSMSClient(HttpClient client, String baseURL) {
 		this.client = client;
 		this.baseURL = baseURL;
 	}
-	
+
 	public JuheSMSResult sendVerificationCode(String mobile, String code) {
 		String values = String.format("#code#=%s&#company#=大庆优诺", code);
 		return doSend(1, values, mobile);
+	}
+
+	public JuheSMSResult sendConfirmationMessage(String mobile, String time,
+			String loc, String eventName) {
+		String values = String.format(
+				"#time#=%s&#loc#=%s&#name#=%s&#company#=大庆优诺", time, loc,
+				eventName);
+		return doSend(2, values, mobile);
+	}
+	
+
+	public JuheSMSResult sendConfirmationMessage(String mobile) {
+		String values = String.format("#company#=大庆优诺");
+		return doSend(3, values, mobile);
+		
 	}
 
 	private JuheSMSResult doSend(int templateId, String templateValue,

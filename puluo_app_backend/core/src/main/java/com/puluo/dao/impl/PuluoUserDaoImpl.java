@@ -2,6 +2,7 @@ package com.puluo.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -9,10 +10,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.puluo.dao.PuluoUserDao;
+import com.puluo.entity.PuluoUser;
 import com.puluo.entity.impl.PuluoUserImpl;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.PuluoException;
+
 
 public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 
@@ -73,33 +76,26 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 		return false;
 	}
 
-	@Override
-	public boolean updatePassword(PuluoUserImpl user, String newPassword) {
+	public boolean updatePassword(PuluoUser user, String newPassword) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean updateProfile(PuluoUserImpl olduser, PuluoUserImpl newuser) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public PuluoUserImpl getByMobile(String mobile) {
+	public PuluoUser getByMobile(String mobile) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public PuluoUserImpl getByUUID(String uuid) {
+	public PuluoUser getByUUID(String uuid) {
 		SqlReader reader = getReader();
 		String selectSQL = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName()).append(" where iduser = ?")
 				.toString();
-		List<PuluoUserImpl> entities = reader.query(selectSQL, new Object[] {uuid},
-				new RowMapper<PuluoUserImpl>() {
-					public PuluoUserImpl mapRow(ResultSet rs, int rowNum)
+		List<PuluoUser> entities = reader.query(selectSQL, new Object[] {uuid},
+				new RowMapper<PuluoUser>() {
+					public PuluoUser mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
 						PuluoUserImpl puluoUser = new PuluoUserImpl();
 						puluoUser.setAddress(rs.getString("address"));
@@ -134,10 +130,18 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 	}
 
 	@Override
-	public PuluoUserImpl findUser(String first_name, String last_name,
-			String email, String mobile) {
+	public PuluoUser updateProfile(PuluoUser curuser, String first_name,
+			String last_name, String thumbnail, String large_image,
+			String saying, String email, String sex, String birthday,
+			String country, String state, String city, String zip) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public ArrayList<PuluoUser> findUser(String first_name, String last_name,
+			String email, String mobile) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

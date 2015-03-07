@@ -12,10 +12,11 @@ public interface PuluoPaymentOrder {
 	long orderNumericID();
 	String orderUUID();
 	String paymentId();
-	float amount();
+	double amount();
 	PuluoOrderStatus status();
 	DateTime paymentTime();
 	String userId();
 	String eventId();
 	List<OrderEvent> events();
+	boolean hasNumericID();
 }

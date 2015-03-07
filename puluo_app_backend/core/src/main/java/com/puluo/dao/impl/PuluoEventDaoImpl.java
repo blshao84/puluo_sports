@@ -14,7 +14,7 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 	}
 
 	@Override
-	public PuluoEvent getEventDetails(String idevent) {
+	public PuluoEvent getEventByUUID(String idevent) {
 		// TODO Auto-generated method stub
 		return null;
 	}

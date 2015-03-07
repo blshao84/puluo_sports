@@ -31,11 +31,11 @@ public class PuluoUserImpl implements PuluoUser {
 	
 	public PuluoUserImpl() {}
 	
-	public PuluoUserImpl(String iduser, String type, String username,
-			String iconurl, String name, String phone, String email,
-			DateTime birthday, char sex, String zip, String country, String state, String city,
-			String occupation, String address, String[] interests, String description,
-			String[] friends, String privacy, int status) {
+	public PuluoUserImpl(String iduser, String type, String username, String iconurl, 
+			String name, String phone, String email, DateTime birthday, char sex, 
+			String zip, String country, String state, String city, String occupation, 
+			String address, String[] interests, String description, String[] friends, 
+			String privacy, int status) {
 		this.iduser = iduser;
 		this.type = type;
 		this.username = username;
@@ -225,22 +225,17 @@ public class PuluoUserImpl implements PuluoUser {
 		return state;
 	}
 
-
-
 	protected String getCity() {
 		return city;
 	}
-
 
 	protected String getAddress() {
 		return address;
 	}
 
-
 	protected String[] getInterests() {
 		return interests;
 	}
-
 
 	protected String getDescription() {
 		return description;
@@ -249,6 +244,7 @@ public class PuluoUserImpl implements PuluoUser {
 	protected String[] getFriends() {
 		return friends;
 	}
+	
 	protected String getPrivacy() {
 		return privacy;
 	}

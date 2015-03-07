@@ -20,9 +20,9 @@ import com.puluo.util.LogFactory;
 public class PuluoEmailService {
 	private static final Log LOGGER = LogFactory
 			.getLog(PuluoEmailService.class);
-	private String host;
-	private String username;
-	private String password;
+	private final String host;
+	private final String username;
+	private final String password;
 
 	public PuluoEmailService(String host, String username, String password) {
 		this.host = host;
@@ -42,6 +42,13 @@ public class PuluoEmailService {
 				new ArrayList<String>(), new ArrayList<String>(), subject,
 				content);
 	}
+	
+	public boolean sendTextEmailToSupport(String from, String subject,
+			String content) {
+		return sendEmailImpl(from,"contact@puluosports.com",
+				new ArrayList<String>(), new ArrayList<String>(), subject,
+				content);
+	}
 
 	private boolean sendEmailImpl(String from, String to, List<String> cc,
 			List<String> bcc, String subject, String content) {
@@ -52,6 +59,7 @@ public class PuluoEmailService {
 
 		Session session = Session.getInstance(props,
 				new javax.mail.Authenticator() {
+					@Override
 					protected PasswordAuthentication getPasswordAuthentication() {
 						return new PasswordAuthentication(username, password);
 					}

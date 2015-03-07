@@ -15,7 +15,7 @@ public interface PuluoEventInfo {
 	int level(); 
 	int type(); 
 	int likes();
-	float rating(); 	
+	double rating(); 	
 	List<PuluoEventPoster> poster();
 	PuluoEventPoster thumbnail();
 
