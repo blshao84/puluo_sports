@@ -1,7 +1,6 @@
 package com.puluo.entity.impl;
 
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 
 import com.puluo.entity.PuluoUser;
 
@@ -258,6 +257,102 @@ public class PuluoUserImpl implements PuluoUser {
 		return status;
 	}
 
+	public String getIduser() {
+		return iduser;
+	}
+
+	public void setIduser(String iduser) {
+		this.iduser = iduser;
+	}
+
+	public String getIconurl() {
+		return iconurl;
+	}
+
+	public void setIconurl(String iconurl) {
+		this.iconurl = iconurl;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getOccupation() {
+		return occupation;
+	}
+
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setBirthday(DateTime birthday) {
+		this.birthday = birthday;
+	}
+
+	public void setSex(char sex) {
+		this.sex = sex;
+	}
+
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setInterests(String[] interests) {
+		this.interests = interests;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setFriends(String[] friends) {
+		this.friends = friends;
+	}
+
+	public void setPrivacy(String privacy) {
+		this.privacy = privacy;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	@Override
 	public DateTime lastLogin() {
 		// TODO Auto-generated method stub
@@ -358,5 +453,11 @@ public class PuluoUserImpl implements PuluoUser {
 	public boolean isCoach() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public String password() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
