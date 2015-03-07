@@ -177,7 +177,8 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 ```
 {
   "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013", //user's uuid
-  "created_at": "2012-01-01 12:00:00" //session created time
+  "created_at": "2012-01-01 12:00:00", //session created time
+  "last_login": "2012-01-01 12:00:00" //last login time, empty for first time
 }
 ```
 
