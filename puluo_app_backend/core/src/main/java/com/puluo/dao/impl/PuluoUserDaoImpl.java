@@ -1,17 +1,12 @@
 package com.puluo.dao.impl;
 
-import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
-
-import scala.actors.threadpool.Arrays;
 
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.entity.PuluoUser;
