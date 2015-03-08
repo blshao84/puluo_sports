@@ -88,6 +88,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 		return true;
 	}
 
+	@Override
 	public boolean updatePassword(PuluoUser user, String newPassword) {
 		// TODO Auto-generated method stub
 		return false;
@@ -107,6 +108,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 				.toString();
 		List<PuluoUser> entities = reader.query(selectSQL, new Object[] {uuid},
 				new RowMapper<PuluoUser>() {
+					@Override
 					public PuluoUser mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
 //						PuluoUserImpl puluoUser = new PuluoUserImpl();
@@ -131,10 +133,10 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 //						puluoUser.setUsername(rs.getString("username"));
 //						puluoUser.setZip(rs.getString("zip"));
 						String[] array = rs.getArray("user_interests")!=null ? (String[])rs.getArray("user_interests").getArray() : new String[]{};
-						PuluoUserImpl puluoUser = new PuluoUserImpl(rs.getString("user_uuid"),
+						PuluoUserImpl puluoUser = new PuluoUserImpl(/*rs.getString("user_uuid"),
 								rs.getString("user_mobile"),
 								array,
-								rs.getString("user_password"));
+								rs.getString("user_password")*/);
 						return puluoUser;
 					}
 				});

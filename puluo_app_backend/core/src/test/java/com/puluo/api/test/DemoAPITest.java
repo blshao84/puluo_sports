@@ -23,7 +23,7 @@ public class DemoAPITest {
 		PuluoDSI mockDsi = Mockito.mock(DaoApi.class);
 		Mockito.when(mockDsi.userDao()).thenReturn(mockUserDao);
 		Mockito.when(mockUserDao.getByMobile(Matchers.anyString())).thenReturn(mockUser);
-		Mockito.when(mockUser.idUser()).thenReturn(msg);
+		Mockito.when(mockUser.userUUID()).thenReturn(msg);
 		DemoAPI api = new DemoAPI(msg,mockDsi);
 		api.execute();
 		String expected = "{\"result\":\"5678:5678\"}";

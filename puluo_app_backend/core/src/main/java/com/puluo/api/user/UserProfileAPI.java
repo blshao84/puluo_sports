@@ -45,10 +45,10 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI,UserProfileResult> {
 			user = (PuluoUserImpl) userdao.getByMobile(mobile);
 		else if(!this.uuid.isEmpty())
 			user = (PuluoUserImpl) userdao.getByUUID(uuid);
-		UserProfileResult result = new UserProfileResult(user.idUser(),user.firstName(),user.lastName(),
+		UserProfileResult result = new UserProfileResult(user.userUUID(),user.firstName(),user.lastName(),
 				user.thumbnail(),user.largeImage(),user.saying(),user.likes(),user.banned(),user.following(),
 				user.isCoach(),user.email(),String.valueOf(user.sex()),user.birthday().toString(),user.occupation(),
-				user.country(),user.state(),user.city(),user.zip(),user.create().toString(),user.update().toString());
+				user.country(),user.state(),user.city(),user.zip(),user.createdAt().toString(),user.updatedAt().toString());//FIXME: THIS IS WRONG!!! we can't just use toString() to format a DateTime ...
 		rawResult = result;
 	}
 

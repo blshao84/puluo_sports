@@ -2,6 +2,7 @@ package com.puluo.api.result;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.puluo.entity.PuluoTimelinePost;
 import com.puluo.entity.impl.PuluoPostImpl;
 import com.puluo.util.HasJSON;
@@ -36,8 +37,8 @@ public class UserTimelineResult extends HasJSON {
 			ArrayList<TimelineComments> tl_comments = new ArrayList<TimelineComments>();
 			for(int k=0;k<postimpl.comments().size();k++) {
 				TimelineComments comment = new TimelineComments(postimpl.comments().get(k).commentUUID(),
-						postimpl.comments().get(k).toUser().idUser(),postimpl.comments().get(k).fromUser().idUser(),
-						postimpl.comments().get(k).fromUser().username(),postimpl.comments().get(k).content(),
+						postimpl.comments().get(k).toUser().userUUID(),postimpl.comments().get(k).fromUser().userUUID(),
+						postimpl.comments().get(k).fromUser().name(),postimpl.comments().get(k).content(),
 						String.valueOf(postimpl.comments().get(k).isRead()),postimpl.comments().get(k).createdAt().toString());
 				tl_comments.add(comment);
 			}

@@ -58,10 +58,10 @@ public class UserProfileUpdateAPI extends
 		PuluoUserImpl curuser = (PuluoUserImpl) userdao.getByUUID(uuid);
 		PuluoUserImpl upduser = (PuluoUserImpl) userdao.updateProfile(curuser, first_name, last_name, thumbnail, large_image, 
 				saying, email, sex, birthday, country, state, city, zip);
-		UserProfileUpdateResult result = new UserProfileUpdateResult(upduser.idUser(), upduser.firstName(),
+		UserProfileUpdateResult result = new UserProfileUpdateResult(upduser.userUUID(), upduser.firstName(),
 				upduser.lastName(), upduser.thumbnail(), upduser.largeImage(), upduser.saying(), upduser.email(),
 				String.valueOf(upduser.sex()), upduser.birthday().toString(), upduser.occupation(),upduser.country(),
-				upduser.state(), upduser.city(), upduser.zip(), upduser.create().toString(),upduser.update().toString());
+				upduser.state(), upduser.city(), upduser.zip(), upduser.createdAt().toString(),upduser.updatedAt().toString());//FIXME: THIS IS WRONG!!! we can't just use toString() to format a DateTime ...
 		rawResult = result;
 	}
 }

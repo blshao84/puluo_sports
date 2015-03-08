@@ -20,7 +20,7 @@ public class DemoAPI extends PuluoAPI<PuluoDSI,ApiTestResult> {
 
 	@Override
 	public void execute() {
-		String user = dsi.userDao().getByMobile(msg).idUser();
+		String user = dsi.userDao().getByMobile(msg).userUUID();
 		rawResult = new ApiTestResult(Strs.join(user,":",msg));
 	}
 }

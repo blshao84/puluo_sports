@@ -1,235 +1,219 @@
 package com.puluo.entity.impl;
 
-import java.util.List;
-
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
-import com.puluo.dao.PuluoEventDao;
-import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoUser;
-
+import com.puluo.util.Strs;
 
 public class PuluoUserImpl implements PuluoUser {
 
-	private String uuid;
-//	private String type;
-//	private String username;
-//	private String iconurl;
-//	private String name;
+	private String user_uuid;
 	private String mobile;
-//	private String email;
-//	private DateTime birthday;
-//	private char sex;
-//	private String zip;
-//	private String country; //added by Xuyang
-//	private String state;
-//	private String city;
-//	private String occupation; //added by Xuyang
-//	private String address;
 	private String[] interests;
-//	private String description;
-//	private String[] friends;
-//	private String privacy;
-//	private int status;
 	private String password;
-	
-	public PuluoUserImpl(String uuid, String mobile, String[] interests,
-		String password) {
-		super();
-		this.uuid = uuid;
-		this.mobile = mobile;
-		this.interests = interests;
-		this.password = password;
-	}
+	private String firstName; // 名
+	private String lastName; // 姓
+	private String thumbnail; // 头像
+	private String largeImage; // 大图
+	private PuluoUserType user_type;
+	private String email;
+	char sex;
+	private String zip;
+	private String country; // added by Xuyang
+	private String state;
+	private String city;
+	private String occupation; // added by Xuyang
+	private String address;
+	private String saying; // 只是saying而已
+	LocalDate birthday;
+	DateTime created_at; // 用户创建时间
+	DateTime updated_at; // 用户信息最后一次更新时间
+	boolean banned;
+
 	@Override
-	public String idUser() {
-		// TODO Auto-generated method stub
-		return null;
+	public String userUUID() {
+		
+		return user_uuid;
 	}
-	@Override
-	public String type() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String username() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String iconurl() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String name() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String phone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String email() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public DateTime birthday() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public char sex() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
-	public String zip() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String country() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String state() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String city() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String occupation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String address() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String[] interests() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String description() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String[] friends() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String privacy() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public int status() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
-	public DateTime lastLogin() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public long lastDuration() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
-	public DateTime create() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public DateTime update() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String firstName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String lastName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String thumbnail() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String largeImage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	@Override
 	public String mobile() {
-		// TODO Auto-generated method stub
+		
 		return mobile;
 	}
+
 	@Override
-	public boolean autoAddFriend() {
-		// TODO Auto-generated method stub
-		return false;
+	public String password() {
+		
+		return password;
 	}
+
 	@Override
-	public boolean allowStrangerViewTimeline() {
-		// TODO Auto-generated method stub
-		return false;
+	public String firstName() {
+		
+		return firstName;
 	}
+
 	@Override
-	public boolean allowSearched() {
-		// TODO Auto-generated method stub
-		return false;
+	public String lastName() {
+		
+		return lastName;
 	}
+
+	@Override
+	public String thumbnail() {
+		
+		return thumbnail;
+	}
+
+	@Override
+	public String largeImage() {
+		
+		return largeImage;
+	}
+
+	@Override
+	public PuluoUserType userType() {
+		
+		return user_type;
+	}
+
+	@Override
+	public String email() {
+		
+		return email;
+	}
+
+	@Override
+	public LocalDate birthday() {
+		
+		return birthday;
+	}
+
+	@Override
+	public char sex() {
+		
+		return sex;
+	}
+
+	@Override
+	public String zip() {
+		
+		return zip;
+	}
+
+	@Override
+	public String country() {
+		
+		return country;
+	}
+
+	@Override
+	public String state() {
+		
+		return state;
+	}
+
+	@Override
+	public String city() {
+		
+		return city;
+	}
+
+	@Override
+	public String occupation() {
+		
+		return occupation;
+	}
+
+	@Override
+	public String address() {
+		
+		return address;
+	}
+
+	@Override
+	public String[] interests() {
+		
+		return interests;
+	}
+
+	@Override
+	public DateTime createdAt() {
+		
+		return created_at;
+	}
+
+	@Override
+	public DateTime updatedAt() {
+		
+		return updated_at;
+	}
+
 	@Override
 	public String saying() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return saying;
 	}
+
+	@Override
+	public boolean banned() {
+		
+		return banned;
+	}
+	
+	@Override
+	public String name() {
+		return Strs.join(firstName," ",lastName);
+	}
+
 	@Override
 	public int likes() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	@Override
-	public boolean banned() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 	@Override
 	public int following() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 	@Override
 	public boolean isCoach() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 	@Override
-	public String password() {
+	public DateTime lastLogin() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+	@Override
+	public long lastDuration() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean autoAddFriend() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean allowStrangerViewTimeline() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean allowSearched() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
