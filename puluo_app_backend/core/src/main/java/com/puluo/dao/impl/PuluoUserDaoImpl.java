@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -21,48 +22,33 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 	@Override
 	public boolean createTable() {
 		try {
+//			String dropSQL = new StringBuilder().append("drop table ").append(super.getFullTableName()).toString();
+//			getWriter().execute(dropSQL);
 			String createSQL = new StringBuilder().append("create table ")
 				.append(super.getFullTableName())
-				.append(" (user_uuid varchar(100), ")
-//				.append("type varchar(10), ")
-//				.append("username varchar(18), ")
-//				.append("iconurl varchar(50), ")
-//				.append("name varchar(18), ")
-//				.append("phone varchar(10), ")
-//				.append("email varchar(50), ")
-//				.append("birthday date, ")
-//				.append("sex char(1), ")
-//				.append("zip varchar(10), ")
-//				.append("country varchar(20), ")
-//				.append("state varchar(20), ")
-//				.append("city varchar(20), ")
-//				.append("occupation varchar(20), ")
-//				.append("address varchar(100), ")
-//				.append("interests varchar(100)[], ")
-//				.append("description varchar(100), ")
-//				.append("friends varchar(100)[], ")
-//				.append("privacy varchar(100), ")
-//				.append("status integer, ")
-//				.append("lastLogin timestamp, ")
-//				.append("lastDuration long, ")
-//				.append("create timestamp, ")
-//				.append("update timestamp, ")
-//				.append("firstName varchar(100), ")
-//				.append("lastName varchar(100), ")
-//				.append("thumbnail varchar(100), ")
-//				.append("largeImage varchar(100), ")
-//				.append("mobile varchar(100) not null, ")
-//				.append("autoAddFriend boolean, ")
-//				.append("allowStrangerViewTimeline boolean, ")
-//				.append("allowSearched boolean, ")
-//				.append("saying varchar(100), ")
-//				.append("likes integer, ")
-//				.append("banned boolean, ")
-//				.append("following integer, ")
-//				.append("isCoach boolean, ")
-				.append("user_password varchar(100) not null, ")
-				.append("user_mobile varchar(15) not null, ")
-				.append("user_interests text[])")
+				.append(" (id serial primary key, ")
+				.append("user_uuid text unique, ")
+				.append("mobile text unique, ")
+				.append("interests text[], ")
+				.append("user_password text not null, ")
+				.append("first_name text, ")
+				.append("last_name text, ")
+				.append("thumbnail text, ")
+				.append("large_image text, ")
+				.append("user_type text, ")
+				.append("email text, ")
+				.append("sex varchar(1), ")
+				.append("zip text, ")
+				.append("country text, ")
+				.append("state text, ")
+				.append("city text, ")
+				.append("occupation text, ")
+				.append("address text, ")
+				.append("saying text, ")
+				.append("birthday text, ")
+				.append("created_at timestamp, ")
+				.append("updated_at timestamp, ")
+				.append("banned boolean)")
 				.toString();
 			getWriter().execute(createSQL);
 		} catch (DataAccessException e) {
@@ -75,10 +61,12 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 	@Override
 	public boolean save(String mobile, String password) {
 		try {
+			String uuid =  UUID.randomUUID().toString();
+			System.out.println(uuid);
 			String insertSQL = new StringBuilder().append("insert into ")
 					.append(super.getFullTableName())
-					.append(" (user_mobile, user_password)")
-					.append(" values ('" + mobile + "', '" + password + "')")
+					.append(" (user_uuid, mobile, user_password)")
+					.append(" values ('" + uuid + "', '" + mobile + "', '" + password + "')")
 					.toString();
 			getWriter().update(insertSQL);
 		} catch (Exception e) {
@@ -111,32 +99,12 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 					@Override
 					public PuluoUser mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-//						PuluoUserImpl puluoUser = new PuluoUserImpl();
-//						puluoUser.setAddress(rs.getString("address"));
-//						puluoUser.setBirthday(new DateTime(rs.getDate("birthday").getTime()));
-//						puluoUser.setCity(rs.getString("city"));
-//						puluoUser.setCountry(rs.getString("country"));
-//						puluoUser.setDescription(rs.getString("description"));
-//						puluoUser.setEmail(rs.getString("email"));
-////						puluoUser.setFriends(rs.getArray("friends"));
-//						puluoUser.setIconurl(rs.getString("iconurl"));
-//						puluoUser.setIduser(rs.getString("iduser"));
-////						puluoUser.setInterests(interests);
-//						puluoUser.setName(rs.getString("name"));
-//						puluoUser.setOccupation(rs.getString("occupation"));
-//						puluoUser.setPhone(rs.getString("phone"));
-//						puluoUser.setPrivacy(rs.getString("privacy"));
-////						puluoUser.setSex(sex);
-//						puluoUser.setState(rs.getString("state"));
-//						puluoUser.setStatus(rs.getInt("status"));
-//						puluoUser.setType(rs.getString("type"));
-//						puluoUser.setUsername(rs.getString("username"));
-//						puluoUser.setZip(rs.getString("zip"));
-						String[] array = rs.getArray("user_interests")!=null ? (String[])rs.getArray("user_interests").getArray() : new String[]{};
-						PuluoUserImpl puluoUser = new PuluoUserImpl(/*rs.getString("user_uuid"),
-								rs.getString("user_mobile"),
+						String[] array = rs.getArray("interests")!=null ? (String[])rs.getArray("user_interests").getArray() : new String[]{};
+						PuluoUserImpl puluoUser = new PuluoUserImpl(
+								rs.getString("user_uuid"),
+								rs.getString("mobile"),
 								array,
-								rs.getString("user_password")*/);
+								rs.getString("user_password"));
 						return puluoUser;
 					}
 				});
@@ -167,7 +135,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 	public static void main(String[] args) {
 //		DaoApi.getInstance().userDao().createTable();
 //		DaoApi.getInstance().userDao().save("17721014665", "shilei");
-		PuluoUser puluoUser = DaoApi.getInstance().userDao().getByUUID(null);
+		PuluoUser puluoUser = DaoApi.getInstance().userDao().getByUUID("16002924-4a95-4ccb-a66f-ab35d619d53e");
 		System.out.println(puluoUser!=null ? puluoUser.mobile() : null);
 		System.out.println("DONE.");
 	}

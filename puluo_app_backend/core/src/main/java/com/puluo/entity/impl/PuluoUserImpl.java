@@ -30,6 +30,17 @@ public class PuluoUserImpl implements PuluoUser {
 	DateTime created_at; // 用户创建时间
 	DateTime updated_at; // 用户信息最后一次更新时间
 	boolean banned;
+	
+	
+
+	public PuluoUserImpl(String user_uuid, String mobile, String[] interests,
+			String password) {
+		super();
+		this.user_uuid = user_uuid;
+		this.mobile = mobile;
+		this.interests = interests;
+		this.password = password;
+	}
 
 	@Override
 	public String userUUID() {
@@ -182,7 +193,8 @@ public class PuluoUserImpl implements PuluoUser {
 
 	@Override
 	public boolean isCoach() {
-		// TODO Auto-generated method stub
+		if (user_type.equals(PuluoUserType.Coach))
+			return true;
 		return false;
 	}
 
