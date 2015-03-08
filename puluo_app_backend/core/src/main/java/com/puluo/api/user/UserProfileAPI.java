@@ -40,7 +40,7 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI,UserProfileResult> {
 	@Override
 	public void execute() {
 		PuluoUserDaoImpl userdao = new PuluoUserDaoImpl();
-		PuluoUserImpl user = new PuluoUserImpl();
+		PuluoUserImpl user = null;
 		
 		if(!this.mobile.isEmpty())
 			user = (PuluoUserImpl) userdao.getByMobile(mobile);

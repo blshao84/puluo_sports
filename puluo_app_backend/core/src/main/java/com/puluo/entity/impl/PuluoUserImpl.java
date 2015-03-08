@@ -1,459 +1,235 @@
 package com.puluo.entity.impl;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
 
+import com.puluo.dao.PuluoEventDao;
+import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoUser;
 
 
 public class PuluoUserImpl implements PuluoUser {
 
-	private String iduser;
-	private String type;
-	private String username;
-	private String iconurl;
-	private String name;
-	private String phone;
-	private String email;
-	private DateTime birthday;
-	private char sex;
-	private String zip;
-	private String country; //added by Xuyang
-	private String state;
-	private String city;
-	private String occupation; //added by Xuyang
-	private String address;
+	private String uuid;
+//	private String type;
+//	private String username;
+//	private String iconurl;
+//	private String name;
+	private String mobile;
+//	private String email;
+//	private DateTime birthday;
+//	private char sex;
+//	private String zip;
+//	private String country; //added by Xuyang
+//	private String state;
+//	private String city;
+//	private String occupation; //added by Xuyang
+//	private String address;
 	private String[] interests;
-	private String description;
-	private String[] friends;
-	private String privacy;
-	private int status;
+//	private String description;
+//	private String[] friends;
+//	private String privacy;
+//	private int status;
+	private String password;
 	
-	
-	public PuluoUserImpl() {}
-	
-	public PuluoUserImpl(String iduser, String type, String username, String iconurl, 
-			String name, String phone, String email, DateTime birthday, char sex, 
-			String zip, String country, String state, String city, String occupation, 
-			String address, String[] interests, String description, String[] friends, 
-			String privacy, int status) {
-		this.iduser = iduser;
-		this.type = type;
-		this.username = username;
-		this.iconurl = iconurl;
-		this.name = name;
-		this.phone = phone;
-		this.email = email;
-		this.birthday = birthday;
-		this.sex = sex;
-		this.zip = zip;
-		this.country = country; //added by Xuyang
-		this.state = state;
-		this.city = city;
-		this.occupation = occupation; //added by Xuyang
-		this.address = address;
+	public PuluoUserImpl(String uuid, String mobile, String[] interests,
+		String password) {
+		super();
+		this.uuid = uuid;
+		this.mobile = mobile;
 		this.interests = interests;
-		this.description = description;
-		this.friends = friends;
-		this.privacy = privacy;
-		this.status = status;
+		this.password = password;
 	}
-	
 	@Override
 	public String idUser() {
 		// TODO Auto-generated method stub
-		return iduser;
+		return null;
 	}
-
 	@Override
 	public String type() {
 		// TODO Auto-generated method stub
-		return type;
+		return null;
 	}
-
 	@Override
 	public String username() {
 		// TODO Auto-generated method stub
-		return username;
+		return null;
 	}
-
 	@Override
 	public String iconurl() {
 		// TODO Auto-generated method stub
-		return iconurl;
+		return null;
 	}
-
 	@Override
 	public String name() {
 		// TODO Auto-generated method stub
-		return name;
+		return null;
 	}
-
 	@Override
 	public String phone() {
 		// TODO Auto-generated method stub
-		return phone;
+		return null;
 	}
-
 	@Override
 	public String email() {
 		// TODO Auto-generated method stub
-		return email;
+		return null;
 	}
-
 	@Override
 	public DateTime birthday() {
 		// TODO Auto-generated method stub
-		return birthday;
+		return null;
 	}
-
 	@Override
 	public char sex() {
 		// TODO Auto-generated method stub
-		return sex;
+		return 0;
 	}
-
 	@Override
 	public String zip() {
 		// TODO Auto-generated method stub
-		return zip;
+		return null;
 	}
-
 	@Override
-	public String country() { //added by Xuyang
+	public String country() {
 		// TODO Auto-generated method stub
-		return country;
+		return null;
 	}
-
 	@Override
 	public String state() {
 		// TODO Auto-generated method stub
-		return state;
+		return null;
 	}
-
 	@Override
 	public String city() {
 		// TODO Auto-generated method stub
-		return city;
+		return null;
 	}
-	
 	@Override
-	public String occupation() { //added by Xuyang
+	public String occupation() {
 		// TODO Auto-generated method stub
-		return occupation;
+		return null;
 	}
-
 	@Override
 	public String address() {
 		// TODO Auto-generated method stub
-		return address;
+		return null;
 	}
-
 	@Override
 	public String[] interests() {
 		// TODO Auto-generated method stub
-		return interests;
+		return null;
 	}
-
 	@Override
 	public String description() {
 		// TODO Auto-generated method stub
-		return description;
+		return null;
 	}
-	
 	@Override
 	public String[] friends() {
 		// TODO Auto-generated method stub
-		return friends;
+		return null;
 	}
-
 	@Override
 	public String privacy() {
 		// TODO Auto-generated method stub
-		return privacy;
+		return null;
 	}
-
 	@Override
 	public int status() {
 		// TODO Auto-generated method stub
-		return status;
+		return 0;
 	}
-
-	protected String getIdUser() {
-		return iduser;
-	}
-	
-	protected String getType() {
-		return type;
-	}
-
-	protected String getUsername() {
-		return username;
-	}
-
-	protected String getIconUrl() {
-		return iconurl;
-	}
-
-
-	protected String getName() {
-		return name;
-	}
-
-	protected String getPhone() {
-		return phone;
-	}
-
-
-	protected String getEmail() {
-		return email;
-	}
-
-
-	protected DateTime getBirthday() {
-		return birthday;
-	}
-
-	protected char getSex() {
-		return sex;
-	}
-
-	protected String getZip() {
-		return zip;
-	}
-
-	protected String getState() {
-		return state;
-	}
-
-	protected String getCity() {
-		return city;
-	}
-
-	protected String getAddress() {
-		return address;
-	}
-
-	protected String[] getInterests() {
-		return interests;
-	}
-
-	protected String getDescription() {
-		return description;
-	}
-
-	protected String[] getFriends() {
-		return friends;
-	}
-	
-	protected String getPrivacy() {
-		return privacy;
-	}
-
-	protected int getStatus() {
-		return status;
-	}
-
-	public String getIduser() {
-		return iduser;
-	}
-
-	public void setIduser(String iduser) {
-		this.iduser = iduser;
-	}
-
-	public String getIconurl() {
-		return iconurl;
-	}
-
-	public void setIconurl(String iconurl) {
-		this.iconurl = iconurl;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	public String getOccupation() {
-		return occupation;
-	}
-
-	public void setOccupation(String occupation) {
-		this.occupation = occupation;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public void setBirthday(DateTime birthday) {
-		this.birthday = birthday;
-	}
-
-	public void setSex(char sex) {
-		this.sex = sex;
-	}
-
-	public void setZip(String zip) {
-		this.zip = zip;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public void setInterests(String[] interests) {
-		this.interests = interests;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public void setFriends(String[] friends) {
-		this.friends = friends;
-	}
-
-	public void setPrivacy(String privacy) {
-		this.privacy = privacy;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
 	@Override
 	public DateTime lastLogin() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public long lastDuration() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 	@Override
 	public DateTime create() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public DateTime update() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public String firstName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public String lastName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public String thumbnail() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public String largeImage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public String mobile() {
 		// TODO Auto-generated method stub
-		return null;
+		return mobile;
 	}
-
 	@Override
 	public boolean autoAddFriend() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 	@Override
 	public boolean allowStrangerViewTimeline() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 	@Override
 	public boolean allowSearched() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 	@Override
 	public String saying() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public int likes() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 	@Override
 	public boolean banned() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 	@Override
 	public int following() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 	@Override
 	public boolean isCoach() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 	@Override
 	public String password() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 }
