@@ -16,7 +16,7 @@ public abstract class DalTemplate
 		this.fullTableName = fullTableName;
 	}
 
-	protected String getFullTableName()
+	public String getFullTableName()
     {
         return fullTableName;
     }

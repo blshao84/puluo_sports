@@ -1,4 +1,4 @@
-package com.puluo.entity.payment;
+package com.puluo.test.payment;
 
 import org.junit.Assert;
 import org.junit.Test;
