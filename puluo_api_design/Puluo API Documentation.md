@@ -880,7 +880,9 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET /events/detail/
 	"phone": "86-555-5555",
 	"coach_name": "Mr. Bob Smith",
 	"coach_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
-	"thumbnail": "http://upyun.com/puluo/head.jpg",
+	"thumbnail": [
+		"http://upyun.com/puluo/head.jpg",
+	]
 	"registered_users": 23,
 	"capacity": 30,
 	"likes":1,
