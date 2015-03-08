@@ -1,4 +1,4 @@
-package com.puluo.entity.payment;
+package com.puluo.test.payment;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.impl.PuluoPaymentOrderImpl;
+import com.puluo.entity.payment.OrderEvent;
 import com.puluo.entity.payment.impl.OrderEventImpl;
 import com.puluo.entity.payment.impl.OrderEventType;
 import com.puluo.entity.payment.impl.PuluoOrderStateMachine;

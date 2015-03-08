@@ -62,7 +62,6 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 	public boolean save(String mobile, String password) {
 		try {
 			String uuid =  UUID.randomUUID().toString();
-			System.out.println(uuid);
 			String insertSQL = new StringBuilder().append("insert into ")
 					.append(super.getFullTableName())
 					.append(" (user_uuid, mobile, user_password)")
@@ -70,7 +69,6 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 					.toString();
 			getWriter().update(insertSQL);
 		} catch (Exception e) {
-			e.printStackTrace();
 			return false;
 		}
 		return true;

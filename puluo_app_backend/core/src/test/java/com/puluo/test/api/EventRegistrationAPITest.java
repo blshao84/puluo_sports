@@ -1,4 +1,4 @@
-package com.puluo.api.test;
+package com.puluo.test.api;
 
 import org.junit.Assert;
 import org.junit.Test;

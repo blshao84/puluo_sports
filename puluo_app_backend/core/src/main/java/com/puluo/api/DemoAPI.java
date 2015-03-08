@@ -23,4 +23,5 @@ public class DemoAPI extends PuluoAPI<PuluoDSI,ApiTestResult> {
 		String user = dsi.userDao().getByMobile(msg).userUUID();
 		rawResult = new ApiTestResult(Strs.join(user,":",msg));
 	}
+
 }

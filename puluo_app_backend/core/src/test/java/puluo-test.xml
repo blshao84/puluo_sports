@@ -17,61 +17,111 @@
         http://www.springframework.org/schema/task
         http://www.springframework.org/schema/task/spring-task-4.1.xsd
 ">
+
+	<bean id="devSource" class="com.jolbox.bonecp.BoneCPDataSource"
+		destroy-method="close">
+		<!-- 数据库驱动 -->
+		<property name="driverClass" value="org.postgresql.Driver" />
+		<!-- 相应驱动的jdbcUrl,你懂的 -->
+		<property name="jdbcUrl" value="jdbc:postgresql://183.131.76.93:2345/test" />
+		<!-- 数据库的用户名 -->
+		<property name="username" value="puluodev" />
+		<!-- 数据库的密码 -->
+		<property name="password" value="puLuo20!5" />
+		<!-- 检查数据库连接池中空闲连接的间隔时间，单位是分，默认值：240，如果要取消则设置为0 -->
+		<property name="idleConnectionTestPeriodInMinutes" value="20" />
+		<!-- 连接池中未使用的链接最大存活时间，单位是分，默认值：60，如果要永远存活设置为0 -->
+		<property name="idleMaxAgeInMinutes" value="20" />
+		<!-- 每个分区最大的连接数 -->
+		<property name="maxConnectionsPerPartition" value="50" />
+		<!-- 每个分区最小的连接数 -->
+		<property name="minConnectionsPerPartition" value="0" />
+		<!-- 分区数 ，默认值2，最小1，推荐3-4，视应用而定 -->
+		<property name="partitionCount" value="4" />
+		<!-- 每次去拿数据库连接的时候一次性要拿几个,默认值：2 -->
+		<property name="acquireIncrement" value="2" />
+		<!-- 缓存prepared statements的大小，默认值：0 -->
+		<property name="statementsCacheSize" value="0" />
+	</bean>
+	
 	<bean id="memSource" class="com.jolbox.bonecp.BoneCPDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="org.h2.Driver" />
 		<property name="jdbcUrl" value="jdbc:h2:mem:testdb" />
 	</bean>
-	
+
 	<bean id="fileSource" class="com.jolbox.bonecp.BoneCPDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="org.h2.Driver" />
 		<property name="jdbcUrl" value="jdbc:h2:data/testdb" />
 	</bean>
 
-
+	<bean id="devDB" class="com.puluo.jdbc.SqlTemplate">
+		<property name="dataSource" ref="devSource"></property>
+	</bean>
+	
 	<bean id="memDB" class="com.puluo.jdbc.SqlTemplate">
 		<property name="dataSource" ref="memSource"></property>
 	</bean>
-	
+
 	<bean id="fileDB" class="com.puluo.jdbc.SqlTemplate">
 		<property name="dataSource" ref="fileSource"></property>
+	</bean>
+
+	<bean id="allDevDBs" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<ref bean="devDB" />
+			</list>
+		</constructor-arg>
 	</bean>
 	
 	<bean id="allInMemDBs" class="java.util.ArrayList">
 		<constructor-arg>
 			<list>
-				<ref bean="memDB"/>
+				<ref bean="memDB" />
 			</list>
 		</constructor-arg>
 	</bean>
-	
+
 	<bean id="allFileDBs" class="java.util.ArrayList">
 		<constructor-arg>
 			<list>
-				<ref bean="fileDB"/>
+				<ref bean="fileDB" />
 			</list>
 		</constructor-arg>
 	</bean>
-	
 
+
+	<bean id="testDevDao" abstract="true">
+		<property name="writers" ref="allDevDBs"></property>
+		<property name="readers" ref="allDevDBs"></property>
+	</bean>
+	
 	<bean id="testInMemDao" abstract="true">
 		<property name="writers" ref="allInMemDBs"></property>
 		<property name="readers" ref="allInMemDBs"></property>
 	</bean>
-	
+
 	<bean id="testFileDao" abstract="true">
 		<property name="writers" ref="allFileDBs"></property>
 		<property name="readers" ref="allFileDBs"></property>
 	</bean>
 
-	<bean id="pgDummyDao" class="com.puluo.dao.impl.PgDummyDaoImpl" parent="testInMemDao">
+	<bean id="pgDummyDao" class="com.puluo.dao.impl.PgDummyDaoImpl"
+		parent="testInMemDao">
 		<property name="fullTableName" value="pgdummy"></property>
 	</bean>
-	
-	<bean id="pgDummyDao2" class="com.puluo.dao.impl.PgDummyDaoImpl" parent="testFileDao">
+
+	<bean id="pgDummyDao2" class="com.puluo.dao.impl.PgDummyDaoImpl"
+		parent="testFileDao">
 		<property name="fullTableName" value="pgdummy"></property>
 	</bean>
-	
+
+	<bean id="userDevDao" class="com.puluo.dao.impl.PuluoUserDaoImpl"
+		parent="testDevDao">
+		<property name="fullTableName" value="puluo_user"></property>
+	</bean>
+
 
 </beans>
