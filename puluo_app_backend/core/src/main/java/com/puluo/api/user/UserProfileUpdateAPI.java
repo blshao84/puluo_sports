@@ -6,6 +6,7 @@ import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
 import com.puluo.entity.impl.PuluoUserImpl;
+import com.puluo.util.TimeUtils;
 
 
 public class UserProfileUpdateAPI extends
@@ -60,8 +61,9 @@ public class UserProfileUpdateAPI extends
 				saying, email, sex, birthday, country, state, city, zip);
 		UserProfileUpdateResult result = new UserProfileUpdateResult(upduser.userUUID(), upduser.firstName(),
 				upduser.lastName(), upduser.thumbnail(), upduser.largeImage(), upduser.saying(), upduser.email(),
-				String.valueOf(upduser.sex()), upduser.birthday().toString(), upduser.occupation(),upduser.country(),
-				upduser.state(), upduser.city(), upduser.zip(), upduser.createdAt().toString(),upduser.updatedAt().toString());//FIXME: THIS IS WRONG!!! we can't just use toString() to format a DateTime ...
+				String.valueOf(upduser.sex()), TimeUtils.formatDate(upduser.birthday()), upduser.occupation(),
+				upduser.country(),upduser.state(), upduser.city(), upduser.zip(), TimeUtils.formatDate(upduser.createdAt()),
+				TimeUtils.formatDate(upduser.updatedAt()).toString());
 		rawResult = result;
 	}
 }

@@ -1,7 +1,8 @@
 package com.puluo.dao;
 
+import java.util.ArrayList;
+import java.util.Date;
 import com.puluo.entity.PuluoEvent;
-import com.puluo.entity.PuluoEventPoster;
 
 
 public interface PuluoEventDao {
@@ -10,7 +11,6 @@ public interface PuluoEventDao {
 	
 	public PuluoEvent getEventByUUID(String idevent);
 	
-	public PuluoEventPoster[] getEventMemoris(String idevent);
-	
-	public PuluoEvent[] findEvents(String name, String description, int max_count, String filter);
+	public ArrayList<PuluoEvent> findEvents(Date event_date, String keyword, String level, 
+			String sort, String sort_direction, String latitude, String longitude, int range_from);
 }

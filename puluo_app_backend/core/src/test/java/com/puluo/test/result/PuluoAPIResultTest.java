@@ -283,7 +283,7 @@ public class PuluoAPIResultTest {
 				+ "\"city\":\"beijing\"," + "\"phone\":\"86-555-5555\","
 				+ "\"coach_name\":\"Mr. Bob Smith\","
 				+ "\"coach_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546014\","
-				+ "\"thumbnail\":\"http://upyun.com/puluo/head.jpg\","
+				+ "\"thumbnail\":[\"http://upyun.com/puluo/head.jpg\"],"
 				+ "\"registered_users\":22," + "\"capacity\":30,"
 				+ "\"likes\":2," + "\"geo_location\":{"
 				+ "\"latitude\":\"39.92889\"," + "\"longitude\":\"116.38833\""

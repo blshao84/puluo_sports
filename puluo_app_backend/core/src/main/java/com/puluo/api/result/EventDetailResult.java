@@ -15,7 +15,7 @@ public class EventDetailResult extends HasJSON{
 	public String phone;
 	public String coach_name;
 	public String coach_uuid;
-	public String thumbnail;
+	public List<String> thumbnail;
 	public int registered_users;
 	public int capacity;
 	public int likes;
@@ -26,7 +26,7 @@ public class EventDetailResult extends HasJSON{
 	public EventDetailResult(String status,
 			String event_name, String event_time, String address,
 			String city, String phone, String coach_name, String coach_uuid,
-			String thumbnail, int registered_users, int capacity, int likes,
+			List<String> thumbnail, int registered_users, int capacity, int likes,
 			EventLocationResult geo_location, String details, List<String> images) {
 		super();
 		this.status = status;
@@ -46,15 +46,41 @@ public class EventDetailResult extends HasJSON{
 		this.images = images;
 	}
 	
+	public EventDetailResult(String status,
+			String event_name, String event_time, String address,
+			String city, String phone, String coach_name, String coach_uuid,
+			List<String> thumbnail, int registered_users, int capacity, int likes,
+			String latitude, String longitude, String details, List<String> images) {
+		super();
+		this.status = status;
+		this.event_name = event_name;
+		this.event_time = event_time;
+		this.address = address;
+		this.city = city;
+		this.phone = phone;
+		this.coach_name = coach_name;
+		this.coach_uuid = coach_uuid;
+		this.thumbnail = thumbnail;
+		this.registered_users = registered_users;
+		this.capacity = capacity;
+		this.likes = likes;
+		this.geo_location = new EventLocationResult(latitude, longitude);
+		this.details = details;
+		this.images = images;
+	}
+	
 	public static EventDetailResult dummy() {
-		List<String> sample = new ArrayList<String>();
-		sample.add("http://upyun.com/puluo/image1.jpg");
-		sample.add("http://upyun.com/puluo/image2.jpg");
+		List<String> thumbnails = new ArrayList<String>();
+		thumbnails.add("http://upyun.com/puluo/head.jpg");
+
+		List<String> images = new ArrayList<String>();
+		images.add("http://upyun.com/puluo/image1.jpg");
+		images.add("http://upyun.com/puluo/image2.jpg");
 		
 		return new EventDetailResult("open", "Weapons of Ass Reduction", 
 				"2012-01-01 12:00:00", "888 Happy Mansion", "beijing", "86-555-5555",
-				"Mr. Bob Smith", "de305d54-75b4-431b-adb2-eb6b9e546014", "http://upyun.com/puluo/head.jpg", 
-				22, 30, 2,  new EventLocationResult("39.92889","116.38833"), "Get fit with friends.", sample);
+				"Mr. Bob Smith", "de305d54-75b4-431b-adb2-eb6b9e546014", thumbnails, 
+				22, 30, 2,  new EventLocationResult("39.92889","116.38833"), "Get fit with friends.", images);
 	}
 }
 

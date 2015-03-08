@@ -6,6 +6,7 @@ import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
 import com.puluo.entity.impl.PuluoUserImpl;
+import com.puluo.util.TimeUtils;
 
 
 public class UserProfileAPI extends PuluoAPI<PuluoDSI,UserProfileResult> {
@@ -45,10 +46,10 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI,UserProfileResult> {
 			user = (PuluoUserImpl) userdao.getByMobile(mobile);
 		else if(!this.uuid.isEmpty())
 			user = (PuluoUserImpl) userdao.getByUUID(uuid);
-		UserProfileResult result = new UserProfileResult(user.userUUID(),user.firstName(),user.lastName(),
-				user.thumbnail(),user.largeImage(),user.saying(),user.likes(),user.banned(),user.following(),
-				user.isCoach(),user.email(),String.valueOf(user.sex()),user.birthday().toString(),user.occupation(),
-				user.country(),user.state(),user.city(),user.zip(),user.createdAt().toString(),user.updatedAt().toString());//FIXME: THIS IS WRONG!!! we can't just use toString() to format a DateTime ...
+		UserProfileResult result = new UserProfileResult(user.userUUID(),user.firstName(),user.lastName(),user.thumbnail(),
+				user.largeImage(),user.saying(),user.likes(),user.banned(),user.following(),user.isCoach(),user.email(),
+				String.valueOf(user.sex()),TimeUtils.formatDate(user.birthday()),user.occupation(),user.country(),user.state(),
+				user.city(),user.zip(),TimeUtils.formatDate(user.createdAt()),TimeUtils.formatDate(user.updatedAt()));
 		rawResult = result;
 	}
 

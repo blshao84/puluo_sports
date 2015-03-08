@@ -26,7 +26,7 @@ public class PuluoUserImpl implements PuluoUser {
 	private String occupation; // added by Xuyang
 	private String address;
 	private String saying; // 只是saying而已
-	LocalDate birthday;
+	DateTime birthday;
 	DateTime created_at; // 用户创建时间
 	DateTime updated_at; // 用户信息最后一次更新时间
 	boolean banned;
@@ -97,7 +97,7 @@ public class PuluoUserImpl implements PuluoUser {
 	}
 
 	@Override
-	public LocalDate birthday() {
+	public DateTime birthday() {
 		
 		return birthday;
 	}

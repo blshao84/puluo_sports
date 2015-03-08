@@ -16,7 +16,7 @@ public interface PuluoUser {
 	String largeImage(); //大图
 	PuluoUserType userType(); 
 	String email();
-	LocalDate birthday();
+	DateTime birthday();
 	char sex();
 	String zip();
 	String country(); //added by Xuyang

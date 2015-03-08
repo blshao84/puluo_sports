@@ -4,17 +4,17 @@ import com.puluo.entity.PuluoEventLocation;
 
 public class PuluoEventLocationImpl implements PuluoEventLocation {
 
-	private  String location_id;
-	private  String address;
-	private  String zip;
-	private  String name;
+	private String location_id;
+	private String address;
+	private String zip;
+	private String name;
 	private String phone;
 	private String city;
 	private String longitude;
 	private String lattitude;
-	private  int court;
-	private  int capacity;
-	private  int type;
+	private int court;
+	private int capacity;
+	private int type;
 
 	
 	@Override

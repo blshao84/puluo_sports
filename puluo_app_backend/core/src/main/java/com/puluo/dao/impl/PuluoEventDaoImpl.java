@@ -1,9 +1,12 @@
 package com.puluo.dao.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.entity.PuluoEvent;
-import com.puluo.entity.PuluoEventPoster;
 import com.puluo.jdbc.DalTemplate;
+
 
 public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 
@@ -20,14 +23,8 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 	}
 
 	@Override
-	public PuluoEventPoster[] getEventMemoris(String idevent) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public PuluoEvent[] findEvents(String name, String description,
-			int max_count, String filter) {
+	public ArrayList<PuluoEvent> findEvents(Date event_date, String keyword, String level, 
+			String sort, String sort_direction, String latitude, String longitude, int range_from) {
 		// TODO Auto-generated method stub
 		return null;
 	}
