@@ -47,3 +47,4 @@ src/main/webapp/.idea/*
 *.cache
 
 *.swp
+puluo_app_backend/lift_server/data/dist/lift_server.war
