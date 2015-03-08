@@ -3,10 +3,10 @@ package com.puluo.api.user;
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.UserProfileResult;
 import com.puluo.dao.PuluoDSI;
-import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
 import com.puluo.entity.impl.PuluoUserImpl;
+
 
 public class UserProfileAPI extends PuluoAPI<PuluoDSI,UserProfileResult> {
 
@@ -41,12 +41,10 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI,UserProfileResult> {
 	public void execute() {
 		PuluoUserDaoImpl userdao = new PuluoUserDaoImpl();
 		PuluoUserImpl user = null;
-		
 		if(!this.mobile.isEmpty())
 			user = (PuluoUserImpl) userdao.getByMobile(mobile);
 		else if(!this.uuid.isEmpty())
 			user = (PuluoUserImpl) userdao.getByUUID(uuid);
-		
 		UserProfileResult result = new UserProfileResult(user.idUser(),user.firstName(),user.lastName(),
 				user.thumbnail(),user.largeImage(),user.saying(),user.likes(),user.banned(),user.following(),
 				user.isCoach(),user.email(),String.valueOf(user.sex()),user.birthday().toString(),user.occupation(),

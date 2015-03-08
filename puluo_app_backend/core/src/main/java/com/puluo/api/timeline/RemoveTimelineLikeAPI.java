@@ -7,16 +7,16 @@ import com.puluo.dao.impl.DaoApi;
 import com.puluo.dao.impl.PuluoPostLikeDaoImpl;
 
 
-public class LikeTimelineAPI extends PuluoAPI<PuluoDSI,LikeTimelineResult> {
+public class RemoveTimelineLikeAPI extends PuluoAPI<PuluoDSI,LikeTimelineResult> {
 
 	public String timeline_uuid;
 	public String uuid;
 
-	public LikeTimelineAPI(String timeline_uuid, String uuid){
+	public RemoveTimelineLikeAPI(String timeline_uuid, String uuid){
 		this(timeline_uuid, uuid, DaoApi.getInstance());
 	}
 	
-	public LikeTimelineAPI(String timeline_uuid, String uuid, PuluoDSI dsi) {
+	public RemoveTimelineLikeAPI(String timeline_uuid, String uuid, PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.timeline_uuid = timeline_uuid;
 		this.uuid = uuid;

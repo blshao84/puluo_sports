@@ -49,7 +49,7 @@ public class EventRegistrationAPI extends
 			if (order.userId() == user_uuid) {
 				PuluoOrderStatus status = order.status();
 				if (status.isCancel()) {
-					log.error("订单(uuid={})已经被取消", order.orderUUID(),
+					log.error("订单(uuid is {})已经被取消", order.orderUUID(),
 							order.userId(), user_uuid);
 					createErrorResult("系统支付错误", "订单已取消");
 					this.rawResult = null;
@@ -61,7 +61,7 @@ public class EventRegistrationAPI extends
 					this.rawResult = result;
 				}
 			} else {
-				log.error("订单中的用户id={}与该用户id={}不匹配", order.userId(), user_uuid);
+				log.error("订单中的用户id is {}与该用户id is {}不匹配", order.userId(), user_uuid);
 				createErrorResult("系统支付错误", "订单中的用户id与该用户不匹配");
 				this.rawResult = null;
 			}
@@ -116,7 +116,7 @@ public class EventRegistrationAPI extends
 		PuluoEvent event = dsi.eventDao().getEventByUUID(event_uuid);
 		if (event == null) {
 			error = new ApiErrorResult("支付错误", String.format(
-					"Event不存在(uuid=%s)", event_uuid), "");
+					"Event不存在(uuid is %s)", event_uuid), "");
 			return null;
 		} else {
 			Double amount = event.price();

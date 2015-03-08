@@ -13,13 +13,13 @@ public class PuluoPostCommentDaoImpl extends DalTemplate implements
 	}
 
 	@Override
-	public String commentUserTimeline(String idpost) {
+	public String commentUserTimeline(String timeline_uuid, String reply_to, String comment) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String removeCommentUserTimeline(String idpost) {
+	public String removeCommentUserTimeline(String comment_uuid) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-
 import com.puluo.api.DemoAPI;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoUserDao;
@@ -16,7 +15,6 @@ import com.puluo.entity.impl.PuluoUserImpl;
 
 public class DemoAPITest {
 
-	
 	@Test
 	public void testDemoAPI() {
 		String msg = "5678";

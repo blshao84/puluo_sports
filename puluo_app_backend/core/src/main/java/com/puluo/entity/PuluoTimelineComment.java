@@ -5,6 +5,8 @@ import org.joda.time.DateTime;
 public interface PuluoTimelineComment {
 
 	public String commentUUID();
+	
+	public String UUID();
 
 	public PuluoTimelinePost timeline();
 

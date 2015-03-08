@@ -8,7 +8,6 @@ import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
 import com.puluo.entity.PuluoUser;
-import com.puluo.entity.impl.PuluoUserImpl;
 
 
 public class UserSearchAPI extends PuluoAPI<PuluoDSI,UserSearchResult> {
@@ -34,14 +33,9 @@ public class UserSearchAPI extends PuluoAPI<PuluoDSI,UserSearchResult> {
 	@Override
 	public void execute() {
 		PuluoUserDaoImpl userdao = new PuluoUserDaoImpl();
-		ArrayList<PuluoUser> users = new ArrayList<PuluoUser>();
-		ArrayList<PuluoUserImpl> usersimpl = new ArrayList<PuluoUserImpl>();
-		
-		users = userdao.findUser(first_name, last_name, email, mobile);
-		for(int i=0;i<users.size();i++) 
-			usersimpl.add((PuluoUserImpl) users.get(i));
+		ArrayList<PuluoUser> users = userdao.findUser(first_name, last_name, email, mobile);
 		UserSearchResult result = new UserSearchResult();
-		result.setSearchDetails(usersimpl);
+		result.setSearchDetails(users);
 		rawResult = result;
 	}
 }
