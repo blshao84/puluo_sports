@@ -24,9 +24,9 @@
 		<property name="driverClass" value="org.postgresql.Driver" />
 		<!-- 相应驱动的jdbcUrl,你懂的 -->
 		<property name="jdbcUrl"
-			value="jdbc:postgresql://183.131.76.93:2345/database" />
+			value="jdbc:postgresql://183.131.76.93:2345/puluo" />
 		<!-- 数据库的用户名 -->
-		<property name="username" value="puluo" />
+		<property name="username" value="puluodev" />
 		<!-- 数据库的密码 -->
 		<property name="password" value="puLuo20!5" />
 		<!-- 检查数据库连接池中空闲连接的间隔时间，单位是分，默认值：240，如果要取消则设置为0 -->
@@ -51,9 +51,9 @@
 		<property name="driverClass" value="org.postgresql.Driver" />
 		<!-- 相应驱动的jdbcUrl,你懂的 -->
 		<property name="jdbcUrl"
-			value="jdbc:postgresql://183.131.76.93:2345/database" />
+			value="jdbc:postgresql://183.131.76.93:2345/puluo" />
 		<!-- 数据库的用户名 -->
-		<property name="username" value="puluo" />
+		<property name="username" value="puluodev" />
 		<!-- 数据库的密码 -->
 		<property name="password" value="puLuo20!5" />
 		<!-- 检查数据库连接池中空闲连接的间隔时间，单位是分，默认值：240，如果要取消则设置为0 -->
