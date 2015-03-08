@@ -31,12 +31,11 @@ public class EventRegistrationAPITest {
 		api.execute();
 		
 		ApiErrorResult expectedError = new ApiErrorResult("支付错误", String.format(
-				"Event不存在(uuid=%s)", eventUUID), "");
+				"Event不存在(uuid is %s)", eventUUID), "");
 		String expectedJsonResult = 
 			"{\"id\":\"支付错误\","
-			+ "\"message\":\"Event不存在(uuid\u003d1)\","
+			+ "\"message\":\"Event不存在(uuid is 1)\","
 			+ "\"url\":\"\"}";
-		System.out.println(expectedJsonResult);
 		Assert.assertEquals("rawResult expected to be null", expectedJsonResult, api.result());
 		Assert.assertEquals("error result are not expected", expectedError, api.error);
 	}
