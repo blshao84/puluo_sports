@@ -90,7 +90,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 			String updateSQL = new StringBuilder().append("update ")
 					.append(super.getFullTableName())
 					.append(" set user_password = '" + newPassword + "',")
-					.append(" updated_at = now()::")
+					.append(" updated_at = now()::timestamp")
 					.append(" where user_uuid = '" + uuid + "'")
 					.toString();
 			log.info(updateSQL);
@@ -117,7 +117,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 						String user_type = rs.getString("user_type");
 						if (user_type==null) {
 							user_type = PuluoUserType.User.name();
-							log.info("user_type为null，默认设置为PuluoUserType.User！");
+							log.info("mobile(" + rs.getString("mobile") + "): user_type为null, 默认设置为PuluoUserType.User!");
 						}
 						String sex = rs.getString("sex");
 						PuluoUserImpl puluoUser = new PuluoUserImpl(
@@ -131,7 +131,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 								rs.getString("large_image"),
 								PuluoUserType.valueOf(user_type),
 								rs.getString("email"),
-								sex != null ? sex.charAt(0) : null,
+								sex != null ? new String(sex + " ").charAt(0) : new String(" ").charAt(0),
 								rs.getString("zip"),
 								rs.getString("country"),
 								rs.getString("state"),
@@ -139,7 +139,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 								rs.getString("occupation"),
 								rs.getString("address"),
 								rs.getString("saying"),
-								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("created_at"))),
+								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("birthday"))),
 								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("created_at"))),
 								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("updated_at"))),
 								rs.getBoolean("banned"));
@@ -149,7 +149,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 		if (entities.size() == 1)
 			return entities.get(0);
 		else if (entities.size() > 1)
-			throw new PuluoDatabaseException("");
+			throw new PuluoDatabaseException("通过mobile查到多个用户！");
 		else
 			return null;
 	}
@@ -169,7 +169,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 						String user_type = rs.getString("user_type");
 						if (user_type==null) {
 							user_type = PuluoUserType.User.name();
-							log.info("user_type为null，默认设置为PuluoUserType.User！");
+							log.info("uuid(" +  rs.getString("user_uuid") + "): user_type为null, 默认设置为PuluoUserType.User!");
 						}
 						String sex = rs.getString("sex");
 						PuluoUserImpl puluoUser = new PuluoUserImpl(
@@ -183,7 +183,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 								rs.getString("large_image"),
 								PuluoUserType.valueOf(user_type),
 								rs.getString("email"),
-								sex != null ? sex.charAt(0) : null,
+								sex != null ? new String(sex + " ").charAt(0) : new String(" ").charAt(0),
 								rs.getString("zip"),
 								rs.getString("country"),
 								rs.getString("state"),
@@ -191,7 +191,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 								rs.getString("occupation"),
 								rs.getString("address"),
 								rs.getString("saying"),
-								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("created_at"))),
+								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("birthday"))),
 								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("created_at"))),
 								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("updated_at"))),
 								rs.getBoolean("banned"));
@@ -310,7 +310,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 						String user_type = rs.getString("user_type");
 						if (user_type==null) {
 							user_type = PuluoUserType.User.name();
-							log.info("user_type为null，默认设置为PuluoUserType.User！");
+							log.info("findUser: user_type为null, 默认设置为PuluoUserType.User!");
 						}
 						String sex = rs.getString("sex");
 						PuluoUserImpl puluoUser = new PuluoUserImpl(
@@ -324,7 +324,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 								rs.getString("large_image"),
 								PuluoUserType.valueOf(user_type),
 								rs.getString("email"),
-								sex != null ? sex.charAt(0) : null,
+								sex != null ? new String(sex + " ").charAt(0) : new String(" ").charAt(0),
 								rs.getString("zip"),
 								rs.getString("country"),
 								rs.getString("state"),
@@ -332,7 +332,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 								rs.getString("occupation"),
 								rs.getString("address"),
 								rs.getString("saying"),
-								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("created_at"))),
+								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("birthday"))),
 								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("created_at"))),
 								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("updated_at"))),
 								rs.getBoolean("banned"));

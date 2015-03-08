@@ -19,7 +19,8 @@ public class TimeUtils {
             format = f.format(dt);
 
         } catch (Exception e) {
-            java.util.Date defDay = c.getInstance().getTime();
+            @SuppressWarnings("static-access")
+			java.util.Date defDay = c.getInstance().getTime();
             format = f.format(defDay);
         }
         return format;
@@ -32,10 +33,11 @@ public class TimeUtils {
         Calendar c = Calendar.getInstance();
         c.add(Calendar.YEAR, -10);
         try {
-            format = f.format(dt);
+            format = f.format(dt.toDate());
 
         } catch (Exception e) {
-            java.util.Date defDay = c.getInstance().getTime();
+            @SuppressWarnings("static-access")
+			java.util.Date defDay = c.getInstance().getTime();
             format = f.format(defDay);
         }
         return format;
@@ -94,5 +96,18 @@ public class TimeUtils {
 			return null;
 		}
 	}
+    
+    public static String formatBirthday(DateTime dt){
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+        String format;
+        try {
+            format = f.format(dt.toDate());
+        } catch (Exception e) {
+        	e.printStackTrace();
+            Date defDay = Calendar.getInstance().getTime();
+            format = f.format(defDay);
+        }
+        return format;
+    }
     
 }
