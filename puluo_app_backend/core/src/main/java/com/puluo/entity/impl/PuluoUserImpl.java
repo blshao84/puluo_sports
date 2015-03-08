@@ -30,16 +30,37 @@ public class PuluoUserImpl implements PuluoUser {
 	DateTime created_at; // 用户创建时间
 	DateTime updated_at; // 用户信息最后一次更新时间
 	boolean banned;
-	
-	
 
 	public PuluoUserImpl(String user_uuid, String mobile, String[] interests,
-			String password) {
+			String password, String firstName, String lastName,
+			String thumbnail, String largeImage, PuluoUserType user_type,
+			String email, char sex, String zip, String country, String state,
+			String city, String occupation, String address, String saying,
+			LocalDate birthday, DateTime created_at, DateTime updated_at,
+			boolean banned) {
 		super();
 		this.user_uuid = user_uuid;
 		this.mobile = mobile;
 		this.interests = interests;
 		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.thumbnail = thumbnail;
+		this.largeImage = largeImage;
+		this.user_type = user_type;
+		this.email = email;
+		this.sex = sex;
+		this.zip = zip;
+		this.country = country;
+		this.state = state;
+		this.city = city;
+		this.occupation = occupation;
+		this.address = address;
+		this.saying = saying;
+		this.birthday = birthday;
+		this.created_at = created_at;
+		this.updated_at = updated_at;
+		this.banned = banned;
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 public class TimeUtils {
     public static String formatDate(Date dt){
@@ -65,7 +66,33 @@ public class TimeUtils {
 				return new DateTime(year,month,day,hour,min,sec);
 			} else return null;
 		} else return null;
-		
+	}
+    
+
+    
+    public static LocalDate parseLocalDate(String dt) {
+		String[] dateTime = dt.split(" ");
+		if (dateTime.length == 2) {
+			String dateString = dateTime[0];
+			String timeString = dateTime[1];
+			String[] dates = dateString.split("-");
+			String[] times = timeString.split(":");
+			if (dates.length == 3 && times.length == 3) {
+				String yearString = dates[0];
+				String monthString = dates[1];
+				String dayString = dates[2];
+
+				int year = Integer.parseInt(yearString);
+				int month = Integer.parseInt(monthString);
+				int day = Integer.parseInt(dayString);
+
+				return new LocalDate(year, month, day);
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
 	}
     
 }
