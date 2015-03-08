@@ -54,12 +54,9 @@ public class UserProfileUpdateAPI extends
 
 	@Override
 	public void execute() {
-		PuluoUserDaoImpl userdao = new PuluoUserDaoImpl();
-		PuluoUserImpl curuser = new PuluoUserImpl();
-		PuluoUserImpl upduser = new PuluoUserImpl();
-		
-		curuser = (PuluoUserImpl) userdao.getByUUID(uuid);
-		upduser = (PuluoUserImpl) userdao.updateProfile(curuser, first_name, last_name, thumbnail, large_image, 
+		PuluoUserDaoImpl userdao = new PuluoUserDaoImpl();		
+		PuluoUserImpl curuser = (PuluoUserImpl) userdao.getByUUID(uuid);
+		PuluoUserImpl upduser = (PuluoUserImpl) userdao.updateProfile(curuser, first_name, last_name, thumbnail, large_image, 
 				saying, email, sex, birthday, country, state, city, zip);
 		UserProfileUpdateResult result = new UserProfileUpdateResult(upduser.idUser(), upduser.firstName(),
 				upduser.lastName(), upduser.thumbnail(), upduser.largeImage(), upduser.saying(), upduser.email(),

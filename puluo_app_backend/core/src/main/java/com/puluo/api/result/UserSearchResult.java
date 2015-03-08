@@ -2,28 +2,31 @@ package com.puluo.api.result;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.puluo.entity.PuluoUser;
 import com.puluo.entity.impl.PuluoUserImpl;
 import com.puluo.util.HasJSON;
 
 
 public class UserSearchResult extends HasJSON {
+	
 	public List<UserSearchResultDetail> details;
+	
+	public UserSearchResult() {
+		super();
+	}
 	
 	public UserSearchResult(List<UserSearchResultDetail> details) {
 		super();
 		this.details = details;
 	}
 	
-	public UserSearchResult() {
-		super();
-	}
-	
-	public boolean setSearchDetails(ArrayList<PuluoUserImpl> users) {
-		
+	public boolean setSearchDetails(ArrayList<PuluoUser> users) {
+
 		details = new ArrayList<UserSearchResultDetail>();
 		for(int i=0;i<users.size();i++) {
-			UserSearchResultDetail tmp = new UserSearchResultDetail(users.get(i).idUser(),
-					users.get(i).firstName(),users.get(i).lastName(),users.get(i).email(),users.get(i).mobile());
+			PuluoUserImpl userimpl = (PuluoUserImpl) users.get(i);
+			UserSearchResultDetail tmp = new UserSearchResultDetail(userimpl.idUser(),
+					userimpl.firstName(),userimpl.lastName(),userimpl.email(),userimpl.mobile());
 			details.add(tmp);
 		}
 		return true;

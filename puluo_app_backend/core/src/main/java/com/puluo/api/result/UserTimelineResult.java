@@ -2,16 +2,52 @@ package com.puluo.api.result;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import com.puluo.entity.PuluoTimelinePost;
+import com.puluo.entity.impl.PuluoPostImpl;
 import com.puluo.util.HasJSON;
+
 
 public class UserTimelineResult extends HasJSON {
 
 	public List<UserTimeline> timelines;
 
+	public UserTimelineResult() {
+		super();
+	}
+	
 	public UserTimelineResult(List<UserTimeline> timelines) {
 		super();
 		this.timelines = timelines;
+	}
+	
+	public boolean setTimelinePosts(ArrayList<PuluoTimelinePost> posts) {
+
+		timelines = new ArrayList<UserTimeline>();
+		for(int i=0;i<posts.size();i++) {
+			PuluoPostImpl postimpl = (PuluoPostImpl) posts.get(i);
+			//create timelineLikes array
+			ArrayList<TimelineLikes> tl_likes = new ArrayList<TimelineLikes>();
+			for(int j=0;j<postimpl.likes().size();j++) {
+				TimelineLikes like = new TimelineLikes(postimpl.likes().get(j).userUUID(),
+						postimpl.likes().get(j).userName(),postimpl.likes().get(j).createdAt().toString());
+				tl_likes.add(like);
+			}
+			//create timelineComments array
+			ArrayList<TimelineComments> tl_comments = new ArrayList<TimelineComments>();
+			for(int k=0;k<postimpl.comments().size();k++) {
+				TimelineComments comment = new TimelineComments(postimpl.comments().get(k).commentUUID(),
+						postimpl.comments().get(k).toUser().idUser(),postimpl.comments().get(k).fromUser().idUser(),
+						postimpl.comments().get(k).fromUser().username(),postimpl.comments().get(k).content(),
+						String.valueOf(postimpl.comments().get(k).isRead()),postimpl.comments().get(k).createdAt().toString());
+				tl_comments.add(comment);
+			}
+			//create userTimeline array
+			UserTimeline tmp = new UserTimeline(postimpl.timelineUUID(),
+					new TimelineEvent(postimpl.event().eventUUID(),postimpl.event().eventInfo().name(),postimpl.createdAt().toString()),
+					postimpl.content(),tl_likes,tl_comments,postimpl.createdAt().toString(),postimpl.updatedAt().toString());
+			timelines.add(tmp);
+		}
+		return true;
 	}
 
 	public static UserTimelineResult dummy() {

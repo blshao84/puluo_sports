@@ -8,7 +8,8 @@ import com.puluo.entity.PuluoUser;
 
 public class PuluoPostCommentImpl implements PuluoTimelineComment {
 
-	private final String uuid;
+	private final String comment_uuid;
+	private final String uuid;	
 	private final String timeline_uuid;
 	private final String fromUser_uuid;
 	private final String toUser_uuid;
@@ -16,10 +17,11 @@ public class PuluoPostCommentImpl implements PuluoTimelineComment {
 	private final DateTime creationTimestamp;
 	private final boolean read;
 
-	public PuluoPostCommentImpl(String uuid, String timeline_uuid,
+	public PuluoPostCommentImpl(String comment_uuid, String uuid, String timeline_uuid,
 			String fromUser_uuid, String toUser_uuid, String comment_content,
 			DateTime creationTimestamp, boolean read) {
 		super();
+		this.comment_uuid = comment_uuid;
 		this.uuid = uuid;
 		this.timeline_uuid = timeline_uuid;
 		this.fromUser_uuid = fromUser_uuid;
@@ -30,8 +32,13 @@ public class PuluoPostCommentImpl implements PuluoTimelineComment {
 	}
 
 	@Override
-	public String commentUUID() {
+	public String UUID() {
 		return uuid;
+	}
+
+	@Override
+	public String commentUUID() {
+		return comment_uuid;
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package com.puluo.dao;
 
-import java.util.ArrayList;
+import java.util.List;
 import com.puluo.entity.PuluoUser;
 
 
@@ -20,5 +20,5 @@ public interface PuluoUserDao {
 			String thumbnail, String large_image, String saying, String email, String sex, 
 			String birthday, String country, String state, String city, String zip); 
 	
-	public ArrayList<PuluoUser> findUser(String first_name, String last_name, String email, String mobile);
+	public List<PuluoUser> findUser(String first_name, String last_name, String email, String mobile);
 }

@@ -3,6 +3,7 @@ package com.puluo.api.result;
 import com.google.gson.Gson;
 import com.puluo.util.HasJSON;
 
+
 public class CommentTimelineResult extends HasJSON{
 	
 	public String status;

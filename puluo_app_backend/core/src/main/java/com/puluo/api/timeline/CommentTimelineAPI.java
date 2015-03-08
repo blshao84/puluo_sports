@@ -4,6 +4,7 @@ import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.CommentTimelineResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.dao.impl.PuluoPostCommentDaoImpl;
 
 
 public class CommentTimelineAPI extends PuluoAPI<PuluoDSI,CommentTimelineResult> {
@@ -16,6 +17,7 @@ public class CommentTimelineAPI extends PuluoAPI<PuluoDSI,CommentTimelineResult>
 			String reply_to){
 		this(timeline_uuid, comment, reply_to, DaoApi.getInstance());
 	}
+	
 	public CommentTimelineAPI(String timeline_uuid, String comment,
 			String reply_to, PuluoDSI dsi) {
 		this.dsi = dsi;
@@ -26,7 +28,9 @@ public class CommentTimelineAPI extends PuluoAPI<PuluoDSI,CommentTimelineResult>
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		PuluoPostCommentDaoImpl comment_dao = new PuluoPostCommentDaoImpl();
+		String status = comment_dao.commentUserTimeline(timeline_uuid, reply_to, comment);
+		CommentTimelineResult comment_result = new CommentTimelineResult(status);
+		rawResult = comment_result;
 	}
 }
