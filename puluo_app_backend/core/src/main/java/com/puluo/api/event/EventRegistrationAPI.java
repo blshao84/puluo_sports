@@ -29,13 +29,14 @@ public class EventRegistrationAPI extends
 	public String event_uuid;
 	public String user_uuid;
 
-	public EventRegistrationAPI(String event_uuid) {
-		this(event_uuid, DaoApi.getInstance());
+	public EventRegistrationAPI(String event_uuid,String user_uuid) {
+		this(event_uuid, user_uuid,DaoApi.getInstance());
 	}
 
-	public EventRegistrationAPI(String event_uuid, PuluoDSI dsi) {
+	public EventRegistrationAPI(String event_uuid,String user_uuid, PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.event_uuid = event_uuid;
+		this.user_uuid = user_uuid;
 	}
 
 	@Override

@@ -8,10 +8,10 @@ public abstract class PuluoAPI<DSI extends PuluoDSI, RESULT extends HasJSON> {
 
 	protected DSI dsi;
 	protected RESULT rawResult;
-	protected ApiErrorResult error;
+	public ApiErrorResult error;
 
 	public abstract void execute();
-
+	
 	public String result() {
 		if (rawResult != null && error == null)
 			return rawResult.toJson();
