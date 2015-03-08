@@ -1,7 +1,6 @@
 package com.puluo.entity.impl;
 
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 
 import com.puluo.entity.PuluoUser;
 import com.puluo.util.Strs;
@@ -36,7 +35,7 @@ public class PuluoUserImpl implements PuluoUser {
 			String thumbnail, String largeImage, PuluoUserType user_type,
 			String email, char sex, String zip, String country, String state,
 			String city, String occupation, String address, String saying,
-			LocalDate birthday, DateTime created_at, DateTime updated_at,
+			DateTime birthday, DateTime created_at, DateTime updated_at,
 			boolean banned) {
 		super();
 		this.user_uuid = user_uuid;

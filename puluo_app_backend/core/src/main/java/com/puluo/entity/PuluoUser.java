@@ -1,7 +1,6 @@
 package com.puluo.entity;
 
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 
 import com.puluo.entity.impl.PuluoUserType;
 

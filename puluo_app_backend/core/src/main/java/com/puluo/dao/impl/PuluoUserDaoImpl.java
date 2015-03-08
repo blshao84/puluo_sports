@@ -139,7 +139,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 								rs.getString("occupation"),
 								rs.getString("address"),
 								rs.getString("saying"),
-								TimeUtils.parseLocalDate(TimeUtils.formatDate(rs.getDate("created_at"))),
+								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("created_at"))),
 								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("created_at"))),
 								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("updated_at"))),
 								rs.getBoolean("banned"));
@@ -191,7 +191,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 								rs.getString("occupation"),
 								rs.getString("address"),
 								rs.getString("saying"),
-								TimeUtils.parseLocalDate(TimeUtils.formatDate(rs.getDate("created_at"))),
+								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("created_at"))),
 								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("created_at"))),
 								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("updated_at"))),
 								rs.getBoolean("banned"));
@@ -332,7 +332,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 								rs.getString("occupation"),
 								rs.getString("address"),
 								rs.getString("saying"),
-								TimeUtils.parseLocalDate(TimeUtils.formatDate(rs.getDate("created_at"))),
+								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("created_at"))),
 								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("created_at"))),
 								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("updated_at"))),
 								rs.getBoolean("banned"));
