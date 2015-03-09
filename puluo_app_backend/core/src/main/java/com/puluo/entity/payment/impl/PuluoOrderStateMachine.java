@@ -30,33 +30,37 @@ public class PuluoOrderStateMachine {
 	public static PuluoOrderStatus nextState(PuluoOrderStatus currentStatus,
 			OrderEvent event) {
 		PuluoOrderStatus nextStatus = PuluoOrderStatus.Undefined;
-		switch (currentStatus) {
-		case Undefined:
-			nextStatus = fromUndefinedState(event);
-			break;
+		if (event == null)
+			return nextStatus;
+		else {
+			switch (currentStatus) {
+			case Undefined:
+				nextStatus = fromUndefinedState(event);
+				break;
 
-		case New:
-			nextStatus = fromNewState(event);
-			break;
+			case New:
+				nextStatus = fromNewState(event);
+				break;
 
-		case Paying:
-			nextStatus = fromPayingState(event);
-			break;
+			case Paying:
+				nextStatus = fromPayingState(event);
+				break;
 
-		case Paid:
-			nextStatus = fromPaidState(event);
-			break;
+			case Paid:
+				nextStatus = fromPaidState(event);
+				break;
 
-		case Complete:
-			nextStatus = fromCompleteState(event);
-			break;
+			case Complete:
+				nextStatus = fromCompleteState(event);
+				break;
 
-		case Cancel:
-			nextStatus = fromCancelState(event);
-			break;
+			case Cancel:
+				nextStatus = fromCancelState(event);
+				break;
+			}
+
+			return nextStatus;
 		}
-
-		return nextStatus;
 	}
 
 	private static PuluoOrderStatus fromCancelState(OrderEvent event) {
