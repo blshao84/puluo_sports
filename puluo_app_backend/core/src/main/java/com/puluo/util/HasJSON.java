@@ -1,10 +1,11 @@
 package com.puluo.util;
 
-import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public abstract class HasJSON {
 	public String toJson() {
-		Gson gson = new Gson();
-		return gson.toJson(this);
+		GsonBuilder gb = new GsonBuilder();
+		gb.disableHtmlEscaping();
+		return gb.create().toJson(this);
 	}
 }
