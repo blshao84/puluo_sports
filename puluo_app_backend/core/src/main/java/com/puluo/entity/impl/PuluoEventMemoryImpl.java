@@ -8,8 +8,9 @@ import com.puluo.entity.PuluoUser;
 public class PuluoEventMemoryImpl implements PuluoEventMemory {
 
 	private String uuid;
-	private String event_uuid;
 	private String image_url;
+	private String thumbnail;
+	private String event_uuid;
 	private String user_uuid;
 	private String timeline_uuid;
 	
@@ -23,6 +24,12 @@ public class PuluoEventMemoryImpl implements PuluoEventMemory {
 	public String imageURL() {
 		// TODO Auto-generated method stub
 		return image_url;
+	}
+	
+	@Override
+	public String thumbnail() {
+		// TODO Auto-generated method stub
+		return thumbnail;
 	}
 
 	@Override
@@ -42,5 +49,4 @@ public class PuluoEventMemoryImpl implements PuluoEventMemory {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

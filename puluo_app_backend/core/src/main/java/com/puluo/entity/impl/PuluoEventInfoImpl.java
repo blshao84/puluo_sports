@@ -3,6 +3,7 @@ package com.puluo.entity.impl;
 import java.util.List;
 
 import com.puluo.entity.PuluoEventInfo;
+import com.puluo.entity.PuluoEventMemory;
 import com.puluo.entity.PuluoEventPoster;
 
 public class PuluoEventInfoImpl implements PuluoEventInfo {
@@ -89,11 +90,4 @@ public class PuluoEventInfoImpl implements PuluoEventInfo {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public PuluoEventPoster thumbnail() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

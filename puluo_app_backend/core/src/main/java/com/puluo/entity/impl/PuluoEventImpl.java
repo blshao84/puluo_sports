@@ -1,13 +1,12 @@
 package com.puluo.entity.impl;
 
 import java.util.List;
-
 import org.joda.time.DateTime;
-
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventLocation;
 import com.puluo.entity.PuluoEventMemory;
+
 
 public class PuluoEventImpl implements PuluoEvent {
 	private final String uuid;
@@ -106,5 +105,4 @@ public class PuluoEventImpl implements PuluoEvent {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

@@ -1,12 +1,13 @@
 package com.puluo.api.event;
 
+import java.util.ArrayList;
 import java.util.Date;
-
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.EventSearchResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.dao.impl.PuluoEventDaoImpl;
+import com.puluo.entity.PuluoEvent;
 
 
 public class EventSearchAPI extends PuluoAPI<PuluoDSI,EventSearchResult> {
@@ -43,6 +44,9 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI,EventSearchResult> {
 	@Override
 	public void execute() {
 		PuluoEventDaoImpl event_dao = new PuluoEventDaoImpl();
-		event_dao.findEvents(event_date, keyword, level, sort, sort_direction, latitude, longitude, range_from);
+		ArrayList<PuluoEvent> events= event_dao.findEvents(event_date, keyword, level, sort, sort_direction, latitude, longitude, range_from);
+		EventSearchResult result = new EventSearchResult();
+		result.setSearchResult(events);
+		rawResult = result;
 	}
 }

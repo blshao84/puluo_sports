@@ -1,10 +1,7 @@
 package com.puluo.entity;
 
 import java.util.List;
-
 import org.joda.time.DateTime;
-
-
 
 
 public interface PuluoEvent {
@@ -20,6 +17,4 @@ public interface PuluoEvent {
 	PuluoEventInfo eventInfo();
 	PuluoEventLocation eventLocation();
 	List<PuluoEventMemory> memory();
-
-	
 }
