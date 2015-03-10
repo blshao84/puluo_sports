@@ -6,6 +6,7 @@ import java.util.List;
 import com.puluo.entity.PuluoTimelinePost;
 import com.puluo.entity.impl.PuluoPostImpl;
 import com.puluo.util.HasJSON;
+import com.puluo.util.TimeUtils;
 
 
 public class UserTimelineResult extends HasJSON {
@@ -25,27 +26,28 @@ public class UserTimelineResult extends HasJSON {
 
 		timelines = new ArrayList<UserTimeline>();
 		for(int i=0;i<posts.size();i++) {
-			PuluoPostImpl postimpl = (PuluoPostImpl) posts.get(i);
+			PuluoPostImpl post_impl = (PuluoPostImpl) posts.get(i);
 			//create timelineLikes array
 			ArrayList<TimelineLikes> tl_likes = new ArrayList<TimelineLikes>();
-			for(int j=0;j<postimpl.likes().size();j++) {
-				TimelineLikes like = new TimelineLikes(postimpl.likes().get(j).userUUID(),
-						postimpl.likes().get(j).userName(),postimpl.likes().get(j).createdAt().toString());
+			for(int j=0;j<post_impl.likes().size();j++) {
+				TimelineLikes like = new TimelineLikes(post_impl.likes().get(j).userUUID(),
+						post_impl.likes().get(j).userName(),TimeUtils.formatDate(post_impl.likes().get(j).createdAt()));
 				tl_likes.add(like);
 			}
 			//create timelineComments array
 			ArrayList<TimelineComments> tl_comments = new ArrayList<TimelineComments>();
-			for(int k=0;k<postimpl.comments().size();k++) {
-				TimelineComments comment = new TimelineComments(postimpl.comments().get(k).commentUUID(),
-						postimpl.comments().get(k).toUser().userUUID(),postimpl.comments().get(k).fromUser().userUUID(),
-						postimpl.comments().get(k).fromUser().name(),postimpl.comments().get(k).content(),
-						String.valueOf(postimpl.comments().get(k).isRead()),postimpl.comments().get(k).createdAt().toString());
+			for(int k=0;k<post_impl.comments().size();k++) {
+				TimelineComments comment = new TimelineComments(post_impl.comments().get(k).commentUUID(),
+						post_impl.comments().get(k).toUser().userUUID(),post_impl.comments().get(k).fromUser().userUUID(),
+						post_impl.comments().get(k).fromUser().name(),post_impl.comments().get(k).content(),
+						String.valueOf(post_impl.comments().get(k).isRead()),TimeUtils.formatDate(post_impl.comments().get(k).createdAt()));
 				tl_comments.add(comment);
 			}
 			//create userTimeline array
-			UserTimeline tmp = new UserTimeline(postimpl.timelineUUID(),
-					new TimelineEvent(postimpl.event().eventUUID(),postimpl.event().eventInfo().name(),postimpl.createdAt().toString()),
-					postimpl.content(),tl_likes,tl_comments,postimpl.createdAt().toString(),postimpl.updatedAt().toString());
+			UserTimeline tmp = new UserTimeline(post_impl.timelineUUID(),
+					new TimelineEvent(post_impl.event().eventUUID(),post_impl.event().eventInfo().name(),
+							TimeUtils.formatDate(post_impl.event().eventTime())),post_impl.content(),tl_likes,
+							tl_comments,post_impl.createdAt().toString(),TimeUtils.formatDate(post_impl.updatedAt()));
 			timelines.add(tmp);
 		}
 		return true;

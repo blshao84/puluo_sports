@@ -25,20 +25,19 @@ public class EventSearchResult extends HasJSON {
 		details = new ArrayList<EventSearchResultDetail>();
 		for(int i=0;i<events.size();i++) {
 			PuluoEventImpl event_impl = (PuluoEventImpl) events.get(i);
-			ArrayList<String> posters = new ArrayList<String>();
-			ArrayList<String> memories = new ArrayList<String>();
-			for(int j=0;j<event_impl.eventInfo().poster().size();j++)
-				posters.add(event_impl.eventInfo().poster().get(j).thumbnail());
-			for(int k=0;k<event_impl.memory().size();k++)
-				memories.add(event_impl.memory().get(k).thumbnail());
-		
+			ArrayList<String> thumbnails = new ArrayList<String>();
+			ArrayList<String> images = new ArrayList<String>();
+			for(int j=0;j<event_impl.eventInfo().poster().size();j++) {
+				thumbnails.add(event_impl.eventInfo().poster().get(j).thumbnail());
+				images.add(event_impl.eventInfo().poster().get(j).imageURL());
+			}
 			details.add(new EventSearchResultDetail(event_impl.status(),event_impl.eventInfo().name(),
 				TimeUtils.formatDate(event_impl.eventTime()),event_impl.eventLocation().address(),
 				event_impl.eventLocation().city(),event_impl.eventLocation().phone(),
-				event_impl.eventInfo().coachName(),event_impl.eventInfo().coachUuid(),
-				posters,event_impl.registeredUsers(),event_impl.capatcity(),event_impl.eventInfo().likes(),
+				event_impl.eventInfo().coachName(),event_impl.eventInfo().coachUUID(),
+				thumbnails,event_impl.registeredUsers(),event_impl.capatcity(),event_impl.eventInfo().likes(),
 				event_impl.eventLocation().lattitude(),event_impl.eventLocation().longitude(),
-				event_impl.eventInfo().details(),memories));
+				event_impl.eventInfo().details(),images));
 		}
 		return true;
 	}
@@ -76,13 +75,13 @@ class EventSearchResultDetail {
 	public int likes;
 	public EventLocationResult geo_location;
 	public String details;
-	public List<String> memories;
+	public List<String> images;
 	
 	public EventSearchResultDetail(String status,
 			String event_name, String event_time, String address,
 			String city, String phone, String coach_name, String coach_uuid,
 			List<String> thumbnail, int registered_users, int capacity, int likes,
-			String latitude, String longitude, String details, List<String> memories) {
+			String latitude, String longitude, String details, List<String> images) {
 		super();
 		this.status = status;
 		this.event_name = event_name;
@@ -98,6 +97,6 @@ class EventSearchResultDetail {
 		this.likes = likes;
 		this.geo_location = new EventLocationResult(latitude, longitude);
 		this.details = details;
-		this.memories = memories;
+		this.images = images;
 	}
 }

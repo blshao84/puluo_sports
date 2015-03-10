@@ -29,16 +29,16 @@ public class EventDetailAPI extends PuluoAPI<PuluoDSI,EventDetailResult> {
 		PuluoEventDaoImpl event_dao = new PuluoEventDaoImpl();
 		PuluoEvent event = event_dao.getEventByUUID(event_uuid);
 		ArrayList<String> thumbnails = new ArrayList<String>();
-		ArrayList<String> memories = new ArrayList<String>();
-		for(int i=0;i<event.eventInfo().poster().size();i++)
-			thumbnails.add(event.eventInfo().poster().get(i).imageURL());
-		for(int j=0;j<event.memory().size();j++)
-			memories.add(event.memory().get(j).imageURL());
+		ArrayList<String> images = new ArrayList<String>();
+		for(int i=0;i<event.eventInfo().poster().size();i++) {
+			thumbnails.add(event.eventInfo().poster().get(i).thumbnail());
+			images.add(event.eventInfo().poster().get(i).imageURL());
+		}
 		EventDetailResult result = new EventDetailResult(event.status(),event.eventInfo().name(),
 				TimeUtils.formatDate(event.eventTime()),event.eventLocation().address(),event.eventLocation().city(),
-				event.eventLocation().phone(),event.eventInfo().coachName(),event.eventInfo().coachUuid(),thumbnails, 
+				event.eventLocation().phone(),event.eventInfo().coachName(),event.eventInfo().coachUUID(),thumbnails, 
 				event.registeredUsers(),event.capatcity(),event.eventInfo().likes(),event.eventLocation().lattitude(), 
-				event.eventLocation().longitude(),event.eventInfo().details(),memories);
+				event.eventLocation().longitude(),event.eventInfo().details(),images);
 		rawResult = result;
 	}
 }

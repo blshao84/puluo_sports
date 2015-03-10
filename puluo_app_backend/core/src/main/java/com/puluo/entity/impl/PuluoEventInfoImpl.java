@@ -11,6 +11,7 @@ public class PuluoEventInfoImpl implements PuluoEventInfo {
 	private String uuid;
 	private String name;
 	private String description;
+	private String coach_name;
 	private String coach_uuid;
 	private String thumbnail_uuid;
 	private String details;
@@ -43,7 +44,7 @@ public class PuluoEventInfoImpl implements PuluoEventInfo {
 	}
 
 	@Override
-	public String coachUuid() {
+	public String coachUUID() {
 		// TODO Auto-generated method stub
 		return null;
 	}

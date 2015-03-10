@@ -12,8 +12,8 @@ public class PuluoEventImpl implements PuluoEvent {
 	private final String uuid;
 	private final DateTime event_time;
 	private final String status; // TODO: should be strong typed
-	private final String[] images;
-	private final String[] memories;
+	//private final String[] images;
+	//private final String[] memories;
 	private final int registeredUsers;
 	private final int capatcity;
 	private final Double price;
@@ -21,16 +21,15 @@ public class PuluoEventImpl implements PuluoEvent {
 	private final String info_uuid;
 	private final String location_uuid;
 
-	public PuluoEventImpl(String uuid, DateTime event_time, String status,
-			String[] images, String[] memories, int registeredUsers,
-			int capatcity, Double price, Double discountedPrice,
+	public PuluoEventImpl(String uuid, DateTime event_time, String status, 
+			int registeredUsers, int capatcity, Double price, Double discountedPrice, 
 			String info_uuid, String location_uuid) {
 
 		this.uuid = uuid;
 		this.event_time = event_time;
 		this.status = status;
-		this.images = images;
-		this.memories = memories;
+		//this.images = images;
+		//this.memories = memories;
 		this.registeredUsers = registeredUsers;
 		this.capatcity = capatcity;
 		this.price = price;
@@ -56,7 +55,6 @@ public class PuluoEventImpl implements PuluoEvent {
 		// TODO Auto-generated method stub
 		return status;
 	}
-
 
 	@Override
 	public int registeredUsers() {

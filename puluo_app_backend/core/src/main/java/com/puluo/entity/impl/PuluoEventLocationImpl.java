@@ -2,6 +2,7 @@ package com.puluo.entity.impl;
 
 import com.puluo.entity.PuluoEventLocation;
 
+
 public class PuluoEventLocationImpl implements PuluoEventLocation {
 
 	private String location_id;
@@ -40,6 +41,30 @@ public class PuluoEventLocationImpl implements PuluoEventLocation {
 		// TODO Auto-generated method stub
 		return name;
 	}
+	
+	@Override
+	public String phone() {
+		// TODO Auto-generated method stub
+		return phone;
+	}
+	
+	@Override
+	public String city() {
+		// TODO Auto-generated method stub
+		return city;
+	}
+	
+	@Override
+	public String longitude() {
+		// TODO Auto-generated method stub
+		return longitude;
+	}
+	
+	@Override
+	public String lattitude() {
+		// TODO Auto-generated method stub
+		return lattitude;
+	}
 
 	@Override
 	public int court() {
@@ -58,29 +83,4 @@ public class PuluoEventLocationImpl implements PuluoEventLocation {
 		// TODO Auto-generated method stub
 		return type;
 	}
-
-	@Override
-	public String lattitude() {
-		// TODO Auto-generated method stub
-		return lattitude;
-	}
-
-	@Override
-	public String longitude() {
-		// TODO Auto-generated method stub
-		return longitude;
-	}
-
-	@Override
-	public String city() {
-		// TODO Auto-generated method stub
-		return city;
-	}
-
-	@Override
-	public String phone() {
-		// TODO Auto-generated method stub
-		return phone;
-	}
-
 }

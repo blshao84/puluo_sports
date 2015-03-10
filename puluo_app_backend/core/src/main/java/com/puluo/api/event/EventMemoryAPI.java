@@ -28,8 +28,8 @@ public class EventMemoryAPI extends PuluoAPI<PuluoDSI,EventMemoryResult>{
 	@Override
 	public void execute() {
 		PuluoEventMemoryDaoImpl memory_dao = new PuluoEventMemoryDaoImpl();
-		ArrayList<String> memories_url = new ArrayList<String>();
 		ArrayList<PuluoEventMemory> memories = memory_dao.getEventMemoryByUUID(event_uuid);
+		ArrayList<String> memories_url = new ArrayList<String>();
 		for(int i=0;i<memories.size();i++) 
 			memories_url.add(((PuluoEventMemoryImpl)memories.get(i)).imageURL());
 		EventMemoryResult result = new EventMemoryResult(memories_url);

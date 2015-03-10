@@ -1,8 +1,6 @@
 package com.puluo.api.timeline;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.UserTimelineResult;
 import com.puluo.dao.PuluoDSI;

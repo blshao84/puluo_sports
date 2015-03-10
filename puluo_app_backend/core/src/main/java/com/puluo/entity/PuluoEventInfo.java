@@ -9,7 +9,7 @@ public interface PuluoEventInfo {
 	String name();
 	String description(); 
 	String coachName();
-	String coachUuid();
+	String coachUUID();
 	String details();
 	int duration(); 
 	int level(); 

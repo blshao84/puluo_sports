@@ -6,11 +6,11 @@ public interface PuluoEventLocation {
 	String address();
 	String zip();
 	String name();
-	String city();
 	String phone();
+	String city();
+	String longitude();
+	String lattitude();
 	int court();
 	int capacity();
 	int type();
-	String lattitude();
-	String longitude();
 }
