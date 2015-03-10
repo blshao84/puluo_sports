@@ -25,7 +25,7 @@ public class UserLoginAPI extends PuluoAPI<PuluoDSI,UserLoginResult> {
 	}
 	
 	public PuluoSession obtainSession(){
-		return new PuluoSessionImpl("","",DateTime.now());
+		return new PuluoSessionImpl("","",DateTime.now(),null);
 	}
 
 	@Override
