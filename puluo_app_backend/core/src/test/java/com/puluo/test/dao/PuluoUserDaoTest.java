@@ -62,6 +62,7 @@ public class PuluoUserDaoTest {
 		PuluoUser user2 = DaoTestApi.userDevDao.getByUUID(uuidString);
 		Assert.assertNotNull(user2);
 		Assert.assertEquals("user's mobile should be 17721014665", "17721014665", user2.mobile());
+		log.info(user2.createdAt().toString());
 		log.info("testQueryUserByUUID done!");
 	}
 	

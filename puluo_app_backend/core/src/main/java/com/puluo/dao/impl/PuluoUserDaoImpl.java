@@ -139,9 +139,9 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 								rs.getString("occupation"),
 								rs.getString("address"),
 								rs.getString("saying"),
-								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("birthday"))),
-								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("created_at"))),
-								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("updated_at"))),
+								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("birthday"))),
+								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at"))),
+								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("updated_at"))),
 								rs.getBoolean("banned"));
 						return puluoUser;
 					}
@@ -191,9 +191,9 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 								rs.getString("occupation"),
 								rs.getString("address"),
 								rs.getString("saying"),
-								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("birthday"))),
-								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("created_at"))),
-								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("updated_at"))),
+								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("birthday"))),
+								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at"))),
+								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("updated_at"))),
 								rs.getBoolean("banned"));
 						return puluoUser;
 					}
@@ -332,9 +332,9 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 								rs.getString("occupation"),
 								rs.getString("address"),
 								rs.getString("saying"),
-								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("birthday"))),
-								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("created_at"))),
-								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getDate("updated_at"))),
+								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("birthday"))),
+								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at"))),
+								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("updated_at"))),
 								rs.getBoolean("banned"));
 						return puluoUser;
 					}
