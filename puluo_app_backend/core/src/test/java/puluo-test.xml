@@ -123,5 +123,10 @@
 		<property name="fullTableName" value="puluo_user"></property>
 	</bean>
 
+	<bean id="sessionDevDao" class="com.puluo.dao.impl.PuluoSessionDaoImpl"
+		parent="testDevDao">
+		<property name="fullTableName" value="puluo_session"></property>
+	</bean>
+
 
 </beans>

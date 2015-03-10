@@ -9,4 +9,6 @@ public interface PuluoSession {
 	public String  sessionID();
 	
 	public DateTime createdAt();
+
+	public DateTime deletedAt();
 }
