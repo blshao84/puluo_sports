@@ -1034,7 +1034,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X https://183.131.76.
 			event:{
 				event_uuid:"de305d54-75b4-431b-adb2-eb6b9e546013",
 				event_name:"Weapon of big ass reduction",
-				created_at:"2012-01-01 12:00:00"
+				created_at:"2012-01-01 12:00:00" //eventTime()
 			},
 			my_words:"This is an awesome event",
 			likes:[
