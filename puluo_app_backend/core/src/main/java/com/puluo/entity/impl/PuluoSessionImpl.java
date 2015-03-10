@@ -40,4 +40,13 @@ public class PuluoSessionImpl implements PuluoSession{
 		return deleted_at;
 	}
 
+	@Override
+	public boolean isDeleted() {
+		if (deleted_at!=null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }
