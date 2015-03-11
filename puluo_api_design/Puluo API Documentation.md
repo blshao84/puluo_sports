@@ -27,7 +27,8 @@ See error responses for more example ids.
 
 |Name		| Type	Description	| Example |
 | ------------- |:-------------:| :-----|
-|id	    	| string 			| id of error raised	| "rate_limit" |
+|id | int | unique numeric id | 1 |
+|error_type	    | string 			| id of error raised	| "rate_limit" |
 |message	| string			| end user message of error raised	| "Your account reached the API limit. Please wait a few minutes before making new requests" |
 |url		| string			| reference url with more information about the error	| https://devcenter.heroku.com/articles/platform-api-reference#rate-limits |
 
@@ -856,6 +857,12 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://183.131
   	"order_uuid":"de305d54-75b4-431b-adb2-eb6b9e546013"
 }
 ```
+###### Error Response
+|id|error_type|message|url|description
+| ------------- |:-------------|:----- |:-----|:-----|
+|1|系统支付错误|Event不存在(uuid is 123456)| | event not found |
+|2|系统支付错误|订单已取消| | order is canceled
+|3|系统支付错误|订单中的用户id与该用户不匹配| | order doesn't match the user |
 
 ##### Event Detail 
 

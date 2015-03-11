@@ -1,16 +1,33 @@
 package com.puluo.api.result;
 
+import java.util.HashMap;
+
 import com.puluo.util.HasJSON;
 
 public class ApiErrorResult extends HasJSON{
+	private static HashMap<Integer, ApiErrorResult> error_registry = new HashMap<Integer, ApiErrorResult>();
+	static {
+		error_registry.put(0, new ApiErrorResult(0,"no result", "rawResult is null", ""));
+		error_registry.put(1, new ApiErrorResult(1, "系统支付错误", "Event不存在", ""));
+		error_registry.put(2, new ApiErrorResult(2, "系统支付错误", "订单已取消",""));
+		error_registry.put(3, new ApiErrorResult(3, "系统支付错误", "订单中的用户id与该用户不匹配",""));
+		error_registry.put(4, new ApiErrorResult(4, "登陆错误", "用户不存在",""));
+		
+	}
 	
-	public String id;
-	public String message;
-	public String url;
+	public static ApiErrorResult getError(int id) {
+		return error_registry.get(id);
+	}
 	
-	public ApiErrorResult(String id, String message, String url) {
+	private final int id;
+	private final String error_type;
+	private final String message;
+	private final String url;
+	
+	private ApiErrorResult(int id,String error_type, String message, String url) {
 		super();
 		this.id = id;
+		this.error_type = error_type;
 		this.message = message;
 		this.url = url;
 	}
@@ -19,7 +36,9 @@ public class ApiErrorResult extends HasJSON{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result
+				+ ((error_type == null) ? 0 : error_type.hashCode());
+		result = prime * result + id;
 		result = prime * result + ((message == null) ? 0 : message.hashCode());
 		result = prime * result + ((url == null) ? 0 : url.hashCode());
 		return result;
@@ -34,10 +53,12 @@ public class ApiErrorResult extends HasJSON{
 		if (getClass() != obj.getClass())
 			return false;
 		ApiErrorResult other = (ApiErrorResult) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (error_type == null) {
+			if (other.error_type != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!error_type.equals(other.error_type))
+			return false;
+		if (id != other.id)
 			return false;
 		if (message == null) {
 			if (other.message != null)
@@ -51,6 +72,8 @@ public class ApiErrorResult extends HasJSON{
 			return false;
 		return true;
 	}
+
+	
 	
 	
 

@@ -17,6 +17,7 @@ import net.liftweb.common.Full
 import net.liftweb.common.Empty
 import com.puluo.api.util.ErrorResponseResult
 import com.puluo.api.util.PuluoAPIUtil
+import com.puluo.api.result.ApiErrorResult
 
 object PuluoAuthAPI extends RestHelper with PuluoAPIUtil {
   serve {
@@ -41,8 +42,13 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil {
 
     }
     case "dummy" :: "users" :: "login" :: Nil Post _ => {
-      PuluoSession(SessionInfo(Some(new UserLoginAPI("", "").obtainSession())))
-      PuluoResponseFactory.createDummyJSONResponse(UserLoginResult.dummy().toJson(), 201)
+      S.param("mobile") match {
+        case Full("invalid") => PuluoResponseFactory.createDummyJSONResponse(ApiErrorResult.getError(4).toJson(), 201)
+        case _ => {
+          PuluoSession(SessionInfo(Some(new UserLoginAPI("", "").obtainSession())))
+          PuluoResponseFactory.createDummyJSONResponse(UserLoginResult.dummy().toJson(), 201)
+        }
+      }
     }
     case "dummy" :: "users" :: "logout" :: Nil Post _ => {
       PuluoSession(SessionInfo(None))
@@ -76,7 +82,7 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil {
   private def doRegister(params: Map[String, String]) = {
     val mobile = params("mobile")
     val password = params("password")
-    val api = new UserRegistrationAPI(mobile,password)
+    val api = new UserRegistrationAPI(mobile, password)
     PuluoResponseFactory.createDummyJSONResponse(UserRegistrationResult.dummy().toJson(), 201)
   }
 
@@ -84,7 +90,7 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil {
     val newPassword = params("new_password")
     val password = params("password")
     val uuid = PuluoSession.userUUID
-    val api = new UserPasswordUpdateAPI(uuid,password,newPassword)
+    val api = new UserPasswordUpdateAPI(uuid, password, newPassword)
     PuluoResponseFactory.createDummyJSONResponse(UserPasswordUpdateResult.dummy().toJson())
   }
 }

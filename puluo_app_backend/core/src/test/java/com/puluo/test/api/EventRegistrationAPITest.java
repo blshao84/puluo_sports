@@ -144,10 +144,9 @@ public class EventRegistrationAPITest {
 				mockDsi);
 		api.execute();
 
-		ApiErrorResult expectedError = new ApiErrorResult("支付错误",
-				String.format("Event不存在(uuid is %s)", eventUUID), "");
-		String expectedJsonResult = "{\"id\":\"支付错误\","
-				+ "\"message\":\"Event不存在(uuid is 1)\"," + "\"url\":\"\"}";
+		ApiErrorResult expectedError = ApiErrorResult.getError(1);
+		String expectedJsonResult = "{\"id\":1,\"error_type\":\"系统支付错误\","
+				+ "\"message\":\"Event不存在\"," + "\"url\":\"\"}";
 		Assert.assertEquals("rawResult expected to be null",
 				expectedJsonResult, api.result());
 		Assert.assertEquals("error result are not expected", expectedError,
@@ -174,7 +173,7 @@ public class EventRegistrationAPITest {
 				.thenReturn(order);
 		EventRegistrationAPI api = new EventRegistrationAPI("1", "1", mockDsi);
 		api.execute();
-		String expectedErrorMessage = "{\"id\":\"系统支付错误\",\"message\":\"订单中的用户id与该用户不匹配\",\"url\":\"\"}";
+		String expectedErrorMessage = "{\"id\":3,\"error_type\":\"系统支付错误\",\"message\":\"订单中的用户id与该用户不匹配\",\"url\":\"\"}";
 		Assert.assertEquals("unexpected error message", expectedErrorMessage,
 				api.result());
 	}
@@ -186,7 +185,7 @@ public class EventRegistrationAPITest {
 		Mockito.when(mockPaymentDao.getOrderByEvent(eventUUID)).thenReturn(
 				order);
 		String actualErrorMessage = run();
-		String expectedErrorMessage = "{\"id\":\"系统支付错误\",\"message\":\"订单已取消\",\"url\":\"\"}";
+		String expectedErrorMessage = "{\"id\":2,\"error_type\":\"系统支付错误\",\"message\":\"订单已取消\",\"url\":\"\"}";
 		Assert.assertEquals("unexpected error message", expectedErrorMessage,
 				actualErrorMessage);
 	}

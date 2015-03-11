@@ -29,11 +29,12 @@ public class EventRegistrationAPI extends
 	public String event_uuid;
 	public String user_uuid;
 
-	public EventRegistrationAPI(String event_uuid,String user_uuid) {
-		this(event_uuid, user_uuid,DaoApi.getInstance());
+	public EventRegistrationAPI(String event_uuid, String user_uuid) {
+		this(event_uuid, user_uuid, DaoApi.getInstance());
 	}
 
-	public EventRegistrationAPI(String event_uuid,String user_uuid, PuluoDSI dsi) {
+	public EventRegistrationAPI(String event_uuid, String user_uuid,
+			PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.event_uuid = event_uuid;
 		this.user_uuid = user_uuid;
@@ -51,7 +52,7 @@ public class EventRegistrationAPI extends
 				if (status.isCancel()) {
 					log.error("订单(uuid is {})已经被取消", order.orderUUID(),
 							order.userId(), user_uuid);
-					createErrorResult("系统支付错误", "订单已取消");
+					this.error = ApiErrorResult.getError(2);
 					this.rawResult = null;
 				} else if (status.isPaid()) {
 					this.rawResult = new EventRegistrationResult("",
@@ -61,8 +62,9 @@ public class EventRegistrationAPI extends
 					this.rawResult = result;
 				}
 			} else {
-				log.error("订单中的用户id is {}与该用户id is {}不匹配", order.userId(), user_uuid);
-				createErrorResult("系统支付错误", "订单中的用户id与该用户不匹配");
+				log.error("订单中的用户id is {}与该用户id is {}不匹配", order.userId(),
+						user_uuid);
+				this.error = ApiErrorResult.getError(3);
 				this.rawResult = null;
 			}
 		}
@@ -115,8 +117,7 @@ public class EventRegistrationAPI extends
 	private EventRegistrationResult createNewOrder() {
 		PuluoEvent event = dsi.eventDao().getEventByUUID(event_uuid);
 		if (event == null) {
-			error = new ApiErrorResult("支付错误", String.format(
-					"Event不存在(uuid is %s)", event_uuid), "");
+			this.error =  ApiErrorResult.getError(1);
 			return null;
 		} else {
 			Double amount = event.price();
@@ -127,7 +128,8 @@ public class EventRegistrationAPI extends
 					OrderEventType.PlaceOrderEvent);
 			dsi.paymentDao().saveOrder(order);
 			dsi.orderEventDao().saveOrderEvent(placeOrderEvent);
-			PuluoPaymentOrder savedOrder = dsi.paymentDao().getOrderByUUID(order.orderUUID());
+			PuluoPaymentOrder savedOrder = dsi.paymentDao().getOrderByUUID(
+					order.orderUUID());
 			String paymentLink = AlipayUtil.generateLink(savedOrder);
 			OrderEvent payOrderEvent = new OrderEventImpl(order.orderUUID(),
 					OrderEventType.PayOrderEvent);
@@ -135,12 +137,8 @@ public class EventRegistrationAPI extends
 			PuluoOrderStatus nextStatus2 = PuluoOrderStateMachine.nextState(
 					savedOrder, payOrderEvent);
 			dsi.paymentDao().updateOrderStatus(order, nextStatus2);
-			return new EventRegistrationResult(paymentLink,
-					order.orderUUID(), false);
+			return new EventRegistrationResult(paymentLink, order.orderUUID(),
+					false);
 		}
-	}
-
-	private void createErrorResult(String errorType, String errorDetail) {
-		this.error = new ApiErrorResult(errorType, errorDetail, "");
 	}
 }
