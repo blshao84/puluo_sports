@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 
 import com.puluo.api.event.EventRegistrationAPI;
 import com.puluo.api.result.ApiErrorResult;
+import com.puluo.dao.PuluoAuthCodeRecordDao;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.dao.PuluoEventInfoDao;
@@ -133,6 +134,12 @@ public class EventRegistrationAPITest {
 
 		@Override
 		public PuluoUserSettingDao userSettingDao() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public PuluoAuthCodeRecordDao authCodeRecordDao() {
 			// TODO Auto-generated method stub
 			return null;
 		}

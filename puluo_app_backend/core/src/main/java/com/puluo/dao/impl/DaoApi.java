@@ -1,5 +1,6 @@
 package com.puluo.dao.impl;
 
+import com.puluo.dao.PuluoAuthCodeRecordDao;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.dao.PuluoEventInfoDao;
@@ -33,6 +34,7 @@ public class DaoApi extends PuluoDSI {
 	protected  PuluoUserFriendshipDao friendshipDao;
 	protected  PuluoOrderEventDao orderEventDao;
 	protected  PuluoUserSettingDao userSettingDao;
+	protected  PuluoAuthCodeRecordDao authCodeRecordDao;
 	
 	private DaoApi() {
 		eventDao = BeanFactory.getBean(PuluoEventDao.class, "eventDao");
@@ -59,6 +61,7 @@ public class DaoApi extends PuluoDSI {
 		orderEventDao = BeanFactory.getBean(PuluoOrderEventDao.class,
 				"orderEventDao");
 		userSettingDao = BeanFactory.getBean(PuluoUserSettingDao.class, "userSettingDao");
+		authCodeRecordDao = BeanFactory.getBean(PuluoAuthCodeRecordDao.class, "authCodeRecordDao");
 	}
 
 	/**
@@ -162,5 +165,10 @@ public class DaoApi extends PuluoDSI {
 	public PuluoUserSettingDao userSettingDao() {
 		
 		return userSettingDao;
+	}
+
+	@Override
+	public PuluoAuthCodeRecordDao authCodeRecordDao() {
+		return authCodeRecordDao;
 	}
 }

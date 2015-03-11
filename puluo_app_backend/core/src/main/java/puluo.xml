@@ -164,5 +164,9 @@
 	<bean id="userSettingDao" class="com.puluo.dao.impl.PuluoUserSettingDaoImpl" parent="dalTemplate">
 		<property name="fullTableName" value="puluo_user_setting"></property>
 	</bean>	
+	
+	<bean id="authCodeRecordDao" class="com.puluo.dao.impl.PuluoAuthCodeRecordDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_auth_code"></property>
+	</bean>	
 
 </beans>
