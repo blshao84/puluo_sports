@@ -5,6 +5,8 @@ import java.util.List;
 import com.puluo.entity.PuluoUserFriendship;
 
 public interface PuluoUserFriendshipDao {
+	
+	public boolean createTable();
 
 	public List<PuluoUserFriendship> getFriendListByUUID(String userUUID);
 	
