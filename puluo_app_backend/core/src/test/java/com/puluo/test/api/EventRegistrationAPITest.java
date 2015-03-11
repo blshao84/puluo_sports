@@ -22,6 +22,7 @@ import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.dao.PuluoSessionDao;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
+import com.puluo.dao.PuluoUserSettingDao;
 import com.puluo.dao.impl.PuluoEventDaoImpl;
 import com.puluo.dao.impl.PuluoOrderEventDaoImpl;
 import com.puluo.dao.impl.PuluoPaymentDaoImpl;
@@ -128,6 +129,12 @@ public class EventRegistrationAPITest {
 		public PuluoOrderEventDao orderEventDao() {
 			// TODO Auto-generated method stub
 			return mockOrderEventDao;
+		}
+
+		@Override
+		public PuluoUserSettingDao userSettingDao() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 	}

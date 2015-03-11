@@ -15,6 +15,7 @@ import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.dao.PuluoSessionDao;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
+import com.puluo.dao.PuluoUserSettingDao;
 
 public class DaoApi extends PuluoDSI {
 	protected  PuluoEventDao eventDao;
@@ -31,7 +32,8 @@ public class DaoApi extends PuluoDSI {
 	protected  PuluoUserDao userDao;
 	protected  PuluoUserFriendshipDao friendshipDao;
 	protected  PuluoOrderEventDao orderEventDao;
-
+	protected  PuluoUserSettingDao userSettingDao;
+	
 	private DaoApi() {
 		eventDao = BeanFactory.getBean(PuluoEventDao.class, "eventDao");
 		eventInfoDao = BeanFactory.getBean(PuluoEventInfoDao.class,
@@ -56,6 +58,7 @@ public class DaoApi extends PuluoDSI {
 				"friendshipDao");
 		orderEventDao = BeanFactory.getBean(PuluoOrderEventDao.class,
 				"orderEventDao");
+		userSettingDao = BeanFactory.getBean(PuluoUserSettingDao.class, "userSettingDao");
 	}
 
 	/**
@@ -73,85 +76,91 @@ public class DaoApi extends PuluoDSI {
 
 	@Override
 	public PuluoEventDao eventDao() {
-		// TODO Auto-generated method stub
+		
 		return eventDao;
 	}
 
 	@Override
 	public PuluoEventInfoDao eventInfoDao() {
-		// TODO Auto-generated method stub
+		
 		return eventInfoDao;
 	}
 
 	@Override
 	public PuluoEventLocationDao eventLocationDao() {
-		// TODO Auto-generated method stub
+		
 		return eventLocationDao;
 	}
 
 	@Override
 	public PuluoEventMemoryDao eventMemoryDao() {
-		// TODO Auto-generated method stub
+		
 		return eventMemoryDao;
 	}
 
 	@Override
 	public PuluoEventPosterDao eventPosterDao() {
-		// TODO Auto-generated method stub
+		
 		return eventPosterDao;
 	}
 
 	@Override
 	public PuluoPaymentDao paymentDao() {
-		// TODO Auto-generated method stub
+		
 		return paymentDao;
 	}
 
 	@Override
 	public PuluoPostCommentDao postCommentDao() {
-		// TODO Auto-generated method stub
+		
 		return postCommentDao;
 	}
 
 	@Override
 	public PuluoPostDao postDao() {
-		// TODO Auto-generated method stub
+		
 		return postDao;
 	}
 
 	@Override
 	public PuluoPostLikeDao postLikeDao() {
-		// TODO Auto-generated method stub
+		
 		return postLikeDao;
 	}
 
 	@Override
 	public PuluoPrivateMessageDao privateMessageDao() {
-		// TODO Auto-generated method stub
+		
 		return privateMessageDao;
 	}
 
 	@Override
 	public PuluoSessionDao sessionDao() {
-		// TODO Auto-generated method stub
+		
 		return sessionDao;
 	}
 
 	@Override
 	public PuluoUserDao userDao() {
-		// TODO Auto-generated method stub
+		
 		return userDao;
 	}
 
 	@Override
 	public PuluoUserFriendshipDao friendshipDao() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public PuluoOrderEventDao orderEventDao() {
-		// TODO Auto-generated method stub
+		
 		return orderEventDao;
+	}
+
+	@Override
+	public PuluoUserSettingDao userSettingDao() {
+		
+		return userSettingDao;
 	}
 }
