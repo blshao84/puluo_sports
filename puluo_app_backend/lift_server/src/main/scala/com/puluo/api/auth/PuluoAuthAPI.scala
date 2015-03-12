@@ -20,8 +20,9 @@ import com.puluo.api.util.PuluoAPIUtil
 import com.puluo.api.result.ApiErrorResult
 import net.liftweb.json.Printer
 import net.liftweb.json.JsonAST
+import net.liftweb.common.Loggable
 
-object PuluoAuthAPI extends RestHelper with PuluoAPIUtil {
+object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable{
   serve {
     case "users" :: "login" :: Nil Post _ => {
       callWithParam(Map(
@@ -44,11 +45,10 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil {
 
     }
     case "dummy" :: "users" :: "login" :: Nil Post _ => {
-      val json = S.request.get.json
-      val jmsg = json.get \ "mobile"
-      val msg = Printer.pretty(JsonAST.render(jmsg))
-      msg match {
-        case "\"invalid\"" => PuluoResponseFactory.createDummyJSONResponse(ApiErrorResult.getError(4).toJson(), 201)
+      val paramMap = PuluoResponseFactory.createParamMap(Seq("mobile","password"))
+      logger.info("\n"+paramMap.mkString("\n"))
+      paramMap.get("password") match {
+        case Some("invalid") => PuluoResponseFactory.createDummyJSONResponse(ApiErrorResult.getError(4).toJson(), 201)
         case _ => {
           PuluoSession(SessionInfo(Some(new UserLoginAPI("", "").obtainSession())))
           PuluoResponseFactory.createDummyJSONResponse(UserLoginResult.dummy().toJson(), 201)

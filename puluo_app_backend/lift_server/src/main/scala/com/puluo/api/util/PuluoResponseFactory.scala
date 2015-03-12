@@ -7,10 +7,16 @@ import net.liftweb.http.JsonResponse
 import net.liftweb.json.JsonAST.JValue
 import net.liftweb.json._
 import com.puluo.api.PuluoAPI
+import net.liftweb.http.S
+import net.liftweb.common.Loggable
 
-object PuluoResponseFactory {
+object PuluoResponseFactory extends Loggable{
 
   implicit val formats = DefaultFormats
+  
+  def createParamMap(keys:Seq[String]) = {
+    createParamMapFromJson(keys) ++ createParamMapFromS(keys)
+  }
 
   def createErrorResponse(response: ErrorResponseResult): LiftResponse = {
     val jvalue = Serialization.write(response)
@@ -25,6 +31,33 @@ object PuluoResponseFactory {
   def createDummyJSONResponse(jresult: String, code: Int = 200): LiftResponse = {
     val jvalue = parse(jresult)
     JsonResponse(jvalue, requestHeader, JsonResponse.cookies, code)
+  }
+  
+  private def renderJson(jv:JValue) = {
+    jv match {
+      case JNothing => ""
+      case _ =>{
+        val raw = Printer.pretty(JsonAST.render((jv)))
+        logger.info("parsed json param "+raw)
+        if(raw.size>=2){
+          if((raw.head=='"') && (raw.last == '"')){
+            raw.drop(1).dropRight(1)
+          } else raw
+        } else raw
+      }
+    }
+  }
+  private def createParamMapFromJson(keys:Seq[String]) = {
+   S.request.get.json.map { json =>
+     keys.map(k=> {
+       val jvalue = renderJson(json\k)
+       (k,jvalue)
+     }).toMap
+   }.getOrElse(Map.empty[String,String])
+  }
+  
+  private def createParamMapFromS(keys:Seq[String]) = {
+    keys.map(key=> S.param(key).map(value=>(key,value))).flatten.toMap
   }
 
   private def requestHeader = requestIdHeader :: Nil//accessControlHeader
