@@ -4,6 +4,7 @@ import com.puluo.dao.PgDummyDao;
 import com.puluo.dao.PuluoSessionDao;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
+import com.puluo.dao.PuluoUserSettingDao;
 
 public class DaoTestApi {
 	public static PgDummyDao pgInMemDummy = 
@@ -15,4 +16,5 @@ public class DaoTestApi {
 	public static PuluoUserDao userDevDao	= BeanTestFactory.getBean(PuluoUserDaoImpl.class, "userDevDao");
 	public static PuluoSessionDao sessionDevDao	= BeanTestFactory.getBean(PuluoSessionDaoImpl.class, "sessionDevDao");
 	public static PuluoUserFriendshipDao friendDevDao	= BeanTestFactory.getBean(PuluoUserFriendshipDao.class, "friendDevDao");
+	public static PuluoUserSettingDao settingDevDao	= BeanTestFactory.getBean(PuluoUserSettingDao.class, "settingDevDao");
 }

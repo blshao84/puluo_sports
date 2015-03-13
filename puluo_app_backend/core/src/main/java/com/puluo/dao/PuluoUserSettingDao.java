@@ -2,6 +2,8 @@ package com.puluo.dao;
 
 public interface PuluoUserSettingDao {
 	
+	public boolean createTable();
+	
 	public boolean saveNewSetting(String user_uuid);
 	
 	public boolean updateAutoFriend(String user_uuid, boolean allowAutoFriend);
