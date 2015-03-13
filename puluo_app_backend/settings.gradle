@@ -1,1 +1,1 @@
-include "core","lift_server"
+include "core","lift_server","core_test"
