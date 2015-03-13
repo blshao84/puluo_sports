@@ -21,8 +21,11 @@ import com.puluo.api.result.ApiErrorResult
 import net.liftweb.json.Printer
 import net.liftweb.json.JsonAST
 import net.liftweb.common.Loggable
+import net.liftweb.util.LiftFlowOfControlException
+import scala.util.Failure
+import net.liftweb.common.Box
 
-object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable{
+object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
     case "users" :: "login" :: Nil Post _ => {
       callWithParam(Map(
@@ -45,8 +48,8 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable{
 
     }
     case "dummy" :: "users" :: "login" :: Nil Post _ => {
-      val paramMap = PuluoResponseFactory.createParamMap(Seq("mobile","password"))
-      logger.info("\n"+paramMap.mkString("\n"))
+      val paramMap = PuluoResponseFactory.createParamMap(Seq("mobile", "password"))
+      logger.info("\n" + paramMap.mkString("\n"))
       paramMap.get("password") match {
         case Some("invalid") => PuluoResponseFactory.createDummyJSONResponse(ApiErrorResult.getError(4).toJson(), 201)
         case _ => {

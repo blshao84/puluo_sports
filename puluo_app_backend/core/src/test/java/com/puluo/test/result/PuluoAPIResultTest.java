@@ -12,6 +12,7 @@ import com.puluo.api.result.EventDetailResult;
 import com.puluo.api.result.ListFriendsResult;
 import com.puluo.api.result.ListMessageResult;
 import com.puluo.api.result.RequestFriendResult;
+import com.puluo.api.result.SMSServiceResult;
 import com.puluo.api.result.SendMessageResult;
 import com.puluo.api.result.UserLoginResult;
 import com.puluo.api.result.UserLogoutResult;
@@ -329,6 +330,14 @@ public class PuluoAPIResultTest {
 		String expectedJsonResult = "{" + "\"email\":\"bshao@163.com\","
 				+ "\"status\":\"success\"" + "}";
 		String actualJsonResult = EmailServiceResult.dummy().toJson();
+		assertEquals(actualJsonResult, expectedJsonResult);
+	}
+	
+	@Test
+	public void testSMSServiceResult() {
+		String expectedJsonResult = "{" + "\"mobile\":\"1234567890\","
+				+ "\"status\":\"success\"" + "}";
+		String actualJsonResult = SMSServiceResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
 

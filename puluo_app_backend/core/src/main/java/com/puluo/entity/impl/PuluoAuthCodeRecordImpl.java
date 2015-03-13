@@ -5,7 +5,7 @@ import org.joda.time.DateTime;
 import com.puluo.entity.PuluoAuthCodeRecord;
 
 public class PuluoAuthCodeRecordImpl implements PuluoAuthCodeRecord{
-	private final String user_uuid;
+	private final String user_mobile;
 	private final String auth_code;
 	private final PuluoAuthCodeType auth_type;
 	private final DateTime created_at;
@@ -17,7 +17,7 @@ public class PuluoAuthCodeRecordImpl implements PuluoAuthCodeRecord{
 	public PuluoAuthCodeRecordImpl(String user_uuid, String auth_code,
 			PuluoAuthCodeType auth_type, DateTime created_at, DateTime updated_at) {
 		super();
-		this.user_uuid = user_uuid;
+		this.user_mobile = user_uuid;
 		this.auth_code = auth_code;
 		this.auth_type = auth_type;
 		this.created_at = created_at;
@@ -25,9 +25,9 @@ public class PuluoAuthCodeRecordImpl implements PuluoAuthCodeRecord{
 	}
 
 	@Override
-	public String userUUID() {
+	public String userMobile() {
 		
-		return user_uuid;
+		return user_mobile;
 	}
 
 	@Override

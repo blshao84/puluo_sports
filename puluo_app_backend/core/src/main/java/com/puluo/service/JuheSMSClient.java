@@ -24,7 +24,7 @@ public class JuheSMSClient {
 		this.baseURL = baseURL;
 	}
 
-	public JuheSMSResult sendVerificationCode(String mobile, String code) {
+	public JuheSMSResult sendAuthCode(String mobile, String code) {
 		String values = String.format("#code#=%s&#company#=大庆优诺", code);
 		return doSend(1, values, mobile);
 	}

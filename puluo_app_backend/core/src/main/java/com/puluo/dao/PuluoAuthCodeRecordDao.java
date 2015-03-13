@@ -4,7 +4,7 @@ import com.puluo.entity.PuluoAuthCodeRecord;
 
 public interface PuluoAuthCodeRecordDao {
 	
-	public boolean saveRegistrationAuthCode(String user_uuid, String authCode);
+	public boolean saveRegistrationAuthCode(String mobile, String authCode);
 	
 	public PuluoAuthCodeRecord getRegistrationAuthCodeFromMobile(String mobile);
 }
