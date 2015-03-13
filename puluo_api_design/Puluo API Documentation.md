@@ -115,6 +115,7 @@ Create a new user and returns error if the user already exists
 | ------------- |:-------------|:----- |:-----|
 |mobile|Long|user's mobile number|12346789000|
 |password|String|SHA-256 of user's plain text password|cd8460a5e0f2c2af596f170009bffc02df06b54d|
+|auth_code|String|authentication code user received from SMS| 
 
 ###### cURL Example
 

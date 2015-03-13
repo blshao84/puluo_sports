@@ -50,7 +50,9 @@ public class PuluoAPIResultTest {
 
 	@Test
 	public void testDummyUserRegistrationResult() {
-		String expectedJsonResult = "{" + "\"mobile\":\"12346789000\","
+		String expectedJsonResult = "{" 
+				+ "\"user_uuid\":\"cd8460a5e0f2c2af596f170009bffc02df06b54d\","
+				+ "\"mobile\":\"12346789000\","
 				+ "\"password\":\"cd8460a5e0f2c2af596f170009bffc02df06b54d\""
 				+ "}";
 		String actualJsonResult = UserRegistrationResult.dummy().toJson();
@@ -59,11 +61,10 @@ public class PuluoAPIResultTest {
 
 	@Test
 	public void testDummyUserLoginResult() {
-		String expectedJsonResult = "{" 
+		String expectedJsonResult = "{"
 				+ "\"uuid\":\"cd8460a5e0f2c2af596f170009bffc02df06b54d\","
 				+ "\"created_at\":\"2012-01-01 12:00:00\","
-				+ "\"last_login\":\"2012-01-01 12:00:00\""
-				+ "}";
+				+ "\"last_login\":\"2012-01-01 12:00:00\"" + "}";
 		String actualJsonResult = UserLoginResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
@@ -289,8 +290,7 @@ public class PuluoAPIResultTest {
 				+ "\"latitude\":\"39.92889\"," + "\"longitude\":\"116.38833\""
 				+ "}," + "\"details\":\"Get fit with friends.\","
 				+ "\"images\":[\"http://upyun.com/puluo/image1.jpg\","
-				+ "\"http://upyun.com/puluo/image2.jpg\"" + "]"
-				+ "}";
+				+ "\"http://upyun.com/puluo/image2.jpg\"" + "]" + "}";
 		String actualJsonResult = EventDetailResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}

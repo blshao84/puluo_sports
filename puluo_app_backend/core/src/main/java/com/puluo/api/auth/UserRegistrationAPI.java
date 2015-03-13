@@ -35,7 +35,7 @@ public class UserRegistrationAPI extends
 			return;
 		} else {
 			PuluoAuthCodeRecord authCodeRecord = dsi.authCodeRecordDao()
-					.getRegistrationAuthCodeFromUser(user.userUUID());
+					.getRegistrationAuthCodeFromMobile(mobile);
 			if (authCodeRecord == null) {
 				this.error = ApiErrorResult.getError(6);
 				return;
@@ -45,10 +45,11 @@ public class UserRegistrationAPI extends
 					return;
 				} else {
 					boolean successSave = dsi.userDao().save(mobile, password);
-					if (successSave)
-						this.rawResult = new UserRegistrationResult(mobile,
+					if (successSave){
+						String uuid = dsi.userDao().getByMobile(mobile).userUUID();
+						this.rawResult = new UserRegistrationResult(uuid,mobile,
 								password);
-					else {
+					}else {
 						this.error = ApiErrorResult.getError(6);
 						return;
 					}
