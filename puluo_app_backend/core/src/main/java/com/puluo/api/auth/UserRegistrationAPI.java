@@ -41,7 +41,7 @@ public class UserRegistrationAPI extends
 				return;
 			} else {
 				if (authCodeRecord.authCode() != auth_code) {
-					this.error = ApiErrorResult.getError(6);
+					this.error = ApiErrorResult.getError(7);
 					return;
 				} else {
 					boolean successSave = dsi.userDao().save(mobile, password);
@@ -50,7 +50,7 @@ public class UserRegistrationAPI extends
 						this.rawResult = new UserRegistrationResult(uuid,mobile,
 								password);
 					}else {
-						this.error = ApiErrorResult.getError(6);
+						this.error = ApiErrorResult.getError(8);
 						return;
 					}
 				}

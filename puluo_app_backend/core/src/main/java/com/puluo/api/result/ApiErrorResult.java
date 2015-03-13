@@ -15,6 +15,7 @@ public class ApiErrorResult extends HasJSON{
 		error_registry.put(5, new ApiErrorResult(5, "注册错误", "用户已存在",""));
 		error_registry.put(6, new ApiErrorResult(6, "注册错误", "验证码错误",""));
 		error_registry.put(7, new ApiErrorResult(7, "注册错误", "验证码不匹配",""));
+		error_registry.put(8, new ApiErrorResult(8, "注册错误", "保存用户时出现错误",""));
 		
 		
 	}
