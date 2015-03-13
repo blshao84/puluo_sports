@@ -7,23 +7,11 @@ import org.mockito.Mockito;
 
 import com.puluo.api.event.EventRegistrationAPI;
 import com.puluo.api.result.ApiErrorResult;
-import com.puluo.dao.PuluoAuthCodeRecordDao;
+import com.puluo.dao.MockTestDSI;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoEventDao;
-import com.puluo.dao.PuluoEventInfoDao;
-import com.puluo.dao.PuluoEventLocationDao;
-import com.puluo.dao.PuluoEventMemoryDao;
-import com.puluo.dao.PuluoEventPosterDao;
 import com.puluo.dao.PuluoOrderEventDao;
 import com.puluo.dao.PuluoPaymentDao;
-import com.puluo.dao.PuluoPostCommentDao;
-import com.puluo.dao.PuluoPostDao;
-import com.puluo.dao.PuluoPostLikeDao;
-import com.puluo.dao.PuluoPrivateMessageDao;
-import com.puluo.dao.PuluoSessionDao;
-import com.puluo.dao.PuluoUserDao;
-import com.puluo.dao.PuluoUserFriendshipDao;
-import com.puluo.dao.PuluoUserSettingDao;
 import com.puluo.dao.impl.PuluoEventDaoImpl;
 import com.puluo.dao.impl.PuluoOrderEventDaoImpl;
 import com.puluo.dao.impl.PuluoPaymentDaoImpl;
@@ -46,36 +34,12 @@ public class EventRegistrationAPITest {
 
 	private final String eventUUID = "1";
 
-	private class MockDSI extends PuluoDSI {
+	private class MockDSI extends MockTestDSI {
 
 		@Override
 		public PuluoEventDao eventDao() {
 			// TODO Auto-generated method stub
 			return mockEventDao;
-		}
-
-		@Override
-		public PuluoEventInfoDao eventInfoDao() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public PuluoEventLocationDao eventLocationDao() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public PuluoEventMemoryDao eventMemoryDao() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public PuluoEventPosterDao eventPosterDao() {
-			// TODO Auto-generated method stub
-			return null;
 		}
 
 		@Override
@@ -85,65 +49,10 @@ public class EventRegistrationAPITest {
 		}
 
 		@Override
-		public PuluoPostCommentDao postCommentDao() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public PuluoPostDao postDao() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public PuluoPostLikeDao postLikeDao() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public PuluoPrivateMessageDao privateMessageDao() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public PuluoSessionDao sessionDao() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public PuluoUserDao userDao() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public PuluoUserFriendshipDao friendshipDao() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
 		public PuluoOrderEventDao orderEventDao() {
 			// TODO Auto-generated method stub
 			return mockOrderEventDao;
 		}
-
-		@Override
-		public PuluoUserSettingDao userSettingDao() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public PuluoAuthCodeRecordDao authCodeRecordDao() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
 	}
 
 	private final PuluoDSI mockDsi = new MockDSI();
