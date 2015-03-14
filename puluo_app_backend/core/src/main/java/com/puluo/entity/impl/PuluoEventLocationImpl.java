@@ -20,67 +20,56 @@ public class PuluoEventLocationImpl implements PuluoEventLocation {
 	
 	@Override
 	public String locationId() {
-		// TODO Auto-generated method stub
 		return location_id;
 	}
 
 	@Override
 	public String address() {
-		// TODO Auto-generated method stub
 		return address;
 	}
 
 	@Override
 	public String zip() {
-		// TODO Auto-generated method stub
 		return zip;
 	}
 
 	@Override
 	public String name() {
-		// TODO Auto-generated method stub
 		return name;
 	}
 	
 	@Override
 	public String phone() {
-		// TODO Auto-generated method stub
 		return phone;
 	}
 	
 	@Override
 	public String city() {
-		// TODO Auto-generated method stub
 		return city;
 	}
 	
 	@Override
 	public String longitude() {
-		// TODO Auto-generated method stub
 		return longitude;
 	}
 	
 	@Override
 	public String lattitude() {
-		// TODO Auto-generated method stub
 		return lattitude;
 	}
 
 	@Override
 	public int court() {
-		// TODO Auto-generated method stub
 		return court;
 	}
 
 	@Override
 	public int capacity() {
-		// TODO Auto-generated method stub
 		return capacity;
 	}
 
 	@Override
 	public int type() {
-		// TODO Auto-generated method stub
 		return type;
 	}
 }

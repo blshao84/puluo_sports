@@ -6,14 +6,38 @@ import java.util.Date;
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.jdbc.DalTemplate;
+import com.puluo.util.Log;
+import com.puluo.util.LogFactory;
 
 
 public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
+	
+	public static Log log = LogFactory.getLog(PuluoEventDaoImpl.class);
 
 	@Override
 	public boolean createTable() {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			String createSQL = new StringBuilder().append("create table ")
+				.append(super.getFullTableName())
+				.append(" (id serial primary key, ")
+				.append("event_uuid text unique, ")
+				.append("event_time timestamp, ")
+				.append("status text, ")
+				.append("registered_users int, ")
+				.append("capatcity int, ")
+				.append("price double, ")
+				.append("discounted_price double, ")
+				.append("info_uuid text, ")
+				.append("location_uuid text)")
+				.toString();
+			log.info(createSQL);
+			getWriter().execute(createSQL);
+			// TODO create index
+		} catch (Exception e) {
+			log.debug(e.getMessage());
+			return false;
+		}
+		return true;
 	}
 
 	@Override
