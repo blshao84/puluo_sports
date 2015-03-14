@@ -57,7 +57,7 @@ public class SMSServiceAPI extends PuluoAPI<PuluoDSI, SMSServiceResult> {
 
 	private void processRegistrationRequest() {
 		String code = randomCode();
-		JuheSMSResult result = PuluoService.sms.sendAuthCode(mobile, code);
+		JuheSMSResult result = PuluoService.getSms().sendAuthCode(mobile, code);
 		if(result.isSuccess()){
 			boolean success = dsi.authCodeRecordDao().upsertRegistrationAuthCode(mobile, code);
 			if(success){

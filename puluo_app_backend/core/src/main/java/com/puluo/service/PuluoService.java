@@ -27,4 +27,16 @@ public class PuluoService {
 
 	public static final JuheSMSClient sms = new JuheSMSClient(
 			new DefaultHttpClient(), baseSMSURL);
+
+	public static JuheSMSClient getSms() {
+		return sms;
+	}
+
+	public static PuluoEmailService getEmail() {
+		return email;
+	}
+
+	public static PuluoImageService getImage() {
+		return image;
+	}
 }
