@@ -27,7 +27,7 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 			String createSQL = new StringBuilder().append("create table ")
 				.append(super.getFullTableName())
 				.append(" (id serial primary key, ")
-				.append("user_uuid text not null, ")
+				.append("user_mobile text not null, ")
 				.append("session_id text not null, ")
 				.append("created_at timestamp not null, ")
 				.append("deleted_at timestamp)")
@@ -47,7 +47,7 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 		try {
 			String insertSQL = new StringBuilder().append("insert into ")
 					.append(super.getFullTableName())
-					.append(" (user_uuid, session_id, created_at)")
+					.append(" (user_mobile, session_id, created_at)")
 					.append(" values ('" + userID + "', '" + sessionID + "', now()::timestamp)")
 					.toString();
 			log.info(insertSQL);
@@ -73,7 +73,7 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 						DateTime created_at = TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at")));
 						DateTime deleted_at = rs.getTimestamp("deleted_at")!=null ? TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("deleted_at"))) : null;
 						PuluoSessionImpl puluoSession = new PuluoSessionImpl(
-								rs.getString("user_uuid"),
+								rs.getString("user_mobile"),
 								rs.getString("session_id"),
 								created_at,
 								deleted_at);

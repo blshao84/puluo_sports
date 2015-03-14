@@ -38,8 +38,8 @@ public class PuluoSessionDaoTest {
 		log.info("testQuerySessionBySessionID start!");
 		PuluoSession session = DaoTestApi.sessionDevDao.getBySessionID("123456");
 		Assert.assertNotNull(session);
-		Assert.assertEquals("session's user_uuid should be 17721014665", "17721014665", session.userUUID());
-		log.info(session.userUUID());
+		Assert.assertEquals("session's user_uuid should be 17721014665", "17721014665", session.userMobile());
+		log.info(session.userMobile());
 		log.info("testQuerySessionBySessionID done!");
 	}
 

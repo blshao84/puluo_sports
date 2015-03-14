@@ -12,6 +12,7 @@ public class ApiErrorResult extends HasJSON{
 		error_registry.put(2, new ApiErrorResult(2, "系统支付错误", "订单已取消",""));
 		error_registry.put(3, new ApiErrorResult(3, "系统支付错误", "订单中的用户id与该用户不匹配",""));
 		error_registry.put(4, new ApiErrorResult(4, "登陆错误", "invalid user",""));
+		error_registry.put(11, new ApiErrorResult(11, "登陆错误", "密码不匹配",""));
 		error_registry.put(5, new ApiErrorResult(5, "注册错误", "用户已存在",""));
 		error_registry.put(6, new ApiErrorResult(6, "注册错误", "验证码错误",""));
 		error_registry.put(7, new ApiErrorResult(7, "注册错误", "验证码不匹配",""));

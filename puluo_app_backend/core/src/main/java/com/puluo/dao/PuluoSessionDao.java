@@ -8,7 +8,7 @@ public interface PuluoSessionDao {
 	
 	public PuluoSession getBySessionID(String sessionID);
 	
-	public boolean save(String userID, String sessionID);
+	public boolean save(String mobile, String sessionID);
 	
 	public boolean deleteSession(String sessionID);
 

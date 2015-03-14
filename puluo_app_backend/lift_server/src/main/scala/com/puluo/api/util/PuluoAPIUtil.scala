@@ -15,15 +15,12 @@ trait PuluoAPIUtil {
   def callWithParam(
     requiredParams: Map[String, ErrorResponseResult])(
       callAPI: Map[String, String] => LiftResponse): LiftResponse = {
-
+    val params = PuluoResponseFactory.createParamMap(requiredParams.keys.toSeq)
     val error = requiredParams.collectFirst {
-      case (key, error) if (!S.param(key).isDefined) => error
+      case (key, error) if (!params.get(key).isDefined) => error
     }
     if (error.isDefined) PuluoResponseFactory.createErrorResponse(error.get)
     else {
-      val params = requiredParams.map {
-        case (key, value) => (key, S.param(key).get)
-      }
       callAPI(params)
     }
 

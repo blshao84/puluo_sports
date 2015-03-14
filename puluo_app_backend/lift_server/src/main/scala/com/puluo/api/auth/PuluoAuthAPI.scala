@@ -53,7 +53,7 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
       paramMap.get("password") match {
         case Some("invalid") => PuluoResponseFactory.createDummyJSONResponse(ApiErrorResult.getError(4).toJson(), 201)
         case _ => {
-          PuluoSession(SessionInfo(Some(new UserLoginAPI("", "").obtainSession())))
+          PuluoSession(SessionInfo(Some(new com.puluo.entity.impl.PuluoSessionImpl("", "", DateTime.now, DateTime.now))))
           PuluoResponseFactory.createDummyJSONResponse(UserLoginResult.dummy().toJson(), 201)
         }
       }
@@ -74,7 +74,9 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
   private def doLogin(params: Map[String, String]) = {
     val mobile = params("mobile")
     val password = params("password")
-    val api = new UserLoginAPI(mobile, password)
+    val sessionID = S.session.map(_.httpSession.get.sessionId).getOrElse("")
+    logger.info(String.format("生成UserLoginAPI(%s,password,%s)", mobile, sessionID))
+    val api = new UserLoginAPI(mobile, password,sessionID)
     api.execute();
     val sessionOpt = api.obtainSession
     val session = if (sessionOpt == null) None else Some(sessionOpt)
