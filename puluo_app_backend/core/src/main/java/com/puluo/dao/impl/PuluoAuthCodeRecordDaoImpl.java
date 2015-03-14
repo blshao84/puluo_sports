@@ -8,7 +8,7 @@ public class PuluoAuthCodeRecordDaoImpl extends DalTemplate implements
 		PuluoAuthCodeRecordDao {
 
 	@Override
-	public boolean saveRegistrationAuthCode(String mobile, String authCode) {
+	public boolean upsertRegistrationAuthCode(String mobile, String authCode) {
 		// TODO Auto-generated method stub
 		return false;
 	}
