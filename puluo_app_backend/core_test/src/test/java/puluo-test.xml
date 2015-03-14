@@ -137,6 +137,9 @@
 		parent="testDevDao">
 		<property name="fullTableName" value="puluo_user_setting"></property>
 	</bean>
-
+	
+	<bean id="authCodeRecordDevDao" class="com.puluo.dao.impl.PuluoAuthCodeRecordDaoImpl" parent="testDevDao">
+		<property name="fullTableName" value="puluo_auth_code"></property>
+	</bean>	
 
 </beans>

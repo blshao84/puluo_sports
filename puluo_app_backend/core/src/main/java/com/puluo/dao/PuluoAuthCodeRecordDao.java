@@ -7,4 +7,6 @@ public interface PuluoAuthCodeRecordDao {
 	public boolean upsertRegistrationAuthCode(String mobile, String authCode);
 	
 	public PuluoAuthCodeRecord getRegistrationAuthCodeFromMobile(String mobile);
+
+	boolean createTable();
 }
