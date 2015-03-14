@@ -1,5 +1,7 @@
 package com.puluo.api.user;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.UserProfileResult;
 import com.puluo.dao.PuluoDSI;
@@ -30,11 +32,11 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI,UserProfileResult> {
 	
 	public UserProfileAPI(String mobileOrUUID, PuluoDSI dsi) {
 		this.dsi = dsi;
-		if (isMobile(mobileOrUUID)) {
-			this.mobile = mobileOrUUID;
-		}
 		if (isUUID(mobileOrUUID)) {
 			this.uuid = mobileOrUUID;
+		}
+		if (isMobile(mobileOrUUID)) {
+			this.mobile = mobileOrUUID;
 		}
 	}
 
@@ -53,13 +55,14 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI,UserProfileResult> {
 		rawResult = result;
 	}
 
-	private boolean isMobile(String m) {
-		// TODO
-		return true;
-	}
-
 	private boolean isUUID(String u) {
 		// TODO
 		return true;
+	}
+	
+	public static boolean isMobile (String mobiles) {
+		Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+		Matcher m = p.matcher(mobiles);
+		return m.matches();
 	}
 }
