@@ -1,9 +1,20 @@
 package com.puluo.dao.impl;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import org.springframework.jdbc.core.RowMapper;
+
 import com.puluo.dao.PuluoUserSettingDao;
+import com.puluo.entity.PuluoUserSetting;
+import com.puluo.entity.impl.PuluoUserSettingImpl;
 import com.puluo.jdbc.DalTemplate;
+import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.PuluoDatabaseException;
+import com.puluo.util.TimeUtils;
 
 public class PuluoUserSettingDaoImpl extends DalTemplate implements PuluoUserSettingDao {
 	
@@ -101,6 +112,31 @@ public class PuluoUserSettingDaoImpl extends DalTemplate implements PuluoUserSet
 			log.info(e.getMessage());
 			return false;
 		}
+	}
+
+	@Override
+	public PuluoUserSetting getByUserUUID(String user_uuid) {
+		SqlReader reader = getReader();
+		String selectSQL = new StringBuilder().append("select * from ")
+				.append(super.getFullTableName()).append(" where user_uuid = ?")
+				.toString();
+		List<PuluoUserSetting> entities = reader.query(selectSQL, new Object[] {user_uuid},
+				new RowMapper<PuluoUserSetting>() {
+					@Override
+					public PuluoUserSetting mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						PuluoUserSettingImpl puluoUserSetting = new PuluoUserSettingImpl(
+								rs.getString("user_uuid"), rs.getBoolean("auto_friend"), rs.getBoolean("timeline_public"), rs.getBoolean("searchable"),
+								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("updated_at"))));
+						return puluoUserSetting;
+					}
+				});
+		if (entities.size() == 1)
+			return entities.get(0);
+		else if (entities.size() > 1)
+			throw new PuluoDatabaseException("通过uuid查到多个用户设置！");
+		else
+			return null;
 	}
 
 }

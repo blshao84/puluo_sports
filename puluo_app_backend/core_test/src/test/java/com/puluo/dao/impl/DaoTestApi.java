@@ -1,6 +1,7 @@
 package com.puluo.dao.impl;
 
 import com.puluo.dao.PgDummyDao;
+import com.puluo.dao.PuluoAuthCodeRecordDao;
 import com.puluo.dao.PuluoSessionDao;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
@@ -17,4 +18,5 @@ public class DaoTestApi {
 	public static PuluoSessionDao sessionDevDao	= BeanTestFactory.getBean(PuluoSessionDaoImpl.class, "sessionDevDao");
 	public static PuluoUserFriendshipDao friendDevDao	= BeanTestFactory.getBean(PuluoUserFriendshipDao.class, "friendDevDao");
 	public static PuluoUserSettingDao settingDevDao	= BeanTestFactory.getBean(PuluoUserSettingDao.class, "settingDevDao");
+	public static PuluoAuthCodeRecordDao authCodeRecordDevDao	= BeanTestFactory.getBean(PuluoAuthCodeRecordDao.class, "authCodeRecordDevDao");
 }

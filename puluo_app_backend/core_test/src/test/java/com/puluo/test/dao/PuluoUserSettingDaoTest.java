@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.puluo.dao.PuluoUserSettingDao;
 import com.puluo.dao.impl.DaoTestApi;
+import com.puluo.entity.PuluoUserSetting;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
@@ -20,6 +21,8 @@ public class PuluoUserSettingDaoTest {
 		PuluoUserSettingDao settingDao = DaoTestApi.settingDevDao;
 		settingDao.createTable();
 		settingDao.saveNewSetting("17721014665");
+		settingDao.saveNewSetting("18521564305");
+		settingDao.saveNewSetting("13262247972");
 		log.info("setUpDB done!");
 	}
 
@@ -45,6 +48,8 @@ public class PuluoUserSettingDaoTest {
 		log.info("testAutoFriend start!");
 		boolean success = DaoTestApi.settingDevDao.updateAutoFriend("17721014665", false);
 		Assert.assertTrue("update auto_friend should be successful!", success);
+		PuluoUserSetting setting = DaoTestApi.settingDevDao.getByUserUUID("17721014665");
+		Assert.assertFalse("user's auto_friend should be false!", setting.autoAddFriend());
 		log.info("testAutoFriend done!");
 	}
 
@@ -53,6 +58,8 @@ public class PuluoUserSettingDaoTest {
 		log.info("testTimelineVisibility start!");
 		boolean success = DaoTestApi.settingDevDao.updateTimelineVisibility("17721014665", false);
 		Assert.assertTrue("update timeline_public should be successful!", success);
+		PuluoUserSetting setting = DaoTestApi.settingDevDao.getByUserUUID("17721014665");
+		Assert.assertFalse("user's timeline_public should be false!", setting.isTimelinePublic());
 		log.info("testTimelineVisibility done!");
 	}
 	
@@ -61,6 +68,17 @@ public class PuluoUserSettingDaoTest {
 		log.info("testSearchability start!");
 		boolean success = DaoTestApi.settingDevDao.updateSearchability("17721014665", false);
 		Assert.assertTrue("update searchable should be successful!", success);
+		PuluoUserSetting setting = DaoTestApi.settingDevDao.getByUserUUID("17721014665");
+		Assert.assertFalse("user's searchable should be false!", setting.isSearchable());
 		log.info("testSearchability done!");
+	}
+
+	
+	@Test
+	public void testGetByUserUUID() {
+		log.info("testGetByUserUUID start!");
+		PuluoUserSetting setting =  DaoTestApi.settingDevDao.getByUserUUID("15330820432");
+		Assert.assertNull(setting);
+		log.info("testGetByUserUUID done!");
 	}
 }

@@ -1,7 +1,10 @@
 package com.puluo.entity.impl;
 
+import java.util.Calendar;
+
 import org.joda.time.DateTime;
 
+import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoUser;
 import com.puluo.util.Strs;
 
@@ -213,6 +216,7 @@ public class PuluoUserImpl implements PuluoUser {
 
 	@Override
 	public boolean isCoach() {
+		
 		if (user_type.equals(PuluoUserType.Coach))
 			return true;
 		return false;
@@ -220,32 +224,32 @@ public class PuluoUserImpl implements PuluoUser {
 
 	@Override
 	public DateTime lastLogin() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return DaoApi.getInstance().sessionDao().getByMobile(mobile).createdAt();
 	}
 
 	@Override
 	public long lastDuration() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return Calendar.getInstance().getTimeInMillis() - lastLogin().getMillis();
 	}
 
 	@Override
 	public boolean autoAddFriend() {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return DaoApi.getInstance().userSettingDao().getByUserUUID(user_uuid).autoAddFriend();
 	}
 
 	@Override
 	public boolean allowStrangerViewTimeline() {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return DaoApi.getInstance().userSettingDao().getByUserUUID(user_uuid).isTimelinePublic();
 	}
 
 	@Override
 	public boolean allowSearched() {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return DaoApi.getInstance().userSettingDao().getByUserUUID(user_uuid).isSearchable();
 	}
 
 }
