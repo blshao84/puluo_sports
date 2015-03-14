@@ -1,5 +1,7 @@
 package com.puluo.dao;
 
+import com.puluo.entity.PuluoUserSetting;
+
 public interface PuluoUserSettingDao {
 	
 	public boolean createTable();
@@ -11,4 +13,6 @@ public interface PuluoUserSettingDao {
 	public boolean updateTimelineVisibility(String user_uuid, boolean timelineVisible);
 	
 	public boolean updateSearchability(String user_uuid, boolean searchable);
+	
+	public PuluoUserSetting getByUserUUID(String user_uuid);
 }

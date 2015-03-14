@@ -9,7 +9,9 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.puluo.dao.PuluoSessionDao;
 import com.puluo.entity.PuluoSession;
+import com.puluo.entity.PuluoUserSetting;
 import com.puluo.entity.impl.PuluoSessionImpl;
+import com.puluo.entity.impl.PuluoUserSettingImpl;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
@@ -83,7 +85,7 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 		if (entities.size() == 1)
 			return entities.get(0);
 		else if (entities.size() > 1)
-			throw new PuluoDatabaseException("通过session_id查到多个用户！");
+			throw new PuluoDatabaseException("通过session id查到多个session！");
 		else
 			return null;
 	}
@@ -107,7 +109,30 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 
 	@Override
 	public PuluoSession getByMobile(String mobile) {
-		// TODO Auto-generated method stub
-		return null;
+		SqlReader reader = getReader();
+		String selectSQL = new StringBuilder().append("select * from ")
+				.append(super.getFullTableName()).append(" where user_mobile = ? and deleted_at is null")
+				.toString();
+		List<PuluoSession> entities = reader.query(selectSQL, new Object[] {mobile},
+				new RowMapper<PuluoSession>() {
+					@Override
+					public PuluoSession mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						DateTime created_at = TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at")));
+						DateTime deleted_at = rs.getTimestamp("deleted_at")!=null ? TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("deleted_at"))) : null;
+						PuluoSessionImpl puluoSession = new PuluoSessionImpl(
+								rs.getString("user_mobile"),
+								rs.getString("session_id"),
+								created_at,
+								deleted_at);
+						return puluoSession;
+					}
+				});
+		if (entities.size() == 1)
+			return entities.get(0);
+		else if (entities.size() > 1)
+			throw new PuluoDatabaseException("通过user mobile查到多个session！");
+		else
+			return null;
 	}
 }
