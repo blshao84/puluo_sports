@@ -9,6 +9,7 @@ public class PuluoUserSettingImpl implements PuluoUserSetting {
 	private final boolean auto_friend;
 	private final boolean timeline_public;
 	private final boolean searchable;
+	@SuppressWarnings("unused")
 	private final DateTime updated_at;
 
 	public PuluoUserSettingImpl(String user_uuid, boolean auto_friend,

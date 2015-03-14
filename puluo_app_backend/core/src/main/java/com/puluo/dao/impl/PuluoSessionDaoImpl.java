@@ -9,9 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.puluo.dao.PuluoSessionDao;
 import com.puluo.entity.PuluoSession;
-import com.puluo.entity.PuluoUserSetting;
 import com.puluo.entity.impl.PuluoSessionImpl;
-import com.puluo.entity.impl.PuluoUserSettingImpl;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;

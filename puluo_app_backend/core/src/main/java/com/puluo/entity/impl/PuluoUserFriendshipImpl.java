@@ -26,22 +26,7 @@ public class PuluoUserFriendshipImpl implements PuluoUserFriendship {
 
 	@Override
 	public List<PuluoFriendInfo> friends() {
-		ArrayList<PuluoFriendInfo> puluoFriendInfoList = new ArrayList<PuluoFriendInfo>();
-		PuluoUserDao puluoUserDao = DaoApi.getInstance().userDao();
-		PuluoUser puluoUser;
-		String last_name;
-		String first_name;
-		String user_email;
-		String user_mobile;
-		for (String friend_uuid: friend_uuids) {
-			puluoUser = puluoUserDao.getByUUID(friend_uuid);
-			last_name = puluoUser.lastName();
-			first_name = puluoUser.firstName();
-			user_email = puluoUser.email();
-			user_mobile = puluoUser.mobile();
-			puluoFriendInfoList.add(new PuluoFriendInfo(friend_uuid, last_name, first_name, user_email, user_mobile));
-		}
-		return puluoFriendInfoList;
+		return friends(DaoApi.getInstance().userDao());
 	}
 	
 	@Override
