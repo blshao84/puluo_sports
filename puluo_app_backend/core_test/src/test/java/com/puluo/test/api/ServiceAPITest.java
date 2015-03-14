@@ -1,27 +1,7 @@
 package com.puluo.test.api;
 
-import java.util.HashMap;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Matchers;
-import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-
-import com.puluo.api.result.ApiErrorResult;
-import com.puluo.api.service.PuluoSMSType;
-import com.puluo.api.service.SMSServiceAPI;
-import com.puluo.dao.MockTestDSI;
-import com.puluo.dao.PuluoAuthCodeRecordDao;
-import com.puluo.dao.impl.PuluoAuthCodeRecordDaoImpl;
-import com.puluo.service.JuheSMSClient;
-import com.puluo.service.PuluoService;
-import com.puluo.service.util.JuheSMSResult;
-
+/*
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(PuluoService.class)
 public class ServiceAPITest {
@@ -99,3 +79,4 @@ public class ServiceAPITest {
 		Assert.assertEquals("should fail to save code",expected,actual);
 	}
 }
+*/
