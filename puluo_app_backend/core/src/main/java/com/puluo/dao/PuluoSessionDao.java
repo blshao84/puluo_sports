@@ -11,4 +11,6 @@ public interface PuluoSessionDao {
 	public boolean save(String userID, String sessionID);
 	
 	public boolean deleteSession(String sessionID);
+
+	public PuluoSession getByMobile(String mobile);
 }

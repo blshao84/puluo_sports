@@ -75,10 +75,11 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val mobile = params("mobile")
     val password = params("password")
     val api = new UserLoginAPI(mobile, password)
+    api.execute();
     val sessionOpt = api.obtainSession
     val session = if (sessionOpt == null) None else Some(sessionOpt)
     PuluoSession(SessionInfo(session))
-    PuluoResponseFactory.createDummyJSONResponse(UserLoginResult.dummy().toJson(), 201)
+    PuluoResponseFactory.createDummyJSONResponse(api.result(), 201)
   }
 
   private def doLogout = {

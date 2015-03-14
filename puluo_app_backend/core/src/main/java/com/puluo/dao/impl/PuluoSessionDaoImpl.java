@@ -104,4 +104,10 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 		}
 		return true;
 	}
+
+	@Override
+	public PuluoSession getByMobile(String mobile) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

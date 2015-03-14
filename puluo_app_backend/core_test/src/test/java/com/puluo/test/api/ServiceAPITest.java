@@ -3,6 +3,7 @@ package com.puluo.test.api;
 import java.util.HashMap;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
@@ -36,7 +37,7 @@ public class ServiceAPITest {
 	
 	private final MockDSI mockDSI = new MockDSI();
 
-	@Test
+	@Test @Ignore
 	public void testSuccessfulSend() {
 		PowerMockito.mockStatic(PuluoService.class);
 		JuheSMSClient client = Mockito.mock(JuheSMSClient.class);
@@ -58,7 +59,7 @@ public class ServiceAPITest {
 		Assert.assertEquals("should successful send result",expected,actual);
 	}
 	
-	@Test
+	@Test @Ignore
 	public void testFailedSend() {
 		PowerMockito.mockStatic(PuluoService.class);
 		JuheSMSClient client = Mockito.mock(JuheSMSClient.class);
@@ -76,7 +77,7 @@ public class ServiceAPITest {
 		Assert.assertEquals("should fail to send sms",expected,actual);
 	}
 	
-	@Test
+	@Test @Ignore
 	public void testFailedSave() {
 		PowerMockito.mockStatic(PuluoService.class);
 		JuheSMSClient client = Mockito.mock(JuheSMSClient.class);
