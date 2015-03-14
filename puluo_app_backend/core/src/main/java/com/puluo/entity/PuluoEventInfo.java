@@ -2,6 +2,8 @@ package com.puluo.entity;
 
 import java.util.List;
 
+import com.puluo.dao.PuluoEventPosterDao;
+
 
 public interface PuluoEventInfo {
 	
@@ -10,6 +12,7 @@ public interface PuluoEventInfo {
 	String description(); 
 	String coachName();
 	String coachUUID();
+	String coachThumbnail();
 	String details();
 	int duration(); 
 	int level(); 
@@ -17,4 +20,5 @@ public interface PuluoEventInfo {
 	int likes();
 	double rating(); 	
 	List<PuluoEventPoster> poster();
+	List<PuluoEventPoster> poster(PuluoEventPosterDao posterDao);
 }

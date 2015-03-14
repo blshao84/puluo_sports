@@ -1,5 +1,10 @@
 package com.puluo.dao;
 
-public interface PuluoEventInfoDao {
+import com.puluo.entity.PuluoEventInfo;
 
+public interface PuluoEventInfoDao {
+	
+	public boolean createTable();
+	public boolean upsertEventInfo(PuluoEventInfo info);
+	public PuluoEventInfo getEventInfoByUUID(String uuid);
 }

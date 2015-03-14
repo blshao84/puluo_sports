@@ -117,6 +117,26 @@
 		parent="testFileDao">
 		<property name="fullTableName" value="pgdummy"></property>
 	</bean>
+	
+	<bean id="eventDevDao" class="com.puluo.dao.impl.PuluoEventDaoImpl" parent="testDevDao">
+		<property name="fullTableName" value="puluo_event"></property>
+	</bean>
+	
+	<bean id="eventInfoDevDao" class="com.puluo.dao.impl.PuluoEventInfoDaoImpl" parent="testDevDao">
+		<property name="fullTableName" value="puluo_event_info"></property>
+	</bean>
+	
+	<bean id="eventLocationDevDao" class="com.puluo.dao.impl.PuluoEventLocationDaoImpl" parent="testDevDao">
+		<property name="fullTableName" value="puluo_event_location"></property>
+	</bean>
+	
+	<bean id="eventMemoryDevDao" class="com.puluo.dao.impl.PuluoEventMemoryDaoImpl" parent="testDevDao">
+		<property name="fullTableName" value="puluo_event_memory"></property>
+	</bean>
+	
+	<bean id="eventPosterDevDao" class="com.puluo.dao.impl.PuluoEventPosterDaoImpl" parent="testDevDao">
+		<property name="fullTableName" value="puluo_event_poster"></property>
+	</bean>
 
 	<bean id="userDevDao" class="com.puluo.dao.impl.PuluoUserDaoImpl"
 		parent="testDevDao">

@@ -2,8 +2,9 @@ package com.puluo.entity.impl;
 
 import java.util.List;
 
+import com.puluo.dao.PuluoEventPosterDao;
+import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEventInfo;
-import com.puluo.entity.PuluoEventMemory;
 import com.puluo.entity.PuluoEventPoster;
 
 public class PuluoEventInfoImpl implements PuluoEventInfo {
@@ -18,60 +19,71 @@ public class PuluoEventInfoImpl implements PuluoEventInfo {
 	private int duration;
 	private int level;
 	private int type;
+
+	public PuluoEventInfoImpl(String uuid, String name, String description,
+			String coach_name, String coach_uuid, String thumbnail_uuid,
+			String details, int duration, int level, int type) {
+		super();
+		this.uuid = uuid;
+		this.name = name;
+		this.description = description;
+		this.coach_name = coach_name;
+		this.coach_uuid = coach_uuid;
+		this.thumbnail_uuid = thumbnail_uuid;
+		this.details = details;
+		this.duration = duration;
+		this.level = level;
+		this.type = type;
+	}
 	
 	@Override
 	public String eventInfoUUID() {
-		// TODO Auto-generated method stub
-		return null;
+		return uuid;
 	}
 
 	@Override
 	public String name() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
 	@Override
 	public String description() {
-		// TODO Auto-generated method stub
-		return null;
+		return description;
 	}
 
 	@Override
 	public String coachName() {
-		// TODO Auto-generated method stub
-		return null;
+		return coach_name;
 	}
 
 	@Override
 	public String coachUUID() {
-		// TODO Auto-generated method stub
-		return null;
+		return coach_uuid;
 	}
 
+	@Override
+	public String coachThumbnail() {
+		return thumbnail_uuid;
+	}
 
 	@Override
 	public String details() {
-		// TODO Auto-generated method stub
-		return null;
+		return details;
 	}
 
 	@Override
 	public int duration() {
-		// TODO Auto-generated method stub
-		return 0;
+		return duration;
 	}
 
 	@Override
 	public int level() {
-		// TODO Auto-generated method stub
-		return 0;
+		return level;
 	}
 
 	@Override
 	public int type() {
-		// TODO Auto-generated method stub
-		return 0;
+		return type;
 	}
 
 	@Override
@@ -88,7 +100,17 @@ public class PuluoEventInfoImpl implements PuluoEventInfo {
 
 	@Override
 	public List<PuluoEventPoster> poster() {
-		// TODO Auto-generated method stub
-		return null;
+		return poster(DaoApi.getInstance().eventPosterDao());
+	}
+
+	@Override
+	public List<PuluoEventPoster> poster(PuluoEventPosterDao posterDao) {
+		PuluoEventPosterDao puluoEventPosterDao;
+		if (posterDao!=null) {
+			puluoEventPosterDao = posterDao;
+		} else {
+			puluoEventPosterDao = DaoApi.getInstance().eventPosterDao();
+		}
+		return puluoEventPosterDao.getEventPoster(uuid);
 	}
 }
