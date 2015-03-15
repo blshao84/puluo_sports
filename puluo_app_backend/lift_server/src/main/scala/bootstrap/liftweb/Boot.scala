@@ -2,7 +2,7 @@ package bootstrap.liftweb
 
 import com.puluo.api.auth.PuluoAuthAPI
 import com.puluo.api.service.PuluoFileUploader
-import com.puluo.api.util.PuluoSession
+import com.puluo.api.util._
 import net.liftweb.common.Full
 import net.liftweb.common.Loggable
 import net.liftweb.http.LiftRules
@@ -30,6 +30,7 @@ import com.puluo.api.graph.PuluoGraphAPI
 import com.puluo.api.event.PuluoEventAPI
 import com.puluo.api.test.DemoAPI
 import net.liftweb.http.provider.HTTPParam
+import com.puluo.dao.impl.DaoApi
 
 class Boot extends Loggable {
 
@@ -49,8 +50,29 @@ class Boot extends Loggable {
   }
 
   def setupRequestConfig() = {
+    def authenticate(r: Req): Boolean = {
+      val dsi =  DaoApi.getInstance()
+      if (PuluoSession.login) {
+        val sessionId = r.sessionId.get
+        val curSession = PuluoSession.session
+        if (sessionId != curSession.sessionID()) {
+          dsi.sessionDao().save(curSession.userMobile(),sessionId)
+        } 
+        true
+      } else {
+        r.sessionId.map { sessionId =>
+          val sessionEntity = dsi.sessionDao().getBySessionID(sessionId)
+          if (sessionEntity == null) false else {
+            val si = SessionInfo(Some(sessionEntity))
+            PuluoSession(si)
+            true
+          }
+        } getOrElse false
+      }
+    }
+    
     val withAuthentication: PartialFunction[Req, Unit] = {
-      case _ if PuluoSession.login =>
+      case r: Req if authenticate(r) =>
     }
 
     // setup the 404 handler 
@@ -59,7 +81,7 @@ class Boot extends Loggable {
     })
     // setup cors
     LiftRules.supplimentalHeaders = s => s.addHeaders(
-      List(//HTTPParam("X-Lift-Version", LiftRules.liftVersion),
+      List( //HTTPParam("X-Lift-Version", LiftRules.liftVersion),
         HTTPParam("Access-Control-Allow-Origin", "*"),
         HTTPParam("Access-Control-Allow-Credentials", "true"),
         HTTPParam("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS"),

@@ -81,20 +81,23 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val sessionOpt = api.obtainSession
     val session = if (sessionOpt == null) None else Some(sessionOpt)
     PuluoSession(SessionInfo(session))
-    PuluoResponseFactory.createDummyJSONResponse(api.result(), 201)
+    PuluoResponseFactory.createJSONResponse(api, 201)
   }
 
   private def doLogout = {
     val api = new UserLogoutAPI(PuluoSession.session)
+    api.execute()
     PuluoSession(SessionInfo(None))
-    PuluoResponseFactory.createDummyJSONResponse(UserLogoutResult.dummy().toJson())
+    PuluoResponseFactory.createJSONResponse(api)
   }
 
   private def doRegister(params: Map[String, String]) = {
     val mobile = params("mobile")
     val password = params("password")
-    val api = new UserRegistrationAPI(mobile, password, "")
-    PuluoResponseFactory.createDummyJSONResponse(UserRegistrationResult.dummy().toJson(), 201)
+    val authCode = params("code")
+    val api = new UserRegistrationAPI(mobile, password, authCode)
+    api.execute()
+    PuluoResponseFactory.createJSONResponse(api, 201)
   }
 
   private def doUpdatePassword(params: Map[String, String]) = {

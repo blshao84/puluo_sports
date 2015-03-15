@@ -21,10 +21,11 @@ public class UserLoginAPI extends PuluoAPI<PuluoDSI, UserLoginResult> {
 	private PuluoSession session;
 
 	public UserLoginAPI(String mobile, String password, String cur_session) {
-		this(mobile, password,cur_session, DaoApi.getInstance());
+		this(mobile, password, cur_session, DaoApi.getInstance());
 	}
 
-	public UserLoginAPI(String mobile, String password, String cur_session, PuluoDSI dsi) {
+	public UserLoginAPI(String mobile, String password, String cur_session,
+			PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.mobile = mobile;
 		this.password = password;
@@ -38,32 +39,45 @@ public class UserLoginAPI extends PuluoAPI<PuluoDSI, UserLoginResult> {
 	@Override
 	public void execute() {
 		this.session = dsi.sessionDao().getByMobile(mobile);
-		if(session == null){
+		if (session == null) {
 			PuluoUser user = dsi.userDao().getByMobile(mobile);
-			if(user==null){
+			if (user == null) {
 				log.error(String.format("无法找到数据库中电话为%s的用户", mobile));
 				this.error = ApiErrorResult.getError(4);
 				return;
 			} else {
-				if(user.password()!=this.password){
+				if (user.password() != this.password) {
 					log.error(String.format("用户%s的密码不匹配", mobile));
 					this.error = ApiErrorResult.getError(11);
 					return;
 				} else {
-					log.info(String.format("用户%s登录成功，保存一个新的session(id=%s)",mobile,current_session_id));
-					dsi.sessionDao().save(mobile, current_session_id);
-					String createdAt = TimeUtils.formatDate(DateTime.now());
-					this.rawResult = new UserLoginResult(mobile,createdAt,createdAt);
-					return;
+					log.info(String.format("用户%s登录成功，保存一个新的session(id=%s)",
+							mobile, current_session_id));
+					boolean success = dsi.sessionDao().save(mobile,
+							current_session_id);
+					if (success) {
+						this.session = dsi.sessionDao().getByMobile(mobile);
+						String createdAt = TimeUtils.formatDate(DateTime.now());
+						this.rawResult = new UserLoginResult(mobile, createdAt,
+								createdAt);
+						return;
+					} else {
+						log.error(String.format("为通过验证的用户保存session时出现错误"));
+						this.error = ApiErrorResult.getError(12);
+						return;
+					}
 				}
 			}
 		} else {
-			log.info(String.format("找到一个已经存在的session(id=%s)",current_session_id));
+			log.info(String.format("找到一个已经存在的session(id=%s)",
+					current_session_id));
 			String createdAt = TimeUtils.formatDate(this.session.createdAt());
-			this.rawResult = new UserLoginResult(this.session.userMobile(),createdAt,createdAt);
-			if(this.current_session_id != this.session.sessionID()){
+			this.rawResult = new UserLoginResult(this.session.userMobile(),
+					createdAt, createdAt);
+			if (this.current_session_id != this.session.sessionID()) {
 				dsi.sessionDao().save(mobile, this.current_session_id);
 				dsi.sessionDao().deleteSession(this.session.sessionID());
+				this.session = dsi.sessionDao().getByMobile(mobile);
 			}
 			return;
 		}
