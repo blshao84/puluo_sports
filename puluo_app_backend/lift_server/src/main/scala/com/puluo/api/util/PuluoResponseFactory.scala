@@ -9,6 +9,7 @@ import net.liftweb.json._
 import com.puluo.api.PuluoAPI
 import net.liftweb.http.S
 import net.liftweb.common.Loggable
+import com.puluo.api.result.ApiErrorResult
 
 object PuluoResponseFactory extends Loggable{
 
@@ -48,16 +49,20 @@ object PuluoResponseFactory extends Loggable{
     }
   }
   private def createParamMapFromJson(keys:Seq[String]) = {
-   S.request.get.json.map { json =>
+   val params = S.request.get.json.map { json =>
      keys.map(k=> {
        val jvalue = renderJson(json\k)
        (k,jvalue)
      }).toMap
    }.getOrElse(Map.empty[String,String])
+   logger.info("从req.json获得的参数:\n"+params.mkString("\n"))
+   params
   }
   
   private def createParamMapFromS(keys:Seq[String]) = {
-    keys.map(key=> S.param(key).map(value=>(key,value))).flatten.toMap
+    val params = keys.map(key=> S.param(key).map(value=>(key,value))).flatten.toMap
+    logger.info("从S.param获得的参数:\n"+params.mkString("\n"))
+    params
   }
 
   private def requestHeader = requestIdHeader :: Nil//accessControlHeader
@@ -75,4 +80,10 @@ object PuluoResponseFactory extends Loggable{
       ("Access-Control-Allow-Headers", "X-Requested-With,Expires,Set-Cookie,Request-ID,Content-Length,Cache-Control,Content-Type,Pragma,Date,X-Lift-Version,X-Frame-Options,Server"))
 }
 
-case class ErrorResponseResult(val id: String, val message: String, val url: String)
+object ErrorResponseResult{
+  def apply(id:Integer):ErrorResponseResult = {
+    val e = ApiErrorResult.getError(id)
+    ErrorResponseResult(e.id,e.error_type,e.message,e.url)
+  }
+}
+case class ErrorResponseResult(val id:Integer, val error_type:String, val message: String, val url: String)

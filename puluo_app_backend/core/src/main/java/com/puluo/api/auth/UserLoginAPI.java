@@ -46,7 +46,7 @@ public class UserLoginAPI extends PuluoAPI<PuluoDSI, UserLoginResult> {
 				this.error = ApiErrorResult.getError(4);
 				return;
 			} else {
-				if (user.password() != this.password) {
+				if (!user.password().equals(this.password)) {
 					log.error(String.format("用户%s的密码不匹配", mobile));
 					this.error = ApiErrorResult.getError(11);
 					return;

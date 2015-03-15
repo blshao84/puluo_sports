@@ -31,6 +31,8 @@ import com.puluo.api.event.PuluoEventAPI
 import com.puluo.api.test.DemoAPI
 import net.liftweb.http.provider.HTTPParam
 import com.puluo.dao.impl.DaoApi
+import com.puluo.api.auth.PuluoAuthPrivateAPI
+import com.puluo.api.service.PuluoPrivateServiceAPI
 
 class Boot extends Loggable {
 
@@ -50,31 +52,10 @@ class Boot extends Loggable {
   }
 
   def setupRequestConfig() = {
-    def authenticate(r: Req): Boolean = {
-      val dsi =  DaoApi.getInstance()
-      if (PuluoSession.login) {
-        val sessionId = r.sessionId.get
-        val curSession = PuluoSession.session
-        if (sessionId != curSession.sessionID()) {
-          dsi.sessionDao().save(curSession.userMobile(),sessionId)
-        } 
-        true
-      } else {
-        r.sessionId.map { sessionId =>
-          val sessionEntity = dsi.sessionDao().getBySessionID(sessionId)
-          if (sessionEntity == null) false else {
-            val si = SessionInfo(Some(sessionEntity))
-            PuluoSession(si)
-            true
-          }
-        } getOrElse false
-      }
-    }
-    
-    val withAuthentication: PartialFunction[Req, Unit] = {
-      case r: Req if authenticate(r) =>
-    }
 
+    val withAuthentication: PartialFunction[Req, Unit] = {
+      case r: Req if PuluoSession.login => //authenticate(r) =>
+    }
     // setup the 404 handler 
     LiftRules.uriNotFound.prepend(NamedPF("404handler") {
       case (req, failure) => NotFoundAsTemplate(ParsePath(List("404"), "html", false, false))
@@ -89,14 +70,16 @@ class Boot extends Loggable {
     // make requests utf-8
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
     LiftRules.dispatch.append(DemoAPI)
+    LiftRules.dispatch.append(PuluoServiceAPI)
+    LiftRules.dispatch.append(PuluoAuthAPI)
+    LiftRules.dispatch.append(withAuthentication guard PuluoPrivateServiceAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoEventAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoGraphAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoMessageAPI)
-    LiftRules.dispatch.append(withAuthentication guard PuluoServiceAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoTimelineAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoUserAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoFileUploader)
-    LiftRules.dispatch.append(PuluoAuthAPI)
+    LiftRules.dispatch.append(withAuthentication guard PuluoAuthPrivateAPI)
     LiftRules.handleMimeFile = OnDiskFileParamHolder.apply
 
   }

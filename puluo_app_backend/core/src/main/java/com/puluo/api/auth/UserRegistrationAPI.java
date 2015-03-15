@@ -7,10 +7,12 @@ import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoAuthCodeRecord;
 import com.puluo.entity.PuluoUser;
+import com.puluo.util.Log;
+import com.puluo.util.LogFactory;
 
 public class UserRegistrationAPI extends
 		PuluoAPI<PuluoDSI, UserRegistrationResult> {
-
+	public static Log log = LogFactory.getLog(UserRegistrationAPI.class);
 	private final String mobile;
 	private final String password;
 	private final String auth_code;
@@ -40,7 +42,8 @@ public class UserRegistrationAPI extends
 				this.error = ApiErrorResult.getError(6);
 				return;
 			} else {
-				if (authCodeRecord.authCode() != auth_code) {
+				if (!authCodeRecord.authCode().equals(auth_code)) {
+					log.error(String.format("auth_code doesn't match: db=%s,api=%s",authCodeRecord.authCode(),auth_code));
 					this.error = ApiErrorResult.getError(7);
 					return;
 				} else {

@@ -1,6 +1,7 @@
 package com.puluo.api.service;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import com.puluo.api.PuluoAPI;
@@ -19,19 +20,30 @@ public class SMSServiceAPI extends PuluoAPI<PuluoDSI, SMSServiceResult> {
 
 	private final PuluoSMSType sms_type;
 	private final String mobile;
-	private final HashMap<String, String> content;
+	private final Map<String, String> content;
 
 	public SMSServiceAPI(PuluoSMSType sms_type, String mobile,
-			HashMap<String, String> content) {
+			Map<String, String> content) {
 		this(sms_type, mobile, content, DaoApi.getInstance());
 	}
 
 	public SMSServiceAPI(PuluoSMSType sms_type, String mobile,
-			HashMap<String, String> content, PuluoDSI dsi) {
+			Map<String, String> content, PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.sms_type = sms_type;
 		this.mobile = mobile;
 		this.content = content;
+	}
+	
+	public SMSServiceAPI(PuluoSMSType sms_type, String mobile) {
+		this(sms_type, mobile, DaoApi.getInstance());
+	}
+
+	public SMSServiceAPI(PuluoSMSType sms_type, String mobile,PuluoDSI dsi) {
+		this.dsi = dsi;
+		this.sms_type = sms_type;
+		this.mobile = mobile;
+		this.content = new HashMap<String, String>();
 	}
 
 	@Override
@@ -59,11 +71,12 @@ public class SMSServiceAPI extends PuluoAPI<PuluoDSI, SMSServiceResult> {
 		String code = randomCode();
 		JuheSMSResult result = PuluoService.getSms().sendAuthCode(mobile, code);
 		if(result.isSuccess()){
+			log.info(String.format("successful send sms message to %s",mobile));
 			boolean success = dsi.authCodeRecordDao().upsertRegistrationAuthCode(mobile, code);
 			if(success){
 				this.rawResult = new SMSServiceResult(mobile,"success");
 			} else {
-				log.info("保存PuluoAuthCodeRecord, mobile={}失败",mobile);
+				log.error("保存PuluoAuthCodeRecord, mobile={}失败",mobile);
 				this.error = ApiErrorResult.getError(10);
 			}
 		} else this.error = ApiErrorResult.getError(9);

@@ -34,14 +34,20 @@ public class UserLogoutAPI extends PuluoAPI<PuluoDSI, UserLogoutResult> {
 			this.error = ApiErrorResult.getError(13);
 		} else {
 			PuluoUser user = dsi.userDao().getByMobile(session.userMobile());
+			String userUUID = user.userUUID();
 			PuluoSessionDao sessionDao = dsi.sessionDao();
 			String sessionId = session.sessionID();
-			long durationSeconds = new Interval(session.createdAt(),DateTime.now()).toDuration().toDuration().getStandardSeconds();
+			long durationSeconds = new Interval(session.createdAt(),
+					DateTime.now()).toDuration().toDuration()
+					.getStandardSeconds();
 			boolean success = sessionDao.deleteSession(session.sessionID());
-			if(success){
-				this.rawResult = new UserLogoutResult(user.userUUID(), durationSeconds);
-			}else{
-				log.error(String.format("删除session %s出错",sessionId));
+			if (success) {
+				log.info(String
+						.format("delete user %s session from db:session id=%s,duration=%s seconds",
+								userUUID, sessionId, durationSeconds));
+				this.rawResult = new UserLogoutResult(userUUID, durationSeconds);
+			} else {
+				log.error(String.format("删除session %s出错", sessionId));
 				this.error = ApiErrorResult.getError(14);
 			}
 		}

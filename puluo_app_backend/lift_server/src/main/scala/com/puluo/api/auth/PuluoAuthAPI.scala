@@ -29,23 +29,14 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
     case "users" :: "login" :: Nil Post _ => {
       callWithParam(Map(
-        "mobile" -> ErrorResponseResult("login", "missing mobile", ""),
-        "password" -> ErrorResponseResult("login", "missing password", "")))(doLogin)
-    }
-    case "users" :: "logout" :: Nil Post _ => {
-      PuluoSession(SessionInfo(None))
-      PuluoResponseFactory.createDummyJSONResponse(UserLogoutResult.dummy().toJson())
+        "mobile" -> ErrorResponseResult(15).copy(message="mobile"),
+        "password" -> ErrorResponseResult(15).copy(message="password")))(doLogin)
     }
     case "users" :: "register" :: Nil Put _ => {
       callWithParam(Map(
-        "mobile" -> ErrorResponseResult("register", "missing mobile", ""),
-        "password" -> ErrorResponseResult("register", "missing password", "")))(doRegister)
-    }
-    case "users" :: "credential" :: "update" :: Nil Post _ => {
-      callWithParam(Map(
-        "new_password" -> ErrorResponseResult("update password", "missing new password", ""),
-        "password" -> ErrorResponseResult("update password", "missing password", "")))(doUpdatePassword)
-
+        "mobile" -> ErrorResponseResult(15).copy(message="mobile"),
+        "password" -> ErrorResponseResult(15).copy(message="password"),
+        "code" -> ErrorResponseResult(15).copy(message="code")))(doRegister)
     }
     case "dummy" :: "users" :: "login" :: Nil Post _ => {
       val paramMap = PuluoResponseFactory.createParamMap(Seq("mobile", "password"))
@@ -58,17 +49,9 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
         }
       }
     }
-    case "dummy" :: "users" :: "logout" :: Nil Post _ => {
-      PuluoSession(SessionInfo(None))
-      PuluoResponseFactory.createDummyJSONResponse(UserLogoutResult.dummy().toJson())
-    }
     case "dummy" :: "users" :: "register" :: Nil Put _ => {
       PuluoResponseFactory.createDummyJSONResponse(UserRegistrationResult.dummy().toJson(), 201)
     }
-    case "dummy" :: "users" :: "credential" :: "update" :: Nil Post _ => {
-      PuluoResponseFactory.createDummyJSONResponse(UserPasswordUpdateResult.dummy().toJson())
-    }
-
   }
 
   private def doLogin(params: Map[String, String]) = {
@@ -83,14 +66,6 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
     PuluoSession(SessionInfo(session))
     PuluoResponseFactory.createJSONResponse(api, 201)
   }
-
-  private def doLogout = {
-    val api = new UserLogoutAPI(PuluoSession.session)
-    api.execute()
-    PuluoSession(SessionInfo(None))
-    PuluoResponseFactory.createJSONResponse(api)
-  }
-
   private def doRegister(params: Map[String, String]) = {
     val mobile = params("mobile")
     val password = params("password")
@@ -98,13 +73,5 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val api = new UserRegistrationAPI(mobile, password, authCode)
     api.execute()
     PuluoResponseFactory.createJSONResponse(api, 201)
-  }
-
-  private def doUpdatePassword(params: Map[String, String]) = {
-    val newPassword = params("new_password")
-    val password = params("password")
-    val uuid = PuluoSession.userUUID
-    val api = new UserPasswordUpdateAPI(uuid, password, newPassword)
-    PuluoResponseFactory.createDummyJSONResponse(UserPasswordUpdateResult.dummy().toJson())
   }
 }
