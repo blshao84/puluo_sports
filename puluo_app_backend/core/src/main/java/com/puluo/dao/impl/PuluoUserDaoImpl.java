@@ -108,6 +108,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 		String selectSQL = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName()).append(" where mobile = ?")
 				.toString();
+		log.info(selectSQL);
 		List<PuluoUser> entities = reader.query(selectSQL, new Object[] {mobile},
 				new RowMapper<PuluoUser>() {
 					@Override
@@ -160,6 +161,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 		String selectSQL = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName()).append(" where user_uuid = ?")
 				.toString();
+		log.info(selectSQL);
 		List<PuluoUser> entities = reader.query(selectSQL, new Object[] {uuid},
 				new RowMapper<PuluoUser>() {
 					@Override
