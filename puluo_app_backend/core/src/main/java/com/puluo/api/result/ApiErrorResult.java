@@ -28,9 +28,11 @@ public class ApiErrorResult extends HasJSON {
 		error_registry.put(13, new ApiErrorResult(13, "登出错误", "用户已经登出", ""));
 		error_registry.put(14, new ApiErrorResult(14, "登出错误", "删除session时出错",
 				""));
-		error_registry.put(15, new ApiErrorResult(15, "API参数不完整", "API参数不完整", ""));
-		error_registry.put(16, new ApiErrorResult(16, "API参数错误", "API参数错误", ""));
-		
+		error_registry.put(15, new ApiErrorResult(15, "API参数不完整", "API参数不完整",
+				""));
+		error_registry
+				.put(16, new ApiErrorResult(16, "API参数错误", "API参数错误", ""));
+		error_registry.put(17, new ApiErrorResult(17, "用户信息接口错误", "用户不存在", ""));
 
 	}
 

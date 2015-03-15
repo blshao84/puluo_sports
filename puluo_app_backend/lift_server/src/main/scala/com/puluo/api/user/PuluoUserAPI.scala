@@ -17,7 +17,9 @@ object PuluoUserAPI extends RestHelper {
       PuluoResponseFactory.createDummyJSONResponse("{\"login\":true}")
     }
     case "users" :: mobileOrUUID :: Nil Get _ => {
-      PuluoResponseFactory.createDummyJSONResponse(UserProfileResult.dummy().toJson())
+      val api = new UserProfileAPI(mobileOrUUID)
+      api.execute()
+      PuluoResponseFactory.createJSONResponse(api)
     }
     case "users" :: "update" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(UserProfileUpdateResult.dummy().toJson())

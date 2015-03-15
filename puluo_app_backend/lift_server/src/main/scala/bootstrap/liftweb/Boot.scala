@@ -22,7 +22,6 @@ import net.liftweb.util.Helpers.pfToGuardable
 import net.liftweb.util.NamedPF
 import net.liftweb.util.Props
 import net.liftweb.util.Vendor.valToVendor
-import com.puluo.api.service.PuluoServiceAPI
 import com.puluo.api.timeline.PuluoTimelineAPI
 import com.puluo.api.message.PuluoMessageAPI
 import com.puluo.api.user.PuluoUserAPI
@@ -33,6 +32,7 @@ import net.liftweb.http.provider.HTTPParam
 import com.puluo.dao.impl.DaoApi
 import com.puluo.api.auth.PuluoAuthPrivateAPI
 import com.puluo.api.service.PuluoPrivateServiceAPI
+import com.puluo.api.service.PuluoServiceAPI
 
 class Boot extends Loggable {
 
