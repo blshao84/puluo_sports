@@ -47,7 +47,7 @@ public class EventRegistrationAPI extends
 			EventRegistrationResult result = createNewOrder();
 			this.rawResult = result;
 		} else {
-			if (order.userId() == user_uuid) {
+			if (order.userId().equals(user_uuid)) {
 				PuluoOrderStatus status = order.status();
 				if (status.isCancel()) {
 					log.error("订单(uuid is {})已经被取消", order.orderUUID(),

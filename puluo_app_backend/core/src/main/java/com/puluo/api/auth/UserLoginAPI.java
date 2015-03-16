@@ -74,7 +74,7 @@ public class UserLoginAPI extends PuluoAPI<PuluoDSI, UserLoginResult> {
 			String createdAt = TimeUtils.formatDate(this.session.createdAt());
 			this.rawResult = new UserLoginResult(this.session.userMobile(),
 					createdAt, createdAt);
-			if (this.current_session_id != this.session.sessionID()) {
+			if (!this.current_session_id.equals(this.session.sessionID())) {
 				dsi.sessionDao().save(mobile, this.current_session_id);
 				dsi.sessionDao().deleteSession(this.session.sessionID());
 				this.session = dsi.sessionDao().getByMobile(mobile);
