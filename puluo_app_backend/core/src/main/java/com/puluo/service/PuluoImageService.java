@@ -12,44 +12,24 @@ import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-import com.google.gson.Gson;
+
+import com.puluo.api.result.ImageUploadServiceResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 
 public class PuluoImageService {
 	private final Log LOGGER = LogFactory.getLog(PuluoImageService.class);
 
-	private static class ImageUploadResult {
-		@SuppressWarnings("unused")
-		private String filePath;
-		@SuppressWarnings("unused")
-		private boolean success;
-
-		public ImageUploadResult(String filePath, boolean success) {
-			this.filePath = filePath;
-			this.success = success;
-		}
-
-		public String toJson() {
-			Gson gson = new Gson();
-			return gson.toJson(this);
-		}
-	}
 
 
-	private UpYun upyun;
-
-
-	public PuluoImageService() {
-		this.upyun = upyun;
-	}
+	private final UpYun upyun;
 	
 	public PuluoImageService(UpYun upyun) {
 		this.upyun = upyun;
 	}
 	
 
-	public String saveImage(byte[] data, String filePath) {
+	public ImageUploadServiceResult saveImage(byte[] data, String filePath) {
 		// upyun.setContentMD5(UpYun.md5(data));
 		LOGGER.info("sending raw data to upyun ...");
 		long t1 = System.currentTimeMillis();
@@ -57,7 +37,9 @@ public class PuluoImageService {
 		long t2 = System.currentTimeMillis();
 		LOGGER.info(String.format("saving data is done in %s seconds",
 				(t2 - t1) / 1000.0));
-		return new ImageUploadResult(filePath, result).toJson();
+		String status;
+		if(result) status = "success"; else status = "failed";
+		return new ImageUploadServiceResult(filePath, status);
 	}
 
 	public static void main(String[] args) {
