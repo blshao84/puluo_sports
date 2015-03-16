@@ -248,6 +248,31 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 
 ### User  
 
+##### User Login Status
+
+Get a user's login status
+
+`GET /users/status`
+
+###### cURL Example
+
+```
+
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://183.131.76.93/users/status
+```
+
+###### Response Example
+
+```
+HTTP/1.1 200 Created
+Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
+```
+
+```
+{"login":true}
+
+```
+
 ##### User Profile 
 
 Get a user's complete profile
@@ -1257,6 +1282,39 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.13
 }
 ```
 
+##### Send Registration Verification Code 
+
+Send regeistraiton verification code through SMS to users. This API doesn't require any authenticaiton.
+
+`PUT /services/sms/register`
+
+###### Required Parameters
+
+|Name|Type|Description|Example|
+| ------------- |:-------------|:----- |:-----|
+|mobile|String| user's mobile | "12345677889" |
+
+###### cURL Example
+
+```
+$ curl -n -X PUT https://183.131.76.93/services/sms/register
+-H "Content-Type: application/json" \
+-d '{
+  "mobile": "12345677889"
+}'
+``` 
+
+###### Response Example
+
+```
+{
+    mobile:"12345677889",
+    status:"success"
+}
+```
+
+
+
 ##### SMS  
 
 Send notification SMS to users
@@ -1283,7 +1341,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X PUT https://183.131
 
 ```
 {
-	email:"baolins@ms.com",
+	mobile:"12345677889",
 	status:"success"
 }
 ```
