@@ -2,6 +2,7 @@ package com.puluo.api.result;
 
 import com.puluo.util.HasJSON;
 
+//FIXME: should we send back old and new passwords???
 public class UserPasswordUpdateResult extends HasJSON {
 	public String password;
 	public String new_password;
