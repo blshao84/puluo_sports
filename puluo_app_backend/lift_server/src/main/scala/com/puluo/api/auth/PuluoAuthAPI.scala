@@ -24,19 +24,20 @@ import net.liftweb.common.Loggable
 import net.liftweb.util.LiftFlowOfControlException
 import scala.util.Failure
 import net.liftweb.common.Box
+import com.puluo.dao.impl.DaoApi
 
 object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
     case "users" :: "login" :: Nil Post _ => {
       callWithParam(Map(
-        "mobile" -> ErrorResponseResult(15).copy(message="mobile"),
-        "password" -> ErrorResponseResult(15).copy(message="password")))(doLogin)
+        "mobile" -> ErrorResponseResult(15).copy(message = "mobile"),
+        "password" -> ErrorResponseResult(15).copy(message = "password")))(doLogin)
     }
     case "users" :: "register" :: Nil Put _ => {
       callWithParam(Map(
-        "mobile" -> ErrorResponseResult(15).copy(message="mobile"),
-        "password" -> ErrorResponseResult(15).copy(message="password"),
-        "code" -> ErrorResponseResult(15).copy(message="code")))(doRegister)
+        "mobile" -> ErrorResponseResult(15).copy(message = "mobile"),
+        "password" -> ErrorResponseResult(15).copy(message = "password"),
+        "code" -> ErrorResponseResult(15).copy(message = "code")))(doRegister)
     }
     case "dummy" :: "users" :: "login" :: Nil Post _ => {
       val paramMap = PuluoResponseFactory.createParamMap(Seq("mobile", "password"))
@@ -44,7 +45,8 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
       paramMap.get("password") match {
         case Some("invalid") => PuluoResponseFactory.createDummyJSONResponse(ApiErrorResult.getError(4).toJson(), 201)
         case _ => {
-          PuluoSession(SessionInfo(Some(new com.puluo.entity.impl.PuluoSessionImpl("", "", DateTime.now, DateTime.now))))
+          PuluoSession(SessionInfo("",
+            Some(new com.puluo.entity.impl.PuluoSessionImpl("", "", DateTime.now, DateTime.now))))
           PuluoResponseFactory.createDummyJSONResponse(UserLoginResult.dummy().toJson(), 201)
         }
       }
@@ -59,11 +61,16 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val password = params("password")
     val sessionID = S.session.map(_.httpSession.get.sessionId).getOrElse("")
     logger.info(String.format("生成UserLoginAPI(%s,password,%s)", mobile, sessionID))
-    val api = new UserLoginAPI(mobile, password,sessionID)
+    val api = new UserLoginAPI(mobile, password, sessionID)
     api.execute();
     val sessionOpt = api.obtainSession
-    val session = if (sessionOpt == null) None else Some(sessionOpt)
-    PuluoSession(SessionInfo(session))
+    if (sessionOpt == null){
+      PuluoSession(SessionInfo("",None))
+    }else {
+      val uuid = DaoApi.getInstance().userDao().getByMobile(mobile).userUUID();
+      PuluoSession(SessionInfo(uuid,Some(sessionOpt)))
+    }
+    
     PuluoResponseFactory.createJSONResponse(api, 201)
   }
   private def doRegister(params: Map[String, String]) = {

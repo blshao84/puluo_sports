@@ -37,7 +37,7 @@ object PuluoAuthPrivateAPI extends RestHelper with PuluoAPIUtil with Loggable {
 
     }
     case "dummy" :: "users" :: "logout" :: Nil Post _ => {
-      PuluoSession(SessionInfo(None))
+      PuluoSession(SessionInfo("",None))
       PuluoResponseFactory.createDummyJSONResponse(UserLogoutResult.dummy().toJson())
     }
     case "dummy" :: "users" :: "credential" :: "update" :: Nil Post _ => {
@@ -49,7 +49,7 @@ object PuluoAuthPrivateAPI extends RestHelper with PuluoAPIUtil with Loggable {
   private def doLogout(params:Map[String,String]) = {
     val api = new UserLogoutAPI(PuluoSession.session)
     api.execute()
-    PuluoSession(SessionInfo(None))
+    PuluoSession(SessionInfo("",None))
     println(PuluoSession.hashCode()+":"+PuluoSession.login)
     PuluoResponseFactory.createJSONResponse(api)
   }
