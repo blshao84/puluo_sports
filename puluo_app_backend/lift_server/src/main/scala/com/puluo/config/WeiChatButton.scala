@@ -5,7 +5,6 @@ import net.liftweb.sitemap.Menu
 import net.liftweb.sitemap.Loc.LocGroup
 import net.liftweb.sitemap.NormalLocPath
 import net.liftweb.common.Full
-import com.puluo.util.StringUtil
 import bootstrap.liftweb.Boot
 import net.liftweb.common.Loggable
 import net.liftweb.json.DefaultFormats
