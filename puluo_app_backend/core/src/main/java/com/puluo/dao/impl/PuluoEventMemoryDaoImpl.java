@@ -2,7 +2,7 @@ package com.puluo.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -84,11 +84,11 @@ public class PuluoEventMemoryDaoImpl extends DalTemplate implements PuluoEventMe
 	}
 
 	@Override
-	public ArrayList<PuluoEventMemory> getEventMemoryByUUID(String event_uuid) {
+	public List<PuluoEventMemory> getEventMemoryByUUID(String event_uuid) {
 		SqlReader reader = getReader();
 		StringBuilder selectSQL = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName()).append(" where event_uuid = ?");
-		ArrayList<PuluoEventMemory> entities = (ArrayList<PuluoEventMemory>) reader.query(selectSQL.toString(), new Object[]{event_uuid},
+		List<PuluoEventMemory> entities = reader.query(selectSQL.toString(), new Object[]{event_uuid},
 				new RowMapper<PuluoEventMemory>() {
 					@Override
 					public PuluoEventMemory mapRow(ResultSet rs, int rowNum)

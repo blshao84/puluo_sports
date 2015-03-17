@@ -1,7 +1,7 @@
 package com.puluo.dao.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.entity.PuluoEvent;
@@ -47,7 +47,7 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 	}
 
 	@Override
-	public ArrayList<PuluoEvent> findEvents(Date event_date, String keyword, String level, 
+	public List<PuluoEvent> findEvents(Date event_date, String keyword, String level, 
 			String sort, String sort_direction, String latitude, String longitude, int range_from) {
 		// TODO Auto-generated method stub
 		return null;

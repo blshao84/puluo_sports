@@ -2,7 +2,6 @@ package com.puluo.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -264,7 +263,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 	}
 
 	@Override
-	public ArrayList<PuluoUser> findUser(String first_name, String last_name,
+	public List<PuluoUser> findUser(String first_name, String last_name,
 			String email, String mobile) {
 		SqlReader reader = getReader();
 		StringBuilder selectSQL = new StringBuilder().append("select * from ")
@@ -341,6 +340,6 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 						return puluoUser;
 					}
 				});
-		return (ArrayList<PuluoUser>) entities;
+		return entities;
 	}
 }
