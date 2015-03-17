@@ -10,7 +10,7 @@ public class EventMemoryResult extends HasJSON{
 
 	public List<String> memories;
 	
-	public EventMemoryResult(ArrayList<String> memories) {
+	public EventMemoryResult(List<String> memories) {
 		super();
 		this.memories = memories;
 	}

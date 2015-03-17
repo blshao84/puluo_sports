@@ -1,17 +1,20 @@
 package com.puluo.api.user;
 
 import com.puluo.api.PuluoAPI;
+import com.puluo.api.result.ApiErrorResult;
 import com.puluo.api.result.UserProfileUpdateResult;
 import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.impl.DaoApi;
-import com.puluo.dao.impl.PuluoUserDaoImpl;
-import com.puluo.entity.impl.PuluoUserImpl;
+import com.puluo.entity.PuluoUser;
+import com.puluo.util.Log;
+import com.puluo.util.LogFactory;
 import com.puluo.util.TimeUtils;
 
 
-public class UserProfileUpdateAPI extends
-		PuluoAPI<PuluoDSI, UserProfileUpdateResult> {
-	public String uuid; //added by Xuyang
+public class UserProfileUpdateAPI extends PuluoAPI<PuluoDSI, UserProfileUpdateResult> {
+	public static Log log = LogFactory.getLog(UserProfileUpdateAPI.class);
+	public String uuid;
 	public String first_name;
 	public String last_name;
 	public String thumbnail;
@@ -55,15 +58,22 @@ public class UserProfileUpdateAPI extends
 
 	@Override
 	public void execute() {
-		PuluoUserDaoImpl userdao = new PuluoUserDaoImpl();
-		PuluoUserImpl curuser = (PuluoUserImpl) userdao.getByUUID(uuid);
-		PuluoUserImpl upduser = (PuluoUserImpl) userdao.updateProfile(curuser, first_name, last_name, thumbnail, large_image, 
-				saying, email, sex, birthday, country, state, city, zip);
-		UserProfileUpdateResult result = new UserProfileUpdateResult(upduser.userUUID(), upduser.firstName(),
-				upduser.lastName(), upduser.thumbnail(), upduser.largeImage(), upduser.saying(), upduser.email(),
-				String.valueOf(upduser.sex()), TimeUtils.formatDate(upduser.birthday()), upduser.occupation(),
-				upduser.country(),upduser.state(), upduser.city(), upduser.zip(), TimeUtils.formatDate(upduser.createdAt()),
-				TimeUtils.formatDate(upduser.updatedAt()).toString());
-		rawResult = result;
+		log.info(String.format("开始更新用户UUID=%s的个人信息", uuid));
+		PuluoUserDao userdao = dsi.userDao();
+		PuluoUser curuser = userdao.getByUUID(uuid);
+		PuluoUser upduser = userdao.updateProfile(curuser,first_name,last_name,thumbnail,
+				large_image,saying,email,sex,birthday,country,state,city,zip);
+		if (upduser!=null) {
+			UserProfileUpdateResult result = new UserProfileUpdateResult(upduser.userUUID(),
+					upduser.firstName(),upduser.lastName(),upduser.thumbnail(),upduser.largeImage(), 
+					upduser.saying(),upduser.email(),String.valueOf(upduser.sex()), 
+					TimeUtils.formatDate(upduser.birthday()),upduser.occupation(),
+					upduser.country(),upduser.state(),upduser.city(),upduser.zip(), 
+					TimeUtils.formatDate(upduser.createdAt()),TimeUtils.formatDate(upduser.updatedAt()));
+			rawResult = result;
+		} else {
+			log.error(String.format("更新个人信息失败"));
+			this.error = ApiErrorResult.getError(22);
+		}
 	}
 }

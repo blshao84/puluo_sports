@@ -21,4 +21,12 @@ public interface PuluoUserDao {
 			String birthday, String country, String state, String city, String zip); 
 	
 	public List<PuluoUser> findUser(String first_name, String last_name, String email, String mobile);
+	
+	//public List<PuluoUser> findUserByFirstName(String first_name);
+	
+	//public List<PuluoUser> findUserByLastName(String last_name);
+	
+	//public List<PuluoUser> findUserByEmail(String email);
+	
+	//public List<PuluoUser> findUserByMobile(String mobile);
 }

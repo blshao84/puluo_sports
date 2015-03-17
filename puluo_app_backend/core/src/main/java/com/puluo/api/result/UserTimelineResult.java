@@ -22,7 +22,7 @@ public class UserTimelineResult extends HasJSON {
 		this.timelines = timelines;
 	}
 	
-	public boolean setTimelinePosts(ArrayList<PuluoTimelinePost> posts) {
+	public boolean setTimelinePosts(List<PuluoTimelinePost> posts) {
 
 		timelines = new ArrayList<UserTimeline>();
 		for(int i=0;i<posts.size();i++) {

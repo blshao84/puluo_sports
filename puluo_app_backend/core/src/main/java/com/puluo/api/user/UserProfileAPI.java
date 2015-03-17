@@ -11,6 +11,7 @@ import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.TimeUtils;
 
+
 public class UserProfileAPI extends PuluoAPI<PuluoDSI, UserProfileResult> {
 	public static Log log = LogFactory.getLog(UserProfileAPI.class);
 	private final String mobileOrUUID;
@@ -32,7 +33,7 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI, UserProfileResult> {
 			user = userdao.getByUUID(mobileOrUUID);
 		}
 		if (user != null) {
-			log.info(String.format("找到用户mobile=%s,uuid=%s", user.mobile(),user.userUUID()));
+			log.info(String.format("找到用户Mobile=%s,UUID=%s", user.mobile(),user.userUUID()));
 			UserProfileResult result = new UserProfileResult(user.userUUID(),
 					user.firstName(), user.lastName(), user.thumbnail(),
 					user.largeImage(), user.saying(), user.likes(),
@@ -44,7 +45,7 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI, UserProfileResult> {
 					TimeUtils.formatDate(user.updatedAt()));
 			rawResult = result;
 		} else {
-			log.error(String.format("user %s doesn't exist",mobileOrUUID));
+			log.error(String.format("用户%s不存在",mobileOrUUID));
 			this.error = ApiErrorResult.getError(17);
 		}
 	}

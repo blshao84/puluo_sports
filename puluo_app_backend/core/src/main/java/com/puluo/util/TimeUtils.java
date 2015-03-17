@@ -10,6 +10,8 @@ import org.joda.time.LocalDate;
 
 public class TimeUtils {
     public static String formatDate(Date dt){
+    	if(dt==null) 
+    		return "";
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         f.setTimeZone(TimeZone.getDefault());
         String format;
@@ -27,6 +29,8 @@ public class TimeUtils {
     }
     
     public static String formatDate(DateTime dt){
+    	if(dt==null) 
+    		return "";
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         f.setTimeZone(TimeZone.getDefault());
         String format;
@@ -98,6 +102,8 @@ public class TimeUtils {
 	}
     
     public static String formatBirthday(DateTime dt){
+    	if(dt==null) 
+    		return "";
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
         String format;
         try {

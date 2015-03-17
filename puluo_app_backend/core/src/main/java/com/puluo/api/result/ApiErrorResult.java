@@ -28,7 +28,14 @@ public class ApiErrorResult extends HasJSON {
 		error_registry.put(18, new ApiErrorResult(18, "更新密码接口错误", "用户不存在", ""));
 		error_registry.put(19, new ApiErrorResult(19, "更新密码接口错误", "当前密码错误", ""));
 		error_registry.put(20, new ApiErrorResult(20, "更新密码接口错误", "更新密码失败", ""));
-		
+		//error_registry.put(21, new ApiErrorResult(21, "用户信息接口错误", "查找用户信息失败", ""));
+		error_registry.put(22, new ApiErrorResult(22, "用户信息接口错误", "更新用户信息失败", ""));
+		//error_registry.put(23, new ApiErrorResult(23, "时间线信息接口错误", "查找时间线失败", ""));
+		error_registry.put(24, new ApiErrorResult(24, "时间线like接口错误", "添加时间线like失败", ""));
+		error_registry.put(25, new ApiErrorResult(25, "时间线like接口错误", "删除时间线like失败", ""));
+		error_registry.put(26, new ApiErrorResult(26, "时间线评论接口错误", "添加时间线评论失败", ""));
+		error_registry.put(27, new ApiErrorResult(27, "时间线评论接口错误", "删除时间线评论失败", ""));
+		error_registry.put(28, new ApiErrorResult(28, "活动信息接口错误", "活动信息不存在", ""));
 	}
 
 	public static ApiErrorResult getError(int id) {

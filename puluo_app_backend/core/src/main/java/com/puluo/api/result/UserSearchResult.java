@@ -3,7 +3,6 @@ package com.puluo.api.result;
 import java.util.ArrayList;
 import java.util.List;
 import com.puluo.entity.PuluoUser;
-import com.puluo.entity.impl.PuluoUserImpl;
 import com.puluo.util.HasJSON;
 
 
@@ -20,13 +19,13 @@ public class UserSearchResult extends HasJSON {
 		this.details = details;
 	}
 	
-	public boolean setSearchDetails(ArrayList<PuluoUser> users) {
+	public boolean setSearchDetails(List<PuluoUser> users) {
 
 		details = new ArrayList<UserSearchResultDetail>();
 		for(int i=0;i<users.size();i++) {
-			PuluoUserImpl userimpl = (PuluoUserImpl) users.get(i);
-			UserSearchResultDetail tmp = new UserSearchResultDetail(userimpl.userUUID(),
-					userimpl.firstName(),userimpl.lastName(),userimpl.email(),userimpl.mobile());
+			UserSearchResultDetail tmp = new UserSearchResultDetail(users.get(i).userUUID(),
+					users.get(i).firstName(), users.get(i).lastName(), users.get(i).email(),
+					users.get(i).mobile());
 			details.add(tmp);
 		}
 		return true;

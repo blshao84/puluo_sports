@@ -1,18 +1,21 @@
 package com.puluo.api.event;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.EventMemoryResult;
 import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.PuluoEventMemoryDao;
 import com.puluo.dao.impl.DaoApi;
-import com.puluo.dao.impl.PuluoEventMemoryDaoImpl;
 import com.puluo.entity.PuluoEventMemory;
 import com.puluo.entity.impl.PuluoEventMemoryImpl;
+import com.puluo.util.Log;
+import com.puluo.util.LogFactory;
 
 
 public class EventMemoryAPI extends PuluoAPI<PuluoDSI,EventMemoryResult>{
-	
+	public static Log log = LogFactory.getLog(EventMemoryAPI.class);	
 	public String event_uuid;
 	public int max_count;
 
@@ -27,11 +30,12 @@ public class EventMemoryAPI extends PuluoAPI<PuluoDSI,EventMemoryResult>{
 
 	@Override
 	public void execute() {
-		PuluoEventMemoryDaoImpl memory_dao = new PuluoEventMemoryDaoImpl();
-		ArrayList<PuluoEventMemory> memories = memory_dao.getEventMemoryByUUID(event_uuid);
-		ArrayList<String> memories_url = new ArrayList<String>();
+		log.info(String.format("开始查找活动%s的回忆图片",event_uuid));
+		PuluoEventMemoryDao memory_dao = dsi.eventMemoryDao();
+		List<PuluoEventMemory> memories = memory_dao.getEventMemoryByUUID(event_uuid);
+		List<String> memories_url = new ArrayList<String>();
 		for(int i=0;i<memories.size();i++) 
-			memories_url.add(((PuluoEventMemoryImpl)memories.get(i)).imageURL());
+			memories_url.add(memories.get(i).imageURL());
 		EventMemoryResult result = new EventMemoryResult(memories_url);
 		rawResult = result;
 	}

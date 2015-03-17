@@ -1,15 +1,17 @@
 package com.puluo.api.timeline;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.CommentTimelineResult;
+import com.puluo.api.result.ApiErrorResult;
 import com.puluo.api.result.DeleteTimelineCommentResult;
 import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.PuluoPostCommentDao;
 import com.puluo.dao.impl.DaoApi;
-import com.puluo.dao.impl.PuluoPostCommentDaoImpl;
+import com.puluo.util.Log;
+import com.puluo.util.LogFactory;
 
 
 public class DeleteTimelineCommentAPI extends PuluoAPI<PuluoDSI,DeleteTimelineCommentResult> {
-
+	public static Log log = LogFactory.getLog(DeleteTimelineCommentAPI.class);
 	public String comment_uuid;
 
 	public DeleteTimelineCommentAPI(String comment_uuid){
@@ -22,9 +24,15 @@ public class DeleteTimelineCommentAPI extends PuluoAPI<PuluoDSI,DeleteTimelineCo
 
 	@Override
 	public void execute() {
-		PuluoPostCommentDaoImpl comment_dao = new PuluoPostCommentDaoImpl();
+		log.info(String.format("开始删除时间线评论%s",comment_uuid));
+		PuluoPostCommentDao comment_dao = dsi.postCommentDao();
 		String status = comment_dao.removeCommentUserTimeline(comment_uuid);
-		DeleteTimelineCommentResult comment_result = new DeleteTimelineCommentResult(status);
-		rawResult = comment_result;
+		if(status.equals("success")) {
+			DeleteTimelineCommentResult comment_result = new DeleteTimelineCommentResult(status);
+			rawResult = comment_result;
+		} else {
+			log.error(String.format("删除时间线评论失败"));
+			this.error = ApiErrorResult.getError(27);
+		}
 	}
 }

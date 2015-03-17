@@ -1,16 +1,18 @@
 package com.puluo.api.user;
 
-import java.util.ArrayList;
-
+import java.util.List;
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.UserSearchResult;
 import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.impl.DaoApi;
-import com.puluo.dao.impl.PuluoUserDaoImpl;
 import com.puluo.entity.PuluoUser;
+import com.puluo.util.Log;
+import com.puluo.util.LogFactory;
 
 
 public class UserSearchAPI extends PuluoAPI<PuluoDSI,UserSearchResult> {
+	public static Log log = LogFactory.getLog(UserSearchAPI.class);
 	public String first_name;
 	public String last_name;
 	public String email;
@@ -32,8 +34,15 @@ public class UserSearchAPI extends PuluoAPI<PuluoDSI,UserSearchResult> {
 
 	@Override
 	public void execute() {
-		PuluoUserDaoImpl userdao = new PuluoUserDaoImpl();
-		ArrayList<PuluoUser> users = userdao.findUser(first_name, last_name, email, mobile);
+		log.info(String.format("开始根据First Name:%s,Last Name:%s,Email:%s,Mobile:%s条件查找用户",
+				first_name,last_name,email,mobile));
+		PuluoUserDao userdao = dsi.userDao();
+		if(first_name.trim().isEmpty()) first_name=null;
+		if(last_name.trim().isEmpty()) last_name=null;
+		if(email.trim().isEmpty()) email=null;
+		if(mobile.trim().isEmpty()) mobile=null;
+		List<PuluoUser> users = userdao.findUser(first_name,last_name,email,mobile);
+		log.info(String.format("找到符合条件的%s个用户",users.size()));
 		UserSearchResult result = new UserSearchResult();
 		result.setSearchDetails(users);
 		rawResult = result;
