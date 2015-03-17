@@ -30,3 +30,4 @@ database/unit_test.trace.db
 .settings/org.eclipse.wst.xsl.core.prefs
 *.db
 
+/bin

@@ -18,4 +18,5 @@ public abstract  class PuluoDSI {
 	public abstract  PuluoOrderEventDao orderEventDao();
 	public abstract  PuluoUserSettingDao userSettingDao();
 	public abstract  PuluoAuthCodeRecordDao authCodeRecordDao();
+	public abstract  PuluoWechatBindingDao wechatBindingDao();
 }

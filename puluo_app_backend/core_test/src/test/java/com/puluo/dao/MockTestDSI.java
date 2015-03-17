@@ -98,4 +98,10 @@ public class MockTestDSI extends PuluoDSI {
 		return null;
 	}
 
+	@Override
+	public PuluoWechatBindingDao wechatBindingDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

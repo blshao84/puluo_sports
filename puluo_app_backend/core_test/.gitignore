@@ -28,3 +28,5 @@ src/main/webapp/.idea/*
 .history
 .settings/org.eclipse.wst.xsl.core.prefs
 
+/bin
+/bin

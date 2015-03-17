@@ -169,4 +169,8 @@
 		<property name="fullTableName" value="puluo_auth_code"></property>
 	</bean>	
 
+	<bean id="wechatBindingDao" class="com.puluo.dao.impl.PuluoWechatBindingDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_wechat_binding"></property>
+	</bean>	
+
 </beans>
