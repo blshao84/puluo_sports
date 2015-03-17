@@ -1,5 +1,6 @@
 package com.puluo.entity.impl;
 
+import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoEventMemory;
 import com.puluo.entity.PuluoTimelinePost;
@@ -13,40 +14,62 @@ public class PuluoEventMemoryImpl implements PuluoEventMemory {
 	private String event_uuid;
 	private String user_uuid;
 	private String timeline_uuid;
+
+	public PuluoEventMemoryImpl(String uuid, String image_url,
+			String thumbnail, String event_uuid, String user_uuid,
+			String timeline_uuid) {
+		super();
+		this.uuid = uuid;
+		this.image_url = image_url;
+		this.thumbnail = thumbnail;
+		this.event_uuid = event_uuid;
+		this.user_uuid = user_uuid;
+		this.timeline_uuid = timeline_uuid;
+	}
 	
 	@Override
 	public String imageId() {
-		// TODO Auto-generated method stub
 		return uuid;
 	}
 
 	@Override
 	public String imageURL() {
-		// TODO Auto-generated method stub
 		return image_url;
 	}
 	
 	@Override
 	public String thumbnail() {
-		// TODO Auto-generated method stub
 		return thumbnail;
 	}
 
 	@Override
 	public PuluoEvent event() {
-		// TODO Auto-generated method stub
-		return null;
+		return DaoApi.getInstance().eventDao().getEventByUUID(event_uuid);
 	}
 
 	@Override
 	public PuluoUser user() {
-		// TODO Auto-generated method stub
-		return null;
+		return DaoApi.getInstance().userDao().getByUUID(user_uuid);
 	}
 
 	@Override
 	public PuluoTimelinePost timeline() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String eventId() {
+		return event_uuid;
+	}
+
+	@Override
+	public String userId() {
+		return user_uuid;
+	}
+
+	@Override
+	public String timelineId() {
+		return timeline_uuid;
 	}
 }
