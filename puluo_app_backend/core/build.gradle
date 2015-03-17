@@ -1,4 +1,5 @@
 dependencies {
+    compile 'com.google.guava:guava:10.0.1'
     compile group:'com.mashape.unirest',name:'unirest-java',version:'1.4.5'
     compile group:'joda-time',name:'joda-time',version:'2.1'
     compile group:'com.upyun',name:'java-sdk',version:'3.0'
