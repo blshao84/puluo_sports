@@ -87,8 +87,8 @@ object WechatService extends RestHelper with Loggable {
  
   serve {
     //case "sns" :: "weichat" :: "create" :: Nil Get _ => createButton
-    case "sns" :: "weichat" :: Nil Get _ => processReq
-    case "sns" :: "weichat" :: Nil Post _ => processReq
+    case "sns" :: "wechat" :: Nil Get _ => processReq
+    case "sns" :: "wechat" :: Nil Post _ => processReq
   }
 
 
