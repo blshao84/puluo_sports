@@ -120,10 +120,7 @@ object WechatService extends RestHelper with Loggable {
   def processTextReq(params: Map[String, String]): LiftResponse = {
     params.get("Content") match {
       case Some(content) => {
-        val (hd :: tl) = content.split('+').toList
-        (hd.toLowerCase(), tl.toArray) match {
-          case _ => ???
-        }
+       WechatTextMessage(params,"I'm echo:"+content)
       }
       case None => {
         logger.error("微信‘文本消息’请求中没有包含content信息")
