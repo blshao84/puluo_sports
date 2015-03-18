@@ -1,4 +1,4 @@
-/*package com.puluo.api.test;
+package com.puluo.api.test;
 
 import net.liftweb.http.rest.RestHelper
 import net.liftweb.util.Helpers._
@@ -19,19 +19,15 @@ import scala.collection.JavaConversions._
 import org.dom4j.Element
 import net.liftweb.mapper._
 import scala.util.Random
-import com.puluo.util.JuheSMSClient
-import com.puluo.util.StringUtil
-import com.puluo.util.DateUtil
 import net.liftweb.mapper.MaxRows
 import net.liftweb.mapper.OrderBy
 import net.liftweb.mapper.Descending
 import net.liftweb.util.FieldError
-import com.puluo.config.WeiChatButton
 import com.puluo.config.ButtonKeyType
 import java.util.UUID
 import org.joda.time.LocalDateTime
 
-trait WeiChatReplyMessage {
+trait WechatReplyMessage {
   def params: Map[String, String]
   def toUserName = params("FromUserName")
   def fromUserName = params("ToUserName")
@@ -40,7 +36,7 @@ trait WeiChatReplyMessage {
 }
 
 
-case class WeiChatTextMessage(params: Map[String, String], val textContent: String) extends WeiChatReplyMessage with Loggable {
+case class WechatTextMessage(params: Map[String, String], val textContent: String) extends WechatReplyMessage with Loggable {
   val msgType = "text"
   def xmlResponse = {
     val xml = <xml>
@@ -55,8 +51,8 @@ case class WeiChatTextMessage(params: Map[String, String], val textContent: Stri
   }
 }
 
-case class WeiChatNewsMessage(params: Map[String, String],
-  val articles: Seq[WeiChatArticleMessage]) extends WeiChatReplyMessage with Loggable {
+case class WechatNewsMessage(params: Map[String, String],
+  val articles: Seq[WechatArticleMessage]) extends WechatReplyMessage with Loggable {
   val msgType = "news"
   def articleCount = articles.size
   def xmlResponse = {
@@ -73,7 +69,7 @@ case class WeiChatNewsMessage(params: Map[String, String],
   }
 }
 
-case class WeiChatArticleMessage(val title: String, val description: String, imgUrl: String, pageUrl: String) {
+case class WechatArticleMessage(val title: String, val description: String, imgUrl: String, pageUrl: String) {
   def xmlResponse =
     <item>
       <Title>{ title }</Title>
@@ -83,10 +79,10 @@ case class WeiChatArticleMessage(val title: String, val description: String, img
     </item>
 }
 
-object WeiChatService extends RestHelper with Loggable {
+object WechatService extends RestHelper with Loggable {
   
   
-  implicit def replyMessageToResponse(msg: WeiChatReplyMessage): XmlResponse = msg.xmlResponse
+  implicit def replyMessageToResponse(msg: WechatReplyMessage): XmlResponse = msg.xmlResponse
 
  
   serve {
@@ -136,14 +132,8 @@ object WeiChatService extends RestHelper with Loggable {
     }
   }
 
- 
-  
-  def defaultResponse(params: Map[String, String]) = WeiChatTextMessage(params,
-    """您的消息我们已经收到，只是暂时不太明白您的要求，发送'h'看看我们现在都有哪些功能。
-      与此同时您可以前往app store下载‘普罗体育’的app，在那上面您将会得到更出色的体验！""")
-
   def verify(sig: String, timestamp: String, nonce: String, echostr: String) = {
-    val tmpArr = Seq(Configurations.weichatToken, timestamp, nonce).sorted
+    val tmpArr = Seq(Configurations.wechatToken, timestamp, nonce).sorted
     val tmpStr = tmpArr.mkString
     val tmpStrHash = DigestUtils.shaHex(tmpStr)
     if (tmpStrHash == sig) {
@@ -179,4 +169,4 @@ object WeiChatService extends RestHelper with Loggable {
   
 
 
-}*/
+}

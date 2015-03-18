@@ -33,6 +33,7 @@ import com.puluo.dao.impl.DaoApi
 import com.puluo.api.auth.PuluoAuthPrivateAPI
 import com.puluo.api.service.PuluoPrivateServiceAPI
 import com.puluo.api.service.PuluoServiceAPI
+import com.puluo.api.test.WechatService
 
 class Boot extends Loggable {
 
@@ -72,6 +73,7 @@ class Boot extends Loggable {
     LiftRules.dispatch.append(DemoAPI)
     LiftRules.dispatch.append(PuluoServiceAPI)
     LiftRules.dispatch.append(PuluoAuthAPI)
+    LiftRules.dispatch.append(WechatService)
     LiftRules.dispatch.append(withAuthentication guard PuluoPrivateServiceAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoEventAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoGraphAPI)
