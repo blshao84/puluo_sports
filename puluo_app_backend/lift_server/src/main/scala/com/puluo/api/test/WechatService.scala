@@ -26,73 +26,20 @@ import net.liftweb.util.FieldError
 import com.puluo.config.ButtonKeyType
 import java.util.UUID
 import org.joda.time.LocalDateTime
-
-trait WechatReplyMessage {
-  def params: Map[String, String]
-  def toUserName = params("FromUserName")
-  def fromUserName = params("ToUserName")
-  def createTime = params("CreateTime")
-  def xmlResponse: XmlResponse
-}
-
-
-case class WechatTextMessage(params: Map[String, String], val textContent: String) extends WechatReplyMessage with Loggable {
-  val msgType = "text"
-  def xmlResponse = {
-    val xml = <xml>
-                <ToUserName>{ toUserName }</ToUserName>
-                <FromUserName>{ fromUserName }</FromUserName>
-                <CreateTime>{ createTime }</CreateTime>
-                <MsgType>{ msgType }</MsgType>
-                <Content>{ textContent }</Content>
-              </xml>
-    logger.info("回复给微信的response：\n%s".format(xml))
-    XmlResponse(xml)
-  }
-}
-
-case class WechatNewsMessage(params: Map[String, String],
-  val articles: Seq[WechatArticleMessage]) extends WechatReplyMessage with Loggable {
-  val msgType = "news"
-  def articleCount = articles.size
-  def xmlResponse = {
-    val xml = <xml>
-                <ToUserName>{ toUserName }</ToUserName>
-                <FromUserName>{ fromUserName }</FromUserName>
-                <CreateTime>{ createTime }</CreateTime>
-                <MsgType>{ msgType }</MsgType>
-                <ArticleCount>{ articleCount }</ArticleCount>
-                <Articles>{ articles.map(_.xmlResponse) }</Articles>
-              </xml>
-    logger.info("回复给微信的response：\n%s".format(xml))
-    XmlResponse(xml)
-  }
-}
-
-case class WechatArticleMessage(val title: String, val description: String, imgUrl: String, pageUrl: String) {
-  def xmlResponse =
-    <item>
-      <Title>{ title }</Title>
-      <Description>{ description }</Description>
-      <PicUrl>{ imgUrl }</PicUrl>
-      <Url>{ pageUrl }</Url>
-    </item>
-}
+import com.puluo.api.util._
+import com.puluo.api.service.WechatTextAPI
 
 object WechatService extends RestHelper with Loggable {
-  
-  
+
   implicit def replyMessageToResponse(msg: WechatReplyMessage): XmlResponse = msg.xmlResponse
 
- 
   serve {
     //case "sns" :: "weichat" :: "create" :: Nil Get _ => createButton
     case "sns" :: "wechat" :: Nil Get _ => processReq
     case "sns" :: "wechat" :: Nil Post _ => processReq
   }
 
-
-  def processReq = {
+  def processReq:LiftResponse = {
     (S.param("signature"), S.param("timestamp"), S.param("nonce"), S.param("echostr")) match {
       case (Full(sig), Full(timestamp), Full(nonce), Full(echostr)) => verify(sig, timestamp, nonce, echostr)
       case _ => {
@@ -100,7 +47,10 @@ object WechatService extends RestHelper with Loggable {
         (params.get("ToUserName"), params.get("FromUserName"), params.get("CreateTime"), params.get("MsgType")) match {
           case (Some(toUser), Some(fromUser), Some(creatAt), Some(msgType)) => {
             msgType match {
-              case "text" => processTextReq(params)
+              case "text" => {
+                val api = new WechatTextAPI(toUser, fromUser, creatAt, msgType, params.getOrElse("Content", ""))
+                WechatTextMessage(params,api.process())
+              }
               //case "image" => processImageReq(params)
               //case "event" => processButtonReq(params)
               case _ => {
@@ -114,17 +64,6 @@ object WechatService extends RestHelper with Loggable {
             PlainTextResponse("error")
           }
         }
-      }
-    }
-  }
-  def processTextReq(params: Map[String, String]): LiftResponse = {
-    params.get("Content") match {
-      case Some(content) => {
-       WechatTextMessage(params,"I'm echo:"+content)
-      }
-      case None => {
-        logger.error("微信‘文本消息’请求中没有包含content信息")
-        PlainTextResponse("error")
       }
     }
   }
@@ -162,8 +101,5 @@ object WechatService extends RestHelper with Loggable {
     logger.info("解析微信数据结果:\n" + result.mkString("\n"))
     result.toMap
   }
-
-  
-
 
 }
