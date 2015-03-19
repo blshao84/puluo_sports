@@ -116,12 +116,18 @@ public class PuluoUserDaoTest {
 				"2_large.jpg", "saying", "email", "M", "1984-10-11", "China",
 				"Liaoning", "Dalian", "116000");
 		Assert.assertNotNull(user);
-		ArrayList<PuluoUser> users = (ArrayList<PuluoUser>) DaoTestApi.userDevDao.findUser("LEI", "SHI", "email", null);
+		DaoTestApi.userDevDao.save("13262247972", "123456");
+		user = DaoTestApi.userDevDao.getByMobile("13262247972");
+		user = DaoTestApi.userDevDao.updateProfile(user, "LUKE", "SHI", "3.jpg",
+				"3_large.jpg", "saying", "email", "M", "1984-10-11", "China",
+				"Liaoning", "Dalian", "116000");
+		Assert.assertNotNull(user);
+		ArrayList<PuluoUser> users = (ArrayList<PuluoUser>) DaoTestApi.userDevDao.findUser("LEI", "SHI", "email", null, true);
 		Assert.assertEquals("users' size should be 2", 2, users.size());
-		users = (ArrayList<PuluoUser>) DaoTestApi.userDevDao.findUser("LEI", "SHI", "email", "18521564305");
+		users = (ArrayList<PuluoUser>) DaoTestApi.userDevDao.findUser("LEI", "SHI", "email", "18521564305", true);
 		Assert.assertEquals("users' size should be 1", 1, users.size());
-		users = (ArrayList<PuluoUser>) DaoTestApi.userDevDao.findUser("LEI", "SHI", "email", "13262247972");
-		Assert.assertEquals("users' size should be 0", 0, users.size());
+		users = (ArrayList<PuluoUser>) DaoTestApi.userDevDao.findUser(null, "SHI", null, "15330820432", false);
+		Assert.assertEquals("users' size should be 3", 3, users.size());
 		log.info("testFindUser done!");
 	}
 }

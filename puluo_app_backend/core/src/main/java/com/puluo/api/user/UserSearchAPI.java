@@ -41,7 +41,8 @@ public class UserSearchAPI extends PuluoAPI<PuluoDSI,UserSearchResult> {
 		if(last_name.trim().isEmpty()) last_name=null;
 		if(email.trim().isEmpty()) email=null;
 		if(mobile.trim().isEmpty()) mobile=null;
-		List<PuluoUser> users = userdao.findUser(first_name,last_name,email,mobile);
+//		List<PuluoUser> users = userdao.findUser(first_name,last_name,email,mobile);
+		List<PuluoUser> users = userdao.findUser(first_name,last_name,email,mobile,true);// Modified by Luke PuluoUserDao已修改，我默认传入了true，请根据实际情况传入值
 		log.info(String.format("找到符合条件的%s个用户",users.size()));
 		UserSearchResult result = new UserSearchResult();
 		result.setSearchDetails(users);
