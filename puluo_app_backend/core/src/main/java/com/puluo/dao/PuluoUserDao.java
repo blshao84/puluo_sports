@@ -20,7 +20,9 @@ public interface PuluoUserDao {
 			String thumbnail, String large_image, String saying, String email, String sex, 
 			String birthday, String country, String state, String city, String zip); 
 	
-	public List<PuluoUser> findUser(String first_name, String last_name, String email, String mobile);
+//	public List<PuluoUser> findUser(String first_name, String last_name, String email, String mobile);
+//	March 19, 2015 Luke 增加参数and_or，类型为boolean，and为true，or为false，暂时不会一次take一个变量
+	public List<PuluoUser> findUser(String first_name, String last_name, String email, String mobile, boolean and_or);
 	
 	//public List<PuluoUser> findUserByFirstName(String first_name);
 	

@@ -264,14 +264,15 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 
 	@Override
 	public List<PuluoUser> findUser(String first_name, String last_name,
-			String email, String mobile) {
+			String email, String mobile, boolean and_or) {
+		String and_or_string = and_or ? "and" : "or";
 		SqlReader reader = getReader();
 		StringBuilder selectSQL = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName()).append(" where ");
 		boolean hasAnd = false;
 		if (first_name!=null) {
 			if (hasAnd) {
-				selectSQL.append("and first_name='" + first_name + "' ");
+				selectSQL.append(and_or_string + " first_name='" + first_name + "' ");
 			} else {
 				selectSQL.append("first_name='" + first_name + "' ");
 			}
@@ -279,7 +280,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 		}
 		if (last_name!=null) {
 			if (hasAnd) {
-				selectSQL.append("and last_name='" + last_name + "' ");
+				selectSQL.append(and_or_string + " last_name='" + last_name + "' ");
 			} else {
 				selectSQL.append("last_name='" + last_name + "' ");
 			}
@@ -287,7 +288,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 		}
 		if (email!=null) {
 			if (hasAnd) {
-				selectSQL.append("and email='" + email + "' ");
+				selectSQL.append(and_or_string + " email='" + email + "' ");
 			} else {
 				selectSQL.append("email='" + email + "' ");
 			}
@@ -295,7 +296,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 		}
 		if (mobile!=null) {
 			if (hasAnd) {
-				selectSQL.append("and mobile='" + mobile + "' ");
+				selectSQL.append(and_or_string + " mobile='" + mobile + "' ");
 			} else {
 				selectSQL.append("mobile='" + mobile + "' ");
 			}
