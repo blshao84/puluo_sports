@@ -49,7 +49,8 @@ object WechatService extends RestHelper with Loggable {
             msgType match {
               case "text" => {
                 val api = new WechatTextAPI(toUser, fromUser, creatAt, msgType, params.getOrElse("Content", ""))
-                WechatTextMessage(params,api.process())
+                //FIXME: fix this hack!!!!
+                WechatTextMessage(params,api.process().asInstanceOf[com.puluo.api.result.wechat.WechatTextMessage])
               }
               //case "image" => processImageReq(params)
               //case "event" => processButtonReq(params)
