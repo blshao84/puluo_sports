@@ -19,13 +19,19 @@ public class PuluoWechatBindingDaoImpl extends DalTemplate implements PuluoWecha
 	}
 
 	@Override
-	public boolean saveBinding(String mobile, String openId, String authCode) {
+	public boolean saveBinding(String mobile, String openId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean updateBinding(String openId, boolean verified) {
+	public boolean updateBinding(String openId, int status) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateMobile(String openId, String mobile) {
 		// TODO Auto-generated method stub
 		return false;
 	}

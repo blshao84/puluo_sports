@@ -5,6 +5,6 @@ public interface PuluoWechatBinding {
 	public String mobile();
 	public String openId();
 	public boolean verified();
-	public String authCode();
+	public int status();
 	
 }

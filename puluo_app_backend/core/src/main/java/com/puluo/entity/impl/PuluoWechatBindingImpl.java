@@ -8,8 +8,10 @@ import com.puluo.entity.PuluoWechatBinding;
 public class PuluoWechatBindingImpl implements PuluoWechatBinding {
 	private String user_mobile;
 	private String open_id;
-	private String auth_code;
-	private boolean verified;
+	/**
+	 * 0: binding requested, not sent sms 1: sms sent 2: verified
+	 */
+	private int status;
 
 	@Override
 	public PuluoUser user() {
@@ -32,12 +34,12 @@ public class PuluoWechatBindingImpl implements PuluoWechatBinding {
 
 	@Override
 	public boolean verified() {
-		return verified;
+		return status == 2;
 	}
 
 	@Override
-	public String authCode() {
-		return auth_code;
+	public int status() {
+		return status;
 	}
 
 }

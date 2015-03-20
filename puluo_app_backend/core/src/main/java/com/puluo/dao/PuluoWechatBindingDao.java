@@ -8,7 +8,8 @@ public interface PuluoWechatBindingDao {
 	
 	public PuluoWechatBinding findByMobile(String mobile);
 	
-	public boolean saveBinding(String mobile, String openId, String authCode);
+	public boolean saveBinding(String mobile, String openId);
 	
-	public boolean updateBinding(String openId, boolean verified);
+	public boolean updateBinding(String openId, int status);
+	public boolean updateMobile(String openId, String mobile);
 }
