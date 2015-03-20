@@ -64,7 +64,7 @@ class Boot extends Loggable {
     // setup cors
     LiftRules.supplimentalHeaders = s => s.addHeaders(
       List( //HTTPParam("X-Lift-Version", LiftRules.liftVersion),
-        HTTPParam("Access-Control-Allow-Origin", "http://localhost,http://localhost:8000,http://localhost:8100"),
+        HTTPParam("Access-Control-Allow-Origin", "http://localhost:8100"),
         HTTPParam("Access-Control-Allow-Credentials", "true"),
         HTTPParam("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS"),
         HTTPParam("Access-Control-Allow-Headers", "Accept,WWW-Authenticate,Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Content-Type")))
