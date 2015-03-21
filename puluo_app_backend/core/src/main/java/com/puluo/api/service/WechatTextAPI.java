@@ -67,6 +67,8 @@ public class WechatTextAPI {
 				api.execute();
 				if (api.error == null) {
 					dsi.wechatBindingDao().updateMobile(from_user,content);
+					dsi.wechatBindingDao().updateBinding(from_user, 1);
+					log.info(String.format("成功发送短信验证码，将手机号为%s的用户%s的状态更新为1",from_user,content));
 					msg = new WechatTextMessage("已成功发送验证码，请您微信回复收到的验证码来完整绑定");
 				} else {
 					msg = new WechatTextMessage(api.error.message);
