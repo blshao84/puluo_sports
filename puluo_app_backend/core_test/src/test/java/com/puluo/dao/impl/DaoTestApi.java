@@ -3,14 +3,15 @@ package com.puluo.dao.impl;
 import com.puluo.dao.PgDummyDao;
 import com.puluo.dao.PuluoAuthCodeRecordDao;
 import com.puluo.dao.PuluoEventDao;
+import com.puluo.dao.PuluoEventInfoDao;
 import com.puluo.dao.PuluoEventLocationDao;
 import com.puluo.dao.PuluoEventMemoryDao;
 import com.puluo.dao.PuluoEventPosterDao;
-import com.puluo.dao.PuluoEventInfoDao;
 import com.puluo.dao.PuluoSessionDao;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.PuluoUserSettingDao;
+import com.puluo.dao.PuluoWechatBindingDao;
 
 public class DaoTestApi {
 	public static PgDummyDao pgInMemDummy = 
@@ -29,4 +30,6 @@ public class DaoTestApi {
 	public static PuluoEventDao eventDevDao	= BeanTestFactory.getBean(PuluoEventDao.class, "eventDevDao");
 	public static PuluoEventLocationDao eventLocationDevDao	= BeanTestFactory.getBean(PuluoEventLocationDao.class, "eventLocationDevDao");
 	public static PuluoEventMemoryDao eventMemoryDevDao	= BeanTestFactory.getBean(PuluoEventMemoryDao.class, "eventMemoryDevDao");
+	public static PuluoWechatBindingDao wechatBindingDevDao	= BeanTestFactory.getBean(PuluoWechatBindingDao.class, "wechatBindingDevDao");
+
 }

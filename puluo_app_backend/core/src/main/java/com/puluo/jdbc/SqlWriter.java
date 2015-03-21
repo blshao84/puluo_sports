@@ -20,10 +20,6 @@ import org.springframework.jdbc.support.KeyHolder;
 public interface SqlWriter
 {
     DataSource getDataSource();
-    public int[] inserts(String tableName, String[] cols, Collection<Object[]> values, int splitCount);
-
-    public int[] inserts(String tableName, String[] cols, Collection<Object[]> values, int splitCount, boolean isIgnoreRepeat);
-
     public int[] batchUpdate(String sql, BatchPreparedStatementSetter pss) throws DataAccessException;
 
     public <T> int[][] batchUpdate(String sql, Collection<T> batchArgs, int batchSize, ParameterizedPreparedStatementSetter<T> pss);
@@ -31,8 +27,6 @@ public interface SqlWriter
     public int[] batchUpdate(String sql, List<Object[]> batchArgs, int[] argTypes);
 
     public int[] batchUpdate(String sql, List<Object[]> batchArgs);
-
-    public int[] batchUpdate(String[] sql) throws DataAccessException;
 
     public <T> T execute(CallableStatementCreator csc, CallableStatementCallback<T> action) throws DataAccessException;
 
@@ -59,5 +53,6 @@ public interface SqlWriter
     public int update(String sql, PreparedStatementSetter pss) throws DataAccessException;
 
     public int update(String sql) throws DataAccessException;
+    public boolean ensureUpdate(String sql) throws DataAccessException;
 
 }

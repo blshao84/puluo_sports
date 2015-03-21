@@ -116,7 +116,7 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 					time, location, name);
 		} else {
 			log.error(String.format("活动不存在,uuid=%s", order.eventId()));
-			smsResult = PuluoService.sms.sendConfirmationMessage(user.mobile());
+			smsResult = PuluoService.sms.sendWarningConfirmationMessage(user.mobile());
 		}
 		if (!smsResult.isSuccess()) {
 			log.error(String.format("发送短信至失败:%s:%s", user.mobile(),

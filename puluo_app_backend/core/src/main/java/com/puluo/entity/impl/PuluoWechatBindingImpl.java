@@ -1,17 +1,31 @@
 package com.puluo.entity.impl;
 
+import org.joda.time.DateTime;
+
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoUser;
 import com.puluo.entity.PuluoWechatBinding;
 
 public class PuluoWechatBindingImpl implements PuluoWechatBinding {
-	private String user_mobile;
-	private String open_id;
+	private final String user_mobile;
+	private final String open_id;
 	/**
 	 * 0: binding requested, not sent sms 1: sms sent 2: verified
 	 */
-	private int status;
+	private final int status;
+	private final DateTime created_at;
+	
+	
+
+	public PuluoWechatBindingImpl(String user_mobile, String open_id,
+			int status, DateTime created_at) {
+		super();
+		this.user_mobile = user_mobile;
+		this.open_id = open_id;
+		this.status = status;
+		this.created_at = created_at;
+	}
 
 	@Override
 	public PuluoUser user() {
@@ -24,7 +38,7 @@ public class PuluoWechatBindingImpl implements PuluoWechatBinding {
 
 	@Override
 	public String mobile() {
-		return user().mobile();
+		return user_mobile;
 	}
 
 	@Override
