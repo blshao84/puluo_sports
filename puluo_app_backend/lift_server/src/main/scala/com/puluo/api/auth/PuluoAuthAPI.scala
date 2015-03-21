@@ -37,7 +37,7 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
       callWithParam(Map(
         "mobile" -> ErrorResponseResult(15).copy(message = "mobile"),
         "password" -> ErrorResponseResult(15).copy(message = "password"),
-        "code" -> ErrorResponseResult(15).copy(message = "code")))(doRegister)
+        "code" -> ErrorResponseResult(15).copy(message = "auth_code")))(doRegister)
     }
     case "dummy" :: "users" :: "login" :: Nil Post _ => {
       val paramMap = PuluoResponseFactory.createParamMap(Seq("mobile", "password"))
@@ -76,7 +76,7 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
   private def doRegister(params: Map[String, String]) = {
     val mobile = params("mobile")
     val password = params("password")
-    val authCode = params("code")
+    val authCode = params("auth_code")
     val api = new UserRegistrationAPI(mobile, password, authCode)
     api.execute()
     PuluoResponseFactory.createJSONResponse(api, 201)
