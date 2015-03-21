@@ -17,7 +17,7 @@ public class PuluoService {
 	private static final String emailUsername = "postmaster@unuotech.sendcloud.org";
 	private static final String emailPassword = "zkW71LVkBOsxkACe";
 
-	private static final String baseSMSURL = "http://v.juhe.cn/sms/send?key=172b8ec174b8a780cd7ac841386ac502&dtype=json&";
+	private static final String baseSMSURL = "http://v.juhe.cn/sms/send?key=623b3ce6bcd4a51ee7930b025451b441&dtype=json&";
 
 	public static final PuluoImageService image = new PuluoImageService(
 			new UpYun(upYunSpaceName, upYunUsername, upYunPassword));
@@ -38,5 +38,10 @@ public class PuluoService {
 
 	public static PuluoImageService getImage() {
 		return image;
+	}
+	
+	public static void main(String[] args){
+		
+		System.out.println(sms.sendAuthCode("18646655333", "123456"));
 	}
 }

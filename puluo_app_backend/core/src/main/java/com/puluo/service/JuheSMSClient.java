@@ -25,21 +25,22 @@ public class JuheSMSClient {
 	}
 
 	public JuheSMSResult sendAuthCode(String mobile, String code) {
-		String values = String.format("#code#=%s&#company#=大庆优诺", code);
-		return doSend(1, values, mobile);
+		String values = String.format("#code#=%s", code);
+		return doSend(2041, values, mobile);
 	}
 
 	public JuheSMSResult sendConfirmationMessage(String mobile, String time,
 			String loc, String eventName) {
 		String values = String.format(
-				"#time#=%s&#loc#=%s&#name#=%s&#company#=大庆优诺", time, loc,
+				"#time#=%s&#loc#=%s&#name#=%s", time, loc,
 				eventName);
-		return doSend(2, values, mobile);
+		return doSend(2042, values, mobile);
 	}
 	
 
-	public JuheSMSResult sendConfirmationMessage(String mobile) {
-		String values = String.format("#company#=大庆优诺");
+	//FIXME: should add a new tempalte 
+	public JuheSMSResult sendWarningConfirmationMessage(String mobile) {
+		String values = String.format("#company#=普罗体育");
 		return doSend(3, values, mobile);
 		
 	}
