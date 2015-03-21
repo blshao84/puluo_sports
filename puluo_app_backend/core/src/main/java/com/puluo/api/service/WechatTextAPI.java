@@ -81,8 +81,8 @@ public class WechatTextAPI {
 				} else {
 					msg = new WechatTextMessage(api.error.message);
 				}
-			} else{
-				log.error(String.format("mobile %s format is wrong",content));
+			} else {
+				log.error(String.format("mobile %s format is wrong", content));
 				msg = new WechatTextMessage("抱歉，您的电话号码不正确，我们无法为您发送验证码");
 			}
 			break;
@@ -120,7 +120,8 @@ public class WechatTextAPI {
 
 	private WechatMessage processBindingMessage(PuluoWechatBinding binding) {
 		// TODO Auto-generated method stub
-		return null;
+		return new WechatTextMessage(Strs.join(
+				"Hi, puluo user, I'm puluo echo:", content));
 	}
 
 	private WechatMessage processNonBindingMessage() {
