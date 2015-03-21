@@ -47,11 +47,17 @@ public class WechatTextAPI {
 					from_user);
 			if ((binding == null) || (!binding.verified())) {
 				if (binding == null) {
+					log.info(String.format("user %s hasn't binded the wechat",
+							from_user));
 					return processNonBindingMessage();
 				} else {
+					log.info(String
+							.format("user %s hasn't binded the wechat, but requested binding, status=%s",
+									from_user, binding.status()));
 					return processBinding(binding);
 				}
 			} else {
+				log.info("user has alrady bind");
 				return processBindingMessage(binding);
 			}
 		}
@@ -66,22 +72,29 @@ public class WechatTextAPI {
 						PuluoSMSType.UserRegistration, content);
 				api.execute();
 				if (api.error == null) {
-					dsi.wechatBindingDao().updateMobile(from_user,content);
+					dsi.wechatBindingDao().updateMobile(from_user, content);
 					dsi.wechatBindingDao().updateBinding(from_user, 1);
-					log.info(String.format("成功发送短信验证码，将手机号为%s的用户%s的状态更新为1",from_user,content));
+					log.info(String
+							.format("successfully sent sms，update status to 1 for mobile=%s, openid=%s",
+									from_user, content));
 					msg = new WechatTextMessage("已成功发送验证码，请您微信回复收到的验证码来完整绑定");
 				} else {
 					msg = new WechatTextMessage(api.error.message);
 				}
-			} else
+			} else{
+				log.error(String.format("mobile %s format is wrong",content));
 				msg = new WechatTextMessage("抱歉，您的电话号码不正确，我们无法为您发送验证码");
+			}
 			break;
 		case 1:
 			String password = content;// FIXME: must encrypt password
 			UserRegistrationAPI api = new UserRegistrationAPI(binding.mobile(),
 					password, content);
 			api.execute();
-			if (api.error == null) {
+			if (api.error == null
+					|| api.error.equals(ApiErrorResult.getError(5))) {
+				// if successfully create a new user or user has already in the
+				// system
 				dsi.wechatBindingDao().updateBinding(from_user, 2);
 				msg = new WechatTextMessage("您已经成功将手机与微信绑定");
 			} else if (api.error.equals(ApiErrorResult.getError(6))) {
@@ -112,7 +125,7 @@ public class WechatTextAPI {
 
 	private WechatMessage processNonBindingMessage() {
 		if (content.equals("bd")) {
-			dsi.wechatBindingDao().saveBinding("",from_user);
+			dsi.wechatBindingDao().saveBinding("", from_user);
 			return new WechatTextMessage("请您微信回复手机号已开始绑定");
 		} else
 			return new WechatTextMessage(Strs.join("Hi, I'm puluo echo:",
