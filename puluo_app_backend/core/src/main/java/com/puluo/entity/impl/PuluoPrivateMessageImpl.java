@@ -2,6 +2,8 @@ package com.puluo.entity.impl;
 
 import org.joda.time.DateTime;
 
+import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoPrivateMessage;
 
 public class PuluoPrivateMessageImpl implements PuluoPrivateMessage {
@@ -14,13 +16,12 @@ public class PuluoPrivateMessageImpl implements PuluoPrivateMessage {
 	private int direction;
 	private String user_id;
 	private String friend_id;
-
-	public PuluoPrivateMessageImpl() {
-	}
+	
+	private PuluoDSI dsi;
 
 	public PuluoPrivateMessageImpl(String idmessage, String textcontent,
 			String imgcontent, DateTime msg_time, int type, int direction,
-			String iduser, String idfriend) {
+			String iduser, String idfriend, PuluoDSI dsi) {
 		this.idmessage = idmessage;
 		this.textcontent = textcontent;
 		this.imgcontent = imgcontent;
@@ -29,78 +30,75 @@ public class PuluoPrivateMessageImpl implements PuluoPrivateMessage {
 		this.direction = direction;
 		this.user_id = iduser;
 		this.friend_id = idfriend;
+		this.dsi = dsi;
+	}
+	
+	public PuluoPrivateMessageImpl(String idmessage, String textcontent,
+			String imgcontent, DateTime msg_time, int type, int direction,
+			String iduser, String idfriend) {
+		this(idmessage, textcontent,
+				imgcontent, msg_time, type, direction,
+				iduser, idfriend, DaoApi.getInstance());
 	}
 
 	@Override
 	public String messageId() {
-		// TODO Auto-generated method stub
 		return idmessage;
 	}
 
 	@Override
 	public String textContent() {
-		// TODO Auto-generated method stub
 		return textcontent;
 	}
 
 	@Override
 	public String imgContent() {
-		// TODO Auto-generated method stub
 		return imgcontent;
 	}
 
 	@Override
 	public DateTime msgTime() {
-		// TODO Auto-generated method stub
 		return msg_time;
 	}
 
 	@Override
 	public int type() {
-		// TODO Auto-generated method stub
 		return type;
 	}
 
 	@Override
 	public int direction() {
-		// TODO Auto-generated method stub
 		return direction;
 	}
 
 	@Override
 	public String userId() {
-		// TODO Auto-generated method stub
 		return user_id;
 	}
 
 	@Override
 	public String friendId() {
-		// TODO Auto-generated method stub
 		return friend_id;
 	}
 
 	@Override
 	public String fromUserId() {
-		// TODO Auto-generated method stub
-		return null;
+		return friend_id;
 	}
 
 	@Override
 	public String toUserid() {
-		// TODO Auto-generated method stub
-		return null;
+		return user_id;
 	}
 
 	@Override
 	public String fromUserThumbnail() {
-		// TODO Auto-generated method stub
-		return null;
+		return dsi.userDao().getByUUID(friend_id).thumbnail();
 	}
 
 	@Override
 	public String toUserThumbnail() {
-		// TODO Auto-generated method stub
-		return null;
+		return dsi.userDao().getByUUID(user_id).thumbnail();
 	}
 
 }
