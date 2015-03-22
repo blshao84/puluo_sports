@@ -59,6 +59,7 @@ object PuluoAuthPrivateAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val password = params("password")
     val uuid = PuluoSession.userUUID
     val api = new UserPasswordUpdateAPI(uuid, password, newPassword)
-    PuluoResponseFactory.createDummyJSONResponse(UserPasswordUpdateResult.dummy().toJson())
+    api.execute()
+    PuluoResponseFactory.createJSONResponse(api)
   }
 }

@@ -69,7 +69,8 @@ public class UserProfileUpdateAPI extends PuluoAPI<PuluoDSI, UserProfileUpdateRe
 					upduser.saying(),upduser.email(),String.valueOf(upduser.sex()), 
 					TimeUtils.formatDate(upduser.birthday()),upduser.occupation(),
 					upduser.country(),upduser.state(),upduser.city(),upduser.zip(), 
-					upduser.createdAt().getMillis(),upduser.updatedAt().getMillis());
+					TimeUtils.dateTime2Millis(upduser.createdAt()),
+					TimeUtils.dateTime2Millis(upduser.updatedAt()));
 			rawResult = result;
 		} else {
 			log.error(String.format("更新个人信息失败"));

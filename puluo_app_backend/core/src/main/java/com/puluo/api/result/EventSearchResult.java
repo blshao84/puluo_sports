@@ -6,6 +6,7 @@ import java.util.List;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.impl.PuluoEventImpl;
 import com.puluo.util.HasJSON;
+import com.puluo.util.TimeUtils;
 
 
 public class EventSearchResult extends HasJSON {
@@ -31,7 +32,7 @@ public class EventSearchResult extends HasJSON {
 				images.add(event_impl.eventInfo().poster().get(j).imageURL());
 			}
 			details.add(new EventSearchResultDetail(event_impl.status(),event_impl.eventInfo().name(),
-				event_impl.eventTime().getMillis(),event_impl.eventLocation().address(),
+				TimeUtils.dateTime2Millis(event_impl.eventTime()),event_impl.eventLocation().address(),
 				event_impl.eventLocation().city(),event_impl.eventLocation().phone(),
 				event_impl.eventInfo().coachName(),event_impl.eventInfo().coachUUID(),
 				thumbnails,event_impl.registeredUsers(),event_impl.capatcity(),event_impl.eventInfo().likes(),
