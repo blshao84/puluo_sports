@@ -140,8 +140,8 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
   "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
   "mobile": "12346789000",
   "password": "cd8460a5e0f2c2af596f170009bffc02df06b54d",
-  "created_at": "2012-01-01 12:00:00",
-  "updated_at": "2012-01-01 12:00:00"
+  "created_at": 12345677889900, // unix timestamp
+  "updated_at": 12345677889900 // unix timestamp
 }
 ```
 
@@ -179,8 +179,8 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 ```
 {
   "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013", //user's uuid
-  "created_at": "2012-01-01 12:00:00", //session created time
-  "last_login": "2012-01-01 12:00:00" //last login time, empty for first time
+  "created_at": 12345677889900, // unix timestamp, session created time
+  "last_login": 12345677889900 // unix timestamp, last login time, empty for first time
 }
 ```
 
@@ -241,8 +241,8 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 ```
 {
   "uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
-  "created_at": "2012-01-01 12:00:00",
-  "updated_at": "2012-01-01 12:00:00"
+  "created_at": 12345677889900, // unix timestamp
+  "updated_at": 12345677889900 // unix timestamp
 }
 ```
 
@@ -317,8 +317,8 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 	"city": "Seattle",
 	"zip": "234234"
   },
-  "created_at": "2012-01-01 12:00:00",
-  "updated_at": "2012-01-01 12:00:00"
+  "created_at": 12345677889900, // unix timestamp
+  "updated_at": 12345677889900 // unix timestamp
 }
 ```
 
@@ -385,8 +385,8 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 	"city": "Seattle",
 	"zip": "234234"
   },
-  "created_at": "2012-01-01 12:00:00",
-  "updated_at": "2012-01-01 12:00:00"
+  "created_at": 12345677889900, // unix timestamp
+  "updated_at": 12345677889900 // unix timestamp
 }
 ```
 
@@ -611,11 +611,11 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				content:"hi, this is Tracy!",
-				created_at:"2012-01-01 12:00:00"
+				created_at:12345677889900 // unix timestamp
 			}
 		],
-		created_at:"2012-01-01 12:00:00",
-		updated_at:"2012-01-01 12:00:00"
+		created_at:12345677889900, // unix timestamp
+		updated_at:12345677889900 // unix timestamp
 	}
 }
 ```
@@ -697,7 +697,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.13
 				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				content:"hi, this is Tracy!",
-				created_at:"2012-01-01 12:00:00"
+				created_at:12345677889900 // unix timestamp
 			},
 			{
 				msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
@@ -706,11 +706,11 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.13
 				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				content:"hi, this is Tracy!",
-				created_at:"2012-01-01 12:00:00"
+				created_at:12345677889900 // unix timestamp
 			}
 		],
-		created_at:"2012-01-01 12:00:00",
-		updated_at:"2012-01-01 12:00:00"
+		created_at:12345677889900, // unix timestamp
+		updated_at:12345677889900 // unix timestamp
 	}
 }
 ```
@@ -751,7 +751,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.13
 				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				content:"hi, this is Tracy!",
-				created_at:"2012-01-01 12:00:00"
+				created_at:12345677889900 // unix timestamp
 			},
 			{
 				msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
@@ -760,11 +760,11 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.13
 				from_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 				content:"hi, this is Tracy!",
-				created_at:"2012-01-01 12:00:00"
+				created_at:12345677889900 // unix timestamp
 			}
 		],
-		created_at:"2012-01-01 12:00:00",
-		updated_at:"2012-01-01 12:00:00"
+		created_at:12345677889900, // unix timestamp
+		updated_at:12345677889900 // unix timestamp
 	}
 }
 ```
@@ -807,7 +807,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X PUT https://183.131
 	from_user_thumbnail:"http://upyun.com/puluo/xxxx",
 	to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 	content:"hi, this is Tracy!",
-	created_at:"2012-01-01 12:00:00"				
+	created_at:12345677889900 // unix timestamp	
 }
 ```
 
@@ -822,7 +822,7 @@ Get messages from a specific user since a specific time
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
 |user_uuid|String|the other user's uuid|"de305d54-75b4-431b-adb2-eb6b9e546013"|
-|since|Time| all returned messages should be after this time |"2012-01-01 12:00:00"|
+|since|Time| all returned messages should be after this time, unix timestamp |12345677889900|
 
 
 ###### cURL Example
@@ -831,7 +831,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://183.131
 -H "Content-Type: application/json" \
 -d '{
   "user_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
-  "since": ""2012-01-01 12:00:00""
+  "since": 12345677889900 // unix timestamp
 }'
 ```  
 ###### Response Example
@@ -846,7 +846,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://183.131
 			from_user_thumbnail:"http://upyun.com/puluo/xxxx",
 			to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 			content:"hi, this is Tracy!",
-			created_at:"2012-01-01 12:00:00"
+			created_at:12345677889900 // unix timestamp
 		},
 		{
 			msg_id:"de305d54-75b4-431b-adb2-eb6b9e546013",
@@ -855,7 +855,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://183.131
 			from_user_thumbnail:"http://upyun.com/puluo/xxxx",
 			to_user_thumbnail:"http://upyun.com/puluo/xxxx",
 			content:"hi, this is Tracy!",
-			created_at:"2012-01-01 12:00:00"
+			created_at:12345677889900 // unix timestamp
 		}
 	]
 }
@@ -907,7 +907,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET /events/detail/
 {
 	"status" : "open", //status includes 'open', 'closed', 'cancel', 'full'.
 	"event_name": "Weapons of Ass Reduction",
-	"event_time": "2012-01-01 12:00:00", //
+	"event_time": 12345677889900, // unix timestamp
 	"address": "888 Happy Mansion",
 	"city": "Beijing",
 	"phone": "86-555-5555",
@@ -945,7 +945,7 @@ Get list of user image links of an event
 
 ###### cURL Example
 ```
-$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://183.131.76.93/events/memory
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.131.76.93/events/memory
 -H "Content-Type: application/json" \
 -d '{
   "max_count": "5"
@@ -986,7 +986,7 @@ If keyword is not specified, return all events with sorting and filter.
 
 ###### cURL Example
 ```
-$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET /events/search
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST /events/search
 -H "Content-Type: application/json" \
 -d '{
   "keyword": "yoga",
@@ -1007,7 +1007,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET /events/search
 		{
 			"status" : "open", //status includes 'open', 'closed', 'cancel', 'full'.
 			"event_name": "Weapons of Ass Reduction",
-			"event_time": "2012-01-01 12:00:00", //
+			"event_time": 12345677889900, // unix timestamp
 			"address": "888 Happy Mansion",
 			"city": "Beijing",
 			"phone": "86-555-5555",
@@ -1046,7 +1046,7 @@ Get a list of events user attended/to attend
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
 |user_uuid|String|user's uuid|de305d54-75b4-431b-adb2-eb6b9e546013|
-|since_time|Time|returned events should be after 'since_time'|2012-01-01 12:00:00|
+|since_time|Time|returned events should be after 'since_time', unix timestamp|12345677889900|
 
 ###### cURL Example
 ```
@@ -1067,19 +1067,19 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X https://183.131.76.
 			event:{
 				event_uuid:"de305d54-75b4-431b-adb2-eb6b9e546013",
 				event_name:"Weapon of big ass reduction",
-				created_at:"2012-01-01 12:00:00" //eventTime()
+				created_at:12345677889900 // unix timestamp
 			},
 			my_words:"This is an awesome event",
 			likes:[
 				{
 					user_uuid:"de305d54-75b4-431b-adb2-eb6b9e546013",
 					user_name:"Bob",
-					created_at:"2012-01-01 12:00:00"
+					created_at:12345677889900 // unix timestamp
 				},
 				{
 					user_uuid:"de305d54-75b4-431b-adb2-eb6b9e546013",
 					user_name:"Bob",
-					created_at:"2012-01-01 12:00:00"
+					created_at:12345677889900 // unix timestamp
 				}
 			],
 			comments:[
@@ -1090,11 +1090,11 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X https://183.131.76.
 					user_name:"Bob",
 					content:"",
 					read:"false",
-					created_at:"2012-01-01 12:00:00"
+					created_at:12345677889900 // unix timestamp
 				}
 			],
-			created_at:"2012-01-01 12:00:00",
-			updated_at:"2012-01-01 12:00:00"
+			created_at:12345677889900, // unix timestamp
+			updated_at:12345677889900 // unix timestamp
 		}
 	]
 }
