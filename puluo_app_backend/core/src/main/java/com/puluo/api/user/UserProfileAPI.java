@@ -41,8 +41,8 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI, UserProfileResult> {
 					user.email(), String.valueOf(user.sex()),
 					TimeUtils.formatDate(user.birthday()), user.occupation(),
 					user.country(), user.state(), user.city(), user.zip(),
-					TimeUtils.formatDate(user.createdAt()),
-					TimeUtils.formatDate(user.updatedAt()));
+					user.createdAt().getMillis(),
+					user.updatedAt().getMillis());
 			rawResult = result;
 		} else {
 			log.error(String.format("用户%s不存在",mobileOrUUID));

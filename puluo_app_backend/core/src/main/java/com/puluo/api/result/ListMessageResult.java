@@ -20,13 +20,13 @@ public class ListMessageResult extends HasJSON {
 				"de305d54-75b4-431b-adb2-eb6b9e546013",
 				"de305d54-75b4-431b-adb2-eb6b9e546013",
 				"http://upyun.com/puluo/xxxx", "http://upyun.com/puluo/xxxx",
-				"hi, this is Tracy!", "2012-01-01 12:00:00"));
+				"hi, this is Tracy!", 1427007059034L));
 		messages.add(new MessageResult(
 				"de305d54-75b4-431b-adb2-eb6b9e546013",
 				"de305d54-75b4-431b-adb2-eb6b9e546013",
 				"de305d54-75b4-431b-adb2-eb6b9e546013",
 				"http://upyun.com/puluo/xxxx", "http://upyun.com/puluo/xxxx",
-				"hi, this is Tracy!", "2012-01-01 12:00:00"));
+				"hi, this is Tracy!", 1427007059034L));
 		return new ListMessageResult(messages);
 	}
 }

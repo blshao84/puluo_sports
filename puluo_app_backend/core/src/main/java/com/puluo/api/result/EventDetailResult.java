@@ -9,7 +9,7 @@ import com.puluo.util.HasJSON;
 public class EventDetailResult extends HasJSON{
 	public String status;
 	public String event_name;
-	public String event_time;
+	public long event_time;
 	public String address;
 	public String city;
 	public String phone;
@@ -24,7 +24,7 @@ public class EventDetailResult extends HasJSON{
 	public List<String> images;
 	
 	public EventDetailResult(String status,
-			String event_name, String event_time, String address,
+			String event_name, long event_time, String address,
 			String city, String phone, String coach_name, String coach_uuid,
 			List<String> thumbnail, int registered_users, int capacity, int likes,
 			EventLocationResult geo_location, String details, List<String> images) {
@@ -47,7 +47,7 @@ public class EventDetailResult extends HasJSON{
 	}
 	
 	public EventDetailResult(String status,
-			String event_name, String event_time, String address,
+			String event_name, long event_time, String address,
 			String city, String phone, String coach_name, String coach_uuid,
 			List<String> thumbnail, int registered_users, int capacity, int likes,
 			double latitude, double longitude, String details, List<String> images) {
@@ -78,7 +78,7 @@ public class EventDetailResult extends HasJSON{
 		images.add("http://upyun.com/puluo/image2.jpg");
 		
 		return new EventDetailResult("open", "Weapons of Ass Reduction", 
-				"2012-01-01 12:00:00", "888 Happy Mansion", "beijing", "86-555-5555",
+				1427007059034L, "888 Happy Mansion", "beijing", "86-555-5555",
 				"Mr. Bob Smith", "de305d54-75b4-431b-adb2-eb6b9e546014", thumbnails, 
 				22, 30, 2,  new EventLocationResult(39.92889, 116.38833), "Get fit with friends.", images);
 	}

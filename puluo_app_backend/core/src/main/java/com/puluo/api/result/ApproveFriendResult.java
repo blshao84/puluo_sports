@@ -22,11 +22,11 @@ class FriendApproveResult {
 	public String request_id;
 	public String status;
 	public List<MessageResult> messages;
-	public String created_at;
-	public String updated_at;
+	public long created_at;
+	public long updated_at;
 	
 	public FriendApproveResult(String request_id, String status,
-			List<MessageResult> messages, String created_at, String updated_at) {
+			List<MessageResult> messages, long created_at, long updated_at) {
 		super();
 		this.request_id = request_id;
 		this.status = status;
@@ -42,15 +42,15 @@ class FriendApproveResult {
 				"de305d54-75b4-431b-adb2-eb6b9e546013",
 				"de305d54-75b4-431b-adb2-eb6b9e546013",
 				"http://upyun.com/puluo/xxxx", "http://upyun.com/puluo/xxxx",
-				"hi, this is Tracy!", "2012-01-01 12:00:00"));
+				"hi, this is Tracy!", 1427007059034L));
 		messages.add(new MessageResult(
 				"de305d54-75b4-431b-adb2-eb6b9e546013",
 				"de305d54-75b4-431b-adb2-eb6b9e546013",
 				"de305d54-75b4-431b-adb2-eb6b9e546013",
 				"http://upyun.com/puluo/xxxx", "http://upyun.com/puluo/xxxx",
-				"hi, this is Tracy!", "2012-01-01 12:00:00"));
+				"hi, this is Tracy!", 1427007059034L));
 		return new FriendApproveResult("", "approved", messages,
-				"2012-01-01 12:00:00", "2012-01-01 12:00:00");
+				1427007059034L,1427007059034L);
 	}
 }
 

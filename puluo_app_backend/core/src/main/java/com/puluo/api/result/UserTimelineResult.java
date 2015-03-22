@@ -6,7 +6,6 @@ import java.util.List;
 import com.puluo.entity.PuluoTimelinePost;
 import com.puluo.entity.impl.PuluoPostImpl;
 import com.puluo.util.HasJSON;
-import com.puluo.util.TimeUtils;
 
 
 public class UserTimelineResult extends HasJSON {
@@ -31,7 +30,7 @@ public class UserTimelineResult extends HasJSON {
 			ArrayList<TimelineLikes> tl_likes = new ArrayList<TimelineLikes>();
 			for(int j=0;j<post_impl.likes().size();j++) {
 				TimelineLikes like = new TimelineLikes(post_impl.likes().get(j).userUUID(),
-						post_impl.likes().get(j).userName(),TimeUtils.formatDate(post_impl.likes().get(j).createdAt()));
+						post_impl.likes().get(j).userName(),post_impl.likes().get(j).createdAt().getMillis());
 				tl_likes.add(like);
 			}
 			//create timelineComments array
@@ -40,14 +39,14 @@ public class UserTimelineResult extends HasJSON {
 				TimelineComments comment = new TimelineComments(post_impl.comments().get(k).commentUUID(),
 						post_impl.comments().get(k).toUser().userUUID(),post_impl.comments().get(k).fromUser().userUUID(),
 						post_impl.comments().get(k).fromUser().name(),post_impl.comments().get(k).content(),
-						String.valueOf(post_impl.comments().get(k).isRead()),TimeUtils.formatDate(post_impl.comments().get(k).createdAt()));
+						String.valueOf(post_impl.comments().get(k).isRead()),post_impl.comments().get(k).createdAt().getMillis());
 				tl_comments.add(comment);
 			}
 			//create userTimeline array
 			UserTimeline tmp = new UserTimeline(post_impl.timelineUUID(),
 					new TimelineEvent(post_impl.event().eventUUID(),post_impl.event().eventInfo().name(),
-							TimeUtils.formatDate(post_impl.event().eventTime())),post_impl.content(),tl_likes,
-							tl_comments,post_impl.createdAt().toString(),TimeUtils.formatDate(post_impl.updatedAt()));
+							post_impl.event().eventTime().getMillis()),post_impl.content(),tl_likes,
+							tl_comments,post_impl.createdAt().getMillis(),post_impl.updatedAt().getMillis());
 			timelines.add(tmp);
 		}
 		return true;
@@ -61,21 +60,21 @@ public class UserTimelineResult extends HasJSON {
 		List<TimelineComments> comments = new ArrayList<TimelineComments>();
 
 		likes.add(new TimelineLikes("de305d54-75b4-431b-adb2-eb6b9e546013",
-				"Bob", "2012-01-01 12:00:00"));
+				"Bob", 1427007059034L));
 		likes.add(new TimelineLikes("de305d54-75b4-431b-adb2-eb6b9e546013",
-				"Bob", "2012-01-01 12:00:00"));
+				"Bob", 1427007059034L));
 
 		comments.add(new TimelineComments(
 				"de305d54-75b4-431b-adb2-eb6b9e546013",
 				"de305d54-75b4-431b-adb2-eb6b9e546013",
 				"de305d54-75b4-431b-adb2-eb6b9e546013", "Bob", "abc", "false",
-				("2012-01-01 12:00:00")));
+				1427007059034L));
 
 		details.add(new UserTimeline("de305d54-75b4-431b-adb2-eb6b9e546013",
 				new TimelineEvent("de305d54-75b4-431b-adb2-eb6b9e546013",
-						"Weapon of big ass reduction", "2012-01-01 12:00:00"),
+						"Weapon of big ass reduction", 1427007059034L),
 				"This is an awesome event", likes, comments,
-				"2012-01-02 12:00:00", "2012-01-03 12:00:00"));
+				1427007059034L,1427007059034L));
 		return new UserTimelineResult(details);
 	}
 }
@@ -86,12 +85,12 @@ class UserTimeline {
 	public String my_words;
 	public List<TimelineLikes> likes;
 	public List<TimelineComments> comments;
-	public String create_at;
-	public String updated_at;
+	public long create_at;
+	public long updated_at;
 
 	public UserTimeline(String timeline_uuid, TimelineEvent event,
 			String my_words, List<TimelineLikes> likes,
-			List<TimelineComments> comments, String create_at, String updated_at) {
+			List<TimelineComments> comments, long create_at, long updated_at) {
 		super();
 		this.timeline_uuid = timeline_uuid;
 		this.event = event;
@@ -106,9 +105,9 @@ class UserTimeline {
 class TimelineEvent {
 	public String event_uuid;
 	public String event_name;
-	public String created_at;
+	public long created_at;
 
-	public TimelineEvent(String event_uuid, String event_name, String created_at) {
+	public TimelineEvent(String event_uuid, String event_name, long created_at) {
 		super();
 		this.event_uuid = event_uuid;
 		this.event_name = event_name;
@@ -120,9 +119,9 @@ class TimelineEvent {
 class TimelineLikes {
 	public String user_uuid;
 	public String user_name;
-	public String created_at;
+	public long created_at;
 
-	public TimelineLikes(String event_uuid, String event_name, String created_at) {
+	public TimelineLikes(String event_uuid, String event_name, long created_at) {
 		super();
 		this.user_uuid = event_uuid;
 		this.user_name = event_name;
@@ -138,11 +137,11 @@ class TimelineComments {
 	public String user_name;
 	public String content;
 	public String read;
-	public String created_at;
+	public long created_at;
 
 	public TimelineComments(String comment_uuid, String reply_to_uuid,
 			String user_uuid, String user_name, String content, String read,
-			String created_at) {
+			long created_at) {
 		super();
 		this.comment_uuid = comment_uuid;
 		this.reply_to_uuid = reply_to_uuid;

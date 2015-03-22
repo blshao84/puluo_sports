@@ -6,7 +6,6 @@ import java.util.List;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.impl.PuluoEventImpl;
 import com.puluo.util.HasJSON;
-import com.puluo.util.TimeUtils;
 
 
 public class EventSearchResult extends HasJSON {
@@ -32,7 +31,7 @@ public class EventSearchResult extends HasJSON {
 				images.add(event_impl.eventInfo().poster().get(j).imageURL());
 			}
 			details.add(new EventSearchResultDetail(event_impl.status(),event_impl.eventInfo().name(),
-				TimeUtils.formatDate(event_impl.eventTime()),event_impl.eventLocation().address(),
+				event_impl.eventTime().getMillis(),event_impl.eventLocation().address(),
 				event_impl.eventLocation().city(),event_impl.eventLocation().phone(),
 				event_impl.eventInfo().coachName(),event_impl.eventInfo().coachUUID(),
 				thumbnails,event_impl.registeredUsers(),event_impl.capatcity(),event_impl.eventInfo().likes(),
@@ -53,7 +52,7 @@ public class EventSearchResult extends HasJSON {
 		images.add("http://upyun.com/puluo/image2.jpg");
 		
 		details.add(new EventSearchResultDetail("open", "Weapons of Ass Reduction", 
-				"2012-01-01 12:00:00", "888 Happy Mansion", "beijing", "86-555-5555",
+				1427007059034L, "888 Happy Mansion", "beijing", "86-555-5555",
 				"Mr. Bob Smith", "de305d54-75b4-431b-adb2-eb6b9e546014", thumbnails, 
 				22, 30, 2, 39.92889, 116.38833, "Get fit with friends.", images));
 		return new EventSearchResult(details);
@@ -63,7 +62,7 @@ public class EventSearchResult extends HasJSON {
 class EventSearchResultDetail {
 	public String status;
 	public String event_name;
-	public String event_time;
+	public long event_time;
 	public String address;
 	public String city;
 	public String phone;
@@ -78,7 +77,7 @@ class EventSearchResultDetail {
 	public List<String> images;
 	
 	public EventSearchResultDetail(String status,
-			String event_name, String event_time, String address,
+			String event_name, long event_time, String address,
 			String city, String phone, String coach_name, String coach_uuid,
 			List<String> thumbnail, int registered_users, int capacity, int likes,
 			double latitude, double longitude, String details, List<String> images) {

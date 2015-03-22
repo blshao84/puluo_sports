@@ -7,12 +7,12 @@ public class UserProfileUpdateResult extends HasJSON {
 	public String uuid;
 	public UserPublicProfileUpdateResult public_info;
 	public UserPrivateProfileUpdateResult private_info;
-	public String created_at;
-	public String updated_at;
+	public long created_at;
+	public long updated_at;
 
 	public UserProfileUpdateResult(String uuid, UserPublicProfileUpdateResult public_info,
-			UserPrivateProfileUpdateResult private_info, String created_at,
-			String updated_at) {
+			UserPrivateProfileUpdateResult private_info, long created_at,
+			long updated_at) {
 		super();
 		this.uuid = uuid;
 		this.public_info = public_info;
@@ -24,7 +24,7 @@ public class UserProfileUpdateResult extends HasJSON {
 	public UserProfileUpdateResult(String uuid, String first_name, String last_name, 
 			String thumbnail, String large_image, String saying, String email, 
 			String sex, String birthday, String occupation, String country, String state, 
-			String city, String zip, String created_at, String updated_at) {
+			String city, String zip, long created_at, long updated_at) {
 		super();
 		this.uuid = uuid;
 		this.public_info = new UserPublicProfileUpdateResult(first_name, last_name,
@@ -38,8 +38,8 @@ public class UserProfileUpdateResult extends HasJSON {
 	public static UserProfileUpdateResult dummy() {
 		return new UserProfileUpdateResult("de305d54-75b4-431b-adb2-eb6b9e546013",
 				UserPublicProfileUpdateResult.dummy(),
-				UserPrivateProfileUpdateResult.dummy(), "2012-01-01 12:00:00",
-				"2012-01-01 12:00:00");
+				UserPrivateProfileUpdateResult.dummy(), 
+				1427007059034L,1427007059034L);
 	}
 }
 	

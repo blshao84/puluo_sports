@@ -12,7 +12,6 @@ import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
-import com.puluo.util.TimeUtils;
 
 
 public class EventDetailAPI extends PuluoAPI<PuluoDSI,EventDetailResult> {
@@ -41,7 +40,7 @@ public class EventDetailAPI extends PuluoAPI<PuluoDSI,EventDetailResult> {
 				images.add(event.eventInfo().poster().get(i).imageURL());
 			}
 			EventDetailResult result = new EventDetailResult(event.status(),event.eventInfo().name(),
-					TimeUtils.formatDate(event.eventTime()),event.eventLocation().address(),event.eventLocation().city(),
+					event.eventTime().getMillis(),event.eventLocation().address(),event.eventLocation().city(),
 					event.eventLocation().phone(),event.eventInfo().coachName(),event.eventInfo().coachUUID(),thumbnails, 
 					event.registeredUsers(),event.capatcity(),event.eventInfo().likes(),event.eventLocation().lattitude(), 
 					event.eventLocation().longitude(),event.eventInfo().details(),images);

@@ -43,8 +43,8 @@ public class PuluoAPIResultTest {
 				+ "\"occupation\":\"Internet Plumber\","
 				+ "\"country\":\"USA\"," + "\"state\":\"Washington\","
 				+ "\"city\":\"Seattle\"," + "\"zip\":\"234234\"" + "},"
-				+ "\"created_at\":\"2012-01-01 12:00:00\","
-				+ "\"updated_at\":\"2012-01-01 12:00:00\"" + "}";
+				+ "\"created_at\":1427007059034,"
+				+ "\"updated_at\":1427007059034" + "}";
 		String actualJsonResult = UserProfileResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
@@ -64,8 +64,8 @@ public class PuluoAPIResultTest {
 	public void testDummyUserLoginResult() {
 		String expectedJsonResult = "{"
 				+ "\"uuid\":\"cd8460a5e0f2c2af596f170009bffc02df06b54d\","
-				+ "\"created_at\":\"2012-01-01 12:00:00\","
-				+ "\"last_login\":\"2012-01-01 12:00:00\"" + "}";
+				+ "\"created_at\":1427007059034,"
+				+ "\"last_login\":1427007059034" + "}";
 		String actualJsonResult = UserLoginResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
@@ -104,8 +104,8 @@ public class PuluoAPIResultTest {
 				+ "\"occupation\":\"Internet Plumber\","
 				+ "\"country\":\"USA\",\"state\":\"Washington\","
 				+ "\"city\":\"Seattle\",\"zip\":\"234234\"},"
-				+ "\"created_at\":\"2012-01-01 12:00:00\","
-				+ "\"updated_at\":\"2012-01-01 12:00:00\"}";
+				+ "\"created_at\":1427007059034,"
+				+ "\"updated_at\":1427007059034}";
 		String actualJsonResult = UserProfileUpdateResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
@@ -173,9 +173,9 @@ public class PuluoAPIResultTest {
 				+ "\"from_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"to_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"content\":\"hi, this is Tracy!\","
-				+ "\"created_at\":\"2012-01-01 12:00:00\"" + "}" + "],"
-				+ "\"created_at\":\"2012-01-01 12:00:00\","
-				+ "\"updated_at\":\"2012-01-01 12:00:00\"" + "}" + "}";
+				+ "\"created_at\":1427007059034" + "}" + "],"
+				+ "\"created_at\":1427007059034,"
+				+ "\"updated_at\":1427007059034" + "}" + "}";
 		String actualJsonResult = RequestFriendResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
@@ -202,16 +202,16 @@ public class PuluoAPIResultTest {
 				+ "\"from_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"to_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"content\":\"hi, this is Tracy!\","
-				+ "\"created_at\":\"2012-01-01 12:00:00\"" + "}," + "{"
+				+ "\"created_at\":1427007059034" + "}," + "{"
 				+ "\"msg_id\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"from_user\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"to_user\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"from_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"to_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"content\":\"hi, this is Tracy!\","
-				+ "\"created_at\":\"2012-01-01 12:00:00\"" + "}" + "],"
-				+ "\"created_at\":\"2012-01-01 12:00:00\","
-				+ "\"updated_at\":\"2012-01-01 12:00:00\"" + "}" + "}";
+				+ "\"created_at\":1427007059034" + "}" + "],"
+				+ "\"created_at\":1427007059034,"
+				+ "\"updated_at\":1427007059034" + "}" + "}";
 		String actualJsonResult = DenyFriendResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
@@ -227,16 +227,16 @@ public class PuluoAPIResultTest {
 				+ "\"from_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"to_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"content\":\"hi, this is Tracy!\","
-				+ "\"created_at\":\"2012-01-01 12:00:00\"" + "}," + "{"
+				+ "\"created_at\":1427007059034" + "}," + "{"
 				+ "\"msg_id\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"from_user\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"to_user\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"from_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"to_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"content\":\"hi, this is Tracy!\","
-				+ "\"created_at\":\"2012-01-01 12:00:00\"" + "}" + "],"
-				+ "\"created_at\":\"2012-01-01 12:00:00\","
-				+ "\"updated_at\":\"2012-01-01 12:00:00\"" + "}" + "}";
+				+ "\"created_at\":1427007059034" + "}" + "],"
+				+ "\"created_at\":1427007059034,"
+				+ "\"updated_at\":1427007059034" + "}" + "}";
 		String actualJsonResult = ApproveFriendResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
@@ -250,7 +250,7 @@ public class PuluoAPIResultTest {
 				+ "\"from_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"to_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"content\":\"hi, this is Tracy!\","
-				+ "\"created_at\":\"2012-01-01 12:00:00\"" + "}";
+				+ "\"created_at\":1427007059034" + "}";
 		String actualJsonResult = SendMessageResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
@@ -264,14 +264,14 @@ public class PuluoAPIResultTest {
 				+ "\"from_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"to_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"content\":\"hi, this is Tracy!\","
-				+ "\"created_at\":\"2012-01-01 12:00:00\"" + "}," + "{"
+				+ "\"created_at\":1427007059034" + "}," + "{"
 				+ "\"msg_id\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"from_user\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"to_user\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"from_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"to_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"content\":\"hi, this is Tracy!\","
-				+ "\"created_at\":\"2012-01-01 12:00:00\"" + "}" + "]" + "}";
+				+ "\"created_at\":1427007059034" + "}" + "]" + "}";
 		String actualJsonResult = ListMessageResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
@@ -280,7 +280,7 @@ public class PuluoAPIResultTest {
 	public void testEventDetailResult() {
 		String expectedJsonResult = "{" + "\"status\":\"open\","
 				+ "\"event_name\":\"Weapons of Ass Reduction\","
-				+ "\"event_time\":\"2012-01-01 12:00:00\","
+				+ "\"event_time\":1427007059034,"
 				+ "\"address\":\"888 Happy Mansion\","
 				+ "\"city\":\"beijing\"," + "\"phone\":\"86-555-5555\","
 				+ "\"coach_name\":\"Mr. Bob Smith\","
@@ -303,23 +303,23 @@ public class PuluoAPIResultTest {
 				+ "\"event\":{"
 				+ "\"event_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"event_name\":\"Weapon of big ass reduction\","
-				+ "\"created_at\":\"2012-01-01 12:00:00\"" + "},"
+				+ "\"created_at\":1427007059034" + "},"
 				+ "\"my_words\":\"This is an awesome event\"," + "\"likes\":["
 				+ "{\"user_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"user_name\":\"Bob\","
-				+ "\"created_at\":\"2012-01-01 12:00:00\"" + "},"
+				+ "\"created_at\":1427007059034" + "},"
 				+ "{\"user_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"user_name\":\"Bob\","
-				+ "\"created_at\":\"2012-01-01 12:00:00\"" + "}],"
+				+ "\"created_at\":1427007059034" + "}],"
 				+ "\"comments\":[" + "{"
 				+ "\"comment_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"reply_to_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"user_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"user_name\":\"Bob\"," + "\"content\":\"abc\","
 				+ "\"read\":\"false\","
-				+ "\"created_at\":\"2012-01-01 12:00:00\"" + "}],"
-				+ "\"create_at\":\"2012-01-02 12:00:00\","
-				+ "\"updated_at\":\"2012-01-03 12:00:00\"}]}";
+				+ "\"created_at\":1427007059034" + "}],"
+				+ "\"create_at\":1427007059034,"
+				+ "\"updated_at\":1427007059034}]}";
 
 		String actualJsonResult = UserTimelineResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);

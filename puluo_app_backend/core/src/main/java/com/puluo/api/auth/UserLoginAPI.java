@@ -11,7 +11,6 @@ import com.puluo.entity.PuluoSession;
 import com.puluo.entity.PuluoUser;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
-import com.puluo.util.TimeUtils;
 
 public class UserLoginAPI extends PuluoAPI<PuluoDSI, UserLoginResult> {
 	public static Log log = LogFactory.getLog(UserLoginAPI.class);
@@ -57,7 +56,7 @@ public class UserLoginAPI extends PuluoAPI<PuluoDSI, UserLoginResult> {
 							current_session_id);
 					if (success) {
 						this.session = dsi.sessionDao().getByMobile(mobile);
-						String createdAt = TimeUtils.formatDate(DateTime.now());
+						long createdAt = DateTime.now().getMillis();
 						this.rawResult = new UserLoginResult(mobile, createdAt,
 								createdAt);
 						return;
@@ -71,7 +70,7 @@ public class UserLoginAPI extends PuluoAPI<PuluoDSI, UserLoginResult> {
 		} else {
 			log.info(String.format("找到一个已经存在的session(id=%s)",
 					current_session_id));
-			String createdAt = TimeUtils.formatDate(this.session.createdAt());
+			long createdAt =this.session.createdAt().getMillis();
 			this.rawResult = new UserLoginResult(this.session.userMobile(),
 					createdAt, createdAt);
 			if (!this.current_session_id.equals(this.session.sessionID())) {
