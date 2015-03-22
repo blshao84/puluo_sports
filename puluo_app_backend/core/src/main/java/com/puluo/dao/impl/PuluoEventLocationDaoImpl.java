@@ -65,8 +65,8 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements PuluoEvent
 						.append(" name = ").append(location.name()!=null ? "'" + location.name() + "'" : "null").append(",")
 						.append(" phone = ").append(location.phone()!=null ? "'" + location.phone() + "'" : "null").append(",")
 						.append(" city = ").append(location.city()!=null ? "'" + location.city() + "'" : "null").append(",")
-						.append(" longitude = ").append(location.longitude()!=null ? "'" + location.longitude() + "'" : "null").append(",")
-						.append(" lattitude = ").append(location.lattitude() !=null ? "'" + location.lattitude() + "'" : "null").append(",")
+						.append(" longitude = ").append(location.longitude() + ",")
+						.append(" lattitude = ").append(location.lattitude() + ",")
 						.append(" court = ").append(location.court() + ",")
 						.append(" capacity = ").append(location.capacity() + ",")
 						.append(" location_type = ").append(location.type())
@@ -82,8 +82,8 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements PuluoEvent
 						.append(location.name()!=null ? "'" + location.name() + "'" : "null").append(", ")
 						.append(location.phone()!=null ? "'" + location.phone() + "'" : "null").append(", ")
 						.append(location.city()!=null ? "'" + location.city() + "'" : "null").append(", ")
-						.append(location.longitude()!=null ? "'" + location.longitude() + "'" : "null").append(", ")
-						.append(location.lattitude()!=null ? "'" + location.lattitude() + "'" : "null").append(", ")
+						.append(location.longitude() + ", ")
+						.append(location.lattitude() + ", ")
 						.append(location.court() + ", ")
 						.append(location.capacity() + ", ")
 						.append(location.type() + ")")
@@ -115,8 +115,8 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements PuluoEvent
 								rs.getString("name"),
 								rs.getString("phone"),
 								rs.getString("city"),
-								rs.getString("longitude"),
-								rs.getString("lattitude"),
+								rs.getDouble("longitude"),
+								rs.getDouble("lattitude"),
 								rs.getInt("court"),
 								rs.getInt("capacity"),
 								rs.getInt("location_type"));

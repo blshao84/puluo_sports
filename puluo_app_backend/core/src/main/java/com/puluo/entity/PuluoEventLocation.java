@@ -8,8 +8,8 @@ public interface PuluoEventLocation {
 	String name();
 	String phone();
 	String city();
-	String longitude();
-	String lattitude();
+	double longitude();
+	double lattitude();
 	int court();
 	int capacity();
 	int type();

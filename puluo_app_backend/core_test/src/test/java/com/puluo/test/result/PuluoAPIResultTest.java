@@ -288,7 +288,7 @@ public class PuluoAPIResultTest {
 				+ "\"thumbnail\":[\"http://upyun.com/puluo/head.jpg\"],"
 				+ "\"registered_users\":22," + "\"capacity\":30,"
 				+ "\"likes\":2," + "\"geo_location\":{"
-				+ "\"latitude\":\"39.92889\"," + "\"longitude\":\"116.38833\""
+				+ "\"latitude\":39.92889," + "\"longitude\":116.38833"
 				+ "}," + "\"details\":\"Get fit with friends.\","
 				+ "\"images\":[\"http://upyun.com/puluo/image1.jpg\","
 				+ "\"http://upyun.com/puluo/image2.jpg\"" + "]" + "}";

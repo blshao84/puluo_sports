@@ -1,7 +1,11 @@
 package com.puluo.entity.impl;
 
 import java.util.List;
+
 import org.joda.time.DateTime;
+
+import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventLocation;
@@ -20,10 +24,12 @@ public class PuluoEventImpl implements PuluoEvent {
 	private final Double discountedPrice;
 	private final String info_uuid;
 	private final String location_uuid;
+	
+	private final PuluoDSI dsi;
 
 	public PuluoEventImpl(String uuid, DateTime event_time, String status, 
 			int registeredUsers, int capatcity, Double price, Double discountedPrice, 
-			String info_uuid, String location_uuid) {
+			String info_uuid, String location_uuid, PuluoDSI dsi) {
 
 		this.uuid = uuid;
 		this.event_time = event_time;
@@ -36,71 +42,68 @@ public class PuluoEventImpl implements PuluoEvent {
 		this.discountedPrice = discountedPrice;
 		this.info_uuid = info_uuid;
 		this.location_uuid = location_uuid;
+		this.dsi = dsi;
+	}
+
+	public PuluoEventImpl(String uuid, DateTime event_time, String status, 
+			int registeredUsers, int capatcity, Double price, Double discountedPrice, 
+			String info_uuid, String location_uuid) {
+
+		this(uuid, event_time, status, registeredUsers, capatcity, price, discountedPrice, info_uuid, location_uuid, DaoApi.getInstance());
 	}
 
 	@Override
 	public String eventUUID() {
-		// TODO Auto-generated method stub
 		return uuid;
 	}
 
 	@Override
 	public DateTime eventTime() {
-		// TODO Auto-generated method stub
 		return event_time;
 	}
 
 	@Override
 	public String status() {
-		// TODO Auto-generated method stub
 		return status;
 	}
 
 	@Override
 	public int registeredUsers() {
-		// TODO Auto-generated method stub
 		return registeredUsers;
 	}
 
 	@Override
 	public int capatcity() {
-		// TODO Auto-generated method stub
 		return capatcity;
 	}
 
 	@Override
 	public Double price() {
-		// TODO Auto-generated method stub
 		return price;
 	}
 
 	@Override
 	public Double discount() {
-		// TODO Auto-generated method stub
 		return discountedPrice / price;
 	}
 
 	@Override
 	public Double discountedPrice() {
-		// TODO Auto-generated method stub
 		return discountedPrice;
 	}
 
 	@Override
 	public PuluoEventInfo eventInfo() {
-		// TODO Auto-generated method stub
-		return null;
+		return dsi.eventInfoDao().getEventInfoByUUID(info_uuid);
 	}
 
 	@Override
 	public PuluoEventLocation eventLocation() {
-		// TODO Auto-generated method stub
-		return null;
+		return dsi.eventLocationDao().getEventLocationByUUID(location_uuid);
 	}
 
 	@Override
 	public List<PuluoEventMemory> memory() {
-		// TODO Auto-generated method stub
-		return null;
+		return dsi.eventMemoryDao().getEventMemoryByUUID(uuid);
 	}
 }

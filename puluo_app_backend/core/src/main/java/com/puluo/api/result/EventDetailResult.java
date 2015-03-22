@@ -50,7 +50,7 @@ public class EventDetailResult extends HasJSON{
 			String event_name, String event_time, String address,
 			String city, String phone, String coach_name, String coach_uuid,
 			List<String> thumbnail, int registered_users, int capacity, int likes,
-			String latitude, String longitude, String details, List<String> images) {
+			double latitude, double longitude, String details, List<String> images) {
 		super();
 		this.status = status;
 		this.event_name = event_name;
@@ -80,15 +80,15 @@ public class EventDetailResult extends HasJSON{
 		return new EventDetailResult("open", "Weapons of Ass Reduction", 
 				"2012-01-01 12:00:00", "888 Happy Mansion", "beijing", "86-555-5555",
 				"Mr. Bob Smith", "de305d54-75b4-431b-adb2-eb6b9e546014", thumbnails, 
-				22, 30, 2,  new EventLocationResult("39.92889","116.38833"), "Get fit with friends.", images);
+				22, 30, 2,  new EventLocationResult(39.92889, 116.38833), "Get fit with friends.", images);
 	}
 }
 
 class EventLocationResult {
-	public String latitude;
-	public String longitude;
+	public double latitude;
+	public double longitude;
 
-	public EventLocationResult(String latitude, String longitude) {
+	public EventLocationResult(double latitude, double longitude) {
 		super();
 		this.latitude = latitude;
 		this.longitude = longitude;

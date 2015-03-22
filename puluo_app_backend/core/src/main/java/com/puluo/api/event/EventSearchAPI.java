@@ -19,21 +19,21 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI,EventSearchResult> {
 	public Date event_date;
 	public String keyword;
 	public String level;
-	public String sort;
+	public String sort; // Luke 2015-03-21 只提供时间，两点间举例，折后价格的排序；可穿入的值分别为"time"，"distance"，"price"
 	public String sort_direction;
-	public String latitude;
-	public String longitude;
-	public int range_from;
+	public double latitude;
+	public double longitude;
+	public double range_from;
 	
 	public EventSearchAPI(Date event_date, String keyword, String level, String sort,
-			String sort_direction, String latitude, String longitude,
-			String categories, int range_from){
+			String sort_direction, double latitude, double longitude,
+			String categories, double range_from){
 		this(event_date, keyword, level, sort, sort_direction, latitude, longitude, categories, range_from, DaoApi.getInstance());
 	}
 	
 	public EventSearchAPI(Date event_date, String keyword, String level, String sort,
-			String sort_direction, String latitude, String longitude, String categories, 
-			int range_from, PuluoDSI dsi) {
+			String sort_direction, double latitude, double longitude, String categories, 
+			double range_from, PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.event_date = event_date;
 		this.keyword = keyword;

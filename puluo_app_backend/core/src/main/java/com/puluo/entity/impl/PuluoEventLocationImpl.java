@@ -11,15 +11,15 @@ public class PuluoEventLocationImpl implements PuluoEventLocation {
 	private String name;
 	private String phone;
 	private String city;
-	private String longitude;
-	private String lattitude;
+	private double longitude;
+	private double lattitude;
 	private int court;
 	private int capacity;
 	private int type;
 
 	public PuluoEventLocationImpl(String location_id, String address,
 			String zip, String name, String phone, String city,
-			String longitude, String lattitude, int court, int capacity,
+			double longitude, double lattitude, int court, int capacity,
 			int type) {
 		super();
 		this.location_id = location_id;
@@ -66,12 +66,12 @@ public class PuluoEventLocationImpl implements PuluoEventLocation {
 	}
 	
 	@Override
-	public String longitude() {
+	public double longitude() {
 		return longitude;
 	}
 	
 	@Override
-	public String lattitude() {
+	public double lattitude() {
 		return lattitude;
 	}
 
