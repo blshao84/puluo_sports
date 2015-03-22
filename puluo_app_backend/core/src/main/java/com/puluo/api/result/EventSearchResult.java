@@ -36,7 +36,7 @@ public class EventSearchResult extends HasJSON {
 				event_impl.eventLocation().city(),event_impl.eventLocation().phone(),
 				event_impl.eventInfo().coachName(),event_impl.eventInfo().coachUUID(),
 				thumbnails,event_impl.registeredUsers(),event_impl.capatcity(),event_impl.eventInfo().likes(),
-				event_impl.eventLocation().lattitude(),event_impl.eventLocation().longitude(),
+				event_impl.eventLocation().latitude(),event_impl.eventLocation().longitude(),
 				event_impl.eventInfo().details(),images));
 		}
 		return true;

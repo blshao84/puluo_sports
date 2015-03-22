@@ -34,8 +34,8 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 				.append("status text, ")
 				.append("registered_users int, ")
 				.append("capatcity int, ")
-				.append("price double, ")
-				.append("discounted_price double, ")
+				.append("price double precision, ")
+				.append("discounted_price double precision, ")
 				.append("info_uuid text, ")
 				.append("location_uuid text)")
 				.toString();
@@ -85,47 +85,32 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 	public List<PuluoEvent> findEvents(Date event_date, String keyword, String level, 
 			String sort, String sort_direction, double latitude, double longitude, double range_from) {
 		ArrayList<String> params = new ArrayList<String>();
-		boolean hasAnd = false;
 		if (event_date!=null) {
-			if (!hasAnd) {
-				params.add(" e.event_time = '" + TimeUtils.formatDate(event_date) + "'");
-				hasAnd = true;
-			} else {
-				params.add(" and e.event_time = '" + TimeUtils.formatDate(event_date) + "'");
-			}
+			params.add(" and e.event_time = '" + TimeUtils.formatDate(event_date) + "'");
 		}
 		if (keyword!=null) {
-			if (!hasAnd) {
-				params.add(" (position('" + keyword + "' in i.event_name)>0 or position('" + keyword + "' in i.description)>0)");
-				hasAnd = true;
-			} else {
-				params.add(" and (position('" + keyword + "' in i.event_name)>0 or position('" + keyword + "' in i.description)>0)");
-			}
+			params.add(" and (position('" + keyword + "' in i.event_name)>0 or position('" + keyword + "' in i.description)>0)");
 		}
 		if (range_from!=0.0) {
-			if (!hasAnd) {
-				params.add(" st_distance('point(l.latitude l.longitude)', 'point(" + latitude + " " + longitude + ")') <= " + range_from);
-				hasAnd = true;
-			} else {
-				params.add(" and st_distance('point(l.latitude l.longitude)', 'point(" + latitude + " " + longitude + ")') <= " + range_from);
-			}
+			params.add(" and power(power(l.latitude-" + latitude + ", 2) + power(l.longitude-" + longitude + ", 2), 0.5) <= " + range_from);
 		}
 		StringBuilder orderBy = new StringBuilder("");
 		if ("time".equals(sort)) {
 			orderBy.append(" order by e.event_time " + sort_direction);
 		} else if ("distance".equals(sort)) {
-			orderBy.append(" order by st_distance('point(l.latitude l.longitude)', 'point(" + latitude + " " + longitude + ")') " + sort_direction);
+			orderBy.append(" order by power(power(l.latitude-" + latitude + ", 2) + power(l.longitude-" + longitude + ", 2), 0.5) " + sort_direction);
 		} else if ("price".equals(sort)) {
-			orderBy.append(" order by i.discountedPrice " + sort_direction);
+			orderBy.append(" order by e.discounted_price " + sort_direction);
 		}
 		SqlReader reader = getReader();
 		StringBuilder selectSQL = new StringBuilder().append("select e.* from ")
-				.append(super.getFullTableName() + "e, " + new PuluoEventInfoDaoImpl().getFullTableName() + "i, " + new PuluoEventLocationDaoImpl().getFullTableName() + "l")
-				.append(" where e.info_uuid = i.event_info_uuid and e.location_uuid = l.location_uuld");
+				.append(super.getFullTableName() + " e, puluo_event_info i, puluo_event_location l")
+				.append(" where e.info_uuid = i.event_info_uuid and e.location_uuid = l.location_uuid");
 		for (String tmp: params) {
 			selectSQL.append(tmp);
 		}
 		selectSQL.append(orderBy.toString());
+		log.info(selectSQL.toString());
 		List<PuluoEvent> entities = reader.query(selectSQL.toString(), new Object[]{},
 				new RowMapper<PuluoEvent>() {
 					@Override
@@ -174,15 +159,15 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 				updateSQL = new StringBuilder().append("insert into ")
 						.append(super.getFullTableName())
 						.append(" (event_uuid, event_time, status, registered_users, capatcity, price, discounted_price, info_uuid, location_uuid)")
-						.append("'" + event.eventUUID() + "', ")
-						.append("'" + TimeUtils.formatDate(event.eventTime()) + "',")
-						.append("'" + event.status() + "',")
-						.append(event.registeredUsers() + ",")
-						.append(event.capatcity() + ",")
-						.append(event.price() + ",")
-						.append(event.discountedPrice() + ",")
-						.append("'" + event.eventInfo().eventInfoUUID() + "',")
-						.append("'" + event.eventLocation().locationId() + "'")
+						.append("values ('" + event.eventUUID() + "', ")
+						.append("'" + TimeUtils.formatDate(event.eventTime()) + "', ")
+						.append("'" + event.status() + "', ")
+						.append(event.registeredUsers() + ", ")
+						.append(event.capatcity() + ", ")
+						.append(event.price() + ", ")
+						.append(event.discountedPrice() + ", ")
+						.append("'" + event.eventInfo().eventInfoUUID() + "', ")
+						.append("'" + event.eventLocation().locationId() + "')")
 						.toString();
 			}
 			log.info(updateSQL);

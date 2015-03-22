@@ -43,7 +43,7 @@ public class EventDetailAPI extends PuluoAPI<PuluoDSI,EventDetailResult> {
 			EventDetailResult result = new EventDetailResult(event.status(),event.eventInfo().name(),
 					TimeUtils.formatDate(event.eventTime()),event.eventLocation().address(),event.eventLocation().city(),
 					event.eventLocation().phone(),event.eventInfo().coachName(),event.eventInfo().coachUUID(),thumbnails, 
-					event.registeredUsers(),event.capatcity(),event.eventInfo().likes(),event.eventLocation().lattitude(), 
+					event.registeredUsers(),event.capatcity(),event.eventInfo().likes(),event.eventLocation().latitude(), 
 					event.eventLocation().longitude(),event.eventInfo().details(),images);
 			rawResult = result;
 		} else {
