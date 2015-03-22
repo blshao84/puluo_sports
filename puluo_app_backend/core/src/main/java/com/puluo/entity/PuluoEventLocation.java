@@ -9,7 +9,7 @@ public interface PuluoEventLocation {
 	String phone();
 	String city();
 	double longitude();
-	double lattitude();
+	double latitude();
 	int court();
 	int capacity();
 	int type();

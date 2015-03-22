@@ -2,18 +2,25 @@ package com.puluo.dao.impl;
 
 import com.puluo.dao.PgDummyDao;
 import com.puluo.dao.PuluoAuthCodeRecordDao;
+import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.dao.PuluoEventInfoDao;
 import com.puluo.dao.PuluoEventLocationDao;
 import com.puluo.dao.PuluoEventMemoryDao;
 import com.puluo.dao.PuluoEventPosterDao;
+import com.puluo.dao.PuluoOrderEventDao;
+import com.puluo.dao.PuluoPaymentDao;
+import com.puluo.dao.PuluoPostCommentDao;
+import com.puluo.dao.PuluoPostDao;
+import com.puluo.dao.PuluoPostLikeDao;
+import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.dao.PuluoSessionDao;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.PuluoUserSettingDao;
 import com.puluo.dao.PuluoWechatBindingDao;
 
-public class DaoTestApi {
+public class DaoTestApi extends PuluoDSI {
 	public static PgDummyDao pgInMemDummy = 
 			BeanTestFactory.getBean(PgDummyDao.class,"pgDummyDao");
 	
@@ -31,5 +38,112 @@ public class DaoTestApi {
 	public static PuluoEventLocationDao eventLocationDevDao	= BeanTestFactory.getBean(PuluoEventLocationDao.class, "eventLocationDevDao");
 	public static PuluoEventMemoryDao eventMemoryDevDao	= BeanTestFactory.getBean(PuluoEventMemoryDao.class, "eventMemoryDevDao");
 	public static PuluoWechatBindingDao wechatBindingDevDao	= BeanTestFactory.getBean(PuluoWechatBindingDao.class, "wechatBindingDevDao");
+	
+	private static class SingletonHolder {
+		private static final DaoTestApi INSTANCE = new DaoTestApi();
+	}
+
+	public static DaoTestApi getInstance() {
+		return SingletonHolder.INSTANCE;
+	}
+
+	@Override
+	public PuluoEventDao eventDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoEventPosterDao eventPosterDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoPaymentDao paymentDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoPostCommentDao postCommentDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoPostDao postDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoPostLikeDao postLikeDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoPrivateMessageDao privateMessageDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoSessionDao sessionDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoUserDao userDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoUserFriendshipDao friendshipDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoOrderEventDao orderEventDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoUserSettingDao userSettingDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoAuthCodeRecordDao authCodeRecordDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoWechatBindingDao wechatBindingDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoEventInfoDao eventInfoDao() {
+		return eventInfoDevDao;
+	}
+
+	@Override
+	public PuluoEventLocationDao eventLocationDao() {
+		return eventLocationDevDao;
+	}
+
+	@Override
+	public PuluoEventMemoryDao eventMemoryDao() {
+		return eventMemoryDevDao;
+	}
 
 }

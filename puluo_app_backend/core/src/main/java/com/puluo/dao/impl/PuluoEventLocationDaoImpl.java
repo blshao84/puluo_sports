@@ -31,8 +31,8 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements PuluoEvent
 				.append("name text, ")
 				.append("phone text, ")
 				.append("city text, ")
-				.append("longitude text, ")
-				.append("lattitude text, ")
+				.append("longitude double precision, ")
+				.append("latitude double precision, ")
 				.append("court int, ")
 				.append("capacity int, ")
 				.append("location_type int)")
@@ -66,7 +66,7 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements PuluoEvent
 						.append(" phone = ").append(location.phone()!=null ? "'" + location.phone() + "'" : "null").append(",")
 						.append(" city = ").append(location.city()!=null ? "'" + location.city() + "'" : "null").append(",")
 						.append(" longitude = ").append(location.longitude() + ",")
-						.append(" lattitude = ").append(location.lattitude() + ",")
+						.append(" latitude = ").append(location.latitude() + ",")
 						.append(" court = ").append(location.court() + ",")
 						.append(" capacity = ").append(location.capacity() + ",")
 						.append(" location_type = ").append(location.type())
@@ -75,7 +75,7 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements PuluoEvent
 			} else {
 				updateSQL = new StringBuilder().append("insert into ")
 						.append(super.getFullTableName())
-						.append(" (location_uuid, address, zip, name, phone, city, longitude, lattitude, court, capacity, location_type)")
+						.append(" (location_uuid, address, zip, name, phone, city, longitude, latitude, court, capacity, location_type)")
 						.append(" values ('" + location.locationId() + "', ")
 						.append(location.address()!=null ? "'" + location.address() + "'" : "null").append(", ")
 						.append(location.zip()!=null ? "'" + location.zip() + "'" : "null").append(", ")
@@ -83,7 +83,7 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements PuluoEvent
 						.append(location.phone()!=null ? "'" + location.phone() + "'" : "null").append(", ")
 						.append(location.city()!=null ? "'" + location.city() + "'" : "null").append(", ")
 						.append(location.longitude() + ", ")
-						.append(location.lattitude() + ", ")
+						.append(location.latitude() + ", ")
 						.append(location.court() + ", ")
 						.append(location.capacity() + ", ")
 						.append(location.type() + ")")
@@ -116,7 +116,7 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements PuluoEvent
 								rs.getString("phone"),
 								rs.getString("city"),
 								rs.getDouble("longitude"),
-								rs.getDouble("lattitude"),
+								rs.getDouble("latitude"),
 								rs.getInt("court"),
 								rs.getInt("capacity"),
 								rs.getInt("location_type"));
