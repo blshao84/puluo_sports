@@ -26,12 +26,17 @@ object PuluoResponseFactory extends Loggable{
 
   def createJSONResponse(api: PuluoAPI[_, _], code: Int = 200): LiftResponse = {
     val jvalue = parse(api.result)
-    JsonResponse(jvalue, requestHeader, JsonResponse.cookies, code)
+    JsonResponse(withSession(jvalue), requestHeader, JsonResponse.cookies, code)
   }
 
   def createDummyJSONResponse(jresult: String, code: Int = 200): LiftResponse = {
     val jvalue = parse(jresult)
-    JsonResponse(jvalue, requestHeader, JsonResponse.cookies, code)
+    JsonResponse(withSession(jvalue), requestHeader, JsonResponse.cookies, code)
+  }
+  
+  private def withSession(jvalue:JValue):JValue = {
+    val session = S.session.flatMap(_.httpSession.map(_.sessionId)).getOrElse("")
+    jvalue ++ JField("token",JString(session))
   }
   
   private def renderJson(jv:JValue) = {
