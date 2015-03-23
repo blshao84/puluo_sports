@@ -7,6 +7,7 @@ import com.puluo.api.result.wechat.WechatTextMessage;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoWechatBinding;
+import com.puluo.util.Encrypt;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.Strs;
@@ -87,7 +88,7 @@ public class WechatTextAPI {
 			}
 			break;
 		case 1:
-			String password = content;// FIXME: must encrypt password
+			String password = Encrypt.sha256(content);
 			UserRegistrationAPI api = new UserRegistrationAPI(binding.mobile(),
 					password, content);
 			api.execute();
