@@ -8,8 +8,8 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.puluo.dao.PuluoAuthCodeRecordDao;
 import com.puluo.entity.PuluoAuthCodeRecord;
+import com.puluo.entity.PuluoAuthCodeType;
 import com.puluo.entity.impl.PuluoAuthCodeRecordImpl;
-import com.puluo.entity.impl.PuluoAuthCodeType;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;

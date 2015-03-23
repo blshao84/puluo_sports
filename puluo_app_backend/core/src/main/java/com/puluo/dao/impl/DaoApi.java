@@ -7,6 +7,7 @@ import com.puluo.dao.PuluoEventInfoDao;
 import com.puluo.dao.PuluoEventLocationDao;
 import com.puluo.dao.PuluoEventMemoryDao;
 import com.puluo.dao.PuluoEventPosterDao;
+import com.puluo.dao.PuluoFriendRequestDao;
 import com.puluo.dao.PuluoOrderEventDao;
 import com.puluo.dao.PuluoPaymentDao;
 import com.puluo.dao.PuluoPostCommentDao;
@@ -37,6 +38,7 @@ public class DaoApi extends PuluoDSI {
 	protected  PuluoUserSettingDao userSettingDao;
 	protected  PuluoAuthCodeRecordDao authCodeRecordDao;
 	protected  PuluoWechatBindingDao wechatBindingDao;
+	protected  PuluoFriendRequestDao friendRequestDao;
 	
 	private DaoApi() {
 		eventDao = BeanFactory.getBean(PuluoEventDao.class, "eventDao");
@@ -178,5 +180,10 @@ public class DaoApi extends PuluoDSI {
 	@Override
 	public PuluoWechatBindingDao wechatBindingDao() {
 		return wechatBindingDao;
+	}
+
+	@Override
+	public PuluoFriendRequestDao friendRequestDao() {
+		return friendRequestDao;
 	}
 }

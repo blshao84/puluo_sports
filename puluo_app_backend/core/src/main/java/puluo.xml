@@ -171,6 +171,10 @@
 
 	<bean id="wechatBindingDao" class="com.puluo.dao.impl.PuluoWechatBindingDaoImpl" parent="dalTemplate">
 		<property name="fullTableName" value="puluo_wechat_binding"></property>
+	</bean>
+	
+	<bean id="friendRequestDao" class="com.puluo.dao.impl.PuluoFriendRequestDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_friend_request"></property>
 	</bean>	
 
 </beans>

@@ -3,6 +3,7 @@ package com.puluo.entity.impl;
 import org.joda.time.DateTime;
 
 import com.puluo.entity.PuluoAuthCodeRecord;
+import com.puluo.entity.PuluoAuthCodeType;
 
 public class PuluoAuthCodeRecordImpl implements PuluoAuthCodeRecord{
 	private final String user_mobile;

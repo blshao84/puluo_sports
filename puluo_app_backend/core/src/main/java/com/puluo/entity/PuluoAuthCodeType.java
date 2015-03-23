@@ -1,4 +1,4 @@
-package com.puluo.entity.impl;
+package com.puluo.entity;
 
 public enum PuluoAuthCodeType {
 	Registration,Unknown;

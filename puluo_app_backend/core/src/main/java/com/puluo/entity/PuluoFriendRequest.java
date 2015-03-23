@@ -1,12 +1,16 @@
 package com.puluo.entity;
 
-import java.sql.Time;
+import java.util.List;
+
+import org.joda.time.DateTime;
 
 public interface PuluoFriendRequest {
 
-	String requestId();
-	String status();
-	PuluoPrivateMessage[] messages();
-	Time create();
-	Time update();
+	String requestUUID();
+	FriendRequestStatus requestStatus();
+	List<PuluoPrivateMessage> messages();
+	PuluoUser fromUser();
+	PuluoUser toUser();
+	DateTime createdAt();
+	DateTime updatedAt();
 }

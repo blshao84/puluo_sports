@@ -104,4 +104,10 @@ public class MockTestDSI extends PuluoDSI {
 		return null;
 	}
 
+	@Override
+	public PuluoFriendRequestDao friendRequestDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

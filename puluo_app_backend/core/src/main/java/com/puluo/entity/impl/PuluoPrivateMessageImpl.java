@@ -4,101 +4,93 @@ import org.joda.time.DateTime;
 
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.entity.PuluoFriendRequest;
+import com.puluo.entity.PuluoMessageType;
 import com.puluo.entity.PuluoPrivateMessage;
+import com.puluo.entity.PuluoUser;
 
 public class PuluoPrivateMessageImpl implements PuluoPrivateMessage {
 
-	private String idmessage;
-	private String textcontent;
-	private String imgcontent;
-	private DateTime msg_time;
-	private int type;
-	private int direction;
-	private String user_id;
-	private String friend_id;
+	private final String message_uuid;
+	private final String content;
+	private final PuluoMessageType message_type;
+	private final String friend_request_uuid;
+	private final String from_user_uuid;
+	private final String to_user_uuid;
+	private final DateTime created_at;
+
+
+	public PuluoPrivateMessageImpl(String message_uuid, String content,
+			DateTime created_at, PuluoMessageType message_type, String friend_request_uuid,
+			String from_user_uuid, String to_user_uuid) {
+		this.message_uuid = message_uuid;
+		this.content = content;
+		this.created_at = created_at;
+		this.to_user_uuid = to_user_uuid;
+		this.from_user_uuid = from_user_uuid;
+		this.message_type = message_type;
+		this.friend_request_uuid = friend_request_uuid;
+	}
+
+
+	@Override
+	public String messageUUID() {
+		
+		return message_uuid;
+	}
+
+
+	@Override
+	public String content() {
+		
+		return content;
+	}
+
+
+	@Override
+	public DateTime createdAt() {
+		
+		return created_at;
+	}
+
+
+	@Override
+	public PuluoMessageType messageType() {
+		
+		return message_type;
+	}
+
+
+	@Override
+	public PuluoUser fromUser() {
+		
+		return DaoApi.getInstance().userDao().getByUUID(from_user_uuid);
+	}
 	
-	private PuluoDSI dsi;
+	public PuluoUser fromUser(PuluoDSI dsi) {
+		return dsi.userDao().getByUUID(from_user_uuid);
+	}
 
-	public PuluoPrivateMessageImpl(String idmessage, String textcontent,
-			String imgcontent, DateTime msg_time, int type, int direction,
-			String iduser, String idfriend, PuluoDSI dsi) {
-		this.idmessage = idmessage;
-		this.textcontent = textcontent;
-		this.imgcontent = imgcontent;
-		this.msg_time = msg_time;
-		this.type = type;
-		this.direction = direction;
-		this.user_id = iduser;
-		this.friend_id = idfriend;
-		this.dsi = dsi;
+
+	@Override
+	public PuluoUser toUser() {
+		
+		return DaoApi.getInstance().userDao().getByUUID(to_user_uuid);
 	}
 	
-	public PuluoPrivateMessageImpl(String idmessage, String textcontent,
-			String imgcontent, DateTime msg_time, int type, int direction,
-			String iduser, String idfriend) {
-		this(idmessage, textcontent,
-				imgcontent, msg_time, type, direction,
-				iduser, idfriend, DaoApi.getInstance());
+	public PuluoUser toUser(PuluoDSI dsi) {
+		return dsi.userDao().getByUUID(to_user_uuid);
 	}
 
-	@Override
-	public String messageId() {
-		return idmessage;
-	}
 
 	@Override
-	public String textContent() {
-		return textcontent;
+	public PuluoFriendRequest friendRequest() {
+		// TODO Auto-generated method stub
+		return null;
 	}
-
-	@Override
-	public String imgContent() {
-		return imgcontent;
-	}
-
-	@Override
-	public DateTime msgTime() {
-		return msg_time;
-	}
-
-	@Override
-	public int type() {
-		return type;
-	}
-
-	@Override
-	public int direction() {
-		return direction;
-	}
-
-	@Override
-	public String userId() {
-		return user_id;
-	}
-
-	@Override
-	public String friendId() {
-		return friend_id;
-	}
-
-	@Override
-	public String fromUserId() {
-		return friend_id;
-	}
-
-	@Override
-	public String toUserid() {
-		return user_id;
-	}
-
-	@Override
-	public String fromUserThumbnail() {
-		return dsi.userDao().getByUUID(friend_id).thumbnail();
-	}
-
-	@Override
-	public String toUserThumbnail() {
-		return dsi.userDao().getByUUID(user_id).thumbnail();
+	public PuluoFriendRequest friendRequest(PuluoDSI dsi) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

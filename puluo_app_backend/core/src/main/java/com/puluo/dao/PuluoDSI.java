@@ -19,4 +19,5 @@ public abstract  class PuluoDSI {
 	public abstract  PuluoUserSettingDao userSettingDao();
 	public abstract  PuluoAuthCodeRecordDao authCodeRecordDao();
 	public abstract  PuluoWechatBindingDao wechatBindingDao();
+	public abstract  PuluoFriendRequestDao friendRequestDao();
 }

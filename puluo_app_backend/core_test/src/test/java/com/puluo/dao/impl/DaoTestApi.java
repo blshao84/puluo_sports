@@ -8,6 +8,7 @@ import com.puluo.dao.PuluoEventInfoDao;
 import com.puluo.dao.PuluoEventLocationDao;
 import com.puluo.dao.PuluoEventMemoryDao;
 import com.puluo.dao.PuluoEventPosterDao;
+import com.puluo.dao.PuluoFriendRequestDao;
 import com.puluo.dao.PuluoOrderEventDao;
 import com.puluo.dao.PuluoPaymentDao;
 import com.puluo.dao.PuluoPostCommentDao;
@@ -144,6 +145,12 @@ public class DaoTestApi extends PuluoDSI {
 	@Override
 	public PuluoEventMemoryDao eventMemoryDao() {
 		return eventMemoryDevDao;
+	}
+
+	@Override
+	public PuluoFriendRequestDao friendRequestDao() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
