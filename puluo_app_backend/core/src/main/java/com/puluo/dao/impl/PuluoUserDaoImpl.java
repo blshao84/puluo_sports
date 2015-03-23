@@ -49,7 +49,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 				.append("occupation text, ")
 				.append("address text, ")
 				.append("saying text, ")
-				.append("birthday text, ")
+				.append("birthday timestamp, ")
 				.append("created_at timestamp, ")
 				.append("updated_at timestamp, ")
 				.append("banned boolean default true)")

@@ -4,9 +4,9 @@ import net.liftweb.http.LiftResponse
 import net.liftweb.http.S
 
 trait PuluoAPIUtil {
-  
+
   /**
-   * requiredParams: 
+   * requiredParams:
    * 	* key: parameter name
    *  	* value: error message in case of missing
    * callAPI:
@@ -24,5 +24,15 @@ trait PuluoAPIUtil {
       callAPI(params)
     }
 
+  }
+
+  def getBoolOrNull(value: Option[String]): Option[Boolean] = {
+    value.map { v =>
+      try {
+        Some(v.toBoolean)
+      } catch {
+        case e: Exception => None
+      }
+    }.getOrElse(None)
   }
 }
