@@ -24,20 +24,22 @@ import net.liftweb.common.Loggable
 import net.liftweb.util.LiftFlowOfControlException
 import scala.util.Failure
 import net.liftweb.common.Box
+import com.puluo.session.PuluoSessionManager
 
 object PuluoAuthPrivateAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
     case "users" :: "logout" :: Nil Post _ => {
-      callWithParam(Map())(doLogout)
+      callWithParam(Map(
+        "token" -> ErrorResponseResult(15).copy(message = "token")))(doLogout)
     }
     case "users" :: "credential" :: "update" :: Nil Post _ => {
       callWithParam(Map(
-        "new_password" -> ErrorResponseResult(15).copy(message="new_password"),
-        "password" -> ErrorResponseResult(15).copy(message="password")))(doUpdatePassword)
+        "new_password" -> ErrorResponseResult(15).copy(message = "new_password"),
+        "password" -> ErrorResponseResult(15).copy(message = "password")))(doUpdatePassword)
 
     }
     case "dummy" :: "users" :: "logout" :: Nil Post _ => {
-      PuluoSession(SessionInfo("",None))
+      PuluoSession(SessionInfo("", None))
       PuluoResponseFactory.createDummyJSONResponse(UserLogoutResult.dummy().toJson())
     }
     case "dummy" :: "users" :: "credential" :: "update" :: Nil Post _ => {
@@ -46,11 +48,13 @@ object PuluoAuthPrivateAPI extends RestHelper with PuluoAPIUtil with Loggable {
 
   }
 
-  private def doLogout(params:Map[String,String]) = {
-    val api = new UserLogoutAPI(PuluoSession.session)
+  private def doLogout(params: Map[String, String]) = {
+    val token = params("token")
+    val session = PuluoSessionManager.getSession(token)
+    val api = new UserLogoutAPI(session)
     safeRun(api)
-    PuluoSession(SessionInfo("",None))
-    println(PuluoSession.hashCode()+":"+PuluoSession.login)
+    PuluoSessionManager.logout(token)
+    logger.info(String.format("successfully logout token=%s, user_uuid=%s", token, session.userUUID))
     PuluoResponseFactory.createJSONResponse(api)
   }
 

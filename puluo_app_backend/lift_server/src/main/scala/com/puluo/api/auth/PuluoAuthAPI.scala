@@ -25,6 +25,7 @@ import net.liftweb.util.LiftFlowOfControlException
 import scala.util.Failure
 import net.liftweb.common.Box
 import com.puluo.dao.impl.DaoApi
+import com.puluo.session.PuluoSessionManager
 
 object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
@@ -64,13 +65,12 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val api = new UserLoginAPI(mobile, password, sessionID)
     safeRun(api);
     val sessionOpt = api.obtainSession
-    if (sessionOpt == null){
-      PuluoSession(SessionInfo("",None))
-    }else {
+    if (sessionOpt != null) {
       val uuid = DaoApi.getInstance().userDao().getByMobile(mobile).userUUID();
-      PuluoSession(SessionInfo(uuid,Some(sessionOpt)))
+      PuluoSessionManager.login(sessionID,sessionOpt)
+      //PuluoSession(SessionInfo(uuid,Some(sessionOpt)))
     }
-    
+
     PuluoResponseFactory.createJSONResponse(api, 201)
   }
   private def doRegister(params: Map[String, String]) = {

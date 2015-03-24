@@ -36,6 +36,7 @@ import com.puluo.api.service.PuluoServiceAPI
 import com.puluo.api.test.WechatService
 import net.liftweb.http.XhtmlResponse
 import net.liftweb.http.PlainTextResponse
+import com.puluo.session.PuluoSessionManager
 
 class Boot extends Loggable {
 
@@ -54,10 +55,17 @@ class Boot extends Loggable {
     LiftRules.setSiteMap(SiteMap(menus: _*))
   }
 
-  def setupRequestConfig() = {
+  def authenticate(r: Req): Boolean = {
+    val token = PuluoResponseFactory.createParamMap(Seq("token")).values.headOption
+    val verified = token.map(PuluoSessionManager.isLogin(_)).getOrElse(false)
+    logger.info(String.format("retrive token %s from request and verified = %s", token.toString, verified.toString))
+    verified
 
+  }
+
+  def setupRequestConfig() = {
     val withAuthentication: PartialFunction[Req, Unit] = {
-      case r: Req if PuluoSession.login => //authenticate(r) =>
+      case r: Req if authenticate(r) =>
     }
     // setup the 404 handler 
     LiftRules.uriNotFound.prepend(NamedPF("404handler") {

@@ -1,16 +1,18 @@
 package com.puluo.entity.impl;
+
 import org.joda.time.DateTime;
 
+import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoSession;
 
-public class PuluoSessionImpl implements PuluoSession{
-	
+public class PuluoSessionImpl implements PuluoSession {
+
 	private final String user_mobile;
 	private final String session_id;
 	private final DateTime created_at;
 	private final DateTime deleted_at;
-	
-	
+
 	public PuluoSessionImpl(String user_mobile, String session_id,
 			DateTime created_at, DateTime deleted_at) {
 		super();
@@ -42,11 +44,20 @@ public class PuluoSessionImpl implements PuluoSession{
 
 	@Override
 	public boolean isDeleted() {
-		if (deleted_at!=null) {
+		if (deleted_at != null) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public String userUUID() {
+		return userUUID(DaoApi.getInstance());
+	}
+
+	public String userUUID(PuluoDSI dsi) {
+		return dsi.userDao().getByMobile(user_mobile).userUUID();
 	}
 
 }
