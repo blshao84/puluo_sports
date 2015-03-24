@@ -18,9 +18,7 @@ object PuluoServiceAPI extends RestHelper with PuluoAPIUtil with SMSSender with 
     case "services" :: "sms" :: "register" :: Nil Put _ => callWithParam(Map(
       "mobile" -> ErrorResponseResult(15).copy(message = "mobile")))(doSendRegisterSMS)
 
-    case "dummy" :: "services" :: "sms" :: "register" :: Nil Put _ => {
-      PuluoResponseFactory.createDummyJSONResponse(SMSServiceResult.dummy().toJson(), 201)
-    }
+   
   }
   private def doSendRegisterSMS(params: Map[String, String]) = doSendSMS(params + ("sms_type" -> "UserRegistration"))
 

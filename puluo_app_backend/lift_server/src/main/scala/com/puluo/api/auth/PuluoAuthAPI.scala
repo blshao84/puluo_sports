@@ -40,21 +40,6 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
         "password" -> ErrorResponseResult(15).copy(message = "password"),
         "auth_code" -> ErrorResponseResult(15).copy(message = "auth_code")))(doRegister)
     }
-    case "dummy" :: "users" :: "login" :: Nil Post _ => {
-      val paramMap = PuluoResponseFactory.createParamMap(Seq("mobile", "password"))
-      logger.info("\n" + paramMap.mkString("\n"))
-      paramMap.get("password") match {
-        case Some("invalid") => PuluoResponseFactory.createDummyJSONResponse(ApiErrorResult.getError(4).toJson(), 201)
-        case _ => {
-          PuluoSession(SessionInfo("",
-            Some(new com.puluo.entity.impl.PuluoSessionImpl("", "", DateTime.now, DateTime.now))))
-          PuluoResponseFactory.createDummyJSONResponse(UserLoginResult.dummy().toJson(), 201)
-        }
-      }
-    }
-    case "dummy" :: "users" :: "register" :: Nil Put _ => {
-      PuluoResponseFactory.createDummyJSONResponse(UserRegistrationResult.dummy().toJson(), 201)
-    }
   }
 
   private def doLogin(params: Map[String, String]) = {

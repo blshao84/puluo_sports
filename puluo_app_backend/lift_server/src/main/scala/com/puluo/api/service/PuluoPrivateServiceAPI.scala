@@ -47,15 +47,7 @@ object PuluoPrivateServiceAPI extends RestHelper with PuluoAPIUtil with SMSSende
       "sms_type" -> ErrorResponseResult(15).copy(message = "sms_type"),
       "mobile" -> ErrorResponseResult(15).copy(message = "mobile")))(doSendSMS)
 
-    case "dummy" :: "services" :: "email" :: Nil Put _ => {
-      PuluoResponseFactory.createDummyJSONResponse(EmailServiceResult.dummy().toJson(), 201)
-    }
-    case "dummy" :: "services" :: "images" :: Nil Post _ => {
-      PuluoResponseFactory.createDummyJSONResponse(ImageUploadServiceResult.dummy().toJson(), 201)
-    }
-    case "dummy" :: "services" :: "sms" :: Nil Put _ => {
-      PuluoResponseFactory.createDummyJSONResponse(SMSServiceResult.dummy().toJson(), 201)
-    }
+   
   }
 
   private def toImageUploadInputs(req: Req) = req.uploadedFiles.map { fph =>

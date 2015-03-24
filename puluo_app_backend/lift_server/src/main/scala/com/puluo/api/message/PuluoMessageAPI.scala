@@ -17,11 +17,6 @@ object PuluoMessageAPI extends RestHelper {
       PuluoResponseFactory.createDummyJSONResponse(ListMessageResult.dummy().toJson())
     }
     
-        case "dummy" ::"users" :: "message" :: "send" :: Nil Put _ => {
-      PuluoResponseFactory.createDummyJSONResponse(SendMessageResult.dummy().toJson())
-    }
-    case "dummy" ::"users" :: "messages" :: Nil Post _ => {
-      PuluoResponseFactory.createDummyJSONResponse(ListMessageResult.dummy().toJson())
-    }
+     
   }
 }

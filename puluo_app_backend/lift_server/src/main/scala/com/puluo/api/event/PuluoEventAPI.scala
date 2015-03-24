@@ -25,17 +25,6 @@ object PuluoEventAPI extends RestHelper {
       PuluoResponseFactory.createDummyJSONResponse(EventSearchResult.dummy().toJson())
     }
     
-    case "dummy" ::"events" :: "payment" :: eventUUID :: Nil Get _ => {//FIXME: should be POST?
-      PuluoResponseFactory.createDummyJSONResponse(EventRegistrationResult.dummy().toJson())
-    }
-    case "dummy" ::"events" :: "detail" :: eventUUID :: Nil Get _ => {
-      PuluoResponseFactory.createDummyJSONResponse(EventDetailResult.dummy().toJson())
-    }
-    case "dummy" ::"events" :: "memory" :: Nil Post _ => {
-      PuluoResponseFactory.createDummyJSONResponse(EventMemoryResult.dummy().toJson())
-    }
-    case "dummy" ::"events" :: "search" :: Nil Post _ => {
-      PuluoResponseFactory.createDummyJSONResponse(EventSearchResult.dummy().toJson())
-    }
+    
   }
 }
