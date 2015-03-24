@@ -35,6 +35,7 @@ import com.puluo.api.service.PuluoPrivateServiceAPI
 import com.puluo.api.service.PuluoServiceAPI
 import com.puluo.api.test.WechatService
 import net.liftweb.http.XhtmlResponse
+import net.liftweb.http.PlainTextResponse
 
 class Boot extends Loggable {
 
@@ -62,12 +63,6 @@ class Boot extends Loggable {
     LiftRules.uriNotFound.prepend(NamedPF("404handler") {
       case (req, failure) => NotFoundAsTemplate(ParsePath(List("404"), "html", false, false))
     })
-    /*LiftRules.exceptionHandler.prepend(NamedPF("exceptionHandler") {
-     case (_, r, e) =>
-      logger.error("Exception being returned to browser when processing "+ e.getMessage())
-      e.printStackTrace()
-      PuluoResponseFactory.createErrorResponse(ErrorResponseResult(100))
-    })*/
     // setup cors
     LiftRules.supplimentalHeaders = s => s.addHeaders(
       List( //HTTPParam("X-Lift-Version", LiftRules.liftVersion),

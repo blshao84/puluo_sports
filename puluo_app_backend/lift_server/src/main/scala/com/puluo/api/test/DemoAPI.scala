@@ -7,15 +7,16 @@ import net.liftweb.http.S
 import net.liftweb.json.Printer
 import net.liftweb.json.JsonDSL
 import net.liftweb.json.JsonAST
+import com.puluo.api.util.PuluoAPIUtil
 
-
-object DemoAPI extends RestHelper {
+object DemoAPI extends RestHelper with PuluoAPIUtil{
   serve {
     case "ping" :: _ Get _ => {
       PuluoResponseFactory.createDummyJSONResponse("{\"msg\":\"hello world\"}")
     }
     case "test" :: _ Get _ => {
       val api = new com.puluo.api.DemoAPI("success")
+      safeRun(api)
       PuluoResponseFactory.createJSONResponse(api)
     }
     case "test" :: _ Post _ => {

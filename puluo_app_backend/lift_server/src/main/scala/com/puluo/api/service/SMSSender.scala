@@ -5,8 +5,9 @@ import com.puluo.api.util.PuluoResponseFactory
 import java.util.HashMap
 import com.puluo.api.util.ErrorResponseResult
 import net.liftweb.common.Loggable
+import com.puluo.api.util.PuluoAPIUtil
 
-trait SMSSender extends Loggable{
+trait SMSSender extends PuluoAPIUtil with Loggable{
    protected def doSendSMS(params: Map[String, String]) = {
     val smsType = PuluoSMSType.valueOf(params("sms_type"))
     if (smsType == null) {
@@ -15,7 +16,7 @@ trait SMSSender extends Loggable{
       val mobile = params("mobile")
       val api = new SMSServiceAPI(smsType, mobile,params)
       logger.info(String.format("executing api:mobile=%s,smsType=%s", mobile, smsType))
-      api.execute()
+      safeRun(api)
       PuluoResponseFactory.createJSONResponse(api)
     }
   }

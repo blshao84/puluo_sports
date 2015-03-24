@@ -62,7 +62,7 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val sessionID = S.session.map(_.httpSession.get.sessionId).getOrElse("")
     logger.info(String.format("生成UserLoginAPI(%s,password,%s)", mobile, sessionID))
     val api = new UserLoginAPI(mobile, password, sessionID)
-    api.execute();
+    safeRun(api);
     val sessionOpt = api.obtainSession
     if (sessionOpt == null){
       PuluoSession(SessionInfo("",None))
@@ -78,7 +78,7 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val password = params("password")
     val authCode = params("auth_code")
     val api = new UserRegistrationAPI(mobile, password, authCode)
-    api.execute()
+    safeRun(api)
     PuluoResponseFactory.createJSONResponse(api, 201)
   }
 }

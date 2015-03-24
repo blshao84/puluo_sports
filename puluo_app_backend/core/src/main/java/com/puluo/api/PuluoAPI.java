@@ -12,6 +12,11 @@ public abstract class PuluoAPI<DSI extends PuluoDSI, RESULT extends HasJSON> {
 
 	public abstract void execute();
 
+	public void setError(ApiErrorResult error) {
+		this.error = error;
+		this.rawResult = null;
+	}
+	
 	public String result() {
 		if (rawResult != null && error == null)
 			return rawResult.toJson();

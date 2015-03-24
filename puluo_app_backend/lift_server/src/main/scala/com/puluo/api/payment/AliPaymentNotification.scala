@@ -14,8 +14,9 @@ import net.liftweb.http.S
 import com.puluo.api.payment.PuluoAlipayAPI
 import java.util.HashMap
 import com.puluo.api.result.AlipaymentResult
+import com.puluo.api.util.PuluoAPIUtil
 
-object AliPaymentNotification extends RestHelper with Loggable {
+object AliPaymentNotification extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
     case "payment" :: "alipay" :: "notify" :: Nil Get _ => doNotify
     case "payment" :: "alipay" :: "notify" :: Nil Post _ => doNotify
@@ -24,7 +25,7 @@ object AliPaymentNotification extends RestHelper with Loggable {
   def doNotify: Box[LiftResponse] = {
     logger.info("接收到支付宝notify_url的request")
     val api = createPaymentAPI(S.request.get)
-    api.execute()
+    safeRun(api)
     val result = api.getPaymentResult();
     if (result.isSuccess()) {
       Full(PlainTextResponse("success"))

@@ -23,7 +23,7 @@ object PuluoUserAPI extends RestHelper with PuluoAPIUtil with Loggable {
     }
     case "users" :: mobileOrUUID :: Nil Get _ => {
       val api = new UserProfileAPI(mobileOrUUID)
-      api.execute()
+      safeRun(api)
       PuluoResponseFactory.createJSONResponse(api)
     }
     case "users" :: "update" :: Nil Post _ => {
@@ -40,7 +40,7 @@ object PuluoUserAPI extends RestHelper with PuluoAPIUtil with Loggable {
         paramMap.getOrElse("sex", ""), paramMap.getOrElse("birthday", ""),
         paramMap.getOrElse("country", ""), paramMap.getOrElse("state", ""),
         paramMap.getOrElse("city", ""), paramMap.getOrElse("zip", ""));
-      api.execute()
+      safeRun(api)
       PuluoResponseFactory.createJSONResponse(api)
     }
     case "users" :: "search" :: Nil Post _ => {
@@ -50,13 +50,13 @@ object PuluoUserAPI extends RestHelper with PuluoAPIUtil with Loggable {
       val api = new UserSearchAPI(
         paramMap.getOrElse("first_name", ""), paramMap.getOrElse("last_name", ""),
         paramMap.getOrElse("email", ""), paramMap.getOrElse("mobile", ""))
-      api.execute()
+      safeRun(api)
       PuluoResponseFactory.createJSONResponse(api)
     }
     case "users" :: "privacy" :: mobileOrUUID :: Nil Get _ => {
       val uuid = PuluoSession.userUUID
       val api = new UserSettingAPI(uuid)
-      api.execute()
+      safeRun(api)
       PuluoResponseFactory.createJSONResponse(api)
     }
     case "users" :: "setting" :: "update" :: Nil Post _ => {
@@ -64,7 +64,7 @@ object PuluoUserAPI extends RestHelper with PuluoAPIUtil with Loggable {
       val paramMap = PuluoResponseFactory.createParamMap(optionalParams)
       logger.info("param map for users/setting/update:\n" + paramMap.mkString("\n"))
       val api = new UserSettingUpdateAPI(paramMap)
-      api.execute()
+      safeRun(api)
       PuluoResponseFactory.createJSONResponse(api)
     }
 

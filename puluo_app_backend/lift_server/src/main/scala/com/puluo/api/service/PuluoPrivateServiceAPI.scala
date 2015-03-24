@@ -28,19 +28,19 @@ object PuluoPrivateServiceAPI extends RestHelper with PuluoAPIUtil with SMSSende
     case "services" :: "images" :: "user" :: Nil Post req => {
       val inputs = toImageUploadInputs(req)
       val api = new ImageUploadServiceAPI(PuluoImageType.UserProfile, inputs)
-      api.execute()
+      safeRun(api)
       PuluoResponseFactory.createJSONResponse(api, 201)
     }
     case "services" :: "images" :: "poster" :: Nil Post req => {
       val inputs = toImageUploadInputs(req)
       val api = new ImageUploadServiceAPI(PuluoImageType.EventPoster, inputs)
-      api.execute()
+      safeRun(api)
       PuluoResponseFactory.createJSONResponse(api, 201)
     }
     case "services" :: "images" :: "memory" :: Nil Post req => {
       val inputs = toImageUploadInputs(req)
       val api = new ImageUploadServiceAPI(PuluoImageType.EventMemory, inputs)
-      api.execute()
+      safeRun(api)
       PuluoResponseFactory.createJSONResponse(api, 201)
     }
     case "services" :: "sms" :: Nil Put _ => callWithParam(Map(

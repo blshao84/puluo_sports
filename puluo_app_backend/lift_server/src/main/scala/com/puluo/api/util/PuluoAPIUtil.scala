@@ -2,8 +2,11 @@ package com.puluo.api.util
 
 import net.liftweb.http.LiftResponse
 import net.liftweb.http.S
+import com.puluo.api.PuluoAPI
+import net.liftweb.common.Loggable
+import com.puluo.api.result.ApiErrorResult
 
-trait PuluoAPIUtil {
+trait PuluoAPIUtil extends Loggable{
 
   /**
    * requiredParams:
@@ -26,13 +29,16 @@ trait PuluoAPIUtil {
 
   }
 
-  def getBoolOrNull(value: Option[String]): Option[Boolean] = {
-    value.map { v =>
-      try {
-        Some(v.toBoolean)
-      } catch {
-        case e: Exception => None
+  def safeRun(api:PuluoAPI[_,_]):PuluoAPI[_,_] = {
+    try{
+      api.execute()
+    }catch{
+      case e:Throwable =>{
+        logger.error("error found")
+        e.printStackTrace()
+        api.setError(ApiErrorResult.getError(100))
       }
-    }.getOrElse(None)
+    }
+    api
   }
 }
