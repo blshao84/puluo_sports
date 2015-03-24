@@ -528,13 +528,13 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 
 ##### List Friends
 
-Get a user's own friends list
+Get a user's friends list
 
-`GET /users/friends`
+`GET /users/friends/{mobile_or_uuid}`
 
 ###### cURL Example
 ```
-$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET /users/friends
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET /users/friends/188234302033
 
 ``` 
 

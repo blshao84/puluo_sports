@@ -45,7 +45,7 @@ object DummyAPI extends RestHelper with PuluoAPIUtil {
     case "dummy" :: "events" :: "search" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(EventSearchResult.dummy().toJson())
     }
-    case "dummy" :: "users" :: "friends" :: Nil Get _ => {
+    case "dummy" :: "users" :: "friends" :: mobileOrUUID :: Nil Get _ => {
       PuluoResponseFactory.createDummyJSONResponse(ListFriendsResult.dummy().toJson())
     }
     case "dummy" :: "users" :: "friends" :: "request" :: Nil Put _ => {

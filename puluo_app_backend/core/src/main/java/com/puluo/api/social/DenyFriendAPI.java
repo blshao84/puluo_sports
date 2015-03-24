@@ -6,14 +6,16 @@ import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 
 public class DenyFriendAPI extends PuluoAPI<PuluoDSI,DenyFriendResult> {
-	public String user_uuid;
+	private final String to_user_uuid;
+	private final String from_user_uuid;
 	
-	public DenyFriendAPI(String user_uuid){
-		this(user_uuid, DaoApi.getInstance());
+	public DenyFriendAPI(String to_user_uuid, String from_user_uuid){
+		this(to_user_uuid,from_user_uuid, DaoApi.getInstance());
 	}
-	public DenyFriendAPI(String user_uuid, PuluoDSI dsi) {
+	public DenyFriendAPI(String to_user_uuid, String from_user_uuid, PuluoDSI dsi) {
 		this.dsi = dsi;
-		this.user_uuid = user_uuid;
+		this.to_user_uuid = to_user_uuid;
+		this.from_user_uuid = from_user_uuid;
 	}
 
 	@Override
