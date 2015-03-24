@@ -6,6 +6,8 @@ import com.puluo.entity.PuluoPrivateMessage;
 
 public interface PuluoPrivateMessageDao {
 	
+	public boolean createTable();
+	
 	public boolean saveMessage(PuluoPrivateMessage message);
 
 	public String sendMessage(PuluoPrivateMessage message);
