@@ -108,9 +108,9 @@ public class PuluoEventDaoTest {
 		events = eventDao.findEvents(null, "3", null, null, null, 0.0, 0.0, 0.0);
 		Assert.assertEquals("keyword包含3的event应该有0个!", 0 , events.size());
 		
-		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-01 20:35:59").toDate(), null, null, null, null, 0.0, 0.0, 0.0);
+		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-01 20:35:59"), null, null, null, null, 0.0, 0.0, 0.0);
 		Assert.assertEquals("time在2015-03-01 20:35:59的event应该有1个!", 1 , events.size());
-		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-02 20:35:59").toDate(), null, null, null, null, 0.0, 0.0, 0.0);
+		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-02 20:35:59"), null, null, null, null, 0.0, 0.0, 0.0);
 		Assert.assertEquals("time在2015-03-02 20:35:59的event应该有2个!", 2 , events.size());
 		
 		events = eventDao.findEvents(null, null, null, null, null, 0.0, 0.0, 0.0);
@@ -131,9 +131,9 @@ public class PuluoEventDaoTest {
 		events = eventDao.findEvents(null, null, null, "price", "desc", 0.0, 0.0, 0.0);
 		Assert.assertEquals("价格最昂贵的event的id应该为event_uuid_0!", "event_uuid_0" , events.get(0).eventUUID());
 
-		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-02 20:35:59").toDate(), "0", "0", "price", "asc", 2.0, 2.0, 2);
+		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-02 20:35:59"), "0", "0", "price", "asc", 2.0, 2.0, 2);
 		Assert.assertEquals("符合条件event应该有1个!", 1 , events.size());
-		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-01 20:35:59").toDate(), "0", "0", "distance", "desc", 2.0, 2.0, 2);
+		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-01 20:35:59"), "0", "0", "distance", "desc", 2.0, 2.0, 2);
 		Assert.assertEquals("符合条件event应该有0个!", 0 , events.size());
 		
 		log.info("testFindEvents done!");

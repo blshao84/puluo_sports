@@ -3,9 +3,9 @@ package com.puluo.dao.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.puluo.dao.PuluoEventDao;
@@ -82,7 +82,7 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 	}
 	
 	@Override
-	public List<PuluoEvent> findEvents(Date event_date, String keyword, String level, 
+	public List<PuluoEvent> findEvents(DateTime event_date, String keyword, String level, 
 			String sort, String sort_direction, double latitude, double longitude, double range_from) {
 		ArrayList<String> params = new ArrayList<String>();
 		if (event_date!=null) {

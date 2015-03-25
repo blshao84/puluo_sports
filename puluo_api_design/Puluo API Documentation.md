@@ -867,7 +867,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://183.131
 
 Create orders and returns links to alipay
 
-`GET /events/payment/{event_uuid}`
+`POST /events/payment/{event_uuid}`
 
 
 ###### cURL Example
@@ -894,7 +894,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://183.131
 
 Get detail information of an event
 
-`GET /events/detail/{event_uuid}`
+`POST /events/detail/{event_uuid}`
 
 
 ###### cURL Example
@@ -935,7 +935,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET /events/detail/
 
 Get list of user image links of an event
 
-`POST /events/memory`
+`POST /events/memory/{event_uuid}`
 
 ###### Optional Parameters
 
@@ -948,7 +948,8 @@ Get list of user image links of an event
 $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.131.76.93/events/memory
 -H "Content-Type: application/json" \
 -d '{
-  "max_count": "5"
+  "max_count": "5",
+  "event_uuid": "14hx6i00llj1oi3fawse5rz3q"
 }'
 ```
 
@@ -976,12 +977,12 @@ If keyword is not specified, return all events with sorting and filter.
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|event_date|Date| date of event| 2015-01-08|
+|event_date|long| unix timestamp for event|12345678|
 |keyword|String|keyword to search | "Boxing" |
 |sort|String| sorting parameter | "distance" |
 |sort_direction|String| direction of sort | "Asc" or "Desc" |
-|user_lattitude|String| lattitude of user | "" |
-|user_xxx|String| xxx of user | "" |
+|user_lattitude|double| lattitude of user | 42.123456 |
+|user_longitude|double| longitude of user | 42.123456 |
 |range_from|Int|starting index of all query events | 10 |
 
 ###### cURL Example
@@ -994,7 +995,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST /events/search
   "sort":"distance",
   "sort_direction":"desc",
   "user_lattitude":"xxx",
-  "user_xx":"xxx",
+  "user_longitude":"xxx",
   "range_from":"10"
 }'
 ```

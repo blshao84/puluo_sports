@@ -9,22 +9,87 @@ import com.puluo.api.result.EventRegistrationResult
 import com.puluo.api.result.EventDetailResult
 import com.puluo.api.result.EventMemoryResult
 import com.puluo.api.result.EventSearchResult
+import com.puluo.api.event.EventRegistrationAPI
+import com.puluo.api.util.PuluoAPIUtil
+import com.puluo.api.util.ErrorResponseResult
+import com.puluo.session.PuluoSessionManager
+import com.puluo.api.event.EventDetailAPI
+import net.liftweb.common.Loggable
+import org.joda.time.DateTime
 
-object PuluoEventAPI extends RestHelper {
+object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
-    case "events" :: "payment" :: eventUUID :: Nil Get _ => {//FIXME: should be POST?
-      PuluoResponseFactory.createDummyJSONResponse(EventRegistrationResult.dummy().toJson())
+    //FIXME: should be POST?
+    case "events" :: "payment" :: eventUUID :: Nil Post _ => doRegister(eventUUID)
+    case "events" :: "detail" :: eventUUID :: Nil Post _ => doGetEventDetail(eventUUID)
+    case "events" :: "memory" :: eventUUID :: Nil Post _ => doGetEventMemory(eventUUID)
+    case "events" :: "search" :: Nil Post _ => doEventSearch()
+  }
+
+  private def doRegister(eventUUID: String) = {
+    //token must exist because it's authenticated
+    val token = PuluoResponseFactory.createParamMap(Seq("token")).values.head
+    val session = PuluoSessionManager.getSession(token)
+    val userUUID = session.userUUID()
+    val api = new EventRegistrationAPI(eventUUID, userUUID)
+    safeRun(api)
+    PuluoResponseFactory.createJSONResponse(api)
+  }
+
+  private def doGetEventDetail(eventUUID: String) = {
+    val api = new EventDetailAPI(eventUUID)
+    safeRun(api)
+    PuluoResponseFactory.createJSONResponse(api)
+  }
+
+  private def doGetEventMemory(eventUUID: String) = {
+    val maxCount = PuluoResponseFactory.createParamMap(Seq("max_count")).values.headOption.map { cnt =>
+      try {
+        cnt.toInt
+      } catch {
+        case e: Exception => {
+          logger.warn(s"$cnt is not a valid number, use 10 instead")
+          10
+        }
+      }
+    }.getOrElse(10)
+    val api = new EventMemoryAPI(eventUUID, maxCount)
+    safeRun(api)
+    PuluoResponseFactory.createJSONResponse(api)
+  }
+
+  private def doEventSearch() = {
+    val params = PuluoResponseFactory.createParamMap(Seq(
+      "event_date", "keyword", "sort", "sort_direction",
+      "user_lattitude", "user_longitude"))
+    val eventDate: DateTime = params.get("event_date").map(d =>
+      try {
+        new DateTime(d.toLong)
+      } catch {
+        case e: Exception =>
+          null
+      }).getOrElse(null)
+    logger.info(s"creating event search api with:\n${params.mkString("\n")}")
+    val keyword = params.getOrElse("keyword", "")
+    val level = params.getOrElse("level", "")
+    val sort = params.getOrElse("sort", "")
+    val sortDirection = params.getOrElse("sort_direction", "")
+    val api = (locationToDouble(params.get("user_lattitude")), 
+        locationToDouble(params.get("user_longitude"))) match {
+      case (Some(lattitude), Some(longitude)) => {
+        logger.info("api has longitude and lattitude")
+        new EventSearchAPI(eventDate, keyword,level, sort, sortDirection, lattitude, longitude)
+      }
+      case _ => new EventSearchAPI(eventDate, keyword,level, sort, sortDirection, 0.0, 0.0)
     }
-    case "events" :: "detail" :: eventUUID :: Nil Get _ => {
-      PuluoResponseFactory.createDummyJSONResponse(EventDetailResult.dummy().toJson())
-    }
-    case "events" :: "memory" :: Nil Post _ => {
-      PuluoResponseFactory.createDummyJSONResponse(EventMemoryResult.dummy().toJson())
-    }
-    case "events" :: "search" :: Nil Post _ => {
-      PuluoResponseFactory.createDummyJSONResponse(EventSearchResult.dummy().toJson())
-    }
-    
-    
+    safeRun(api)
+    PuluoResponseFactory.createJSONResponse(api)
+
+  }
+
+  private def locationToDouble(pos: Option[String]): Option[Double] = {
+    pos.map(p => try {
+      Some(p.toDouble)
+    } catch { case e: Exception => None }).flatten
   }
 }
