@@ -14,6 +14,7 @@ import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.PuluoDatabaseException;
+import com.puluo.util.Strs;
 
 public class PuluoEventLocationDaoImpl extends DalTemplate implements PuluoEventLocationDao{
 	
@@ -56,42 +57,11 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements PuluoEvent
 					.append(" where location_uuid = '" + location.locationId() + "'")
 					.toString();
 			log.info(reader.queryForInt(querySQL));
-			String updateSQL;
 			if (reader.queryForInt(querySQL)>0) {
-				updateSQL = new StringBuilder().append("update ")
-						.append(super.getFullTableName())
-						.append(" set address = ").append(location.address()!=null ? "'" + location.address() + "'" : "null").append(",")
-						.append(" zip = ").append(location.zip()!=null ? "'" + location.zip() + "'" : "null").append(",")
-						.append(" name = ").append(location.name()!=null ? "'" + location.name() + "'" : "null").append(",")
-						.append(" phone = ").append(location.phone()!=null ? "'" + location.phone() + "'" : "null").append(",")
-						.append(" city = ").append(location.city()!=null ? "'" + location.city() + "'" : "null").append(",")
-						.append(" longitude = ").append(location.longitude() + ",")
-						.append(" latitude = ").append(location.latitude() + ",")
-						.append(" court = ").append(location.court() + ",")
-						.append(" capacity = ").append(location.capacity() + ",")
-						.append(" location_type = ").append(location.type())
-						.append(" where location_uuid = '" + location.locationId() + "'")
-						.toString();
+				return this.updateEventLocation(location);
 			} else {
-				updateSQL = new StringBuilder().append("insert into ")
-						.append(super.getFullTableName())
-						.append(" (location_uuid, address, zip, name, phone, city, longitude, latitude, court, capacity, location_type)")
-						.append(" values ('" + location.locationId() + "', ")
-						.append(location.address()!=null ? "'" + location.address() + "'" : "null").append(", ")
-						.append(location.zip()!=null ? "'" + location.zip() + "'" : "null").append(", ")
-						.append(location.name()!=null ? "'" + location.name() + "'" : "null").append(", ")
-						.append(location.phone()!=null ? "'" + location.phone() + "'" : "null").append(", ")
-						.append(location.city()!=null ? "'" + location.city() + "'" : "null").append(", ")
-						.append(location.longitude() + ", ")
-						.append(location.latitude() + ", ")
-						.append(location.court() + ", ")
-						.append(location.capacity() + ", ")
-						.append(location.type() + ")")
-						.toString();
+				return this.saveEventLocation(location);
 			}
-			log.info(updateSQL);
-			getWriter().update(updateSQL);
-			return true;
 		} catch (Exception e) {
 			log.info(e.getMessage());
 			return false;
@@ -129,6 +99,90 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements PuluoEvent
 			throw new PuluoDatabaseException("通过location uuid查到多个location！");
 		else
 			return null;
+	}
+
+	@Override
+	public boolean saveEventLocation(PuluoEventLocation location) {
+		try {
+			SqlReader reader = getReader();
+			String querySQL = new StringBuilder().append("select count(1) from ")
+					.append(super.getFullTableName())
+					.append(" where location_uuid = '" + location.locationId() + "'")
+					.toString();
+			log.info(reader.queryForInt(querySQL));
+			String updateSQL;
+			if (reader.queryForInt(querySQL)==0) {
+				updateSQL = new StringBuilder().append("insert into ")
+						.append(super.getFullTableName())
+						.append(" (location_uuid, address, zip, name, phone, city, longitude, latitude, court, capacity, location_type)")
+						.append(" values ('" + location.locationId() + "', ")
+						.append(Strs.isEmpty(location.address()) ? "null" : "'" + location.address() + "'").append(", ")
+						.append(Strs.isEmpty(location.zip()) ? "null" : "'" + location.zip() + "'").append(", ")
+						.append(Strs.isEmpty(location.name()) ? "null" : "'" + location.name() + "'").append(", ")
+						.append(Strs.isEmpty(location.phone()) ? "null" : "'" + location.phone() + "'").append(", ")
+						.append(Strs.isEmpty(location.city()) ? "null" : "'" + location.city() + "'").append(", ")
+						.append(location.longitude() + ", ")
+						.append(location.latitude() + ", ")
+						.append(location.court() + ", ")
+						.append(location.capacity() + ", ")
+						.append(location.type() + ")")
+						.toString();
+				log.info(updateSQL);
+				getWriter().update(updateSQL);
+				return true;
+			} else {
+				throw new PuluoDatabaseException("location_uuid为'" + location.locationId() + "'已存在不能插入数据！");
+			}
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			return false;
+		}
+	}
+
+	@Override
+	public boolean updateEventLocation(PuluoEventLocation location) {
+		try {
+			SqlReader reader = getReader();
+			String querySQL = new StringBuilder().append("select count(1) from ")
+					.append(super.getFullTableName())
+					.append(" where location_uuid = '" + location.locationId() + "'")
+					.toString();
+			log.info(reader.queryForInt(querySQL));
+			StringBuilder updateSQL;
+			if (reader.queryForInt(querySQL)>0) {
+				updateSQL = new StringBuilder().append("update ")
+						.append(super.getFullTableName()).append(" set");
+				if (!Strs.isEmpty(location.address())) {
+					updateSQL.append(" address = '" + location.address() + "',");
+				}
+				if (!Strs.isEmpty(location.zip())) {
+					updateSQL.append(" zip = '" + location.zip() + "',");
+				}
+				if (!Strs.isEmpty(location.name())) {
+					updateSQL.append(" name = '" + location.name() + "',");
+				}
+				if (!Strs.isEmpty(location.phone())) {
+					updateSQL.append(" phone = '" + location.phone() + "',");
+				}
+				if (!Strs.isEmpty(location.city())) {
+					updateSQL.append(" city = '" + location.city() + "',");
+				}
+				updateSQL.append(" longitude = ").append(location.longitude() + ",")
+						.append(" latitude = ").append(location.latitude() + ",")
+						.append(" court = ").append(location.court() + ",")
+						.append(" capacity = ").append(location.capacity() + ",")
+						.append(" location_type = ").append(location.type())
+						.append(" where location_uuid = '" + location.locationId() + "'");
+				log.info(updateSQL.toString());
+				getWriter().update(updateSQL.toString());
+				return true;
+			} else {
+				throw new PuluoDatabaseException("location_uuid为'" + location.locationId() + "'不存在不能更新数据！");
+			}
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			return false;
+		}
 	}
 
 }

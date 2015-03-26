@@ -61,9 +61,9 @@ public class PuluoEventInfoDaoTest {
 		PuluoEventInfo info2 = infoDao.getEventInfoByUUID("event_info_uuid_0");
 		Assert.assertEquals("name should be name_0!", "name_0" , info2.name());
 		Assert.assertEquals("description should be description_0!", "description_0" , info2.description());
-		Assert.assertEquals("coach name should be null!", null , info2.coachName());
-		Assert.assertEquals("coach uuid should be null!", null , info2.coachUUID());
-		Assert.assertEquals("thumbnail uuid should be null!", null , info2.coachThumbnail());
+		Assert.assertEquals("coach name should be coach_name_0!", "coach_name_0" , info2.coachName());
+		Assert.assertEquals("coach uuid should be coach_uuid_0!", "coach_uuid_0" , info2.coachUUID());
+		Assert.assertEquals("thumbnail uuid should be thumbnail_uuid_0!", "thumbnail_uuid_0" , info2.coachThumbnail());
 		Assert.assertEquals("details should be details_0!", "details_0" , info2.details());
 		log.info("testGetEventPoster done!");
 	}

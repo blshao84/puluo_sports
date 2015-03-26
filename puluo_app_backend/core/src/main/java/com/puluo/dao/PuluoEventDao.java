@@ -17,4 +17,8 @@ public interface PuluoEventDao {
 			String sort, String sort_direction, double latitude, double longitude, double range_from);
 	
 	public boolean upsertEvent(PuluoEvent event);
+	
+	public boolean saveEvent(PuluoEvent event);
+	
+	public boolean updateEvent(PuluoEvent event);
 }

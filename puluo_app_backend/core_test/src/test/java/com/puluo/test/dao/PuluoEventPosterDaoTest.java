@@ -56,4 +56,17 @@ public class PuluoEventPosterDaoTest {
 		Assert.assertEquals("posters' size should be 3!", 3, posters.size());
 		log.info("testGetEventPoster done!");
 	}
+
+	@Test 
+	public void testUpdateEventPoster() {
+		log.info("testUpdateEventPoster start!");
+		PuluoEventPosterDao posterDao = DaoTestApi.eventPosterDevDao;
+		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_3","image_url_0","thumbnail_0","event_info_uuid_1"));
+		posterDao.updateEventPhoto(new PuluoEventPosterImpl("uuid_3","image_url_1",null,null));
+		List<PuluoEventPoster> posters = posterDao.getEventPoster("event_info_uuid_1");
+		PuluoEventPoster poster = posters.get(0);
+		Assert.assertEquals("poster's image url should be image_url_1!", "image_url_1", poster.imageURL());
+		Assert.assertEquals("poster's thumbnail should be thumbnail_0", "thumbnail_0", poster.thumbnail());
+		log.info("testUpdateEventPoster done!");
+	}
 }

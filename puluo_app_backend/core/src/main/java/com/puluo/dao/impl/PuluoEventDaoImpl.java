@@ -16,6 +16,7 @@ import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.PuluoDatabaseException;
+import com.puluo.util.Strs;
 import com.puluo.util.TimeUtils;
 
 
@@ -141,38 +142,91 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 					.append(" where event_uuid = '" + event.eventUUID() + "'")
 					.toString();
 			log.info(reader.queryForInt(querySQL));
-			String updateSQL;
 			if (reader.queryForInt(querySQL)>0) {
-				updateSQL = new StringBuilder().append("update ")
-						.append(super.getFullTableName())
-						.append(" set event_time = '" + TimeUtils.formatDate(event.eventTime()) + "',")
-						.append(" status = '" + event.status() + "',")
-						.append(" registered_users = " + event.registeredUsers() + ",")
-						.append(" capatcity = " + event.capatcity() + ",")
-						.append(" price = " + event.price() + ",")
-						.append(" discounted_price = " + event.discountedPrice() + ",")
-						.append(" info_uuid = '" + event.eventInfo().eventInfoUUID() + "',")
-						.append(" location_uuid = '" + event.eventLocation().locationId() + "'")
-						.append(" where event_uuid = '" + event.eventUUID() + "'")
-						.toString();
+				return this.updateEvent(event);
 			} else {
+				return this.saveEvent(event);
+			}
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			return false;
+		}
+	}
+
+	@Override
+	public boolean saveEvent(PuluoEvent event) {
+
+		try {
+			SqlReader reader = getReader();
+			String querySQL = new StringBuilder().append("select count(1) from ")
+					.append(super.getFullTableName())
+					.append(" where event_uuid = '" + event.eventUUID() + "'")
+					.toString();
+			log.info(reader.queryForInt(querySQL));
+			String updateSQL;
+			if (reader.queryForInt(querySQL)==0) {
 				updateSQL = new StringBuilder().append("insert into ")
 						.append(super.getFullTableName())
 						.append(" (event_uuid, event_time, status, registered_users, capatcity, price, discounted_price, info_uuid, location_uuid)")
 						.append("values ('" + event.eventUUID() + "', ")
-						.append("'" + TimeUtils.formatDate(event.eventTime()) + "', ")
-						.append("'" + event.status() + "', ")
+						.append(Strs.isEmpty(TimeUtils.formatDate(event.eventTime())) ? "null" : "'" + TimeUtils.formatDate(event.eventTime()) + "'").append(", ")
+						.append(Strs.isEmpty(event.status()) ? "null" : "'" + event.status() + "'").append(", ")
 						.append(event.registeredUsers() + ", ")
 						.append(event.capatcity() + ", ")
 						.append(event.price() + ", ")
 						.append(event.discountedPrice() + ", ")
-						.append("'" + event.eventInfo().eventInfoUUID() + "', ")
-						.append("'" + event.eventLocation().locationId() + "')")
+						.append(Strs.isEmpty(event.eventInfo().eventInfoUUID()) ? "null" : "'" + event.eventInfo().eventInfoUUID() + "'").append(", ")
+						.append(Strs.isEmpty(event.eventLocation().locationId()) ? "null" : "'" + event.eventLocation().locationId() + "'").append(")")
 						.toString();
+				log.info(updateSQL);
+				getWriter().update(updateSQL);
+				return true;
+			} else {
+				throw new PuluoDatabaseException("event_uuid为'" + event.eventUUID() + "'已存在不能插入数据！");
 			}
-			log.info(updateSQL);
-			getWriter().update(updateSQL);
-			return true;
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			return false;
+		}
+	}
+
+	@Override
+	public boolean updateEvent(PuluoEvent event) {
+		try {
+			SqlReader reader = getReader();
+			String querySQL = new StringBuilder().append("select count(1) from ")
+					.append(super.getFullTableName())
+					.append(" where event_uuid = '" + event.eventUUID() + "'")
+					.toString();
+			log.info(reader.queryForInt(querySQL));
+			StringBuilder updateSQL;
+			if (reader.queryForInt(querySQL)>0) {
+				updateSQL = new StringBuilder().append("update ")
+						.append(super.getFullTableName()).append(" set");
+				if (!Strs.isEmpty(TimeUtils.formatDate(event.eventTime()))) {
+					updateSQL.append(" event_time = '" + TimeUtils.formatDate(event.eventTime()) + "',");
+				}
+				if (!Strs.isEmpty(event.status())) {
+					updateSQL.append(" status = '" + event.status() + "',");
+				}
+				updateSQL.append(" registered_users = " + event.registeredUsers() + ",")
+						.append(" capatcity = " + event.capatcity() + ",")
+						.append(" price = " + event.price() + ",")
+						.append(" discounted_price = " + event.discountedPrice() + ",");
+				if (!Strs.isEmpty(event.eventInfo().eventInfoUUID())) {
+					updateSQL.append(" info_uuid = '" + event.eventInfo().eventInfoUUID() + "',");
+				}
+				if (!Strs.isEmpty(event.eventLocation().locationId())) {
+					updateSQL.append(" location_uuid = '" + event.eventLocation().locationId() + "',");
+				}
+				updateSQL.deleteCharAt(updateSQL.length()-1);
+				updateSQL.append(" where event_uuid = '" + event.eventUUID() + "'");
+				log.info(updateSQL.toString());
+				getWriter().update(updateSQL.toString());
+				return true;
+			} else {
+				throw new PuluoDatabaseException("event_uuid为'" + event.eventUUID() + "'不存在不能更新数据！");
+			}
 		} catch (Exception e) {
 			log.info(e.getMessage());
 			return false;

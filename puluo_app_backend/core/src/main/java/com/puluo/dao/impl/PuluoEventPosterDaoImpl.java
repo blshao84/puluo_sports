@@ -13,6 +13,8 @@ import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.PuluoDatabaseException;
+import com.puluo.util.Strs;
 
 public class PuluoEventPosterDaoImpl extends DalTemplate implements
 		PuluoEventPosterDao {
@@ -26,9 +28,9 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 				.append(super.getFullTableName())
 				.append(" (id serial primary key, ")
 				.append("event_poster_uuid text unique, ")
-				.append("image_url text not null, ")
-				.append("thumbnail text not null, ")
-				.append("event_info_uuid text not null)")
+				.append("image_url text, ")
+				.append("thumbnail text, ")
+				.append("event_info_uuid text)")
 				.toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
@@ -43,18 +45,32 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 	@Override
 	public boolean saveEventPhoto(PuluoEventPoster photo) {
 		try {
-			String insertSQL = new StringBuilder().append("insert into ")
+			SqlReader reader = getReader();
+			String querySQL = new StringBuilder().append("select count(1) from ")
 					.append(super.getFullTableName())
-					.append(" (event_poster_uuid, image_url, thumbnail, event_info_uuid)")
-					.append(" values ('" + photo.imageId() + "', '" + photo.imageURL() + "', '" + photo.thumbnail() + "', '" + photo.eventInfoUUID() + "')")
+					.append(" where event_poster_uuid = '" + photo.imageId() + "'")
 					.toString();
-			log.info(insertSQL);
-			getWriter().update(insertSQL);
+			log.info(reader.queryForInt(querySQL));
+			String updateSQL;
+			if (reader.queryForInt(querySQL)==0) {
+				updateSQL = new StringBuilder().append("insert into ")
+						.append(super.getFullTableName())
+						.append(" (event_poster_uuid, image_url, thumbnail, event_info_uuid)")
+						.append(" values ('" + photo.imageId() + "', ")
+						.append(Strs.isEmpty(photo.imageURL()) ? "null" : "'" + photo.imageURL() + "'").append(", ")
+						.append(Strs.isEmpty(photo.thumbnail()) ? "null" : "'" + photo.thumbnail() + "'").append(", ")
+						.append(Strs.isEmpty(photo.eventInfoUUID()) ? "null" : "'" + photo.eventInfoUUID() + "'").append(")")
+						.toString();
+				log.info(updateSQL);
+				getWriter().update(updateSQL);
+				return true;
+			} else {
+				throw new PuluoDatabaseException("event_poster_uuid为'" + photo.imageId() + "'已存在不能插入数据！");
+			}
 		} catch (Exception e) {
 			log.info(e.getMessage());
 			return false;
 		}
-		return true;
 	}
 
 	@Override
@@ -76,5 +92,49 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 					}
 				});
 		return entities;
+	}
+
+	@Override
+	public boolean updateEventPhoto(PuluoEventPoster photo) {
+		try {
+			SqlReader reader = getReader();
+			String querySQL = new StringBuilder().append("select count(1) from ")
+					.append(super.getFullTableName())
+					.append(" where event_poster_uuid = '" + photo.imageId() + "'")
+					.toString();
+			log.info(reader.queryForInt(querySQL));
+			StringBuilder updateSQL;
+			if (reader.queryForInt(querySQL)>0) {
+				updateSQL = new StringBuilder().append("update ")
+						.append(super.getFullTableName()).append(" set");
+				boolean comma = false;
+				if (!Strs.isEmpty(photo.imageURL())) {
+					updateSQL.append(" image_url = '" + photo.imageURL() + "',");
+					comma = true;
+				}
+				if (!Strs.isEmpty(photo.thumbnail())) {
+					updateSQL.append(" thumbnail = '" + photo.thumbnail() + "',");
+					comma = true;
+				}
+				if (!Strs.isEmpty(photo.eventInfoUUID())) {
+					updateSQL.append(" event_info_uuid = '" + photo.eventInfoUUID() + "',");
+					comma = true;
+				}
+				if (comma) {
+					updateSQL.deleteCharAt(updateSQL.length()-1);
+				}
+				updateSQL.append(" where event_poster_uuid = '" + photo.imageId() + "'");
+				log.info(updateSQL.toString());
+				if (comma) {
+					getWriter().update(updateSQL.toString());
+				}
+				return true;
+			} else {
+				throw new PuluoDatabaseException("event_poster_uuid为'" + photo.imageId() + "'不存在不能更新数据！");
+			}
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			return false;
+		}
 	}
 }
