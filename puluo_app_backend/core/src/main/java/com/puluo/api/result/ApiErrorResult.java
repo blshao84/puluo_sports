@@ -36,6 +36,9 @@ public class ApiErrorResult extends HasJSON {
 		error_registry.put(26, new ApiErrorResult(26, "时间线评论接口错误", "添加时间线评论失败", ""));
 		error_registry.put(27, new ApiErrorResult(27, "时间线评论接口错误", "删除时间线评论失败", ""));
 		error_registry.put(28, new ApiErrorResult(28, "活动信息接口错误", "活动信息不存在", ""));
+		error_registry.put(29, new ApiErrorResult(29, "设置信息接口错误", "设置信息不存在", ""));
+		error_registry.put(30, new ApiErrorResult(30, "设置信息接口错误", "更新设置信息失败", ""));
+		error_registry.put(31, new ApiErrorResult(31, "发送消息接口错误", "用户发送消息失败", ""));
 		error_registry.put(100, new ApiErrorResult(100, "系统错误", "处理请求时出现异常", ""));
 	}
 

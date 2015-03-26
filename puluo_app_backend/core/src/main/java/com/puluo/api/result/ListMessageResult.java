@@ -2,8 +2,8 @@ package com.puluo.api.result;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.puluo.util.HasJSON;
+
 
 public class ListMessageResult extends HasJSON {
 	public List<MessageResult> messages;

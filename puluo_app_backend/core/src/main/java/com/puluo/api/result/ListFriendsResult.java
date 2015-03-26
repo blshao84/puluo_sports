@@ -2,8 +2,10 @@ package com.puluo.api.result;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import com.puluo.entity.PuluoUser;
+import com.puluo.entity.PuluoUserFriendship;
 import com.puluo.util.HasJSON;
+
 
 public class ListFriendsResult extends HasJSON {
 	public List<ListFriendsResultDetail> details;
@@ -12,7 +14,7 @@ public class ListFriendsResult extends HasJSON {
 		super();
 		this.details = details;
 	}
-
+	
 	public static ListFriendsResult dummy() {
 		List<ListFriendsResultDetail> details = new ArrayList<ListFriendsResultDetail>();
 		details.add(new ListFriendsResultDetail("de305d54-75b4-431b-adb2-eb6b9e546013",
@@ -26,7 +28,7 @@ public class ListFriendsResult extends HasJSON {
 	}
 }
 
-class ListFriendsResultDetail {
+/*class ListFriendsResultDetail {
 	public String uuid;
 	public ListFriendsPublicResult public_info;
 	
@@ -56,4 +58,4 @@ class ListFriendsPublicResult {
 		// TODO
 		return null;
 	}
-}
+}*/

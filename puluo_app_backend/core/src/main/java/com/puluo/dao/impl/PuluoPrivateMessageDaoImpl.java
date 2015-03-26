@@ -3,10 +3,8 @@ package com.puluo.dao.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
 import org.joda.time.DateTime;
 import org.springframework.jdbc.core.RowMapper;
-
 import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.entity.PuluoMessageType;
 import com.puluo.entity.PuluoPrivateMessage;
@@ -48,7 +46,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 	}
 
 	@Override
-	public String sendMessage(PuluoPrivateMessage message) {
+	public String sendMessage(PuluoPrivateMessage message, String to_user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
