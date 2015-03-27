@@ -34,8 +34,7 @@ object PuluoMessageAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val contentType = params("content_type")
     val session = PuluoSessionManager.getSession(token)
     val fromUserUUID = session.userUUID()
-    //FIXME: should add fromUserUUID
-    val api = new SendMessageAPI( /*fromUserUUID,*/ toUserUUID, content, contentType)
+    val api = new SendMessageAPI( fromUserUUID, toUserUUID, content, contentType)
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api, 201)
   }

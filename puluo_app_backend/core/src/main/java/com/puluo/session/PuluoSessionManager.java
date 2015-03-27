@@ -41,4 +41,8 @@ public class PuluoSessionManager {
 	public static PuluoSession getSession(String key) {
 		return cache.asMap().get(key);
 	}
+	
+	public static String getUserUUID(String token) {
+		return getSession(token).userUUID();
+	}
 }
