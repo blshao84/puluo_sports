@@ -15,60 +15,71 @@ import net.liftweb.common.Loggable
 import com.puluo.api.setting.UserSettingAPI
 import com.puluo.api.util.PuluoAPIUtil
 import com.puluo.api.setting.UserSettingUpdateAPI
+import com.puluo.session.PuluoSessionManager
 
 object PuluoUserAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
     case "users" :: "status" :: Nil Get _ => {
       PuluoResponseFactory.createDummyJSONResponse("{\"login\":true}")
     }
-    case "users" :: mobileOrUUID :: Nil Get _ => {
+    case "users" :: mobileOrUUID :: Nil Post _ => {
       val api = new UserProfileAPI(mobileOrUUID)
       safeRun(api)
       PuluoResponseFactory.createJSONResponse(api)
     }
-    case "users" :: "update" :: Nil Post _ => {
-      val optionalParams = Seq(
-        "first_name", "last_name", "thumbnail", "large_image", "saying",
-        "email", "sex", "birthday", "country", "state", "city", "zip")
-      val paramMap = PuluoResponseFactory.createParamMap(optionalParams)
-      logger.info("param map for users/update:\n" + paramMap.mkString("\n"))
-      val uuid = PuluoSession.userUUID
-      val api = new UserProfileUpdateAPI(
-        uuid, paramMap.getOrElse("first_name", ""), paramMap.getOrElse("last_name", ""),
-        paramMap.getOrElse("thumbnail", ""), paramMap.getOrElse("large_image", ""),
-        paramMap.getOrElse("saying", ""), paramMap.getOrElse("email", ""),
-        paramMap.getOrElse("sex", ""), paramMap.getOrElse("birthday", ""),
-        paramMap.getOrElse("country", ""), paramMap.getOrElse("state", ""),
-        paramMap.getOrElse("city", ""), paramMap.getOrElse("zip", ""));
-      safeRun(api)
-      PuluoResponseFactory.createJSONResponse(api)
-    }
-    case "users" :: "search" :: Nil Post _ => {
-      val optionalParams = Seq("first_name", "last_name", "email", "mobile")
-      val paramMap = PuluoResponseFactory.createParamMap(optionalParams)
-      logger.info("param map for users/search:\n" + paramMap.mkString("\n"))
-      val api = new UserSearchAPI(
-        paramMap.getOrElse("first_name", ""), paramMap.getOrElse("last_name", ""),
-        paramMap.getOrElse("email", ""), paramMap.getOrElse("mobile", ""))
-      safeRun(api)
-      PuluoResponseFactory.createJSONResponse(api)
-    }
-    case "users" :: "privacy" :: mobileOrUUID :: Nil Get _ => {
-      val uuid = PuluoSession.userUUID
-      val api = new UserSettingAPI(uuid)
-      safeRun(api)
-      PuluoResponseFactory.createJSONResponse(api)
-    }
-    case "users" :: "setting" :: "update" :: Nil Post _ => {
-      val optionalParams = Seq("auto_add_friend", "allow_stranger_view_timeline", "allow_searchedl")
-      val paramMap = PuluoResponseFactory.createParamMap(optionalParams)
-      logger.info("param map for users/setting/update:\n" + paramMap.mkString("\n"))
-      //FIXME: THIS IS A TEMPORAL HACK!!!!
-      val api = new UserSettingUpdateAPI("",paramMap)
-      safeRun(api)
-      PuluoResponseFactory.createJSONResponse(api)
-    }
+    case "users" :: "update" :: Nil Post _ => callWithAuthParam()(doUserUpdate)
+    case "users" :: "search" :: Nil Post _ => doUserSearch
 
-    
+    case "users" :: "privacy" :: mobileOrUUID :: Nil Post _ => doUserSetting
+
+    case "users" :: "setting" :: "update" :: Nil Post _ => callWithAuthParam()(doSettingUpdate)
+  }
+
+  private def doUserSetting = {
+    val token = PuluoResponseFactory.createParamMap(Seq("token")).values.head
+    val uuid = PuluoSessionManager.getUserUUID(token)
+    val api = new UserSettingAPI(uuid)
+    safeRun(api)
+    PuluoResponseFactory.createJSONResponse(api)
+  }
+
+  private def doSettingUpdate(params: Map[String, String]) = {
+    val optionalParams = Seq("auto_add_friend", "allow_stranger_view_timeline", "allow_searchedl")
+    val optionalParamsMap = PuluoResponseFactory.createParamMap(optionalParams)
+    logger.info("param map for users/setting/update:\n" + optionalParamsMap.mkString("\n"))
+    val token = params("token")
+    val uuid = PuluoSessionManager.getUserUUID(token)
+    val api = new UserSettingUpdateAPI(uuid, optionalParamsMap)
+    safeRun(api)
+    PuluoResponseFactory.createJSONResponse(api)
+  }
+  private def doUserUpdate(params: Map[String, String]) = {
+    val optionalParams = Seq(
+      "first_name", "last_name", "thumbnail", "large_image", "saying",
+      "email", "sex", "birthday", "country", "state", "city", "zip")
+    val optionalParamsMap = PuluoResponseFactory.createParamMap(optionalParams)
+    logger.info("param map for users/update:\n" + optionalParams.mkString("\n"))
+    val token = params("token")
+    val uuid = PuluoSessionManager.getUserUUID(token)
+    val api = new UserProfileUpdateAPI(
+      uuid, optionalParamsMap.getOrElse("first_name", ""), optionalParamsMap.getOrElse("last_name", ""),
+      optionalParamsMap.getOrElse("thumbnail", ""), optionalParamsMap.getOrElse("large_image", ""),
+      optionalParamsMap.getOrElse("saying", ""), optionalParamsMap.getOrElse("email", ""),
+      optionalParamsMap.getOrElse("sex", ""), optionalParamsMap.getOrElse("birthday", ""),
+      optionalParamsMap.getOrElse("country", ""), optionalParamsMap.getOrElse("state", ""),
+      optionalParamsMap.getOrElse("city", ""), optionalParamsMap.getOrElse("zip", ""))
+    safeRun(api)
+    PuluoResponseFactory.createJSONResponse(api)
+  }
+
+  private def doUserSearch = {
+    val optionalParams = Seq("first_name", "last_name", "email", "mobile")
+    val optionalParamsMap = PuluoResponseFactory.createParamMap(optionalParams)
+    logger.info("param map for users/search:\n" + optionalParamsMap.mkString("\n"))
+    val api = new UserSearchAPI(
+      optionalParamsMap.getOrElse("first_name", ""), optionalParamsMap.getOrElse("last_name", ""),
+      optionalParamsMap.getOrElse("email", ""), optionalParamsMap.getOrElse("mobile", ""))
+    safeRun(api)
+    PuluoResponseFactory.createJSONResponse(api)
   }
 }

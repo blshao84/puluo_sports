@@ -6,7 +6,7 @@ import com.puluo.api.PuluoAPI
 import net.liftweb.common.Loggable
 import com.puluo.api.result.ApiErrorResult
 
-trait PuluoAPIUtil extends Loggable{
+trait PuluoAPIUtil extends Loggable {
 
   /**
    * requiredParams:
@@ -28,12 +28,17 @@ trait PuluoAPIUtil extends Loggable{
     }
 
   }
+  def callWithAuthParam(
+    requiredParams: Map[String, ErrorResponseResult] = Map.empty)(
+      callAPI: Map[String, String] => LiftResponse): LiftResponse = {
+    callWithParam(requiredParams + ("token" -> ErrorResponseResult(15).copy(message = "token")))(callAPI)
+  }
 
-  def safeRun(api:PuluoAPI[_,_]):PuluoAPI[_,_] = {
-    try{
+  def safeRun(api: PuluoAPI[_, _]): PuluoAPI[_, _] = {
+    try {
       api.execute()
-    }catch{
-      case e:Throwable =>{
+    } catch {
+      case e: Throwable => {
         logger.error("error found")
         e.printStackTrace()
         api.setError(ApiErrorResult.getError(100))

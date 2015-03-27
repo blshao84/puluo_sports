@@ -277,13 +277,13 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 
 Get a user's complete profile
 
-`GET /users/{user_mobile_or_uuid}`
+`POST /users/{user_mobile_or_uuid}`
 
 ###### cURL Example
 
 ```
 
-$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://183.131.76.93/users/{user_mobile_or_uuid}
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.131.76.93/users/{user_mobile_or_uuid}
 ```
 
 ###### Response Example
@@ -454,13 +454,13 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 
 Get user's setting
 
-`GET /users/privacy/{user_mobile_or_uuid}`
+`POST /users/privacy/{user_mobile_or_uuid}`
 
 ###### cURL Example
 
 ```
 
-$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://183.131.76.93/users/{user_mobile_or_uuid}
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.131.76.93/users/{user_mobile_or_uuid}
 
 ```
 
@@ -530,11 +530,11 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 
 Get a user's friends list
 
-`GET /users/friends/{mobile_or_uuid}`
+`POST /users/friends/{mobile_or_uuid}`
 
 ###### cURL Example
 ```
-$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET /users/friends/188234302033
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST /users/friends/188234302033
 
 ``` 
 
@@ -827,7 +827,7 @@ Get messages from a specific user since a specific time
 
 ###### cURL Example
 ```
-$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://183.131.76.93/users/messages
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.131.76.93/users/messages
 -H "Content-Type: application/json" \
 -d '{
   "user_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
@@ -872,7 +872,7 @@ Create orders and returns links to alipay
 
 ###### cURL Example
 ```
-$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET https://183.131.76.93/events/payment/de305d54-75b4-431b-adb2-eb6b9e546013
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.131.76.93/events/payment/de305d54-75b4-431b-adb2-eb6b9e546013
 
 ```
 ###### Response Example
@@ -899,7 +899,7 @@ Get detail information of an event
 
 ###### cURL Example
 ```
-$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X GET /events/detail/de305d54-75b4-431b-adb2-eb6b9e546013
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST /events/detail/de305d54-75b4-431b-adb2-eb6b9e546013
 ```
 ###### Response Example
 

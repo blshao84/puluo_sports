@@ -28,12 +28,9 @@ import com.puluo.session.PuluoSessionManager
 
 object PuluoAuthPrivateAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
-    case "users" :: "logout" :: Nil Post _ => {
-      callWithParam(Map(
-        "token" -> ErrorResponseResult(15).copy(message = "token")))(doLogout)
-    }
+    case "users" :: "logout" :: Nil Post _ => callWithAuthParam()(doLogout)
     case "users" :: "credential" :: "update" :: Nil Post _ => {
-      callWithParam(Map(
+      callWithAuthParam(Map(
         "new_password" -> ErrorResponseResult(15).copy(message = "new_password"),
         "password" -> ErrorResponseResult(15).copy(message = "password")))(doUpdatePassword)
 

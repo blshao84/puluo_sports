@@ -22,30 +22,27 @@ import com.puluo.api.social.ApproveFriendAPI
 
 object PuluoGraphAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
-    case "users" :: "friends" :: mobileOrUUID :: Nil Get _ => {
+    case "users" :: "friends" :: mobileOrUUID :: Nil Post _ => {
       val api = new ListFriendsAPI(mobileOrUUID)
       safeRun(api)
       PuluoResponseFactory.createJSONResponse(api)
     }
+    
     case "users" :: "friends" :: "request" :: Nil Put _ => {
-      callWithParam(Map(
-        "user_uuid" -> ErrorResponseResult(15).copy(message = "user_uuid"),
-        "token" -> ErrorResponseResult(15).copy(message = "token")))(doRequestFriend)
+      callWithAuthParam(Map(
+        "user_uuid" -> ErrorResponseResult(15).copy(message = "user_uuid")))(doRequestFriend)
     }
     case "users" :: "friends" :: "delete" :: Nil Post _ => {
-      callWithParam(Map(
-        "user_uuid" -> ErrorResponseResult(15).copy(message = "user_uuid"),
-        "token" -> ErrorResponseResult(15).copy(message = "token")))(doDeleteFriend)
+      callWithAuthParam(Map(
+        "user_uuid" -> ErrorResponseResult(15).copy(message = "user_uuid")))(doDeleteFriend)
     }
     case "users" :: "friends" :: "deny" :: Nil Post _ => {
-      callWithParam(Map(
-        "user_uuid" -> ErrorResponseResult(15).copy(message = "user_uuid"),
-        "token" -> ErrorResponseResult(15).copy(message = "token")))(doDenyFriend)
+      callWithAuthParam(Map(
+        "user_uuid" -> ErrorResponseResult(15).copy(message = "user_uuid")))(doDenyFriend)
     }
     case "users" :: "friends" :: "approve" :: Nil Post _ => {
-      callWithParam(Map(
-        "user_uuid" -> ErrorResponseResult(15).copy(message = "user_uuid"),
-        "token" -> ErrorResponseResult(15).copy(message = "token")))(doApproveFriend)
+      callWithAuthParam(Map(
+        "user_uuid" -> ErrorResponseResult(15).copy(message = "user_uuid")))(doApproveFriend)
     }
   }
 

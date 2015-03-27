@@ -33,10 +33,10 @@ object DummyAPI extends RestHelper with PuluoAPIUtil {
     case "dummy" :: "users" :: "credential" :: "update" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(UserPasswordUpdateResult.dummy().toJson())
     }
-    case "dummy" :: "events" :: "payment" :: eventUUID :: Nil Get _ => { //FIXME: should be POST?
+    case "dummy" :: "events" :: "payment" :: eventUUID :: Nil Post _ => { //FIXME: should be POST?
       PuluoResponseFactory.createDummyJSONResponse(EventRegistrationResult.dummy().toJson())
     }
-    case "dummy" :: "events" :: "detail" :: eventUUID :: Nil Get _ => {
+    case "dummy" :: "events" :: "detail" :: eventUUID :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(EventDetailResult.dummy().toJson())
     }
     case "dummy" :: "events" :: "memory" :: Nil Post _ => {
@@ -45,7 +45,7 @@ object DummyAPI extends RestHelper with PuluoAPIUtil {
     case "dummy" :: "events" :: "search" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(EventSearchResult.dummy().toJson())
     }
-    case "dummy" :: "users" :: "friends" :: mobileOrUUID :: Nil Get _ => {
+    case "dummy" :: "users" :: "friends" :: mobileOrUUID :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(ListFriendsResult.dummy().toJson())
     }
     case "dummy" :: "users" :: "friends" :: "request" :: Nil Put _ => {
@@ -97,7 +97,7 @@ object DummyAPI extends RestHelper with PuluoAPIUtil {
       PuluoResponseFactory.createDummyJSONResponse("{\"login\":true}")
     }
 
-    case "dummy" :: "users" :: mobileOrUUID :: Nil Get _ => {
+    case "dummy" :: "users" :: mobileOrUUID :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(UserProfileResult.dummy().toJson())
     }
     case "dummy" :: "users" :: "update" :: Nil Post _ => {
@@ -106,7 +106,7 @@ object DummyAPI extends RestHelper with PuluoAPIUtil {
     case "dummy" :: "users" :: "search" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(UserSearchResult.dummy().toJson())
     }
-    case "dummy" :: "users" :: "privacy" :: mobileOrUUID :: Nil Get _ => {
+    case "dummy" :: "users" :: "privacy" :: mobileOrUUID :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(UserSettingResult.dummy().toJson())
     }
     case "dummy" :: "users" :: "setting" :: "update" :: Nil Post _ => {
