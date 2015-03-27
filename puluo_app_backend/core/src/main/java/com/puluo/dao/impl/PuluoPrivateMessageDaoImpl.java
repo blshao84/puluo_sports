@@ -3,8 +3,10 @@ package com.puluo.dao.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
 import org.joda.time.DateTime;
 import org.springframework.jdbc.core.RowMapper;
+
 import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.entity.PuluoMessageType;
 import com.puluo.entity.PuluoPrivateMessage;
@@ -150,6 +152,13 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			log.error(e.getMessage());
 			return false;
 		}
+	}
+
+	@Override
+	public PuluoPrivateMessage[] getMessagesByUser(String from_user_uuid,
+			String to_user_uuid, DateTime time_from, DateTime time_to) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
