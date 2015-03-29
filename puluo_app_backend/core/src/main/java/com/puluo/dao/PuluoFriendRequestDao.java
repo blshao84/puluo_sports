@@ -7,7 +7,7 @@ public interface PuluoFriendRequestDao {
 	
 	public boolean createTable();
 	
-	public boolean saveNewRequest(String fromUser, String toUser);
+	public boolean saveNewRequest(String requestUUID, String fromUser, String toUser);
 	
 	public boolean updateRequestStatus(String requestUUID,FriendRequestStatus newStatus);
 	

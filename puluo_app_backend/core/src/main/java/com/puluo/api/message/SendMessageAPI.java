@@ -44,9 +44,9 @@ public class SendMessageAPI extends PuluoAPI<PuluoDSI,SendMessageResult> {
 		PuluoPrivateMessage message = new PuluoPrivateMessageImpl(message_id,content,
 				dt,PuluoMessageType.valueOf(content_type),"",from_uuid,to_uuid);
 		boolean save_status = messagedao.saveMessage(message);
-		String send_status = messagedao.sendMessage(message,to_uuid);
+//		String send_status = messagedao.sendMessage(message,to_uuid);
 		if(save_status) {
-			if(send_status == "success") {
+//			if(send_status == "success") {
 				String from_tn = (dsi.userDao().getByUUID(from_uuid)).thumbnail();
 				String to_tn = (dsi.userDao().getByUUID(to_uuid)).thumbnail();
 				SendMessageResult result = new SendMessageResult(message_id,from_uuid,
@@ -56,6 +56,6 @@ public class SendMessageAPI extends PuluoAPI<PuluoDSI,SendMessageResult> {
 				log.error(String.format("用户%s发送消息%s失败",from_uuid,message_id));
 				this.error = ApiErrorResult.getError(31);
 			}
-		}
+//		}
 	}
 }
