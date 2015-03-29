@@ -1,5 +1,7 @@
 package com.puluo.test.integration;
 
+import org.json.JSONObject;
+
 import com.mashape.unirest.http.Headers;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
@@ -17,25 +19,25 @@ public class PuluoIntegrationTest {
 			 * System.out.println(jsonResponse.getStatus());
 			 */
 			JsonNode body2 = new JsonNode(
-					"{\"password\":\"8409bL01\",\"mobile\":\"18646655333\"}");
+					"{\"password\":\"uvwxyz\",\"mobile\":\"18521564305\"}");
 			HttpResponse<JsonNode> jsonResponse2 = Unirest
 					.post("http://localhost:8080/users/login")
 					.header("Content-Type", "application/json").body(body2)
-					// .field("password", "8409bL01")
-					// .field("mobile", "18646655333")
 					.asJson();
-			System.out.println(jsonResponse2.getBody().toString());
+			JsonNode json2 = jsonResponse2.getBody();
+			System.out.println(json2.toString());
 			System.out.println(jsonResponse2.getStatus());
 			Headers headers2 = jsonResponse2.getHeaders();
 			for (String k : headers2.keySet()) {
 				System.out.println(k + ":" + headers2.get(k));
 			}
-			String session = getSessionID(headers2);
+			String session = getSessionID(json2);
 			System.out.println(session);
-			
+			//
+			JsonNode body3 = new JsonNode(String.format("{\"token\":\"%s\"}",session));
 			HttpResponse<JsonNode> jsonResponse3 = Unirest
-					.get("http://localhost:8080/users/18646655333")
-					.header("JSESSIONID",session)
+					.post("http://localhost:8080/users/18521564305")
+					.header("Content-Type", "application/json").body(body3)
 					.asJson();
 			System.out.println(jsonResponse3.getBody().toString());
 
@@ -45,12 +47,14 @@ public class PuluoIntegrationTest {
 		}
 	}
 
-	public static String getSessionID(Headers headers) {
-		if (headers.containsKey("set-cookie")) {
-			String value = headers.getFirst("set-cookie");
-			int first = value.indexOf('=');
-			int last = value.indexOf(';');
-			return value.substring(first+1, last);
+	public static String getSessionID(JsonNode result) {
+		JSONObject jo = result.getObject();
+		if (jo != null) {
+			String value = jo.getString("token");
+			if (value == null)
+				return "";
+			else
+				return value;
 		} else
 			return "";
 	}
