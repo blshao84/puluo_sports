@@ -60,7 +60,7 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements PuluoFrien
 						.append(super.getFullTableName())
 						.append(" (request_uuid, request_status, from_user_uuid, to_user_uuid, created_at)")
 						.append("values ('" + requestUUID + "', ")
-						.append(FriendRequestStatus.Requested.name()).append(", ")
+						.append("'" + FriendRequestStatus.Requested.name() + "'").append(", ")
 						.append(Strs.isEmpty(fromUser) ? "null" : "'" + fromUser + "'").append(", ")
 						.append(Strs.isEmpty(toUser) ? "null" : "'" + toUser + "'").append(", ")
 						.append("now()::timestamp)")

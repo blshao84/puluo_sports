@@ -40,6 +40,7 @@ public class DaoTestApi extends PuluoDSI {
 	public static PuluoEventMemoryDao eventMemoryDevDao	= BeanTestFactory.getBean(PuluoEventMemoryDao.class, "eventMemoryDevDao");
 	public static PuluoWechatBindingDao wechatBindingDevDao	= BeanTestFactory.getBean(PuluoWechatBindingDao.class, "wechatBindingDevDao");
 	public static PuluoPrivateMessageDao privateMessageDevDao	= BeanTestFactory.getBean(PuluoPrivateMessageDao.class, "privateMessageDevDao");
+	public static PuluoFriendRequestDao friendRequestDevDao	= BeanTestFactory.getBean(PuluoFriendRequestDao.class, "friendRequestDevDao");
 	
 	private static class SingletonHolder {
 		private static final DaoTestApi INSTANCE = new DaoTestApi();
