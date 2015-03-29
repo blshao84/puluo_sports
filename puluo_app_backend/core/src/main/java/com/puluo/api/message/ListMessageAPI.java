@@ -38,13 +38,13 @@ public class ListMessageAPI extends PuluoAPI<PuluoDSI,ListMessageResult> {
 	public void execute() {
 		log.info(String.format("开始查找从用户:%s到用户:%s的消息,since:%s",from_user_uuid,to_user_uuid,since));
 		PuluoPrivateMessageDao messagedao = dsi.privateMessageDao();
-		PuluoPrivateMessage[] messages = messagedao.getMessagesByUser(from_user_uuid,
+		List<PuluoPrivateMessage> messages = messagedao.getMessagesByUser(from_user_uuid,
 				to_user_uuid,since,DateTime.now());
 		List<MessageResult> messagelist =  new ArrayList<MessageResult>();
-		for(int i=0;i<messages.length;i++) 
-			messagelist.add(new MessageResult(messages[i].messageUUID(),messages[i].fromUser().userUUID(),
-					messages[i].toUser().userUUID(),messages[i].fromUser().thumbnail(),messages[i].toUser().thumbnail(),
-					messages[i].content(),TimeUtils.dateTime2Millis(messages[i].createdAt())));
+		for(int i=0;i<messages.size();i++) 
+			messagelist.add(new MessageResult(messages.get(i).messageUUID(),messages.get(i).fromUser().userUUID(),
+					messages.get(i).toUser().userUUID(),messages.get(i).fromUser().thumbnail(),messages.get(i).toUser().thumbnail(),
+					messages.get(i).content(),TimeUtils.dateTime2Millis(messages.get(i).createdAt())));
 		ListMessageResult result = new ListMessageResult(messagelist);
 		rawResult = result;
 	}

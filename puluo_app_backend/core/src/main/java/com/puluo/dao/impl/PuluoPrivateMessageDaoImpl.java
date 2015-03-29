@@ -78,7 +78,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 	}
 
 	@Override
-	public PuluoPrivateMessage[] getMessagesByFromUser(String userUUID,
+	public List<PuluoPrivateMessage> getMessagesByFromUser(String userUUID,
 			DateTime time_from, DateTime time_to) {
 		try {
 			SqlReader reader = getReader();
@@ -89,7 +89,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 				selectSQL.append(" and created_at >= '" + TimeUtils.formatDate(time_from) + "'");
 			}
 			if (!Strs.isEmpty(TimeUtils.formatDate(time_to))) {
-				selectSQL.append(" and created_at <= '" + TimeUtils.formatDate(time_from) + "'");
+				selectSQL.append(" and created_at <= '" + TimeUtils.formatDate(time_to) + "'");
 			}
 			log.info(selectSQL.toString());
 			List<PuluoPrivateMessage> entities = reader.query(selectSQL.toString(), new Object[]{userUUID},
@@ -108,10 +108,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 							return message;
 						}
 					});
-			if (entities.size() > 0)
-				return (PuluoPrivateMessage[]) entities.toArray();
-			else
-				return null;
+			return entities;
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return null;
@@ -125,7 +122,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 				.append(super.getFullTableName())
 				.append(" (id serial primary key, ")
 				.append("message_uuid text unique, ")
-				.append("content timestamp, ")
+				.append("content text, ")
 				.append("message_type text, ")
 				.append("friend_request_uuid text, ")
 				.append("from_user_uuid text, ")
@@ -143,7 +140,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 	}
 
 	@Override
-	public PuluoPrivateMessage[] getMessagesByUser(String from_user_uuid,
+	public List<PuluoPrivateMessage> getMessagesByUser(String from_user_uuid,
 			String to_user_uuid, DateTime time_from, DateTime time_to) {
 		try {
 			SqlReader reader = getReader();
@@ -153,13 +150,13 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			Object[] args;
 			if (!Strs.isEmpty(from_user_uuid)
 					&& !Strs.isEmpty(to_user_uuid)) {
-				selectSQL.append(" from_user_uuid = ? and to_user_uuid = ?");
+				selectSQL.append(" from_user_uuid = ? and to_user_uuid = ? and");
 				args = new Object[]{from_user_uuid, to_user_uuid};
 			} else if (!Strs.isEmpty(from_user_uuid)) {
-				selectSQL.append(" from_user_uuid = ?");
+				selectSQL.append(" from_user_uuid = ? and");
 				args = new Object[]{from_user_uuid};
 			} else if (!Strs.isEmpty(to_user_uuid)) {
-				selectSQL.append(" to_user_uuid = ?");
+				selectSQL.append(" to_user_uuid = ? and");
 				args = new Object[]{to_user_uuid};
 			} else {
 				args = new Object[]{};
@@ -169,7 +166,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 				selectSQL.append(" and created_at >= '" + TimeUtils.formatDate(time_from) + "'");
 			}
 			if (!Strs.isEmpty(TimeUtils.formatDate(time_to))) {
-				selectSQL.append(" and created_at <= '" + TimeUtils.formatDate(time_from) + "'");
+				selectSQL.append(" and created_at <= '" + TimeUtils.formatDate(time_to) + "'");
 			}
 			log.info(selectSQL.toString());
 			List<PuluoPrivateMessage> entities = reader.query(selectSQL.toString(), args,
@@ -188,10 +185,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 							return message;
 						}
 					});
-			if (entities.size() > 0)
-				return (PuluoPrivateMessage[]) entities.toArray();
-			else
-				return null;
+			return entities;
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return null;

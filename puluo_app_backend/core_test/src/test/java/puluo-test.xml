@@ -166,8 +166,12 @@
 		<property name="fullTableName" value="puluo_wechat_binding"></property>
 	</bean>
 	
-	<bean id="friendRequestDao" class="com.puluo.dao.impl.PuluoFriendRequestDaoImpl" parent="testDevDao">
+	<bean id="friendRequestDevDao" class="com.puluo.dao.impl.PuluoFriendRequestDaoImpl" parent="testDevDao">
 		<property name="fullTableName" value="puluo_friend_request"></property>
+	</bean>
+	
+	<bean id="privateMessageDevDao" class="com.puluo.dao.impl.PuluoPrivateMessageDaoImpl" parent="testDevDao">
+		<property name="fullTableName" value="puluo_message"></property>
 	</bean>
 
 </beans>

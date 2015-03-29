@@ -39,6 +39,7 @@ public class DaoTestApi extends PuluoDSI {
 	public static PuluoEventLocationDao eventLocationDevDao	= BeanTestFactory.getBean(PuluoEventLocationDao.class, "eventLocationDevDao");
 	public static PuluoEventMemoryDao eventMemoryDevDao	= BeanTestFactory.getBean(PuluoEventMemoryDao.class, "eventMemoryDevDao");
 	public static PuluoWechatBindingDao wechatBindingDevDao	= BeanTestFactory.getBean(PuluoWechatBindingDao.class, "wechatBindingDevDao");
+	public static PuluoPrivateMessageDao privateMessageDevDao	= BeanTestFactory.getBean(PuluoPrivateMessageDao.class, "privateMessageDevDao");
 	
 	private static class SingletonHolder {
 		private static final DaoTestApi INSTANCE = new DaoTestApi();
@@ -98,8 +99,7 @@ public class DaoTestApi extends PuluoDSI {
 
 	@Override
 	public PuluoUserDao userDao() {
-		// TODO Auto-generated method stub
-		return null;
+		return userDevDao;
 	}
 
 	@Override
