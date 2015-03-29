@@ -491,7 +491,7 @@ Update user setting
 | ------------- |:-------------|:----- |:-----|
 |auto_add_friend|boolean|allow anyone to add the user as friend without approval|true|
 |allow_stranger_view_timeline|boolean|allow everyone to view the user's timeline|true|
-|allow_searchedl|boolean|allow the user to be searched |true|
+|allow_searched|boolean|allow the user to be searched |true|
 
 
 ###### cURL Example
