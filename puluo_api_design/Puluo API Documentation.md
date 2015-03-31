@@ -949,7 +949,6 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.13
 -H "Content-Type: application/json" \
 -d '{
   "max_count": "5",
-  "event_uuid": "14hx6i00llj1oi3fawse5rz3q"
 }'
 ```
 
