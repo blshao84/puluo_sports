@@ -41,7 +41,7 @@ public class RequestFriendAPI extends PuluoAPI<PuluoDSI, RequestFriendResult> {
 
 	@Override
 	public void execute() {
-		log.info(String.format("用户:%s向用户:%s提出的好友申请", requestor, receiver));
+		log.info(String.format("用户:%s向用户:%s提出的好友申请",requestor,receiver));
 		PuluoUserFriendshipDao friendshipdao = dsi.friendshipDao();
 		PuluoPrivateMessageDao messagedao = dsi.privateMessageDao();
 		PuluoUserDao userdao = dsi.userDao();

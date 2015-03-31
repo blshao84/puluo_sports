@@ -8,6 +8,7 @@ import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.ApproveFriendResult;
 import com.puluo.api.result.MessageResult;
 import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.impl.DaoApi;
@@ -40,6 +41,7 @@ public class ApproveFriendAPI extends PuluoAPI<PuluoDSI,ApproveFriendResult> {
 	public void execute() {
 		log.info(String.format("开始批准用户:%s向用户:%s提出的好友申请",requestor,receiver));
 		PuluoUserFriendshipDao friendshipdao = dsi.friendshipDao();
+		PuluoPrivateMessageDao messagedao = dsi.privateMessageDao();
 		PuluoUserDao userdao = dsi.userDao();
 		friendshipdao.addOneFriend(requestor,receiver);
 		friendshipdao.addOneFriend(receiver,requestor);
