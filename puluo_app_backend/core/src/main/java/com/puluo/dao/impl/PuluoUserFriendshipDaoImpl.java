@@ -4,16 +4,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.jdbc.core.RowMapper;
-
 import com.puluo.dao.PuluoUserFriendshipDao;
+import com.puluo.entity.FriendRequestStatus;
+import com.puluo.entity.PuluoFriendRequest;
 import com.puluo.entity.PuluoUserFriendship;
 import com.puluo.entity.impl.PuluoUserFriendshipImpl;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+
 
 public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 		PuluoUserFriendshipDao {
@@ -139,5 +140,19 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 			log.info(e.getMessage());
 		}
 		return getFriendListByUUID(userUUID);
+	}
+
+	@Override
+	public PuluoFriendRequest getFriendRequestByUsers(String userUUID,
+			String friendUUID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String updateFriendshipStatus(PuluoFriendRequest request,
+			FriendRequestStatus status) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -1,27 +1,48 @@
 package com.puluo.api.social;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.DeleteFriendResult;
+import com.puluo.api.result.PastMessagesResult;
 import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.entity.PuluoFriendRequest;
+import com.puluo.entity.PuluoPrivateMessage;
+import com.puluo.util.Log;
+import com.puluo.util.LogFactory;
 
 public class DeleteFriendAPI extends PuluoAPI<PuluoDSI,DeleteFriendResult> {
-	private final String to_user_uuid;
-	private final String from_user_uuid;
+	public static Log log = LogFactory.getLog(DeleteFriendAPI.class);
+	private final String receiver;
+	private final String requestor;
 	
-	public DeleteFriendAPI(String to_user_uuid, String from_user_uuid){
-		this(to_user_uuid,from_user_uuid, DaoApi.getInstance());
+	public DeleteFriendAPI(String receiver, String requestor){
+		this(receiver,requestor, DaoApi.getInstance());
 	}
-	public DeleteFriendAPI(String to_user_uuid, String from_user_uuid, PuluoDSI dsi) {
+	
+	public DeleteFriendAPI(String receiver, String requestor, PuluoDSI dsi) {
 		this.dsi = dsi;
-		this.to_user_uuid = to_user_uuid;
-		this.from_user_uuid = from_user_uuid;
+		this.receiver = receiver;
+		this.requestor = requestor;
 	}
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		log.info(String.format("用户:%s和用户:%s解除好友关系",requestor,receiver));
+		PuluoUserFriendshipDao friendshipdao = dsi.friendshipDao();
+		PuluoFriendRequest request = friendshipdao.getFriendRequestByUsers(requestor,receiver);
+		List<PuluoPrivateMessage> messages = request.messages();
+		List<PastMessagesResult> msglist = new ArrayList<PastMessagesResult>();
+		for(int i=0;i<messages.size();i++) {
+			PastMessagesResult pastmsg = new PastMessagesResult(messages.get(i).messageUUID());
+			msglist.add(pastmsg);
+		}
+		friendshipdao.deleteOneFriend(requestor,receiver);
+		friendshipdao.deleteOneFriend(receiver,requestor);
+		DeleteFriendResult result = new DeleteFriendResult(msglist);
+		rawResult = result;
 	}
-
 }

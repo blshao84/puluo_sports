@@ -1,14 +1,24 @@
 package com.puluo.api.social;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import org.joda.time.DateTime;
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.ApproveFriendResult;
+import com.puluo.api.result.MessageResult;
 import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.impl.DaoApi;
-import com.puluo.entity.PuluoUserFriendship;
+import com.puluo.entity.FriendRequestStatus;
+import com.puluo.entity.PuluoFriendRequest;
+import com.puluo.entity.PuluoMessageType;
+import com.puluo.entity.PuluoPrivateMessage;
+import com.puluo.entity.impl.PuluoPrivateMessageImpl;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.TimeUtils;
 
 
 public class ApproveFriendAPI extends PuluoAPI<PuluoDSI,ApproveFriendResult> {
@@ -28,10 +38,25 @@ public class ApproveFriendAPI extends PuluoAPI<PuluoDSI,ApproveFriendResult> {
 
 	@Override
 	public void execute() {
-		/*log.info(String.format("开始批准用户:%s向用户:%s提出的好友申请", requestor, receiver));
+		log.info(String.format("开始批准用户:%s向用户:%s提出的好友申请",requestor,receiver));
 		PuluoUserFriendshipDao friendshipdao = dsi.friendshipDao();
-		List<PuluoUserFriendship> friendlist_receiver = friendshipdao.addOneFriend(receiver, requestor);
-		List<PuluoUserFriendship> friendlist_requestor = friendshipdao.addOneFriend(requestor, receiver);*/
+		PuluoUserDao userdao = dsi.userDao();
+		friendshipdao.addOneFriend(requestor,receiver);
+		friendshipdao.addOneFriend(receiver,requestor);
+		PuluoFriendRequest request = friendshipdao.getFriendRequestByUsers(requestor,receiver);
+		friendshipdao.updateFriendshipStatus(request, FriendRequestStatus.Approved);
+		PuluoPrivateMessage message = new PuluoPrivateMessageImpl(UUID.randomUUID().toString(),
+				String.format("用户:%s接受您的好友申请，现在可以开始聊天啦！",userdao.getByUUID(receiver).name()),
+				DateTime.now(),PuluoMessageType.FriendRequest,requestor,receiver,requestor);
+		//messagedao.sendMessage(message);
+		List<MessageResult> messages_result =  new ArrayList<MessageResult>();
+		for(int i=0;i<request.messages().size();i++) 
+			messages_result.add(new MessageResult(request.messages().get(i).messageUUID(),
+					request.messages().get(i).fromUser().name(),request.messages().get(i).toUser().name(),
+					request.messages().get(i).fromUser().thumbnail(),request.messages().get(i).toUser().thumbnail(),
+					request.messages().get(i).content(),TimeUtils.dateTime2Millis(request.messages().get(i).createdAt())));
+		ApproveFriendResult result = new ApproveFriendResult(request.requestUUID(),request.requestStatus().name(),
+				messages_result,TimeUtils.dateTime2Millis(request.createdAt()),TimeUtils.dateTime2Millis(request.updatedAt()));
+		rawResult = result;
 	}
-
 }

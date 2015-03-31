@@ -13,6 +13,11 @@ public class ApproveFriendResult extends HasJSON {
 		this.friend_request = friend_request;
 	}
 	
+	public ApproveFriendResult(String request_id, String status,
+			List<MessageResult> messages, long created_at, long updated_at) {
+		this.friend_request = new FriendApproveResult(request_id,status,messages,created_at,updated_at);
+	}
+	
 	public static ApproveFriendResult dummy() {
 		return new ApproveFriendResult(FriendApproveResult.dummy());
 	}

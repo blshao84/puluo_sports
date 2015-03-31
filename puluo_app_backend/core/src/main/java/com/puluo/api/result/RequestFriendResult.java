@@ -13,6 +13,11 @@ public class RequestFriendResult extends HasJSON {
 		this.friend_request = friend_request;
 	}
 	
+	public RequestFriendResult(String request_id, String status,
+			List<MessageResult> messages, long created_at, long updated_at) {
+		this.friend_request = new FriendRequestResult(request_id,status,messages,created_at,updated_at);
+	}
+	
 	public static RequestFriendResult dummy() {
 		return new RequestFriendResult(FriendRequestResult.dummy());
 	}
