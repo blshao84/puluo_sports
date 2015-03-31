@@ -26,13 +26,13 @@ object DummyAPI extends RestHelper with PuluoAPIUtil {
         }
       }
     }
-    case "dummy" :: "users" :: "register" :: Nil Put _ => {
+    case "dummy" :: "users" :: "register" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(UserRegistrationResult.dummy().toJson(), 201)
     }
     case "dummy" :: "events" :: "payment" :: eventUUID :: Nil Post _ => { //FIXME: should be POST?
       PuluoResponseFactory.createDummyJSONResponse(EventRegistrationResult.dummy().toJson())
     }
-    case "dummy" :: "services" :: "sms" :: "register" :: Nil Put _ => {
+    case "dummy" :: "services" :: "sms" :: "register" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(SMSServiceResult.dummy().toJson(), 201)
     }
   }

@@ -34,7 +34,7 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
         "mobile" -> ErrorResponseResult(15).copy(message = "mobile"),
         "password" -> ErrorResponseResult(15).copy(message = "password")))(doLogin)
     }
-    case "users" :: "register" :: Nil Put _ => {
+    case "users" :: "register" :: Nil Post _ => {
       callWithParam(Map(
         "mobile" -> ErrorResponseResult(15).copy(message = "mobile"),
         "password" -> ErrorResponseResult(15).copy(message = "password"),

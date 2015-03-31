@@ -28,7 +28,7 @@ object PuluoGraphAPI extends RestHelper with PuluoAPIUtil with Loggable {
       PuluoResponseFactory.createJSONResponse(api)
     }
     
-    case "users" :: "friends" :: "request" :: Nil Put _ => {
+    case "users" :: "friends" :: "request" :: Nil Post _ => {
       callWithAuthParam(Map(
         "user_uuid" -> ErrorResponseResult(15).copy(message = "user_uuid")))(doRequestFriend)
     }

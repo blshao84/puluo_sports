@@ -22,7 +22,7 @@ import com.puluo.api.service.PuluoImageType
 
 object PuluoPrivateServiceAPI extends RestHelper with PuluoAPIUtil with SMSSender with Loggable {
   serve {
-    case "services" :: "email" :: Nil Put _ => {
+    case "services" :: "email" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(EmailServiceResult.dummy().toJson(), 201)
     }
     case "services" :: "images" :: "user" :: Nil Post req => {
@@ -43,7 +43,7 @@ object PuluoPrivateServiceAPI extends RestHelper with PuluoAPIUtil with SMSSende
       safeRun(api)
       PuluoResponseFactory.createJSONResponse(api, 201)
     }
-    case "services" :: "sms" :: Nil Put _ => callWithParam(Map(
+    case "services" :: "sms" :: Nil Post _ => callWithParam(Map(
       "sms_type" -> ErrorResponseResult(15).copy(message = "sms_type"),
       "mobile" -> ErrorResponseResult(15).copy(message = "mobile")))(doSendSMS)
 

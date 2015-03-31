@@ -21,10 +21,10 @@ object PuluoTimelineAPI extends RestHelper {
     case "users" :: "timeline" :: "delike" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(LikeTimelineResult.dummy().toJson())
     }
-    case "users" :: "timeline" :: "comment" :: Nil Put _ => {
+    case "users" :: "timeline" :: "comment" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(CommentTimelineResult.dummy().toJson())
     }
-    case "users" :: "timeline" :: "comment" :: "delete" :: Nil Put _ => {
+    case "users" :: "timeline" :: "comment" :: "delete" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(DeleteTimelineCommentResult.dummy().toJson())
     }
     

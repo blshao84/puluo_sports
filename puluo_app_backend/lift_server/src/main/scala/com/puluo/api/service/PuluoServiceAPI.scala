@@ -15,7 +15,7 @@ import net.liftweb.common.Loggable
 
 object PuluoServiceAPI extends RestHelper with PuluoAPIUtil with SMSSender with Loggable {
   serve {
-    case "services" :: "sms" :: "register" :: Nil Put _ => callWithParam(Map(
+    case "services" :: "sms" :: "register" :: Nil Post _ => callWithParam(Map(
       "mobile" -> ErrorResponseResult(15).copy(message = "mobile")))(doSendRegisterSMS)
 
    

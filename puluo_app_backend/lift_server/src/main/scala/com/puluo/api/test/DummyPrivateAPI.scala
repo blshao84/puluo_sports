@@ -33,7 +33,7 @@ object DummyPrivateAPI extends RestHelper with PuluoAPIUtil {
     case "dummy" :: "users" :: "friends" :: mobileOrUUID :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(ListFriendsResult.dummy().toJson())
     }
-    case "dummy" :: "users" :: "friends" :: "request" :: Nil Put _ => {
+    case "dummy" :: "users" :: "friends" :: "request" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(RequestFriendResult.dummy().toJson())
     }
     case "dummy" :: "users" :: "friends" :: "delete" :: Nil Post _ => {
@@ -45,19 +45,19 @@ object DummyPrivateAPI extends RestHelper with PuluoAPIUtil {
     case "dummy" :: "users" :: "friends" :: "approve" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(ApproveFriendResult.dummy().toJson())
     }
-    case "dummy" :: "users" :: "message" :: "send" :: Nil Put _ => {
+    case "dummy" :: "users" :: "message" :: "send" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(SendMessageResult.dummy().toJson())
     }
     case "dummy" :: "users" :: "messages" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(ListMessageResult.dummy().toJson())
     }
-    case "dummy" :: "services" :: "email" :: Nil Put _ => {
+    case "dummy" :: "services" :: "email" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(EmailServiceResult.dummy().toJson(), 201)
     }
     case "dummy" :: "services" :: "images" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(ImageUploadServiceResult.dummy().toJson(), 201)
     }
-    case "dummy" :: "services" :: "sms" :: Nil Put _ => {
+    case "dummy" :: "services" :: "sms" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(SMSServiceResult.dummy().toJson(), 201)
     }
     case "dummy" :: "users" :: "timeline" :: Nil Post _ => {
@@ -69,10 +69,10 @@ object DummyPrivateAPI extends RestHelper with PuluoAPIUtil {
     case "dummy" :: "users" :: "timeline" :: "delike" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(LikeTimelineResult.dummy().toJson())
     }
-    case "dummy" :: "users" :: "timeline" :: "comment" :: Nil Put _ => {
+    case "dummy" :: "users" :: "timeline" :: "comment" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(CommentTimelineResult.dummy().toJson())
     }
-    case "dummy" :: "users" :: "timeline" :: "comment" :: "delete" :: Nil Put _ => {
+    case "dummy" :: "users" :: "timeline" :: "comment" :: "delete" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(DeleteTimelineCommentResult.dummy().toJson())
     }
     case "dummy" :: "users" :: "status" :: Nil Get _ => {
