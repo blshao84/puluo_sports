@@ -8,33 +8,18 @@ import com.puluo.api.util.PuluoSession
 import com.puluo.api.util.SessionInfo
 import org.joda.time.DateTime
 import com.puluo.api.result._
+import net.liftweb.http.S
+import com.puluo.session.PuluoSessionManager
 
-object DummyAPI extends RestHelper with PuluoAPIUtil {
+object DummyPrivateAPI extends RestHelper with PuluoAPIUtil {
   serve {
-    case "dummy" :: "users" :: "login" :: Nil Post _ => {
-      val paramMap = PuluoResponseFactory.createParamMap(Seq("mobile", "password"))
-      logger.info("\n" + paramMap.mkString("\n"))
-      paramMap.get("password") match {
-        case Some("invalid") => PuluoResponseFactory.createDummyJSONResponse(ApiErrorResult.getError(4).toJson(), 201)
-        case _ => {
-          PuluoSession(SessionInfo("",
-            Some(new com.puluo.entity.impl.PuluoSessionImpl("", "", DateTime.now, DateTime.now))))
-          PuluoResponseFactory.createDummyJSONResponse(UserLoginResult.dummy().toJson(), 201)
-        }
-      }
-    }
-    case "dummy" :: "users" :: "register" :: Nil Put _ => {
-      PuluoResponseFactory.createDummyJSONResponse(UserRegistrationResult.dummy().toJson(), 201)
-    }
     case "dummy" :: "users" :: "logout" :: Nil Post _ => {
-      PuluoSession(SessionInfo("", None))
+      val token = PuluoResponseFactory.createParamMap(Seq("token")).values.head
+      PuluoSessionManager.logout(token)
       PuluoResponseFactory.createDummyJSONResponse(UserLogoutResult.dummy().toJson())
     }
     case "dummy" :: "users" :: "credential" :: "update" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(UserPasswordUpdateResult.dummy().toJson())
-    }
-    case "dummy" :: "events" :: "payment" :: eventUUID :: Nil Post _ => { //FIXME: should be POST?
-      PuluoResponseFactory.createDummyJSONResponse(EventRegistrationResult.dummy().toJson())
     }
     case "dummy" :: "events" :: "detail" :: eventUUID :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(EventDetailResult.dummy().toJson())
@@ -73,9 +58,6 @@ object DummyAPI extends RestHelper with PuluoAPIUtil {
       PuluoResponseFactory.createDummyJSONResponse(ImageUploadServiceResult.dummy().toJson(), 201)
     }
     case "dummy" :: "services" :: "sms" :: Nil Put _ => {
-      PuluoResponseFactory.createDummyJSONResponse(SMSServiceResult.dummy().toJson(), 201)
-    }
-    case "dummy" :: "services" :: "sms" :: "register" :: Nil Put _ => {
       PuluoResponseFactory.createDummyJSONResponse(SMSServiceResult.dummy().toJson(), 201)
     }
     case "dummy" :: "users" :: "timeline" :: Nil Post _ => {
