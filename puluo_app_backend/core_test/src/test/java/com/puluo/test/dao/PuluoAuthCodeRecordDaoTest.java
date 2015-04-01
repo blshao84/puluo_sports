@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.puluo.dao.PuluoAuthCodeRecordDao;
 import com.puluo.dao.impl.DaoTestApi;
+import com.puluo.dao.impl.PuluoAuthCodeRecordDaoImpl;
 import com.puluo.entity.PuluoAuthCodeRecord;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.util.Log;
@@ -33,7 +34,18 @@ public class PuluoAuthCodeRecordDaoTest {
 		log.info("dropped table " + dao.getFullTableName());
 		log.info("cleanUpDB done!");
 	}
-
+	
+	@Test
+	public void testDeleteByKey(){
+		PuluoAuthCodeRecordDaoImpl dao = (PuluoAuthCodeRecordDaoImpl)DaoTestApi.authCodeRecordDevDao;
+		dao.upsertRegistrationAuthCode("18646655333", "123456");
+		PuluoAuthCodeRecord record = dao.getRegistrationAuthCodeFromMobile("18646655333");
+		Assert.assertEquals("auth record should have auth code 123456","123456", record.authCode());
+		dao.deleteByMobile("18646655333");
+		record =  dao.getRegistrationAuthCodeFromMobile("18646655333");
+		Assert.assertNull("18646655333 record is deleted", record);
+	}
+	
 	@Test
 	public void testGetRegistrationAuthCodeFromMobile() {
 		log.info("testGetRegistrationAuthCodeFromMobile start!");

@@ -43,6 +43,10 @@ public class PuluoEventMemoryDaoImpl extends DalTemplate implements PuluoEventMe
 		}
 		return true;
 	}
+	
+	public boolean deleteByMemoryUUID(String uuid){
+		return super.deleteByUniqueKey("memory_uuid", uuid);
+	}
 
 	@Override
 	public boolean upsertEventMemory(PuluoEventMemory memory) {

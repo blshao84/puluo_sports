@@ -41,6 +41,10 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 		}
 		return true;
 	}
+	
+	public boolean deleteBySessionId(String sessionID){
+		return super.deleteByUniqueKey("session_id", sessionID);
+	}
 
 	@Override
 	public boolean save(String userID, String sessionID) {

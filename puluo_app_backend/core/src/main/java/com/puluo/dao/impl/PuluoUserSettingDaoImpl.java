@@ -41,7 +41,10 @@ public class PuluoUserSettingDaoImpl extends DalTemplate implements PuluoUserSet
 		}
 		return true;
 	}
-
+	
+	public boolean deleteByUserUUID(String uuid){
+		return super.deleteByUniqueKey("user_uuid", uuid);
+	}
 	@Override
 	public boolean saveNewSetting(String user_uuid) {
 		try {

@@ -38,12 +38,16 @@ public class PuluoAuthCodeRecordDaoImpl extends DalTemplate implements
 			getWriter().execute(createSQL);
 			// TODO create index
 		} catch (Exception e) {
-			log.debug(e.getMessage());
+			log.error(e.getMessage());
 			return false;
 		}
 		return true;
 	}
-
+	
+	public boolean deleteByMobile(String mobile) {
+		return super.deleteByUniqueKey("user_mobile", mobile);
+	}
+	
 	@Override
 	public boolean upsertRegistrationAuthCode(String mobile, String authCode) {
 		try {

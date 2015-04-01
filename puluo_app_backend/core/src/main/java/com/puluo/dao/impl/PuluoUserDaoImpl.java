@@ -53,6 +53,10 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 		}
 		return true;
 	}
+	
+	public boolean deleteByUserUUID(String uuid){
+		return super.deleteByUniqueKey("user_uuid", uuid);
+	}
 
 	@Override
 	public boolean save(String mobile, String password) {

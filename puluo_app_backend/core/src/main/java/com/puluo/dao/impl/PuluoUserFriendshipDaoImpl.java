@@ -2,7 +2,6 @@ package com.puluo.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.jdbc.core.RowMapper;
 import com.puluo.dao.PuluoUserFriendshipDao;
@@ -39,6 +38,10 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 		}
 		return true;
 	}
+	
+	public boolean deleteByUserUUID(String uuid){
+		return super.deleteByUniqueKey("user_uuid", uuid);
+	}
 
 	@Override
 	public List<PuluoUserFriendship> getFriendListByUUID(String userUUID) {
@@ -58,7 +61,7 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 						return puluoUserFriendship;
 					}
 				});
-		return (ArrayList<PuluoUserFriendship>) entities;
+		return entities;
 	}
 
 	@Override

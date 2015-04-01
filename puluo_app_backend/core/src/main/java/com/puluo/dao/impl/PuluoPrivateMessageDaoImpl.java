@@ -45,6 +45,10 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			return false;
 		}
 	}
+	
+	public boolean deleteByMsgUUID(String uuid){
+		return super.deleteByUniqueKey("message_uuid", uuid);
+	}
 
 	@Override
 	public List<PuluoPrivateMessage> getFriendRequestMessage(String fromUserUUID, String toUserUUID) {

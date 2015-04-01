@@ -49,6 +49,10 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 		}
 		return true;
 	}
+	
+	public boolean deleteByEventUUID(String uuid){
+		return super.deleteByUniqueKey("event_uuid", uuid);
+	}
 
 	@Override
 	public PuluoEvent getEventByUUID(String idevent) {

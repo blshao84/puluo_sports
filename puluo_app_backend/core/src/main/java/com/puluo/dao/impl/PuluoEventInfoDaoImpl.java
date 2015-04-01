@@ -47,6 +47,10 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 		}
 		return true;
 	}
+	
+	public boolean deleteByEventInfoUUID(String uuid){
+		return super.deleteByUniqueKey("event_info_uuid", uuid);
+	}
 
 	@Override
 	public PuluoEventInfo getEventInfoByUUID(String uuid) {

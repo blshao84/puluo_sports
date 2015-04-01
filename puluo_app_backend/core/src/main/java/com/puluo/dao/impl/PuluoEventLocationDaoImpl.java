@@ -47,6 +47,10 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements PuluoEvent
 		}
 		return true;
 	}
+	
+	public boolean deleteByLocationUUID(String uuid){
+		return super.deleteByUniqueKey("location_uuid", uuid);
+	}
 
 	@Override
 	public boolean upsertEventLocation(PuluoEventLocation location) {

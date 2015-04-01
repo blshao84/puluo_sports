@@ -40,6 +40,10 @@ public class PuluoWechatBindingDaoImpl extends DalTemplate implements
 		}
 		return true;
 	}
+	
+	public boolean deleteByUserMobile(String mobile){
+		return super.deleteByUniqueKey("user_mobile", mobile);
+	}
 
 	@Override
 	public PuluoWechatBinding findByOpenId(String openId) {
