@@ -10,7 +10,9 @@ import com.puluo.util.Strs;
 
 public abstract class APIFunctionalTest {
 	protected String host = "http://localhost:8080/";
-	protected JsonNode callAPI(String url, String inputJsonStr) throws UnirestException {
+
+	protected JsonNode callAPI(String url, String inputJsonStr)
+			throws UnirestException {
 		JsonNode input = new JsonNode(inputJsonStr);
 		String fullURL = Strs.join(host, url);
 		HttpResponse<JsonNode> jsonResponse2 = Unirest.post(fullURL)
@@ -18,15 +20,20 @@ public abstract class APIFunctionalTest {
 				.asJson();
 		return jsonResponse2.getBody();
 	}
-	protected String getSessionID(JsonNode result) {
+
+	protected String getStringFromJson(JsonNode result, String key) {
 		JSONObject jo = result.getObject();
 		if (jo != null) {
-			String value = jo.getString("token");
+			String value = jo.getString(key);
 			if (value == null)
 				return "";
 			else
 				return value;
 		} else
 			return "";
+	}
+
+	protected String getSessionID(JsonNode result) {
+		return getStringFromJson(result, "token");
 	}
 }
