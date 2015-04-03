@@ -51,7 +51,9 @@ object PuluoAuthPrivateAPI extends RestHelper with PuluoAPIUtil with Loggable {
   private def doUpdatePassword(params: Map[String, String]) = {
     val newPassword = params("new_password")
     val password = params("password")
-    val uuid = PuluoSession.userUUID
+    val token = params("token")
+    val session = PuluoSessionManager.getSession(token)
+    val uuid = session.userUUID()
     val api = new UserPasswordUpdateAPI(uuid, password, newPassword)
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)
