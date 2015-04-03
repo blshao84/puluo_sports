@@ -15,12 +15,12 @@ object PuluoResponseFactory extends Loggable{
 
   implicit val formats = DefaultFormats
   
-  def createParamMap(keys:Seq[String]) = {
+  def createParamMap(keys:Seq[String]):Map[String,String] = {
     createParamMapFromJson(keys) ++ createParamMapFromS(keys)
   }
 
-  def createErrorResponse(response: ErrorResponseResult): LiftResponse = {
-    val jvalue = Serialization.write(response)
+  def createErrorResponse(error: ApiErrorResult): LiftResponse = {
+    val jvalue = parse(error.toJson())
     JsonResponse(jvalue, requestHeader, JsonResponse.cookies, 200)
   }
 
@@ -39,25 +39,26 @@ object PuluoResponseFactory extends Loggable{
     jvalue ++ JField("token",JString(session))
   }
   
-  private def renderJson(jv:JValue) = {
+  private def renderJson(jv:JValue):Option[String] = {
     jv match {
-      case JNothing => ""
+      case JNothing => None
       case _ =>{
         val raw = Printer.pretty(JsonAST.render((jv)))
         logger.info("parsed json param "+raw)
-        if(raw.size>=2){
+        val value = if(raw.size>=2){
           if((raw.head=='"') && (raw.last == '"')){
             raw.drop(1).dropRight(1)
           } else raw
         } else raw
+        Some(value)
       }
     }
   }
   private def createParamMapFromJson(keys:Seq[String]) = {
    val params = S.request.get.json.map { json =>
-     keys.map(k=> {
+     keys.flatMap(k=> {
        val jvalue = renderJson(json\k)
-       (k,jvalue)
+       if(jvalue.isDefined) Some(k,jvalue.get) else None
      }).toMap
    }.getOrElse(Map.empty[String,String])
    logger.info("从req.json获得的参数:\n"+params.mkString("\n"))
@@ -86,6 +87,9 @@ object PuluoResponseFactory extends Loggable{
 }
 
 object ErrorResponseResult{
+  implicit def errorResponseResultToJavaErrorResult(e:ErrorResponseResult):ApiErrorResult = {
+    ApiErrorResult.getError(e.id)
+  }
   def apply(id:Integer):ErrorResponseResult = {
     val e = ApiErrorResult.getError(id)
     ErrorResponseResult(e.id,e.error_type,e.message,e.url)

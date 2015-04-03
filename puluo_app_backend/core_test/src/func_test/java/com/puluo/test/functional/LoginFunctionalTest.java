@@ -85,8 +85,8 @@ public class LoginFunctionalTest extends APIFunctionalTest {
 			String error = super.getStringFromJson(json2, "id");
 			log.info("fail to login, error code =" + error);
 			Assert.assertEquals(
-					"unsuccessful login due to incorrect password should give error id ",
-					"11", error);
+					"error id should be 15",
+					"15", error);
 
 		} catch (UnirestException e) {
 			e.printStackTrace();
@@ -121,9 +121,8 @@ public class LoginFunctionalTest extends APIFunctionalTest {
 			String error = super.getStringFromJson(json2, "id");
 			log.info("fail to login, error code =" + error);
 			Assert.assertEquals(
-					"unsuccessful login due to non-existing mobile should give error id ",
-					"4", error);
-
+					"error id should be 15 ",
+					"15", error);
 
 		} catch (UnirestException e) {
 			e.printStackTrace();
