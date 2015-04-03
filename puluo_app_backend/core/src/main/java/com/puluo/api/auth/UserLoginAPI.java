@@ -56,7 +56,7 @@ public class UserLoginAPI extends PuluoAPI<PuluoDSI, UserLoginResult> {
 				if (success && success0) {
 					this.session = dsi.sessionDao().getByMobile(mobile);
 					long createdAt = DateTime.now().getMillis();
-					this.rawResult = new UserLoginResult(mobile, createdAt,
+					this.rawResult = new UserLoginResult(user.userUUID(), createdAt,
 							createdAt);
 					return;
 				} else {
