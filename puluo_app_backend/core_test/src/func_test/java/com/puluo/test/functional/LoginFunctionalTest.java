@@ -8,6 +8,7 @@ import org.junit.Test;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.dao.impl.PuluoSessionDaoImpl;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
 import com.puluo.entity.PuluoUser;
 import com.puluo.test.functional.util.APIFunctionalTest;
@@ -28,15 +29,20 @@ public class LoginFunctionalTest extends APIFunctionalTest {
 
 	@AfterClass
 	public static void cleanupDB() {
-		PuluoUserDaoImpl dao = (PuluoUserDaoImpl)DaoApi.getInstance().userDao();
+		PuluoUserDaoImpl dao = (PuluoUserDaoImpl) DaoApi.getInstance()
+				.userDao();
+		PuluoSessionDaoImpl sessionDao = (PuluoSessionDaoImpl) DaoApi.getInstance().sessionDao();
 		PuluoUser user = dao.getByMobile(mobile1);
-		dao.deleteByUserUUID(user.userUUID());
+		if (user != null) {
+			dao.deleteByUserUUID(user.userUUID());
+			sessionDao.obliterateAllSessions(user.mobile());
+		}
 	}
 
 	@Test
 	public void testCorrectPassword() {
 		String inputs = String.format(
-				"{\"password\":\"%s\",\"mobile\":\"%s\"}",password1,mobile1);
+				"{\"password\":\"%s\",\"mobile\":\"%s\"}", password1, mobile1);
 		try {
 			JsonNode json2 = callAPI("users/login", inputs);
 			String session = getSessionID(json2);
@@ -49,23 +55,80 @@ public class LoginFunctionalTest extends APIFunctionalTest {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testIncorrectPassword() {
-		String inputs = String.format(
-				"{\"password\":\"%s\",\"mobile\":\"%s\"}","xzysjdfsd",mobile1);
+		String inputs = String
+				.format("{\"password\":\"%s\",\"mobile\":\"%s\"}", "xzysjdfsd",
+						mobile1);
 		try {
 			JsonNode json2 = callAPI("users/login", inputs);
-			System.out.println(json2);
-			/*String error = super.getStringFromJson(json2, "id");
+			String error = super.getStringFromJson(json2, "id");
 			log.info("fail to login, error code =" + error);
 			Assert.assertEquals(
-					"unsuccessful login due to incorrect password should give error id ","1",error);*/
+					"unsuccessful login due to incorrect password should give error id ",
+					"11", error);
+
 		} catch (UnirestException e) {
 			e.printStackTrace();
 			Assert.assertTrue(false);
 		}
 	}
+	
+	@Test
+	public void testMissingPassword() {
+		String inputs = String
+				.format("{\"mobile\":\"%s\"}",
+						mobile1);
+		try {
+			JsonNode json2 = callAPI("users/login", inputs);
+			String error = super.getStringFromJson(json2, "id");
+			log.info("fail to login, error code =" + error);
+			Assert.assertEquals(
+					"unsuccessful login due to incorrect password should give error id ",
+					"11", error);
 
+		} catch (UnirestException e) {
+			e.printStackTrace();
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testNonExistingMobile(){
+		String inputs = String
+				.format("{\"password\":\"%s\",\"mobile\":\"%s\"}", "xzysjdfsd","123456");
+		try {
+			JsonNode json2 = callAPI("users/login", inputs);
+			String error = super.getStringFromJson(json2, "id");
+			log.info("fail to login, error code =" + error);
+			Assert.assertEquals(
+					"unsuccessful login due to non-existing mobile should give error id ",
+					"4", error);
+
+		} catch (UnirestException e) {
+			e.printStackTrace();
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testMissingMobile(){
+		String inputs = String
+				.format("{\"password\":\"%s\"}", "xzysjdfsd");
+		try {
+			JsonNode json2 = callAPI("users/login", inputs);
+			String error = super.getStringFromJson(json2, "id");
+			log.info("fail to login, error code =" + error);
+			Assert.assertEquals(
+					"unsuccessful login due to non-existing mobile should give error id ",
+					"4", error);
+
+
+		} catch (UnirestException e) {
+			e.printStackTrace();
+			Assert.assertTrue(false);
+		}
+	}
 
 }

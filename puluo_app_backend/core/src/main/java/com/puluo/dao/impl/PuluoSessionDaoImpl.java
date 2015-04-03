@@ -25,13 +25,12 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 	public boolean createTable() {
 		try {
 			String createSQL = new StringBuilder().append("create table ")
-				.append(super.getFullTableName())
-				.append(" (id serial primary key, ")
-				.append("user_mobile text not null, ")
-				.append("session_id text not null, ")
-				.append("created_at timestamp not null, ")
-				.append("deleted_at timestamp)")
-				.toString();
+					.append(super.getFullTableName())
+					.append(" (id serial primary key, ")
+					.append("user_mobile text not null, ")
+					.append("session_id text not null, ")
+					.append("created_at timestamp not null, ")
+					.append("deleted_at timestamp)").toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
 			// TODO create index
@@ -41,19 +40,20 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 		}
 		return true;
 	}
-	
-	public boolean deleteBySessionId(String sessionID){
+
+	public boolean deleteBySessionId(String sessionID) {
 		return super.deleteByUniqueKey("session_id", sessionID);
 	}
 
 	@Override
 	public boolean save(String userID, String sessionID) {
 		try {
-			String insertSQL = new StringBuilder().append("insert into ")
+			String insertSQL = new StringBuilder()
+					.append("insert into ")
 					.append(super.getFullTableName())
 					.append(" (user_mobile, session_id, created_at)")
-					.append(" values ('" + userID + "', '" + sessionID + "', now()::timestamp)")
-					.toString();
+					.append(" values ('" + userID + "', '" + sessionID
+							+ "', now()::timestamp)").toString();
 			log.info(insertSQL);
 			getWriter().update(insertSQL);
 		} catch (Exception e) {
@@ -67,19 +67,21 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 	public PuluoSession getBySessionID(String sessionID) {
 		SqlReader reader = getReader();
 		String selectSQL = new StringBuilder().append("select * from ")
-				.append(super.getFullTableName()).append(" where session_id = ?")
-				.toString();
-		List<PuluoSession> entities = reader.query(selectSQL, new Object[] {sessionID},
-				new RowMapper<PuluoSession>() {
+				.append(super.getFullTableName())
+				.append(" where session_id = ?").toString();
+		List<PuluoSession> entities = reader.query(selectSQL,
+				new Object[] { sessionID }, new RowMapper<PuluoSession>() {
 					@Override
 					public PuluoSession mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-						DateTime created_at = TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at")));
-						DateTime deleted_at = rs.getTimestamp("deleted_at")!=null ? TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("deleted_at"))) : null;
-						PuluoSessionImpl puluoSession = new PuluoSessionImpl(
-								rs.getString("user_mobile"),
-								rs.getString("session_id"),
-								created_at,
+						DateTime created_at = TimeUtils.parseDateTime(TimeUtils
+								.formatDate(rs.getTimestamp("created_at")));
+						DateTime deleted_at = rs.getTimestamp("deleted_at") != null ? TimeUtils
+								.parseDateTime(TimeUtils.formatDate(rs
+										.getTimestamp("deleted_at"))) : null;
+						PuluoSessionImpl puluoSession = new PuluoSessionImpl(rs
+								.getString("user_mobile"), rs
+								.getString("session_id"), created_at,
 								deleted_at);
 						return puluoSession;
 					}
@@ -113,19 +115,22 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 	public PuluoSession getByMobile(String mobile) {
 		SqlReader reader = getReader();
 		String selectSQL = new StringBuilder().append("select * from ")
-				.append(super.getFullTableName()).append(" where user_mobile = ? and deleted_at is null")
+				.append(super.getFullTableName())
+				.append(" where user_mobile = ? and deleted_at is null")
 				.toString();
-		List<PuluoSession> entities = reader.query(selectSQL, new Object[] {mobile},
-				new RowMapper<PuluoSession>() {
+		List<PuluoSession> entities = reader.query(selectSQL,
+				new Object[] { mobile }, new RowMapper<PuluoSession>() {
 					@Override
 					public PuluoSession mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-						DateTime created_at = TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at")));
-						DateTime deleted_at = rs.getTimestamp("deleted_at")!=null ? TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("deleted_at"))) : null;
-						PuluoSessionImpl puluoSession = new PuluoSessionImpl(
-								rs.getString("user_mobile"),
-								rs.getString("session_id"),
-								created_at,
+						DateTime created_at = TimeUtils.parseDateTime(TimeUtils
+								.formatDate(rs.getTimestamp("created_at")));
+						DateTime deleted_at = rs.getTimestamp("deleted_at") != null ? TimeUtils
+								.parseDateTime(TimeUtils.formatDate(rs
+										.getTimestamp("deleted_at"))) : null;
+						PuluoSessionImpl puluoSession = new PuluoSessionImpl(rs
+								.getString("user_mobile"), rs
+								.getString("session_id"), created_at,
 								deleted_at);
 						return puluoSession;
 					}
@@ -136,5 +141,35 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 			throw new PuluoDatabaseException("通过user mobile查到多个session！");
 		else
 			return null;
+	}
+
+	@Override
+	public boolean deleteAllSessions(String mobile) {
+		try {
+			String updateSQL = new StringBuilder().append("update ")
+					.append(super.getFullTableName())
+					.append(" set deleted_at = now()::timestamp")
+					.append(" where user_mobile = '" + mobile + "'").toString();
+			log.info(updateSQL);
+			getWriter().update(updateSQL);
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean obliterateAllSessions(String mobile) {
+		try {
+			String updateSQL = new StringBuilder().append("delete from ")
+					.append(super.getFullTableName())
+					.append(" where user_mobile = '" + mobile + "'").toString();
+			log.info(updateSQL);
+			getWriter().update(updateSQL);
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			return false;
+		}
+		return true;
 	}
 }

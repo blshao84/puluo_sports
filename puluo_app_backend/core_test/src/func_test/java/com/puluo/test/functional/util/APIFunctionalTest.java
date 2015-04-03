@@ -24,11 +24,11 @@ public abstract class APIFunctionalTest {
 	protected String getStringFromJson(JsonNode result, String key) {
 		JSONObject jo = result.getObject();
 		if (jo != null) {
-			String value = jo.getString(key);
+			Object value = jo.get(key);
 			if (value == null)
 				return "";
 			else
-				return value;
+				return value.toString();
 		} else
 			return "";
 	}
