@@ -20,6 +20,14 @@ public abstract class APIFunctionalTest {
 				.asJson();
 		return jsonResponse2.getBody();
 	}
+	
+	protected HttpResponse<String> callAPIWithRejectedResponse(String url, String inputJsonStr)
+			throws UnirestException {
+		JsonNode input = new JsonNode(inputJsonStr);
+		String fullURL = Strs.join(host, url);
+		return Unirest.post(fullURL)
+				.header("Content-Type", "application/json").body(input).asString();
+	}
 
 	protected String getStringFromJson(JsonNode result, String key) {
 		JSONObject jo = result.getObject();

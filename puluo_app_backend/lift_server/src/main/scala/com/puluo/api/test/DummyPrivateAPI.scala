@@ -79,7 +79,7 @@ object DummyPrivateAPI extends RestHelper with PuluoAPIUtil {
       PuluoResponseFactory.createDummyJSONResponse("{\"login\":true}")
     }
 
-    case "dummy" :: "users" :: mobileOrUUID :: Nil Post _ => {
+    case "dummy" :: "users" :: "profile" :: mobileOrUUID :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(UserProfileResult.dummy().toJson())
     }
     case "dummy" :: "users" :: "update" :: Nil Post _ => {

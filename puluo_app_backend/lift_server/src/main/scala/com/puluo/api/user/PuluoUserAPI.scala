@@ -22,7 +22,7 @@ object PuluoUserAPI extends RestHelper with PuluoAPIUtil with Loggable {
     case "users" :: "status" :: Nil Get _ => {
       PuluoResponseFactory.createDummyJSONResponse("{\"login\":true}")
     }
-    case "users" :: mobileOrUUID :: Nil Post _ => {
+    case "users" :: "profile":: mobileOrUUID :: Nil Post _ => {
       val api = new UserProfileAPI(mobileOrUUID)
       safeRun(api)
       PuluoResponseFactory.createJSONResponse(api)
