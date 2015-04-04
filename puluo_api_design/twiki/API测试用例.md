@@ -16,8 +16,8 @@
     3.  /users/logout
       * token正确
       * token错误
-    4.  /users/credential/update
-      * mobile不存在
+    4.  /users/credential/update (Done!)
+      * mobile不存在 (这里不能测试吧？mobile不存在也就不能登录)
       * mobile存在但password不匹配
       * mobile存在，password匹配，但缺少new_password
       * mobile存在，password匹配，new_password正确更新
@@ -31,13 +31,13 @@
       * event_uuid不存在
     8.  /events/search
       * 
-    9.  /users/friends/mobile_or_uuid
+    9.  /users/friends/mobile_or_uuid (这个link目前没有完成吧？)
       * 一个存在的mobile，并且这个用户有若干好友
       * 一个存在的mobile，并且这个用户没有好友
       * 一个存在的uuid，并且这个用户有若干好友
       * 一个存在的uuid，并且这个用户没有好友
-      * 一个不存在的mobile
-      * 一个不存在的uuid
+      * 一个不存在的mobile (这里不能测试吧？mobile不存在也就不能登录)
+      * 一个不存在的uuid (这里不能测试吧？uuid不存在也就不能登录)
     10. /users/friends/request
       * token代表的用户向一个存在的user_uuid请求好友，并且user_uuid不是token用户的好友，而且token用户没有向user_uuid发送过好友请求
       * token代表的用户向一个存在的user_uuid请求好友，并且user_uuid已经是token用户的好友 
