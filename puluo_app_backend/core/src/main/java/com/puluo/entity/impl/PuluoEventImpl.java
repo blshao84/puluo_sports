@@ -6,36 +6,37 @@ import org.joda.time.DateTime;
 
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.entity.EventStatus;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventLocation;
 import com.puluo.entity.PuluoEventMemory;
 
-
 public class PuluoEventImpl implements PuluoEvent {
 	private final String uuid;
 	private final DateTime event_time;
-	private final String status; // TODO: should be strong typed
-	//private final String[] images;
-	//private final String[] memories;
+	private final EventStatus status; // TODO: should be strong typed
+	// private final String[] images;
+	// private final String[] memories;
 	private final int registeredUsers;
 	private final int capatcity;
 	private final Double price;
 	private final Double discountedPrice;
 	private final String info_uuid;
 	private final String location_uuid;
-	
+
 	private final PuluoDSI dsi;
 
-	public PuluoEventImpl(String uuid, DateTime event_time, String status, 
-			int registeredUsers, int capatcity, Double price, Double discountedPrice, 
-			String info_uuid, String location_uuid, PuluoDSI dsi) {
+	public PuluoEventImpl(String uuid, DateTime event_time, EventStatus status,
+			int registeredUsers, int capatcity, Double price,
+			Double discountedPrice, String info_uuid, String location_uuid,
+			PuluoDSI dsi) {
 
 		this.uuid = uuid;
 		this.event_time = event_time;
 		this.status = status;
-		//this.images = images;
-		//this.memories = memories;
+		// this.images = images;
+		// this.memories = memories;
 		this.registeredUsers = registeredUsers;
 		this.capatcity = capatcity;
 		this.price = price;
@@ -45,11 +46,12 @@ public class PuluoEventImpl implements PuluoEvent {
 		this.dsi = dsi;
 	}
 
-	public PuluoEventImpl(String uuid, DateTime event_time, String status, 
-			int registeredUsers, int capatcity, Double price, Double discountedPrice, 
-			String info_uuid, String location_uuid) {
+	public PuluoEventImpl(String uuid, DateTime event_time, EventStatus status,
+			int registeredUsers, int capatcity, Double price,
+			Double discountedPrice, String info_uuid, String location_uuid) {
 
-		this(uuid, event_time, status, registeredUsers, capatcity, price, discountedPrice, info_uuid, location_uuid, DaoApi.getInstance());
+		this(uuid, event_time, status, registeredUsers, capatcity, price,
+				discountedPrice, info_uuid, location_uuid, DaoApi.getInstance());
 	}
 
 	@Override
@@ -63,8 +65,8 @@ public class PuluoEventImpl implements PuluoEvent {
 	}
 
 	@Override
-	public String status() {
-		return status;
+	public String statusName() {
+		return status == null ? "" : status.name();
 	}
 
 	@Override
@@ -104,6 +106,6 @@ public class PuluoEventImpl implements PuluoEvent {
 
 	@Override
 	public List<PuluoEventMemory> memory() {
-		return dsi.eventMemoryDao().getEventMemoryByUUID(uuid);
+		return dsi.eventMemoryDao().getEventMemoryByEventUUID(uuid);
 	}
 }

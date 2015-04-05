@@ -69,25 +69,12 @@ public class PuluoEventMemoryDaoImpl extends DalTemplate implements PuluoEventMe
 	}
 
 	@Override
-	public List<PuluoEventMemory> getEventMemoryByUUID(String event_uuid) {
+	public List<PuluoEventMemory> getEventMemoryByEventUUID(String event_uuid) {
 		SqlReader reader = getReader();
 		StringBuilder selectSQL = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName()).append(" where event_uuid = ?");
 		List<PuluoEventMemory> entities = reader.query(selectSQL.toString(), new Object[]{event_uuid},
-				new RowMapper<PuluoEventMemory>() {
-					@Override
-					public PuluoEventMemory mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						PuluoEventMemoryImpl eventPoster = new PuluoEventMemoryImpl(
-								rs.getString("memory_uuid"),
-								rs.getString("image_url"),
-								rs.getString("thumbnail"),
-								rs.getString("event_uuid"),
-								rs.getString("user_uuid"),
-								rs.getString("timeline_uuid"));
-						return eventPoster;
-					}
-				});
+				new PuluoEventMemoryMapper());
 		return entities;
 	}
 
@@ -174,5 +161,35 @@ public class PuluoEventMemoryDaoImpl extends DalTemplate implements PuluoEventMe
 			log.info(e.getMessage());
 			return false;
 		}
+	}
+
+	@Override
+	public PuluoEventMemory getEventMemoryByUUID(String uuid) {
+		SqlReader reader = getReader();
+		StringBuilder selectSQL = new StringBuilder().append("select * from ")
+				.append(super.getFullTableName()).append(" where memory_uuid = ?");
+		List<PuluoEventMemory> entities = reader.query(selectSQL.toString(), new Object[]{uuid},
+				new PuluoEventMemoryMapper());
+		if (entities.size() == 1)
+			return entities.get(0);
+		else if (entities.size() > 1)
+			throw new PuluoDatabaseException("通过event uuid查到多个event！");
+		else
+			return null;
+	}
+}
+
+class PuluoEventMemoryMapper implements RowMapper<PuluoEventMemory> {
+	@Override
+	public PuluoEventMemory mapRow(ResultSet rs, int rowNum)
+			throws SQLException {
+		PuluoEventMemoryImpl eventPoster = new PuluoEventMemoryImpl(
+				rs.getString("memory_uuid"),
+				rs.getString("image_url"),
+				rs.getString("thumbnail"),
+				rs.getString("event_uuid"),
+				rs.getString("user_uuid"),
+				rs.getString("timeline_uuid"));
+		return eventPoster;
 	}
 }

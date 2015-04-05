@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.puluo.dao.PuluoEventDao;
+import com.puluo.entity.EventStatus;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.impl.PuluoEventImpl;
 import com.puluo.jdbc.DalTemplate;
@@ -65,10 +66,11 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 					@Override
 					public PuluoEvent mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
+						EventStatus es = EventStatus.valueOf(rs.getString("status"));
 						PuluoEventImpl event = new PuluoEventImpl(
 								rs.getString("event_uuid"),
 								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("event_time"))),
-								rs.getString("status"),
+								es,
 								rs.getInt("registered_users"),
 								rs.getInt("capatcity"),
 								rs.getDouble("price"),
@@ -121,10 +123,11 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 					@Override
 					public PuluoEvent mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
+						EventStatus es = EventStatus.valueOf(rs.getString("status"));
 						PuluoEventImpl event = new PuluoEventImpl(
 								rs.getString("event_uuid"),
 								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("event_time"))),
-								rs.getString("status"),
+								es,
 								rs.getInt("registered_users"),
 								rs.getInt("capatcity"),
 								rs.getDouble("price"),
@@ -174,7 +177,7 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 						.append(" (event_uuid, event_time, status, registered_users, capatcity, price, discounted_price, info_uuid, location_uuid)")
 						.append("values ('" + event.eventUUID() + "', ")
 						.append(Strs.isEmpty(TimeUtils.formatDate(event.eventTime())) ? "null" : "'" + TimeUtils.formatDate(event.eventTime()) + "'").append(", ")
-						.append(Strs.isEmpty(event.status()) ? "null" : "'" + event.status() + "'").append(", ")
+						.append(Strs.isEmpty(event.statusName()) ? "null" : "'" + event.statusName() + "'").append(", ")
 						.append(event.registeredUsers() + ", ")
 						.append(event.capatcity() + ", ")
 						.append(event.price() + ", ")
@@ -210,8 +213,8 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 				if (!Strs.isEmpty(TimeUtils.formatDate(event.eventTime()))) {
 					updateSQL.append(" event_time = '" + TimeUtils.formatDate(event.eventTime()) + "',");
 				}
-				if (!Strs.isEmpty(event.status())) {
-					updateSQL.append(" status = '" + event.status() + "',");
+				if (!Strs.isEmpty(event.statusName())) {
+					updateSQL.append(" status = '" + event.statusName() + "',");
 				}
 				updateSQL.append(" registered_users = " + event.registeredUsers() + ",")
 						.append(" capatcity = " + event.capatcity() + ",")

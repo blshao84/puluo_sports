@@ -61,7 +61,7 @@ public class PuluoEventMemoryDaoTest {
 				null, null, "event_uuid_0", "user_uuid_0", "timeline_uuid_0"));
 		DaoTestApi.eventMemoryDevDao.upsertEventMemory(new PuluoEventMemoryImpl("uuid_3",
 				"image_url_3", "thumbnail_3", "event_uuid_0", "user_uuid_0", "timeline_uuid_0"));
-		List<PuluoEventMemory> memories = memoryDao.getEventMemoryByUUID("event_uuid_0");
+		List<PuluoEventMemory> memories = memoryDao.getEventMemoryByEventUUID("event_uuid_0");
 		Assert.assertEquals("memories' size should be 3!", 3, memories.size());
 		log.info("testGetEventMemoryByUUID done!");
 	}

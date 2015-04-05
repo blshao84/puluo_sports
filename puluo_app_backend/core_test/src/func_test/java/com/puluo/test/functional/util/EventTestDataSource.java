@@ -1,0 +1,194 @@
+package com.puluo.test.functional.util;
+
+import org.joda.time.DateTime;
+
+import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.impl.DaoApi;
+import com.puluo.dao.impl.PuluoEventDaoImpl;
+import com.puluo.dao.impl.PuluoEventInfoDaoImpl;
+import com.puluo.dao.impl.PuluoEventLocationDaoImpl;
+import com.puluo.dao.impl.PuluoEventMemoryDaoImpl;
+import com.puluo.dao.impl.PuluoEventPosterDaoImpl;
+import com.puluo.dao.impl.PuluoUserDaoImpl;
+import com.puluo.entity.EventStatus;
+import com.puluo.entity.PuluoEvent;
+import com.puluo.entity.PuluoEventInfo;
+import com.puluo.entity.PuluoEventLocation;
+import com.puluo.entity.PuluoEventMemory;
+import com.puluo.entity.PuluoEventPoster;
+import com.puluo.entity.PuluoUser;
+import com.puluo.entity.impl.PuluoEventImpl;
+import com.puluo.entity.impl.PuluoEventInfoImpl;
+import com.puluo.entity.impl.PuluoEventLocationImpl;
+import com.puluo.entity.impl.PuluoEventMemoryImpl;
+import com.puluo.entity.impl.PuluoEventPosterImpl;
+import com.puluo.util.Log;
+import com.puluo.util.LogFactory;
+
+public class EventTestDataSource {
+	public static Log log = LogFactory.getLog(EventTestDataSource.class);
+	public String locID1 = "loc_1";
+	public String locID2 = "loc_2";
+	public String infoID1 = "event_info_1";
+	public String infoID2 = "event_info_2";
+	public String eventID1 = "event_1";
+	public String eventID2 = "event_2";
+	public String eventID3 = "event_3";
+	public String eventID4 = "event_4";
+	public String memID1 = "mem_1";
+	public String memID2 = "mem_2";
+	public String memID3 = "mem_3";
+	public String memID4 = "mem_4";
+	public String memID5 = "mem_5";
+	public String posterID1 = "poster_1";
+	public String posterID2 = "poster_2";
+	public String mobile = "1234567";
+	public String password = "abcdefg";
+
+	public void setupDB() {
+		cleanupDB();
+		PuluoDSI dsi = DaoApi.getInstance();
+		dsi.userDao().save(mobile, password);
+		PuluoUser user = dsi.userDao().getByMobile(mobile);
+
+		PuluoEventLocation location1 = new PuluoEventLocationImpl(locID1,
+				"北京市国贸大厦250号", "110110", "国贸大厦3-1-2", "123456789", "北京",
+				1234.567, 7654.321, 0, 15, 0);
+
+		PuluoEventLocation location2 = new PuluoEventLocationImpl(locID2,
+				"北京市尚都sohou 3-2-1", "110110", "普罗总部", "123456789", "北京",
+				1234.537, 7654.341, 0, 20, 0);
+
+		PuluoEventInfo eventInfo1 = new PuluoEventInfoImpl(infoID1, "臀部炸弹",
+				"瘦臀", "Jerry Ass", "123456", "", "详细信息", 60, 1, 0);
+
+		PuluoEventInfo eventInfo2 = new PuluoEventInfoImpl(infoID2, "减脂集中营",
+				"减脂", "Tom Fat", "7080234", "", "详细信息", 45, 2, 0);
+
+		PuluoEvent event1 = new PuluoEventImpl(eventID1, DateTime.now()
+				.plusWeeks(1), EventStatus.Open, 3, 15, 80.0, 50.0,
+				eventInfo1.eventInfoUUID(), location1.locationId());
+
+		PuluoEvent event2 = new PuluoEventImpl(eventID2, DateTime.now()
+				.plusWeeks(1), EventStatus.Open, 3, 15, 90.0, 90.0,
+				eventInfo1.eventInfoUUID(), location2.locationId());
+
+		PuluoEvent event3 = new PuluoEventImpl(eventID3, DateTime.now()
+				.plusWeeks(1), EventStatus.Open, 3, 15, 100.0, 50.0,
+				eventInfo2.eventInfoUUID(), location1.locationId());
+
+		PuluoEvent event4 = new PuluoEventImpl(eventID4, DateTime.now()
+				.plusWeeks(1), EventStatus.Closed, 3, 15, 150.0, 50.0,
+				eventInfo2.eventInfoUUID(), location2.locationId());
+
+		PuluoEventMemory mem1 = new PuluoEventMemoryImpl(memID1,
+				"http://upyun.com/puluo/123.jpg",
+				"http://upyun.com/puluo/123.jpg", eventID4, user.userUUID(),
+				null);
+		PuluoEventMemory mem2 = new PuluoEventMemoryImpl(memID2,
+				"http://upyun.com/puluo/456.jpg",
+				"http://upyun.com/puluo/456.jpg", eventID3, user.userUUID(),
+				null);
+		PuluoEventMemory mem3 = new PuluoEventMemoryImpl(memID3,
+				"http://upyun.com/puluo/789.jpg",
+				"http://upyun.com/puluo/789.jpg", eventID2, user.userUUID(),
+				null);
+		PuluoEventMemory mem4 = new PuluoEventMemoryImpl(memID4,
+				"http://upyun.com/puluo/1234.jpg",
+				"http://upyun.com/puluo/1234.jpg", eventID1, user.userUUID(),
+				null);
+		PuluoEventMemory mem5 = new PuluoEventMemoryImpl(memID5,
+				"http://upyun.com/puluo/5678.jpg",
+				"http://upyun.com/puluo/5678.jpg", eventID1, user.userUUID(),
+				null);
+
+		PuluoEventPoster poster1 = new PuluoEventPosterImpl(posterID1,
+				"http://upyun.com/puluo/xyz.jpg",
+				"http://upyun.com/puluo/xyz.jpg", infoID1);
+
+		PuluoEventPoster poster2 = new PuluoEventPosterImpl(posterID2,
+				"http://upyun.com/puluo/abc.jpg",
+				"http://upyun.com/puluo/abc.jpg", infoID2);
+
+		dsi.eventInfoDao().saveEventInfo(eventInfo1);
+		dsi.eventInfoDao().saveEventInfo(eventInfo2);
+		dsi.eventLocationDao().saveEventLocation(location1);
+		dsi.eventLocationDao().saveEventLocation(location2);
+		dsi.eventDao().saveEvent(event1);
+		dsi.eventDao().saveEvent(event2);
+		dsi.eventDao().saveEvent(event3);
+		dsi.eventDao().saveEvent(event4);
+		dsi.eventMemoryDao().saveEventMemory(mem1);
+		dsi.eventMemoryDao().saveEventMemory(mem2);
+		dsi.eventMemoryDao().saveEventMemory(mem3);
+		dsi.eventMemoryDao().saveEventMemory(mem4);
+		dsi.eventMemoryDao().saveEventMemory(mem5);
+		dsi.eventPosterDao().saveEventPhoto(poster1);
+		dsi.eventPosterDao().saveEventPhoto(poster2);
+		dump();
+
+	}
+
+	public void cleanupDB() {
+		PuluoDSI dsi = DaoApi.getInstance();
+		PuluoUserDaoImpl userDao = (PuluoUserDaoImpl) dsi.userDao();
+		PuluoEventInfoDaoImpl eventInfoDao = (PuluoEventInfoDaoImpl) dsi
+				.eventInfoDao();
+		PuluoEventLocationDaoImpl eventLocationDao = (PuluoEventLocationDaoImpl) dsi
+				.eventLocationDao();
+		PuluoEventMemoryDaoImpl eventMemoryDao = (PuluoEventMemoryDaoImpl) dsi
+				.eventMemoryDao();
+		PuluoEventPosterDaoImpl eventPosterDao = (PuluoEventPosterDaoImpl) dsi
+				.eventPosterDao();
+		PuluoEventDaoImpl eventDao = (PuluoEventDaoImpl) dsi.eventDao();
+
+		eventInfoDao.deleteByEventInfoUUID(infoID1);
+		eventInfoDao.deleteByEventInfoUUID(infoID2);
+		eventLocationDao.deleteByLocationUUID(locID1);
+		eventLocationDao.deleteByLocationUUID(locID2);
+		eventDao.deleteByEventUUID(eventID1);
+		eventDao.deleteByEventUUID(eventID2);
+		eventDao.deleteByEventUUID(eventID3);
+		eventDao.deleteByEventUUID(eventID4);
+		eventMemoryDao.deleteByMemoryUUID(memID1);
+		eventMemoryDao.deleteByMemoryUUID(memID2);
+		eventMemoryDao.deleteByMemoryUUID(memID3);
+		eventMemoryDao.deleteByMemoryUUID(memID4);
+		eventMemoryDao.deleteByMemoryUUID(memID5);
+		eventPosterDao.deleteByPosterUUID(posterID1);
+		eventPosterDao.deleteByPosterUUID(posterID2);
+		PuluoUser user = userDao.getByMobile(mobile);
+		if (user != null)
+			userDao.deleteByUserUUID(user.userUUID());
+	}
+
+	public void dump() {
+		PuluoDSI dsi = DaoApi.getInstance();
+		PuluoEventInfoDaoImpl eventInfoDao = (PuluoEventInfoDaoImpl) dsi
+				.eventInfoDao();
+		PuluoEventLocationDaoImpl eventLocationDao = (PuluoEventLocationDaoImpl) dsi
+				.eventLocationDao();
+		PuluoEventMemoryDaoImpl eventMemoryDao = (PuluoEventMemoryDaoImpl) dsi
+				.eventMemoryDao();
+		PuluoEventPosterDaoImpl eventPosterDao = (PuluoEventPosterDaoImpl) dsi
+				.eventPosterDao();
+		PuluoEventDaoImpl eventDao = (PuluoEventDaoImpl) dsi.eventDao();
+		log.info(dsi.userDao().getByMobile(mobile));
+		log.info(eventInfoDao.getEventInfoByUUID(infoID1));
+		log.info(eventInfoDao.getEventInfoByUUID(infoID2));
+		log.info(eventLocationDao.getEventLocationByUUID(locID1));
+		log.info(eventLocationDao.getEventLocationByUUID(locID2));
+		log.info(eventDao.getEventByUUID(eventID1));
+		log.info(eventDao.getEventByUUID(eventID2));
+		log.info(eventDao.getEventByUUID(eventID3));
+		log.info(eventDao.getEventByUUID(eventID4));
+		log.info(eventMemoryDao.getEventMemoryByUUID(memID1));
+		log.info(eventMemoryDao.getEventMemoryByUUID(memID2));
+		log.info(eventMemoryDao.getEventMemoryByUUID(memID3));
+		log.info(eventMemoryDao.getEventMemoryByUUID(memID4));
+		log.info(eventMemoryDao.getEventMemoryByUUID(memID5));
+		log.info(eventPosterDao.getEventPosterByUUID(posterID1));
+		log.info(eventPosterDao.getEventPosterByUUID(posterID2));
+	}
+
+}

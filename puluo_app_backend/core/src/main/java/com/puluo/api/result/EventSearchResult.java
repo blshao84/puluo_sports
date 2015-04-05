@@ -31,7 +31,7 @@ public class EventSearchResult extends HasJSON {
 				thumbnails.add(event_impl.eventInfo().poster().get(j).thumbnail());
 				images.add(event_impl.eventInfo().poster().get(j).imageURL());
 			}
-			details.add(new EventSearchResultDetail(event_impl.status(),event_impl.eventInfo().name(),
+			details.add(new EventSearchResultDetail(event_impl.statusName(),event_impl.eventInfo().name(),
 				TimeUtils.dateTime2Millis(event_impl.eventTime()),event_impl.eventLocation().address(),
 				event_impl.eventLocation().city(),event_impl.eventLocation().phone(),
 				event_impl.eventInfo().coachName(),event_impl.eventInfo().coachUUID(),

@@ -111,6 +111,6 @@ public class PuluoEventInfoImpl implements PuluoEventInfo {
 		} else {
 			puluoEventPosterDao = DaoApi.getInstance().eventPosterDao();
 		}
-		return puluoEventPosterDao.getEventPoster(uuid);
+		return puluoEventPosterDao.getEventPosterByInfoUUID(uuid);
 	}
 }

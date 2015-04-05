@@ -8,7 +8,7 @@ public interface PuluoEvent {
 
 	String eventUUID();
 	DateTime eventTime();
-	String status();
+	String statusName();
 	int registeredUsers();
 	int capatcity();
 	Double price();
