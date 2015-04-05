@@ -19,7 +19,7 @@ import com.puluo.session.PuluoSessionManager
 
 object PuluoUserAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
-    case "users" :: "status" :: Nil Get _ => {
+    case "users" :: "status" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse("{\"login\":true}")
     }
     case "users" :: "profile":: mobileOrUUID :: Nil Post _ => {
