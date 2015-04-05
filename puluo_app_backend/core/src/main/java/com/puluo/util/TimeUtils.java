@@ -108,12 +108,11 @@ public class TimeUtils {
 		String format;
 		try {
 			format = f.format(dt.toDate());
+			return format;
 		} catch (Exception e) {
 			e.printStackTrace();
-			Date defDay = Calendar.getInstance().getTime();
-			format = f.format(defDay);
+			return "";
 		}
-		return format;
 	}
 
 	public static long dateTime2Millis(DateTime dt) {
