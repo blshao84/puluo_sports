@@ -15,4 +15,6 @@ public interface PuluoSession {
 	public DateTime deletedAt();
 
 	public boolean isDeleted();
+	
+	public DateTime now();
 }

@@ -60,4 +60,13 @@ public class PuluoSessionImpl implements PuluoSession {
 		return dsi.userDao().getByMobile(user_mobile).userUUID();
 	}
 
+	@Override
+	public DateTime now() {
+		return now(DaoApi.getInstance());
+	}
+
+	public DateTime now(PuluoDSI dsi) {
+		return dsi.sessionDao().now();
+	}
+
 }

@@ -1,6 +1,5 @@
 package com.puluo.api.auth;
 
-import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
 import com.puluo.api.PuluoAPI;
@@ -38,7 +37,7 @@ public class UserLogoutAPI extends PuluoAPI<PuluoDSI, UserLogoutResult> {
 			PuluoSessionDao sessionDao = dsi.sessionDao();
 			String sessionId = session.sessionID();
 			long durationSeconds = new Interval(session.createdAt(),
-					DateTime.now()).toDuration().toDuration()
+					session.now()).toDuration().toDuration()
 					.getStandardSeconds();
 			boolean success = sessionDao.deleteSession(session.sessionID());
 			if (success) {

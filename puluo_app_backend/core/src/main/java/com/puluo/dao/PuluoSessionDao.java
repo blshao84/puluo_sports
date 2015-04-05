@@ -1,5 +1,7 @@
 package com.puluo.dao;
 
+import org.joda.time.DateTime;
+
 import com.puluo.entity.PuluoSession;
 
 public interface PuluoSessionDao {
@@ -15,4 +17,6 @@ public interface PuluoSessionDao {
 	public boolean deleteAllSessions(String mobile);
 
 	public PuluoSession getByMobile(String mobile);
+	
+	public DateTime now();
 }

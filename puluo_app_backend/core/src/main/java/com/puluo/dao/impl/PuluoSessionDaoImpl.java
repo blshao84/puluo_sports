@@ -172,4 +172,21 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 		}
 		return true;
 	}
+
+	@Override
+	public DateTime now() {
+		SqlReader reader = getReader();
+		String selectSQL = new StringBuilder().append("select now()::timestamp").toString();
+		List<DateTime> entities = reader.query(selectSQL,
+				new Object[] {}, new RowMapper<DateTime>() {
+					@Override
+					public DateTime mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						return TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp(1)));
+					}
+				});
+		return entities.get(0);
+	}
+	
+	
 }
