@@ -79,12 +79,12 @@
     24. /users/status
       * token已登录
       * token未登录
-    25. /users/mobile_or_uuid
+    25. /users/mobile_or_uuid (Done!)
       * mobile 存在
       * mobile不存在
       * uuid存在
       * uuid不存在
-    26. /users/update
+    26. /users/update (Done!)
       * token 用户update first_name
       * token 用户update last_name
       * token 用户update thumbnail
