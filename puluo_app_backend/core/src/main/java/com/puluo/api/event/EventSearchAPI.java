@@ -22,9 +22,9 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 	public String sort; // Luke 2015-03-21
 						// 只提供时间，两点间举例，折后价格的排序；可穿入的值分别为"time"，"distance"，"price"
 	public String sort_direction;
-	public double latitude;
-	public double longitude;
-	public double range_from;
+	public Double latitude;
+	public Double longitude;
+	public Double range_from;
 
 	public EventSearchAPI(DateTime event_date, String keyword, String level,
 			String sort, String sort_direction, double latitude,
@@ -44,16 +44,17 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 		this.sort_direction = sort_direction;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.range_from = 1.0; // FIXME: should be fixed!!! -BS
+		//TODO: making this 0.0 ignores the location search
+		this.range_from = 0.0; // FIXME: should be fixed!!! -BS
 	}
 
 	@Override
 	public void execute() {
 		log.info(String
 				.format("开始根据Event Date:%s, Keyword:%s, Level:%s, Sort:%s, "
-						+ "Sort Direction:%s, Latitude:%s, Longitude:%s, Range From:%d条件查找用户",
+						+ "Sort Direction:%s, Latitude:%s, Longitude:%s, Range From:%s条件查找用户",
 						TimeUtils.formatDate(event_date), keyword, level, sort,
-						sort_direction, latitude, longitude, range_from));
+						sort_direction, latitude.toString(), longitude.toString(), range_from.toString()));
 		PuluoEventDao event_dao = dsi.eventDao();
 		if (keyword.trim().isEmpty())
 			keyword = null;

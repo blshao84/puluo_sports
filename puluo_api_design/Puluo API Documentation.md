@@ -1005,6 +1005,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST /events/search
 {
 	events:[
 		{
+            "event_uuid":"de305d54-75b4-431b-adb2-eb6b9e546013",
 			"status" : "open", //status includes 'open', 'closed', 'cancel', 'full'.
 			"event_name": "Weapons of Ass Reduction",
 			"event_time": 12345677889900, // unix timestamp
