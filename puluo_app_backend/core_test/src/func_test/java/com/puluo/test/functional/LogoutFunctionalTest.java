@@ -44,7 +44,7 @@ public class LogoutFunctionalTest extends APIFunctionalTest {
 	@Test
 	public void testSuccessfulLogout() {
 
-		String session = login();
+		String session = login(mobile1,password1);
 		if (session != null) {
 			String inputs = String.format("{\"token\":\"%s\"}", session);
 			try {
@@ -70,7 +70,7 @@ public class LogoutFunctionalTest extends APIFunctionalTest {
 	@Test
 	public void testWrongToken() {
 
-		String session = login();
+		String session = login(mobile1,password1);
 		if (session != null) {
 			String inputs = String.format("{\"token\":\"%s\"}", "wsldsak;nvi");
 			try {
@@ -89,17 +89,4 @@ public class LogoutFunctionalTest extends APIFunctionalTest {
 
 	}
 
-	private String login() {
-		String inputs = String.format(
-				"{\"password\":\"%s\",\"mobile\":\"%s\"}", password1, mobile1);
-		try {
-			JsonNode json2 = callAPI("users/login", inputs);
-			String session = getSessionID(json2);
-			log.info("successfully aquired session:" + session);
-			return session;
-		} catch (UnirestException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 }

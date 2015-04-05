@@ -11,6 +11,7 @@ import com.puluo.dao.PuluoEventDao;
 import com.puluo.dao.PuluoEventInfoDao;
 import com.puluo.dao.PuluoEventLocationDao;
 import com.puluo.dao.impl.DaoTestApi;
+import com.puluo.entity.EventStatus;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventLocation;
@@ -57,15 +58,15 @@ public class PuluoEventDaoTest {
 
 		PuluoEventDao eventDao = DaoTestApi.eventDevDao;
 		eventDao.createTable();
-		PuluoEvent event0 = new PuluoEventImpl("event_uuid_0", TimeUtils.parseDateTime("2015-03-02 20:35:59"), "0", 
+		PuluoEvent event0 = new PuluoEventImpl("event_uuid_0", TimeUtils.parseDateTime("2015-03-02 20:35:59"), EventStatus.Open, 
 				0, 0, 300.00, 299.99, 
 				"event_info_uuid_0", "uuid_0", DaoTestApi.getInstance());
 		eventDao.upsertEvent(event0);
-		PuluoEvent event1 = new PuluoEventImpl("event_uuid_1", TimeUtils.parseDateTime("2015-03-01 20:35:59"), "0", 
+		PuluoEvent event1 = new PuluoEventImpl("event_uuid_1", TimeUtils.parseDateTime("2015-03-01 20:35:59"), EventStatus.Open, 
 				0, 0, 300.00, 199.99, 
 				"event_info_uuid_1", "uuid_2", DaoTestApi.getInstance());
 		eventDao.upsertEvent(event1);
-		PuluoEvent event2 = new PuluoEventImpl("event_uuid_2", TimeUtils.parseDateTime("2015-03-02 20:35:59"), "0", 
+		PuluoEvent event2 = new PuluoEventImpl("event_uuid_2", TimeUtils.parseDateTime("2015-03-02 20:35:59"), EventStatus.Open, 
 				0, 0, 300.00, 99.99, 
 				"event_info_uuid_2", "uuid_1", DaoTestApi.getInstance());
 		eventDao.upsertEvent(event2);
@@ -143,12 +144,12 @@ public class PuluoEventDaoTest {
 	public void testGetEventByUUID() {
 		log.info("testGetEventByUUID start!");
 		PuluoEventDao eventDao = DaoTestApi.eventDevDao;
-		PuluoEvent event0 = new PuluoEventImpl("event_uuid_0", TimeUtils.parseDateTime("2015-03-02 20:35:59"), "1", 
+		PuluoEvent event0 = new PuluoEventImpl("event_uuid_0", TimeUtils.parseDateTime("2015-03-02 20:35:59"), EventStatus.Open, 
 				1, 1, 340.00, 249.99, 
 				"event_info_uuid_0", "uuid_0", DaoTestApi.getInstance());
 		eventDao.upsertEvent(event0);
 		event0 = eventDao.getEventByUUID("event_uuid_0");
-		Assert.assertEquals("status应该为1!", "1" , event0.status());
+		Assert.assertEquals("status应该为Open!", "Open" , event0.statusName());
 		Assert.assertTrue("capatcity应该等于1!", 1==event0.capatcity());
 		Assert.assertTrue("price应该等于340!", 340.00==event0.price());
 		log.info("testGetEventByUUID done!");

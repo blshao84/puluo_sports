@@ -10,7 +10,12 @@ public class PuluoDBInit {
 		//dsi.userDao().createTable();
 		//dsi.authCodeRecordDao().createTable();
 		//dsi.sessionDao().createTable();
-		dsi.wechatBindingDao().createTable();
+		//dsi.wechatBindingDao().createTable();
+		//dsi.eventDao().createTable();
+		//dsi.eventInfoDao().createTable();
+		//dsi.eventLocationDao().createTable();
+		//dsi.eventMemoryDao().createTable();
+		//dsi.eventPosterDao().createTable();
 	}
 
 }

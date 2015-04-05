@@ -78,23 +78,12 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 	}
 
 	@Override
-	public List<PuluoEventPoster> getEventPoster(String event_info_uuid) {
+	public List<PuluoEventPoster> getEventPosterByInfoUUID(String event_info_uuid) {
 		SqlReader reader = getReader();
 		StringBuilder selectSQL = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName()).append(" where event_info_uuid = ?");
 		List<PuluoEventPoster> entities = reader.query(selectSQL.toString(), new Object[]{event_info_uuid},
-				new RowMapper<PuluoEventPoster>() {
-					@Override
-					public PuluoEventPoster mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						PuluoEventPosterImpl eventPoster = new PuluoEventPosterImpl(
-								rs.getString("event_poster_uuid"),
-								rs.getString("image_url"),
-								rs.getString("thumbnail"),
-								rs.getString("event_info_uuid"));
-						return eventPoster;
-					}
-				});
+				new PuluoEventPosterMapper());
 		return entities;
 	}
 
@@ -140,5 +129,34 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 			log.info(e.getMessage());
 			return false;
 		}
+	}
+
+	@Override
+	public PuluoEventPoster getEventPosterByUUID(String uuid) {
+		SqlReader reader = getReader();
+		StringBuilder selectSQL = new StringBuilder().append("select * from ")
+				.append(super.getFullTableName()).append(" where event_poster_uuid = ?");
+		List<PuluoEventPoster> entities = reader.query(selectSQL.toString(), new Object[]{uuid},
+				new PuluoEventPosterMapper());
+		if (entities.size() == 1)
+			return entities.get(0);
+		else if (entities.size() > 1)
+			throw new PuluoDatabaseException("通过event uuid查到多个event！");
+		else
+			return null;
+	}
+}
+
+class PuluoEventPosterMapper implements RowMapper<PuluoEventPoster> {
+	
+	@Override
+	public PuluoEventPoster mapRow(ResultSet rs, int rowNum)
+			throws SQLException {
+		PuluoEventPosterImpl eventPoster = new PuluoEventPosterImpl(
+				rs.getString("event_poster_uuid"),
+				rs.getString("image_url"),
+				rs.getString("thumbnail"),
+				rs.getString("event_info_uuid"));
+		return eventPoster;
 	}
 }

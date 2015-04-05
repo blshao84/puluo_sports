@@ -32,7 +32,7 @@ public class EventMemoryAPI extends PuluoAPI<PuluoDSI,EventMemoryResult>{
 	public void execute() {
 		log.info(String.format("开始查找活动%s的回忆图片",event_uuid));
 		PuluoEventMemoryDao memory_dao = dsi.eventMemoryDao();
-		List<PuluoEventMemory> memories = memory_dao.getEventMemoryByUUID(event_uuid);
+		List<PuluoEventMemory> memories = memory_dao.getEventMemoryByEventUUID(event_uuid);
 		List<String> memories_url = new ArrayList<String>();
 		for(int i=0;i<memories.size();i++) 
 			memories_url.add(memories.get(i).imageURL());
