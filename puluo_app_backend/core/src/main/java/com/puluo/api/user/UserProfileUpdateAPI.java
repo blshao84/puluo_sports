@@ -9,6 +9,7 @@ import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoUser;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.Strs;
 import com.puluo.util.TimeUtils;
 
 
@@ -66,8 +67,8 @@ public class UserProfileUpdateAPI extends PuluoAPI<PuluoDSI, UserProfileUpdateRe
 		if (upduser!=null) {
 			UserProfileUpdateResult result = new UserProfileUpdateResult(upduser.userUUID(),
 					upduser.firstName(),upduser.lastName(),upduser.thumbnail(),upduser.largeImage(), 
-					upduser.saying(),upduser.email(),String.valueOf(upduser.sex()), 
-					TimeUtils.formatDate(upduser.birthday()),upduser.occupation(),
+					upduser.saying(),upduser.email(),Strs.isEmpty(String.valueOf(upduser.sex()).trim()) ? null : String.valueOf(upduser.sex()), 
+					Strs.isEmpty(TimeUtils.formatBirthday(upduser.birthday())) ? null : TimeUtils.formatBirthday(upduser.birthday()),upduser.occupation(),
 					upduser.country(),upduser.state(),upduser.city(),upduser.zip(), 
 					TimeUtils.dateTime2Millis(upduser.createdAt()),
 					TimeUtils.dateTime2Millis(upduser.updatedAt()));
