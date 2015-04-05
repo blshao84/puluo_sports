@@ -27,7 +27,7 @@ import com.puluo.util.Strs;
 public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 	public static Log log = LogFactory
 			.getLog(GetEventDetailFunctionalTest.class);
-	private static EventTestDataSource dataSource = new EventTestDataSource();
+	private static EventTestDataSource dataSource = new EventTestDataSource("event_detail");
 
 	@BeforeClass
 	public static void setupDB() {

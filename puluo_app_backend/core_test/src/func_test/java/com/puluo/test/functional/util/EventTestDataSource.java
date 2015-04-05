@@ -36,7 +36,7 @@ public class EventTestDataSource {
 	public String eventID3 = "event_3";
 	public String eventID4 = "event_4";
 	public String memID1 = "mem_1";
-	public String memID2 = "mem_2";
+	//public String memID2 = "mem_2";
 	public String memID3 = "mem_3";
 	public String memID4 = "mem_4";
 	public String memID5 = "mem_5";
@@ -44,6 +44,26 @@ public class EventTestDataSource {
 	public String posterID2 = "poster_2";
 	public String mobile = "1234567";
 	public String password = "abcdefg";
+
+	public EventTestDataSource(String prefix) {
+		this.locID1 = prefix + "_" + prefix + "_" + "loc_1";
+		this.locID2 = prefix + "_" + "loc_2";
+		this.infoID1 = prefix + "_" + "event_info_1";
+		this.infoID2 = prefix + "_" + "event_info_2";
+		this.eventID1 = prefix + "_" + "event_1";
+		this.eventID2 = prefix + "_" + "event_2";
+		this.eventID3 = prefix + "_" + "event_3";
+		this.eventID4 = prefix + "_" + "event_4";
+		this.memID1 = prefix + "_" + "mem_1";
+		//this.memID2 = prefix + "_" + "mem_2";
+		this.memID3 = prefix + "_" + "mem_3";
+		this.memID4 = prefix + "_" + "mem_4";
+		this.memID5 = prefix + "_" + "mem_5";
+		this.posterID1 = prefix + "_" + "poster_1";
+		this.posterID2 = prefix + "_" + "poster_2";
+		this.mobile = prefix + "_" + "1234567";
+		this.password = prefix + "_" + "abcdefg";
+	}
 
 	public void setupDB() {
 		cleanupDB();
@@ -85,10 +105,6 @@ public class EventTestDataSource {
 				"http://upyun.com/puluo/123.jpg",
 				"http://upyun.com/puluo/123.jpg", eventID4, user.userUUID(),
 				null);
-		PuluoEventMemory mem2 = new PuluoEventMemoryImpl(memID2,
-				"http://upyun.com/puluo/456.jpg",
-				"http://upyun.com/puluo/456.jpg", eventID3, user.userUUID(),
-				null);
 		PuluoEventMemory mem3 = new PuluoEventMemoryImpl(memID3,
 				"http://upyun.com/puluo/789.jpg",
 				"http://upyun.com/puluo/789.jpg", eventID2, user.userUUID(),
@@ -119,7 +135,7 @@ public class EventTestDataSource {
 		dsi.eventDao().saveEvent(event3);
 		dsi.eventDao().saveEvent(event4);
 		dsi.eventMemoryDao().saveEventMemory(mem1);
-		dsi.eventMemoryDao().saveEventMemory(mem2);
+		//dsi.eventMemoryDao().saveEventMemory(mem2);
 		dsi.eventMemoryDao().saveEventMemory(mem3);
 		dsi.eventMemoryDao().saveEventMemory(mem4);
 		dsi.eventMemoryDao().saveEventMemory(mem5);
@@ -151,7 +167,7 @@ public class EventTestDataSource {
 		eventDao.deleteByEventUUID(eventID3);
 		eventDao.deleteByEventUUID(eventID4);
 		eventMemoryDao.deleteByMemoryUUID(memID1);
-		eventMemoryDao.deleteByMemoryUUID(memID2);
+		//eventMemoryDao.deleteByMemoryUUID(memID2);
 		eventMemoryDao.deleteByMemoryUUID(memID3);
 		eventMemoryDao.deleteByMemoryUUID(memID4);
 		eventMemoryDao.deleteByMemoryUUID(memID5);
@@ -183,7 +199,7 @@ public class EventTestDataSource {
 		log.info(eventDao.getEventByUUID(eventID3));
 		log.info(eventDao.getEventByUUID(eventID4));
 		log.info(eventMemoryDao.getEventMemoryByUUID(memID1));
-		log.info(eventMemoryDao.getEventMemoryByUUID(memID2));
+		//log.info(eventMemoryDao.getEventMemoryByUUID(memID2));
 		log.info(eventMemoryDao.getEventMemoryByUUID(memID3));
 		log.info(eventMemoryDao.getEventMemoryByUUID(memID4));
 		log.info(eventMemoryDao.getEventMemoryByUUID(memID5));
