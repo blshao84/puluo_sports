@@ -117,7 +117,8 @@ public class TimeUtils {
 	}
 
 	public static long dateTime2Millis(DateTime dt) {
-		return ((dt == null) ? DateTime.now().getMillis() : dt.getMillis());
+//		return ((dt == null) ? DateTime.now().getMillis() : dt.getMillis());
+		return ((dt == null) ? 0 : dt.getMillis());
 	}
 
 }
