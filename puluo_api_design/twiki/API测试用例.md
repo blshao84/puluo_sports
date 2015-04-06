@@ -61,12 +61,12 @@
       * user_uuid没有向token用户请求过好友(FriendRequest不存在)
       * user_uuid向token请求过好友，但request状态为Approved
       * user_uuid向token请求过好友，但request状态为Denied
-    14. /users/message/send
+    14. /users/message/send (Done!)
       * to_uuid用户不存在
       * to_uuid用户存在，并且content_type为TextMessage，content为空
       * to_uuid用户存在，并且content_type为TextMessage，content不为空
       * to_uuid用户存在，并且content_type为其他，content不为空
-    15. /users/messages
+    15. /users/messages (Done!)
       * user_uuid用户不存在
       * user_uuid用户存在，since为空，token用户和user_uuid用户存在历史对话
       * user_uuid用户存在，since为空，token用户和user_uuid用户不存在历史对话
