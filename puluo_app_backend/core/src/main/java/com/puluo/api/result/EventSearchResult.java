@@ -10,7 +10,7 @@ import com.puluo.util.TimeUtils;
 
 
 public class EventSearchResult extends HasJSON {
-	public List<EventSearchResultDetail> details;
+	public List<EventSearchResultDetail> events;
 	
 	public EventSearchResult() {
 		super();
@@ -18,20 +18,20 @@ public class EventSearchResult extends HasJSON {
 	
 	public EventSearchResult(List<EventSearchResultDetail> details) {
 		super();
-		this.details = details;
+		this.events = details;
 	}
 	
-	public boolean setSearchResult(List<PuluoEvent> events) {
-		details = new ArrayList<EventSearchResultDetail>();
-		for(int i=0;i<events.size();i++) {
-			PuluoEventImpl event_impl = (PuluoEventImpl) events.get(i);
+	public boolean setSearchResult(List<PuluoEvent> inputEvents) {
+		events = new ArrayList<EventSearchResultDetail>();
+		for(int i=0;i<inputEvents.size();i++) {
+			PuluoEventImpl event_impl = (PuluoEventImpl) inputEvents.get(i);
 			ArrayList<String> thumbnails = new ArrayList<String>();
 			ArrayList<String> images = new ArrayList<String>();
 			for(int j=0;j<event_impl.eventInfo().poster().size();j++) {
 				thumbnails.add(event_impl.eventInfo().poster().get(j).thumbnail());
 				images.add(event_impl.eventInfo().poster().get(j).imageURL());
 			}
-			details.add(new EventSearchResultDetail(event_impl.statusName(),event_impl.eventInfo().name(),
+			events.add(new EventSearchResultDetail(event_impl.eventUUID(),event_impl.statusName(),event_impl.eventInfo().name(),
 				TimeUtils.dateTime2Millis(event_impl.eventTime()),event_impl.eventLocation().address(),
 				event_impl.eventLocation().city(),event_impl.eventLocation().phone(),
 				event_impl.eventInfo().coachName(),event_impl.eventInfo().coachUUID(),
@@ -52,7 +52,8 @@ public class EventSearchResult extends HasJSON {
 		images.add("http://upyun.com/puluo/image1.jpg");
 		images.add("http://upyun.com/puluo/image2.jpg");
 		
-		details.add(new EventSearchResultDetail("open", "Weapons of Ass Reduction", 
+		details.add(new EventSearchResultDetail("de305d54-75b4-431b-adb2-eb6b9e546014",
+				"open", "Weapons of Ass Reduction", 
 				1427007059034L, "888 Happy Mansion", "beijing", "86-555-5555",
 				"Mr. Bob Smith", "de305d54-75b4-431b-adb2-eb6b9e546014", thumbnails, 
 				22, 30, 2, 39.92889, 116.38833, "Get fit with friends.", images));
@@ -61,6 +62,7 @@ public class EventSearchResult extends HasJSON {
 }
 
 class EventSearchResultDetail {
+	public String event_uuid;
 	public String status;
 	public String event_name;
 	public long event_time;
@@ -77,12 +79,13 @@ class EventSearchResultDetail {
 	public String details;
 	public List<String> images;
 	
-	public EventSearchResultDetail(String status,
+	public EventSearchResultDetail(String event_uuid,String status,
 			String event_name, long event_time, String address,
 			String city, String phone, String coach_name, String coach_uuid,
 			List<String> thumbnail, int registered_users, int capacity, int likes,
 			double latitude, double longitude, String details, List<String> images) {
 		super();
+		this.event_uuid = event_uuid;
 		this.status = status;
 		this.event_name = event_name;
 		this.event_time = event_time;

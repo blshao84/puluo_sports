@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.puluo.api.event.EventSortType;
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.dao.PuluoEventInfoDao;
 import com.puluo.dao.PuluoEventLocationDao;
@@ -21,6 +22,7 @@ import com.puluo.entity.impl.PuluoEventLocationImpl;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.SortDirection;
 import com.puluo.util.TimeUtils;
 
 public class PuluoEventDaoTest {
@@ -117,30 +119,30 @@ public class PuluoEventDaoTest {
 		events = eventDao.findEvents(null, null, null, null, null, 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("所有event应该有3个!", 3 , events.size());
 
-		events = eventDao.findEvents(null, null, null, "distance", "asc", 0.0, 0.0, 0.0, null);
+		events = eventDao.findEvents(null, null, null,EventSortType.Distance, SortDirection.valueOf("Asc"), 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("距离最近的event的id应该为event_uuid_0!", "event_uuid_0" , events.get(0).eventUUID());
-		events = eventDao.findEvents(null, null, null, "distance", "desc", 0.0, 0.0, 0.0, null);
+		events = eventDao.findEvents(null, null, null, EventSortType.Distance, SortDirection.valueOf("Desc"), 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("距离最远的event的id应该为event_uuid_1!", "event_uuid_1" , events.get(0).eventUUID());
 		
-		events = eventDao.findEvents(null, null, null, "time", "asc", 0.0, 0.0, 0.0, null);
+		events = eventDao.findEvents(null, null, null, EventSortType.Time, SortDirection.valueOf("Asc"), 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("时间最近的event的time应该为2015-03-01 20:35:59!", TimeUtils.parseDateTime("2015-03-01 20:35:59") , events.get(0).eventTime());
-		events = eventDao.findEvents(null, null, null, "time", "desc", 0.0, 0.0, 0.0, null);
+		events = eventDao.findEvents(null, null, null, EventSortType.Time, SortDirection.valueOf("Desc"), 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("时间最远的event的time应该为2015-03-02 20:35:59!", TimeUtils.parseDateTime("2015-03-02 20:35:59") , events.get(0).eventTime());
 		
-		events = eventDao.findEvents(null, null, null, "price", "asc", 0.0, 0.0, 0.0, null);
+		events = eventDao.findEvents(null, null, null, EventSortType.Price, SortDirection.valueOf("Asc"), 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("价格最便宜的event的id应该为event_uuid_2!", "event_uuid_2" , events.get(0).eventUUID());
-		events = eventDao.findEvents(null, null, null, "price", "desc", 0.0, 0.0, 0.0, null);
+		events = eventDao.findEvents(null, null, null, EventSortType.Price, SortDirection.valueOf("Desc"), 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("价格最昂贵的event的id应该为event_uuid_0!", "event_uuid_0" , events.get(0).eventUUID());
 
-		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-02 20:35:59"), "0", "0", "price", "asc", 2.0, 2.0, 2, null);
+		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-02 20:35:59"), "0", "0", EventSortType.Price, SortDirection.valueOf("Asc"), 2.0, 2.0, 2, null);
 		Assert.assertEquals("符合条件event应该有1个!", 1 , events.size());
-		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-01 20:35:59"), "0", "0", "distance", "desc", 2.0, 2.0, 2, null);
+		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-01 20:35:59"), "0", "0", EventSortType.Distance, SortDirection.valueOf("Desc"), 2.0, 2.0, 2, null);
 		Assert.assertEquals("符合条件event应该有0个!", 0 , events.size());
 
-		events = eventDao.findEvents(null, null, null, "price", "asc", 0.0, 0.0, 0.0, EventStatus.Open);
+		events = eventDao.findEvents(null, null, null, EventSortType.Price, SortDirection.Asc, 0.0, 0.0, 0.0, EventStatus.Open);
 		Assert.assertEquals("符合条件event应该有2个!", 2 , events.size());
-		events = eventDao.findEvents(null, null, null, "price", "asc", 0.0, 0.0, 0.0, EventStatus.Closed);
-		Assert.assertEquals("符合条件event应该有1个!", 1 , events.size());
+		events = eventDao.findEvents(null, null, null, EventSortType.Price, SortDirection.Desc, 0.0, 0.0, 0.0, EventStatus.Full);
+		Assert.assertEquals("符合条件event应该有3个!", 3 , events.size());
 		
 		log.info("testFindEvents done!");
 	}

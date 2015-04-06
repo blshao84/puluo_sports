@@ -19,6 +19,7 @@ import com.puluo.entity.PuluoEventLocation;
 import com.puluo.entity.PuluoEventMemory;
 import com.puluo.entity.PuluoEventPoster;
 import com.puluo.test.functional.util.APIFunctionalTest;
+import com.puluo.test.functional.util.EventFunctionalTestRunner;
 import com.puluo.test.functional.util.EventTestDataSource;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
@@ -27,7 +28,8 @@ import com.puluo.util.Strs;
 public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 	public static Log log = LogFactory
 			.getLog(GetEventDetailFunctionalTest.class);
-	private static EventTestDataSource dataSource = new EventTestDataSource("event_detail");
+	private static EventTestDataSource dataSource = new EventTestDataSource(
+			"event_detail");
 
 	@BeforeClass
 	public static void setupDB() {
@@ -43,14 +45,17 @@ public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 	public void testExistingEvent1() {
 		testEvent(dataSource.eventID1);
 	}
+
 	@Test
 	public void testExistingEvent2() {
 		testEvent(dataSource.eventID2);
 	}
+
 	@Test
 	public void testExistingEvent3() {
 		testEvent(dataSource.eventID3);
 	}
+
 	@Test
 	public void testExistingEvent4() {
 		testEvent(dataSource.eventID4);
@@ -79,25 +84,28 @@ public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 			Assert.fail("fail to login");
 	}
 
-	private void testEvent(String eventID){
-		String session = login(dataSource.mobile, dataSource.password);
-		if (session != null) {
-			String inputs = String.format("{\"token\":\"%s\"}", session);
-			try {
-				JsonNode json = callAPI("events/detail/" + eventID, inputs);
+	private void testEvent(final String eventID) {
+		super.runAuthenticatedTest(new EventFunctionalTestRunner() {
+
+			@Override
+			public void run(String session) throws UnirestException {
+				JsonNode json = callAPI("events/detail/" + eventID,
+						inputs(session));
 				PuluoEvent event = DaoApi.getInstance().eventDao()
 						.getEventByUUID(eventID);
 				compareEvent(json, event);
-			} catch (UnirestException e) {
-				e.printStackTrace();
-				Assert.fail("fail to logout");
 			}
-			Assert.assertFalse(
-					"successful login should give not null session id",
-					Strs.isEmpty(session));
-		} else
-			Assert.fail("fail to login");
 
+			@Override
+			public String inputs(String session) {
+				return String.format("{\"token\":\"%s\"}", session);
+			}
+
+			@Override
+			public EventTestDataSource dataSource() {
+				return dataSource;
+			}
+		});
 	}
 
 	private void compareEvent(JsonNode json, PuluoEvent event) {

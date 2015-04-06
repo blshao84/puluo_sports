@@ -1,5 +1,5 @@
 package com.puluo.entity;
 
 public enum EventStatus {
-	Open,Closed
+	Open,Closed,Full
 }

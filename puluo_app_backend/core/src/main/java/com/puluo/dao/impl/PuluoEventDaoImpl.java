@@ -8,6 +8,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.springframework.jdbc.core.RowMapper;
 
+import com.puluo.api.event.EventSortType;
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.entity.EventStatus;
 import com.puluo.entity.PuluoEvent;
@@ -17,6 +18,7 @@ import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.PuluoDatabaseException;
+import com.puluo.util.SortDirection;
 import com.puluo.util.Strs;
 import com.puluo.util.TimeUtils;
 
@@ -90,7 +92,7 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 	
 	@Override
 	public List<PuluoEvent> findEvents(DateTime event_date, String keyword, String level, 
-			String sort, String sort_direction, double latitude, double longitude, double range_from, EventStatus es) {
+			EventSortType sort, SortDirection sort_direction, double latitude, double longitude, double range_from, EventStatus es) {
 		ArrayList<String> params = new ArrayList<String>();
 		if (event_date!=null) {
 			params.add(" and e.event_time = '" + TimeUtils.formatDate(event_date) + "'");
@@ -101,16 +103,16 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 		if (range_from!=0.0) {
 			params.add(" and power(power(l.latitude-" + latitude + ", 2) + power(l.longitude-" + longitude + ", 2), 0.5) <= " + range_from);
 		}
-		if (es!=null) {
+		if (es!=null && !EventStatus.Full.equals(es)) {
 			params.add(" and e.status = '" + es.name() + "'");
 		}
 		StringBuilder orderBy = new StringBuilder("");
-		if ("time".equals(sort)) {
-			orderBy.append(" order by e.event_time " + sort_direction);
-		} else if ("distance".equals(sort)) {
-			orderBy.append(" order by power(power(l.latitude-" + latitude + ", 2) + power(l.longitude-" + longitude + ", 2), 0.5) " + sort_direction);
-		} else if ("price".equals(sort)) {
-			orderBy.append(" order by e.discounted_price " + sort_direction);
+		if (EventSortType.Time.equals(sort)) {
+			orderBy.append(" order by e.event_time " + sort_direction.name().toLowerCase());
+		} else if (EventSortType.Distance.equals(sort)) {
+			orderBy.append(" order by power(power(l.latitude-" + latitude + ", 2) + power(l.longitude-" + longitude + ", 2), 0.5) " + sort_direction.name().toLowerCase());
+		} else if (EventSortType.Price.equals(sort)) {
+			orderBy.append(" order by e.discounted_price " + sort_direction.name().toLowerCase());
 		}
 		SqlReader reader = getReader();
 		StringBuilder selectSQL = new StringBuilder().append("select e.* from ")
