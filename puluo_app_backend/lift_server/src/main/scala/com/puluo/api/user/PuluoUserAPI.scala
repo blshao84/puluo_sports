@@ -30,7 +30,7 @@ object PuluoUserAPI extends RestHelper with PuluoAPIUtil with Loggable {
     case "users" :: "update" :: Nil Post _ => callWithAuthParam()(doUserUpdate)
     case "users" :: "search" :: Nil Post _ => doUserSearch
 
-    case "users" :: "privacy" :: mobileOrUUID :: Nil Post _ => doUserSetting
+    case "users" :: "privacy" :: Nil Post _ => doUserSetting
 
     case "users" :: "setting" :: "update" :: Nil Post _ => callWithAuthParam()(doSettingUpdate)
   }
