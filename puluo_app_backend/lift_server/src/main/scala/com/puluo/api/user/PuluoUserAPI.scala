@@ -44,7 +44,7 @@ object PuluoUserAPI extends RestHelper with PuluoAPIUtil with Loggable {
   }
 
   private def doSettingUpdate(params: Map[String, String]) = {
-    val optionalParams = Seq("auto_add_friend", "allow_stranger_view_timeline", "allow_searchedl")
+    val optionalParams = Seq("auto_add_friend", "allow_stranger_view_timeline", "allow_searched")
     val optionalParamsMap = PuluoResponseFactory.createParamMap(optionalParams)
     logger.info("param map for users/setting/update:\n" + optionalParamsMap.mkString("\n"))
     val token = params("token")
