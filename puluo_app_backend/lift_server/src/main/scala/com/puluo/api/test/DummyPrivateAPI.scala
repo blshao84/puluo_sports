@@ -88,7 +88,7 @@ object DummyPrivateAPI extends RestHelper with PuluoAPIUtil {
     case "dummy" :: "users" :: "search" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(UserSearchResult.dummy().toJson())
     }
-    case "dummy" :: "users" :: "privacy" :: mobileOrUUID :: Nil Post _ => {
+    case "dummy" :: "users" :: "privacy" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(UserSettingResult.dummy().toJson())
     }
     case "dummy" :: "users" :: "setting" :: "update" :: Nil Post _ => {
