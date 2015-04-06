@@ -12,6 +12,7 @@ import com.puluo.dao.impl.DaoApi;
 import com.puluo.dao.impl.PuluoAuthCodeRecordDaoImpl;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
 import com.puluo.entity.PuluoUser;
+import com.puluo.entity.PuluoUserSetting;
 import com.puluo.test.functional.util.APIFunctionalTest;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
@@ -68,6 +69,11 @@ public class RegisterFunctionalTest extends APIFunctionalTest {
 			Assert.assertEquals("password in returned json should match", nonExistingPassword1,password);
 			Assert.assertEquals("mobile in returned json should match",nonExistingMobile1,mobile);
 			Assert.assertNotEquals("uuid in returned json shouldn't be empty","",uuid);
+			PuluoUserSetting setting = DaoApi.getInstance().userSettingDao().getByUserUUID(uuid);
+			Assert.assertNotNull("a new setting should be saved together with a new user",setting);
+			Assert.assertTrue("by default autoAddFriend is true",setting.autoAddFriend());
+			Assert.assertTrue("by default isSearchable is true",setting.isSearchable());
+			Assert.assertTrue("by default isTimelinePublic is true",setting.isTimelinePublic());
 		} catch (UnirestException e) {
 			e.printStackTrace();
 			Assert.assertTrue(false);

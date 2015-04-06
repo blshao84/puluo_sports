@@ -70,7 +70,7 @@ public class WechatTextAPI {
 		case 0:
 			if (isMobile()) {
 				SMSServiceAPI api = new SMSServiceAPI(
-						PuluoSMSType.UserRegistration, content);
+						PuluoSMSType.UserRegistration, content,false);
 				api.execute();
 				if (api.error == null) {
 					dsi.wechatBindingDao().updateMobile(from_user, content);

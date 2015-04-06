@@ -4,6 +4,7 @@ import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.ApiErrorResult;
 import com.puluo.api.result.UserRegistrationResult;
 import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoAuthCodeRecord;
 import com.puluo.entity.PuluoUser;
@@ -47,8 +48,11 @@ public class UserRegistrationAPI extends
 					this.error = ApiErrorResult.getError(7);
 					return;
 				} else {
-					boolean successSave = dsi.userDao().save(mobile, password);
-					if (successSave){
+					PuluoUserDao userDao = dsi.userDao();
+					userDao.save(mobile, password);
+					PuluoUser newUser = userDao.getByMobile(mobile);
+					boolean successSave2 = dsi.userSettingDao().saveNewSetting(newUser.userUUID());
+					if (successSave2){
 						String uuid = dsi.userDao().getByMobile(mobile).userUUID();
 						this.rawResult = new UserRegistrationResult(uuid,mobile,
 								password);

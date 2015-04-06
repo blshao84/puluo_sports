@@ -20,29 +20,33 @@ public class SMSServiceAPI extends PuluoAPI<PuluoDSI, SMSServiceResult> {
 
 	private final PuluoSMSType sms_type;
 	private final String mobile;
+	private final boolean mock;
 	private final Map<String, String> content;
 
-	public SMSServiceAPI(PuluoSMSType sms_type, String mobile,
+	public SMSServiceAPI(PuluoSMSType sms_type, String mobile, boolean mock,
 			Map<String, String> content) {
-		this(sms_type, mobile, content, DaoApi.getInstance());
+		this(sms_type, mobile, mock, content, DaoApi.getInstance());
 	}
 
-	public SMSServiceAPI(PuluoSMSType sms_type, String mobile,
+	public SMSServiceAPI(PuluoSMSType sms_type, String mobile, boolean mock,
 			Map<String, String> content, PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.sms_type = sms_type;
 		this.mobile = mobile;
+		this.mock = mock;
 		this.content = content;
 	}
-	
-	public SMSServiceAPI(PuluoSMSType sms_type, String mobile) {
-		this(sms_type, mobile, DaoApi.getInstance());
+
+	public SMSServiceAPI(PuluoSMSType sms_type, String mobile, boolean mock) {
+		this(sms_type, mobile, mock, DaoApi.getInstance());
 	}
 
-	public SMSServiceAPI(PuluoSMSType sms_type, String mobile,PuluoDSI dsi) {
+	public SMSServiceAPI(PuluoSMSType sms_type, String mobile, boolean mock,
+			PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.sms_type = sms_type;
 		this.mobile = mobile;
+		this.mock = mock;
 		this.content = new HashMap<String, String>();
 	}
 
@@ -69,17 +73,22 @@ public class SMSServiceAPI extends PuluoAPI<PuluoDSI, SMSServiceResult> {
 
 	private void processRegistrationRequest() {
 		String code = randomCode();
-		JuheSMSResult result = PuluoService.getSms().sendAuthCode(mobile, code);
-		if(result.isSuccess()){
-			log.info(String.format("successful send sms message to %s",mobile));
-			boolean success = dsi.authCodeRecordDao().upsertRegistrationAuthCode(mobile, code);
-			if(success){
-				this.rawResult = new SMSServiceResult(mobile,"success");
+		JuheSMSResult result = null;
+		if(!mock){
+			result = PuluoService.getSms().sendAuthCode(mobile, code);
+		}
+		if (mock || result.isSuccess()) {
+			log.info(String.format("successful send sms message to %s", mobile));
+			boolean success = dsi.authCodeRecordDao()
+					.upsertRegistrationAuthCode(mobile, code);
+			if (success) {
+				this.rawResult = new SMSServiceResult(mobile, "success");
 			} else {
-				log.error("保存PuluoAuthCodeRecord, mobile={}失败",mobile);
+				log.error("保存PuluoAuthCodeRecord, mobile={}失败", mobile);
 				this.error = ApiErrorResult.getError(10);
 			}
-		} else this.error = ApiErrorResult.getError(9);
+		} else
+			this.error = ApiErrorResult.getError(9);
 	}
 
 	private String randomCode() {

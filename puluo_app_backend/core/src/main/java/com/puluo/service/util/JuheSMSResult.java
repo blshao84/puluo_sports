@@ -50,14 +50,14 @@ public class JuheSMSResult {
 
 	public String reason;
 	public JuheSMSResultDetail result;
-	public int errorCode;
+	public int error_code;// we use '_' to name value because the returned json use 'error_code' as key
 	
 	public JuheSMSResult(String reason, int count, int fee, long sid,
 			int errorCode) {
 		JuheSMSResultDetail result = new JuheSMSResultDetail(count,fee,sid);
 		this.result = result;
 		this.reason = reason;
-		this.errorCode = errorCode;
+		this.error_code = errorCode;
 	}
 
 	public static JuheSMSResult fromJson(String json) {
@@ -74,14 +74,14 @@ public class JuheSMSResult {
 	
 	@Override
 	public String toString() {
-		return Strs.join("reason:",reason,";","errorCode:",errorCode,";","result:{",result.toString(),"}");
+		return Strs.join("reason:",reason,";","errorCode:",error_code,";","result:{",result.toString(),"}");
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + errorCode;
+		result = prime * result + error_code;
 		result = prime * result + ((reason == null) ? 0 : reason.hashCode());
 		result = prime * result
 				+ ((this.result == null) ? 0 : this.result.hashCode());
@@ -97,7 +97,7 @@ public class JuheSMSResult {
 		if (getClass() != obj.getClass())
 			return false;
 		JuheSMSResult other = (JuheSMSResult) obj;
-		if (errorCode != other.errorCode)
+		if (error_code != other.error_code)
 			return false;
 		if (reason == null) {
 			if (other.reason != null)
@@ -113,7 +113,7 @@ public class JuheSMSResult {
 	}
 
 	public boolean isSuccess() {
-		return errorCode == 0;
+		return error_code == 0;
 	}
 	
 	

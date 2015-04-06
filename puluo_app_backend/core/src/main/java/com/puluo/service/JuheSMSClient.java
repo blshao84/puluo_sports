@@ -76,7 +76,7 @@ public class JuheSMSClient {
 			baos.write(i);
 			i = is.read();
 		}
-		return baos.toString();
+		return baos.toString("UTF-8");
 
 	}
 

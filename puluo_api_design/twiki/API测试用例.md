@@ -1,19 +1,19 @@
 
-    1.  /users/login 
+    1.  /users/login (Done!)
       * mobile存在并且password匹配
         * 结果：登录成功，返回一个有效的token，并且/users/status 返回成功
       * mobile存在但password不匹配
       * mobile不存在
       * 参数缺少mobile
       * 参数缺少password
-    2.  /users/register
+    2.  /users/register( Done!)
       * mobile已存在
       * 参数缺少mobile
       * 参数缺少password
       * 参数缺少auth_code
       * mobile不存在，但auth_code错误
       * mobile不存在，且auth_code正确
-    3.  /users/logout
+    3.  /users/logout (Done!)
       * token正确
       * token错误
     4.  /users/credential/update (Done!)
@@ -22,14 +22,14 @@
       * mobile存在，password匹配，但缺少new_password
       * mobile存在，password匹配，new_password正确更新
     5.  /events/payment/event_uuid
-    6.  /events/detail/event_uuid
+    6.  /events/detail/event_uuid (Done!)
       * event_uuid不存在
       * event_uuid存在
-    7.  /events/memory/event_uuid
+    7.  /events/memory/event_uuid (Done!)
       * event_uuid存在，并且有memory image
       * event_uuid存在，没有memory image
       * event_uuid不存在
-    8.  /events/search
+    8.  /events/search (Done!)
       * 按日期搜索
       * 按日期搜索，但包含已closed的event
       * 按关键字搜索，按价格默认（升序）排序
@@ -73,7 +73,7 @@
       * user_uuid用户存在，since为不空，token用户和user_uuid用户存在历史对话
     16. /services/images
     17. /services/sms
-    18. /services/sms/register
+    18. /services/sms/register (Done!)
       * mobile为空
       * mobile格式非法，发送验证码失败
       * mobile合法，发送验证码成功
