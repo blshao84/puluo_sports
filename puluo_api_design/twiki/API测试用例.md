@@ -81,9 +81,9 @@
       * token未登录
     25. /users/mobile_or_uuid (Done!)
       * mobile 存在
-      * mobile不存在
-      * uuid存在
-      * uuid不存在
+      * mobile 不存在
+      * uuid 存在
+      * uuid 不存在
     26. /users/update (Done!)
       * token 用户update first_name
       * token 用户update last_name
@@ -97,14 +97,14 @@
       * token 用户update state
       * token 用户update city
       * token 用户update zip
-    27. /usrs/search
-    28. /users/privacy/mobile_or_uuid
+    27. /usrs/search (Done!)
+    28. /users/privacy/mobile_or_uuid (Done!)
       * mobile 存在
-      * mobile不存在
-      * uuid存在
-      * uuid不存在
-    29. /users/setting/update
-      * token用户update auto_add_friend
-      * token用户update allow_stranger_view_timeline
-      * token用户update allow_searched
+      * mobile 不存在 (这里不能测试吧？mobile不存在也就不能登录)
+      * uuid 存在
+      * uuid 不存在 (这里不能测试吧？uuid不存在也就不能登录)
+    29. /users/setting/update (Done!)
+      * token 用户update auto_add_friend
+      * token 用户update allow_stranger_view_timeline
+      * token 用户update allow_searched
 

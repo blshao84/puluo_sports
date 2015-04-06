@@ -460,7 +460,7 @@ Get user's setting
 
 ```
 
-$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.131.76.93/users/{user_mobile_or_uuid}
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.131.76.93/users/privacy/{user_mobile_or_uuid}
 
 ```
 
