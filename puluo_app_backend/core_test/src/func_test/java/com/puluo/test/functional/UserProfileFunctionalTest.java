@@ -106,7 +106,7 @@ public class UserProfileFunctionalTest extends APIFunctionalTest {
 			JsonNode json = callAPI("users/profile/" + mobile3, str);
 			log.info(json);
 			String error = super.getStringFromJson(json, "id");
-			log.info("fail to login, error code = " + error);
+			log.info("error code = " + error);
 			Assert.assertEquals("error id should be 17", "17", error);
 		} catch (UnirestException e) {
 			e.printStackTrace();
@@ -126,7 +126,7 @@ public class UserProfileFunctionalTest extends APIFunctionalTest {
 			JsonNode json = callAPI("users/profile/" + uuid3, str);
 			log.info(json);
 			String error = super.getStringFromJson(json, "id");
-			log.info("fail to login, error code = " + error);
+			log.info("error code = " + error);
 			Assert.assertEquals("error id should be 17", "17", error);
 		} catch (UnirestException e) {
 			e.printStackTrace();

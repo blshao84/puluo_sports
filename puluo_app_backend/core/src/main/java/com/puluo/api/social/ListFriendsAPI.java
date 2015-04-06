@@ -2,6 +2,7 @@ package com.puluo.api.social;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.ListFriendsPublicResult;
 import com.puluo.api.result.ListFriendsResult;
@@ -11,6 +12,7 @@ import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoUser;
 import com.puluo.entity.PuluoUserFriendship;
+import com.puluo.entity.impl.PuluoFriendInfo;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 
@@ -32,12 +34,16 @@ public class ListFriendsAPI extends PuluoAPI<PuluoDSI, ListFriendsResult> {
 	public void execute() {
 		log.info(String.format("开始查找用户:%s的好友列表", user_mobile_or_uuid));
 		PuluoUserFriendshipDao friendshipdao = dsi.friendshipDao();
-		List<PuluoUserFriendship> friendlist = friendshipdao.getFriendListByUUID(user_mobile_or_uuid);
+		List<PuluoUserFriendship> friendlist = friendshipdao.getFriendListByUUID(user()!=null ? user().userUUID() : "0");
 		List<ListFriendsResultDetail> friend_detail = new ArrayList<ListFriendsResultDetail>();
-		for(int i=0;i<friendlist.size();i++) 
-			friend_detail.add(new ListFriendsResultDetail(friendlist.get(i).userUUID(),
-					new ListFriendsPublicResult(user().firstName(),user().lastName(),
-					user().email(),user().mobile())));
+		for(int i=0;i<friendlist.size();i++) {
+			PuluoUserFriendship entity = friendlist.get(i);
+			List<PuluoFriendInfo> friends = entity.friends();
+			for (PuluoFriendInfo friend: friends) {
+				friend_detail.add(new ListFriendsResultDetail(friend.user_uuid,
+						new ListFriendsPublicResult(friend.first_name, friend.last_name, friend.user_email, friend.user_mobile)));
+			}
+		}
 		ListFriendsResult result = new ListFriendsResult(friend_detail);
 		rawResult = result;
 	}

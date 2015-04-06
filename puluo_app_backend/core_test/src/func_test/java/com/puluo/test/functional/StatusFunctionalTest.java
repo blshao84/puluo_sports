@@ -19,12 +19,12 @@ import com.puluo.util.Strs;
 public class StatusFunctionalTest extends APIFunctionalTest {
 	public static Log log = LogFactory.getLog(StatusFunctionalTest.class);
 	static String mobile1 = "123456789";
-	static String password = "abcdefg";
+	static String password1 = "abcdefg";
 
 	@BeforeClass
 	public static void setupDB() {
 		cleanupDB();
-		DaoApi.getInstance().userDao().save(mobile1, password);
+		DaoApi.getInstance().userDao().save(mobile1, password1);
 	}
 
 	@AfterClass
@@ -40,34 +40,21 @@ public class StatusFunctionalTest extends APIFunctionalTest {
 	}
 
 	@Test
-	public void testLoginToken() { // token已登录
+	public void testLoginToken() {
 		log.info("testLoginToken start!");
 		try {
-			String session = login();
-			log.info("successfully aquired session:" + session);
+			String session = super.login(mobile1, password1);
 			Assert.assertFalse("successful login should give not null session id", Strs.isEmpty(session));
 			
 			String strStatus = String.format("{\"token\":\"%s\"}", session);
 			JsonNode jsonStatus = callAPI("users/status", strStatus);
 			log.info(jsonStatus);
+			String status = super.getStringFromJson(jsonStatus, "login");
+			Assert.assertEquals("login should be true", "true", status);
 		} catch (UnirestException e) {
 			e.printStackTrace();
 			Assert.assertTrue(false);
 		}
 		log.info("testLoginToken done!");
-	}
-
-	private String login() {
-		String inputs = String.format(
-				"{\"password\":\"%s\",\"mobile\":\"%s\"}", password, mobile1);
-		try {
-			JsonNode json2 = callAPI("users/login", inputs);
-			String session = getSessionID(json2);
-			log.info("successfully aquired session:" + session);
-			return session;
-		} catch (UnirestException e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 }
