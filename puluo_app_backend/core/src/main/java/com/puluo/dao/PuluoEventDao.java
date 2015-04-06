@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import com.puluo.entity.EventStatus;
 import com.puluo.entity.PuluoEvent;
 
 
@@ -14,7 +15,7 @@ public interface PuluoEventDao {
 	public PuluoEvent getEventByUUID(String idevent);
 	
 	public List<PuluoEvent> findEvents(DateTime event_date, String keyword, String level, 
-			String sort, String sort_direction, double latitude, double longitude, double range_from);
+			String sort, String sort_direction, double latitude, double longitude, double range_from, EventStatus es);
 	
 	public boolean upsertEvent(PuluoEvent event);
 	

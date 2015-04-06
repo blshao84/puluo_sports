@@ -9,13 +9,12 @@ import com.puluo.api.result.EventRegistrationResult
 import com.puluo.api.result.EventDetailResult
 import com.puluo.api.result.EventMemoryResult
 import com.puluo.api.result.EventSearchResult
-import com.puluo.api.event.EventRegistrationAPI
 import com.puluo.api.util.PuluoAPIUtil
 import com.puluo.api.util.ErrorResponseResult
 import com.puluo.session.PuluoSessionManager
-import com.puluo.api.event.EventDetailAPI
 import net.liftweb.common.Loggable
 import org.joda.time.DateTime
+import com.puluo.entity.EventStatus;
 
 object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
@@ -61,7 +60,7 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
   private def doEventSearch() = {
     val params = PuluoResponseFactory.createParamMap(Seq(
       "event_date", "keyword", "sort", "sort_direction",
-      "user_lattitude", "user_longitude"))
+      "user_lattitude", "user_longitude", "status"))
     val eventDate: DateTime = params.get("event_date").map(d =>
       try {
         new DateTime(d.toLong)
@@ -73,14 +72,15 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val keyword = params.getOrElse("keyword", "")
     val level = params.getOrElse("level", "")
     val sort = params.getOrElse("sort", "")
+    val status = params.getOrElse("status", "")
     val sortDirection = params.getOrElse("sort_direction", "")
     val api = (locationToDouble(params.get("user_lattitude")), 
         locationToDouble(params.get("user_longitude"))) match {
       case (Some(lattitude), Some(longitude)) => {
         logger.info("api has longitude and lattitude")
-        new EventSearchAPI(eventDate, keyword,level, sort, sortDirection, lattitude, longitude)
+        new EventSearchAPI(eventDate, keyword,level, sort, sortDirection, lattitude, longitude, status)
       }
-      case _ => new EventSearchAPI(eventDate, keyword,level, sort, sortDirection, 0.0, 0.0)
+      case _ => new EventSearchAPI(eventDate, keyword,level, sort, sortDirection, 0.0, 0.0, status)
     }
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)

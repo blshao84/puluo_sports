@@ -66,7 +66,7 @@ public class PuluoEventDaoTest {
 				0, 0, 300.00, 199.99, 
 				"event_info_uuid_1", "uuid_2", DaoTestApi.getInstance());
 		eventDao.upsertEvent(event1);
-		PuluoEvent event2 = new PuluoEventImpl("event_uuid_2", TimeUtils.parseDateTime("2015-03-02 20:35:59"), EventStatus.Open, 
+		PuluoEvent event2 = new PuluoEventImpl("event_uuid_2", TimeUtils.parseDateTime("2015-03-02 20:35:59"), EventStatus.Closed, 
 				0, 0, 300.00, 99.99, 
 				"event_info_uuid_2", "uuid_1", DaoTestApi.getInstance());
 		eventDao.upsertEvent(event2);
@@ -93,49 +93,54 @@ public class PuluoEventDaoTest {
 		log.info("testFindEvents start!");
 		PuluoEventDao eventDao = DaoTestApi.eventDevDao;
 		
-		List<PuluoEvent> events = eventDao.findEvents(null, null, null, null, null, 2.0, 2.0, 2);
+		List<PuluoEvent> events = eventDao.findEvents(null, null, null, null, null, 2.0, 2.0, 2, null);
 		Assert.assertEquals("距离在2以内的event应该有3个!", 3 , events.size());
-		events = eventDao.findEvents(null, null, null, null, null, 2.0, 2.0, 1.5);
+		events = eventDao.findEvents(null, null, null, null, null, 2.0, 2.0, 1.5, null);
 		Assert.assertEquals("距离在1.5以内的event应该有2个!", 2 , events.size());
-		events = eventDao.findEvents(null, null, null, null, null, 2.0, 2.0, 1.0);
+		events = eventDao.findEvents(null, null, null, null, null, 2.0, 2.0, 1.0, null);
 		Assert.assertEquals("距离在1以内的event应该有1个!", 1 , events.size());
-		events = eventDao.findEvents(null, null, null, null, null, 2.0, 2.0, 0.5);
+		events = eventDao.findEvents(null, null, null, null, null, 2.0, 2.0, 0.5, null);
 		Assert.assertEquals("距离在0.5以内的event应该有0个!", 0 , events.size());
 		
-		events = eventDao.findEvents(null, "1", null, null, null, 0.0, 0.0, 0.0);
+		events = eventDao.findEvents(null, "1", null, null, null, 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("keyword包含1的event应该有2个!", 2 , events.size());
-		events = eventDao.findEvents(null, "2", null, null, null, 0.0, 0.0, 0.0);
+		events = eventDao.findEvents(null, "2", null, null, null, 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("keyword包含2的event应该有1个!", 1 , events.size());
-		events = eventDao.findEvents(null, "3", null, null, null, 0.0, 0.0, 0.0);
+		events = eventDao.findEvents(null, "3", null, null, null, 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("keyword包含3的event应该有0个!", 0 , events.size());
 		
-		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-01 20:35:59"), null, null, null, null, 0.0, 0.0, 0.0);
+		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-01 20:35:59"), null, null, null, null, 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("time在2015-03-01 20:35:59的event应该有1个!", 1 , events.size());
-		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-02 20:35:59"), null, null, null, null, 0.0, 0.0, 0.0);
+		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-02 20:35:59"), null, null, null, null, 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("time在2015-03-02 20:35:59的event应该有2个!", 2 , events.size());
 		
-		events = eventDao.findEvents(null, null, null, null, null, 0.0, 0.0, 0.0);
+		events = eventDao.findEvents(null, null, null, null, null, 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("所有event应该有3个!", 3 , events.size());
 
-		events = eventDao.findEvents(null, null, null, "distance", "asc", 0.0, 0.0, 0.0);
+		events = eventDao.findEvents(null, null, null, "distance", "asc", 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("距离最近的event的id应该为event_uuid_0!", "event_uuid_0" , events.get(0).eventUUID());
-		events = eventDao.findEvents(null, null, null, "distance", "desc", 0.0, 0.0, 0.0);
+		events = eventDao.findEvents(null, null, null, "distance", "desc", 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("距离最远的event的id应该为event_uuid_1!", "event_uuid_1" , events.get(0).eventUUID());
 		
-		events = eventDao.findEvents(null, null, null, "time", "asc", 0.0, 0.0, 0.0);
+		events = eventDao.findEvents(null, null, null, "time", "asc", 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("时间最近的event的time应该为2015-03-01 20:35:59!", TimeUtils.parseDateTime("2015-03-01 20:35:59") , events.get(0).eventTime());
-		events = eventDao.findEvents(null, null, null, "time", "desc", 0.0, 0.0, 0.0);
+		events = eventDao.findEvents(null, null, null, "time", "desc", 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("时间最远的event的time应该为2015-03-02 20:35:59!", TimeUtils.parseDateTime("2015-03-02 20:35:59") , events.get(0).eventTime());
 		
-		events = eventDao.findEvents(null, null, null, "price", "asc", 0.0, 0.0, 0.0);
+		events = eventDao.findEvents(null, null, null, "price", "asc", 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("价格最便宜的event的id应该为event_uuid_2!", "event_uuid_2" , events.get(0).eventUUID());
-		events = eventDao.findEvents(null, null, null, "price", "desc", 0.0, 0.0, 0.0);
+		events = eventDao.findEvents(null, null, null, "price", "desc", 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("价格最昂贵的event的id应该为event_uuid_0!", "event_uuid_0" , events.get(0).eventUUID());
 
-		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-02 20:35:59"), "0", "0", "price", "asc", 2.0, 2.0, 2);
+		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-02 20:35:59"), "0", "0", "price", "asc", 2.0, 2.0, 2, null);
 		Assert.assertEquals("符合条件event应该有1个!", 1 , events.size());
-		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-01 20:35:59"), "0", "0", "distance", "desc", 2.0, 2.0, 2);
+		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-01 20:35:59"), "0", "0", "distance", "desc", 2.0, 2.0, 2, null);
 		Assert.assertEquals("符合条件event应该有0个!", 0 , events.size());
+
+		events = eventDao.findEvents(null, null, null, "price", "asc", 0.0, 0.0, 0.0, EventStatus.Open);
+		Assert.assertEquals("符合条件event应该有2个!", 2 , events.size());
+		events = eventDao.findEvents(null, null, null, "price", "asc", 0.0, 0.0, 0.0, EventStatus.Closed);
+		Assert.assertEquals("符合条件event应该有1个!", 1 , events.size());
 		
 		log.info("testFindEvents done!");
 	}

@@ -90,7 +90,7 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 	
 	@Override
 	public List<PuluoEvent> findEvents(DateTime event_date, String keyword, String level, 
-			String sort, String sort_direction, double latitude, double longitude, double range_from) {
+			String sort, String sort_direction, double latitude, double longitude, double range_from, EventStatus es) {
 		ArrayList<String> params = new ArrayList<String>();
 		if (event_date!=null) {
 			params.add(" and e.event_time = '" + TimeUtils.formatDate(event_date) + "'");
@@ -100,6 +100,9 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 		}
 		if (range_from!=0.0) {
 			params.add(" and power(power(l.latitude-" + latitude + ", 2) + power(l.longitude-" + longitude + ", 2), 0.5) <= " + range_from);
+		}
+		if (es!=null) {
+			params.add(" and e.status = '" + es.name() + "'");
 		}
 		StringBuilder orderBy = new StringBuilder("");
 		if ("time".equals(sort)) {
