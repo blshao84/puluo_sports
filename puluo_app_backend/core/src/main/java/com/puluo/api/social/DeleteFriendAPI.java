@@ -7,6 +7,7 @@ import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.DeleteFriendResult;
 import com.puluo.api.result.PastMessagesResult;
 import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.PuluoFriendRequestDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoFriendRequest;
@@ -33,7 +34,8 @@ public class DeleteFriendAPI extends PuluoAPI<PuluoDSI,DeleteFriendResult> {
 	public void execute() {
 		log.info(String.format("用户:%s和用户:%s解除好友关系",requestor,receiver));
 		PuluoUserFriendshipDao friendshipdao = dsi.friendshipDao();
-		PuluoFriendRequest request = friendshipdao.getFriendRequestByUsers(requestor,receiver);
+		PuluoFriendRequestDao friendRequestDao = dsi.friendRequestDao();
+		PuluoFriendRequest request = friendRequestDao.getFriendRequestByUsers(requestor,receiver);
 		List<PuluoPrivateMessage> messages = request.messages();
 		List<PastMessagesResult> msglist = new ArrayList<PastMessagesResult>();
 		for(int i=0;i<messages.size();i++) {

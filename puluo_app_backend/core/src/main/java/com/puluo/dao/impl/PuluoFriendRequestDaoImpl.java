@@ -160,5 +160,19 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 			return null;
 		}
 	}
+	
+	@Override
+	public PuluoFriendRequest getFriendRequestByUsers(String userUUID,
+			String friendUUID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String updateFriendshipStatus(PuluoFriendRequest request,
+			FriendRequestStatus status) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

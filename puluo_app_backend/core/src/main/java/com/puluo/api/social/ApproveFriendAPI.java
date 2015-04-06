@@ -3,11 +3,14 @@ package com.puluo.api.social;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 import org.joda.time.DateTime;
+
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.ApproveFriendResult;
 import com.puluo.api.result.MessageResult;
 import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.PuluoFriendRequestDao;
 import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
@@ -40,17 +43,18 @@ public class ApproveFriendAPI extends PuluoAPI<PuluoDSI,ApproveFriendResult> {
 	@Override
 	public void execute() {
 		log.info(String.format("开始批准用户:%s向用户:%s提出的好友申请",requestor,receiver));
+		PuluoFriendRequestDao friendRequestDao = dsi.friendRequestDao();
 		PuluoUserFriendshipDao friendshipdao = dsi.friendshipDao();
 		PuluoPrivateMessageDao messagedao = dsi.privateMessageDao();
 		PuluoUserDao userdao = dsi.userDao();
 		friendshipdao.addOneFriend(requestor,receiver);
 		friendshipdao.addOneFriend(receiver,requestor);
-		PuluoFriendRequest request = friendshipdao.getFriendRequestByUsers(requestor,receiver);
-		friendshipdao.updateFriendshipStatus(request, FriendRequestStatus.Approved);
+		PuluoFriendRequest request = friendRequestDao.getFriendRequestByUsers(requestor,receiver);
+		friendRequestDao.updateFriendshipStatus(request, FriendRequestStatus.Approved);
 		PuluoPrivateMessage message = new PuluoPrivateMessageImpl(UUID.randomUUID().toString(),
 				String.format("用户:%s接受您的好友申请，现在可以开始聊天啦！",userdao.getByUUID(receiver).name()),
 				DateTime.now(),PuluoMessageType.FriendRequest,requestor,receiver,requestor);
-		//messagedao.sendMessage(message);
+		messagedao.saveMessage(message);
 		List<MessageResult> messages_result =  new ArrayList<MessageResult>();
 		for(int i=0;i<request.messages().size();i++) 
 			messages_result.add(new MessageResult(request.messages().get(i).messageUUID(),

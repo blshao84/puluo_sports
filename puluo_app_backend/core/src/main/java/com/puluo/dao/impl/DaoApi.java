@@ -67,6 +67,7 @@ public class DaoApi extends PuluoDSI {
 		userSettingDao = BeanFactory.getBean(PuluoUserSettingDao.class, "userSettingDao");
 		authCodeRecordDao = BeanFactory.getBean(PuluoAuthCodeRecordDao.class, "authCodeRecordDao");
 		wechatBindingDao = BeanFactory.getBean(PuluoWechatBindingDaoImpl.class, "wechatBindingDao");
+		friendRequestDao = BeanFactory.getBean(PuluoFriendRequestDaoImpl.class, "friendRequestDao");
 	}
 
 	/**
@@ -157,7 +158,7 @@ public class DaoApi extends PuluoDSI {
 	@Override
 	public PuluoUserFriendshipDao friendshipDao() {
 		
-		return null;
+		return friendshipDao;
 	}
 
 	@Override

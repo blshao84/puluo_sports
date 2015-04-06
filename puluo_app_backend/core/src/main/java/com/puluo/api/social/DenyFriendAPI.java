@@ -7,12 +7,12 @@ import java.util.UUID;
 import org.joda.time.DateTime;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.ApproveFriendResult;
 import com.puluo.api.result.DenyFriendResult;
 import com.puluo.api.result.MessageResult;
 import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.PuluoFriendRequestDao;
+import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.dao.PuluoUserDao;
-import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.FriendRequestStatus;
 import com.puluo.entity.PuluoFriendRequest;
@@ -41,14 +41,15 @@ public class DenyFriendAPI extends PuluoAPI<PuluoDSI,DenyFriendResult> {
 	@Override
 	public void execute() {
 		log.info(String.format("用户:%s拒绝用户:%s提出的好友申请",receiver,requestor));
-		PuluoUserFriendshipDao friendshipdao = dsi.friendshipDao();
 		PuluoUserDao userdao = dsi.userDao();
-		PuluoFriendRequest request = friendshipdao.getFriendRequestByUsers(requestor,receiver);
-		friendshipdao.updateFriendshipStatus(request,FriendRequestStatus.Denied);
+		PuluoPrivateMessageDao messagedao = dsi.privateMessageDao();
+		PuluoFriendRequestDao friendRequestDao = dsi.friendRequestDao();
+		PuluoFriendRequest request = friendRequestDao.getFriendRequestByUsers(requestor,receiver);
+		friendRequestDao.updateFriendshipStatus(request,FriendRequestStatus.Denied);
 		PuluoPrivateMessage message = new PuluoPrivateMessageImpl(UUID.randomUUID().toString(),
 				String.format("用户:%s拒绝了您的好友申请",userdao.getByUUID(receiver).name()),
 				DateTime.now(),PuluoMessageType.FriendRequest,requestor,receiver,requestor);
-		//messagedao.sendMessage(message);
+		messagedao.saveMessage(message);
 		List<MessageResult> messages_result =  new ArrayList<MessageResult>();
 		for(int i=0;i<request.messages().size();i++) 
 			messages_result.add(new MessageResult(request.messages().get(i).messageUUID(),

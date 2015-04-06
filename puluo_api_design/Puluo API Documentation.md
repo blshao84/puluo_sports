@@ -574,7 +574,7 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 
 Send a private message of type 'FriendRequest' to another user
 
-`PUT /users/friends/request`
+`POST /users/friends/request/send`
 
 ###### Required Parameters
 
@@ -584,7 +584,7 @@ Send a private message of type 'FriendRequest' to another user
 
 ###### cURL Example
 ```
-$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X PUT https://183.131.76.93/users/friends/request
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.131.76.93/users/friends/request
 -H "Content-Type: application/json" \
 -d '{
   "user_uuid": "de305d54-75b4-431b-adb2-eb6b9e546013",
@@ -624,7 +624,7 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 
 De-friend two users. Delete all their past messages.
 
-`POST /users/friends/delete`
+`POST /users/friends/request/delete`
 
 ###### Required Parameters
 
@@ -665,7 +665,7 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 
 Deny a friend request.
 
-`POST /users/friends/deny`
+`POST /users/friends/request/deny`
 
 ###### Required Parameters
 
@@ -719,7 +719,7 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.13
 
 Approve a friend request.
 
-`POST /users/friends/approve`
+`POST /users/friends/request/approve`
 
 ###### Required Parameters
 

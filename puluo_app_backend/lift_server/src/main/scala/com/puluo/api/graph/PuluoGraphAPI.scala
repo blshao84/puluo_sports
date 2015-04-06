@@ -27,20 +27,20 @@ object PuluoGraphAPI extends RestHelper with PuluoAPIUtil with Loggable {
       safeRun(api)
       PuluoResponseFactory.createJSONResponse(api)
     }
-    
-    case "users" :: "friends" :: "request" :: Nil Post _ => {
+
+    case "users" :: "friends" :: "request" :: "send" :: Nil Post _ => {
       callWithAuthParam(Map(
         "user_uuid" -> ErrorResponseResult(15).copy(message = "user_uuid")))(doRequestFriend)
     }
-    case "users" :: "friends" :: "delete" :: Nil Post _ => {
+    case "users" :: "friends" :: "request" :: "delete" :: Nil Post _ => {
       callWithAuthParam(Map(
         "user_uuid" -> ErrorResponseResult(15).copy(message = "user_uuid")))(doDeleteFriend)
     }
-    case "users" :: "friends" :: "deny" :: Nil Post _ => {
+    case "users" :: "friends" :: "request" :: "deny" :: Nil Post _ => {
       callWithAuthParam(Map(
         "user_uuid" -> ErrorResponseResult(15).copy(message = "user_uuid")))(doDenyFriend)
     }
-    case "users" :: "friends" :: "approve" :: Nil Post _ => {
+    case "users" :: "friends" :: "request" :: "approve" :: Nil Post _ => {
       callWithAuthParam(Map(
         "user_uuid" -> ErrorResponseResult(15).copy(message = "user_uuid")))(doApproveFriend)
     }
@@ -53,7 +53,7 @@ object PuluoGraphAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val fromUserUUID = session.userUUID()
     logger.info(String.format(
       "create %sFriendAPI, token=%s,session=%s,to_user=%s,from_user=%s",
-      apiType,token, session.sessionID(), toUserUUID, fromUserUUID))
+      apiType, token, session.sessionID(), toUserUUID, fromUserUUID))
     val (api, code) = apiType match {
       case "Request" => (new RequestFriendAPI(toUserUUID, fromUserUUID), 201)
       case "Delete" => (new DeleteFriendAPI(toUserUUID, fromUserUUID), 200)

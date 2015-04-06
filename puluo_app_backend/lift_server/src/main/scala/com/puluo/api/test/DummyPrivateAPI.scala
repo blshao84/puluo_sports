@@ -33,16 +33,16 @@ object DummyPrivateAPI extends RestHelper with PuluoAPIUtil {
     case "dummy" :: "users" :: "friends" :: mobileOrUUID :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(ListFriendsResult.dummy().toJson())
     }
-    case "dummy" :: "users" :: "friends" :: "request" :: Nil Post _ => {
+    case "dummy" :: "users" :: "friends" :: "request" :: "send" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(RequestFriendResult.dummy().toJson())
     }
-    case "dummy" :: "users" :: "friends" :: "delete" :: Nil Post _ => {
+    case "dummy" :: "users" :: "friends" :: "request" :: "delete" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(DeleteFriendResult.dummy().toJson())
     }
-    case "dummy" :: "users" :: "friends" :: "deny" :: Nil Post _ => {
+    case "dummy" :: "users" :: "friends" :: "request" :: "deny" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(DenyFriendResult.dummy().toJson())
     }
-    case "dummy" :: "users" :: "friends" :: "approve" :: Nil Post _ => {
+    case "dummy" :: "users" :: "friends" :: "request" :: "approve" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(ApproveFriendResult.dummy().toJson())
     }
     case "dummy" :: "users" :: "message" :: "send" :: Nil Post _ => {
