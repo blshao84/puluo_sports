@@ -409,7 +409,7 @@ Search user by parameters. If more parameters are specified, search conditions a
 
 ###### cURL Example
 ```
-$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST /users/update
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST /users/search
 -H "Content-Type: application/json" \
 -d '{
   "first_name": "baolin"
