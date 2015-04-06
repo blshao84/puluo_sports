@@ -85,7 +85,7 @@ public class EventTestDataSource {
 				1234.537, 7654.341, 0, 20, 0);
 
 		PuluoEventInfo eventInfo1 = new PuluoEventInfoImpl(infoID1, "臀部炸弹",
-				"瘦臀", "Jerry Ass", "123456", "", "详细信息", 60, 1, 0);
+				"瘦臀、减脂", "Jerry Ass", "123456", "", "详细信息", 60, 1, 0);
 
 		PuluoEventInfo eventInfo2 = new PuluoEventInfoImpl(infoID2, "减脂集中营",
 				"减脂", "Tom Fat", "7080234", "", "详细信息", 45, 2, 0);
@@ -99,7 +99,7 @@ public class EventTestDataSource {
 				eventInfo1.eventInfoUUID(), location2.locationId());
 
 		PuluoEvent event3 = new PuluoEventImpl(eventID3, event_date_0602,
-				EventStatus.Open, 3, 15, 100.0, 50.0,
+				EventStatus.Open, 3, 15, 100.0, 60.0,
 				eventInfo2.eventInfoUUID(), location1.locationId());
 
 		PuluoEvent event4 = new PuluoEventImpl(eventID4, event_date_0602,

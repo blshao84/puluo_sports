@@ -16,6 +16,7 @@ import com.puluo.session.PuluoSessionManager
 import com.puluo.api.event.EventDetailAPI
 import net.liftweb.common.Loggable
 import org.joda.time.DateTime
+import com.puluo.util.SortDirection
 
 object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
@@ -72,16 +73,36 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
     logger.info(s"creating event search api with:\n${params.mkString("\n")}")
     val keyword = params.getOrElse("keyword", "")
     val level = params.getOrElse("level", "")
-    val sort = params.getOrElse("sort", "")
-    val sortDirection = params.getOrElse("sort_direction", "")
-    val api = (locationToDouble(params.get("user_lattitude")), 
-        locationToDouble(params.get("user_longitude"))) match {
-      case (Some(lattitude), Some(longitude)) => {
-        logger.info("api has longitude and lattitude")
-        new EventSearchAPI(eventDate, keyword,level, sort, sortDirection, lattitude, longitude)
+    val sort = try {
+      params.get("sort").map(s => EventSortType.valueOf(s)).getOrElse {
+        logger.info(s"use default sort param:price:${params.get("sort")}")
+        EventSortType.Price
       }
-      case _ => new EventSearchAPI(eventDate, keyword,level, sort, sortDirection, 0.0, 0.0)
+    } catch {
+      case e: Exception => {
+        logger.info(s"use default sort param:price:${params.get("sort")}")
+        EventSortType.Price
+      }
     }
+    val sortDirection = try {
+      params.get("sort_direction").map(SortDirection.valueOf(_)).getOrElse {
+        logger.info(s"use default sort direction:${params.get("sort_direction")}")
+        SortDirection.Asc
+      }
+    } catch {
+      case e: Exception => {
+        logger.info(s"use default sort direction:${params.get("sort_direction")}")
+        SortDirection.Asc
+      }
+    }
+    val api = (locationToDouble(params.get("user_lattitude")),
+      locationToDouble(params.get("user_longitude"))) match {
+        case (Some(lattitude), Some(longitude)) => {
+          logger.info("api has longitude and lattitude")
+          new EventSearchAPI(eventDate, keyword, level, sort, sortDirection, lattitude, longitude)
+        }
+        case _ => new EventSearchAPI(eventDate, keyword, level, sort, sortDirection, 0.0, 0.0)
+      }
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)
 

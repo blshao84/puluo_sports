@@ -1,5 +1,7 @@
 package com.puluo.test.functional;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,7 +51,7 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 				Set<String> expectedEvents = new HashSet<String>();
 				expectedEvents.add(dataSource.eventID1);
 				expectedEvents.add(dataSource.eventID2);
-				Set<String> actualEvents = extractUUID(json);
+				Set<String> actualEvents = extractUUID(json, new HashSet<String>());
 				Assert.assertEquals(expectedEvents, actualEvents);
 			}
 			@Override
@@ -75,7 +77,7 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 				JsonNode json = callAPI("events/search", inputs(session));
 				Set<String> expectedEvents = new HashSet<String>();
 				expectedEvents.add(dataSource.eventID3);
-				Set<String> actualEvents = extractUUID(json);
+				Set<String> actualEvents = extractUUID(json, new HashSet<String>());
 				Assert.assertEquals(expectedEvents, actualEvents);
 			}
 
@@ -85,9 +87,151 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 			}
 		});
 	}
+	
+	@Test
+	public void testKeywordSearchInName() {
+		super.runAuthenticatedTest(new EventFunctionalTestRunner() {
+			
+			@Override
+			public String inputs(String session) {
+				return String.format("{" + "\"token\":\"%s\","
+						+ "\"keyword\":%s," + "}", session,"臀部炸弹");
+			}
 
-	private Set<String> extractUUID(JsonNode json) {
-		Set<String> uuids = new HashSet<String>();
+			@Override
+			public void run(String session) throws UnirestException {
+				JsonNode json = callAPI("events/search", inputs(session));
+				Set<String> expectedEvents = new HashSet<String>();
+				expectedEvents.add(dataSource.eventID1);
+				expectedEvents.add(dataSource.eventID2);
+				Set<String> actualEvents = extractUUID(json, new HashSet<String>());
+				Assert.assertEquals(expectedEvents, actualEvents);
+			}
+
+			@Override
+			public EventTestDataSource dataSource() {
+				return dataSource;
+			}
+		});
+	}
+	
+	@Test
+	public void testKeywordSearchInDescription() {
+		super.runAuthenticatedTest(new EventFunctionalTestRunner() {
+			
+			@Override
+			public String inputs(String session) {
+				return String.format("{" + "\"token\":\"%s\","
+						+ "\"keyword\":%s," + "}", session,"瘦臀");
+			}
+
+			@Override
+			public void run(String session) throws UnirestException {
+				JsonNode json = callAPI("events/search", inputs(session));
+				Set<String> expectedEvents = new HashSet<String>();
+				expectedEvents.add(dataSource.eventID1);
+				expectedEvents.add(dataSource.eventID2);
+				Set<String> actualEvents = extractUUID(json, new HashSet<String>());
+				Assert.assertEquals(expectedEvents, actualEvents);
+			}
+
+			@Override
+			public EventTestDataSource dataSource() {
+				return dataSource;
+			}
+		});
+	}
+	
+	@Test
+	public void testKeywordSearchInDescriptionAndName() {
+		super.runAuthenticatedTest(new EventFunctionalTestRunner() {
+			
+			@Override
+			public String inputs(String session) {
+				return String.format("{" + "\"token\":\"%s\","
+						+ "\"keyword\":%s," + "}", session,"减脂");
+			}
+
+			@Override
+			public void run(String session) throws UnirestException {
+				JsonNode json = callAPI("events/search", inputs(session));
+				Set<String> expectedEvents = new HashSet<String>();
+				expectedEvents.add(dataSource.eventID1);
+				expectedEvents.add(dataSource.eventID2);
+				expectedEvents.add(dataSource.eventID3);
+				Set<String> actualEvents = extractUUID(json, new HashSet<String>());
+				Assert.assertEquals(expectedEvents, actualEvents);
+			}
+
+			@Override
+			public EventTestDataSource dataSource() {
+				return dataSource;
+			}
+		});
+	}
+	
+	@Test
+	public void testKeywordPriceSort() {
+		super.runAuthenticatedTest(new EventFunctionalTestRunner() {
+			
+			@Override
+			public String inputs(String session) {
+				return String.format("{" + "\"token\":\"%s\","
+						+ "\"keyword\":%s,"
+						+ "\"sort\":\"Price\"" + "}", session,"减脂");
+			}
+
+			@Override
+			public void run(String session) throws UnirestException {
+				JsonNode json = callAPI("events/search", inputs(session));
+				ArrayList<String> expectedEvents = new ArrayList<String>();
+				expectedEvents.add(dataSource.eventID1);
+				expectedEvents.add(dataSource.eventID3);
+				expectedEvents.add(dataSource.eventID2);
+				ArrayList<String> actualEvents = extractUUID(json, new ArrayList<String>());
+				Assert.assertEquals(expectedEvents, actualEvents);
+			}
+
+			@Override
+			public EventTestDataSource dataSource() {
+				return dataSource;
+			}
+		});
+	}
+	
+	@Test
+	public void testKeywordPriceSortDesc() {
+		super.runAuthenticatedTest(new EventFunctionalTestRunner() {
+			
+			@Override
+			public String inputs(String session) {
+				return String.format("{" + "\"token\":\"%s\","
+						+ "\"keyword\":%s,"
+						+ "\"sort\":\"Price\","
+						+ "\"sort_direction\":\"Desc\"" + "}", session,"减脂");
+			}
+
+			@Override
+			public void run(String session) throws UnirestException {
+				JsonNode json = callAPI("events/search", inputs(session));
+				ArrayList<String> expectedEvents = new ArrayList<String>();
+				expectedEvents.add(dataSource.eventID2);
+				expectedEvents.add(dataSource.eventID3);
+				expectedEvents.add(dataSource.eventID1);
+				ArrayList<String> actualEvents = extractUUID(json, new ArrayList<String>());
+				Assert.assertEquals(expectedEvents, actualEvents);
+			}
+
+			@Override
+			public EventTestDataSource dataSource() {
+				return dataSource;
+			}
+		});
+	}
+	
+	
+
+	private <T extends Collection<String>> T extractUUID(JsonNode json, T uuids) {
 		JSONObject jo = json.getObject();
 		JSONArray joArray = jo.getJSONArray("events");
 		for (int i = 0; i < joArray.length(); i++) {

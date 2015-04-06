@@ -12,6 +12,7 @@ import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.SortDirection;
 import com.puluo.util.TimeUtils;
 
 public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
@@ -19,22 +20,21 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 	public DateTime event_date;
 	public String keyword;
 	public String level;
-	public String sort; // Luke 2015-03-21
-						// 只提供时间，两点间举例，折后价格的排序；可穿入的值分别为"time"，"distance"，"price"
-	public String sort_direction;
+	public EventSortType sort; 
+	public SortDirection sort_direction;
 	public Double latitude;
 	public Double longitude;
 	public Double range_from;
 
 	public EventSearchAPI(DateTime event_date, String keyword, String level,
-			String sort, String sort_direction, double latitude,
+			EventSortType sort, SortDirection sort_direction, double latitude,
 			double longitude) {
 		this(event_date, keyword, level, sort, sort_direction, latitude,
 				longitude, DaoApi.getInstance());
 	}
 
 	public EventSearchAPI(DateTime event_date, String keyword, String level,
-			String sort, String sort_direction, double latitude,
+			EventSortType sort, SortDirection sort_direction, double latitude,
 			double longitude, PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.event_date = event_date;
