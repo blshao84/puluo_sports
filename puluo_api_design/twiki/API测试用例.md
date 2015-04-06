@@ -30,7 +30,13 @@
       * event_uuid存在，没有memory image
       * event_uuid不存在
     8.  /events/search
-      * 
+      * 按日期搜索
+      * 按日期搜索，但包含已closed的event
+      * 按关键字搜索，按价格默认（升序）排序
+      * 按关键字搜索，按价格降序排序
+      * 按Description的关键字搜索
+      * 按Name的关键字搜索
+      * 按Name和Description的关键字搜索
     9.  /users/friends/mobile_or_uuid (这个link目前没有完成吧？)
       * 一个存在的mobile，并且这个用户有若干好友
       * 一个存在的mobile，并且这个用户没有好友
