@@ -51,14 +51,14 @@ public class UserPrivacyFunctionalTest extends APIFunctionalTest {
 	}
 
 	@Test
-	public void testExistingMobile() {
-		log.info("testExistingMobile start!");
+	public void testLoginUser() {
+		log.info("testLoginUser start!");
 		try {
 			login();
 			Assert.assertFalse("successful login should give not null session id", Strs.isEmpty(sessionId));
 			
 			String str = String.format("{\"token\":\"%s\"}", sessionId);
-			JsonNode json = callAPI("users/privacy/" + mobile1, str);
+			JsonNode json = callAPI("users/privacy/", str);
 			log.info(json);
 			String uuid = super.getStringFromJson(json, "user_uuid");
 			Assert.assertEquals("uuid should be " + uuid1, uuid1, uuid);
@@ -66,25 +66,7 @@ public class UserPrivacyFunctionalTest extends APIFunctionalTest {
 			e.printStackTrace();
 			Assert.assertTrue(false);
 		}
-		log.info("testExistingMobile done!");
-	}
-
-	@Test
-	public void testExistingUUID() {
-		log.info("testExistingUUID start!");
-		try {
-			Assert.assertFalse("successful login should give not null session id", Strs.isEmpty(sessionId));
-			
-			String str = String.format("{\"token\":\"%s\"}", sessionId);
-			JsonNode json = callAPI("users/privacy/" + uuid1, str);
-			log.info(json);
-			String uuid = super.getStringFromJson(json, "user_uuid");
-			Assert.assertEquals("uuid should be " + uuid1, uuid1, uuid);
-		} catch (UnirestException e) {
-			e.printStackTrace();
-			Assert.assertTrue(false);
-		}
-		log.info("testExistingUUID done!");
+		log.info("testLoginUser done!");
 	}
 
 	private void login() {

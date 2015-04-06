@@ -15,7 +15,7 @@ import org.joda.time.DateTime
 
 object PuluoMessageAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
-    case "users" :: "message" :: "send" :: Nil Put _ => {
+    case "users" :: "message" :: "send" :: Nil Post _ => {
       callWithAuthParam(Map(
         "to_uuid" -> ErrorResponseResult(15).copy(message = "to_uuid"),
         "content" -> ErrorResponseResult(15).copy(message = "content"),
