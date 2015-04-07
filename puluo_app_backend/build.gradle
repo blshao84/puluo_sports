@@ -14,6 +14,11 @@ subprojects {
     configurations {
         scalaCompiler
         scalaLibrary
+	functionalTestCompile { extendsFrom testCompile }
+	functionalTestRuntime {
+		extendsFrom functionalTestCompile,testRuntime
+		visible true
+	}
     }
 
     sourceSets {
@@ -39,8 +44,23 @@ subprojects {
                 srcDir 'src/test/java'
             }
         }
+	functionalTest {
+	    compileClasspath = main.output + test.output + configurations.functionalTestCompile
+	    runtimeClasspath = output + test.output + main.output + configurations.functionalTestRuntime
+	    java {
+		srcDir 'src/func_test/java'
+	    }
+	    resources {
+		srcDir 'src/main/java'	
+	    }
+	}
     }
 
+    task functionalTest(dependsOn: 'functionalTestClasses', type:Test) {
+	testClassesDir = sourceSets.functionalTest.output.classesDir
+	classpath = sourceSets.functionalTest.runtimeClasspath
+
+    }
     repositories {
         mavenCentral()
    	jcenter()
@@ -72,7 +92,8 @@ subprojects {
         testCompile "junit:junit:4.5",
         "org.specs2:specs2_$scalaVersion:$specs2Version"
     }
-    
+
+    build.dependsOn(functionalTestClasses)    
 }
 
 task wrapper(type: Wrapper) {
