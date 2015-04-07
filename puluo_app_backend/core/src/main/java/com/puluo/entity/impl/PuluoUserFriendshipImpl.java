@@ -3,6 +3,7 @@ package com.puluo.entity.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoUser;
@@ -12,11 +13,22 @@ public class PuluoUserFriendshipImpl implements PuluoUserFriendship {
 
 	private final String user_uuid;
 	private final String[] friend_uuids;
+	private PuluoDSI dsi;
 	
 	public PuluoUserFriendshipImpl(String user_uuid, String[] friend_uuids) {
+		this(user_uuid, friend_uuids, DaoApi.getInstance());
+	}
+	
+	public PuluoUserFriendshipImpl(String user_uuid, String[] friend_uuids, PuluoDSI dsi) {
 		super();
 		this.user_uuid = user_uuid;
 		this.friend_uuids = friend_uuids;
+		this.dsi = dsi;
+	}
+
+	@Override
+	public void setDSI(PuluoDSI dsi) {
+		this.dsi = dsi;
 	}
 	
 	@Override
@@ -26,18 +38,8 @@ public class PuluoUserFriendshipImpl implements PuluoUserFriendship {
 
 	@Override
 	public List<PuluoFriendInfo> friends() {
-		return friends(DaoApi.getInstance().userDao());
-	}
-	
-	@Override
-	public List<PuluoFriendInfo> friends(PuluoUserDao userDao) {
 		ArrayList<PuluoFriendInfo> puluoFriendInfoList = new ArrayList<PuluoFriendInfo>();
-		PuluoUserDao puluoUserDao;
-		if (userDao!=null) {
-			puluoUserDao = userDao;
-		} else {
-			puluoUserDao = DaoApi.getInstance().userDao();
-		}
+		PuluoUserDao puluoUserDao = dsi.userDao();
 		PuluoUser puluoUser;
 		String last_name;
 		String first_name;

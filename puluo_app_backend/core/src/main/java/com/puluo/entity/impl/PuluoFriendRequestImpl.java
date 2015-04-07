@@ -18,10 +18,18 @@ public class PuluoFriendRequestImpl implements PuluoFriendRequest {
 	private final String to_user_uuid;
 	private final DateTime created_at;
 	private final DateTime updated_at;
+	private final PuluoDSI dsi;
+	
 
 	public PuluoFriendRequestImpl(String request_uuid,
 			FriendRequestStatus request_status, String from_user_uuid,
 			String to_user_uuid, DateTime created_at, DateTime updated_at) {
+		this(request_uuid, request_status, from_user_uuid, to_user_uuid, created_at, updated_at, DaoApi.getInstance());
+	}
+
+	public PuluoFriendRequestImpl(String request_uuid,
+			FriendRequestStatus request_status, String from_user_uuid,
+			String to_user_uuid, DateTime created_at, DateTime updated_at, PuluoDSI dsi) {
 		super();
 		this.request_uuid = request_uuid;
 		this.request_status = request_status;
@@ -29,6 +37,7 @@ public class PuluoFriendRequestImpl implements PuluoFriendRequest {
 		this.to_user_uuid = to_user_uuid;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
+		this.dsi = dsi;
 	}
 
 	@Override
@@ -43,11 +52,7 @@ public class PuluoFriendRequestImpl implements PuluoFriendRequest {
 
 	@Override
 	public List<PuluoPrivateMessage> messages() {
-		return null;
-	}
-
-	public List<PuluoPrivateMessage> messages(PuluoDSI dsi) {
-		return null;
+		return dsi.privateMessageDao().getFriendRequestMessage(from_user_uuid, to_user_uuid);
 	}
 
 	@Override
@@ -62,19 +67,11 @@ public class PuluoFriendRequestImpl implements PuluoFriendRequest {
 
 	@Override
 	public PuluoUser fromUser() {
-		return DaoApi.getInstance().userDao().getByUUID(from_user_uuid);
-	}
-
-	public PuluoUser fromUser(PuluoDSI dsi) {
 		return dsi.userDao().getByUUID(from_user_uuid);
 	}
 
 	@Override
 	public PuluoUser toUser() {
-		return DaoApi.getInstance().userDao().getByUUID(to_user_uuid);
-	}
-
-	public PuluoUser toUser(PuluoDSI dsi) {
 		return dsi.userDao().getByUUID(to_user_uuid);
 	}
 

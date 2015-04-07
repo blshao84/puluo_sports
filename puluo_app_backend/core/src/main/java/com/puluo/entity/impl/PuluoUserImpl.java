@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import org.joda.time.DateTime;
 
+import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoUser;
 import com.puluo.util.Strs;
@@ -32,6 +33,7 @@ public class PuluoUserImpl implements PuluoUser {
 	DateTime created_at; // 用户创建时间
 	DateTime updated_at; // 用户信息最后一次更新时间
 	boolean banned;
+	PuluoDSI dsi;
 
 	public PuluoUserImpl(String user_uuid, String mobile, String[] interests,
 			String password, String firstName, String lastName,
@@ -39,7 +41,7 @@ public class PuluoUserImpl implements PuluoUser {
 			String email, char sex, String zip, String country, String state,
 			String city, String occupation, String address, String saying,
 			DateTime birthday, DateTime created_at, DateTime updated_at,
-			boolean banned) {
+			boolean banned, PuluoDSI dsi) {
 		super();
 		this.user_uuid = user_uuid;
 		this.mobile = mobile;
@@ -63,6 +65,20 @@ public class PuluoUserImpl implements PuluoUser {
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 		this.banned = banned;
+		this.dsi = dsi;
+	}
+	
+	public PuluoUserImpl(String user_uuid, String mobile, String[] interests,
+			String password, String firstName, String lastName,
+			String thumbnail, String largeImage, PuluoUserType user_type,
+			String email, char sex, String zip, String country, String state,
+			String city, String occupation, String address, String saying,
+			DateTime birthday, DateTime created_at, DateTime updated_at,
+			boolean banned) {
+		this(user_uuid, mobile, interests, password, firstName, lastName,
+				thumbnail, largeImage, user_type, email, sex, zip, country,
+				state, city, occupation, address, saying, birthday, created_at,
+				updated_at, banned, DaoApi.getInstance());
 	}
 
 	@Override
@@ -225,7 +241,7 @@ public class PuluoUserImpl implements PuluoUser {
 	@Override
 	public DateTime lastLogin() {
 		
-		return DaoApi.getInstance().sessionDao().getByMobile(mobile).createdAt();
+		return dsi.sessionDao().getByMobile(mobile).createdAt();
 	}
 
 	@Override
@@ -237,19 +253,19 @@ public class PuluoUserImpl implements PuluoUser {
 	@Override
 	public boolean autoAddFriend() {
 		
-		return DaoApi.getInstance().userSettingDao().getByUserUUID(user_uuid).autoAddFriend();
+		return dsi.userSettingDao().getByUserUUID(user_uuid).autoAddFriend();
 	}
 
 	@Override
 	public boolean allowStrangerViewTimeline() {
 		
-		return DaoApi.getInstance().userSettingDao().getByUserUUID(user_uuid).isTimelinePublic();
+		return dsi.userSettingDao().getByUserUUID(user_uuid).isTimelinePublic();
 	}
 
 	@Override
 	public boolean allowSearched() {
 		
-		return DaoApi.getInstance().userSettingDao().getByUserUUID(user_uuid).isSearchable();
+		return dsi.userSettingDao().getByUserUUID(user_uuid).isSearchable();
 	}
 
 }

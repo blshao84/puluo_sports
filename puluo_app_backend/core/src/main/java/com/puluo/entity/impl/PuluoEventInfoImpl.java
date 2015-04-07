@@ -2,7 +2,7 @@ package com.puluo.entity.impl;
 
 import java.util.List;
 
-import com.puluo.dao.PuluoEventPosterDao;
+import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventPoster;
@@ -19,10 +19,11 @@ public class PuluoEventInfoImpl implements PuluoEventInfo {
 	private int duration;
 	private int level;
 	private int type;
+	private PuluoDSI dsi;
 
 	public PuluoEventInfoImpl(String uuid, String name, String description,
 			String coach_name, String coach_uuid, String thumbnail_uuid,
-			String details, int duration, int level, int type) {
+			String details, int duration, int level, int type, PuluoDSI dsi) {
 		super();
 		this.uuid = uuid;
 		this.name = name;
@@ -34,6 +35,12 @@ public class PuluoEventInfoImpl implements PuluoEventInfo {
 		this.duration = duration;
 		this.level = level;
 		this.type = type;
+	}
+	
+	public PuluoEventInfoImpl(String uuid, String name, String description,
+			String coach_name, String coach_uuid, String thumbnail_uuid,
+			String details, int duration, int level, int type) {
+		this(uuid, name, description, coach_name, coach_uuid, thumbnail_uuid, details, duration, level, type, DaoApi.getInstance());
 	}
 	
 	@Override
@@ -100,17 +107,6 @@ public class PuluoEventInfoImpl implements PuluoEventInfo {
 
 	@Override
 	public List<PuluoEventPoster> poster() {
-		return poster(DaoApi.getInstance().eventPosterDao());
-	}
-
-	@Override
-	public List<PuluoEventPoster> poster(PuluoEventPosterDao posterDao) {
-		PuluoEventPosterDao puluoEventPosterDao;
-		if (posterDao!=null) {
-			puluoEventPosterDao = posterDao;
-		} else {
-			puluoEventPosterDao = DaoApi.getInstance().eventPosterDao();
-		}
-		return puluoEventPosterDao.getEventPosterByInfoUUID(uuid);
+		return dsi.eventPosterDao().getEventPosterByInfoUUID(uuid);
 	}
 }

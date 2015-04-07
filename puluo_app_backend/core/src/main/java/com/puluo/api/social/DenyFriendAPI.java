@@ -45,7 +45,7 @@ public class DenyFriendAPI extends PuluoAPI<PuluoDSI,DenyFriendResult> {
 		PuluoPrivateMessageDao messagedao = dsi.privateMessageDao();
 		PuluoFriendRequestDao friendRequestDao = dsi.friendRequestDao();
 		PuluoFriendRequest request = friendRequestDao.getFriendRequestByUsers(requestor,receiver);
-		friendRequestDao.updateFriendshipStatus(request,FriendRequestStatus.Denied);
+		friendRequestDao.updateRequestStatus(request.requestUUID(),FriendRequestStatus.Denied);
 		PuluoPrivateMessage message = new PuluoPrivateMessageImpl(UUID.randomUUID().toString(),
 				String.format("用户:%s拒绝了您的好友申请",userdao.getByUUID(receiver).name()),
 				DateTime.now(),PuluoMessageType.FriendRequest,requestor,receiver,requestor);

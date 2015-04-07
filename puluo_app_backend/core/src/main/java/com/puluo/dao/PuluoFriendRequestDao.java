@@ -14,6 +14,4 @@ public interface PuluoFriendRequestDao {
 	public PuluoFriendRequest findByUUID(String requestUUID);
 	
 	public PuluoFriendRequest getFriendRequestByUsers(String userUUID, String friendUUID);
-	
-	public String updateFriendshipStatus(PuluoFriendRequest request, FriendRequestStatus status);
 }

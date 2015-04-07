@@ -12,14 +12,21 @@ public class PuluoSessionImpl implements PuluoSession {
 	private final String session_id;
 	private final DateTime created_at;
 	private final DateTime deleted_at;
+	private final PuluoDSI dsi;
 
 	public PuluoSessionImpl(String user_mobile, String session_id,
-			DateTime created_at, DateTime deleted_at) {
+			DateTime created_at, DateTime deleted_at, PuluoDSI dsi) {
 		super();
 		this.user_mobile = user_mobile;
 		this.session_id = session_id;
 		this.created_at = created_at;
 		this.deleted_at = deleted_at;
+		this.dsi = dsi;
+	}
+	
+	public PuluoSessionImpl(String user_mobile, String session_id,
+			DateTime created_at, DateTime deleted_at) {
+		this(user_mobile, session_id, created_at, deleted_at, DaoApi.getInstance());
 	}
 
 	@Override
@@ -53,20 +60,11 @@ public class PuluoSessionImpl implements PuluoSession {
 
 	@Override
 	public String userUUID() {
-		return userUUID(DaoApi.getInstance());
-	}
-
-	public String userUUID(PuluoDSI dsi) {
 		return dsi.userDao().getByMobile(user_mobile).userUUID();
 	}
 
 	@Override
 	public DateTime now() {
-		return now(DaoApi.getInstance());
-	}
-
-	public DateTime now(PuluoDSI dsi) {
 		return dsi.sessionDao().now();
 	}
-
 }

@@ -38,9 +38,6 @@ public class PuluoFriendRequestDaoTest {
 		requestDao.createTable();
 		requestDao.saveNewRequest("123456", user1, user2);
 		requestDao.saveNewRequest("234567", user2, user3);
-		requestDao.saveNewRequest("345678", user3, user1);
-		requestDao.saveNewRequest("456789", user1, user2);
-		requestDao.saveNewRequest("567890", user2, user3);
 		
 		log.info("setUpDB done!");
 	}
@@ -65,10 +62,21 @@ public class PuluoFriendRequestDaoTest {
 		log.info("testUpdateRequestStatus start!");
 
 		PuluoFriendRequestDao requestDao = DaoTestApi.friendRequestDevDao;
-		requestDao.updateRequestStatus("345678", FriendRequestStatus.Denied);
-		PuluoFriendRequest request = requestDao.findByUUID("345678");
+		requestDao.updateRequestStatus("123456", FriendRequestStatus.Denied);
+		PuluoFriendRequest request = requestDao.findByUUID("123456");
 		Assert.assertEquals("request's status should be denied", FriendRequestStatus.Denied, request.requestStatus());
 		
 		log.info("testUpdateRequestStatus done!");
+	}
+
+	@Test
+	public void testGetFriendRequestByUsers() {
+		log.info("testGetFriendRequestByUsers start!");
+
+		PuluoFriendRequestDao requestDao = DaoTestApi.friendRequestDevDao;
+		PuluoFriendRequest request = requestDao.getFriendRequestByUsers(user2, user3);
+		Assert.assertEquals("request's uuid should be 234567", "234567", request.requestUUID());
+		
+		log.info("testGetFriendRequestByUsers done!");
 	}
 }

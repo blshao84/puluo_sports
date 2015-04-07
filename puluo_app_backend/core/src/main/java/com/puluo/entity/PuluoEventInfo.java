@@ -2,9 +2,6 @@ package com.puluo.entity;
 
 import java.util.List;
 
-import com.puluo.dao.PuluoEventPosterDao;
-
-
 public interface PuluoEventInfo {
 	
 	String eventInfoUUID();
@@ -20,5 +17,4 @@ public interface PuluoEventInfo {
 	int likes();
 	double rating(); 	
 	List<PuluoEventPoster> poster();
-	List<PuluoEventPoster> poster(PuluoEventPosterDao posterDao);
 }

@@ -42,7 +42,7 @@ public class DeleteFriendAPI extends PuluoAPI<PuluoDSI,DeleteFriendResult> {
 			PastMessagesResult pastmsg = new PastMessagesResult(messages.get(i).messageUUID());
 			msglist.add(pastmsg);
 		}
-		friendshipdao.deleteOneFriend(requestor,receiver);
+//		friendshipdao.deleteOneFriend(requestor,receiver);
 		friendshipdao.deleteOneFriend(receiver,requestor);
 		DeleteFriendResult result = new DeleteFriendResult(msglist);
 		rawResult = result;

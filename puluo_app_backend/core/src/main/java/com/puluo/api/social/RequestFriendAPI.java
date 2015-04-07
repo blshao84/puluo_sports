@@ -48,7 +48,7 @@ public class RequestFriendAPI extends PuluoAPI<PuluoDSI, RequestFriendResult> {
 		PuluoPrivateMessageDao messagedao = dsi.privateMessageDao();
 		PuluoUserDao userdao = dsi.userDao();
 		PuluoFriendRequest request;
-		if(friendRequestDao.getFriendRequestByUsers(requestor,receiver).equals(null))
+		if(friendRequestDao.getFriendRequestByUsers(requestor,receiver)==null)
 			request = new PuluoFriendRequestImpl(UUID.randomUUID().toString(),
 					FriendRequestStatus.Requested,requestor,receiver,DateTime.now(),DateTime.now());
 		else
