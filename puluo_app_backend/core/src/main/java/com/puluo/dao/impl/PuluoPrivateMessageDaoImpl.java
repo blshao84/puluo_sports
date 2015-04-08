@@ -15,28 +15,31 @@ import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.PuluoDatabaseException;
 import com.puluo.util.Strs;
 import com.puluo.util.TimeUtils;
 
 public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 		PuluoPrivateMessageDao {
-	
+
 	public static Log log = LogFactory.getLog(PuluoPrivateMessageDaoImpl.class);
 
 	@Override
 	public boolean saveMessage(PuluoPrivateMessage message) {
 		try {
-			String updateSQL = new StringBuilder().append("insert into ")
-						.append(super.getFullTableName())
-						.append(" (message_uuid, content, message_type, friend_request_uuid, from_user_uuid, to_user_uuid, created_at)")
-						.append("values ('" + message.messageUUID() + "', ")
-						.append("'" + message.content() + "', ")
-						.append("'" + message.messageType().name() + "', ")
-						.append(Strs.isEmpty(message.requestUUID()) ? "null, " : "'" + message.requestUUID() + "', ")
-						.append("'" + message.fromUser().userUUID() + "', ")
-						.append("'" + message.toUser().userUUID() + "', ")
-						.append("'" + TimeUtils.formatDate(message.createdAt()) + "')")
-						.toString();
+			String updateSQL = new StringBuilder()
+					.append("insert into ")
+					.append(super.getFullTableName())
+					.append(" (message_uuid, content, message_type, friend_request_uuid, from_user_uuid, to_user_uuid, created_at)")
+					.append("values ('" + message.messageUUID() + "', ")
+					.append("'" + message.content() + "', ")
+					.append("'" + message.messageType().name() + "', ")
+					.append(Strs.isEmpty(message.requestUUID()) ? "null, "
+							: "'" + message.requestUUID() + "', ")
+					.append("'" + message.fromUser().userUUID() + "', ")
+					.append("'" + message.toUser().userUUID() + "', ")
+					.append("'" + TimeUtils.formatDate(message.createdAt())
+							+ "')").toString();
 			log.info(updateSQL);
 			getWriter().update(updateSQL);
 			return true;
@@ -45,35 +48,25 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			return false;
 		}
 	}
-	
-	public boolean deleteByMsgUUID(String uuid){
+
+	public boolean deleteByMsgUUID(String uuid) {
 		return super.deleteByUniqueKey("message_uuid", uuid);
 	}
 
 	@Override
-	public List<PuluoPrivateMessage> getFriendRequestMessage(String fromUserUUID, String toUserUUID) {
+	public List<PuluoPrivateMessage> getFriendRequestMessage(
+			String fromUserUUID, String toUserUUID) {
 		try {
 			SqlReader reader = getReader();
-			StringBuilder selectSQL = new StringBuilder().append("select * from ")
+			StringBuilder selectSQL = new StringBuilder()
+					.append("select * from ")
 					.append(super.getFullTableName())
-					.append(" where from_user_uuid = ?  and to_user_uuid = ? and message_type = '" + PuluoMessageType.FriendRequest.name() + "'" );
+					.append(" where from_user_uuid = ?  and to_user_uuid = ? and message_type = '"
+							+ PuluoMessageType.FriendRequest.name() + "'");
 			log.info(selectSQL.toString());
-			List<PuluoPrivateMessage> entities = reader.query(selectSQL.toString(), new Object[]{fromUserUUID, toUserUUID},
-					new RowMapper<PuluoPrivateMessage>() {
-						@Override
-						public PuluoPrivateMessage mapRow(ResultSet rs, int rowNum)
-								throws SQLException {
-							PuluoPrivateMessageImpl message = new PuluoPrivateMessageImpl(
-									rs.getString("message_uuid"),
-									rs.getString("content"),
-									TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at"))),
-									PuluoMessageType.valueOf(rs.getString("message_type")),
-									rs.getString("friend_request_uuid"),
-									rs.getString("from_user_uuid"),
-									rs.getString("to_user_uuid"));
-							return message;
-						}
-					});
+			List<PuluoPrivateMessage> entities = reader.query(
+					selectSQL.toString(), new Object[] { fromUserUUID,
+							toUserUUID }, new PrivateMessageMapper());
 			return entities;
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -86,32 +79,22 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			DateTime time_from, DateTime time_to) {
 		try {
 			SqlReader reader = getReader();
-			StringBuilder selectSQL = new StringBuilder().append("select * from ")
+			StringBuilder selectSQL = new StringBuilder()
+					.append("select * from ")
 					.append(super.getFullTableName())
-					.append(" where from_user_uuid = ? and message_type <> '" + PuluoMessageType.FriendRequest.name() + "'" );
+					.append(" where from_user_uuid = ? and message_type <> '"
+							+ PuluoMessageType.FriendRequest.name() + "'");
 			if (!Strs.isEmpty(TimeUtils.formatDate(time_from))) {
-				selectSQL.append(" and created_at >= '" + TimeUtils.formatDate(time_from) + "'");
+				selectSQL.append(" and created_at >= '"
+						+ TimeUtils.formatDate(time_from) + "'");
 			}
 			if (!Strs.isEmpty(TimeUtils.formatDate(time_to))) {
-				selectSQL.append(" and created_at <= '" + TimeUtils.formatDate(time_to) + "'");
+				selectSQL.append(" and created_at <= '"
+						+ TimeUtils.formatDate(time_to) + "'");
 			}
 			log.info(selectSQL.toString());
-			List<PuluoPrivateMessage> entities = reader.query(selectSQL.toString(), new Object[]{userUUID},
-					new RowMapper<PuluoPrivateMessage>() {
-						@Override
-						public PuluoPrivateMessage mapRow(ResultSet rs, int rowNum)
-								throws SQLException {
-							PuluoPrivateMessageImpl message = new PuluoPrivateMessageImpl(
-									rs.getString("message_uuid"),
-									rs.getString("content"),
-									TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at"))),
-									PuluoMessageType.valueOf(rs.getString("message_type")),
-									rs.getString("friend_request_uuid"),
-									rs.getString("from_user_uuid"),
-									rs.getString("to_user_uuid"));
-							return message;
-						}
-					});
+			List<PuluoPrivateMessage> entities = reader.query(
+					selectSQL.toString(), new Object[] { userUUID },new PrivateMessageMapper());
 			return entities;
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -123,16 +106,14 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 	public boolean createTable() {
 		try {
 			String createSQL = new StringBuilder().append("create table ")
-				.append(super.getFullTableName())
-				.append(" (id serial primary key, ")
-				.append("message_uuid text unique, ")
-				.append("content text, ")
-				.append("message_type text, ")
-				.append("friend_request_uuid text, ")
-				.append("from_user_uuid text, ")
-				.append("to_user_uuid text, ")
-				.append("created_at timestamp)")
-				.toString();
+					.append(super.getFullTableName())
+					.append(" (id serial primary key, ")
+					.append("message_uuid text unique, ")
+					.append("content text, ").append("message_type text, ")
+					.append("friend_request_uuid text, ")
+					.append("from_user_uuid text, ")
+					.append("to_user_uuid text, ")
+					.append("created_at timestamp)").toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
 			// TODO create index
@@ -148,47 +129,36 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			String to_user_uuid, DateTime time_from, DateTime time_to) {
 		try {
 			SqlReader reader = getReader();
-			StringBuilder selectSQL = new StringBuilder().append("select * from ")
-					.append(super.getFullTableName())
+			StringBuilder selectSQL = new StringBuilder()
+					.append("select * from ").append(super.getFullTableName())
 					.append(" where");
 			Object[] args;
-			if (!Strs.isEmpty(from_user_uuid)
-					&& !Strs.isEmpty(to_user_uuid)) {
-				selectSQL.append(" from_user_uuid = ? and to_user_uuid = ? and");
-				args = new Object[]{from_user_uuid, to_user_uuid};
+			if (!Strs.isEmpty(from_user_uuid) && !Strs.isEmpty(to_user_uuid)) {
+				selectSQL
+						.append(" from_user_uuid = ? and to_user_uuid = ? and");
+				args = new Object[] { from_user_uuid, to_user_uuid };
 			} else if (!Strs.isEmpty(from_user_uuid)) {
 				selectSQL.append(" from_user_uuid = ? and");
-				args = new Object[]{from_user_uuid};
+				args = new Object[] { from_user_uuid };
 			} else if (!Strs.isEmpty(to_user_uuid)) {
 				selectSQL.append(" to_user_uuid = ? and");
-				args = new Object[]{to_user_uuid};
+				args = new Object[] { to_user_uuid };
 			} else {
-				args = new Object[]{};
+				args = new Object[] {};
 			}
-			selectSQL.append(" message_type <> '" + PuluoMessageType.FriendRequest.name() + "'");
+			selectSQL.append(" message_type <> '"
+					+ PuluoMessageType.FriendRequest.name() + "'");
 			if (!Strs.isEmpty(TimeUtils.formatDate(time_from))) {
-				selectSQL.append(" and created_at >= '" + TimeUtils.formatDate(time_from) + "'");
+				selectSQL.append(" and created_at >= '"
+						+ TimeUtils.formatDate(time_from) + "'");
 			}
 			if (!Strs.isEmpty(TimeUtils.formatDate(time_to))) {
-				selectSQL.append(" and created_at <= '" + TimeUtils.formatDate(time_to) + "'");
+				selectSQL.append(" and created_at <= '"
+						+ TimeUtils.formatDate(time_to) + "'");
 			}
 			log.info(selectSQL.toString());
-			List<PuluoPrivateMessage> entities = reader.query(selectSQL.toString(), args,
-					new RowMapper<PuluoPrivateMessage>() {
-						@Override
-						public PuluoPrivateMessage mapRow(ResultSet rs, int rowNum)
-								throws SQLException {
-							PuluoPrivateMessageImpl message = new PuluoPrivateMessageImpl(
-									rs.getString("message_uuid"),
-									rs.getString("content"),
-									TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at"))),
-									PuluoMessageType.valueOf(rs.getString("message_type")),
-									rs.getString("friend_request_uuid"),
-									rs.getString("from_user_uuid"),
-									rs.getString("to_user_uuid"));
-							return message;
-						}
-					});
+			List<PuluoPrivateMessage> entities = reader.query(
+					selectSQL.toString(), args,new PrivateMessageMapper());
 			return entities;
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -196,4 +166,41 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 		}
 	}
 
+	@Override
+	public PuluoPrivateMessage findByUUID(String uuid) {
+		try {
+			SqlReader reader = getReader();
+			StringBuilder selectSQL = new StringBuilder().append("select * from ")
+					.append(super.getFullTableName())
+					.append(" where message_uuid = ?");
+			
+			log.info(selectSQL.toString());
+			List<PuluoPrivateMessage> entities = reader.query(selectSQL.toString(), new Object[]{uuid},
+					new PrivateMessageMapper());
+			if (entities.size() == 1)
+				return entities.get(0);
+			else if (entities.size() > 1)
+				throw new PuluoDatabaseException("通过event uuid查到多个event！");
+			else
+				return null;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
+	}
+}
+
+class PrivateMessageMapper implements RowMapper<PuluoPrivateMessage> {
+	@Override
+	public PuluoPrivateMessage mapRow(ResultSet rs, int rowNum)
+			throws SQLException {
+		PuluoPrivateMessageImpl message = new PuluoPrivateMessageImpl(
+				rs.getString("message_uuid"), rs.getString("content"),
+				TimeUtils.parseDateTime(TimeUtils.formatDate(rs
+						.getTimestamp("created_at"))),
+				PuluoMessageType.valueOf(rs.getString("message_type")),
+				rs.getString("friend_request_uuid"),
+				rs.getString("from_user_uuid"), rs.getString("to_user_uuid"));
+		return message;
+	}
 }

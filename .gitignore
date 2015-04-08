@@ -48,3 +48,6 @@ src/main/webapp/.idea/*
 
 *.swp
 puluo_app_backend/lift_server/data/dist/lift_server.war
+puluo_app_backend/core/.settings/org.eclipse.jdt.core.prefs
+puluo_app_backend/core_test/.settings/org.eclipse.jdt.core.prefs
+puluo_app_backend/lift_server/.settings/org.eclipse.jdt.core.prefs

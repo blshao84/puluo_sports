@@ -19,7 +19,8 @@ public abstract class APIFunctionalTest {
 
 	protected String host = "http://localhost:8080/";
 
-	protected void runAuthenticatedTest(PuluoAuthenticatedFunctionalTestRunner runner) {
+	protected void runAuthenticatedTest(
+			PuluoAuthenticatedFunctionalTestRunner runner) {
 		String session = login(runner.mobile(), runner.password());
 		if (session != null) {
 			try {
@@ -31,7 +32,7 @@ public abstract class APIFunctionalTest {
 		} else
 			Assert.fail("fail to login");
 	}
-	
+
 	protected JsonNode callAPI(String url, String inputJsonStr)
 			throws UnirestException {
 		JsonNode input = new JsonNode(inputJsonStr);
@@ -60,6 +61,20 @@ public abstract class APIFunctionalTest {
 		if (jo != null) {
 			JSONObject value = jo.getJSONObject(key1);
 			return extractStringFromJSON(value, key2);
+		} else
+			return "";
+	}
+
+	protected String getStringFromJson(JsonNode result, String key1,
+			String key2, String key3) {
+		JSONObject jo = result.getObject();
+		if (jo != null) {
+			JSONObject value = jo.getJSONObject(key1);
+			if (value != null) {
+				JSONObject value2 = value.getJSONObject(key2);
+				return extractStringFromJSON(value2, key3);
+			} else
+				return "";
 		} else
 			return "";
 	}
@@ -98,7 +113,7 @@ public abstract class APIFunctionalTest {
 		}
 	}
 
-	private String extractStringFromJSON(JSONObject jo, String key) {
+	protected String extractStringFromJSON(JSONObject jo, String key) {
 		if (jo != null) {
 			Object value = jo.get(key);
 			if (value == null)

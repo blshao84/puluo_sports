@@ -12,6 +12,8 @@ public interface PuluoPrivateMessageDao {
 	public boolean createTable();
 	
 	public boolean saveMessage(PuluoPrivateMessage message);
+	
+	public PuluoPrivateMessage findByUUID(String uuid);
 
 //	public String sendMessage(PuluoPrivateMessage message, String to_user);
 	
