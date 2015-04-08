@@ -35,10 +35,10 @@ public class EventDetailAPI extends PuluoAPI<PuluoDSI, EventDetailResult> {
 		PuluoEventDao event_dao = dsi.eventDao();
 		PuluoEvent event = event_dao.getEventByUUID(event_uuid);
 		if(event!=null) {
-			for(int i=0;i<event.eventInfo().poster().size();i++) {
+			for(int i=0;i<event.eventInfo().poster().size();i++) 
 				thumbnails.add(event.eventInfo().poster().get(i).thumbnail());
-				images.add(event.eventInfo().poster().get(i).imageURL());
-			}
+			for(int j=0;j<event.memory().size();j++)
+				images.add(event.memory().get(j).thumbnail());
 			EventDetailResult result = new EventDetailResult(event.statusName(),event.eventInfo().name(),
 					TimeUtils.dateTime2Millis(event.eventTime()),event.eventLocation().address(),event.eventLocation().city(),
 					event.eventLocation().phone(),event.eventInfo().coachName(),event.eventInfo().coachUUID(),thumbnails, 

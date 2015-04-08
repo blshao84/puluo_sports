@@ -25,19 +25,19 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 	public SortDirection sort_direction;
 	public Double latitude;
 	public Double longitude;
-	public Double range_from;
-	public EventStatus status;
+	public Double range_from = 5.0;
+	public EventStatus status = EventStatus.Open;
 
 	public EventSearchAPI(DateTime event_date, String keyword, String level,
 			EventSortType sort, SortDirection sort_direction, double latitude,
-			double longitude, EventStatus status) {
+			double longitude, double range_from, EventStatus status) {
 		this(event_date, keyword, level, sort, sort_direction, latitude,
-				longitude, status, DaoApi.getInstance());
+				longitude, range_from, status, DaoApi.getInstance());
 	}
 
 	public EventSearchAPI(DateTime event_date, String keyword, String level,
 			EventSortType sort, SortDirection sort_direction, double latitude,
-			double longitude, EventStatus status, PuluoDSI dsi) {
+			double longitude, double range_from, EventStatus status, PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.event_date = event_date;
 		this.keyword = keyword;
@@ -46,9 +46,8 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 		this.sort_direction = sort_direction;
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.range_from = range_from;
 		this.status = status;
-		//TODO: making this 0.0 ignores the location search
-		this.range_from = 0.0; // FIXME: should be fixed!!! -BS
 	}
 
 	@Override
