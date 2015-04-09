@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.puluo.entity.EventStatus;
 import com.puluo.test.functional.util.APIFunctionalTest;
 import com.puluo.test.functional.util.EventFunctionalTestRunner;
 import com.puluo.test.functional.util.EventTestDataSource;
@@ -68,15 +69,17 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 			@Override
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
-						+ "\"event_date\":%s," + "}", session,
-						dataSource.event_date_0602.getMillis());
+						+ "\"event_date\":%s,"
+						+ "\"status\":\"%s\"}", session,
+						dataSource.event_date_0602.getMillis(),
+						EventStatus.Closed.name());
 			}
 
 			@Override
 			public void run(String session) throws UnirestException {
 				JsonNode json = callAPI("events/search", inputs(session));
 				Set<String> expectedEvents = new HashSet<String>();
-				expectedEvents.add(dataSource.eventID3);
+				expectedEvents.add(dataSource.eventID4);
 				Set<String> actualEvents = extractUUID(json, new HashSet<String>());
 				Assert.assertEquals(expectedEvents, actualEvents);
 			}
@@ -149,7 +152,7 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 			@Override
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
-						+ "\"keyword\":%s," + "}", session,"减脂");
+						+ "\"keyword\":%s,\"status\":\"%s\"}", session,"减脂",EventStatus.Open.name());
 			}
 
 			@Override
@@ -178,7 +181,8 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
 						+ "\"keyword\":%s,"
-						+ "\"sort\":\"Price\"" + "}", session,"减脂");
+						+ "\"sort\":\"Price\","
+						+ "\"status\":\"%s\"}", session,"减脂",EventStatus.Open.name());
 			}
 
 			@Override
@@ -208,7 +212,8 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 				return String.format("{" + "\"token\":\"%s\","
 						+ "\"keyword\":%s,"
 						+ "\"sort\":\"Price\","
-						+ "\"sort_direction\":\"Desc\"" + "}", session,"减脂");
+						+ "\"sort_direction\":\"Desc\","
+						+ "\"status\":\"%s\"}", session,"减脂",EventStatus.Open.name());
 			}
 
 			@Override

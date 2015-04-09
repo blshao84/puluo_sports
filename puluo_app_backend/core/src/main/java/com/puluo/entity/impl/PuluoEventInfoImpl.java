@@ -35,6 +35,7 @@ public class PuluoEventInfoImpl implements PuluoEventInfo {
 		this.duration = duration;
 		this.level = level;
 		this.type = type;
+		this.dsi = dsi;
 	}
 	
 	public PuluoEventInfoImpl(String uuid, String name, String description,
