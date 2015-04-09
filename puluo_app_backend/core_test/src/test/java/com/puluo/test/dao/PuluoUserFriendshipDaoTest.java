@@ -102,21 +102,17 @@ public class PuluoUserFriendshipDaoTest {
 	public void testGetFriendListByUUID() {
 		log.info("testGetFriendListByUUID start!");
 		PuluoUserFriendshipDao friendDao = DaoTestApi.friendDevDao;
-		List<PuluoUserFriendship> friendshipList = friendDao.getFriendListByUUID(uuid_1);
-		String user_uuid;
-		List<PuluoFriendInfo> friends;
-		for (PuluoUserFriendship friendship : friendshipList) {
-			user_uuid = friendship.userUUID();
-			Assert.assertEquals("user's uuid should be " + uuid_1, uuid_1, user_uuid);
-			friendship.setDSI(DaoTestApi.getInstance());
-			friends = friendship.friends();
-			String[] expected = {uuid_2, uuid_3};
-			String[] current = new String[2];
-			for (int i=0; i<friends.size(); i++) {
-				current[i] = friends.get(i).user_uuid;
-			}
-			Assert.assertArrayEquals("user's friends should be " + expected, expected, current);
+		PuluoUserFriendship friendship = friendDao.getFriendListByUUID(uuid_1);
+		String user_uuid = friendship.userUUID();
+		Assert.assertEquals("user's uuid should be " + uuid_1, uuid_1, user_uuid);
+		friendship.setDSI(DaoTestApi.getInstance());
+		List<PuluoFriendInfo> friends = friendship.friends();
+		String[] expected = {uuid_2, uuid_3};
+		String[] current = new String[2];
+		for (int i=0; i<friends.size(); i++) {
+			current[i] = friends.get(i).user_uuid;
 		}
+		Assert.assertArrayEquals("user1's friends should be " + expected, expected, current);
 		log.info("testGetFriendListByUUID done!");
 	}
 	
@@ -125,35 +121,28 @@ public class PuluoUserFriendshipDaoTest {
 		log.info("testAddOneFriend start!");
 		PuluoUserFriendshipDao friendDao = DaoTestApi.friendDevDao;
 		friendDao.addOneFriend(uuid_2, uuid_4);
-		List<PuluoUserFriendship> friendshipList;
-		String user_uuid;
-		List<PuluoFriendInfo> friends;
-		friendshipList = friendDao.getFriendListByUUID(uuid_2);
-		for (PuluoUserFriendship friendship : friendshipList) {
-			user_uuid = friendship.userUUID();
-			Assert.assertEquals("user's uuid should be " + uuid_2, uuid_2, user_uuid);
-			friendship.setDSI(DaoTestApi.getInstance());
-			friends = friendship.friends();
-			String[] expected = {uuid_1, uuid_3, uuid_4};
-			String[] current = new String[3];
-			for (int i=0; i<friends.size(); i++) {
-				current[i] = friends.get(i).user_uuid;
-			}
-			Assert.assertArrayEquals("user's friends should be " + expected, expected, current);
+		PuluoUserFriendship friendship = friendDao.getFriendListByUUID(uuid_2);
+		String user_uuid = friendship.userUUID();
+		Assert.assertEquals("user2's uuid should be " + uuid_2, uuid_2, user_uuid);
+		friendship.setDSI(DaoTestApi.getInstance());
+		List<PuluoFriendInfo> friends = friendship.friends();
+		String[] expected2 = {uuid_1, uuid_3, uuid_4};
+		String[] current = new String[3];
+		for (int i=0; i<friends.size(); i++) {
+			current[i] = friends.get(i).user_uuid;
 		}
-		friendshipList = friendDao.getFriendListByUUID(uuid_4);
-		for (PuluoUserFriendship friendship : friendshipList) {
-			user_uuid = friendship.userUUID();
-			Assert.assertEquals("user's uuid should be " + uuid_4, uuid_4, user_uuid);
-			friendship.setDSI(DaoTestApi.getInstance());
-			friends = friendship.friends();
-			String[] expected = {uuid_3, uuid_2};
-			String[] current = new String[2];
-			for (int i=0; i<friends.size(); i++) {
-				current[i] = friends.get(i).user_uuid;
-			}
-			Assert.assertArrayEquals("user's friends should be " + expected, expected, current);
+		Assert.assertArrayEquals("user2's friends should be " + expected2, expected2, current);
+		friendship = friendDao.getFriendListByUUID(uuid_4);
+		user_uuid = friendship.userUUID();
+		Assert.assertEquals("user4's uuid should be " + uuid_4, uuid_4, user_uuid);
+		friendship.setDSI(DaoTestApi.getInstance());
+		friends = friendship.friends();
+		String[] expected4 = {uuid_3, uuid_2};
+		current = new String[2];
+		for (int i=0; i<friends.size(); i++) {
+			current[i] = friends.get(i).user_uuid;
 		}
+		Assert.assertArrayEquals("user4's friends should be " + expected4, expected4, current);
 		log.info("testAddOneFriend done!");
 	}
 	
@@ -162,35 +151,39 @@ public class PuluoUserFriendshipDaoTest {
 		log.info("testDeleteOneFriend start!");
 		PuluoUserFriendshipDao friendDao = DaoTestApi.friendDevDao;
 		friendDao.deleteOneFriend(uuid_5, uuid_3);
-		List<PuluoUserFriendship> friendshipList;
-		String user_uuid;
-		List<PuluoFriendInfo> friends;
-		friendshipList = friendDao.getFriendListByUUID(uuid_3);
-		for (PuluoUserFriendship friendship : friendshipList) {
-			user_uuid = friendship.userUUID();
-			Assert.assertEquals("user's uuid should be " + uuid_3, uuid_3, user_uuid);
-			friendship.setDSI(DaoTestApi.getInstance());
-			friends = friendship.friends();
-			String[] expected = {uuid_1, uuid_2, uuid_4};
-			String[] current = new String[3];
-			for (int i=0; i<friends.size(); i++) {
-				current[i] = friends.get(i).user_uuid;
-			}
-			Assert.assertArrayEquals("user's friends should be " + expected, expected, current);
+		PuluoUserFriendship friendship = friendDao.getFriendListByUUID(uuid_3);
+		String user_uuid = friendship.userUUID();
+		Assert.assertEquals("user3's uuid should be " + uuid_3, uuid_3, user_uuid);
+		friendship.setDSI(DaoTestApi.getInstance());
+		List<PuluoFriendInfo> friends = friendship.friends();
+		String[] expected3 = {uuid_1, uuid_2, uuid_4};
+		String[] current = new String[3];
+		for (int i=0; i<friends.size(); i++) {
+			current[i] = friends.get(i).user_uuid;
 		}
-		friendshipList = friendDao.getFriendListByUUID(uuid_5);
-		for (PuluoUserFriendship friendship : friendshipList) {
-			user_uuid = friendship.userUUID();
-			Assert.assertEquals("user's uuid should be " + uuid_5, uuid_5, user_uuid);
-			friendship.setDSI(DaoTestApi.getInstance());
-			friends = friendship.friends();
-			String[] expected = new String[3];
-			String[] current = new String[3];
-			for (int i=0; i<friends.size(); i++) {
-				current[i] = friends.get(i).user_uuid;
-			}
-			Assert.assertArrayEquals("user's friends should be " + expected, expected, current);
+		Assert.assertArrayEquals("user3's friends should be " + expected3, expected3, current);
+		friendship = friendDao.getFriendListByUUID(uuid_5);
+		user_uuid = friendship.userUUID();
+		Assert.assertEquals("user5's uuid should be " + uuid_5, uuid_5, user_uuid);
+		friendship.setDSI(DaoTestApi.getInstance());
+		friends = friendship.friends();
+		String[] expected5 = new String[3];
+		current = new String[3];
+		for (int i=0; i<friends.size(); i++) {
+			current[i] = friends.get(i).user_uuid;
 		}
+		Assert.assertArrayEquals("user5's friends should be " + expected5, expected5, current);
 		log.info("testDeleteOneFriend done!");
+	}
+	
+	@Test
+	public void testIsFriend() {
+		log.info("testIsFriend start!");
+		PuluoUserFriendshipDao friendDao = DaoTestApi.friendDevDao;
+		boolean result = friendDao.isFriend(uuid_1, uuid_5);
+		Assert.assertFalse("user1 and user5 should not be friend", result);
+		result = friendDao.isFriend(uuid_1, uuid_2);
+		Assert.assertTrue("user1 and user2 should be friend", result);
+		log.info("testIsFriend done!");
 	}
 }

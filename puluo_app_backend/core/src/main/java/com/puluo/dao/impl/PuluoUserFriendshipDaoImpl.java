@@ -13,6 +13,7 @@ import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.PuluoDatabaseException;
 
 
 public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
@@ -44,7 +45,7 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 	}
 
 	@Override
-	public List<PuluoUserFriendship> getFriendListByUUID(String userUUID) {
+	public PuluoUserFriendship getFriendListByUUID(String userUUID) {
 		SqlReader reader = getReader();
 		String selectSQL = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName()).append(" where user_uuid = ?")
@@ -61,11 +62,17 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 						return puluoUserFriendship;
 					}
 				});
-		return entities;
+
+		if (entities.size() == 1)
+			return entities.get(0);
+		else if (entities.size() > 1)
+			throw new PuluoDatabaseException("通过userUUID查到多个好友列表！");
+		else
+			return null;
 	}
 
 	@Override
-	public List<PuluoUserFriendship> deleteOneFriend(String userUUID,
+	public PuluoUserFriendship deleteOneFriend(String userUUID,
 			String frendUUID) {
 		try {
 			String updateSQL = new StringBuilder().append("update ")
@@ -90,7 +97,7 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 	}
 
 	@Override
-	public List<PuluoUserFriendship> addOneFriend(String userUUID,
+	public PuluoUserFriendship addOneFriend(String userUUID,
 			String frendUUID) {
 		try {
 			SqlReader reader = getReader();
@@ -139,10 +146,37 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 			}
 			log.info(updateSQL);
 			getWriter().update(updateSQL);
+			return getFriendListByUUID(userUUID);
 		} catch (Exception e) {
 			log.info(e.getMessage());
+			return null;
 		}
-		return getFriendListByUUID(userUUID);
 	}
 
+	@Override
+	public boolean isFriend(String oneUserUUID, String theOtherUUID) {
+		try {
+			SqlReader reader = getReader();
+			String querySQL1 = new StringBuilder().append("select count(1) from ")
+					.append(super.getFullTableName())
+					.append(" where user_uuid = '" + oneUserUUID + "'")
+					.append(" and friend_uuids @> array['" + theOtherUUID + "'] = true")
+					.toString();
+			String querySQL2 = new StringBuilder().append("select count(1) from ")
+					.append(super.getFullTableName())
+					.append(" where user_uuid = '" + theOtherUUID + "'")
+					.append(" and friend_uuids @> array['" + oneUserUUID + "'] = true")
+					.toString();
+			if (reader.queryForInt(querySQL1)==0 && reader.queryForInt(querySQL2)==0) {
+				return false;
+			} else if (reader.queryForInt(querySQL1)==1 && reader.queryForInt(querySQL2)==1) {
+				return true;
+			} else {
+				throw new PuluoDatabaseException("oneUserUUID与theOtherUUID的好友关系数据存在错误！");
+			}
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			return false;
+		}
+	}
 }

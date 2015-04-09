@@ -34,15 +34,12 @@ public class ListFriendsAPI extends PuluoAPI<PuluoDSI, ListFriendsResult> {
 	public void execute() {
 		log.info(String.format("开始查找用户:%s的好友列表", user_mobile_or_uuid));
 		PuluoUserFriendshipDao friendshipdao = dsi.friendshipDao();
-		List<PuluoUserFriendship> friendlist = friendshipdao.getFriendListByUUID(user()!=null ? user().userUUID() : "0");
+		PuluoUserFriendship friendlist = friendshipdao.getFriendListByUUID(user()!=null ? user().userUUID() : "0");
 		List<ListFriendsResultDetail> friend_detail = new ArrayList<ListFriendsResultDetail>();
-		for(int i=0;i<friendlist.size();i++) {
-			PuluoUserFriendship entity = friendlist.get(i);
-			List<PuluoFriendInfo> friends = entity.friends();
-			for (PuluoFriendInfo friend: friends) {
-				friend_detail.add(new ListFriendsResultDetail(friend.user_uuid,
-						new ListFriendsPublicResult(friend.first_name, friend.last_name, friend.user_email, friend.user_mobile)));
-			}
+		List<PuluoFriendInfo> friends = friendlist.friends();
+		for (PuluoFriendInfo friend: friends) {
+			friend_detail.add(new ListFriendsResultDetail(friend.user_uuid,
+					new ListFriendsPublicResult(friend.first_name, friend.last_name, friend.user_email, friend.user_mobile)));
 		}
 		ListFriendsResult result = new ListFriendsResult(friend_detail);
 		rawResult = result;
