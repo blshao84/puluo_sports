@@ -3,10 +3,9 @@ package com.puluo.api.social;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import org.joda.time.DateTime;
-
 import com.puluo.api.PuluoAPI;
+import com.puluo.api.result.ApiErrorResult;
 import com.puluo.api.result.MessageResult;
 import com.puluo.api.result.RequestFriendResult;
 import com.puluo.dao.PuluoDSI;
@@ -47,16 +46,35 @@ public class RequestFriendAPI extends PuluoAPI<PuluoDSI, RequestFriendResult> {
 		PuluoFriendRequestDao friendRequestDao = dsi.friendRequestDao();
 		PuluoPrivateMessageDao messagedao = dsi.privateMessageDao();
 		PuluoUserDao userdao = dsi.userDao();
-		PuluoFriendRequest request;
-		if(friendRequestDao.getFriendRequestByUsers(requestor,receiver)==null)
+		PuluoFriendRequest request = friendRequestDao.getFriendRequestByUsers(requestor,receiver);
+		
+		if(userdao.getByUUID(receiver)==null) {
+			log.error(String.format("用户:%s不存在",receiver));
+			this.error = ApiErrorResult.getError(32);
+			return;
+		}
+		if(request==null) {
 			request = new PuluoFriendRequestImpl(UUID.randomUUID().toString(),
 					FriendRequestStatus.Requested,requestor,receiver,DateTime.now(),DateTime.now());
-		else
-			request = friendRequestDao.getFriendRequestByUsers(requestor,receiver);
-		PuluoPrivateMessage message = new PuluoPrivateMessageImpl(UUID.randomUUID().toString(),
-				String.format("用户:%s向您提出好友申请",userdao.getByUUID(requestor).name()),
-				DateTime.now(),PuluoMessageType.FriendRequest,requestor,requestor,receiver);
-		messagedao.saveMessage(message);
+			friendRequestDao.saveNewRequest(request.requestUUID(), requestor, receiver);
+			PuluoPrivateMessage message = new PuluoPrivateMessageImpl(UUID.randomUUID().toString(),
+					String.format("用户:%s向您提出好友申请",userdao.getByUUID(requestor).name()),
+					DateTime.now(),PuluoMessageType.FriendRequest,requestor,requestor,receiver);
+			messagedao.saveMessage(message);
+		} else if((request!=null) && request.requestStatus().toString().equals("Approved")) {
+			log.error(String.format("用户:%s已经是您的好友",receiver));
+			this.error = ApiErrorResult.getError(33);
+		} else if((request!=null) && request.requestStatus().toString().equals("Requested")) {
+			log.error(String.format("已经发送好友请求，正在等待对方批准"));
+			this.error = ApiErrorResult.getError(34);
+		} else if((request!=null) && request.requestStatus().toString().equals("Denied")) {
+			friendRequestDao.updateRequestStatus(request.requestUUID(), FriendRequestStatus.Requested);
+			PuluoPrivateMessage message = new PuluoPrivateMessageImpl(UUID.randomUUID().toString(),
+					String.format("用户:%s向您提出好友申请",userdao.getByUUID(requestor).name()),
+					DateTime.now(),PuluoMessageType.FriendRequest,requestor,requestor,receiver);
+			messagedao.saveMessage(message);
+		}	
+		
 		List<MessageResult> messages_result =  new ArrayList<MessageResult>();
 		for(int i=0;i<request.messages().size();i++) 
 			messages_result.add(new MessageResult(request.messages().get(i).messageUUID(),
