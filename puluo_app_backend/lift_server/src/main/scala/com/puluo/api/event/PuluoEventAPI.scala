@@ -109,9 +109,9 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
       locationToDouble(params.get("user_longitude"))) match {
         case (Some(lattitude), Some(longitude)) => {
           logger.info("api has longitude and lattitude")
-          new EventSearchAPI(eventDate, keyword, level, sort, sortDirection, lattitude, longitude, status)
+          new EventSearchAPI(eventDate, keyword, level, sort, sortDirection, lattitude, longitude,0.0, status)
         }
-        case _ => new EventSearchAPI(eventDate, keyword, level, sort, sortDirection, 0.0, 0.0, status)
+        case _ => new EventSearchAPI(eventDate, keyword, level, sort, sortDirection, 0.0, 0.0,0.0, status)
       }
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)
