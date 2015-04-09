@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.joda.time.DateTime;
 
 import com.puluo.api.PuluoAPI;
+import com.puluo.api.result.ApiErrorResult;
 import com.puluo.api.result.ApproveFriendResult;
 import com.puluo.api.result.MessageResult;
 import com.puluo.dao.PuluoDSI;
@@ -47,14 +48,30 @@ public class ApproveFriendAPI extends PuluoAPI<PuluoDSI,ApproveFriendResult> {
 		PuluoUserFriendshipDao friendshipdao = dsi.friendshipDao();
 		PuluoPrivateMessageDao messagedao = dsi.privateMessageDao();
 		PuluoUserDao userdao = dsi.userDao();
-//		friendshipdao.addOneFriend(requestor,receiver);
-		friendshipdao.addOneFriend(receiver,requestor);
+		
 		PuluoFriendRequest request = friendRequestDao.getFriendRequestByUsers(requestor,receiver);
-		friendRequestDao.updateRequestStatus(request.requestUUID(), FriendRequestStatus.Approved);
-		PuluoPrivateMessage message = new PuluoPrivateMessageImpl(UUID.randomUUID().toString(),
-				String.format("用户:%s接受您的好友申请，现在可以开始聊天啦！",userdao.getByUUID(receiver).name()),
-				DateTime.now(),PuluoMessageType.FriendRequest,requestor,receiver,requestor);
-		messagedao.saveMessage(message);
+		if(request==null) {
+			log.error(String.format("好友请求不存在"));
+			this.error = ApiErrorResult.getError(35);
+		} 
+		else if((request!=null) && request.requestStatus().toString().equals("Approved")) {
+			log.error(String.format("好友请求已被通过"));
+			this.error = ApiErrorResult.getError(36);
+		}
+		else if((request!=null) && request.requestStatus().toString().equals("Denied")) {
+			log.error(String.format("好友请求已被拒绝"));
+			this.error = ApiErrorResult.getError(37);
+		}
+		else if((request!=null) && request.requestStatus().toString().equals("Requested")) {
+			//friendshipdao.addOneFriend(requestor,receiver);
+			friendshipdao.addOneFriend(receiver,requestor);
+			friendRequestDao.updateRequestStatus(request.requestUUID(), FriendRequestStatus.Approved);
+			PuluoPrivateMessage message = new PuluoPrivateMessageImpl(UUID.randomUUID().toString(),
+					String.format("用户:%s接受您的好友申请!",userdao.getByUUID(receiver).name()),
+					DateTime.now(),PuluoMessageType.FriendRequest,requestor,receiver,requestor);
+			messagedao.saveMessage(message);
+		}
+		
 		List<MessageResult> messages_result =  new ArrayList<MessageResult>();
 		for(int i=0;i<request.messages().size();i++) 
 			messages_result.add(new MessageResult(request.messages().get(i).messageUUID(),
