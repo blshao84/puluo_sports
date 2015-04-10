@@ -62,7 +62,7 @@ public class RequestFriendAPI extends PuluoAPI<PuluoDSI, RequestFriendResult> {
 			friendRequestDao.saveNewRequest(request.requestUUID(), requestor, receiver);
 			PuluoPrivateMessage message = new PuluoPrivateMessageImpl(UUID.randomUUID().toString(),
 					String.format("用户:%s向您提出好友申请",userdao.getByUUID(requestor).name()),
-					DateTime.now(),PuluoMessageType.FriendRequest,requestor,requestor,receiver);
+					DateTime.now(),PuluoMessageType.FriendRequest,request.requestUUID(),requestor,receiver);
 			messagedao.saveMessage(message);
 		} else if((request!=null) && request.requestStatus().toString().equals("Approved")) {
 			log.error(String.format("用户:%s已经是您的好友",receiver));
@@ -74,14 +74,14 @@ public class RequestFriendAPI extends PuluoAPI<PuluoDSI, RequestFriendResult> {
 			friendRequestDao.updateRequestStatus(request.requestUUID(), FriendRequestStatus.Requested);
 			PuluoPrivateMessage message = new PuluoPrivateMessageImpl(UUID.randomUUID().toString(),
 					String.format("用户:%s向您提出好友申请",userdao.getByUUID(requestor).name()),
-					DateTime.now(),PuluoMessageType.FriendRequest,requestor,requestor,receiver);
+					DateTime.now(),PuluoMessageType.FriendRequest,request.requestUUID(),requestor,receiver);
 			messagedao.saveMessage(message);
 		}	
 		
 		List<MessageResult> messages_result =  new ArrayList<MessageResult>();
 		for(int i=0;i<request.messages().size();i++) 
 			messages_result.add(new MessageResult(request.messages().get(i).messageUUID(),
-					request.messages().get(i).fromUser().name(),request.messages().get(i).toUser().name(),
+					request.messages().get(i).fromUser().userUUID(),request.messages().get(i).toUser().userUUID(),
 					request.messages().get(i).fromUser().thumbnail(),request.messages().get(i).toUser().thumbnail(),
 					request.messages().get(i).content(),TimeUtils.dateTime2Millis(request.messages().get(i).createdAt())));
 		RequestFriendResult result = new RequestFriendResult(request.requestUUID(),request.requestStatus().name(),

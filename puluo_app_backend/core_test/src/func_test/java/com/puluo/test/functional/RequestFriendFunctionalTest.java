@@ -85,7 +85,7 @@ public class RequestFriendFunctionalTest extends APIFunctionalTest {
 			@Override
 			public void run(String session) throws UnirestException {
 				JsonNode json = callAPI("/users/friends/request/send", inputs(session));
-				System.out.println(json);
+				log.info(json);
 			}
 
 			@Override
@@ -106,7 +106,7 @@ public class RequestFriendFunctionalTest extends APIFunctionalTest {
 			@Override
 			public void run(String session) throws UnirestException {
 				JsonNode json = callAPI("/users/friends/request/send", inputs(session));
-				System.out.println(json);
+				log.info(json);
 				String reqUUID = getStringFromJson(json,"friend_request","request_id");
 				JSONObject jsonReq = json.getObject().getJSONObject("friend_request");
 				JSONObject jsonMsg = jsonReq.getJSONArray("messages").getJSONObject(0);
