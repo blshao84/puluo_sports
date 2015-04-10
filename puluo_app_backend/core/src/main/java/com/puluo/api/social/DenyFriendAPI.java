@@ -70,13 +70,14 @@ public class DenyFriendAPI extends PuluoAPI<PuluoDSI,DenyFriendResult> {
 			messagedao.saveMessage(message);
 
 			List<MessageResult> messages_result =  new ArrayList<MessageResult>();
+			List<PuluoPrivateMessage> messages = request.messages();
 			for(int i=0;i<request.messages().size();i++) 
-				messages_result.add(new MessageResult(request.messages().get(i).messageUUID(),
-						request.messages().get(i).fromUser().name(),request.messages().get(i).toUser().name(),
-						request.messages().get(i).fromUser().thumbnail(),request.messages().get(i).toUser().thumbnail(),
-						request.messages().get(i).content(),TimeUtils.dateTime2Millis(request.messages().get(i).createdAt())));
-			DenyFriendResult result = new DenyFriendResult(request.requestUUID(),request.requestStatus().name(),
-					messages_result,TimeUtils.dateTime2Millis(request.createdAt()),TimeUtils.dateTime2Millis(request.updatedAt()));
+				messages_result.add(new MessageResult(messages.get(i).messageUUID(),
+						messages.get(i).fromUser().name(),messages.get(i).toUser().name(),
+						messages.get(i).fromUser().thumbnail(),messages.get(i).toUser().thumbnail(),
+						messages.get(i).content(),TimeUtils.dateTime2Millis(messages.get(i).createdAt())));
+			DenyFriendResult result = new DenyFriendResult(request.requestUUID(),FriendRequestStatus.Denied.name(),
+					messages_result,TimeUtils.dateTime2Millis(request.createdAt()),TimeUtils.dateTime2Millis(DateTime.now()));
 			rawResult = result;
 		}
 	}

@@ -57,8 +57,8 @@ object PuluoGraphAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val (api, code) = apiType match {
       case "Request" => (new RequestFriendAPI(toUserUUID, fromUserUUID), 201)
       case "Delete" => (new DeleteFriendAPI(toUserUUID, fromUserUUID), 200)
-      case "Deny" => (new DenyFriendAPI(toUserUUID, fromUserUUID), 200)
-      case "Approve" => (new ApproveFriendAPI(toUserUUID, fromUserUUID), 200)
+      case "Deny" => (new DenyFriendAPI(fromUserUUID, toUserUUID), 200)
+      case "Approve" => (new ApproveFriendAPI(fromUserUUID, toUserUUID), 200)
     }
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api, code)
