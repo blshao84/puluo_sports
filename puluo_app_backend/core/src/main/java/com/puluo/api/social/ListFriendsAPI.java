@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.puluo.api.PuluoAPI;
+import com.puluo.api.result.ApiErrorResult;
 import com.puluo.api.result.ListFriendsPublicResult;
 import com.puluo.api.result.ListFriendsResult;
 import com.puluo.api.result.ListFriendsResultDetail;
@@ -34,15 +35,22 @@ public class ListFriendsAPI extends PuluoAPI<PuluoDSI, ListFriendsResult> {
 	public void execute() {
 		log.info(String.format("开始查找用户:%s的好友列表", user_mobile_or_uuid));
 		PuluoUserFriendshipDao friendshipdao = dsi.friendshipDao();
-		PuluoUserFriendship friendlist = friendshipdao.getFriendListByUUID(user()!=null ? user().userUUID() : "0");
-		List<ListFriendsResultDetail> friend_detail = new ArrayList<ListFriendsResultDetail>();
-		List<PuluoFriendInfo> friends = friendlist.friends();
-		for (PuluoFriendInfo friend: friends) {
-			friend_detail.add(new ListFriendsResultDetail(friend.user_uuid,
-					new ListFriendsPublicResult(friend.first_name, friend.last_name, friend.user_email, friend.user_mobile)));
+		if (user()!=null) {
+			List<ListFriendsResultDetail> friend_detail = new ArrayList<ListFriendsResultDetail>();
+			PuluoUserFriendship friendlist = friendshipdao.getFriendListByUUID(user().userUUID());
+			if (friendlist!=null) {
+				List<PuluoFriendInfo> friends = friendlist.friends();
+				for (PuluoFriendInfo friend: friends) {
+					friend_detail.add(new ListFriendsResultDetail(friend.user_uuid,
+							new ListFriendsPublicResult(friend.first_name, friend.last_name, friend.user_email, friend.user_mobile)));
+				}
+			}
+			ListFriendsResult result = new ListFriendsResult(friend_detail);
+			rawResult = result;
+		} else {
+			log.error(String.format("用户%s不存在",user_mobile_or_uuid));
+			this.error = ApiErrorResult.getError(17);
 		}
-		ListFriendsResult result = new ListFriendsResult(friend_detail);
-		rawResult = result;
 	}
 
 	private PuluoUser user() {

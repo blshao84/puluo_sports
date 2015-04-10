@@ -66,12 +66,6 @@ public class ListFriendFunctionalTest extends APIFunctionalTest {
 			sessionDao.obliterateAllSessions(user.mobile());
 			friendshipDao.deleteByUserUUID(user.userUUID());
 		}
-		user = dao.getByMobile(mobile4);
-		if (user != null) {
-			dao.deleteByUserUUID(user.userUUID());
-			sessionDao.obliterateAllSessions(user.mobile());
-			friendshipDao.deleteByUserUUID(user.userUUID());
-		}
 	}
 	
 	private void testExistingMobileOrUUID(String name, String value, int size) {
@@ -106,11 +100,11 @@ public class ListFriendFunctionalTest extends APIFunctionalTest {
 			String str = String.format("{\"token\":\"%s\"}", session);
 			JsonNode json = callAPI("users/friends/" + value, str);
 			log.info(json);
-//			String error = super.getStringFromJson(json, "id");
-//			Assert.assertEquals("error id should be 100", "100", error);
-			JsonNode details = new JsonNode(super.getStringFromJson(json, "details"));
-			log.info(details.getArray().length());
-			Assert.assertEquals("size should be 0", 0, details.getArray().length());
+			String error = super.getStringFromJson(json, "id");
+			Assert.assertEquals("error id should be 17", "17", error);
+//			JsonNode details = new JsonNode(super.getStringFromJson(json, "details"));
+//			log.info(details.getArray().length());
+//			Assert.assertEquals("size should be 0", 0, details.getArray().length());
 		} catch (UnirestException e) {
 			e.printStackTrace();
 			Assert.assertTrue(false);
