@@ -18,11 +18,11 @@ public class DeleteFriendAPI extends PuluoAPI<PuluoDSI,DeleteFriendResult> {
 	private final String fromUser;
 	private final String toUser;
 	
-	public DeleteFriendAPI(String fromUser, String toUser){
-		this(fromUser,toUser, DaoApi.getInstance());
+	public DeleteFriendAPI(String toUser, String fromUser){
+		this(toUser,fromUser, DaoApi.getInstance());
 	}
 	
-	public DeleteFriendAPI(String fromUser, String toUser, PuluoDSI dsi) {
+	public DeleteFriendAPI(String toUser, String fromUser, PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.fromUser = fromUser;
 		this.toUser = toUser;
