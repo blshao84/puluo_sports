@@ -49,37 +49,40 @@ public class ApproveFriendAPI extends PuluoAPI<PuluoDSI,ApproveFriendResult> {
 		PuluoPrivateMessageDao messagedao = dsi.privateMessageDao();
 		PuluoUserDao userdao = dsi.userDao();
 		
-		PuluoFriendRequest request = friendRequestDao.getFriendRequestByUsers(requestor,receiver);
-		if(request==null) {
+		//先取得从requestor发送给receiver的status为pending的request
+		List<PuluoFriendRequest> requests = friendRequestDao.getFriendRequestByUsers(requestor,receiver,FriendRequestStatus.Requested);
+		if (requests.size()==0) {
 			log.error(String.format("好友请求不存在"));
 			this.error = ApiErrorResult.getError(35);
-		} 
-		else if((request!=null) && request.requestStatus().toString().equals("Approved")) {
-			log.error(String.format("好友请求已被通过"));
-			this.error = ApiErrorResult.getError(36);
-		}
-		else if((request!=null) && request.requestStatus().toString().equals("Denied")) {
-			log.error(String.format("好友请求已被拒绝"));
-			this.error = ApiErrorResult.getError(37);
-		}
-		else if((request!=null) && request.requestStatus().toString().equals("Requested")) {
-			//friendshipdao.addOneFriend(requestor,receiver);
-			friendshipdao.addOneFriend(receiver,requestor);
-			friendRequestDao.updateRequestStatus(request.requestUUID(), FriendRequestStatus.Approved);
+		} else {
+			friendshipdao.addOneFriend(requestor,receiver);
+			
+			//如果存在多条从requestor发送给receiver的status为pending的request，全部置为approved状态
+			for (PuluoFriendRequest tmp: requests) {
+				friendRequestDao.updateRequestStatus(tmp.requestUUID(), FriendRequestStatus.Approved);
+			}
+			
+			//如果存在多条从receiver发送给requestor的status为pending的request，全部置为approved状态
+			for (PuluoFriendRequest tmp: friendRequestDao.getFriendRequestByUsers(receiver,requestor,FriendRequestStatus.Requested)) {
+				friendRequestDao.updateRequestStatus(tmp.requestUUID(), FriendRequestStatus.Approved);
+			}
+			
+			PuluoFriendRequest request = requests.get(0);
+			
 			PuluoPrivateMessage message = new PuluoPrivateMessageImpl(UUID.randomUUID().toString(),
 					String.format("用户:%s接受您的好友申请!",userdao.getByUUID(receiver).name()),
-					DateTime.now(),PuluoMessageType.FriendRequest,requestor,receiver,requestor);
+					DateTime.now(),PuluoMessageType.FriendRequest,request.requestUUID(),receiver,requestor);
 			messagedao.saveMessage(message);
+
+			List<MessageResult> messages_result =  new ArrayList<MessageResult>();
+			for(int i=0;i<request.messages().size();i++) 
+				messages_result.add(new MessageResult(request.messages().get(i).messageUUID(),
+						request.messages().get(i).fromUser().name(),request.messages().get(i).toUser().name(),
+						request.messages().get(i).fromUser().thumbnail(),request.messages().get(i).toUser().thumbnail(),
+						request.messages().get(i).content(),TimeUtils.dateTime2Millis(request.messages().get(i).createdAt())));
+			ApproveFriendResult result = new ApproveFriendResult(request.requestUUID(),request.requestStatus().name(),
+					messages_result,TimeUtils.dateTime2Millis(request.createdAt()),TimeUtils.dateTime2Millis(request.updatedAt()));
+			rawResult = result;
 		}
-		
-		List<MessageResult> messages_result =  new ArrayList<MessageResult>();
-		for(int i=0;i<request.messages().size();i++) 
-			messages_result.add(new MessageResult(request.messages().get(i).messageUUID(),
-					request.messages().get(i).fromUser().name(),request.messages().get(i).toUser().name(),
-					request.messages().get(i).fromUser().thumbnail(),request.messages().get(i).toUser().thumbnail(),
-					request.messages().get(i).content(),TimeUtils.dateTime2Millis(request.messages().get(i).createdAt())));
-		ApproveFriendResult result = new ApproveFriendResult(request.requestUUID(),request.requestStatus().name(),
-				messages_result,TimeUtils.dateTime2Millis(request.createdAt()),TimeUtils.dateTime2Millis(request.updatedAt()));
-		rawResult = result;
 	}
 }

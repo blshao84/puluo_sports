@@ -1,5 +1,7 @@
 package com.puluo.test.dao;
 
+import java.util.List;
+
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -74,8 +76,8 @@ public class PuluoFriendRequestDaoTest {
 		log.info("testGetFriendRequestByUsers start!");
 
 		PuluoFriendRequestDao requestDao = DaoTestApi.friendRequestDevDao;
-		PuluoFriendRequest request = requestDao.getFriendRequestByUsers(user2, user3,FriendRequestStatus.Requested);
-		Assert.assertEquals("request's uuid should be 234567", "234567", request.requestUUID());
+		List<PuluoFriendRequest> requests = requestDao.getFriendRequestByUsers(user2, user3, FriendRequestStatus.Requested);
+		Assert.assertEquals("request's uuid should be 234567", "234567", requests.get(0).requestUUID());
 		
 		log.info("testGetFriendRequestByUsers done!");
 	}

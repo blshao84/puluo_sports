@@ -1,5 +1,7 @@
 package com.puluo.dao;
 
+import java.util.List;
+
 import com.puluo.entity.FriendRequestStatus;
 import com.puluo.entity.PuluoFriendRequest;
 
@@ -13,7 +15,7 @@ public interface PuluoFriendRequestDao {
 	
 	public PuluoFriendRequest findByUUID(String requestUUID);
 	
-	public PuluoFriendRequest getFriendRequestByUsers(String userUUID, String friendUUID,FriendRequestStatus status);
+	public List<PuluoFriendRequest> getFriendRequestByUsers(String userUUID, String friendUUID,FriendRequestStatus status);
 	
-	public PuluoFriendRequest getFriendRequestByUsers(String userUUID, String friendUUID);
+	public List<PuluoFriendRequest> getFriendRequestByUsers(String userUUID, String friendUUID);
 }
