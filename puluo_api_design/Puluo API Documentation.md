@@ -650,14 +650,7 @@ Last-Modified: Sun, 01 Jan 2012 12:00:00 GMT
 
 ```
 {
-	past_messages:[
-		{
-			msg_uuid:"de305d54-75b4-431b-adb2-eb6b9e546013"
-		},
-		{
-			msg_uuid:"de305d54-75b4-431b-adb2-eb6b9e546013"
-		}
-	]	
+	friends:["de305d54-75b4-431b-adb2-eb6b9e546012","de305d54-75b4-431b-adb2-eb6b9e546014"]
 }
 ```
 

@@ -5,46 +5,45 @@ import java.util.List;
 
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.DeleteFriendResult;
-import com.puluo.api.result.PastMessagesResult;
 import com.puluo.dao.PuluoDSI;
-import com.puluo.dao.PuluoFriendRequestDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.dao.impl.PuluoFriendRequestDaoImpl;
 import com.puluo.entity.PuluoFriendRequest;
-import com.puluo.entity.PuluoPrivateMessage;
+import com.puluo.entity.PuluoUserFriendship;
+import com.puluo.entity.impl.PuluoFriendInfo;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 
 public class DeleteFriendAPI extends PuluoAPI<PuluoDSI,DeleteFriendResult> {
 	public static Log log = LogFactory.getLog(DeleteFriendAPI.class);
-	private final String receiver;
-	private final String requestor;
+	private final String fromUser;
+	private final String toUser;
 	
-	public DeleteFriendAPI(String receiver, String requestor){
-		this(receiver,requestor, DaoApi.getInstance());
+	public DeleteFriendAPI(String fromUser, String toUser){
+		this(fromUser,toUser, DaoApi.getInstance());
 	}
 	
-	public DeleteFriendAPI(String receiver, String requestor, PuluoDSI dsi) {
+	public DeleteFriendAPI(String fromUser, String toUser, PuluoDSI dsi) {
 		this.dsi = dsi;
-		this.receiver = receiver;
-		this.requestor = requestor;
+		this.fromUser = fromUser;
+		this.toUser = toUser;
 	}
 
 	@Override
 	public void execute() {
-		log.info(String.format("用户:%s和用户:%s解除好友关系",requestor,receiver));
+		log.info(String.format("用户:%s和用户:%s解除好友关系",fromUser,toUser));
 		PuluoUserFriendshipDao friendshipdao = dsi.friendshipDao();
-		PuluoFriendRequestDao friendRequestDao = dsi.friendRequestDao();
-		PuluoFriendRequest request = friendRequestDao.getFriendRequestByUsers(requestor,receiver);
-		List<PuluoPrivateMessage> messages = request.messages();
-		List<PastMessagesResult> msglist = new ArrayList<PastMessagesResult>();
-		for(int i=0;i<messages.size();i++) {
-			PastMessagesResult pastmsg = new PastMessagesResult(messages.get(i).messageUUID());
-			msglist.add(pastmsg);
+		PuluoFriendRequestDaoImpl friendRequestDao = (PuluoFriendRequestDaoImpl)dsi.friendRequestDao();
+		PuluoFriendRequest request = friendRequestDao.getFriendRequestByUsers(fromUser,toUser);
+		friendshipdao.deleteOneFriend(fromUser,toUser);
+		friendRequestDao.deleteByReqUUID(request.requestUUID());
+		List<String> newFriends = new ArrayList<String>();
+		PuluoUserFriendship fr = friendshipdao.getFriendListByUUID(fromUser);
+		for(PuluoFriendInfo info:fr.friends()){
+			newFriends.add(info.user_uuid);
 		}
-//		friendshipdao.deleteOneFriend(requestor,receiver);
-		friendshipdao.deleteOneFriend(receiver,requestor);
-		DeleteFriendResult result = new DeleteFriendResult(msglist);
+		DeleteFriendResult result = new DeleteFriendResult(newFriends);
 		rawResult = result;
 	}
 }
