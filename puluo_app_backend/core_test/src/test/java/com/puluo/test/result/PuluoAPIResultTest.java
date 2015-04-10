@@ -182,11 +182,7 @@ public class PuluoAPIResultTest {
 
 	@Test
 	public void testDeleteFriendResult() {
-		String expectedJsonResult = "{" + "\"past_messages\":[" + "{"
-				+ "\"msg_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\""
-				+ "}," + "{"
-				+ "\"msg_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\"" + "}"
-				+ "]" + "}";
+		String expectedJsonResult = "{\"friends\":[\"de305d54-75b4-431b-adb2-eb6b9e546012\",\"de305d54-75b4-431b-adb2-eb6b9e546014\"]}";
 		String actualJsonResult = DeleteFriendResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
