@@ -71,7 +71,7 @@ public class DenyFriendAPI extends PuluoAPI<PuluoDSI,DenyFriendResult> {
 
 			List<MessageResult> messages_result =  new ArrayList<MessageResult>();
 			List<PuluoPrivateMessage> messages = request.messages();
-			for(int i=0;i<request.messages().size();i++) 
+			for(int i=0;i<messages.size();i++) 
 				messages_result.add(new MessageResult(messages.get(i).messageUUID(),
 						messages.get(i).fromUser().name(),messages.get(i).toUser().name(),
 						messages.get(i).fromUser().thumbnail(),messages.get(i).toUser().thumbnail(),
