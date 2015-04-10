@@ -3,7 +3,9 @@ package com.puluo.api.social;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 import org.joda.time.DateTime;
+
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.ApiErrorResult;
 import com.puluo.api.result.MessageResult;
@@ -46,6 +48,7 @@ public class RequestFriendAPI extends PuluoAPI<PuluoDSI, RequestFriendResult> {
 		PuluoFriendRequestDao friendRequestDao = dsi.friendRequestDao();
 		PuluoPrivateMessageDao messagedao = dsi.privateMessageDao();
 		PuluoUserDao userdao = dsi.userDao();
+		//FIXME:如果receiver已经向requester发送过请求怎么办？
 		PuluoFriendRequest request = friendRequestDao.getFriendRequestByUsers(requestor,receiver);
 		
 		if(userdao.getByUUID(receiver)==null) {

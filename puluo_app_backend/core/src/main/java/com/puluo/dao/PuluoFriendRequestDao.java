@@ -13,5 +13,7 @@ public interface PuluoFriendRequestDao {
 	
 	public PuluoFriendRequest findByUUID(String requestUUID);
 	
+	public PuluoFriendRequest getFriendRequestByUsers(String userUUID, String friendUUID,FriendRequestStatus status);
+	
 	public PuluoFriendRequest getFriendRequestByUsers(String userUUID, String friendUUID);
 }

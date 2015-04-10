@@ -46,7 +46,7 @@ public class DenyFriendAPI extends PuluoAPI<PuluoDSI,DenyFriendResult> {
 		PuluoPrivateMessageDao messagedao = dsi.privateMessageDao();
 		PuluoUserDao userdao = dsi.userDao();
 		
-		PuluoFriendRequest request = friendRequestDao.getFriendRequestByUsers(requestor,receiver);
+		PuluoFriendRequest request = friendRequestDao.getFriendRequestByUsers(requestor,receiver,FriendRequestStatus.Requested);
 		if(request==null) {
 			log.error(String.format("好友请求不存在"));
 			this.error = ApiErrorResult.getError(38);

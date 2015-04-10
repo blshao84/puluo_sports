@@ -130,24 +130,7 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 					.append(" where request_uuid = ?");
 			log.info(selectSQL.toString());
 			List<PuluoFriendRequest> entities = reader.query(
-					selectSQL.toString(), new Object[] { requestUUID },
-					new RowMapper<PuluoFriendRequest>() {
-						@Override
-						public PuluoFriendRequest mapRow(ResultSet rs,
-								int rowNum) throws SQLException {
-							PuluoFriendRequestImpl message = new PuluoFriendRequestImpl(
-									rs.getString("request_uuid"),
-									FriendRequestStatus.valueOf(rs
-											.getString("request_status")),
-									rs.getString("from_user_uuid"),
-									rs.getString("to_user_uuid"),
-									TimeUtils.parseDateTime(TimeUtils.formatDate(rs
-											.getTimestamp("created_at"))),
-									TimeUtils.parseDateTime(TimeUtils.formatDate(rs
-											.getTimestamp("updated_at"))));
-							return message;
-						}
-					});
+					selectSQL.toString(), new Object[] { requestUUID },new FriendRequestMapper());
 			if (entities.size() == 1)
 				return entities.get(0);
 			else if (entities.size() > 1)
@@ -163,29 +146,15 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 	
 	@Override
 	public PuluoFriendRequest getFriendRequestByUsers(String userUUID,
-			String friendUUID) {
+			String friendUUID,FriendRequestStatus status) {
 		try {
 			SqlReader reader = getReader();
 			StringBuilder selectSQL = new StringBuilder()
 					.append("select * from ").append(super.getFullTableName())
-					.append(" where from_user_uuid = ? and to_user_uuid = ? and request_status = '" + FriendRequestStatus.Requested.name() + "'");
+					.append(" where from_user_uuid = ? and to_user_uuid = ? and request_status = '" + status.name() + "'");
 			log.info(selectSQL.toString());
 			List<PuluoFriendRequest> entities = reader.query(
-					selectSQL.toString(), new Object[] {userUUID, friendUUID},
-					new RowMapper<PuluoFriendRequest>() {
-						@Override
-						public PuluoFriendRequest mapRow(ResultSet rs,
-								int rowNum) throws SQLException {
-							PuluoFriendRequestImpl message = new PuluoFriendRequestImpl(
-									rs.getString("request_uuid"),
-									FriendRequestStatus.valueOf(rs.getString("request_status")),
-									rs.getString("from_user_uuid"),
-									rs.getString("to_user_uuid"),
-									TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at"))),
-									TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("updated_at"))));
-							return message;
-						}
-					});
+					selectSQL.toString(), new Object[] {userUUID, friendUUID},new FriendRequestMapper());
 			if (entities.size() == 1)
 				return entities.get(0);
 			else if (entities.size() > 1)
@@ -195,6 +164,44 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return null;
+		}
+	}
+
+	@Override
+	public PuluoFriendRequest getFriendRequestByUsers(String userUUID,
+			String friendUUID) {
+		try {
+			SqlReader reader = getReader();
+			StringBuilder selectSQL = new StringBuilder()
+					.append("select * from ").append(super.getFullTableName())
+					.append(" where from_user_uuid = ? and to_user_uuid = ? ");
+			log.info(selectSQL.toString());
+			List<PuluoFriendRequest> entities = reader.query(
+					selectSQL.toString(), new Object[] {userUUID, friendUUID},new FriendRequestMapper());
+			if (entities.size() == 1)
+				return entities.get(0);
+			else if (entities.size() > 1)
+				throw new PuluoDatabaseException("通过userUUID和friendUUID查到多个查到多个PuluoFriendRequest！");
+			else
+				return null;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
+	}
+	
+	class FriendRequestMapper implements RowMapper<PuluoFriendRequest> {
+		@Override
+		public PuluoFriendRequest mapRow(ResultSet rs,
+				int rowNum) throws SQLException {
+			PuluoFriendRequestImpl message = new PuluoFriendRequestImpl(
+					rs.getString("request_uuid"),
+					FriendRequestStatus.valueOf(rs.getString("request_status")),
+					rs.getString("from_user_uuid"),
+					rs.getString("to_user_uuid"),
+					TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at"))),
+					TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("updated_at"))));
+			return message;
 		}
 	}
 }

@@ -74,7 +74,7 @@ public class PuluoFriendRequestDaoTest {
 		log.info("testGetFriendRequestByUsers start!");
 
 		PuluoFriendRequestDao requestDao = DaoTestApi.friendRequestDevDao;
-		PuluoFriendRequest request = requestDao.getFriendRequestByUsers(user2, user3);
+		PuluoFriendRequest request = requestDao.getFriendRequestByUsers(user2, user3,FriendRequestStatus.Requested);
 		Assert.assertEquals("request's uuid should be 234567", "234567", request.requestUUID());
 		
 		log.info("testGetFriendRequestByUsers done!");
