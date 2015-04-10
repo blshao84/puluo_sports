@@ -75,12 +75,12 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val status = try {
       params.get("status").map(s => EventStatus.valueOf(s)).getOrElse {
         logger.info(s"use default sort param:price:${params.get("status")}")
-        EventStatus.Full
+        EventStatus.Open
       }
     } catch {
       case e: Exception => {
         logger.info(s"use default sort param:price:${params.get("status")}")
-        EventStatus.Full
+        EventStatus.Open
       }
     }
     val sort = try {

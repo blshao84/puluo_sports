@@ -152,7 +152,7 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 			@Override
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
-						+ "\"keyword\":%s,\"status\":\"%s\"}", session,"减脂",EventStatus.Open.name());
+						+ "\"keyword\":%s}", session,"减脂");
 			}
 
 			@Override
@@ -181,8 +181,7 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
 						+ "\"keyword\":%s,"
-						+ "\"sort\":\"Price\","
-						+ "\"status\":\"%s\"}", session,"减脂",EventStatus.Open.name());
+						+ "\"sort\":\"Price\"}", session,"减脂");
 			}
 
 			@Override
@@ -212,8 +211,7 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 				return String.format("{" + "\"token\":\"%s\","
 						+ "\"keyword\":%s,"
 						+ "\"sort\":\"Price\","
-						+ "\"sort_direction\":\"Desc\","
-						+ "\"status\":\"%s\"}", session,"减脂",EventStatus.Open.name());
+						+ "\"sort_direction\":\"Desc\"}", session,"减脂");
 			}
 
 			@Override
