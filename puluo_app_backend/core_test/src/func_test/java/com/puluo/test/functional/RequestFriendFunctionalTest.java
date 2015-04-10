@@ -1,6 +1,7 @@
 package com.puluo.test.functional;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.json.JSONObject;
 import org.junit.AfterClass;
@@ -11,9 +12,12 @@ import org.junit.Test;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.PuluoFriendRequestDao;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.dao.impl.PuluoFriendRequestDaoImpl;
+import com.puluo.dao.impl.PuluoPrivateMessageDaoImpl;
 import com.puluo.dao.impl.PuluoSessionDaoImpl;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
 import com.puluo.dao.impl.PuluoUserFriendshipDaoImpl;
@@ -31,6 +35,7 @@ public class RequestFriendFunctionalTest extends APIFunctionalTest {
 	static String mobile2 = "234567890";
 	static String mobile3 = "345678901";
 	static String mobile4 = "456789012";
+	static String mobile5 = "567890123";
 	static String password = "abcdefg";
 
 	@BeforeClass
@@ -38,12 +43,19 @@ public class RequestFriendFunctionalTest extends APIFunctionalTest {
 		cleanupDB();
 		PuluoUserDao userDao = DaoApi.getInstance().userDao();
 		PuluoUserFriendshipDao friendDao = DaoApi.getInstance().friendshipDao();
+		PuluoFriendRequestDao requestDao = DaoApi.getInstance().friendRequestDao();
 		userDao.save(mobile1, password);
 		userDao.save(mobile2, password);
 		userDao.save(mobile3, password);
+		userDao.save(mobile4, password);
+		userDao.save(mobile5, password);
 		PuluoUser user1 = userDao.getByMobile(mobile1);
 		PuluoUser user2 = userDao.getByMobile(mobile2);
+		PuluoUser user4 = userDao.getByMobile(mobile4);
+		PuluoUser user5 = userDao.getByMobile(mobile5);
 		friendDao.addOneFriend(user1.userUUID(), user2.userUUID());
+		requestDao.saveNewRequest(UUID.randomUUID().toString(), user4.userUUID(), user1.userUUID());
+		requestDao.saveNewRequest(UUID.randomUUID().toString(), user1.userUUID(), user5.userUUID());
 	}
 
 	@AfterClass
@@ -51,30 +63,48 @@ public class RequestFriendFunctionalTest extends APIFunctionalTest {
 		PuluoUserDaoImpl dao = (PuluoUserDaoImpl) DaoApi.getInstance().userDao();
 		PuluoSessionDaoImpl sessionDao = (PuluoSessionDaoImpl) DaoApi.getInstance().sessionDao();
 		PuluoUserFriendshipDaoImpl friendshipDao = (PuluoUserFriendshipDaoImpl) DaoApi.getInstance().friendshipDao();
+		PuluoFriendRequestDaoImpl requestDao = (PuluoFriendRequestDaoImpl) DaoApi.getInstance().friendRequestDao();
+		PuluoPrivateMessageDaoImpl messagedao = (PuluoPrivateMessageDaoImpl) DaoApi.getInstance().privateMessageDao();
 		PuluoUser user;
 		user = dao.getByMobile(mobile1);
 		if (user != null) {
 			dao.deleteByUserUUID(user.userUUID());
 			sessionDao.obliterateAllSessions(user.mobile());
 			friendshipDao.deleteByUserUUID(user.userUUID());
+			requestDao.deleteByUserUUID(user.userUUID());
+			messagedao.deleteByUserUUID(user.userUUID());
 		}
 		user = dao.getByMobile(mobile2);
 		if (user != null) {
 			dao.deleteByUserUUID(user.userUUID());
 			sessionDao.obliterateAllSessions(user.mobile());
 			friendshipDao.deleteByUserUUID(user.userUUID());
+			requestDao.deleteByUserUUID(user.userUUID());
+			messagedao.deleteByUserUUID(user.userUUID());
 		}
 		user = dao.getByMobile(mobile3);
 		if (user != null) {
 			dao.deleteByUserUUID(user.userUUID());
 			sessionDao.obliterateAllSessions(user.mobile());
 			friendshipDao.deleteByUserUUID(user.userUUID());
+			requestDao.deleteByUserUUID(user.userUUID());
+			messagedao.deleteByUserUUID(user.userUUID());
 		}
 		user = dao.getByMobile(mobile4);
 		if (user != null) {
 			dao.deleteByUserUUID(user.userUUID());
 			sessionDao.obliterateAllSessions(user.mobile());
 			friendshipDao.deleteByUserUUID(user.userUUID());
+			requestDao.deleteByUserUUID(user.userUUID());
+			messagedao.deleteByUserUUID(user.userUUID());
+		}
+		user = dao.getByMobile(mobile5);
+		if (user != null) {
+			dao.deleteByUserUUID(user.userUUID());
+			sessionDao.obliterateAllSessions(user.mobile());
+			friendshipDao.deleteByUserUUID(user.userUUID());
+			requestDao.deleteByUserUUID(user.userUUID());
+			messagedao.deleteByUserUUID(user.userUUID());
 		}
 	}
 	
@@ -86,11 +116,82 @@ public class RequestFriendFunctionalTest extends APIFunctionalTest {
 			public void run(String session) throws UnirestException {
 				JsonNode json = callAPI("/users/friends/request/send", inputs(session));
 				log.info(json);
+				String error = getStringFromJson(json, "id");
+				Assert.assertEquals("error id should be 33", "33", error);
 			}
 
 			@Override
 			public String inputs(String session) {
 				String uuid = DaoApi.getInstance().userDao().getByMobile(mobile2).userUUID();
+				return String.format("{" + "\"token\":\"%s\","
+						+ "\"user_uuid\":\"%s\""
+						+ "}", session,uuid);
+			}
+			
+		});
+	}
+	
+	@Test
+	public void testRequestFriendFromNotExistingUser(){
+		super.runAuthenticatedTest(new FriendRequestFunctionalTestRunner() {
+
+			@Override
+			public void run(String session) throws UnirestException {
+				JsonNode json = callAPI("/users/friends/request/send", inputs(session));
+				log.info(json);
+				String error = getStringFromJson(json, "id");
+				Assert.assertEquals("error id should be 32", "32", error);
+			}
+
+			@Override
+			public String inputs(String session) {
+				String uuid = "88d8e55d-bc48-4471-bf1a-a0d7066cd8b2";
+				return String.format("{" + "\"token\":\"%s\","
+						+ "\"user_uuid\":\"%s\""
+						+ "}", session,uuid);
+			}
+			
+		});
+	}
+	
+	@Test
+	public void testRequestFriendFromStrangerWithExistingRequestFromStranger(){
+		super.runAuthenticatedTest(new FriendRequestFunctionalTestRunner() {
+
+			@Override
+			public void run(String session) throws UnirestException {
+				JsonNode json = callAPI("/users/friends/request/send", inputs(session));
+				log.info(json);
+				String error = getStringFromJson(json, "id");
+				Assert.assertEquals("error id should be 42", "42", error);
+			}
+
+			@Override
+			public String inputs(String session) {
+				String uuid = DaoApi.getInstance().userDao().getByMobile(mobile4).userUUID();
+				return String.format("{" + "\"token\":\"%s\","
+						+ "\"user_uuid\":\"%s\""
+						+ "}", session,uuid);
+			}
+			
+		});
+	}
+	
+	@Test
+	public void testRequestFriendFromStrangerWithExistingRequestToStranger(){
+		super.runAuthenticatedTest(new FriendRequestFunctionalTestRunner() {
+
+			@Override
+			public void run(String session) throws UnirestException {
+				JsonNode json = callAPI("/users/friends/request/send", inputs(session));
+				log.info(json);
+				String error = getStringFromJson(json, "id");
+				Assert.assertEquals("error id should be 34", "34", error);
+			}
+
+			@Override
+			public String inputs(String session) {
+				String uuid = DaoApi.getInstance().userDao().getByMobile(mobile5).userUUID();
 				return String.format("{" + "\"token\":\"%s\","
 						+ "\"user_uuid\":\"%s\""
 						+ "}", session,uuid);

@@ -49,6 +49,10 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 		return super.deleteByUniqueKey("request_uuid", uuid);
 	}
 
+	public boolean deleteByUserUUID(String uuid) {
+		return super.deleteByUniqueKey("from_user_uuid", uuid);
+	}
+
 	@Override
 	public boolean saveNewRequest(String requestUUID, String fromUser,
 			String toUser) {
