@@ -131,13 +131,7 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 			log.info(selectSQL.toString());
 			List<PuluoFriendRequest> entities = reader.query(
 					selectSQL.toString(), new Object[] { requestUUID },new FriendRequestMapper());
-			if (entities.size() == 1)
-				return entities.get(0);
-			else if (entities.size() > 1)
-				throw new PuluoDatabaseException(
-						"通过requestUUID查到多个PuluoFriendRequest！");
-			else
-				return null;
+			return verifyUniqueResult(entities);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return null;
@@ -155,12 +149,7 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 			log.info(selectSQL.toString());
 			List<PuluoFriendRequest> entities = reader.query(
 					selectSQL.toString(), new Object[] {userUUID, friendUUID},new FriendRequestMapper());
-			if (entities.size() == 1)
-				return entities.get(0);
-			else if (entities.size() > 1)
-				throw new PuluoDatabaseException("通过userUUID和friendUUID查到多个查到多个PuluoFriendRequest！");
-			else
-				return null;
+			return verifyUniqueResult(entities);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return null;

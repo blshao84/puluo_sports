@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.PuluoDatabaseException;
 
 public abstract class DalTemplate {
 	private static Log log = LogFactory.getLog(DalTemplate.class);
@@ -61,6 +62,16 @@ public abstract class DalTemplate {
 		}
 		return true;
 
+	}
+	
+	protected <T> T verifyUniqueResult(List<T> entities){
+		if (entities.size() == 1)
+			return entities.get(0);
+		else if (entities.size() > 1)
+			throw new PuluoDatabaseException(
+					"通过requestUUID查到多个PuluoFriendRequest！");
+		else
+			return null;
 	}
 
 }
