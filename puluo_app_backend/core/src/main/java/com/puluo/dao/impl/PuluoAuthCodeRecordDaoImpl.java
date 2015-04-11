@@ -14,7 +14,6 @@ import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
-import com.puluo.util.PuluoDatabaseException;
 import com.puluo.util.TimeUtils;
 
 public class PuluoAuthCodeRecordDaoImpl extends DalTemplate implements
@@ -56,9 +55,10 @@ public class PuluoAuthCodeRecordDaoImpl extends DalTemplate implements
 					.append(super.getFullTableName())
 					.append(" where user_mobile = '" + mobile + "'")
 					.toString();
-			log.info(reader.queryForInt(querySQL));
+			log.info(sqlRequestLog(querySQL,mobile));
+			int resCnt =reader.queryForInt(querySQL);
 			String updateSQL;
-			if (reader.queryForInt(querySQL)>0) {
+			if (resCnt>0) {
 				updateSQL = new StringBuilder().append("update ")
 						.append(super.getFullTableName())
 						.append(" set auth_code = '" + authCode + "', updated_at = now()::timestamp")
@@ -71,7 +71,7 @@ public class PuluoAuthCodeRecordDaoImpl extends DalTemplate implements
 						.append(" values ('" + mobile + "', '" + authCode + "', now()::timestamp)")
 						.toString();
 			}
-			log.info(updateSQL);
+			log.info(sqlRequestLog(updateSQL,authCode,mobile));
 			getWriter().update(updateSQL);
 			return true;
 		} catch (Exception e) {
@@ -83,9 +83,10 @@ public class PuluoAuthCodeRecordDaoImpl extends DalTemplate implements
 	@Override
 	public PuluoAuthCodeRecord getRegistrationAuthCodeFromMobile(String mobile) {
 		SqlReader reader = getReader();
-		StringBuilder selectSQL = new StringBuilder().append("select * from ")
-				.append(super.getFullTableName()).append(" where user_mobile = ?");
-		List<PuluoAuthCodeRecord> entities = reader.query(selectSQL.toString(), new Object[]{mobile},
+		String selectSQL = new StringBuilder().append("select * from ")
+				.append(super.getFullTableName()).append(" where user_mobile = ?").toString();
+		log.info(sqlRequestLog(selectSQL, mobile));
+		List<PuluoAuthCodeRecord> entities = reader.query(selectSQL, new Object[]{mobile},
 				new RowMapper<PuluoAuthCodeRecord>() {
 					@Override
 					public PuluoAuthCodeRecord mapRow(ResultSet rs, int rowNum)
@@ -104,11 +105,6 @@ public class PuluoAuthCodeRecordDaoImpl extends DalTemplate implements
 						return authCode;
 					}
 				});
-		if (entities.size() == 1)
-			return entities.get(0);
-		else if (entities.size() > 1)
-			throw new PuluoDatabaseException("通过user mobile查到多个auth code！");
-		else
-			return null;
+		return verifyUniqueResult(entities);
 	}
 }

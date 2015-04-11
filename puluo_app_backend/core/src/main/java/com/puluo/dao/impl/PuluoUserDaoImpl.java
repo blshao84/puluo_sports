@@ -86,7 +86,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 					.append(" set user_password = '" + newPassword + "',")
 					.append(" updated_at = now()::timestamp")
 					.append(" where user_uuid = '" + uuid + "'").toString();
-			log.info(updateSQL);
+			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);
 		} catch (Exception e) {
 			log.info(e.getMessage());
@@ -101,7 +101,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 		String selectSQL = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName()).append(" where mobile = ?")
 				.toString();
-		log.info(selectSQL);
+		log.info(super.sqlRequestLog(selectSQL,mobile));
 		List<PuluoUser> entities;
 		try {
 			entities = reader.query(selectSQL, new Object[] { mobile },
@@ -146,12 +146,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 			e.printStackTrace();
 			return null;
 		}
-		if (entities.size() == 1)
-			return entities.get(0);
-		else if (entities.size() > 1)
-			throw new PuluoDatabaseException("通过mobile查到多个用户！");
-		else
-			return null;
+		return verifyUniqueResult(entities);
 	}
 
 	@Override
@@ -160,7 +155,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 		String selectSQL = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName())
 				.append(" where user_uuid = ?").toString();
-		log.info(selectSQL);
+		log.info(super.sqlRequestLog(selectSQL, uuid));
 		List<PuluoUser> entities = reader.query(selectSQL,
 				new Object[] { uuid }, new RowMapper<PuluoUser>() {
 					@Override
@@ -199,12 +194,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 						return puluoUser;
 					}
 				});
-		if (entities.size() == 1)
-			return entities.get(0);
-		else if (entities.size() > 1)
-			throw new PuluoDatabaseException("通过uuid查到多个用户！");
-		else
-			return null;
+		return verifyUniqueResult(entities);
 	}
 
 	@Override
@@ -254,7 +244,9 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 			}
 			updateSQL.append("updated_at = now()::timestamp ");
 			updateSQL.append("where user_uuid = '" + uuid + "'");
-			getWriter().update(updateSQL.toString());
+			String sql = updateSQL.toString();
+			log.info(Strs.join("SQL:",sql));
+			getWriter().update(sql);
 			return getByUUID(uuid);
 		} catch (Exception e) {
 			log.info(e.getMessage());

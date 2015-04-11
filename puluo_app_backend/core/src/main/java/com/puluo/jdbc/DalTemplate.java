@@ -5,6 +5,7 @@ import java.util.List;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.PuluoDatabaseException;
+import com.puluo.util.Strs;
 
 public abstract class DalTemplate {
 	private static Log log = LogFactory.getLog(DalTemplate.class);
@@ -73,5 +74,11 @@ public abstract class DalTemplate {
 		else
 			return null;
 	}
-
+	
+	protected String sqlRequestLog(String sql, Object...params){
+		StringBuilder sb = new StringBuilder();
+		sb.append("SQL:").append(sql).append("\n")
+		.append("ARG:").append(Strs.join("", params));
+		return sb.toString();
+	}
 }

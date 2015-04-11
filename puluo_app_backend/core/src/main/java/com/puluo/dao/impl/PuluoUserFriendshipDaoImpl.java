@@ -14,6 +14,7 @@ import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.PuluoDatabaseException;
+import com.puluo.util.Strs;
 
 
 public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
@@ -50,6 +51,7 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 		String selectSQL = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName()).append(" where user_uuid = ?")
 				.toString();
+		log.info(super.sqlRequestLog(selectSQL, userUUID));
 		List<PuluoUserFriendship> entities = reader.query(selectSQL, new Object[] {userUUID},
 				new RowMapper<PuluoUserFriendship>() {
 					@Override
@@ -63,12 +65,7 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 					}
 				});
 
-		if (entities.size() == 1)
-			return entities.get(0);
-		else if (entities.size() > 1)
-			throw new PuluoDatabaseException("通过userUUID查到多个好友列表！");
-		else
-			return null;
+		return verifyUniqueResult(entities);
 	}
 
 	@Override
@@ -80,14 +77,14 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 					.append(" set friend_uuids = array_remove(friend_uuids, '" + frendUUID + "')")
 					.append(" where user_uuid = '" + userUUID + "'")
 					.toString();
-			log.info(updateSQL);
+			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);
 			updateSQL = new StringBuilder().append("update ")
 					.append(super.getFullTableName())
 					.append(" set friend_uuids = array_remove(friend_uuids, '" + userUUID + "')")
 					.append(" where user_uuid = '" + frendUUID + "'")
 					.toString();
-			log.info(updateSQL);
+			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);
 			return getFriendListByUUID(userUUID);
 		} catch (Exception e) {
@@ -108,8 +105,9 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 					.append(super.getFullTableName())
 					.append(" where user_uuid = '" + userUUID + "'")
 					.toString();
-			log.info(reader.queryForInt(querySQL));
-			if (reader.queryForInt(querySQL)>0) {
+			log.info(Strs.join("SQL:",querySQL));
+			int resCnt = reader.queryForInt(querySQL);
+			if (resCnt>0) {
 				updateSQL = new StringBuilder().append("update ")
 						.append(super.getFullTableName())
 						.append(" set friend_uuids = array_append(friend_uuids, '" + frendUUID + "')")
@@ -123,7 +121,7 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 						.append(" values ('" + userUUID + "', array['" + frendUUID + "'])")
 						.toString();
 			}
-			log.info(updateSQL);
+			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);
 			querySQL = new StringBuilder().append("select count(1) from ")
 					.append(super.getFullTableName())
@@ -144,7 +142,7 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 						.append(" values ('" + frendUUID + "', array['" + userUUID + "'])")
 						.toString();
 			}
-			log.info(updateSQL);
+			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);
 			return getFriendListByUUID(userUUID);
 		} catch (Exception e) {
@@ -167,9 +165,13 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 					.append(" where user_uuid = '" + theOtherUUID + "'")
 					.append(" and friend_uuids @> array['" + oneUserUUID + "'] = true")
 					.toString();
-			if (reader.queryForInt(querySQL1)==0 && reader.queryForInt(querySQL2)==0) {
+			log.info(Strs.join("SQL:",querySQL1));
+			log.info(Strs.join("SQL:",querySQL2));
+			int friendsCnt1 = reader.queryForInt(querySQL1);
+			int friendsCnt2 = reader.queryForInt(querySQL2);
+			if (friendsCnt1==0 &&friendsCnt2==0) {
 				return false;
-			} else if (reader.queryForInt(querySQL1)==1 && reader.queryForInt(querySQL2)==1) {
+			} else if (friendsCnt1==1 && friendsCnt2==1) {
 				return true;
 			} else {
 				throw new PuluoDatabaseException("oneUserUUID与theOtherUUID的好友关系数据存在错误！");

@@ -13,7 +13,7 @@ import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
-import com.puluo.util.PuluoDatabaseException;
+import com.puluo.util.Strs;
 import com.puluo.util.TimeUtils;
 
 public class PuluoUserSettingDaoImpl extends DalTemplate implements PuluoUserSettingDao {
@@ -53,7 +53,7 @@ public class PuluoUserSettingDaoImpl extends DalTemplate implements PuluoUserSet
 						.append(" (user_uuid, auto_friend, timeline_public, searchable, updated_at)")
 						.append(" values ('" + user_uuid + "', true, true, true, now()::timestamp)")
 						.toString();
-			log.info(updateSQL);
+			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);
 			return true;
 		} catch (Exception e) {
@@ -71,7 +71,7 @@ public class PuluoUserSettingDaoImpl extends DalTemplate implements PuluoUserSet
 						.append(" updated_at = now()::timestamp")
 						.append(" where user_uuid = '" + user_uuid + "'")
 						.toString();
-			log.info(updateSQL);
+			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);
 			return true;
 		} catch (Exception e) {
@@ -90,7 +90,7 @@ public class PuluoUserSettingDaoImpl extends DalTemplate implements PuluoUserSet
 						.append(" updated_at = now()::timestamp")
 						.append(" where user_uuid = '" + user_uuid + "'")
 						.toString();
-			log.info(updateSQL);
+			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);
 			return true;
 		} catch (Exception e) {
@@ -108,7 +108,7 @@ public class PuluoUserSettingDaoImpl extends DalTemplate implements PuluoUserSet
 						.append(" updated_at = now()::timestamp")
 						.append(" where user_uuid = '" + user_uuid + "'")
 						.toString();
-			log.info(updateSQL);
+			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);
 			return true;
 		} catch (Exception e) {
@@ -123,6 +123,7 @@ public class PuluoUserSettingDaoImpl extends DalTemplate implements PuluoUserSet
 		String selectSQL = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName()).append(" where user_uuid = ?")
 				.toString();
+		log.info(super.sqlRequestLog(selectSQL, user_uuid));
 		List<PuluoUserSetting> entities = reader.query(selectSQL, new Object[] {user_uuid},
 				new RowMapper<PuluoUserSetting>() {
 					@Override
@@ -134,12 +135,7 @@ public class PuluoUserSettingDaoImpl extends DalTemplate implements PuluoUserSet
 						return puluoUserSetting;
 					}
 				});
-		if (entities.size() == 1)
-			return entities.get(0);
-		else if (entities.size() > 1)
-			throw new PuluoDatabaseException("通过uuid查到多个用户设置！");
-		else
-			return null;
+		return verifyUniqueResult(entities);
 	}
 
 }

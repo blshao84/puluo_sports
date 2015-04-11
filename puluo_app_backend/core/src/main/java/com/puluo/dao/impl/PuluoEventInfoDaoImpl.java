@@ -55,8 +55,9 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 	@Override
 	public PuluoEventInfo getEventInfoByUUID(String uuid) {
 		SqlReader reader = getReader();
-		StringBuilder selectSQL = new StringBuilder().append("select * from ")
-				.append(super.getFullTableName()).append(" where event_info_uuid = ?");
+		String selectSQL = new StringBuilder().append("select * from ")
+				.append(super.getFullTableName()).append(" where event_info_uuid = ?").toString();
+		log.info(super.sqlRequestLog(selectSQL, uuid));
 		List<PuluoEventInfo> entities = reader.query(selectSQL.toString(), new Object[]{uuid},
 				new RowMapper<PuluoEventInfo>() {
 					@Override
@@ -76,12 +77,7 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 						return info;
 					}
 				});
-		if (entities.size() == 1)
-			return entities.get(0);
-		else if (entities.size() > 1)
-			throw new PuluoDatabaseException("通过event info uuid查到多个event info！");
-		else
-			return null;
+		return verifyUniqueResult(entities);
 	}
 
 	@Override
@@ -92,8 +88,9 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 					.append(super.getFullTableName())
 					.append(" where event_info_uuid = '" + info.eventInfoUUID() + "'")
 					.toString();
-			log.info(reader.queryForInt(querySQL));
-			if (reader.queryForInt(querySQL)>0) {
+			log.info(Strs.join("SQL:",querySQL));
+			int resCnt = reader.queryForInt(querySQL);
+			if (resCnt>0) {
 				return this.updateEventInfo(info);
 			} else {
 				return this.saveEventInfo(info);
@@ -112,9 +109,10 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 					.append(super.getFullTableName())
 					.append(" where event_info_uuid = '" + info.eventInfoUUID() + "'")
 					.toString();
-			log.info(reader.queryForInt(querySQL));
+			log.info(Strs.join("SQL:",querySQL));
+			int resCnt = reader.queryForInt(querySQL);
 			String updateSQL;
-			if (reader.queryForInt(querySQL)==0) {
+			if (resCnt==0) {
 				updateSQL = new StringBuilder().append("insert into ")
 						.append(super.getFullTableName())
 						.append(" (event_info_uuid, event_name, description, coach_name, coach_uuid, thumbnail_uuid, details, duration, event_level, event_type)")
@@ -129,7 +127,7 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 						.append(info.level() + ", ")
 						.append(info.type() + ")")
 						.toString();
-				log.info(updateSQL);
+				log.info(Strs.join("SQL:",updateSQL));
 				getWriter().update(updateSQL);
 				return true;
 			} else {
@@ -149,9 +147,10 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 					.append(super.getFullTableName())
 					.append(" where event_info_uuid = '" + info.eventInfoUUID() + "'")
 					.toString();
-			log.info(reader.queryForInt(querySQL));
+			log.info(Strs.join("SQL:",querySQL));
+			int resCnt= reader.queryForInt(querySQL);
 			StringBuilder updateSQL;
-			if (reader.queryForInt(querySQL)>0) {
+			if (resCnt>0) {
 				updateSQL = new StringBuilder().append("update ")
 						.append(super.getFullTableName()).append(" set");
 				if (!Strs.isEmpty(info.name())) {
@@ -176,7 +175,7 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 						.append(" event_level = ").append(info.level() + ",")
 						.append(" event_type = ").append(info.type())
 						.append(" where event_info_uuid = '" + info.eventInfoUUID() + "'");
-				log.info(updateSQL.toString());
+				log.info(Strs.join("SQL:",updateSQL.toString()));
 				getWriter().update(updateSQL.toString());
 				return true;
 			} else {

@@ -21,6 +21,7 @@ import com.puluo.dao.impl.PuluoPrivateMessageDaoImpl;
 import com.puluo.dao.impl.PuluoSessionDaoImpl;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
 import com.puluo.dao.impl.PuluoUserFriendshipDaoImpl;
+import com.puluo.entity.FriendRequestStatus;
 import com.puluo.entity.PuluoFriendRequest;
 import com.puluo.entity.PuluoPrivateMessage;
 import com.puluo.entity.PuluoUser;
@@ -160,10 +161,21 @@ public class RequestFriendFunctionalTest extends APIFunctionalTest {
 
 			@Override
 			public void run(String session) throws UnirestException {
-				JsonNode json = callAPI("/users/friends/request/send", inputs(session));
-				log.info(json);
-				String error = getStringFromJson(json, "id");
-				Assert.assertEquals("error id should be 42", "42", error);
+				//mobile1和mobile4不是好友
+				//存在一条由mobile4到mobile1得request,下面测试当这个request在不同状态时，mobile1向mobile4发送好友请求
+				//case 1: req的状态为Requested
+				JsonNode json1 = runWithRequestStatus(FriendRequestStatus.Requested,session);
+				log.info(json1);
+				String error1 = getStringFromJson(json1, "id");
+				Assert.assertEquals("error id should be 42", "42", error1);
+				
+				//case 2: req的状态为Approved：这种情况可能是mobile1和mobile4曾经是好友，但好友关系被移除以后重新申请
+				JsonNode json2 = runWithRequestStatus(FriendRequestStatus.Approved,session);
+				System.out.println(json2);
+				
+				//case 2: req的状态为Denied
+				JsonNode json3 = runWithRequestStatus(FriendRequestStatus.Denied,session);
+				System.out.println(json3);
 			}
 
 			@Override
@@ -172,6 +184,16 @@ public class RequestFriendFunctionalTest extends APIFunctionalTest {
 				return String.format("{" + "\"token\":\"%s\","
 						+ "\"user_uuid\":\"%s\""
 						+ "}", session,uuid);
+			}
+			
+			private JsonNode runWithRequestStatus(FriendRequestStatus status,String session) throws UnirestException {
+				PuluoFriendRequestDao reqDao = DaoApi.getInstance().friendRequestDao();
+				PuluoUserDao userDao = DaoApi.getInstance().userDao();
+				String uuid1 = userDao.getByMobile(mobile1).userUUID();
+				String uuid4 = userDao.getByMobile(mobile4).userUUID();
+				PuluoFriendRequest req = reqDao.getFriendRequestByUsers(uuid4, uuid1).get(0);
+				reqDao.updateRequestStatus(req.requestUUID(), status);
+				return callAPI("/users/friends/request/send", inputs(session));
 			}
 			
 		});

@@ -12,10 +12,10 @@ import com.puluo.entity.impl.PgDummyImpl;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.jdbc.SqlWriter;
-import com.puluo.util.PuluoException;
 
 public class PgDummyDaoImpl extends DalTemplate implements PgDummyDao{
 
+	@Override
 	public void createTable() {
 		String createSQL = new StringBuilder().append("create table ")
 				.append(super.getFullTableName()).append(" (id long, name varchar(100))")
@@ -23,6 +23,7 @@ public class PgDummyDaoImpl extends DalTemplate implements PgDummyDao{
 		getWriter().execute(createSQL);
 	}
 
+	@Override
 	public Long save(PgDummy entity) {
 		SqlWriter writer = getWriter();
 		PgDummy dummy = getById(entity.id());
@@ -36,6 +37,7 @@ public class PgDummyDaoImpl extends DalTemplate implements PgDummyDao{
 			return dummy.id();
 	}
 
+	@Override
 	public PgDummy getById(Long id) {
 		SqlReader reader = getReader();
 		String selectSQL = new StringBuilder().append("select * from ")
@@ -43,6 +45,7 @@ public class PgDummyDaoImpl extends DalTemplate implements PgDummyDao{
 				.toString();
 		List<PgDummy> entities = reader.query(selectSQL, new Object[] { id },
 				new RowMapper<PgDummy>() {
+					@Override
 					public PgDummy mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
 						PgDummyImpl dummy = new PgDummyImpl();
@@ -51,11 +54,6 @@ public class PgDummyDaoImpl extends DalTemplate implements PgDummyDao{
 						return dummy;
 					}
 				});
-		if (entities.size() == 1)
-			return entities.get(0);
-		else if (entities.size() > 1)
-			throw new PuluoException("");
-		else
-			return null;
+		return verifyUniqueResult(entities);
 	}
 }

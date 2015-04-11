@@ -13,7 +13,6 @@ import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
-import com.puluo.util.PuluoDatabaseException;
 import com.puluo.util.Strs;
 import com.puluo.util.TimeUtils;
 
@@ -51,15 +50,10 @@ public class PuluoWechatBindingDaoImpl extends DalTemplate implements
 		String selectSQL = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName()).append(" where open_id = ?")
 				.toString();
-		log.info(selectSQL);
+		log.info(super.sqlRequestLog(selectSQL, openId));
 		List<PuluoWechatBinding> entities = reader.query(selectSQL,
 				new Object[] { openId }, new PuluoWechatBindingRowMapper());
-		if (entities.size() == 1)
-			return entities.get(0);
-		else if (entities.size() > 1)
-			throw new PuluoDatabaseException("通过openId查到多个用户设置！");
-		else
-			return null;
+		return verifyUniqueResult(entities);
 	}
 
 	@Override
@@ -68,15 +62,10 @@ public class PuluoWechatBindingDaoImpl extends DalTemplate implements
 		String selectSQL = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName())
 				.append(" where user_mobile = ?").toString();
-		log.info(selectSQL);
+		log.info(super.sqlRequestLog(selectSQL, mobile));
 		List<PuluoWechatBinding> entities = reader.query(selectSQL,
 				new Object[] { mobile }, new PuluoWechatBindingRowMapper());
-		if (entities.size() == 1)
-			return entities.get(0);
-		else if (entities.size() > 1)
-			throw new PuluoDatabaseException("通过openId查到多个用户设置！");
-		else
-			return null;
+		return verifyUniqueResult(entities);
 	}
 
 	@Override
@@ -88,7 +77,7 @@ public class PuluoWechatBindingDaoImpl extends DalTemplate implements
 					.append(" values ('").append(mobile).append("','")
 					.append(openId).append("',").append(0)
 					.append(", now()::timestamp)").toString();
-			log.info(updateSQL);
+			log.info(Strs.join("SQL:",updateSQL));
 			return getWriter().ensureUpdate(updateSQL);
 		} catch (Exception e) {
 			log.info(e.getMessage());
@@ -104,7 +93,7 @@ public class PuluoWechatBindingDaoImpl extends DalTemplate implements
 					.append(Strs.join(" set status = ", status))
 					.append(Strs.join(" where open_id = '", openId, "'"))
 					.toString();
-			log.info(updateSQL);
+			log.info(Strs.join("SQL:",updateSQL));
 			return getWriter().ensureUpdate(updateSQL);
 		} catch (Exception e) {
 			log.info(e.getMessage());
@@ -120,7 +109,7 @@ public class PuluoWechatBindingDaoImpl extends DalTemplate implements
 					.append(Strs.join(" set user_mobile = '", mobile, "'"))
 					.append(Strs.join(" where open_id = '", openId, "'"))
 					.toString();
-			log.info(updateSQL);
+			log.info(Strs.join("SQL:",updateSQL));
 			return getWriter().ensureUpdate(updateSQL);
 		} catch (Exception e) {
 			log.info(e.getMessage());

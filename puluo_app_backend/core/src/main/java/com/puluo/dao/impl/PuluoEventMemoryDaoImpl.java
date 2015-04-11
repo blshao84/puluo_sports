@@ -56,8 +56,9 @@ public class PuluoEventMemoryDaoImpl extends DalTemplate implements PuluoEventMe
 					.append(super.getFullTableName())
 					.append(" where memory_uuid = '" + memory.imageId() + "'")
 					.toString();
-			log.info(reader.queryForInt(querySQL));
-			if (reader.queryForInt(querySQL)>0) {
+			log.info(Strs.join("SQL:",querySQL));
+			int resCnt = reader.queryForInt(querySQL);
+			if (resCnt>0) {
 				return this.updateEventMemory(memory);
 			} else {
 				return this.saveEventMemory(memory);
@@ -71,9 +72,10 @@ public class PuluoEventMemoryDaoImpl extends DalTemplate implements PuluoEventMe
 	@Override
 	public List<PuluoEventMemory> getEventMemoryByEventUUID(String event_uuid) {
 		SqlReader reader = getReader();
-		StringBuilder selectSQL = new StringBuilder().append("select * from ")
-				.append(super.getFullTableName()).append(" where event_uuid = ?");
-		List<PuluoEventMemory> entities = reader.query(selectSQL.toString(), new Object[]{event_uuid},
+		String selectSQL = new StringBuilder().append("select * from ")
+				.append(super.getFullTableName()).append(" where event_uuid = ?").toString();
+		log.info(super.sqlRequestLog(selectSQL, event_uuid));
+		List<PuluoEventMemory> entities = reader.query(selectSQL, new Object[]{event_uuid},
 				new PuluoEventMemoryMapper());
 		return entities;
 	}
@@ -86,9 +88,10 @@ public class PuluoEventMemoryDaoImpl extends DalTemplate implements PuluoEventMe
 					.append(super.getFullTableName())
 					.append(" where memory_uuid = '" + memory.imageId() + "'")
 					.toString();
-			log.info(reader.queryForInt(querySQL));
+			log.info(Strs.join("SQL:",querySQL));
 			String updateSQL;
-			if (reader.queryForInt(querySQL)==0) {
+			int resCnt = reader.queryForInt(querySQL);
+			if (resCnt==0) {
 				updateSQL = new StringBuilder().append("insert into ")
 						.append(super.getFullTableName())
 						.append(" (memory_uuid, image_url, thumbnail, event_uuid, user_uuid, timeline_uuid)")
@@ -99,7 +102,7 @@ public class PuluoEventMemoryDaoImpl extends DalTemplate implements PuluoEventMe
 						.append(Strs.isEmpty(memory.userId()) ? "null" : "'" + memory.userId() + "'").append(", ")
 						.append(Strs.isEmpty(memory.timelineId()) ? "null" : "'" + memory.timelineId() + "'").append(")")
 						.toString();
-				log.info(updateSQL);
+				log.info(Strs.join("SQL:",updateSQL));
 				getWriter().update(updateSQL);
 				return true;
 			} else {
@@ -119,9 +122,10 @@ public class PuluoEventMemoryDaoImpl extends DalTemplate implements PuluoEventMe
 					.append(super.getFullTableName())
 					.append(" where memory_uuid = '" + memory.imageId() + "'")
 					.toString();
-			log.info(reader.queryForInt(querySQL));
+			log.info(Strs.join("SQL:",querySQL));
+			int resCnt =reader.queryForInt(querySQL);
 			StringBuilder updateSQL;
-			if (reader.queryForInt(querySQL)>0) {
+			if (resCnt>0) {
 				updateSQL = new StringBuilder().append("update ")
 						.append(super.getFullTableName()).append(" set");
 				boolean comma = false;
@@ -149,7 +153,7 @@ public class PuluoEventMemoryDaoImpl extends DalTemplate implements PuluoEventMe
 					updateSQL.deleteCharAt(updateSQL.length()-1);
 				}
 				updateSQL.append(" where memory_uuid = '" + memory.imageId() + "'");
-				log.info(updateSQL.toString());
+				log.info(Strs.join("SQL:",updateSQL.toString()));
 				if (comma) {
 					getWriter().update(updateSQL.toString());
 				}
@@ -170,12 +174,7 @@ public class PuluoEventMemoryDaoImpl extends DalTemplate implements PuluoEventMe
 				.append(super.getFullTableName()).append(" where memory_uuid = ?");
 		List<PuluoEventMemory> entities = reader.query(selectSQL.toString(), new Object[]{uuid},
 				new PuluoEventMemoryMapper());
-		if (entities.size() == 1)
-			return entities.get(0);
-		else if (entities.size() > 1)
-			throw new PuluoDatabaseException("通过event uuid查到多个event！");
-		else
-			return null;
+		return verifyUniqueResult(entities);
 	}
 }
 

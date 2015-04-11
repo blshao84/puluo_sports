@@ -14,7 +14,7 @@ import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
-import com.puluo.util.PuluoDatabaseException;
+import com.puluo.util.Strs;
 import com.puluo.util.TimeUtils;
 
 public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao {
@@ -69,6 +69,7 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 		String selectSQL = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName())
 				.append(" where session_id = ?").toString();
+		log.info(super.sqlRequestLog(selectSQL, sessionID));
 		List<PuluoSession> entities = reader.query(selectSQL,
 				new Object[] { sessionID }, new RowMapper<PuluoSession>() {
 					@Override
@@ -86,12 +87,7 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 						return puluoSession;
 					}
 				});
-		if (entities.size() == 1)
-			return entities.get(0);
-		else if (entities.size() > 1)
-			throw new PuluoDatabaseException("通过session id查到多个session！");
-		else
-			return null;
+		return verifyUniqueResult(entities);
 	}
 
 	@Override
@@ -102,7 +98,7 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 					.append(" set deleted_at = now()::timestamp")
 					.append(" where session_id = '" + sessionID + "'")
 					.toString();
-			log.info(updateSQL);
+			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);
 		} catch (Exception e) {
 			log.info(e.getMessage());
@@ -118,6 +114,7 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 				.append(super.getFullTableName())
 				.append(" where user_mobile = ? and deleted_at is null")
 				.toString();
+		log.info(super.sqlRequestLog(selectSQL, mobile));
 		List<PuluoSession> entities = reader.query(selectSQL,
 				new Object[] { mobile }, new RowMapper<PuluoSession>() {
 					@Override
@@ -135,12 +132,7 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 						return puluoSession;
 					}
 				});
-		if (entities.size() == 1)
-			return entities.get(0);
-		else if (entities.size() > 1)
-			throw new PuluoDatabaseException("通过user mobile查到多个session！");
-		else
-			return null;
+		return verifyUniqueResult(entities);
 	}
 
 	@Override
@@ -150,7 +142,7 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 					.append(super.getFullTableName())
 					.append(" set deleted_at = now()::timestamp")
 					.append(" where user_mobile = '" + mobile + "'").toString();
-			log.info(updateSQL);
+			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);
 		} catch (Exception e) {
 			log.info(e.getMessage());
@@ -164,7 +156,7 @@ public class PuluoSessionDaoImpl extends DalTemplate implements PuluoSessionDao 
 			String updateSQL = new StringBuilder().append("delete from ")
 					.append(super.getFullTableName())
 					.append(" where user_mobile = '" + mobile + "'").toString();
-			log.info(updateSQL);
+			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);
 		} catch (Exception e) {
 			log.info(e.getMessage());

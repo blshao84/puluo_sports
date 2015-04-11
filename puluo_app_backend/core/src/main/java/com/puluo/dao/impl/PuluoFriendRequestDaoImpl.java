@@ -63,9 +63,10 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 					.append(super.getFullTableName())
 					.append(" where request_uuid = '" + requestUUID + "'")
 					.toString();
-			log.info(reader.queryForInt(querySQL));
+			log.info(Strs.join("SQL:",querySQL));
+			int resCnt = reader.queryForInt(querySQL);
 			String updateSQL;
-			if (reader.queryForInt(querySQL) == 0) {
+			if (resCnt == 0) {
 				updateSQL = new StringBuilder()
 						.append("insert into ")
 						.append(super.getFullTableName())
@@ -80,7 +81,7 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 						.append(Strs.isEmpty(toUser) ? "null" : "'" + toUser
 								+ "'").append(", ").append("now()::timestamp)")
 						.toString();
-				log.info(updateSQL);
+				log.info(Strs.join("SQL:",updateSQL));
 				getWriter().update(updateSQL);
 				return true;
 			} else {
@@ -103,16 +104,17 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 					.append(super.getFullTableName())
 					.append(" where request_uuid = '" + requestUUID + "'")
 					.toString();
-			log.info(reader.queryForInt(querySQL));
+			log.info(Strs.join("SQL:",querySQL));
+			int resCnt = reader.queryForInt(querySQL);
 			String updateSQL;
-			if (reader.queryForInt(querySQL) > 0) {
+			if (resCnt > 0) {
 				updateSQL = new StringBuilder().append("update ")
 						.append(super.getFullTableName())
 						.append(" set request_status = '" + newStatus + "',")
 						.append(" updated_at = now()::timestamp")
 						.append(" where request_uuid = '" + requestUUID + "'")
 						.toString();
-				log.info(updateSQL);
+				log.info(Strs.join("SQL:",updateSQL));
 				getWriter().update(updateSQL);
 				return true;
 			} else {
@@ -129,12 +131,12 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 	public PuluoFriendRequest findByUUID(String requestUUID) {
 		try {
 			SqlReader reader = getReader();
-			StringBuilder selectSQL = new StringBuilder()
+			String selectSQL = new StringBuilder()
 					.append("select * from ").append(super.getFullTableName())
-					.append(" where request_uuid = ?");
-			log.info(selectSQL.toString());
+					.append(" where request_uuid = ?").toString();
+			log.info(super.sqlRequestLog(selectSQL,requestUUID));
 			List<PuluoFriendRequest> entities = reader.query(
-					selectSQL.toString(), new Object[] { requestUUID },new FriendRequestMapper());
+					selectSQL, new Object[] { requestUUID },new FriendRequestMapper());
 			return verifyUniqueResult(entities);
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -147,12 +149,12 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 			String friendUUID,FriendRequestStatus status) {
 		try {
 			SqlReader reader = getReader();
-			StringBuilder selectSQL = new StringBuilder()
+			String selectSQL = new StringBuilder()
 					.append("select * from ").append(super.getFullTableName())
-					.append(" where from_user_uuid = ? and to_user_uuid = ? and request_status = '" + status.name() + "'");
-			log.info(selectSQL.toString());
+					.append(" where from_user_uuid = ? and to_user_uuid = ? and request_status = '" + status.name() + "'").toString();
+			log.info(super.sqlRequestLog(selectSQL,userUUID,userUUID));
 			List<PuluoFriendRequest> entities = reader.query(
-					selectSQL.toString(), new Object[] {userUUID, friendUUID},new FriendRequestMapper());
+					selectSQL, new Object[] {userUUID, friendUUID},new FriendRequestMapper());
 			return entities;
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -165,10 +167,10 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 			String friendUUID) {
 		try {
 			SqlReader reader = getReader();
-			StringBuilder selectSQL = new StringBuilder()
+			String selectSQL = new StringBuilder()
 					.append("select * from ").append(super.getFullTableName())
-					.append(" where from_user_uuid = ? and to_user_uuid = ? ");
-			log.info(selectSQL.toString());
+					.append(" where from_user_uuid = ? and to_user_uuid = ? ").toString();
+			log.info(super.sqlRequestLog(selectSQL,userUUID,userUUID));
 			List<PuluoFriendRequest> entities = reader.query(
 					selectSQL.toString(), new Object[] {userUUID, friendUUID},new FriendRequestMapper());
 			return entities;

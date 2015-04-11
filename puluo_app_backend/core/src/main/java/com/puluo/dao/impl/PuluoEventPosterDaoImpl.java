@@ -54,9 +54,10 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 					.append(super.getFullTableName())
 					.append(" where event_poster_uuid = '" + photo.imageId() + "'")
 					.toString();
-			log.info(reader.queryForInt(querySQL));
+			log.info(Strs.join("SQL:",querySQL));
+			int resCnt = reader.queryForInt(querySQL);
 			String updateSQL;
-			if (reader.queryForInt(querySQL)==0) {
+			if (resCnt==0) {
 				updateSQL = new StringBuilder().append("insert into ")
 						.append(super.getFullTableName())
 						.append(" (event_poster_uuid, image_url, thumbnail, event_info_uuid)")
@@ -65,7 +66,7 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 						.append(Strs.isEmpty(photo.thumbnail()) ? "null" : "'" + photo.thumbnail() + "'").append(", ")
 						.append(Strs.isEmpty(photo.eventInfoUUID()) ? "null" : "'" + photo.eventInfoUUID() + "'").append(")")
 						.toString();
-				log.info(updateSQL);
+				log.info(Strs.join("SQL:",updateSQL));
 				getWriter().update(updateSQL);
 				return true;
 			} else {
@@ -117,7 +118,7 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 					updateSQL.deleteCharAt(updateSQL.length()-1);
 				}
 				updateSQL.append(" where event_poster_uuid = '" + photo.imageId() + "'");
-				log.info(updateSQL.toString());
+				log.info(Strs.join("SQL:",updateSQL.toString()));
 				if (comma) {
 					getWriter().update(updateSQL.toString());
 				}
@@ -138,12 +139,7 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 				.append(super.getFullTableName()).append(" where event_poster_uuid = ?");
 		List<PuluoEventPoster> entities = reader.query(selectSQL.toString(), new Object[]{uuid},
 				new PuluoEventPosterMapper());
-		if (entities.size() == 1)
-			return entities.get(0);
-		else if (entities.size() > 1)
-			throw new PuluoDatabaseException("通过event uuid查到多个event！");
-		else
-			return null;
+		return verifyUniqueResult(entities);
 	}
 }
 

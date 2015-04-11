@@ -15,7 +15,6 @@ import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
-import com.puluo.util.PuluoDatabaseException;
 import com.puluo.util.Strs;
 import com.puluo.util.TimeUtils;
 
@@ -40,7 +39,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 					.append("'" + message.toUser().userUUID() + "', ")
 					.append("'" + TimeUtils.formatDate(message.createdAt())
 							+ "')").toString();
-			log.info(updateSQL);
+			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);
 			return true;
 		} catch (Exception e) {
@@ -62,12 +61,12 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			String fromUserUUID, String toUserUUID) {
 		try {
 			SqlReader reader = getReader();
-			StringBuilder selectSQL = new StringBuilder()
+			String selectSQL = new StringBuilder()
 					.append("select * from ")
 					.append(super.getFullTableName())
 					.append(" where from_user_uuid = ?  and to_user_uuid = ? and message_type = '"
-							+ PuluoMessageType.FriendRequest.name() + "'");
-			log.info(selectSQL.toString());
+							+ PuluoMessageType.FriendRequest.name() + "'").toString();
+			log.info(super.sqlRequestLog(selectSQL,fromUserUUID,toUserUUID));
 			List<PuluoPrivateMessage> entities = reader.query(
 					selectSQL.toString(), new Object[] { fromUserUUID,
 							toUserUUID }, new PrivateMessageMapper());
@@ -98,7 +97,8 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			}
 			log.info(selectSQL.toString());
 			List<PuluoPrivateMessage> entities = reader.query(
-					selectSQL.toString(), new Object[] { userUUID },new PrivateMessageMapper());
+					selectSQL.toString(), new Object[] { userUUID },
+					new PrivateMessageMapper());
 			return entities;
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -162,7 +162,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			}
 			log.info(selectSQL.toString());
 			List<PuluoPrivateMessage> entities = reader.query(
-					selectSQL.toString(), args,new PrivateMessageMapper());
+					selectSQL.toString(), args, new PrivateMessageMapper());
 			return entities;
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -174,19 +174,15 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 	public PuluoPrivateMessage findByUUID(String uuid) {
 		try {
 			SqlReader reader = getReader();
-			StringBuilder selectSQL = new StringBuilder().append("select * from ")
-					.append(super.getFullTableName())
-					.append(" where message_uuid = ?");
-			
-			log.info(selectSQL.toString());
-			List<PuluoPrivateMessage> entities = reader.query(selectSQL.toString(), new Object[]{uuid},
+			String selectSQL = new StringBuilder()
+					.append("select * from ").append(super.getFullTableName())
+					.append(" where message_uuid = ?").toString();
+
+			log.info(super.sqlRequestLog(selectSQL, uuid));
+			List<PuluoPrivateMessage> entities = reader.query(
+					selectSQL, new Object[] { uuid },
 					new PrivateMessageMapper());
-			if (entities.size() == 1)
-				return entities.get(0);
-			else if (entities.size() > 1)
-				throw new PuluoDatabaseException("通过event uuid查到多个event！");
-			else
-				return null;
+			return verifyUniqueResult(entities);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return null;
