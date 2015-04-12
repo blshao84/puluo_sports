@@ -78,7 +78,7 @@ public abstract class DalTemplate {
 	protected String sqlRequestLog(String sql, Object...params){
 		StringBuilder sb = new StringBuilder();
 		sb.append("SQL:").append(sql).append("\n")
-		.append("ARG:").append(Strs.join("", params));
+		.append("ARG:").append(Strs.mkString(",", params));
 		return sb.toString();
 	}
 }

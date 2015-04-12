@@ -165,7 +165,7 @@ public abstract class Strs {
 		}
 	}
 
-	public static String join(String speperator, Object... contents) {
+	public static String mkString(String speperator, Object... contents) {
 		ArrayList<String> objects = new ArrayList<String>();
 		int size = objects.size();
 		int i = 0;
