@@ -19,7 +19,6 @@ import com.puluo.util.SortDirection
 
 object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
-    //FIXME: should be POST?
     case "events" :: "payment" :: eventUUID :: Nil Post _ => doRegister(eventUUID)
     case "events" :: "detail" :: eventUUID :: Nil Post _ => doGetEventDetail(eventUUID)
     case "events" :: "memory" :: eventUUID :: Nil Post _ => doGetEventMemory(eventUUID)

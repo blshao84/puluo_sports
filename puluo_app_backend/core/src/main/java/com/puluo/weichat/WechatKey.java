@@ -1,4 +1,4 @@
-package com.puluo.service;
+package com.puluo.weichat;
 
 public class WechatKey {
 	public String wechat_key;

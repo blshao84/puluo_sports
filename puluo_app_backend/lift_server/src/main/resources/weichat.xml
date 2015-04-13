@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <button_group>
-	<button button_type="click" button_name="网上商城">
+	<button button_type="click" button_name="资讯">
 		<sub_button_group>
-					<sub_button button_type="click" button_name="每日签到" button_key="CHECKIN"></sub_button>
-					<sub_button button_type="click" button_name="试试手气" button_key="LOTTERY"></sub_button>
-					<sub_button button_type="view" button_name="一键购物" button_url="http://www.dqxmt.com/reserve_mobile"></sub_button>
+					<sub_button button_type="click" button_name="类型一" button_key="INFO1"></sub_button>
+					<sub_button button_type="click" button_name="类型二" button_key="INFO2"></sub_button>
+					<sub_button button_type="click" button_name="类型三" button_key="INFO3"></sub_button>
+					<sub_button button_type="click" button_name="类型四" button_key="INFO4"></sub_button>
 		</sub_button_group>
 	</button>
-	<button button_type="click" button_name="天狗">
+	<button button_type="click" button_name="课程">
 		<sub_button_group>
-			<sub_button button_type="view" button_name="超市活动" button_url="http://m.51tiangou.com/index.html?activityType=1&amp;source_type=2&amp;source_weixin_id=gh_a74ef232264d"></sub_button>
-			<sub_button button_type="view" button_name="百货活动" button_url="http://m.51tiangou.com/index.html?source_type=2&amp;source_weixin_id=gh_a74ef232264d "></sub_button>
+			<sub_button button_type="click" button_name="课程表" button_key="CURRICULUM"></sub_button>
+			<sub_button button_type="click" button_name="热门课程" button_key="HOTTEST""></sub_button>
 		</sub_button_group>
 	</button>
-	<button button_type="click" button_name="更多">
+	<button button_type="click" button_name="我的普罗">
 		<sub_button_group>
-			<sub_button button_type="view" button_name="个人信息" button_url="http://m.51tiangou.com/account/personal_info.html?source_type=2&amp;source_weixin_id=gh_a74ef232264d"></sub_button>
-			<sub_button button_type="view" button_name="天狗客服" button_url="http://m.51tiangou.com/account/tgouService.html?source_type=2&amp;source_weixin_id=gh_a74ef232264d"></sub_button>
-			<sub_button button_type="view" button_name="我的活动" button_url="http://m.51tiangou.com/couponCode/couponCodeList.html?source_type=2&amp;source_weixin_id=gh_a74ef232264d"></sub_button>
-			<sub_button button_type="view" button_name="我的订单" button_url="http://m.51tiangou.com/order/orderList.html?source_type=2&amp;source_weixin_id=gh_a74ef232264d "></sub_button>
+			<sub_button button_type="click" button_name="快速注册" button_key="REGISTER""></sub_button>
+			<sub_button button_type="click" button_name="我的订单" button_key="ORDERS""></sub_button>
+			<sub_button button_type="click" button_name="App下载" button_key="DOWNLOAD""></sub_button>
+			<sub_button button_type="click" button_name="010-12345678" button_key="SERVICE""></sub_button>
 		</sub_button_group>
 	</button>
 

@@ -39,6 +39,7 @@ import net.liftweb.http.PlainTextResponse
 import com.puluo.session.PuluoSessionManager
 import com.puluo.api.test.DummyAPI
 import com.puluo.api.test.DummyPrivateAPI
+import com.puluo.api.test.PrivateWechatService
 
 class Boot extends Loggable {
 
@@ -87,6 +88,7 @@ class Boot extends Loggable {
     LiftRules.dispatch.append(PuluoAuthAPI)
     LiftRules.dispatch.append(WechatService)
     LiftRules.dispatch.append(DummyAPI)
+    LiftRules.dispatch.append(withAuthentication guard PrivateWechatService)
     LiftRules.dispatch.append(withAuthentication guard DummyPrivateAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoPrivateServiceAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoEventAPI)

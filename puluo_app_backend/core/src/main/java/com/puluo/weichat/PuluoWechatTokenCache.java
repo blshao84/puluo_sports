@@ -1,6 +1,7 @@
-package com.puluo.service;
+package com.puluo.weichat;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -13,9 +14,9 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.puluo.config.Configurations;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
-import com.puluo.weichat.WeiChatUtil;
 
 public class PuluoWechatTokenCache {
 	private static Log log = LogFactory.getLog(PuluoWechatTokenCache.class);
@@ -60,4 +61,12 @@ public class PuluoWechatTokenCache {
 					return listenableFuture;
 				}
 			});
+	
+	public static String token() {
+		try {
+			return cache.get(Configurations.wechatKey);
+		} catch (ExecutionException e) {
+			return null;
+		}
+	}
 }

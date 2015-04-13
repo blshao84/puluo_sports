@@ -23,7 +23,7 @@ import net.liftweb.mapper.Descending
 import net.liftweb.util.FieldError
 import java.util.UUID
 import org.joda.time.LocalDateTime
-import com.puluo.api.result.wechat.WechatArticleMessage
+
 
 trait WechatReplyMessage {
   def params: Map[String, String]
@@ -31,6 +31,13 @@ trait WechatReplyMessage {
   def fromUserName = params("ToUserName")
   def createTime = params("CreateTime")
   def xmlResponse: XmlResponse
+}
+
+object WeichatReplyMessage {
+  def apply(params: Map[String, String],javaMsg:com.puluo.api.result.wechat.WechatMessage):WechatReplyMessage = javaMsg match {
+    case textMsg:com.puluo.api.result.wechat.WechatTextMessage => WechatTextMessage(params,textMsg)
+    case newsMsg: com.puluo.api.result.wechat.WechatNewsMessage => WechatNewsMessage(params,newsMsg)
+  }
 }
 
 object WechatTextMessage {

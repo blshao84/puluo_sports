@@ -23,23 +23,72 @@ import net.liftweb.mapper.MaxRows
 import net.liftweb.mapper.OrderBy
 import net.liftweb.mapper.Descending
 import net.liftweb.util.FieldError
-import com.puluo.config.ButtonKeyType
 import java.util.UUID
 import org.joda.time.LocalDateTime
 import com.puluo.api.util._
 import com.puluo.api.service.WechatTextAPI
+import com.puluo.session.PuluoSessionManager
+import com.puluo.weichat.WeiChatUtil
+import com.puluo.dao.impl.DaoApi
+import com.puluo.entity.impl.PuluoUserType
+import com.puluo.weichat.WechatButtonGroup
+import com.puluo.weichat.WechatButton
+import com.puluo.weichat.PuluoWechatTokenCache
+
+object PrivateWechatService extends RestHelper with Loggable {
+  serve {
+    case "sns" :: "weichat" :: "create" :: Nil Get _ => createButton
+  }
+
+  def createButton = {
+    val token = PuluoResponseFactory.createParamMap(Seq("token")).values.head
+    val session = PuluoSessionManager.getSession(token)
+    val userUUID = session.userUUID()
+    val user = DaoApi.getInstance().userDao().getByUUID(userUUID)
+
+    if (user.userType().equals(PuluoUserType.Admin)) {
+      val button = buttons.toJson()
+      val token = PuluoWechatTokenCache.token()
+      if (token != null) {
+        logger.info("向微信发送新建button的请求:\n" + button)
+        val success = WeiChatUtil.createButton(token, button)
+        PlainTextResponse("success=" + success)
+      } else {
+        logger.error("微信token为null")
+        PlainTextResponse("微信token为null")
+      }
+    } else PlainTextResponse("您没登陆或者没有权限")
+  }
+
+  def buttons = {
+    val allButtons = (LiftRules.loadResourceAsXml("/weichat.xml").get \\ "button").map(button => {
+      val buttonType = (button \ "@button_type").toString
+      val name = (button \ "@button_name").toString
+      val key = (button \ "@button_key").toString
+      val url = (button \ "@button_url").toString
+      val subButtons = (button \\ "sub_button").map(subButton => {
+        val buttonType = (subButton \ "@button_type").toString
+        val name = (subButton \ "@button_name").toString
+        val key = (subButton \ "@button_key").toString
+        val url = (subButton \ "@button_url").toString
+        new WechatButton(buttonType, name, key, url, List.empty[WechatButton])
+      })
+      new WechatButton(buttonType, name, key, url, subButtons)
+    })
+    new WechatButtonGroup(allButtons)
+  }
+}
 
 object WechatService extends RestHelper with Loggable {
 
   implicit def replyMessageToResponse(msg: WechatReplyMessage): XmlResponse = msg.xmlResponse
 
   serve {
-    //case "sns" :: "weichat" :: "create" :: Nil Get _ => createButton
     case "sns" :: "wechat" :: Nil Get _ => processReq
     case "sns" :: "wechat" :: Nil Post _ => processReq
   }
 
-  def processReq:LiftResponse = {
+  def processReq: LiftResponse = {
     (S.param("signature"), S.param("timestamp"), S.param("nonce"), S.param("echostr")) match {
       case (Full(sig), Full(timestamp), Full(nonce), Full(echostr)) => verify(sig, timestamp, nonce, echostr)
       case _ => {
@@ -49,8 +98,7 @@ object WechatService extends RestHelper with Loggable {
             msgType match {
               case "text" => {
                 val api = new WechatTextAPI(toUser, fromUser, creatAt, msgType, params.getOrElse("Content", ""))
-                //FIXME: fix this hack!!!!
-                WechatTextMessage(params,api.process().asInstanceOf[com.puluo.api.result.wechat.WechatTextMessage])
+                WeichatReplyMessage(params, api.process())
               }
               //case "image" => processImageReq(params)
               //case "event" => processButtonReq(params)
