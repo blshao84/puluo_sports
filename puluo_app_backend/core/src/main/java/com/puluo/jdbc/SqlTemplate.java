@@ -1,5 +1,7 @@
 package com.puluo.jdbc;
 
+import java.sql.SQLException;
+
 import javax.sql.DataSource;
 
 import org.springframework.dao.DataAccessException;
@@ -29,6 +31,17 @@ public class SqlTemplate extends JdbcTemplate implements SqlReader, SqlWriter {
 			return false;
 		} else
 			return true;
+	}
+
+	//FIXME: should we close connection? aren't they supposed to be managed by BoneCP?
+	@Override
+	protected void finalize() throws Throwable {
+		try {
+			getDataSource().getConnection().close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		super.finalize();
 	}
 
 }
