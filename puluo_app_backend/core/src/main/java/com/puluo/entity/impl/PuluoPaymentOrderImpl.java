@@ -27,24 +27,14 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 	private String event_id;
 	private PuluoOrderStatus status;
 
-	/**
-	 * We don't save this member
-	 */
-	private PuluoDSI dsi;
 
 	public PuluoPaymentOrderImpl() {
 	}
 
-	public PuluoPaymentOrderImpl(String idpayment, double amount,
-			DateTime pay_time, String iduser, String idevent,
-			PuluoOrderStatus status) {
-		this(idpayment, amount, pay_time, iduser, idevent, status, DaoApi
-				.getInstance());
-	}
 
 	public PuluoPaymentOrderImpl(String idpayment, double amount,
 			DateTime pay_time, String iduser, String idevent,
-			PuluoOrderStatus status, PuluoDSI dsi) {
+			PuluoOrderStatus status) {
 		this.order_uuid = UUID.randomUUID().toString();
 		this.payment_id = idpayment;
 		this.amount = amount;
@@ -52,7 +42,6 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 		this.user_id = iduser;
 		this.event_id = idevent;
 		this.status = status;
-		this.dsi = dsi;
 	}
 
 	@Override
@@ -91,7 +80,12 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 
 	@Override
 	public List<OrderEvent> events() {
-		return dsi.orderEventDao().getOrderEvents(payment_id);
+		return events(DaoApi.getInstance());
+	}
+
+	
+	public List<OrderEvent> events(PuluoDSI dsi) {
+		return dsi.orderEventDao().getOrderEventsByOrderUUID(order_uuid);
 	}
 
 	@Override

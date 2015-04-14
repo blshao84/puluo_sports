@@ -27,7 +27,7 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 	}
 
 	@Override
-	public boolean saveOrder(PuluoPaymentOrder order) {
+	public boolean upsertOrder(PuluoPaymentOrder order) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -9,16 +9,18 @@ import com.puluo.jdbc.DalTemplate;
 public class PuluoOrderEventDaoImpl extends DalTemplate implements
 		PuluoOrderEventDao {
 
-	@Override
-	public List<OrderEvent> getOrderEvents(String paymentUUID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public boolean saveOrderEvent(OrderEvent event) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<OrderEvent> getOrderEventsByOrderUUID(String orderUUID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

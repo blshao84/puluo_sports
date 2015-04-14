@@ -126,7 +126,7 @@ public class EventRegistrationAPI extends
 					paymentTime, user_uuid, event_uuid, PuluoOrderStatus.New);
 			OrderEvent placeOrderEvent = new OrderEventImpl(order.orderUUID(),
 					OrderEventType.PlaceOrderEvent);
-			dsi.paymentDao().saveOrder(order);
+			dsi.paymentDao().upsertOrder(order);
 			dsi.orderEventDao().saveOrderEvent(placeOrderEvent);
 			PuluoPaymentOrder savedOrder = dsi.paymentDao().getOrderByUUID(
 					order.orderUUID());

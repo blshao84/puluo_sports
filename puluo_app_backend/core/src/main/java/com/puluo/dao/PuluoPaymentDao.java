@@ -12,7 +12,7 @@ public interface PuluoPaymentDao {
 	public boolean updateOrderStatus(PuluoPaymentOrder order,
 			PuluoOrderStatus nextStatus);
 
-	public boolean saveOrder(PuluoPaymentOrder order);
+	public boolean upsertOrder(PuluoPaymentOrder order);
 
 	public PuluoPaymentOrder getOrderByNumericID(long orderNumericID);
 
