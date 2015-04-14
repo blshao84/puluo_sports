@@ -14,7 +14,7 @@ public class OrderEventImpl implements OrderEvent {
 	private final DateTime created_at;
 	private final String order_uuid;
 	private final OrderEventType type;
-	private final PuluoDSI dsi;
+	
 	
 	
 	
@@ -25,18 +25,8 @@ public class OrderEventImpl implements OrderEvent {
 		this.created_at = DateTime.now();
 		this.order_uuid = order_uuid;
 		this.type = type;
-		this.dsi = DaoApi.getInstance();
 	}
 	
-	public OrderEventImpl(String uuid, DateTime created_at, String order_uuid,
-			OrderEventType type,PuluoDSI dsi) {
-		super();
-		this.uuid = uuid;
-		this.created_at = created_at;
-		this.order_uuid = order_uuid;
-		this.type = type;
-		this.dsi = dsi;
-	}
 
 	@Override
 	public String eventUUID() {
@@ -45,6 +35,10 @@ public class OrderEventImpl implements OrderEvent {
 
 	@Override
 	public PuluoPaymentOrder order() {
+		return order(DaoApi.getInstance());
+	}
+	
+	public PuluoPaymentOrder order(PuluoDSI dsi) {
 		return dsi.paymentDao().getOrderByUUID(order_uuid);
 	}
 
