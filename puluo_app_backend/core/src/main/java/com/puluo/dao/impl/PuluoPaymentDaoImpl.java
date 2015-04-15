@@ -139,7 +139,7 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 						.append(Strs.isEmpty(TimeUtils.formatDate(order.paymentTime())) ? "null" : "'" + TimeUtils.formatDate(order.paymentTime()) + "'").append(", ")
 						.append(Strs.isEmpty(order.userId()) ? "null" : "'" + order.userId() + "'").append(", ")
 						.append(Strs.isEmpty(order.eventId()) ? "null" : "'" + order.eventId() + "'").append(", ")
-						.append("'" + order.status().name() + "'").append(", ")
+						.append("'" + order.status().name() + "'").append(")")
 						.toString();
 				log.info(Strs.join("SQL: ", updateSQL));
 				getWriter().update(updateSQL);
