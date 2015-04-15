@@ -70,7 +70,7 @@ public abstract class DalTemplate {
 			return entities.get(0);
 		else if (entities.size() > 1)
 			throw new PuluoDatabaseException(
-					"通过requestUUID查到多个PuluoFriendRequest！");
+					"通过UUID查到多个Entities！");
 		else
 			return null;
 	}

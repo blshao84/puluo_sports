@@ -15,16 +15,18 @@ public class OrderEventImpl implements OrderEvent {
 	private final String order_uuid;
 	private final OrderEventType type;
 	
-	
-	
+	public OrderEventImpl(String uuid, DateTime created_at, String order_uuid,
+			OrderEventType type) {
+		super();
+		this.uuid = uuid;
+		this.created_at = created_at;
+		this.order_uuid = order_uuid;
+		this.type = type;
+	}
 	
 	public OrderEventImpl(String order_uuid,
 			OrderEventType type) {
-		super();
-		this.uuid = UUID.randomUUID().toString();
-		this.created_at = DateTime.now();
-		this.order_uuid = order_uuid;
-		this.type = type;
+		this(UUID.randomUUID().toString(), DateTime.now(), order_uuid, type);
 	}
 	
 

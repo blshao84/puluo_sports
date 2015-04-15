@@ -4,6 +4,8 @@ import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.payment.impl.PuluoOrderStatus;
 
 public interface PuluoPaymentDao {
+	
+	public boolean createTable();
 
 	public PuluoPaymentOrder getOrderByUUID(String orderUUID);
 

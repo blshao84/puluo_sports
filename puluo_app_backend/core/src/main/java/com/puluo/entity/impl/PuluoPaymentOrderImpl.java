@@ -28,20 +28,24 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 	private PuluoOrderStatus status;
 
 
-	public PuluoPaymentOrderImpl() {
-	}
-
-
-	public PuluoPaymentOrderImpl(String idpayment, double amount,
+	public PuluoPaymentOrderImpl(long order_num_id, String order_uuid, String idpayment, double amount,
 			DateTime pay_time, String iduser, String idevent,
 			PuluoOrderStatus status) {
-		this.order_uuid = UUID.randomUUID().toString();
+		this.order_num_id = order_num_id;
+		this.order_uuid = order_uuid;
 		this.payment_id = idpayment;
 		this.amount = amount;
 		this.payment_time = pay_time;
 		this.user_id = iduser;
 		this.event_id = idevent;
 		this.status = status;
+	}
+
+
+	public PuluoPaymentOrderImpl(String idpayment, double amount,
+			DateTime pay_time, String iduser, String idevent,
+			PuluoOrderStatus status) {
+		this(0L, UUID.randomUUID().toString(), idpayment, amount, pay_time, iduser, idevent, status);
 	}
 
 	@Override
@@ -60,7 +64,8 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 
 	@Override
 	public PuluoOrderStatus status() {
-		return PuluoOrderStatus.Undefined;
+//		return PuluoOrderStatus.Undefined;
+		return status == null ? PuluoOrderStatus.Undefined : status;
 	}
 
 	@Override
