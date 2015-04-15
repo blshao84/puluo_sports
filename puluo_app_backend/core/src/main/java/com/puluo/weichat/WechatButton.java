@@ -5,7 +5,7 @@ import java.util.List;
 import com.puluo.util.HasJSON;
 
 public class WechatButton extends HasJSON{
-	public String buttonType;
+	public String type;
 	public String  name;
 	public String  key;
 	public String  url;
@@ -13,7 +13,7 @@ public class WechatButton extends HasJSON{
 	public WechatButton(String buttonType, String name, String key, String url,
 			List<WechatButton> sub_button) {
 		super();
-		this.buttonType = buttonType;
+		this.type = buttonType;
 		this.name = name;
 		this.key = key;
 		this.url = url;

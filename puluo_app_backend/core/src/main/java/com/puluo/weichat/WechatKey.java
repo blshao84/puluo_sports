@@ -42,6 +42,12 @@ public class WechatKey {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "WechatKey [wechat_key=" + wechat_key + ", wechat_id="
+				+ wechat_id + "]";
+	}
 	
 	
 }

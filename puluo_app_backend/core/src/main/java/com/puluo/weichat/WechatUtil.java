@@ -20,21 +20,27 @@ import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
 /**
  * 微信通用接口工具类
+ * 
  * @author caspar.chen
  * @version 1.0
  * 
  */
-public class WeiChatUtil {
+public class WechatUtil {
 
-	public static Logger log = Logger.getLogger(WeiChatUtil.class);
+	public static Logger log = Logger.getLogger(WechatUtil.class);
 
 	/**
 	 * 获取access_token的接口地址（GET） 限200（次/天）
 	 */
 	public final static String ACCESS_TOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
 	public final static String CREATE_BUTTON = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
+	public final static String GET_MEDIA = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=ACCESS_TOKEN";
+	public final static String GET_MEDIA_LIST = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=ACCESS_TOKEN";
 
 	/**
 	 * 获取access_token对象
@@ -60,17 +66,56 @@ public class WeiChatUtil {
 			} catch (JSONException e) {
 				accessToken = null;
 				// 获取token失败
-				//System.out.println("获取token失败 errcode:" + jsonObject.getInt("errcode")
-						//+ "，errmsg:" + jsonObject.getString("errmsg"));
+				// System.out.println("获取token失败 errcode:" +
+				// jsonObject.getInt("errcode")
+				// + "，errmsg:" + jsonObject.getString("errmsg"));
 			}
 		}
 		return accessToken;
 	}
+
+	public static WechatMediaListResult getMediaList(String token,
+			String type) {
+		return getMediaList(token, type, 0, 20);
+	}
+
+	public static WechatMediaListResult getMediaList(String token,
+			String type, int offset, int count) {
+		String inputs = String.format(
+				"{\"type\":\"%s\",\"offset\":%s,\"count\":%s}", type, offset,
+				count);
+		String requestUrl = GET_MEDIA_LIST.replace("ACCESS_TOKEN", token);
+		JSONObject jsonObject = httpsRequest(requestUrl, "POST", inputs);
+		Gson gson = new Gson();
+		try {
+			return gson.fromJson(jsonObject.toString(),
+					WechatMediaListResult.class);
+		} catch (JsonSyntaxException e) {
+			log.error("unable to parse :" + jsonObject.toString());
+			return null;
+		}
+
+	}
+
+	public static WechatPermMediaItemResult getTextMedia(String token,
+			String mediaID) {
+		JSONObject jsonObject = getMedia(token,mediaID);
+		Gson gson = new Gson();
+		try {
+			return gson.fromJson(jsonObject.toString(),
+					WechatPermMediaItemResult.class);
+		} catch (JsonSyntaxException e) {
+			log.error("unable to parse :" + jsonObject.toString());
+			return null;
+		}
+	}
 	
+
 	public static boolean createButton(String token, String buttons) {
 
 		String requestUrl = CREATE_BUTTON.replace("ACCESS_TOKEN", token);
 		JSONObject jsonObject = httpsRequest(requestUrl, "POST", buttons);
+		System.out.println(jsonObject);
 		// 如果请求成功
 		if (null != jsonObject) {
 			try {
@@ -81,8 +126,6 @@ public class WeiChatUtil {
 		}
 		return false;
 	}
-
-	
 
 	/**
 	 * 发起https请求并获取结果
@@ -99,7 +142,9 @@ public class WeiChatUtil {
 			String requestMethod, String outputStr) {
 		JSONObject jsonObject = null;
 		StringBuffer buffer = new StringBuffer();
-		//System.out.println(String.format("准备发送http request.\n url=%s\n method=%s\n output=%s\n",requestUrl, requestMethod,outputStr));
+		log.debug(String.format(
+				"准备发送http request.\n url=%s\n method=%s\n output=%s\n",
+				requestUrl, requestMethod, outputStr));
 		try {
 			// 创建SSLContext对象，并使用我们指定的信任管理器初始化
 			TrustManager[] tm = { new MyX509TrustManager() };
@@ -120,12 +165,12 @@ public class WeiChatUtil {
 			httpUrlConn.setRequestMethod(requestMethod);
 
 			if ("GET".equalsIgnoreCase(requestMethod)) {
-				//System.out.println("与微信建立http连接");
+				// System.out.println("与微信建立http连接");
 				httpUrlConn.connect();
 			}
 			// 当有数据需要提交时
 			if (null != outputStr) {
-				System.out.println("向微信发送数据");
+				// System.out.println("向微信发送数据");
 				OutputStream outputStream = httpUrlConn.getOutputStream();
 				// 注意编码格式，防止中文乱码
 				outputStream.write(outputStr.getBytes("UTF-8"));
@@ -149,18 +194,18 @@ public class WeiChatUtil {
 			inputStream.close();
 			inputStream = null;
 			httpUrlConn.disconnect();
-			System.out.println(String.format("接收到微信返回的结果:%s",buffer.toString()));
+			log.debug(String.format("接收到微信返回的结果:%s", buffer.toString()));
 			jsonObject = JSONObject.fromObject(buffer.toString());
-			System.out.println(String.format("将结果转化为json格式:%s",jsonObject.toString()));
+			log.debug(String.format("将结果转化为json格式:%s",
+					jsonObject.toString()));
 		} catch (ConnectException ce) {
-			System.out.println("server connection timed out.");
+			log.error("server connection timed out.");
 		} catch (Exception e) {
-			System.out.println("https request error:"+e);
+			log.error("https request error:" + e);
 		}
 		return jsonObject;
 	}
 
-	
 	/**
 	 * 将微信消息中的CreateTime转换成标准格式的时间（yyyy-MM-dd HH:mm:ss）
 	 * 
@@ -173,5 +218,24 @@ public class WeiChatUtil {
 		long msgCreateTime = Long.parseLong(createTime) * 1000L;
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return format.format(new Date(msgCreateTime));
+	}
+	
+	private static JSONObject getMedia(String token,String mediaID) {
+		String inputs = String.format("{\"media_id\":\"%s\"}", mediaID);
+		String requestUrl = GET_MEDIA.replace("ACCESS_TOKEN", token);
+		return httpsRequest(requestUrl, "POST", inputs);
+	}
+
+	public static void main(String[] args) {
+		String token = PuluoWechatTokenCache.token();
+		WechatMediaListResult  res = getMediaList(token, "image");
+		System.out.println(res);
+		WechatMediaItem item;
+		for (int i=0;i<res.item.size();i++) {
+			item = res.item.get(i);
+			System.out.println(item.media_id);
+
+		}
+
 	}
 }

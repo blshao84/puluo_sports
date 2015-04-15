@@ -88,6 +88,7 @@ class Boot extends Loggable {
     LiftRules.dispatch.append(PuluoAuthAPI)
     LiftRules.dispatch.append(WechatService)
     LiftRules.dispatch.append(DummyAPI)
+    LiftRules.dispatch.append(PuluoFileUploader)
     LiftRules.dispatch.append(withAuthentication guard PrivateWechatService)
     LiftRules.dispatch.append(withAuthentication guard DummyPrivateAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoPrivateServiceAPI)

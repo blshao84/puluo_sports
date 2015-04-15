@@ -24,7 +24,6 @@ import net.liftweb.util.FieldError
 import java.util.UUID
 import org.joda.time.LocalDateTime
 
-
 trait WechatReplyMessage {
   def params: Map[String, String]
   def toUserName = params("FromUserName")
@@ -34,9 +33,10 @@ trait WechatReplyMessage {
 }
 
 object WeichatReplyMessage {
-  def apply(params: Map[String, String],javaMsg:com.puluo.api.result.wechat.WechatMessage):WechatReplyMessage = javaMsg match {
-    case textMsg:com.puluo.api.result.wechat.WechatTextMessage => WechatTextMessage(params,textMsg)
-    case newsMsg: com.puluo.api.result.wechat.WechatNewsMessage => WechatNewsMessage(params,newsMsg)
+  def apply(params: Map[String, String], javaMsg: com.puluo.api.result.wechat.WechatMessage): WechatReplyMessage = javaMsg match {
+    case textMsg: com.puluo.api.result.wechat.WechatTextMessage => WechatTextMessage(params, textMsg)
+    case newsMsg: com.puluo.api.result.wechat.WechatNewsMessage => WechatNewsMessage(params, newsMsg)
+    case imageMsg: com.puluo.api.result.wechat.WechatImageMessage => WechatImageMessage(params, imageMsg)
   }
 }
 
@@ -99,4 +99,25 @@ case class WechatArticleMessage(val title: String, val description: String, imgU
       <Url>{ pageUrl }</Url>
     </item>
 }
+
+object WechatImageMessage {
+  def apply(params: Map[String, String],
+    result: com.puluo.api.result.wechat.WechatImageMessage): WechatImageMessage = WechatImageMessage(params, result.mediaID)
+}
+case class WechatImageMessage(params: Map[String, String], mediaID: String) extends WechatReplyMessage with Loggable {
+  val msgType = "image"
+  def xmlResponse = {
+    val xml = <xml>
+                <ToUserName>{ toUserName }</ToUserName>
+                <FromUserName>{ fromUserName }</FromUserName>
+                <CreateTime>{ createTime }</CreateTime>
+                <MsgType>{ msgType }</MsgType>
+                <Articles>{ mediaID }</Articles>
+              </xml>
+    logger.info("回复给微信的response：\n%s".format(xml))
+    XmlResponse(xml)
+  }
+}
+
+
 	

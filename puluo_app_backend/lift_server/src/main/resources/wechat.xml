@@ -11,15 +11,15 @@
 	<button button_type="click" button_name="课程">
 		<sub_button_group>
 			<sub_button button_type="click" button_name="课程表" button_key="CURRICULUM"></sub_button>
-			<sub_button button_type="click" button_name="热门课程" button_key="HOTTEST""></sub_button>
+			<sub_button button_type="click" button_name="热门课程" button_key="HOTTEST"></sub_button>
 		</sub_button_group>
 	</button>
 	<button button_type="click" button_name="我的普罗">
 		<sub_button_group>
-			<sub_button button_type="click" button_name="快速注册" button_key="REGISTER""></sub_button>
-			<sub_button button_type="click" button_name="我的订单" button_key="ORDERS""></sub_button>
-			<sub_button button_type="click" button_name="App下载" button_key="DOWNLOAD""></sub_button>
-			<sub_button button_type="click" button_name="010-12345678" button_key="SERVICE""></sub_button>
+			<sub_button button_type="click" button_name="快速注册" button_key="REGISTER"></sub_button>
+			<sub_button button_type="click" button_name="我的订单" button_key="ORDERS"></sub_button>
+			<sub_button button_type="click" button_name="App下载" button_key="DOWNLOAD"></sub_button>
+			<sub_button button_type="click" button_name="010-12345678" button_key="SERVICE"></sub_button>
 		</sub_button_group>
 	</button>
 

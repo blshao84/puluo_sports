@@ -28,12 +28,13 @@ import org.joda.time.LocalDateTime
 import com.puluo.api.util._
 import com.puluo.api.service.WechatTextAPI
 import com.puluo.session.PuluoSessionManager
-import com.puluo.weichat.WeiChatUtil
+import com.puluo.weichat.WechatUtil
 import com.puluo.dao.impl.DaoApi
 import com.puluo.entity.impl.PuluoUserType
 import com.puluo.weichat.WechatButtonGroup
 import com.puluo.weichat.WechatButton
 import com.puluo.weichat.PuluoWechatTokenCache
+import com.puluo.api.service.WechatButtonAPI
 
 object PrivateWechatService extends RestHelper with Loggable {
   serve {
@@ -51,7 +52,7 @@ object PrivateWechatService extends RestHelper with Loggable {
       val token = PuluoWechatTokenCache.token()
       if (token != null) {
         logger.info("向微信发送新建button的请求:\n" + button)
-        val success = WeiChatUtil.createButton(token, button)
+        val success = WechatUtil.createButton(token, button)
         PlainTextResponse("success=" + success)
       } else {
         logger.error("微信token为null")
@@ -61,7 +62,7 @@ object PrivateWechatService extends RestHelper with Loggable {
   }
 
   def buttons = {
-    val allButtons = (LiftRules.loadResourceAsXml("/weichat.xml").get \\ "button").map(button => {
+    val allButtons = (LiftRules.loadResourceAsXml("/wechat.xml").get \\ "button").map(button => {
       val buttonType = (button \ "@button_type").toString
       val name = (button \ "@button_name").toString
       val key = (button \ "@button_key").toString
@@ -76,6 +77,15 @@ object PrivateWechatService extends RestHelper with Loggable {
       new WechatButton(buttonType, name, key, url, subButtons)
     })
     new WechatButtonGroup(allButtons)
+  }
+  
+  
+  def main(args: Array[String]) = {
+    val button = buttons.toJson()
+    val token = PuluoWechatTokenCache.token()
+    logger.info("向微信发送新建button的请求:\n" + button)
+    val success = WechatUtil.createButton(token, button)
+    println(success)
   }
 }
 
@@ -101,7 +111,10 @@ object WechatService extends RestHelper with Loggable {
                 WeichatReplyMessage(params, api.process())
               }
               //case "image" => processImageReq(params)
-              //case "event" => processButtonReq(params)
+              case "event" => {
+                val api = new WechatButtonAPI(params)
+                WeichatReplyMessage(params, api.process())
+              }
               case _ => {
                 logger.error("暂时不支持微信msgType=%s的请求".format(msgType))
                 PlainTextResponse("error")
@@ -150,5 +163,6 @@ object WechatService extends RestHelper with Loggable {
     logger.info("解析微信数据结果:\n" + result.mkString("\n"))
     result.toMap
   }
+
 
 }

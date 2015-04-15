@@ -1,5 +1,6 @@
 package com.puluo.weichat;
 
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -36,12 +37,12 @@ public class PuluoWechatTokenCache {
 			.build(new CacheLoader<WechatKey, String>() {
 				@Override
 				public String load(WechatKey key) throws Exception {
-					String token = WeiChatUtil.getAccessToken(key.wechat_id, key.wechat_key)
+					String token = WechatUtil.getAccessToken(key.wechat_id, key.wechat_key)
 							.getToken();
 					log.info(String.format(
 							"get wechat token (%s) for AppId=%s,AppKey=%s",
 							token, key.wechat_id, key.wechat_key));
-					return null;
+					return token;
 				}
 
 				@Override
@@ -64,6 +65,10 @@ public class PuluoWechatTokenCache {
 	
 	public static String token() {
 		try {
+			Map<WechatKey, String> map = cache.asMap();
+			for(WechatKey key:map.keySet()){
+				System.out.println(String.format("%s == %s is %s",key,Configurations.wechatKey,key.equals(Configurations.wechatKey)));
+			}
 			return cache.get(Configurations.wechatKey);
 		} catch (ExecutionException e) {
 			return null;

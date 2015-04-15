@@ -1,6 +1,5 @@
 package com.puluo.api.result;
 
-import com.google.gson.Gson;
 import com.puluo.util.HasJSON;
 
 
@@ -14,6 +13,16 @@ public class ImageUploadServiceResult extends HasJSON{
 		this.status = status;
 	}
 	
+	
+	
+	@Override
+	public String toString() {
+		return "ImageUploadServiceResult [image_link=" + image_link
+				+ ", status=" + status + "]";
+	}
+
+
+
 	public static ImageUploadServiceResult dummy() {
 		return new ImageUploadServiceResult("http://upyun.com/puluo/xxxx", "success");
 	}

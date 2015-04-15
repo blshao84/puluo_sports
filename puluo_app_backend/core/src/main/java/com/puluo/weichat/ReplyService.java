@@ -27,7 +27,7 @@ public class ReplyService {
 		String url = CUSTOME_URL.replace("ACCESS_TOKEN", token);
 		JSONObject json = JSONObject.fromObject(obj);
 		System.out.println(json);
-		JSONObject jsonObject = WeiChatUtil.httpsRequest(url, "POST", json.toString());
+		JSONObject jsonObject = WechatUtil.httpsRequest(url, "POST", json.toString());
 		if (null != jsonObject) {
 			if (StringUtil.isNotEmpty(jsonObject.getString("errcode"))
 					&& jsonObject.getString("errcode").equals("0")) {

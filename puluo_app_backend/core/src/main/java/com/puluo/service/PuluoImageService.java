@@ -43,11 +43,11 @@ public class PuluoImageService {
 	}
 
 	public static void main(String[] args) {
-		String fileName = "/Users/blshao/Desktop/alipay3.jpg";
+		String fileName = "/Users/blshao/Downloads/kcb.jpg";
 		try {
 			File file = new File(fileName);
 			HttpClient httpClient = new DefaultHttpClient();
-			HttpPost post = new HttpPost("http://localhost:8080/upload/image");
+			HttpPost post = new HttpPost("http://localhost:8080/services/image");
 			MultipartEntity entity = new MultipartEntity();
 			ContentBody cbFile = new FileBody(file);
 			entity.addPart("uploadedfile", cbFile);
