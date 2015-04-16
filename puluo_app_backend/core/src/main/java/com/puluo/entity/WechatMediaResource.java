@@ -5,4 +5,6 @@ public interface WechatMediaResource {
 	public String wechatName();
 	public String wechatMediaType();
 	public String wechatLink();
+	public String wechatNewsItemTitle();
+	public String wechatNewsID();
 }

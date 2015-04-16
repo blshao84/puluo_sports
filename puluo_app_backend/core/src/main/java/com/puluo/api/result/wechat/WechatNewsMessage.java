@@ -8,16 +8,15 @@ import com.puluo.weichat.WechatPermMediaItemResult;
 
 public class WechatNewsMessage extends WechatMessage{
 	public final List<WechatArticleMessage> articles;
-
 	public WechatNewsMessage(List<WechatArticleMessage> articles) {
 		super();
 		this.articles = articles;
 	}
 	
-	public WechatNewsMessage(WechatPermMediaItemResult result) {
+	public WechatNewsMessage(WechatPermMediaItemResult result, String mediaID) {
 		articles = new ArrayList<WechatArticleMessage>();
 		for(WechatNewsContentItem item:result.news_item){
-			articles.add(new WechatArticleMessage(item));
+			articles.add(new WechatArticleMessage(item,mediaID));
 		}
 	}
 	

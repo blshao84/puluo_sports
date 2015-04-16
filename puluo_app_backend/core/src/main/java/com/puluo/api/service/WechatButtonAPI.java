@@ -91,13 +91,11 @@ public class WechatButtonAPI {
 		List<WechatArticleMessage> articles = new ArrayList<WechatArticleMessage>();
 		String token = PuluoWechatTokenCache.token();
 		for (int i = 0; i < mediaList.length; i++) {
-			WechatPermMediaItemResult res2 = WechatUtil.getTextMedia(token,mediaList[i]);
+			String newsId = mediaList[i];
+			WechatPermMediaItemResult res2 = WechatUtil.getTextMedia(token,newsId);
 			for(WechatNewsContentItem item:res2.news_item){
-				items.add(item);
+				articles.add(new WechatArticleMessage(item,newsId));
 			}
-		}
-		for(WechatNewsContentItem i:items){
-			articles.add(new WechatArticleMessage(i));
 		}
 		return new WechatNewsMessage(articles);
 	}

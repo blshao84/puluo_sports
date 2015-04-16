@@ -9,6 +9,8 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -257,37 +259,67 @@ public class WechatUtil {
 	}
 
 	public static void main(String[] args) {
-		
-		String token = PuluoWechatTokenCache.token();
-		WechatTextMediaListResult res = getTextMediaList(token);
-		System.out.println(res);
-		for( WechatNewsItem item:res.item){
-			System.out.println(item.media_id+":\n");
-			for(WechatNewsContentItem ci:item.content.news_item){
-				System.out.println("\t"+ci.thumb_media_id);
-			}
-		}
-		//System.out.println(getTextMedia(token,Configurations.wechatButtonInfo2List[0]));
+
+		/*
+		 * String token = PuluoWechatTokenCache.token();
+		 * WechatTextMediaListResult res = getTextMediaList(token);
+		 * System.out.println(res); for (WechatNewsItem item : res.item) {
+		 * System.out.println(item.media_id + ":\n"); for (WechatNewsContentItem
+		 * ci : item.content.news_item) { System.out.println("\t" +
+		 * ci.thumb_media_id); } }
+		 */
+		saveWechatImages();
+		// System.out.println(getTextMedia(token,Configurations.wechatButtonInfo2List[0]));
 	}
-	
+
 	public static void saveWechatImages() {
 		String token = PuluoWechatTokenCache.token();
+		WechatTextMediaListResult res1 = getTextMediaList(token);
+		Map<String, String> imageIdToNewsId = new HashMap<String, String>();
+		Map<String, String> imageIdToItemTitle = new HashMap<String, String>();
+		for (WechatNewsItem item : res1.item) {
+			System.out.println(item.media_id + ":\n");
+			for (WechatNewsContentItem ci : item.content.news_item) {
+				imageIdToNewsId.put(ci.thumb_media_id, item.media_id);
+				imageIdToItemTitle.put(ci.thumb_media_id, ci.title);
+				System.out.println(ci.thumb_media_id + "->" + item.media_id);
+				System.out.println(ci.thumb_media_id + "->" + ci.title);
+			}
+		}
 		WechatImageMediaListResult res = getImageMediaList(token, "image");
 		System.out.println(res);
 		WechatRichMediaItem item;
-		WechatMediaResourceDao dao = DaoApi.getInstance().wechatMediaResourceDao();
+		WechatMediaResourceDao dao = DaoApi.getInstance()
+				.wechatMediaResourceDao();
 		for (int i = 0; i < res.item.size(); i++) {
 			item = res.item.get(i);
 			byte[] blob = getImageMedia(token, item.media_id);
-			//Assume there's no duplicate image ...
+			// Assume there's no duplicate image ...
 			String name = item.name;
 			ImageUploadServiceResult del = PuluoService.image.deleteImage(name);
 			System.out.println(del);
-			ImageUploadServiceResult save = PuluoService.image.saveImage(blob,name);
-			if(save.status.equals("success")){
-				boolean st = dao.saveMediaResource(item.media_id, name, "image", "");
-				System.out.println(save+":"+st);
-			}else{
+			ImageUploadServiceResult save = PuluoService.image.saveImage(blob,
+					name);
+			if (save.status.equals("success")) {
+				String imageId = item.media_id;
+				String newsId = null;
+				String itemTitle = null;
+				if (imageIdToNewsId.containsKey(imageId)) {
+					newsId = imageIdToNewsId.get(imageId);
+				} else {
+					newsId = "";
+				}
+				if (imageIdToItemTitle.containsKey(imageId)) {
+					itemTitle = imageIdToItemTitle.get(imageId);
+				} else {
+					itemTitle = "";
+				}
+				System.out.println(item.media_id + "," + name + "," + itemTitle
+						+ "," + newsId);
+				boolean st = dao.saveMediaResource(item.media_id, name,
+						"image", "", itemTitle, newsId);
+				System.out.println(save + ":" + st);
+			} else {
 				System.out.println(save);
 			}
 		}
