@@ -112,7 +112,7 @@ case class WechatImageMessage(params: Map[String, String], mediaID: String) exte
                 <FromUserName>{ fromUserName }</FromUserName>
                 <CreateTime>{ createTime }</CreateTime>
                 <MsgType>{ msgType }</MsgType>
-                <MediaId>{ mediaID }</MediaId>
+                <Image><MediaId>{ mediaID }</MediaId></Image>
               </xml>
     logger.info("回复给微信的response：\n%s".format(xml))
     XmlResponse(xml)

@@ -87,7 +87,6 @@ public class WechatButtonAPI {
 	}
 
 	private WechatMessage createInfo(String[] mediaList) {
-		List<WechatNewsContentItem> items = new ArrayList<WechatNewsContentItem>();
 		List<WechatArticleMessage> articles = new ArrayList<WechatArticleMessage>();
 		String token = PuluoWechatTokenCache.token();
 		for (int i = 0; i < mediaList.length; i++) {
