@@ -20,6 +20,7 @@ import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.PuluoUserSettingDao;
 import com.puluo.dao.PuluoWechatBindingDao;
+import com.puluo.dao.WechatMediaResourceDao;
 
 public class DaoTestApi extends PuluoDSI {
 	public static PgDummyDao pgInMemDummy = 
@@ -41,6 +42,7 @@ public class DaoTestApi extends PuluoDSI {
 	public static PuluoWechatBindingDao wechatBindingDevDao	= BeanTestFactory.getBean(PuluoWechatBindingDao.class, "wechatBindingDevDao");
 	public static PuluoPrivateMessageDao privateMessageDevDao	= BeanTestFactory.getBean(PuluoPrivateMessageDao.class, "privateMessageDevDao");
 	public static PuluoFriendRequestDao friendRequestDevDao	= BeanTestFactory.getBean(PuluoFriendRequestDao.class, "friendRequestDevDao");
+	public static WechatMediaResourceDao wechatMediaResourceDao	= BeanTestFactory.getBean(WechatMediaResourceDaoImpl.class, "wechatMediaResourceDao");
 	
 	private static class SingletonHolder {
 		private static final DaoTestApi INSTANCE = new DaoTestApi();
@@ -151,7 +153,13 @@ public class DaoTestApi extends PuluoDSI {
 	@Override
 	public PuluoFriendRequestDao friendRequestDao() {
 		// TODO Auto-generated method stub
-		return null;
+		return friendRequestDevDao;
+	}
+
+	@Override
+	public WechatMediaResourceDao wechatMediaResourceDao() {
+		// TODO Auto-generated method stub
+		return wechatMediaResourceDao;
 	}
 
 }

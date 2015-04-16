@@ -2,18 +2,18 @@ package com.puluo.weichat;
 
 import java.util.List;
 
-public class WechatMediaListResult {
+public class WechatTextMediaListResult {
 	public int total_count;
 	public int item_count;
 	public List<WechatNewsItem> item;
-	public WechatMediaListResult(int total_count, int item_count,List<WechatNewsItem> item) {
+	public WechatTextMediaListResult(int total_count, int item_count,List<WechatNewsItem> item) {
 		super();
 		this.total_count = total_count;
 		this.item_count = item_count;
 		this.item = item;
 	}
 	
-	public WechatMediaListResult() {}
+	public WechatTextMediaListResult() {}
 
 	@Override
 	public String toString() {

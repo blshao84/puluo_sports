@@ -173,5 +173,8 @@
 	<bean id="privateMessageDevDao" class="com.puluo.dao.impl.PuluoPrivateMessageDaoImpl" parent="testDevDao">
 		<property name="fullTableName" value="puluo_message"></property>
 	</bean>
+	<bean id="wechatMediaResourceDao" class="com.puluo.dao.impl.WechatMediaResourceDaoImpl" parent="testDevDao">
+		<property name="fullTableName" value="puluo_wechat_resource"></property>
+	</bean>	
 
 </beans>

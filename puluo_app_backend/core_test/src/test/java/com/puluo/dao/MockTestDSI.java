@@ -110,4 +110,10 @@ public class MockTestDSI extends PuluoDSI {
 		return null;
 	}
 
+	@Override
+	public WechatMediaResourceDao wechatMediaResourceDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

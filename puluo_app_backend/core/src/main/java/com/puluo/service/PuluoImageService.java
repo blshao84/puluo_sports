@@ -20,14 +20,26 @@ import com.puluo.util.LogFactory;
 public class PuluoImageService {
 	private final Log LOGGER = LogFactory.getLog(PuluoImageService.class);
 
-
-
 	private final UpYun upyun;
-	
+
 	public PuluoImageService(UpYun upyun) {
 		this.upyun = upyun;
 	}
-	
+
+	public ImageUploadServiceResult deleteImage(String filePath) {
+		// upyun.setContentMD5(UpYun.md5(data));
+		long t1 = System.currentTimeMillis();
+		boolean result = upyun.deleteFile(filePath);
+		long t2 = System.currentTimeMillis();
+		LOGGER.info(String.format("delete data is done in %s seconds",
+				(t2 - t1) / 1000.0));
+		String status;
+		if (result)
+			status = "success";
+		else
+			status = "failed";
+		return new ImageUploadServiceResult(filePath, status);
+	}
 
 	public ImageUploadServiceResult saveImage(byte[] data, String filePath) {
 		// upyun.setContentMD5(UpYun.md5(data));
@@ -38,7 +50,10 @@ public class PuluoImageService {
 		LOGGER.info(String.format("saving data is done in %s seconds",
 				(t2 - t1) / 1000.0));
 		String status;
-		if(result) status = "success"; else status = "failed";
+		if (result)
+			status = "success";
+		else
+			status = "failed";
 		return new ImageUploadServiceResult(filePath, status);
 	}
 

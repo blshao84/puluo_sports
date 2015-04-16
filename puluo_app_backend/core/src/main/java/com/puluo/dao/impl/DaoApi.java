@@ -19,27 +19,29 @@ import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.PuluoUserSettingDao;
 import com.puluo.dao.PuluoWechatBindingDao;
+import com.puluo.dao.WechatMediaResourceDao;
 
 public class DaoApi extends PuluoDSI {
-	protected  PuluoEventDao eventDao;
-	protected  PuluoEventInfoDao eventInfoDao;
-	protected  PuluoEventLocationDao eventLocationDao;
-	protected  PuluoEventMemoryDao eventMemoryDao;
-	protected  PuluoEventPosterDao eventPosterDao;
-	protected  PuluoPaymentDao paymentDao;
-	protected  PuluoPostCommentDao postCommentDao;
-	protected  PuluoPostLikeDao postLikeDao;
-	protected  PuluoPostDao postDao;
-	protected  PuluoPrivateMessageDao privateMessageDao;
-	protected  PuluoSessionDao sessionDao;
-	protected  PuluoUserDao userDao;
-	protected  PuluoUserFriendshipDao friendshipDao;
-	protected  PuluoOrderEventDao orderEventDao;
-	protected  PuluoUserSettingDao userSettingDao;
-	protected  PuluoAuthCodeRecordDao authCodeRecordDao;
-	protected  PuluoWechatBindingDao wechatBindingDao;
-	protected  PuluoFriendRequestDao friendRequestDao;
-	
+	protected PuluoEventDao eventDao;
+	protected PuluoEventInfoDao eventInfoDao;
+	protected PuluoEventLocationDao eventLocationDao;
+	protected PuluoEventMemoryDao eventMemoryDao;
+	protected PuluoEventPosterDao eventPosterDao;
+	protected PuluoPaymentDao paymentDao;
+	protected PuluoPostCommentDao postCommentDao;
+	protected PuluoPostLikeDao postLikeDao;
+	protected PuluoPostDao postDao;
+	protected PuluoPrivateMessageDao privateMessageDao;
+	protected PuluoSessionDao sessionDao;
+	protected PuluoUserDao userDao;
+	protected PuluoUserFriendshipDao friendshipDao;
+	protected PuluoOrderEventDao orderEventDao;
+	protected PuluoUserSettingDao userSettingDao;
+	protected PuluoAuthCodeRecordDao authCodeRecordDao;
+	protected PuluoWechatBindingDao wechatBindingDao;
+	protected PuluoFriendRequestDao friendRequestDao;
+	protected WechatMediaResourceDao wechatMediaResourceDao;
+
 	private DaoApi() {
 		eventDao = BeanFactory.getBean(PuluoEventDao.class, "eventDao");
 		eventInfoDao = BeanFactory.getBean(PuluoEventInfoDao.class,
@@ -64,10 +66,16 @@ public class DaoApi extends PuluoDSI {
 				"friendshipDao");
 		orderEventDao = BeanFactory.getBean(PuluoOrderEventDao.class,
 				"orderEventDao");
-		userSettingDao = BeanFactory.getBean(PuluoUserSettingDao.class, "userSettingDao");
-		authCodeRecordDao = BeanFactory.getBean(PuluoAuthCodeRecordDao.class, "authCodeRecordDao");
-		wechatBindingDao = BeanFactory.getBean(PuluoWechatBindingDaoImpl.class, "wechatBindingDao");
-		friendRequestDao = BeanFactory.getBean(PuluoFriendRequestDaoImpl.class, "friendRequestDao");
+		userSettingDao = BeanFactory.getBean(PuluoUserSettingDao.class,
+				"userSettingDao");
+		authCodeRecordDao = BeanFactory.getBean(PuluoAuthCodeRecordDao.class,
+				"authCodeRecordDao");
+		wechatBindingDao = BeanFactory.getBean(PuluoWechatBindingDaoImpl.class,
+				"wechatBindingDao");
+		friendRequestDao = BeanFactory.getBean(PuluoFriendRequestDaoImpl.class,
+				"friendRequestDao");
+		wechatMediaResourceDao = BeanFactory.getBean(
+				WechatMediaResourceDaoImpl.class, "wechatMediaResourceDao");
 	}
 
 	/**
@@ -85,91 +93,91 @@ public class DaoApi extends PuluoDSI {
 
 	@Override
 	public PuluoEventDao eventDao() {
-		
+
 		return eventDao;
 	}
 
 	@Override
 	public PuluoEventInfoDao eventInfoDao() {
-		
+
 		return eventInfoDao;
 	}
 
 	@Override
 	public PuluoEventLocationDao eventLocationDao() {
-		
+
 		return eventLocationDao;
 	}
 
 	@Override
 	public PuluoEventMemoryDao eventMemoryDao() {
-		
+
 		return eventMemoryDao;
 	}
 
 	@Override
 	public PuluoEventPosterDao eventPosterDao() {
-		
+
 		return eventPosterDao;
 	}
 
 	@Override
 	public PuluoPaymentDao paymentDao() {
-		
+
 		return paymentDao;
 	}
 
 	@Override
 	public PuluoPostCommentDao postCommentDao() {
-		
+
 		return postCommentDao;
 	}
 
 	@Override
 	public PuluoPostDao postDao() {
-		
+
 		return postDao;
 	}
 
 	@Override
 	public PuluoPostLikeDao postLikeDao() {
-		
+
 		return postLikeDao;
 	}
 
 	@Override
 	public PuluoPrivateMessageDao privateMessageDao() {
-		
+
 		return privateMessageDao;
 	}
 
 	@Override
 	public PuluoSessionDao sessionDao() {
-		
+
 		return sessionDao;
 	}
 
 	@Override
 	public PuluoUserDao userDao() {
-		
+
 		return userDao;
 	}
 
 	@Override
 	public PuluoUserFriendshipDao friendshipDao() {
-		
+
 		return friendshipDao;
 	}
 
 	@Override
 	public PuluoOrderEventDao orderEventDao() {
-		
+
 		return orderEventDao;
 	}
 
 	@Override
 	public PuluoUserSettingDao userSettingDao() {
-		
+
 		return userSettingDao;
 	}
 
@@ -186,5 +194,10 @@ public class DaoApi extends PuluoDSI {
 	@Override
 	public PuluoFriendRequestDao friendRequestDao() {
 		return friendRequestDao;
+	}
+
+	@Override
+	public WechatMediaResourceDao wechatMediaResourceDao() {
+		return wechatMediaResourceDao;
 	}
 }

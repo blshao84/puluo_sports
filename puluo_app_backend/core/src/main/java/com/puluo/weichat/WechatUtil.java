@@ -20,8 +20,15 @@ import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 
+import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.puluo.api.result.ImageUploadServiceResult;
+import com.puluo.dao.WechatMediaResourceDao;
+import com.puluo.dao.impl.DaoApi;
+import com.puluo.service.PuluoService;
+import com.puluo.util.Log;
+import com.puluo.util.LogFactory;
 
 /**
  * 微信通用接口工具类
@@ -56,7 +63,7 @@ public class WechatUtil {
 
 		String requestUrl = ACCESS_TOKEN.replace("APPID", appid).replace(
 				"APPSECRET", appsecret);
-		JSONObject jsonObject = httpsRequest(requestUrl, "GET", null);
+		JSONObject jsonObject = httpsJsonRequest(requestUrl, "GET", null);
 		// 如果请求成功
 		if (null != jsonObject) {
 			try {
@@ -74,22 +81,44 @@ public class WechatUtil {
 		return accessToken;
 	}
 
-	public static WechatMediaListResult getMediaList(String token,
-			String type) {
-		return getMediaList(token, type, 0, 20);
+	public static WechatTextMediaListResult getTextMediaList(String token) {
+		return getTextMediaList(token, 0, 20);
 	}
 
-	public static WechatMediaListResult getMediaList(String token,
+	public static WechatTextMediaListResult getTextMediaList(String token,
+			int offset, int count) {
+		String inputs = String.format(
+				"{\"type\":\"%s\",\"offset\":%s,\"count\":%s}", "news", offset,
+				count);
+		String requestUrl = GET_MEDIA_LIST.replace("ACCESS_TOKEN", token);
+		JSONObject jsonObject = httpsJsonRequest(requestUrl, "POST", inputs);
+		Gson gson = new Gson();
+		try {
+			return gson.fromJson(jsonObject.toString(),
+					WechatTextMediaListResult.class);
+		} catch (JsonSyntaxException e) {
+			log.error("unable to parse :" + jsonObject.toString());
+			return null;
+		}
+
+	}
+
+	public static WechatImageMediaListResult getImageMediaList(String token,
+			String type) {
+		return getImageMediaList(token, type, 0, 20);
+	}
+
+	public static WechatImageMediaListResult getImageMediaList(String token,
 			String type, int offset, int count) {
 		String inputs = String.format(
 				"{\"type\":\"%s\",\"offset\":%s,\"count\":%s}", type, offset,
 				count);
 		String requestUrl = GET_MEDIA_LIST.replace("ACCESS_TOKEN", token);
-		JSONObject jsonObject = httpsRequest(requestUrl, "POST", inputs);
+		JSONObject jsonObject = httpsJsonRequest(requestUrl, "POST", inputs);
 		Gson gson = new Gson();
 		try {
 			return gson.fromJson(jsonObject.toString(),
-					WechatMediaListResult.class);
+					WechatImageMediaListResult.class);
 		} catch (JsonSyntaxException e) {
 			log.error("unable to parse :" + jsonObject.toString());
 			return null;
@@ -99,7 +128,7 @@ public class WechatUtil {
 
 	public static WechatPermMediaItemResult getTextMedia(String token,
 			String mediaID) {
-		JSONObject jsonObject = getMedia(token,mediaID);
+		JSONObject jsonObject = getMedia(token, mediaID);
 		Gson gson = new Gson();
 		try {
 			return gson.fromJson(jsonObject.toString(),
@@ -109,12 +138,17 @@ public class WechatUtil {
 			return null;
 		}
 	}
-	
+
+	public static byte[] getImageMedia(String token, String mediaID) {
+		String inputs = String.format("{\"media_id\":\"%s\"}", mediaID);
+		String requestUrl = GET_MEDIA.replace("ACCESS_TOKEN", token);
+		return httpsByteArrayRequest(requestUrl, "POST", inputs);
+	}
 
 	public static boolean createButton(String token, String buttons) {
 
 		String requestUrl = CREATE_BUTTON.replace("ACCESS_TOKEN", token);
-		JSONObject jsonObject = httpsRequest(requestUrl, "POST", buttons);
+		JSONObject jsonObject = httpsJsonRequest(requestUrl, "POST", buttons);
 		System.out.println(jsonObject);
 		// 如果请求成功
 		if (null != jsonObject) {
@@ -125,6 +159,18 @@ public class WechatUtil {
 			}
 		}
 		return false;
+	}
+
+	public static JSONObject httpsJsonRequest(String requestUrl,
+			String requestMethod, String outputStr) {
+		return httpsRequest(requestUrl, requestMethod, outputStr,
+				new WechatHttpJSONPostProcessor());
+	}
+
+	public static byte[] httpsByteArrayRequest(String requestUrl,
+			String requestMethod, String outputStr) {
+		return httpsRequest(requestUrl, requestMethod, outputStr,
+				new WechatHttpByteArrayPostProcessor());
 	}
 
 	/**
@@ -138,10 +184,9 @@ public class WechatUtil {
 	 *            提交的数据
 	 * @return JSONObject(通过JSONObject.get(key)的方式获取json对象的属性值)
 	 */
-	public static JSONObject httpsRequest(String requestUrl,
-			String requestMethod, String outputStr) {
-		JSONObject jsonObject = null;
-		StringBuffer buffer = new StringBuffer();
+	public static <T> T httpsRequest(String requestUrl, String requestMethod,
+			String outputStr, WechatHttpPostProcessor<T> postProcess) {
+		T result = null;
 		log.debug(String.format(
 				"准备发送http request.\n url=%s\n method=%s\n output=%s\n",
 				requestUrl, requestMethod, outputStr));
@@ -176,34 +221,19 @@ public class WechatUtil {
 				outputStream.write(outputStr.getBytes("UTF-8"));
 				outputStream.close();
 			}
-
-			// 将返回的输入流转换成字符串
 			InputStream inputStream = httpUrlConn.getInputStream();
-			InputStreamReader inputStreamReader = new InputStreamReader(
-					inputStream, "utf-8");
-			BufferedReader bufferedReader = new BufferedReader(
-					inputStreamReader);
-
-			String str = null;
-			while ((str = bufferedReader.readLine()) != null) {
-				buffer.append(str);
-			}
-			bufferedReader.close();
-			inputStreamReader.close();
+			result = postProcess.convert(inputStream);
 			// 释放资源
 			inputStream.close();
 			inputStream = null;
 			httpUrlConn.disconnect();
-			log.debug(String.format("接收到微信返回的结果:%s", buffer.toString()));
-			jsonObject = JSONObject.fromObject(buffer.toString());
-			log.debug(String.format("将结果转化为json格式:%s",
-					jsonObject.toString()));
+
 		} catch (ConnectException ce) {
 			log.error("server connection timed out.");
 		} catch (Exception e) {
 			log.error("https request error:" + e);
 		}
-		return jsonObject;
+		return result;
 	}
 
 	/**
@@ -219,23 +249,74 @@ public class WechatUtil {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return format.format(new Date(msgCreateTime));
 	}
-	
-	private static JSONObject getMedia(String token,String mediaID) {
+
+	private static JSONObject getMedia(String token, String mediaID) {
 		String inputs = String.format("{\"media_id\":\"%s\"}", mediaID);
 		String requestUrl = GET_MEDIA.replace("ACCESS_TOKEN", token);
-		return httpsRequest(requestUrl, "POST", inputs);
+		return httpsJsonRequest(requestUrl, "POST", inputs);
 	}
 
 	public static void main(String[] args) {
 		String token = PuluoWechatTokenCache.token();
-		WechatMediaListResult  res = getMediaList(token, "image");
+		WechatImageMediaListResult res = getImageMediaList(token, "image");
 		System.out.println(res);
-		WechatMediaItem item;
-		for (int i=0;i<res.item.size();i++) {
+		WechatRichMediaItem item;
+		WechatMediaResourceDao dao = DaoApi.getInstance().wechatMediaResourceDao();
+		for (int i = 0; i < res.item.size(); i++) {
 			item = res.item.get(i);
-			System.out.println(item.media_id);
-
+			byte[] blob = getImageMedia(token, item.media_id);
+			//Assume there's no duplicate image ...
+			String name = item.name;
+			ImageUploadServiceResult del = PuluoService.image.deleteImage(name);
+			System.out.println(del);
+			ImageUploadServiceResult save = PuluoService.image.saveImage(blob,name);
+			if(save.status.equals("success")){
+				boolean st = dao.saveMediaResource(item.media_id, name, "image", "");
+				System.out.println(save+":"+st);
+			}else{
+				System.out.println(save);
+			}
 		}
 
 	}
+}
+
+class WechatHttpJSONPostProcessor implements
+		WechatHttpPostProcessor<JSONObject> {
+	public static Log log = LogFactory
+			.getLog(WechatHttpJSONPostProcessor.class);
+
+	@Override
+	public JSONObject convert(InputStream inputStream) throws Exception {
+		JSONObject jsonObject = null;
+		StringBuffer buffer = new StringBuffer();
+		InputStreamReader inputStreamReader = new InputStreamReader(
+				inputStream, "utf-8");
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+		String str = null;
+		while ((str = bufferedReader.readLine()) != null) {
+			buffer.append(str);
+		}
+		bufferedReader.close();
+		inputStreamReader.close();
+		log.debug(String.format("接收到微信返回的结果:%s", buffer.toString()));
+		jsonObject = JSONObject.fromObject(buffer.toString());
+		log.debug(String.format("将结果转化为json格式:%s", jsonObject.toString()));
+		return jsonObject;
+	}
+
+}
+
+class WechatHttpByteArrayPostProcessor implements
+		WechatHttpPostProcessor<byte[]> {
+	@Override
+	public byte[] convert(InputStream inputStream) throws Exception {
+		return ByteStreams.toByteArray(inputStream);
+	}
+
+}
+
+interface WechatHttpPostProcessor<T> {
+	public T convert(InputStream stream) throws Exception;
 }
