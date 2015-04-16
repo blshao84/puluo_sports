@@ -4,10 +4,13 @@ import com.puluo.config.Configurations;
 import com.puluo.dao.WechatMediaResourceDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.WechatMediaResource;
+import com.puluo.util.Log;
+import com.puluo.util.LogFactory;
 import com.puluo.util.Strs;
 import com.puluo.weichat.WechatNewsContentItem;
 
 public class WechatArticleMessage extends WechatMessage {
+	public static Log log = LogFactory.getLog(WechatArticleMessage.class);
 	public final String title;
 	public final String description;
 	public final String image_url;
@@ -26,6 +29,7 @@ public class WechatArticleMessage extends WechatMessage {
 		if (res != null) {
 			this.image_url = Strs.join(Configurations.imageServer,res.wechatName());
 		} else{
+			log.warn(String.format("content %s thumb_medial_id %s is not in DB",item.title,item.thumb_media_id));
 			this.image_url = "";
 		}
 	}

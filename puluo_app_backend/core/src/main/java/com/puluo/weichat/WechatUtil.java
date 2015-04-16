@@ -257,6 +257,20 @@ public class WechatUtil {
 	}
 
 	public static void main(String[] args) {
+		
+		String token = PuluoWechatTokenCache.token();
+		WechatTextMediaListResult res = getTextMediaList(token);
+		System.out.println(res);
+		for( WechatNewsItem item:res.item){
+			System.out.println(item.media_id+":\n");
+			for(WechatNewsContentItem ci:item.content.news_item){
+				System.out.println("\t"+ci.thumb_media_id);
+			}
+		}
+		//System.out.println(getTextMedia(token,Configurations.wechatButtonInfo2List[0]));
+	}
+	
+	public static void saveWechatImages() {
 		String token = PuluoWechatTokenCache.token();
 		WechatImageMediaListResult res = getImageMediaList(token, "image");
 		System.out.println(res);
@@ -277,7 +291,6 @@ public class WechatUtil {
 				System.out.println(save);
 			}
 		}
-
 	}
 }
 

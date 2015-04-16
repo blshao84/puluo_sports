@@ -13,9 +13,9 @@ public class Configurations {
 	public static String wechatAppKey = "b213b7abb4a2e6f8708cc9567f056d25";
 	public static WechatKey wechatKey = new WechatKey(wechatAppKey,wechatAppId);
 	
-	public static String[] wechatButtonInfo1List = {"CpJlAUkrFja6edvm_4Ma-ifqXo6g15Esccu90lAsnAw"};
-	public static String[] wechatButtonInfo2List = {"CpJlAUkrFja6edvm_4Ma-knnlUZFbbf-W6YV6e8t30k"};
-	public static String[] wechatButtonInfo3List = {"CpJlAUkrFja6edvm_4Ma-v4-tUB6AHC8i_LungUbkyE"};
-	public static String[] wechatButtonInfo4List = {"VuqeZPliv8_ZZGzyOnOinI7s95RC9b3E5FTjFr5OCHY"};
+	public static String[] wechatButtonInfo1List = {"B4IW1yc4SgTA3Svs9vmqTKcAG0Lva4dwRi-LWyYW9lw"};
+	public static String[] wechatButtonInfo2List = {"B4IW1yc4SgTA3Svs9vmqTFsm3LE32Cs_cmjnS23yKjI"};
+	public static String[] wechatButtonInfo3List = {"B4IW1yc4SgTA3Svs9vmqTB8fKy0zWa72pjVD7BhFsbs"};
+	public static String[] wechatButtonInfo4List = {"B4IW1yc4SgTA3Svs9vmqTA0T1abAxv5DzV93xgoxpVE"};
 	public static String wechatCurriculum = "CpJlAUkrFja6edvm_4Ma-jkp5sRCffgm0yQRXBwSab4";
 }
