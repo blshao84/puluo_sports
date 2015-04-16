@@ -260,15 +260,17 @@ public class WechatUtil {
 
 	public static void main(String[] args) {
 
-		/*
-		 * String token = PuluoWechatTokenCache.token();
-		 * WechatTextMediaListResult res = getTextMediaList(token);
-		 * System.out.println(res); for (WechatNewsItem item : res.item) {
-		 * System.out.println(item.media_id + ":\n"); for (WechatNewsContentItem
-		 * ci : item.content.news_item) { System.out.println("\t" +
-		 * ci.thumb_media_id); } }
-		 */
-		saveWechatImages();
+		String token = PuluoWechatTokenCache.token();
+		WechatTextMediaListResult res = getTextMediaList(token);
+		System.out.println(res);
+		for (WechatNewsItem item : res.item) {
+			System.out.println(item.media_id + ":\n");
+			for (WechatNewsContentItem ci : item.content.news_item) {
+				System.out.println("\t" + ci.url);
+			}
+		}
+
+		// saveWechatImages();
 		// System.out.println(getTextMedia(token,Configurations.wechatButtonInfo2List[0]));
 	}
 

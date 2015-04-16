@@ -8,9 +8,10 @@ public class WechatNewsContentItem {
 	public String digest;
 	public String content;
 	public String content_source_url;
+	public String url;
 	public WechatNewsContentItem(String title, String thumb_media_id,
 			String show_cover_pic, String author, String digest,
-			String content, String content_source_url) {
+			String content, String content_source_url,String url) {
 		super();
 		this.title = title;
 		this.thumb_media_id = thumb_media_id;
@@ -19,9 +20,19 @@ public class WechatNewsContentItem {
 		this.digest = digest;
 		this.content = content;
 		this.content_source_url = content_source_url;
+		this.url = url;
 	}
 	
 	public WechatNewsContentItem() {}
+
+	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public String getTitle() {
 		return title;

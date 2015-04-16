@@ -33,7 +33,7 @@ public class WechatArticleMessage extends WechatMessage {
 		}
 		this.title = item.title;
 		this.description = item.digest;
-		this.page_url = item.content_source_url;
+		this.page_url = item.url;
 		log.info(String.format("title=%s,desc=%s,url=%s",item.title,item.digest,item.content_source_url));
 		if (targetItem != null) {
 			this.image_url = Strs.join(Configurations.imageServer,targetItem.wechatName());
