@@ -43,6 +43,8 @@ public class DaoTestApi extends PuluoDSI {
 	public static PuluoPrivateMessageDao privateMessageDevDao	= BeanTestFactory.getBean(PuluoPrivateMessageDao.class, "privateMessageDevDao");
 	public static PuluoFriendRequestDao friendRequestDevDao	= BeanTestFactory.getBean(PuluoFriendRequestDao.class, "friendRequestDevDao");
 	public static WechatMediaResourceDao wechatMediaResourceDao	= BeanTestFactory.getBean(WechatMediaResourceDaoImpl.class, "wechatMediaResourceDao");
+	public static PuluoOrderEventDao orderEventDevDao = BeanTestFactory.getBean(PuluoOrderEventDao.class, "orderEventDevDao");
+	public static PuluoPaymentDao paymentDevDao = BeanTestFactory.getBean(PuluoPaymentDao.class, "paymentDevDao");
 	
 	private static class SingletonHolder {
 		private static final DaoTestApi INSTANCE = new DaoTestApi();
@@ -66,8 +68,7 @@ public class DaoTestApi extends PuluoDSI {
 
 	@Override
 	public PuluoPaymentDao paymentDao() {
-		// TODO Auto-generated method stub
-		return null;
+		return paymentDevDao;
 	}
 
 	@Override
@@ -113,8 +114,7 @@ public class DaoTestApi extends PuluoDSI {
 
 	@Override
 	public PuluoOrderEventDao orderEventDao() {
-		// TODO Auto-generated method stub
-		return null;
+		return orderEventDevDao;
 	}
 
 	@Override
@@ -152,13 +152,11 @@ public class DaoTestApi extends PuluoDSI {
 
 	@Override
 	public PuluoFriendRequestDao friendRequestDao() {
-		// TODO Auto-generated method stub
 		return friendRequestDevDao;
 	}
 
 	@Override
 	public WechatMediaResourceDao wechatMediaResourceDao() {
-		// TODO Auto-generated method stub
 		return wechatMediaResourceDao;
 	}
 

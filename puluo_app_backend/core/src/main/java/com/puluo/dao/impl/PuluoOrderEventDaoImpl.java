@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoOrderEventDao;
 import com.puluo.entity.payment.OrderEvent;
 import com.puluo.entity.payment.impl.OrderEventImpl;
@@ -24,6 +25,10 @@ public class PuluoOrderEventDaoImpl extends DalTemplate implements
 
 	@Override
 	public boolean saveOrderEvent(OrderEvent event) {
+		return saveOrderEvent(event, DaoApi.getInstance());
+	}
+	
+	public boolean saveOrderEvent(OrderEvent event, PuluoDSI dsi) {
 		try {
 			String updateSQL = new StringBuilder()
 					.append("insert into ")
@@ -31,7 +36,7 @@ public class PuluoOrderEventDaoImpl extends DalTemplate implements
 					.append(" (uuid, created_at, order_uuid, type)")
 					.append("values ('" + event.eventUUID() + "', ")
 					.append("'" + TimeUtils.formatDate(event.createdAt()) + "', ")
-					.append("'" + event.order().orderUUID() + "', ")
+					.append("'" + event.order(dsi).orderUUID() + "', ")
 					.append("'" + event.eventType().name() + "')").toString();
 			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);

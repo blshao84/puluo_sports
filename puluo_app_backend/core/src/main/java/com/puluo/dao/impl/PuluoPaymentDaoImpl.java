@@ -35,7 +35,7 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 	@Override
 	public boolean updateOrderStatus(PuluoPaymentOrder order,
 			PuluoOrderStatus nextStatus) {
-		return updateOrderForKey(order.orderUUID(), "status", order.status().name());
+		return updateOrderForKey(order.orderUUID(), "status", nextStatus.name());
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 	@Override
 	public boolean updateOrderPaymentInfo(PuluoPaymentOrder order,
 			String paymentRef) {
-		return updateOrderForKey(order.orderUUID(), "payment_id", order.paymentId());
+		return updateOrderForKey(order.orderUUID(), "payment_id", paymentRef);
 	}
 
 	@Override

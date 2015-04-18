@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.joda.time.DateTime;
 
 import com.puluo.dao.PuluoDSI;
-import com.puluo.dao.impl.DaoApi;
+//import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.payment.OrderEvent;
 
@@ -35,11 +35,12 @@ public class OrderEventImpl implements OrderEvent {
 		return uuid;
 	}
 
+//	@Override
+//	public PuluoPaymentOrder order() {
+//		return order(DaoApi.getInstance());
+//	}
+
 	@Override
-	public PuluoPaymentOrder order() {
-		return order(DaoApi.getInstance());
-	}
-	
 	public PuluoPaymentOrder order(PuluoDSI dsi) {
 		return dsi.paymentDao().getOrderByUUID(order_uuid);
 	}
