@@ -1,14 +1,15 @@
 package com.puluo.test.functional;
 
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import com.puluo.dao.impl.DaoApi;
+import com.puluo.entity.PuluoUser;
 import com.puluo.test.functional.util.APIFunctionalTest;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.PasswordEncryptionUtil;
 
 public class PasswordEncryptionFunctionalTest extends APIFunctionalTest {
 	public static Log log = LogFactory.getLog(LogoutFunctionalTest.class);
@@ -17,15 +18,14 @@ public class PasswordEncryptionFunctionalTest extends APIFunctionalTest {
 	public static String passwordText = "qqqqqq";
 	public static String host = "http://localhost:3333/encode";
 
-	@Test @Ignore
+	@Test
+	@Ignore
 	public void testPasswordEncryption() {
-		try {
-			HttpResponse<String> request = Unirest.get(host)
-					.queryString("key", passwordText).asString();
-			System.out.println(request.getBody());
-		} catch (UnirestException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String passwd = PasswordEncryptionUtil.encrypt(passwordText);
+		PuluoUser user = DaoApi.getInstance().userDao().getByMobile(mobile);
+		Assert.assertNotNull(user);
+		Assert.assertEquals(
+				"password encryption between ui and server should match",
+				user.password(), passwd);
 	}
 }
