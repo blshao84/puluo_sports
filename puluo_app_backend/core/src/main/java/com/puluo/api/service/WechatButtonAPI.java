@@ -72,8 +72,12 @@ public class WechatButtonAPI {
 	}
 
 	private WechatMessage createRegisterMessage() {
-		// TODO Auto-generated method stub
-		return new WechatTextMessage("coming soon");
+		String toUser = params.get("ToUserName");
+		String fromUser = params.get("FromUserName");
+		String time = params.get("CreateTime");
+		String type = params.get("MsgType");
+		WechatTextAPI textAPI = new WechatTextAPI(toUser, fromUser, time, type, "bd");
+		return textAPI.process();
 	}
 
 	private WechatMessage createHottestEvent() {

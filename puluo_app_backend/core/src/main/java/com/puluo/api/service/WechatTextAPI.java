@@ -128,7 +128,7 @@ public class WechatTextAPI {
 	private WechatMessage processNonBindingMessage() {
 		if (content.equals("bd")) {
 			dsi.wechatBindingDao().saveBinding("", from_user);
-			return new WechatTextMessage("请您微信回复手机号已开始绑定");
+			return new WechatTextMessage("请您微信回复手机号两步完成绑定已开始绑定");
 		} else
 			return new WechatTextMessage(Strs.join("Hi, I'm puluo echo:",
 					content));
