@@ -159,7 +159,7 @@ public class EventRegistrationAPITest {
 	}
 
 	private void assertPaymentlink(String actualResult) {
-		String expectedPaymentLink = "https://mapi.alipay.com/gateway.do?_input_charset=utf-8&body=19999&notify_url=/payment/alipay/notify&out_trade_no=19999&partner=2088211443186240&payment_type=1&return_url=/payment/alipay/return&seller_email=dsjtdqxmt@163.com&service=create_direct_pay_by_user&sign=8ca5266c0ae4e6c16189c5f98694b984&sign_type=MD5&subject=19999&total_fee=50.0";
+		String expectedPaymentLink = "http://wappaygw.alipay.com/service/rest.htm?_input_charset=utf-8&format=xml&partner=2088911054842970&req_data=<auth_and_execute_req><request_token></request_token></auth_and_execute_req>&sec_id=MD5&service=alipay.wap.auth.authAndExecute&sign=a1b3c932c8489f0a90337c555a9e55fc&v=2.0";
 		Assert.assertTrue("generated link are not expected",
 				actualResult.contains(expectedPaymentLink));
 	}
