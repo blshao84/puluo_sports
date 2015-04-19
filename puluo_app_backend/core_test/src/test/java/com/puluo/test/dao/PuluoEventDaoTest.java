@@ -62,15 +62,15 @@ public class PuluoEventDaoTest {
 		eventDao.createTable();
 		PuluoEvent event0 = new PuluoEventImpl("event_uuid_0", TimeUtils.parseDateTime("2015-03-02 20:35:59"), EventStatus.Open, 
 				0, 0, 300.00, 299.99, 
-				"event_info_uuid_0", "uuid_0", DaoTestApi.getInstance());
+				"event_info_uuid_0", "uuid_0", 0, DaoTestApi.getInstance());
 		eventDao.upsertEvent(event0);
 		PuluoEvent event1 = new PuluoEventImpl("event_uuid_1", TimeUtils.parseDateTime("2015-03-01 20:35:59"), EventStatus.Open, 
 				0, 0, 300.00, 199.99, 
-				"event_info_uuid_1", "uuid_2", DaoTestApi.getInstance());
+				"event_info_uuid_1", "uuid_2", 0, DaoTestApi.getInstance());
 		eventDao.upsertEvent(event1);
 		PuluoEvent event2 = new PuluoEventImpl("event_uuid_2", TimeUtils.parseDateTime("2015-03-02 20:35:59"), EventStatus.Closed, 
 				0, 0, 300.00, 99.99, 
-				"event_info_uuid_2", "uuid_1", DaoTestApi.getInstance());
+				"event_info_uuid_2", "uuid_1", 0, DaoTestApi.getInstance());
 		eventDao.upsertEvent(event2);
 		log.info("setUpDB done!");
 	}
@@ -160,7 +160,7 @@ public class PuluoEventDaoTest {
 		PuluoEventDao eventDao = DaoTestApi.eventDevDao;
 		PuluoEvent event0 = new PuluoEventImpl("event_uuid_0", TimeUtils.parseDateTime("2015-03-02 20:35:59"), EventStatus.Open, 
 				1, 1, 340.00, 249.99, 
-				"event_info_uuid_0", "uuid_0", DaoTestApi.getInstance());
+				"event_info_uuid_0", "uuid_0", 0, DaoTestApi.getInstance());
 		eventDao.upsertEvent(event0);
 		event0 = eventDao.getEventByUUID("event_uuid_0");
 		Assert.assertEquals("status应该为Open!", "Open" , event0.statusName());

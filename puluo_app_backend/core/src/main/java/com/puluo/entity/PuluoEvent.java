@@ -17,4 +17,5 @@ public interface PuluoEvent {
 	PuluoEventInfo eventInfo();
 	PuluoEventLocation eventLocation();
 	List<PuluoEventMemory> memory();
+	int hottest();
 }

@@ -41,7 +41,8 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 				.append("price double precision, ")
 				.append("discounted_price double precision, ")
 				.append("info_uuid text, ")
-				.append("location_uuid text)")
+				.append("location_uuid text, ")
+				.append("hottest int default 0)")
 				.toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
@@ -79,7 +80,8 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 								rs.getDouble("price"),
 								rs.getDouble("discounted_price"),
 								rs.getString("info_uuid"),
-								rs.getString("location_uuid"));
+								rs.getString("location_uuid"),
+								rs.getInt("hottest"));
 						return event;
 					}
 				});
@@ -158,7 +160,8 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 								rs.getDouble("price"),
 								rs.getDouble("discounted_price"),
 								rs.getString("info_uuid"),
-								rs.getString("location_uuid"));
+								rs.getString("location_uuid"),
+								rs.getInt("hottest"));
 						return event;
 					}
 				});

@@ -92,19 +92,19 @@ public class EventTestDataSource {
 
 		PuluoEvent event1 = new PuluoEventImpl(eventID1, event_date_0601,
 				EventStatus.Open, 3, 15, 80.0, 50.0,
-				eventInfo1.eventInfoUUID(), location1.locationId());
+				eventInfo1.eventInfoUUID(), location1.locationId(), 0);
 
 		PuluoEvent event2 = new PuluoEventImpl(eventID2, event_date_0601,
 				EventStatus.Open, 3, 15, 90.0, 90.0,
-				eventInfo1.eventInfoUUID(), location2.locationId());
+				eventInfo1.eventInfoUUID(), location2.locationId(), 0);
 
 		PuluoEvent event3 = new PuluoEventImpl(eventID3, event_date_0602,
 				EventStatus.Open, 3, 15, 100.0, 60.0,
-				eventInfo2.eventInfoUUID(), location1.locationId());
+				eventInfo2.eventInfoUUID(), location1.locationId(), 0);
 
 		PuluoEvent event4 = new PuluoEventImpl(eventID4, event_date_0602,
 				EventStatus.Closed, 3, 15, 150.0, 50.0,
-				eventInfo2.eventInfoUUID(), location2.locationId());
+				eventInfo2.eventInfoUUID(), location2.locationId(), 0);
 
 		PuluoEventMemory mem1 = new PuluoEventMemoryImpl(memID1,
 				"http://upyun.com/puluo/123.jpg",

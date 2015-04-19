@@ -24,12 +24,13 @@ public class PuluoEventImpl implements PuluoEvent {
 	private final Double discountedPrice;
 	private final String info_uuid;
 	private final String location_uuid;
+	private final int hottest;
 
 	private final PuluoDSI dsi;
 
 	public PuluoEventImpl(String uuid, DateTime event_time, EventStatus status,
 			int registeredUsers, int capatcity, Double price,
-			Double discountedPrice, String info_uuid, String location_uuid,
+			Double discountedPrice, String info_uuid, String location_uuid, int hottest,
 			PuluoDSI dsi) {
 
 		this.uuid = uuid;
@@ -43,15 +44,16 @@ public class PuluoEventImpl implements PuluoEvent {
 		this.discountedPrice = discountedPrice;
 		this.info_uuid = info_uuid;
 		this.location_uuid = location_uuid;
+		this.hottest = hottest;
 		this.dsi = dsi;
 	}
 
 	public PuluoEventImpl(String uuid, DateTime event_time, EventStatus status,
 			int registeredUsers, int capatcity, Double price,
-			Double discountedPrice, String info_uuid, String location_uuid) {
+			Double discountedPrice, String info_uuid, String location_uuid, int hottest) {
 
 		this(uuid, event_time, status, registeredUsers, capatcity, price,
-				discountedPrice, info_uuid, location_uuid, DaoApi.getInstance());
+				discountedPrice, info_uuid, location_uuid, hottest, DaoApi.getInstance());
 	}
 
 	@Override
@@ -107,5 +109,10 @@ public class PuluoEventImpl implements PuluoEvent {
 	@Override
 	public List<PuluoEventMemory> memory() {
 		return dsi.eventMemoryDao().getEventMemoryByEventUUID(uuid);
+	}
+
+	@Override
+	public int hottest() {
+		return hottest;
 	}
 }
