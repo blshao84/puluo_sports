@@ -112,6 +112,7 @@ object WechatService extends RestHelper with Loggable {
               }
               //case "image" => processImageReq(params)
               case "event" => {
+                logger.info("process button request")
                 val api = new WechatButtonAPI(params)
                 WeichatReplyMessage(params, api.process())
               }

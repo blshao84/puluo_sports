@@ -10,6 +10,8 @@ import com.puluo.api.result.wechat.WechatMessage;
 import com.puluo.api.result.wechat.WechatNewsMessage;
 import com.puluo.api.result.wechat.WechatTextMessage;
 import com.puluo.config.Configurations;
+import com.puluo.util.Log;
+import com.puluo.util.LogFactory;
 import com.puluo.weichat.PuluoWechatTokenCache;
 import com.puluo.weichat.WechatButtonType;
 import com.puluo.weichat.WechatNewsContentItem;
@@ -17,6 +19,7 @@ import com.puluo.weichat.WechatPermMediaItemResult;
 import com.puluo.weichat.WechatUtil;
 
 public class WechatButtonAPI {
+	public static Log log = LogFactory.getLog(WechatButtonAPI.class);
 	private Map<String, String> params;
 	private WechatButtonType buttonType;
 
@@ -72,6 +75,7 @@ public class WechatButtonAPI {
 	}
 
 	private WechatMessage createRegisterMessage() {
+		log.info("creating register message");
 		String toUser = params.get("ToUserName");
 		String fromUser = params.get("FromUserName");
 		String time = params.get("CreateTime");
