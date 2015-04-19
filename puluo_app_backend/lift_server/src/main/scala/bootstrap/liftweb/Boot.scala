@@ -125,7 +125,6 @@ class Boot extends Loggable {
     setupUX()
     setupNewSiteMap()
     setupRequestConfig()
-    setupErrorHandling()
     setupFileUpload
   }
 
@@ -141,14 +140,5 @@ class Boot extends Loggable {
     // Make the spinny image go away when it ends
     LiftRules.ajaxEnd =
       Full(() => LiftRules.jsArtifacts.hide("ajax-loader").cmd)
-  }
-
-  def setupErrorHandling() = {
-    LiftRules.exceptionHandler.prepend {
-      case (_, _, exception: Exception) => {
-        RedirectResponse("/error") //JavaScriptResponse(JsCmds.Alert("文件大小不能超过2M"))
-      }
-      case (Props.RunModes.Production, _, exception) => RedirectResponse("/error")
-    }
   }
 }
