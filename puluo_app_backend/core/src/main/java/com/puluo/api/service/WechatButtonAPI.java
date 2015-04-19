@@ -20,10 +20,11 @@ import com.puluo.weichat.WechatUtil;
 
 public class WechatButtonAPI {
 	public static Log log = LogFactory.getLog(WechatButtonAPI.class);
-	private Map<String, String> params;
+	private final Map<String, String> params;
 	private WechatButtonType buttonType;
 
 	public WechatButtonAPI(Map<String, String> params) throws Exception {
+		this.params = params;
 		String event = params.get("Event");
 		String eventKey = params.get("EventKey");
 		if (event.equals("CLICK")) {
