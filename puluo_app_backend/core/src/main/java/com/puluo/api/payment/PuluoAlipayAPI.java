@@ -116,7 +116,8 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 					time, location, name);
 		} else {
 			log.error(String.format("活动不存在,uuid=%s", order.eventId()));
-			smsResult = PuluoService.sms.sendWarningConfirmationMessage(user.mobile());
+			smsResult = PuluoService.sms.sendWarningConfirmationMessage(user
+					.mobile());
 		}
 		if (!smsResult.isSuccess()) {
 			log.error(String.format("发送短信至失败:%s:%s", user.mobile(),
@@ -125,29 +126,35 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 	}
 
 	private boolean verifyRequest() {
-		boolean isParamValid = AlipayNotify.verify(params);
-		if (isParamValid) {
-			try {
+		boolean isParamValid;
+		try {
+			isParamValid = AlipayNotify.verifyNotify(params);
+			if (isParamValid) {
+				try {
 
-				PuluoPaymentOrder order = dsi.paymentDao().getOrderByNumericID(
-						orderNumericID());
-				if (order == null) {
-					return logErrorMessage("无法根据支付宝返回的订单号找到系统中的订单");
-				} else {
-					if (!trade_status.equals("TRADE_FINISHED")
-							&& !trade_status.equals("TRADE_SUCCESS")) {
-						return logErrorMessage(String.format(
-								"PaymentOrder的状态错误(id=%s,status-%s)",
-								orderNumericID(), trade_status));
+					PuluoPaymentOrder order = dsi.paymentDao()
+							.getOrderByNumericID(orderNumericID());
+					if (order == null) {
+						return logErrorMessage("无法根据支付宝返回的订单号找到系统中的订单");
 					} else {
-						return true;
+						if (!trade_status.equals("TRADE_FINISHED")
+								&& !trade_status.equals("TRADE_SUCCESS")) {
+							return logErrorMessage(String.format(
+									"PaymentOrder的状态错误(id=%s,status-%s)",
+									orderNumericID(), trade_status));
+						} else {
+							return true;
+						}
 					}
+				} catch (Exception e) {
+					return logErrorMessage("支付宝返回的trade id错误");
 				}
-			} catch (Exception e) {
-				return logErrorMessage("支付宝返回的trade id错误");
+			} else {
+				return logErrorMessage("支付宝返回参数没有通过验证");
 			}
-		} else {
-			return logErrorMessage("支付宝返回参数没有通过验证");
+		} catch (Exception e1) {
+			logErrorMessage("支付宝返回参数没有通过验证");
+			return false;
 		}
 	}
 

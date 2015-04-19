@@ -4,16 +4,19 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.httpclient.NameValuePair;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 
 import com.puluo.payment.config.AlipayConfig;
+
 
 /* *
  *类名：AlipaySubmit
@@ -27,12 +30,6 @@ import com.puluo.payment.config.AlipayConfig;
  */
 
 public class AlipaySubmit {
-    
-    /**
-     * 支付宝提供给商户的服务接入网关URL(新)
-     */
-    private static final String ALIPAY_GATEWAY_NEW = "https://mapi.alipay.com/gateway.do?";
-	
     /**
      * 生成签名结果
      * @param sPara 要签名的数组
@@ -40,9 +37,12 @@ public class AlipaySubmit {
      */
 	public static String buildRequestMysign(Map<String, String> sPara) {
     	String prestr = AlipayCore.createLinkString(sPara); //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
-        String mysign = "";
+    	String mysign = "";
         if(AlipayConfig.sign_type.equals("MD5") ) {
         	mysign = MD5.sign(prestr, AlipayConfig.key, AlipayConfig.input_charset);
+        }
+        if(AlipayConfig.sign_type.equals("0001") ){
+        	mysign = RSA.sign(prestr, AlipayConfig.private_key, AlipayConfig.input_charset);
         }
         return mysign;
     }
@@ -60,19 +60,22 @@ public class AlipaySubmit {
 
         //签名结果与签名方式加入请求提交参数组中
         sPara.put("sign", mysign);
-        sPara.put("sign_type", AlipayConfig.sign_type);
+        if(! sPara.get("service").equals("alipay.wap.trade.create.direct") && ! sPara.get("service").equals("alipay.wap.auth.authAndExecute")) {
+        	sPara.put("sign_type", AlipayConfig.sign_type);
+        }
 
         return sPara;
     }
 
     /**
      * 建立请求，以表单HTML形式构造（默认）
+     * @paramALIPAY_GATEWAY_NEW 支付宝网关地址
      * @param sParaTemp 请求参数数组
      * @param strMethod 提交方式。两个值可选：post、get
      * @param strButtonName 确认按钮显示文字
      * @return 提交表单HTML文本
      */
-    public static String buildRequest(Map<String, String> sParaTemp, String strMethod, String strButtonName) {
+    public static String buildRequest(String ALIPAY_GATEWAY_NEW, Map<String, String> sParaTemp, String strMethod, String strButtonName) {
         //待请求参数数组
         Map<String, String> sPara = buildRequestPara(sParaTemp);
         List<String> keys = new ArrayList<String>(sPara.keySet());
@@ -99,13 +102,14 @@ public class AlipaySubmit {
     
     /**
      * 建立请求，以表单HTML形式构造，带文件上传功能
+     * @paramALIPAY_GATEWAY_NEW 支付宝网关地址
      * @param sParaTemp 请求参数数组
      * @param strMethod 提交方式。两个值可选：post、get
      * @param strButtonName 确认按钮显示文字
      * @param strParaFileName 文件上传的参数名
      * @return 提交表单HTML文本
      */
-    public static String buildRequest(Map<String, String> sParaTemp, String strMethod, String strButtonName, String strParaFileName) {
+    public static String buildRequest(String ALIPAY_GATEWAY_NEW, Map<String, String> sParaTemp, String strMethod, String strButtonName, String strParaFileName) {
         //待请求参数数组
         Map<String, String> sPara = buildRequestPara(sParaTemp);
         List<String> keys = new ArrayList<String>(sPara.keySet());
@@ -135,13 +139,14 @@ public class AlipaySubmit {
      * 建立请求，以模拟远程HTTP的POST请求方式构造并获取支付宝的处理结果
      * 如果接口中没有上传文件参数，那么strParaFileName与strFilePath设置为空值
      * 如：buildRequest("", "",sParaTemp)
+     * @paramALIPAY_GATEWAY_NEW 支付宝网关地址
      * @param strParaFileName 文件类型的参数名
      * @param strFilePath 文件路径
      * @param sParaTemp 请求参数数组
      * @return 支付宝处理结果
      * @throws Exception
      */
-    public static String buildRequest(String strParaFileName, String strFilePath,Map<String, String> sParaTemp) throws Exception {
+    public static String buildRequest(String ALIPAY_GATEWAY_NEW, String strParaFileName, String strFilePath,Map<String, String> sParaTemp) throws Exception {
         //待请求参数数组
         Map<String, String> sPara = buildRequestPara(sParaTemp);
 
@@ -180,6 +185,46 @@ public class AlipaySubmit {
     }
     
     /**
+     * 解析远程模拟提交后返回的信息，获得token
+     * @param text 要解析的字符串
+     * @return 解析结果
+     * @throws Exception 
+     */
+    public static String getRequestToken(String text) throws Exception {
+    	String request_token = "";
+    	//以“&”字符切割字符串
+    	String[] strSplitText = text.split("&");
+    	//把切割后的字符串数组变成变量与数值组合的字典数组
+    	Map<String, String> paraText = new HashMap<String, String>();
+        for (int i = 0; i < strSplitText.length; i++) {
+
+    		//获得第一个=字符的位置
+        	int nPos = strSplitText[i].indexOf("=");
+        	//获得字符串长度
+    		int nLen = strSplitText[i].length();
+    		//获得变量名
+    		String strKey = strSplitText[i].substring(0, nPos);
+    		//获得数值
+    		String strValue = strSplitText[i].substring(nPos+1,nLen);
+    		//放入MAP类中
+    		paraText.put(strKey, strValue);
+        }
+
+    	if (paraText.get("res_data") != null) {
+    		String res_data = paraText.get("res_data");
+    		//解析加密部分字符串（RSA与MD5区别仅此一句）
+    		if(AlipayConfig.sign_type.equals("0001")) {
+    			res_data = RSA.decrypt(res_data, AlipayConfig.private_key, AlipayConfig.input_charset);
+    		}
+    		
+    		//token从res_data中解析出来（也就是说res_data中已经包含token的内容）
+    		Document document = DocumentHelper.parseText(res_data);
+    		request_token = document.selectSingleNode( "//direct_trade_create_res/request_token" ).getText();
+    	}
+    	return request_token;
+    }
+    
+    /**
      * 用于防钓鱼，调用接口query_timestamp来获取时间戳的处理函数
      * 注意：远程解析XML出错，与服务器是否支持SSL等配置有关
      * @return 时间戳字符串
@@ -191,7 +236,7 @@ public class AlipaySubmit {
                                                         DocumentException, IOException {
 
         //构造访问query_timestamp接口的URL串
-        String strUrl = ALIPAY_GATEWAY_NEW + "service=query_timestamp&partner=" + AlipayConfig.partner + "&_input_charset" +AlipayConfig.input_charset;
+        String strUrl = "https://mapi.alipay.com/gateway.do?service=query_timestamp&partner=" + AlipayConfig.partner;
         StringBuffer result = new StringBuffer();
 
         SAXReader reader = new SAXReader();
@@ -213,11 +258,12 @@ public class AlipaySubmit {
         return result.toString();
     }
 	
-	public static String buildRequestLink(Map<String,String> sParaTemp){
+	public static String buildRequestLink(String gateway,Map<String,String> sParaTemp){
 		//待请求参数数组
         Map<String, String> sPara = buildRequestPara(sParaTemp);
         String params = AlipayCore.createLinkString(sPara);
-        String strUrl = ALIPAY_GATEWAY_NEW + params;
+        String strUrl = gateway + params;
         return strUrl;
 	}
+
 }
