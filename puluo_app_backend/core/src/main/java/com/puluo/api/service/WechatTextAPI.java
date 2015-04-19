@@ -40,6 +40,7 @@ public class WechatTextAPI {
 	}
 
 	public WechatMessage process() {
+		log.info("process text message");
 		if (content.isEmpty()) {
 			log.error("微信‘文本消息’请求中没有包含content信息");
 			return WechatTextMessage.error;

@@ -80,9 +80,13 @@ public class WechatButtonAPI {
 		String fromUser = params.get("FromUserName");
 		String time = params.get("CreateTime");
 		String type = params.get("MsgType");
-		WechatTextAPI textAPI = new WechatTextAPI(toUser, fromUser, time, type, "bd");
+		WechatTextAPI textAPI = new WechatTextAPI(toUser, fromUser, time, type,
+				"bd");
+		log.info(String.format(
+				"create WechatTextAPI, toUser=%s, fromUser=%s,time=%s,type=%s",
+				toUser, fromUser, time, type));
 		WechatMessage res = textAPI.process();
-		log.info("registration result:"+res.toString());
+		log.info("registration result:" + res.toString());
 		return res;
 	}
 
@@ -92,7 +96,7 @@ public class WechatButtonAPI {
 	}
 
 	private WechatMessage createCurriculum() {
-		
+
 		return new WechatImageMessage(Configurations.wechatCurriculum);
 	}
 
@@ -101,9 +105,10 @@ public class WechatButtonAPI {
 		String token = PuluoWechatTokenCache.token();
 		for (int i = 0; i < mediaList.length; i++) {
 			String newsId = mediaList[i];
-			WechatPermMediaItemResult res2 = WechatUtil.getTextMedia(token,newsId);
-			for(WechatNewsContentItem item:res2.news_item){
-				articles.add(new WechatArticleMessage(item,newsId));
+			WechatPermMediaItemResult res2 = WechatUtil.getTextMedia(token,
+					newsId);
+			for (WechatNewsContentItem item : res2.news_item) {
+				articles.add(new WechatArticleMessage(item, newsId));
 			}
 		}
 		return new WechatNewsMessage(articles);
