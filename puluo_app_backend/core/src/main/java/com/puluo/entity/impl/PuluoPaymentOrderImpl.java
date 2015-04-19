@@ -50,7 +50,6 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 
 	@Override
 	public String paymentId() {
-		// TODO Auto-generated method stub
 		return payment_id;
 	}
 
@@ -64,7 +63,6 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 
 	@Override
 	public PuluoOrderStatus status() {
-//		return PuluoOrderStatus.Undefined;
 		return status == null ? PuluoOrderStatus.Undefined : status;
 	}
 
@@ -88,7 +86,6 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 		return events(DaoApi.getInstance());
 	}
 
-	
 	public List<OrderEvent> events(PuluoDSI dsi) {
 		return dsi.orderEventDao().getOrderEventsByOrderUUID(order_uuid);
 	}
@@ -100,7 +97,6 @@ public class PuluoPaymentOrderImpl implements PuluoPaymentOrder {
 
 	@Override
 	public long orderNumericID() {
-		// TODO Auto-generated method stub
 		return order_num_id;
 	}
 
