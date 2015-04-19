@@ -18,4 +18,11 @@ public class WechatTextMessage extends WechatMessage {
 		this.is_error = false;
 	}
 
+	@Override
+	public String toString() {
+		return "WechatTextMessage [content=" + content + "]";
+	}
+	
+	
+
 }

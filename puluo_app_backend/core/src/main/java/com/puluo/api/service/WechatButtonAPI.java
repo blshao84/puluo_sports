@@ -81,7 +81,9 @@ public class WechatButtonAPI {
 		String time = params.get("CreateTime");
 		String type = params.get("MsgType");
 		WechatTextAPI textAPI = new WechatTextAPI(toUser, fromUser, time, type, "bd");
-		return textAPI.process();
+		WechatMessage res = textAPI.process();
+		log.info("registration result:"+res.toString());
+		return res;
 	}
 
 	private WechatMessage createHottestEvent() {
