@@ -74,42 +74,46 @@ public class EventRegistrationAPI extends
 		EventRegistrationResult result = null;
 		PuluoOrderStatus status = order.status();
 		String paymentLink;
-		switch (status) {
-		case Undefined:
-			paymentLink = AlipayUtil.generateLink(order);
-			OrderEvent event1 = new OrderEventImpl(order.orderUUID(),
-					OrderEventType.PlaceOrderEvent);
-			dsi.orderEventDao().saveOrderEvent(event1);
-			OrderEvent event2 = new OrderEventImpl(order.orderUUID(),
-					OrderEventType.PayOrderEvent);
-			dsi.orderEventDao().saveOrderEvent(event2);
-			List<OrderEvent> events = new ArrayList<OrderEvent>();
-			events.add(event1);
-			events.add(event2);
-			PuluoOrderStatus nextStatus = PuluoOrderStateMachine.nextState(
-					order, events);
-			dsi.paymentDao().updateOrderStatus(order, nextStatus);
-			result = new EventRegistrationResult(paymentLink,
-					order.orderUUID(), false);
-			break;
-		case New:
-			paymentLink = AlipayUtil.generateLink(order);
-			OrderEvent event3 = new OrderEventImpl(order.orderUUID(),
-					OrderEventType.PayOrderEvent);
-			dsi.orderEventDao().saveOrderEvent(event3);
-			PuluoOrderStatus nextStatus2 = PuluoOrderStateMachine.nextState(
-					order, event3);
-			dsi.paymentDao().updateOrderStatus(order, nextStatus2);
-			result = new EventRegistrationResult(paymentLink,
-					order.orderUUID(), false);
-			break;
-		case Paying:
-			paymentLink = AlipayUtil.generateLink(order);
-			result = new EventRegistrationResult(paymentLink,
-					order.orderUUID(), false);
-			break;
-		default:
-			break;
+		try {
+			switch (status) {
+			case Undefined:
+				paymentLink = AlipayUtil.generateDirectWAPLink(order);
+				OrderEvent event1 = new OrderEventImpl(order.orderUUID(),
+						OrderEventType.PlaceOrderEvent);
+				dsi.orderEventDao().saveOrderEvent(event1);
+				OrderEvent event2 = new OrderEventImpl(order.orderUUID(),
+						OrderEventType.PayOrderEvent);
+				dsi.orderEventDao().saveOrderEvent(event2);
+				List<OrderEvent> events = new ArrayList<OrderEvent>();
+				events.add(event1);
+				events.add(event2);
+				PuluoOrderStatus nextStatus = PuluoOrderStateMachine.nextState(
+						order, events);
+				dsi.paymentDao().updateOrderStatus(order, nextStatus);
+				result = new EventRegistrationResult(paymentLink,
+						order.orderUUID(), false);
+				break;
+			case New:
+				paymentLink = AlipayUtil.generateDirectWAPLink(order);
+				OrderEvent event3 = new OrderEventImpl(order.orderUUID(),
+						OrderEventType.PayOrderEvent);
+				dsi.orderEventDao().saveOrderEvent(event3);
+				PuluoOrderStatus nextStatus2 = PuluoOrderStateMachine
+						.nextState(order, event3);
+				dsi.paymentDao().updateOrderStatus(order, nextStatus2);
+				result = new EventRegistrationResult(paymentLink,
+						order.orderUUID(), false);
+				break;
+			case Paying:
+				paymentLink = AlipayUtil.generateDirectWAPLink(order);
+				result = new EventRegistrationResult(paymentLink,
+						order.orderUUID(), false);
+				break;
+			default:
+				break;
+			}
+		} catch (Exception e) {
+			log.error("更新订单状态发生错误");
 		}
 		return result;
 	}
@@ -117,9 +121,10 @@ public class EventRegistrationAPI extends
 	private EventRegistrationResult createNewOrder() {
 		PuluoEvent event = dsi.eventDao().getEventByUUID(event_uuid);
 		if (event == null) {
-			this.error =  ApiErrorResult.getError(1);
+			this.error = ApiErrorResult.getError(1);
 			return null;
 		} else {
+			try{
 			Double amount = event.price();
 			DateTime paymentTime = DateTime.now();
 			PuluoPaymentOrder order = new PuluoPaymentOrderImpl("", amount,
@@ -130,7 +135,7 @@ public class EventRegistrationAPI extends
 			dsi.orderEventDao().saveOrderEvent(placeOrderEvent);
 			PuluoPaymentOrder savedOrder = dsi.paymentDao().getOrderByUUID(
 					order.orderUUID());
-			String paymentLink = AlipayUtil.generateLink(savedOrder);
+			String paymentLink = AlipayUtil.generateDirectWAPLink(savedOrder);
 			OrderEvent payOrderEvent = new OrderEventImpl(order.orderUUID(),
 					OrderEventType.PayOrderEvent);
 			dsi.orderEventDao().saveOrderEvent(payOrderEvent);
@@ -139,6 +144,11 @@ public class EventRegistrationAPI extends
 			dsi.paymentDao().updateOrderStatus(order, nextStatus2);
 			return new EventRegistrationResult(paymentLink, order.orderUUID(),
 					false);
+			}catch(Exception e){
+				log.error("生成订单时发生未知错误");
+				this.error = ApiErrorResult.getError(1);
+				return null;
+			}
 		}
 	}
 }
