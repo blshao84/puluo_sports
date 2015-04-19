@@ -87,11 +87,35 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 	}
 	
 	@Override
-	public List<PuluoEvent> findEvents(DateTime event_date, String keyword, String level, 
+	public List<PuluoEvent> findEvents(DateTime event_from_date,DateTime event_to_date, String keyword, String level, 
 			EventSortType sort, SortDirection sort_direction, double latitude, double longitude, double range_from, EventStatus es) {
 		ArrayList<String> params = new ArrayList<String>();
-		if (event_date!=null) {
-			params.add(" and e.event_time = '" + TimeUtils.formatDate(event_date) + "'");
+		String dateQuery = null;
+		if(event_from_date!=null && event_to_date!=null){
+			StringBuffer sb = new StringBuffer();
+			sb.append(" and e.event_time >= '")
+			.append(TimeUtils.formatDate(event_from_date))
+			.append("' and e.event_time < '")
+			.append(TimeUtils.formatDate(event_to_date))
+			.append("'");
+			dateQuery =  sb.toString();
+		}else if(event_from_date==null && event_to_date!=null){
+			StringBuffer sb = new StringBuffer();
+			sb.append(" and e.event_time < '")
+			.append(TimeUtils.formatDate(event_to_date))
+			.append("'");
+			dateQuery =  sb.toString();
+		}else if(event_from_date!=null && event_to_date==null){
+			StringBuffer sb = new StringBuffer();
+			sb.append(" and e.event_time >= '")
+			.append(TimeUtils.formatDate(event_from_date))
+			.append("'");
+			dateQuery =  sb.toString();
+		}else{
+			dateQuery = null;
+		}
+		if (dateQuery!=null) {
+			params.add(dateQuery);
 		}
 		if (keyword!=null) {
 			params.add(" and (position('" + keyword + "' in i.event_name)>0 or position('" + keyword + "' in i.description)>0)");

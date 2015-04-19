@@ -238,7 +238,10 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 		JSONObject jo = json.getObject();
 		JSONArray joArray = jo.getJSONArray("events");
 		for (int i = 0; i < joArray.length(); i++) {
-			uuids.add(joArray.getJSONObject(i).getString("event_uuid"));
+			String eventUUID = joArray.getJSONObject(i).getString("event_uuid");
+			if(eventUUID.startsWith("event")){
+				uuids.add(eventUUID);
+			}
 		}
 		return uuids;
 	}

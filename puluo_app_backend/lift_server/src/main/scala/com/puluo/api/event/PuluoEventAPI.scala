@@ -61,13 +61,8 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val params = PuluoResponseFactory.createParamMap(Seq(
       "event_date", "keyword", "sort", "sort_direction",
       "user_lattitude", "user_longitude", "status"))
-    val eventDate: DateTime = params.get("event_date").map(d =>
-      try {
-        new DateTime(d.toLong)
-      } catch {
-        case e: Exception =>
-          null
-      }).getOrElse(null)
+    val eventFromDate: DateTime = getEventDate(params,"event_from_date")
+    val eventToDate: DateTime = getEventDate(params,"event_to_date")
     logger.info(s"creating event search api with:\n${params.mkString("\n")}")
     val keyword = params.getOrElse("keyword", "")
     val level = params.getOrElse("level", "")
@@ -108,9 +103,9 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
       locationToDouble(params.get("user_longitude"))) match {
         case (Some(lattitude), Some(longitude)) => {
           logger.info("api has longitude and lattitude")
-          new EventSearchAPI(eventDate, keyword, level, sort, sortDirection, lattitude, longitude,0.0, status)
+          new EventSearchAPI(eventFromDate,eventToDate, keyword, level, sort, sortDirection, lattitude, longitude, 0.0, status)
         }
-        case _ => new EventSearchAPI(eventDate, keyword, level, sort, sortDirection, 0.0, 0.0,0.0, status)
+        case _ => new EventSearchAPI(eventFromDate,eventToDate, keyword, level, sort, sortDirection, 0.0, 0.0, 0.0, status)
       }
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)
@@ -121,5 +116,15 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
     pos.map(p => try {
       Some(p.toDouble)
     } catch { case e: Exception => None }).flatten
+  }
+
+  private def getEventDate(params: Map[String, String], dateType: String):DateTime = {
+    params.get(dateType).map(d =>
+      try {
+        new DateTime(d.toLong)
+      } catch {
+        case e: Exception =>
+          null
+      }).getOrElse(null)
   }
 }
