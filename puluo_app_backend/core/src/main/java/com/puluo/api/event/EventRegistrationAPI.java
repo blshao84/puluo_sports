@@ -1,13 +1,16 @@
 package com.puluo.api.event;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.joda.time.DateTime;
 
 import com.puluo.api.PuluoAPI;
+import com.puluo.api.payment.PuluoAlipayAPI;
 import com.puluo.api.result.ApiErrorResult;
 import com.puluo.api.result.EventRegistrationResult;
+import com.puluo.config.Configurations;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
@@ -50,8 +53,7 @@ public class EventRegistrationAPI extends
 			if (order.userId().equals(user_uuid)) {
 				PuluoOrderStatus status = order.status();
 				if (status.isCancel()) {
-					log.error("订单(uuid is {})已经被取消", order.orderUUID(),
-							order.userId(), user_uuid);
+					log.error(String.format("订单(uuid is %s)已经被取消", order.orderUUID()));
 					this.error = ApiErrorResult.getError(2);
 					this.rawResult = null;
 				} else if (status.isPaid()) {
@@ -62,8 +64,7 @@ public class EventRegistrationAPI extends
 					this.rawResult = result;
 				}
 			} else {
-				log.error("订单中的用户id is {}与该用户id is {}不匹配", order.userId(),
-						user_uuid);
+				log.error(String.format("订单中的用户id is %s与该用户id is %s不匹配", order.userId(), user_uuid));
 				this.error = ApiErrorResult.getError(3);
 				this.rawResult = null;
 			}
@@ -125,25 +126,31 @@ public class EventRegistrationAPI extends
 			return null;
 		} else {
 			try{
-			Double amount = event.price();
-			DateTime paymentTime = DateTime.now();
-			PuluoPaymentOrder order = new PuluoPaymentOrderImpl("", amount,
-					paymentTime, user_uuid, event_uuid, PuluoOrderStatus.New);
-			OrderEvent placeOrderEvent = new OrderEventImpl(order.orderUUID(),
-					OrderEventType.PlaceOrderEvent);
-			dsi.paymentDao().upsertOrder(order);
-			dsi.orderEventDao().saveOrderEvent(placeOrderEvent);
-			PuluoPaymentOrder savedOrder = dsi.paymentDao().getOrderByUUID(
-					order.orderUUID());
-			String paymentLink = AlipayUtil.generateDirectWAPLink(savedOrder);
-			OrderEvent payOrderEvent = new OrderEventImpl(order.orderUUID(),
-					OrderEventType.PayOrderEvent);
-			dsi.orderEventDao().saveOrderEvent(payOrderEvent);
-			PuluoOrderStatus nextStatus2 = PuluoOrderStateMachine.nextState(
-					savedOrder, payOrderEvent);
-			dsi.paymentDao().updateOrderStatus(order, nextStatus2);
-			return new EventRegistrationResult(paymentLink, order.orderUUID(),
-					false);
+				Double amount = event.price();
+				DateTime paymentTime = DateTime.now();
+				PuluoPaymentOrder order = new PuluoPaymentOrderImpl("", amount,
+						paymentTime, user_uuid, event_uuid, PuluoOrderStatus.New);
+				OrderEvent placeOrderEvent = new OrderEventImpl(order.orderUUID(),
+						OrderEventType.PlaceOrderEvent);
+				dsi.paymentDao().upsertOrder(order);
+				dsi.orderEventDao().saveOrderEvent(placeOrderEvent);
+				PuluoPaymentOrder savedOrder = dsi.paymentDao().getOrderByUUID(
+						order.orderUUID());
+				OrderEvent payOrderEvent = new OrderEventImpl(order.orderUUID(),
+						OrderEventType.PayOrderEvent);
+				dsi.orderEventDao().saveOrderEvent(payOrderEvent);
+				PuluoOrderStatus nextStatus2 = PuluoOrderStateMachine.nextState(
+						savedOrder, payOrderEvent);
+				dsi.paymentDao().updateOrderStatus(order, nextStatus2);
+				if (amount!=0.0) {
+					String paymentLink = AlipayUtil.generateDirectWAPLink(savedOrder);
+					return new EventRegistrationResult(paymentLink, order.orderUUID(), false);
+				} else {
+					String out_trade_no = AlipayUtil.generateOrderID(order, Configurations.orderIDBase);
+					PuluoAlipayAPI alipay = new PuluoAlipayAPI(new HashMap<String, String>(), null, out_trade_no, "DO NOT NEED A PAYMENT!");
+					alipay.processOrderWithZero();
+					return new EventRegistrationResult("", order.orderUUID(), true);
+				}
 			}catch(Exception e){
 				log.error("生成订单时发生未知错误");
 				this.error = ApiErrorResult.getError(1);

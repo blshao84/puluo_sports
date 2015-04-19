@@ -44,6 +44,10 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 		}
 		return;
 	}
+	
+	public void processOrderWithZero() {
+		processValidRequest();
+	}
 
 	private void processValidRequest() {
 		log.info(String.format("订单PaymentOrder=%s状态正常", orderNumericID()));
