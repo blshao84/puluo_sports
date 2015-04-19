@@ -1,0 +1,56 @@
+/* Default tags and Bootstrap classes */
+/* Posts */
+#posts {
+	margin: 20px auto 0;
+	margin-left:0px;
+}
+
+.post {
+	margin: 0 0 15px;
+	text-align: center;
+	width: 200px;
+}
+
+.post.cs2 {
+	width: 326px;
+}
+
+.post img {
+	width: 100%;
+}
+
+/* Large desktop */
+@media ( min-width : 1200px) {
+	.container>#posts .post {
+		width: 215px;
+	}
+	.container>#posts .post.cs2 {
+		width: 560px;
+	}
+}
+
+/* Portrait tablet to landscape and desktop */
+@media ( min-width : 768px) and (max-width: 979px) {
+	.container-fluid>#posts .post {
+		width: 200px;
+	}
+	.container-fluid>#posts .post.cs2 {
+		width: 326px;
+	}
+	.container>#posts .post {
+		width: 200px;
+	}
+	.container>#posts .post.cs2 {
+		width: 100%;
+	}
+}
+
+/* Landscape phone to portrait tablet */
+@media ( max-width : 767px) {
+	body {
+		padding:0px 0px;
+	}
+	.post,.post.cs2 {
+		width: 100%;
+	}
+}

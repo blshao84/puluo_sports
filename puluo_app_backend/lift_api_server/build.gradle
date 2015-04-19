@@ -30,7 +30,7 @@ dependencies {
 task install(type: Copy,dependsOn: build) {
          copy{
             from(webAppDir) {
-                include('lift_server.war')
+                include('lift_api_server.war')
             }
             into(puluoInstallPath)
         }

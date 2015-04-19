@@ -1,0 +1,37 @@
+apply {
+    plugin 'war'
+    plugin 'jetty'
+}
+
+ext {
+    liftVersion="2.6-M2"
+    puluoInstallPath = "/data/dist/"
+    webAppDir = "build/libs"
+}
+
+jettyRun.contextPath = "/"
+
+dependencies {
+    compile project(':core')
+    compile group:"net.liftweb",name:"lift-webkit_$scalaVersion",version:"$liftVersion"
+    compile group:"net.liftweb",name:"lift-mapper_$scalaVersion",version:"$liftVersion"
+    compile group:"net.liftweb",name:"lift-wizard_$scalaVersion",version:"$liftVersion"
+    compile group:"net.liftweb",name:"lift-util_$scalaVersion",version:"$liftVersion"
+    compile group:"net.liftweb",name:"lift-actor_$scalaVersion",version:"$liftVersion"
+    compile group:"net.liftweb",name:"lift-common_$scalaVersion",version:"$liftVersion"
+    compile group:"net.liftweb",name:"lift-db_$scalaVersion",version:"$liftVersion"
+    compile group:"net.liftweb",name:"lift-proto_$scalaVersion",version:"$liftVersion"
+    compile group:"net.liftweb",name:"lift-testkit_$scalaVersion",version:"$liftVersion"
+    compile group:"org.eclipse.jetty",name:"jetty-webapp",version:"9.1.0.v20131115" 
+    compile group:"org.eclipse.jetty",name:"jetty-plus",version:"9.1.0.v20131115"  
+    compile group:"javax.servlet",name:"javax.servlet-api",version:"3.1.0" 
+}
+
+task install(type: Copy,dependsOn: build) {
+         copy{
+            from(webAppDir) {
+                include('lift_admin_server.war')
+            }
+            into(puluoInstallPath)
+        }
+}
