@@ -121,15 +121,18 @@ public class WechatTextAPI {
 	}
 
 	private WechatMessage processBindingMessage(PuluoWechatBinding binding) {
+		if("bd".equals(content)){
+			return new WechatTextMessage("您已经成功注册啦！");
+		} else {
 		// TODO Auto-generated method stub
-		return new WechatTextMessage(Strs.join(
-				"Hi, puluo user, I'm puluo echo:", content));
+		return new WechatTextMessage("您已经成功注册，为了让您的锻炼更方便，小普们正在玩儿命为您增加新功能！");
+		}
 	}
 
 	private WechatMessage processNonBindingMessage() {
 		if (content.equals("bd")) {
 			dsi.wechatBindingDao().saveBinding("", from_user);
-			return new WechatTextMessage("请您微信回复手机号两步完成绑定已开始绑定");
+			return new WechatTextMessage("请您微信回复手机号，两步即可完成绑定！");
 		} else
 			return new WechatTextMessage(Strs.join("Hi, I'm puluo echo:",
 					content));
