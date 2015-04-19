@@ -20,6 +20,7 @@ import com.puluo.test.functional.util.EventFunctionalTestRunner;
 import com.puluo.test.functional.util.EventTestDataSource;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.TimeUtils;
 
 public class EventSearchFunctionalTest extends APIFunctionalTest {
 	public static Log log = LogFactory.getLog(EventSearchFunctionalTest.class);
@@ -37,13 +38,13 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 	}
 
 	@Test
-	public void testDateSearch() {
+	public void testDateSearchWithFrom() {
 		super.runAuthenticatedTest(new EventFunctionalTestRunner() {
 			@Override
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
-						+ "\"event_date\":%s," + "}", session,
-						dataSource.event_date_0601.getMillis());
+						+ "\"event_from_date\":%s," + "}", session,
+						TimeUtils.parseDateTime("2015-06-01 14:00:00").getMillis());
 			}
 
 			@Override
@@ -52,6 +53,59 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 				Set<String> expectedEvents = new HashSet<String>();
 				expectedEvents.add(dataSource.eventID1);
 				expectedEvents.add(dataSource.eventID2);
+				expectedEvents.add(dataSource.eventID3);
+				Set<String> actualEvents = extractUUID(json, new HashSet<String>());
+				Assert.assertEquals(expectedEvents, actualEvents);
+			}
+			@Override
+			public EventTestDataSource dataSource() {
+				return dataSource;
+			}
+		});
+	}
+
+	@Test
+	public void testDateSearchWithTo() {
+		super.runAuthenticatedTest(new EventFunctionalTestRunner() {
+			@Override
+			public String inputs(String session) {
+				return String.format("{" + "\"token\":\"%s\","
+						+ "\"event_to_date\":%s," + "}", session,
+						TimeUtils.parseDateTime("2015-06-01 10:00:00").getMillis());
+			}
+
+			@Override
+			public void run(String session) throws UnirestException {
+				JsonNode json = callAPI("events/search", inputs(session));
+				Set<String> expectedEvents = new HashSet<String>();
+				expectedEvents.add(dataSource.eventID1);
+				expectedEvents.add(dataSource.eventID2);
+				Set<String> actualEvents = extractUUID(json, new HashSet<String>());
+				Assert.assertEquals(expectedEvents, actualEvents);
+			}
+			@Override
+			public EventTestDataSource dataSource() {
+				return dataSource;
+			}
+		});
+	}
+
+	@Test
+	public void testDateSearchWithFromAndTo() {
+		super.runAuthenticatedTest(new EventFunctionalTestRunner() {
+			@Override
+			public String inputs(String session) {
+				return String.format("{" + "\"token\":\"%s\","
+						+ "\"event_from_date\":%s,"+ "\"event_to_date\":%s," + "}", session,
+						TimeUtils.parseDateTime("2015-06-02 14:00:00").getMillis(),
+						TimeUtils.parseDateTime("2015-06-02 12:00:00").getMillis());
+			}
+
+			@Override
+			public void run(String session) throws UnirestException {
+				JsonNode json = callAPI("events/search", inputs(session));
+				Set<String> expectedEvents = new HashSet<String>();
+				expectedEvents.add(dataSource.eventID3);
 				Set<String> actualEvents = extractUUID(json, new HashSet<String>());
 				Assert.assertEquals(expectedEvents, actualEvents);
 			}

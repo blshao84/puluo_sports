@@ -46,9 +46,9 @@ public class EventTestDataSource {
 	public String mobile = "1234567";
 	public String password = "abcdefg";
 	public DateTime event_date_0601 = TimeUtils
-			.parseDateTime("2015-06-01 00:00:00");
+			.parseDateTime("2015-06-01 13:30:00");
 	public DateTime event_date_0602 = TimeUtils
-			.parseDateTime("2015-06-02 00:00:00");
+			.parseDateTime("2015-06-02 10:30:00");
 
 	public EventTestDataSource(String prefix) {
 		this.locID1 = prefix + "_" + prefix + "_" + "loc_1";
