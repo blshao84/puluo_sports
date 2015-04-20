@@ -25,7 +25,7 @@ import com.puluo.util.TimeUtils
 import com.puluo.snippet.util.PuluoSnippetUtil
 import com.puluo.entity.impl.PuluoUserType
 
-object PuluoUserUpdateSnippet extends PuluoSnippetUtil{
+object PuluoUserUpdateSnippet extends PuluoSnippetUtil with Loggable{
   object searchUser extends SessionVar[Option[PuluoUser]](None)
   object inputMobile extends RequestVar[Option[String]](None)
 
@@ -85,7 +85,8 @@ object PuluoUserUpdateSnippet extends PuluoSnippetUtil{
         if (searchUser.isDefined) {
           val user = searchUser.get.get
           try {
-            DaoApi.getInstance().userDao().updateProfile(user,
+            val dao = DaoApi.getInstance().userDao()
+            dao.updateProfile(user,
               first.getOrElse(""),
               last.getOrElse(""),
               "", //thumbnail
@@ -98,6 +99,15 @@ object PuluoUserUpdateSnippet extends PuluoSnippetUtil{
               state.getOrElse(""), //state
               city.getOrElse(""), //city
               zip.getOrElse(""))
+            (userType.get,banned.get) match {
+              case (Some(t),Some(b)) => dao.updateAdminProfile(user, PuluoUserType.valueOf(t), b.toBoolean)
+              case (Some(t),None) => dao.updateAdminProfile(user, PuluoUserType.valueOf(t), null)
+              case (None,Some(b)) => dao.updateAdminProfile(user, null, b.toBoolean)
+              case (None,None) => {
+                logger.info("not update any admin field")
+              }
+              
+            }
             JsCmds.Alert(s"成功更新用户${mobile}")
           } catch {
             case e: Exception => JsCmds.Alert(s"更新用户${mobile}失败")

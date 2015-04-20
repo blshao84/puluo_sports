@@ -198,10 +198,20 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 	}
 
 	@Override
-	public PuluoUser updateProfile(PuluoUser curuser, String first_name,
-			String last_name, String thumbnail, String large_image,
-			String saying, String email, String sex, String birthday,
-			String country, String state, String city, String zip) {
+	public PuluoUser updateProfile(
+			PuluoUser curuser, 
+			String first_name,
+			String last_name, 
+			String thumbnail, 
+			String large_image,
+			String saying, 
+			String email, 
+			String sex, 
+			String birthday,
+			String country, 
+			String state, 
+			String city, 
+			String zip) {
 		try {
 			String uuid = curuser.userUUID();
 			StringBuilder updateSQL = new StringBuilder().append("update ")
@@ -334,5 +344,30 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 					}
 				});
 		return entities;
+	}
+
+	@Override
+	public PuluoUser updateAdminProfile(PuluoUser profile,
+			PuluoUserType userType, Boolean banned) {
+		try {
+			String uuid = profile.userUUID();
+			StringBuilder updateSQL = new StringBuilder().append("update ")
+					.append(super.getFullTableName()).append(" set ");
+			if (userType!=null) {
+				updateSQL.append("user_type = '" + userType.toString() + "', ");
+			}
+			if (banned!=null) {
+				updateSQL.append("banned = " + banned.toString() + ", ");
+			}
+			updateSQL.append("updated_at = now()::timestamp ");
+			updateSQL.append("where user_uuid = '" + uuid + "'");
+			String sql = updateSQL.toString();
+			log.info(Strs.join("SQL:",sql));
+			getWriter().update(sql);
+			return getByUUID(uuid);
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			throw new PuluoDatabaseException("更新profile时出错！");
+		}
 	}
 }
