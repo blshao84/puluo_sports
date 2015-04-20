@@ -47,6 +47,23 @@ public class TimeUtils {
 		return format;
 	}
 
+	public static DateTime parseDate(String dt) {
+		String[] dates = dt.split("-");
+		if (dates.length == 3) {
+			String yearString = dates[0];
+			String monthString = dates[1];
+			String dayString = dates[2];
+			int year = Integer.parseInt(yearString);
+			int month = Integer.parseInt(monthString);
+			int day = Integer.parseInt(dayString);
+			int hour = 0;
+			int min = 0;
+			int sec = 0;
+			return new DateTime(year, month, day, hour, min, sec);
+		} else
+			return null;
+	}
+
 	public static DateTime parseDateTime(String dt) {
 		String[] dateTime = dt.split(" ");
 		if (dateTime.length == 2) {
@@ -116,7 +133,7 @@ public class TimeUtils {
 	}
 
 	public static long dateTime2Millis(DateTime dt) {
-//		return ((dt == null) ? DateTime.now().getMillis() : dt.getMillis());
+		// return ((dt == null) ? DateTime.now().getMillis() : dt.getMillis());
 		return ((dt == null) ? 0 : dt.getMillis());
 	}
 

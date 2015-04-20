@@ -1,4 +1,101 @@
 <lift:surround with="bootstrap_base" at="content">
-<h1>普罗用户管理</h1>
+	<h1>普罗用户管理</h1>
+	<div data-lift="PuluoUserUpdateSnippet.render">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<div class="panel-title">用户查询</div>
+			</div>
+			<div class="panel-body">
+				<form>
+					<div class="form-group">
+						<label for="exampleInputEmail1">用户电话</label> <input
+						class="form-control" id="input_mobile""
+							placeholder="输入用户电话号码......">
+					</div>
+					<button id="search" class="btn btn-default">搜索</button>
+				</form>
+			</div>
+		</div>
+		
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<div class="panel-title">用户详细信息</div>
+			</div>
+			<div class="panel-body">
+					<div class="col-md-12 row">
+						<label class="col-md-1">id</label>
+						<span class="col-md-5" id="uuid">23fc6106-cba2-4943-8999-085112b0d890</span>
+						<label class="col-md-1">电话</label>
+						<span class="col-md-2" id="mobile">18646655333</span>
+						<label class="col-md-1">头像</label>
+						<div class="col-md-2" id="thumbnail">
+							<img src="/image/logo2.jpg" class="img-rounded img-responsive">
+						</div>
+					</div>
+					<div class="form-group">
+						<label>用户类型</label>
+						<select class="form-control" id="user_type"></select>
+					</div>
+					<div class="form-group">
+						<label>电子邮件</label>
+						<input class="form-control" id="email"/>
+					</div>
+					<div class="form-group">
+						<label >姓</label>
+						<input class="form-control" id="last_name"/>
+					</div>
+					<div class="form-group">
+						<label >名</label>
+						<input class="form-control" id="first_name"/>
+					</div>
+					<div class="form-group">
+						<label >性别</label>
+						<select class="form-control" id="sex"></select>
+					</div>
+					<div class="form-group">
+						<label >生日</label>
+						<input class="form-control" id="birthday"/>
+					</div>
+					<div class="form-group">
+						<label >职业</label>
+						<input class="form-control" id="occupation"/>
+					</div>	
+					<div class="form-group">
+						<label >省份</label>
+						<select class="form-control" id="state"></select>
+					</div>
+					<div class="form-group">
+						<label >城市</label>
+						<select class="form-control" id="city"></select>
+					</div>
+				
+					<div class="form-group">
+						<label >地址</label>
+						<input class="form-control" id="address"/>
+					</div>
+				
+					<div class="form-group">
+						<label >邮编</label>
+						<input class="form-control" id="zip"/>
+					</div>
+				
+					<div class="form-group">
+						<label >个性签名</label>
+				 		<input class="form-control" id="saying"/>
+					</div>
+					<div class="form-group">
+						<label >Banned</label>
+						<select class="form-control" id="banned"></select>
+					</div>
+					<div class="col-md-12">
+						<label class="col-md-3">注册时间</label>
+						<span class="col-md-3" id="created_at">18646655333</span>
+						<label class="col-md-3">更新时间</label>
+						<span class="col-md-3" id="update_at">18646655333</span>
+					</div>
+					<button id="update" class="col-md-offset-4 col-md-4 btn btn-default">更新</button>
+			</div>
+		</div>
+	</div>
 </lift:surround>
 

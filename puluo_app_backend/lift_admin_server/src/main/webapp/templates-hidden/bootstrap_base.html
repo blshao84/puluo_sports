@@ -30,92 +30,13 @@
 <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
 <link rel="stylesheet" href="/bootstrap/css/jquery.fileupload.css">
 <link rel="stylesheet" href="/bootstrap/css/jquery.fileupload-ui.css">
-
-<style type="text/css">
-/* <![CDATA[ */
-.widget {
-	border: 1px solid #ccc;
-	background: #f5f5f5;
-	padding: 5px;
-	margin: 10px 0 0 0;
-	font-size: 8pt;
-}
-
-.sidebar ul {
-	margin: 10px 0 0 0;
-	padding: 5px;
-	border-bottom: 1px solid #ccc;
-}
-
-.sidebar ul li {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	border: 1px solid #ccc;
-	border-bottom: none;
-}
-
-.sidebar ul li ul li {
-	margin: 0;
-	padding: 0;
-	border-style: none;
-	list-style-type: square;
-	list-style-position: inside;
-	padding-left: 10px;
-}
-
-.sidebar ul li ul li a {
-	display: inline;
-}
-
-.sidebar ul li ul {
-	margin: 0;
-	border-bottom: none;
-}
-
-.sidebar ul li ul li span {
-	display: inline;
-	padding: 0px;
-}
-
-.sidebar ul li a {
-	display: block;
-	padding: 3px;
-	text-indent: 10px;
-	text-decoration: none;
-}
-
-.sidebar ul li span {
-	display: block;
-	padding: 3px;
-	text-indent: 10px;
-	text-decoration: none;
-}
-
-.sidebar ul li a:hover {
-	background-color: #eee;
-}
-
-.lift_error {
-	color: red;
-}
-
-.lift_warning {
-	color: yellow;
-}
-
-.lift_notice {
-	
-}
-/* ]]> */
-</style>
 </head>
 
 <body>
 	<div class="container">
-		<div class="col-md-2">
+		<div class="col-md-2 panel panel-default">
 			<img src="/image/logo2.jpg" class="img-rounded img-responsive">
-			<ul class="nav nav-">
+			<ul class="nav">
 				<li><a href="/event">活动管理</a></li>
 				<li><a href="/user">用户管理</a></li>
 				<li><a href="/account/login">登陆</a></li>
@@ -124,7 +45,7 @@
 			</ul>
 
 		</div>
-		<div class="col-md-10">
+		<div class="col-md-10 panel panel-default">
 			<div id="greeting-msg" class="col-md-12" data-lift="GreetingMessageSnippet.render">
 				<span id="msg" class="alert alert-success col-md-2">您好，李主任</span>
 			</div>
