@@ -32,7 +32,7 @@ object PuluoAuthPrivateAPI extends RestHelper with PuluoAPIUtil with Loggable {
     case "users" :: "credential" :: "update" :: Nil Post _ => {
       callWithAuthParam(Map(
         "new_password" -> ErrorResponseResult(15).copy(message = "new_password"),
-        "password" -> ErrorResponseResult(15).copy(message = "password")))(doUpdatePassword)
+        "auth_code" -> ErrorResponseResult(15).copy(message = "auth_code")))(doUpdatePassword)
 
     }
 
@@ -50,11 +50,11 @@ object PuluoAuthPrivateAPI extends RestHelper with PuluoAPIUtil with Loggable {
 
   private def doUpdatePassword(params: Map[String, String]) = {
     val newPassword = params("new_password")
-    val password = params("password")
+    val authCode = params("auth_code")
     val token = params("token")
     val session = PuluoSessionManager.getSession(token)
     val uuid = session.userUUID()
-    val api = new UserPasswordUpdateAPI(uuid, password, newPassword)
+    val api = new UserPasswordUpdateAPI(uuid, authCode, newPassword)
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)
   }

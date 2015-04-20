@@ -26,7 +26,7 @@ public class ApiErrorResult extends HasJSON {
 		error_registry.put(16, new ApiErrorResult(16, "API参数错误", "API参数错误", ""));
 		error_registry.put(17, new ApiErrorResult(17, "用户信息接口错误", "用户不存在", ""));
 		error_registry.put(18, new ApiErrorResult(18, "更新密码接口错误", "用户不存在", ""));
-		error_registry.put(19, new ApiErrorResult(19, "更新密码接口错误", "当前密码错误", ""));
+		error_registry.put(19, new ApiErrorResult(19, "更新密码接口错误", "当前验证码错误", ""));
 		error_registry.put(20, new ApiErrorResult(20, "更新密码接口错误", "更新密码失败", ""));
 		//error_registry.put(21, new ApiErrorResult(21, "用户信息接口错误", "查找用户信息失败", ""));
 		error_registry.put(22, new ApiErrorResult(22, "用户信息接口错误", "更新用户信息失败", ""));

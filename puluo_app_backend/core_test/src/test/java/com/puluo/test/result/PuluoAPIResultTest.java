@@ -82,7 +82,7 @@ public class PuluoAPIResultTest {
 	@Test
 	public void testDummyUserPasswordUpdateResult() {
 		String expectedJsonResult = "{"
-				+ "\"password\":\"cd8460a5e0f2c2af596f170009bffc02df06b54d\","
+				+ "\"auth_code\":\"123456\","
 				+ "\"new_password\":\"cd8460a5e0f2c2af596f170009bffc02df06b54d\""
 				+ "}";
 		String actualJsonResult = UserPasswordUpdateResult.dummy().toJson();

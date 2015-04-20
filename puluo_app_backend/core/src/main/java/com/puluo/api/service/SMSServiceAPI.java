@@ -9,6 +9,7 @@ import com.puluo.api.result.ApiErrorResult;
 import com.puluo.api.result.SMSServiceResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.entity.PuluoAuthCodeType;
 import com.puluo.service.PuluoService;
 import com.puluo.service.util.JuheSMSResult;
 import com.puluo.util.Log;
@@ -56,7 +57,10 @@ public class SMSServiceAPI extends PuluoAPI<PuluoDSI, SMSServiceResult> {
 		case UserRegistration:
 			processRegistrationRequest();
 			break;
-
+			
+		case PasswordReset:
+			processPasswordResetRequest();
+			break;
 		case NamedEvent:
 
 			break;
@@ -71,16 +75,25 @@ public class SMSServiceAPI extends PuluoAPI<PuluoDSI, SMSServiceResult> {
 
 	}
 
+	private void processPasswordResetRequest() {
+		processRequest(PuluoAuthCodeType.PasswordReset);
+		
+	}
+
 	private void processRegistrationRequest() {
+		processRequest(PuluoAuthCodeType.Registration);
+		
+	}
+
+	private void processRequest(PuluoAuthCodeType authCodeType) {
 		String code = randomCode();
 		JuheSMSResult result = null;
 		if(!mock){
 			result = PuluoService.getSms().sendAuthCode(mobile, code);
 		}
 		if (mock || result.isSuccess()) {
-			log.info(String.format("successful send sms message to %s", mobile));
-			boolean success = dsi.authCodeRecordDao()
-					.upsertRegistrationAuthCode(mobile, code);
+			log.info(String.format("successful send %s sms message to %s", authCodeType,mobile));
+			boolean success = dsi.authCodeRecordDao().upsertAuthCode(mobile, code,authCodeType);
 			if (success) {
 				this.rawResult = new SMSServiceResult(mobile, "success");
 			} else {

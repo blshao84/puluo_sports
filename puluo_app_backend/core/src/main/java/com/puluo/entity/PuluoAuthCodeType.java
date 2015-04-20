@@ -1,5 +1,5 @@
 package com.puluo.entity;
 
 public enum PuluoAuthCodeType {
-	Registration,Unknown;
+	PasswordReset,Registration,Unknown;
 }
