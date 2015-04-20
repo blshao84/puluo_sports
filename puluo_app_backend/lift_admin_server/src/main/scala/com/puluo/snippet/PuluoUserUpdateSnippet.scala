@@ -23,6 +23,7 @@ import net.liftweb.http.SessionVar
 import com.puluo.dao.impl.DaoApi
 import com.puluo.util.TimeUtils
 import com.puluo.snippet.util.PuluoSnippetUtil
+import com.puluo.entity.impl.PuluoUserType
 
 object PuluoUserUpdateSnippet extends PuluoSnippetUtil{
   object searchUser extends SessionVar[Option[PuluoUser]](None)
@@ -76,6 +77,10 @@ object PuluoUserUpdateSnippet extends PuluoSnippetUtil{
       "#address" #> renderText(address) &
       "#zip" #> renderText(zip) &
       "#saying" #> renderText(saying) &
+      (renderAllStatesAndCities(state,city)) &
+      "#sex" #> renderSimpleSelect(Seq("M","F","男","女"),sex) &
+      "#user_type" #> renderSimpleSelect(PuluoUserType.values.toSeq.map(_.toString),userType) &
+      "#banned" #> renderSimpleSelect(Seq("true","false"),banned) &
       "#update" #> SHtml.ajaxButton("更新", () => {
         if (searchUser.isDefined) {
           val user = searchUser.get.get
@@ -87,11 +92,11 @@ object PuluoUserUpdateSnippet extends PuluoSnippetUtil{
               "", //large_image
               saying.getOrElse(""),
               email.getOrElse(""),
-              "", //sex
+              sex.getOrElse(""), //sex
               birthday.getOrElse(""),
               "", //country
-              "", //state
-              "", //city
+              state.getOrElse(""), //state
+              city.getOrElse(""), //city
               zip.getOrElse(""))
             JsCmds.Alert(s"成功更新用户${mobile}")
           } catch {
