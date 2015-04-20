@@ -67,7 +67,7 @@ public class RegistrationSMSFunctionalTest extends APIFunctionalTest {
 	}
 	
 	@Test
-	public void testSuccessfulSendWithExistingUser() {
+	public void testSuccessfulSendRegistrationCodeWithExistingUser() {
 		String inputs = String.format(
 				"{\"mock\":\"true\",\"mobile\":\"%s\"}", mobile1);
 		try {
@@ -75,6 +75,23 @@ public class RegistrationSMSFunctionalTest extends APIFunctionalTest {
 			String status = super.getStringFromJson(json, "status");
 			Assert.assertEquals("successful send auth code should return status=success","success",status);
 			PuluoAuthCodeRecord record = DaoApi.getInstance().authCodeRecordDao().getRegistrationAuthCodeFromMobile(mobile1);
+			Assert.assertNotNull(record);
+
+		} catch (UnirestException e) {
+			e.printStackTrace();
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testSuccessfulSendResetCodeWithExistingUser() {
+		String inputs = String.format(
+				"{\"mock\":\"true\",\"mobile\":\"%s\"}", mobile1);
+		try {
+			JsonNode json = callAPI("services/sms/reset", inputs);
+			String status = super.getStringFromJson(json, "status");
+			Assert.assertEquals("successful send auth code should return status=success","success",status);
+			PuluoAuthCodeRecord record = DaoApi.getInstance().authCodeRecordDao().getPasswordResetAuthCodeFromMobile(mobile1);
 			Assert.assertNotNull(record);
 
 		} catch (UnirestException e) {

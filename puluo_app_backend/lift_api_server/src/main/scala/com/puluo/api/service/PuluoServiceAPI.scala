@@ -17,9 +17,13 @@ object PuluoServiceAPI extends RestHelper with PuluoAPIUtil with SMSSender with 
   serve {
     case "services" :: "sms" :: "register" :: Nil Post _ => callWithParam(Map(
       "mobile" -> ErrorResponseResult(15).copy(message = "mobile")))(doSendRegisterSMS)
+    case "services" :: "sms" :: "reset" :: Nil Post _ => callWithParam(Map(
+      "mobile" -> ErrorResponseResult(15).copy(message = "mobile")))(doSendResetSMS)
 
    
   }
   private def doSendRegisterSMS(params: Map[String, String]) = doSendSMS(params + ("sms_type" -> "UserRegistration"))
+
+  private def doSendResetSMS(params: Map[String, String]) = doSendSMS(params + ("sms_type" -> "PasswordReset"))
 
 }
