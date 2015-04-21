@@ -40,7 +40,7 @@ public class PuluoImageService {
 			status = "success";
 		else
 			status = "failed";
-		return new ImageUploadServiceResult(filePath, status);
+		return new ImageUploadServiceResult(filePath, status,0);
 	}
 
 	public ImageUploadServiceResult saveImage(byte[] data, String filePath) {
@@ -57,7 +57,7 @@ public class PuluoImageService {
 		else
 			status = "failed";
 		String link = Strs.join(Configurations.imageServer,filePath);
-		return new ImageUploadServiceResult(link, status);
+		return new ImageUploadServiceResult(link, status,data.length/1000);
 	}
 
 	public static void main(String[] args) {

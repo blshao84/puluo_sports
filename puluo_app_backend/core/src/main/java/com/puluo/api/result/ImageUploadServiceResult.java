@@ -6,12 +6,14 @@ import com.puluo.util.Strs;
 
 public class ImageUploadServiceResult extends HasJSON{
 	public final String image_link;
+	public final int sizeInKB;
 	public final String status;
 	
-	public ImageUploadServiceResult(String image_link, String status) {
+	public ImageUploadServiceResult(String image_link, String status, int kb) {
 		super();
 		this.image_link = image_link;
 		this.status = status;
+		this.sizeInKB = kb;
 	}
 	
 	
@@ -32,6 +34,6 @@ public class ImageUploadServiceResult extends HasJSON{
 
 
 	public static ImageUploadServiceResult dummy() {
-		return new ImageUploadServiceResult("http://upyun.com/puluo/xxxx", "success");
+		return new ImageUploadServiceResult("http://upyun.com/puluo/xxxx", "success",100);
 	}
 }

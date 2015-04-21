@@ -25,6 +25,7 @@ import com.puluo.entity.UserImage
 import com.puluo.util.Strs
 import com.puluo.entity.PuluoAdmin
 import com.puluo.snippet.util.SortedChineseMapperPaginator
+import com.puluo.service.PuluoService
 
 class UserImageSnippet extends Loggable {
 
@@ -49,7 +50,13 @@ class UserImageSnippet extends Loggable {
         "#image-name *" #> image.name.get &
         "#image-uuid *" #> image.imageUUID &
       "#image-delete" #> SHtml.ajaxButton("删除", () => {
-        if (image.id.get >= 0) image.delete_!
+        if (image.id.get >= 0) {
+          image.delete_!
+          val res = PuluoService.image.deleteImage(image.imageUUID);
+          if(!res.isSuccess()){
+            logger.error(s"image ${image.imageUUID} is not deleted from the server")
+          }
+        }
         JsCmds.Reload
       })
     })

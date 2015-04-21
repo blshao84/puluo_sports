@@ -33,7 +33,7 @@ object PuluoFileUploadAPI extends RestHelper with Loggable {
           logger.error(s"ignore uploading file ${fph.fileName}")
           None
         }
-      } toMap
+      } 
       
       val json = JQueryFileUploadResultSet(
           results.map { case (k, v) => JQueryFileUploadResult(k, v) } toSeq).jsonValue

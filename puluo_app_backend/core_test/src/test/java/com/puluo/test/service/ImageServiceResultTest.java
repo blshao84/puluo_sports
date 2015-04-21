@@ -26,7 +26,7 @@ public class ImageServiceResultTest {
 		String filePath = "test.jpg";
 		String link = Strs.join(Configurations.imageServer,filePath);
 		String json = mockImageService.saveImage(data, filePath).toJson();
-		String expected = String.format("{\"image_link\":\"%s\",\"status\":\"success\"}",link);
+		String expected = String.format("{\"image_link\":\"%s\",\"sizeInKB\":0,\"status\":\"success\"}",link);
 		String msg = String.format("PuluoImageService.saveImage should return %s", expected);
 		assertEquals(msg,json,expected);
 	}
