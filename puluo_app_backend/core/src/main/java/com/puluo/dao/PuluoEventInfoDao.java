@@ -1,5 +1,7 @@
 package com.puluo.dao;
 
+import java.util.List;
+
 import com.puluo.entity.PuluoEventInfo;
 
 public interface PuluoEventInfoDao {
@@ -9,4 +11,5 @@ public interface PuluoEventInfoDao {
 	public PuluoEventInfo getEventInfoByUUID(String uuid);
 	public boolean saveEventInfo(PuluoEventInfo info);
 	public boolean updateEventInfo(PuluoEventInfo info);
+	List<PuluoEventInfo> findEventInfo(String keyword);
 }

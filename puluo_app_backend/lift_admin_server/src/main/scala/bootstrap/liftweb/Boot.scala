@@ -55,7 +55,7 @@ class Boot extends Loggable {
 
     logger.info("当前数据库连接:%s".format(DB.currentConnection.isDefined))
 
-    val entities = List(PuluoAdmin,UserImage)
+    val entities = List(PuluoAdmin, UserImage)
 
     // handle JNDI not being avalible
     if (!DB.jndiJdbcConnAvailable_?) {
@@ -103,6 +103,8 @@ class Boot extends Loggable {
     SiteMap.enforceUniqueLinks = false
     val menus = List(
       Menu("图片上传") / "image" >> LocGroup("public") >> MustBeLoggedIn,
+      Menu("活动信息搜索") / "event_info_search" >> LocGroup("public") >> MustBeLoggedIn,
+      Menu("课程搜索") / "event_search" >> LocGroup("public") >> MustBeLoggedIn,
       Menu("活动管理") / "event" >> LocGroup("public") >> MustBeLoggedIn,
       Menu("用户管理") / "user" >> LocGroup("public") >> MustBeLoggedIn,
       Menu("主页") / "index" >> LocGroup("public")) ::: userMenus

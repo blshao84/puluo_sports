@@ -29,7 +29,8 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 	public Double longitude;
 	public Double range_from = 5.0;
 	public EventStatus status = EventStatus.Open;
-
+	public List<PuluoEvent> searchedEvents;
+	
 	public EventSearchAPI(DateTime event_from_date, DateTime event_to_date,
 			String keyword, String level, EventSortType sort,
 			SortDirection sort_direction, double latitude, double longitude,
@@ -68,14 +69,14 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 		PuluoEventDao event_dao = dsi.eventDao();
 		if (keyword.trim().isEmpty())
 			keyword = null;
-		List<PuluoEvent> events = event_dao.findEvents(
+		searchedEvents = event_dao.findEvents(
 				getTodayMidNight(event_from_date),
 				getTomorrowMidNight(event_to_date), keyword,
 				level, sort, sort_direction, latitude, longitude, range_from,
 				status);
-		log.info(String.format("找到符合条件的%d个活动", events.size()));
+		log.info(String.format("找到符合条件的%d个活动", searchedEvents.size()));
 		EventSearchResult result = new EventSearchResult();
-		result.setSearchResult(events);
+		result.setSearchResult(searchedEvents);
 		rawResult = result;
 	}
 	

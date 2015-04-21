@@ -1,0 +1,41 @@
+<lift:surround with="bootstrap_base" at="content">
+	<h1>普罗课程搜索</h1>
+	<div data-lift="EventSearchSnippet.render?eager_eval=true">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<div class="panel-title">查询条件</div>
+			</div>
+			<div class="panel-body">
+				<form class="col-md-6">
+					<div class="form-group">
+						<label for="keyword">关键字</label> 
+						<input class="form-control" id="keyword">
+					</div>
+					<button id="search" type="submit" class="btn btn-primary">搜索</button>	
+				</form>
+			</div>
+		</div>
+		
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<div class="panel-title">查询结果</div>
+			</div>
+			<div class="panel-body">
+				<table class="table table-striped">
+						<tr>
+							<th>课程ID</th>
+							<th>课程名称</th>
+							<th>课程描述</th>
+						</tr>
+						<tr class="event-results">
+							<td class="col-md-5"><span id="event-uuid"></span></td>
+							<td class="col-md-2"><span id="event-name"></span></td>
+							<td class="col-md-5"><span id="event-desc"></span></td>
+							<td class="col-md-5"><span id="event-time"></span></td>
+						</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</lift:surround>
+
