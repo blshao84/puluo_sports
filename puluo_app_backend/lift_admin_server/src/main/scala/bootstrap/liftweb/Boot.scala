@@ -19,6 +19,8 @@ import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException
 import net.liftweb.http.js.JsCmds
 import com.puluo.service.PuluoService
 import com.puluo.entity.PuluoAdmin
+import com.puluo.snippet.PuluoFileUploadAPI
+import com.puluo.entity.UserImage
 
 object Boot {
   def MustBeLoggedIn = PuluoAdmin.loginFirst
@@ -53,7 +55,7 @@ class Boot extends Loggable {
 
     logger.info("当前数据库连接:%s".format(DB.currentConnection.isDefined))
 
-    val entities = List(PuluoAdmin)
+    val entities = List(PuluoAdmin,UserImage)
 
     // handle JNDI not being avalible
     if (!DB.jndiJdbcConnAvailable_?) {
@@ -100,6 +102,7 @@ class Boot extends Loggable {
 
     SiteMap.enforceUniqueLinks = false
     val menus = List(
+      Menu("图片上传") / "image" >> LocGroup("public") >> MustBeLoggedIn,
       Menu("活动管理") / "event" >> LocGroup("public") >> MustBeLoggedIn,
       Menu("用户管理") / "user" >> LocGroup("public") >> MustBeLoggedIn,
       Menu("主页") / "index" >> LocGroup("public")) ::: userMenus
@@ -109,12 +112,17 @@ class Boot extends Loggable {
   def userMenus = List(PuluoAdmin.loginMenuLoc.get, PuluoAdmin.logoutMenuLoc.get)
 
   def setupRequestConfig() = {
+    val withAuthentication: PartialFunction[Req, Unit] = {
+      case r: Req if S.loggedIn_? =>
+    }
     // setup the 404 handler 
     LiftRules.uriNotFound.prepend(NamedPF("404handler") {
       case (req, failure) => NotFoundAsTemplate(ParsePath(List("404"), "html", false, false))
     })
     LiftRules.addToPackages("com.puluo.snippet")
     LiftRules.addToPackages("com.puluo")
+    LiftRules.dispatch.append(withAuthentication guard PuluoFileUploadAPI)
+
   }
   def setupJS() = {
     /*FoBo.InitParam.JQuery = FoBo.JQuery191

@@ -1,7 +1,6 @@
 package bootstrap.liftweb
 
 import com.puluo.api.auth.PuluoAuthAPI
-import com.puluo.api.service.PuluoFileUploader
 import com.puluo.api.util._
 import net.liftweb.common.Full
 import net.liftweb.common.Loggable
@@ -88,7 +87,6 @@ class Boot extends Loggable {
     LiftRules.dispatch.append(PuluoAuthAPI)
     LiftRules.dispatch.append(WechatService)
     LiftRules.dispatch.append(DummyAPI)
-    LiftRules.dispatch.append(PuluoFileUploader)
     LiftRules.dispatch.append(withAuthentication guard PrivateWechatService)
     LiftRules.dispatch.append(withAuthentication guard DummyPrivateAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoPrivateServiceAPI)
@@ -97,7 +95,6 @@ class Boot extends Loggable {
     LiftRules.dispatch.append(withAuthentication guard PuluoMessageAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoTimelineAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoUserAPI)
-    LiftRules.dispatch.append(withAuthentication guard PuluoFileUploader)
     LiftRules.dispatch.append(withAuthentication guard PuluoAuthPrivateAPI)
     LiftRules.handleMimeFile = OnDiskFileParamHolder.apply
 
@@ -131,7 +128,6 @@ class Boot extends Loggable {
   def setupFileUpload = {
     LiftRules.maxMimeFileSize = 2000000L
     LiftRules.maxMimeSize = 2000000L
-    LiftRules.dispatch.append(PuluoFileUploader)
 
     //Show the spinny image when an Ajax call starts
     LiftRules.ajaxStart =

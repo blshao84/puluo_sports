@@ -1,11 +1,12 @@
 package com.puluo.api.result;
 
 import com.puluo.util.HasJSON;
+import com.puluo.util.Strs;
 
 
 public class ImageUploadServiceResult extends HasJSON{
-	public String image_link;
-	public String status;
+	public final String image_link;
+	public final String status;
 	
 	public ImageUploadServiceResult(String image_link, String status) {
 		super();
@@ -14,6 +15,13 @@ public class ImageUploadServiceResult extends HasJSON{
 	}
 	
 	
+	public String thumbnai() {
+		return Strs.join(image_link,"!small");
+	}
+	
+	public boolean isSuccess() {
+		return status.equals("success");
+	}
 	
 	@Override
 	public String toString() {

@@ -14,8 +14,10 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.puluo.api.result.ImageUploadServiceResult;
+import com.puluo.config.Configurations;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.Strs;
 
 public class PuluoImageService {
 	private final Log LOGGER = LogFactory.getLog(PuluoImageService.class);
@@ -54,7 +56,8 @@ public class PuluoImageService {
 			status = "success";
 		else
 			status = "failed";
-		return new ImageUploadServiceResult(filePath, status);
+		String link = Strs.join(Configurations.imageServer,filePath);
+		return new ImageUploadServiceResult(link, status);
 	}
 
 	public static void main(String[] args) {
