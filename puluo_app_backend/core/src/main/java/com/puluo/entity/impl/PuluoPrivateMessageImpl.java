@@ -5,9 +5,9 @@ import org.joda.time.DateTime;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoFriendRequest;
-import com.puluo.entity.PuluoMessageType;
 import com.puluo.entity.PuluoPrivateMessage;
 import com.puluo.entity.PuluoUser;
+import com.puluo.enumeration.PuluoMessageType;
 
 public class PuluoPrivateMessageImpl implements PuluoPrivateMessage {
 

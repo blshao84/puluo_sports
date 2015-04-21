@@ -16,8 +16,8 @@ import com.puluo.api.util.ErrorResponseResult
 import java.util.HashMap
 import net.liftweb.common.Loggable
 import net.liftweb.http.Req
-import com.puluo.api.service.ImageUploadInput
-import com.puluo.api.service.PuluoImageType
+import com.puluo.enumeration.PuluoImageType
+
 
 
 object PuluoPrivateServiceAPI extends RestHelper with PuluoAPIUtil with SMSSender with Loggable {

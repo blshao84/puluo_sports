@@ -6,10 +6,10 @@ import org.joda.time.DateTime;
 
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
-import com.puluo.entity.FriendRequestStatus;
 import com.puluo.entity.PuluoFriendRequest;
 import com.puluo.entity.PuluoPrivateMessage;
 import com.puluo.entity.PuluoUser;
+import com.puluo.enumeration.FriendRequestStatus;
 
 public class PuluoFriendRequestImpl implements PuluoFriendRequest {
 	private final String request_uuid;

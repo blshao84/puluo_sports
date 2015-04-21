@@ -12,7 +12,7 @@ import com.puluo.dao.PuluoPaymentDao;
 import com.puluo.dao.impl.DaoTestApi;
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.impl.PuluoPaymentOrderImpl;
-import com.puluo.entity.payment.impl.PuluoOrderStatus;
+import com.puluo.enumeration.PuluoOrderStatus;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;

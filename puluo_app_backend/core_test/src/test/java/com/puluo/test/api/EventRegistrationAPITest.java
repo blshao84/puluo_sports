@@ -20,7 +20,7 @@ import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.impl.PuluoEventImpl;
 import com.puluo.entity.impl.PuluoPaymentOrderImpl;
 import com.puluo.entity.payment.impl.OrderEventImpl;
-import com.puluo.entity.payment.impl.PuluoOrderStatus;
+import com.puluo.enumeration.PuluoOrderStatus;
 
 public class EventRegistrationAPITest {
 	private final PuluoPaymentDao mockPaymentDao = Mockito

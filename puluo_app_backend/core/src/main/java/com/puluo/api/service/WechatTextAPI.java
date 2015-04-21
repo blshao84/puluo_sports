@@ -7,6 +7,7 @@ import com.puluo.api.result.wechat.WechatTextMessage;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoWechatBinding;
+import com.puluo.enumeration.PuluoSMSType;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.PasswordEncryptionUtil;

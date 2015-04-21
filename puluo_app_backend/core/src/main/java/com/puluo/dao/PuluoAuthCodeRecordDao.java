@@ -1,7 +1,7 @@
 package com.puluo.dao;
 
 import com.puluo.entity.PuluoAuthCodeRecord;
-import com.puluo.entity.PuluoAuthCodeType;
+import com.puluo.enumeration.PuluoAuthCodeType;
 
 public interface PuluoAuthCodeRecordDao {
 	

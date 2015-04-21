@@ -1,4 +1,4 @@
-package com.puluo.api.service;
+package com.puluo.enumeration;
 
 public enum PuluoImageType {
 	UserProfile,EventPoster,EventMemory

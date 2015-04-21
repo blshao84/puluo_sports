@@ -9,11 +9,12 @@ import com.puluo.api.result.EventSearchResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.dao.impl.DaoApi;
-import com.puluo.entity.EventStatus;
 import com.puluo.entity.PuluoEvent;
+import com.puluo.enumeration.EventSortType;
+import com.puluo.enumeration.EventStatus;
+import com.puluo.enumeration.SortDirection;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
-import com.puluo.util.SortDirection;
 import com.puluo.util.TimeUtils;
 
 public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {

@@ -1,4 +1,4 @@
-package com.puluo.api.event;
+package com.puluo.enumeration;
 
 public enum EventSortType {
 	Time,Distance,Price

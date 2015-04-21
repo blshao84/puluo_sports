@@ -30,11 +30,11 @@ import com.puluo.api.service.WechatTextAPI
 import com.puluo.session.PuluoSessionManager
 import com.puluo.weichat.WechatUtil
 import com.puluo.dao.impl.DaoApi
-import com.puluo.entity.impl.PuluoUserType
 import com.puluo.weichat.WechatButtonGroup
 import com.puluo.weichat.WechatButton
 import com.puluo.weichat.PuluoWechatTokenCache
 import com.puluo.api.service.WechatButtonAPI
+import com.puluo.enumeration.PuluoUserType
 
 object PrivateWechatService extends RestHelper with Loggable {
   serve {

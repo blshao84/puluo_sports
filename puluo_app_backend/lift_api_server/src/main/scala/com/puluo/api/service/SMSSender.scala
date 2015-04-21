@@ -1,11 +1,17 @@
 package com.puluo.api.service
 
 import scala.collection.JavaConversions._
+
 import com.puluo.api.util.PuluoResponseFactory
+
 import java.util.HashMap
+
 import com.puluo.api.util.ErrorResponseResult
+
 import net.liftweb.common.Loggable
+
 import com.puluo.api.util.PuluoAPIUtil
+import com.puluo.enumeration._
 
 trait SMSSender extends PuluoAPIUtil with Loggable{
    protected def doSendSMS(params: Map[String, String]) = {

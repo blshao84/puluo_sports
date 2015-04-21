@@ -2,7 +2,7 @@ package com.puluo.entity;
 
 import org.joda.time.DateTime;
 
-import com.puluo.entity.impl.PuluoUserType;
+import com.puluo.enumeration.PuluoUserType;
 
 public interface PuluoUser {
 

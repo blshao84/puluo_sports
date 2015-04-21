@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.puluo.entity.EventStatus;
+import com.puluo.enumeration.EventStatus;
 import com.puluo.test.functional.util.APIFunctionalTest;
 import com.puluo.test.functional.util.EventFunctionalTestRunner;
 import com.puluo.test.functional.util.EventTestDataSource;

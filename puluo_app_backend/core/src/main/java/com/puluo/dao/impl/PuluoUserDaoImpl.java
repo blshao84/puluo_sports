@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.entity.PuluoUser;
 import com.puluo.entity.impl.PuluoUserImpl;
-import com.puluo.entity.impl.PuluoUserType;
+import com.puluo.enumeration.PuluoUserType;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;

@@ -6,11 +6,11 @@ import org.joda.time.DateTime;
 
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
-import com.puluo.entity.EventStatus;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventLocation;
 import com.puluo.entity.PuluoEventMemory;
+import com.puluo.enumeration.EventStatus;
 
 public class PuluoEventImpl implements PuluoEvent {
 	private final String uuid;

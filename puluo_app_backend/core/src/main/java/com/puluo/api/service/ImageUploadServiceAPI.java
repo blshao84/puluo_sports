@@ -7,6 +7,7 @@ import com.puluo.api.result.ApiErrorResult;
 import com.puluo.api.result.ImageUploadServiceResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.enumeration.PuluoImageType;
 import com.puluo.service.PuluoService;
 
 public class ImageUploadServiceAPI extends

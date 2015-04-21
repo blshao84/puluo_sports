@@ -3,7 +3,7 @@ package com.puluo.dao;
 import java.util.List;
 
 import com.puluo.entity.PuluoUser;
-import com.puluo.entity.impl.PuluoUserType;
+import com.puluo.enumeration.PuluoUserType;
 
 
 public interface PuluoUserDao {

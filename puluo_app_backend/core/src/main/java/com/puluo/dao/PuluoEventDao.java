@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
-import com.puluo.api.event.EventSortType;
-import com.puluo.entity.EventStatus;
 import com.puluo.entity.PuluoEvent;
-import com.puluo.util.SortDirection;
+import com.puluo.enumeration.EventSortType;
+import com.puluo.enumeration.EventStatus;
+import com.puluo.enumeration.SortDirection;
 
 
 public interface PuluoEventDao {

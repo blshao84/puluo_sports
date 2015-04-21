@@ -4,7 +4,7 @@ import org.joda.time.DateTime;
 
 import com.puluo.dao.PuluoDSI;
 import com.puluo.entity.PuluoPaymentOrder;
-import com.puluo.entity.payment.impl.OrderEventType;
+import com.puluo.enumeration.OrderEventType;
 
 public interface OrderEvent {
 	

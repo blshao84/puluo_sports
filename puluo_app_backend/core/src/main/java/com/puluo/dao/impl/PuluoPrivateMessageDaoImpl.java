@@ -8,9 +8,9 @@ import org.joda.time.DateTime;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.puluo.dao.PuluoPrivateMessageDao;
-import com.puluo.entity.PuluoMessageType;
 import com.puluo.entity.PuluoPrivateMessage;
 import com.puluo.entity.impl.PuluoPrivateMessageImpl;
+import com.puluo.enumeration.PuluoMessageType;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;

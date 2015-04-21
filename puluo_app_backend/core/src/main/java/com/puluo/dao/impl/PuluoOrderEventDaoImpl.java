@@ -10,7 +10,7 @@ import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoOrderEventDao;
 import com.puluo.entity.payment.OrderEvent;
 import com.puluo.entity.payment.impl.OrderEventImpl;
-import com.puluo.entity.payment.impl.OrderEventType;
+import com.puluo.enumeration.OrderEventType;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;

@@ -1,4 +1,4 @@
-package com.puluo.entity.payment.impl;
+package com.puluo.enumeration;
 
 /**
  * Undefined: Any unexpected state, eq to 'null' state

@@ -8,6 +8,7 @@ import com.puluo.dao.PuluoDSI;
 //import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.payment.OrderEvent;
+import com.puluo.enumeration.OrderEventType;
 
 public class OrderEventImpl implements OrderEvent {
 	private final String uuid;

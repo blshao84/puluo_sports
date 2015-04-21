@@ -2,8 +2,8 @@ package com.puluo.dao;
 
 import java.util.List;
 
-import com.puluo.entity.FriendRequestStatus;
 import com.puluo.entity.PuluoFriendRequest;
+import com.puluo.enumeration.FriendRequestStatus;
 
 public interface PuluoFriendRequestDao {
 	

@@ -7,9 +7,9 @@ import java.util.List;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.puluo.dao.PuluoFriendRequestDao;
-import com.puluo.entity.FriendRequestStatus;
 import com.puluo.entity.PuluoFriendRequest;
 import com.puluo.entity.impl.PuluoFriendRequestImpl;
+import com.puluo.enumeration.FriendRequestStatus;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;

@@ -7,22 +7,22 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.puluo.api.event.EventSortType;
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.dao.PuluoEventInfoDao;
 import com.puluo.dao.PuluoEventLocationDao;
 import com.puluo.dao.impl.DaoTestApi;
-import com.puluo.entity.EventStatus;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventLocation;
 import com.puluo.entity.impl.PuluoEventImpl;
 import com.puluo.entity.impl.PuluoEventInfoImpl;
 import com.puluo.entity.impl.PuluoEventLocationImpl;
+import com.puluo.enumeration.EventSortType;
+import com.puluo.enumeration.EventStatus;
+import com.puluo.enumeration.SortDirection;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
-import com.puluo.util.SortDirection;
 import com.puluo.util.TimeUtils;
 
 public class PuluoEventDaoTest {

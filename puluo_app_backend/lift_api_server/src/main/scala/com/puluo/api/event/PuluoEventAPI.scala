@@ -1,9 +1,12 @@
 package com.puluo.api.event
 import net.liftweb.http.rest.RestHelper
 import net.liftweb.http.JsonResponse
+
 import com.puluo.api.util.PuluoSession
 import com.puluo.api.util.SessionInfo
+
 import net.liftweb.http.js.JsExp.strToJsExp
+
 import com.puluo.api.util.PuluoResponseFactory
 import com.puluo.api.result.EventRegistrationResult
 import com.puluo.api.result.EventDetailResult
@@ -14,8 +17,7 @@ import com.puluo.api.util.ErrorResponseResult
 import com.puluo.session.PuluoSessionManager
 import net.liftweb.common.Loggable
 import org.joda.time.DateTime
-import com.puluo.entity.EventStatus
-import com.puluo.util.SortDirection
+import com.puluo.enumeration._
 
 object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {

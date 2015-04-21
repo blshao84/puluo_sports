@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoUser;
+import com.puluo.enumeration.PuluoUserType;
 import com.puluo.util.Strs;
 
 public class PuluoUserImpl implements PuluoUser {

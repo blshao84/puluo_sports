@@ -1,7 +1,7 @@
 package com.puluo.dao;
 
 import com.puluo.entity.PuluoPaymentOrder;
-import com.puluo.entity.payment.impl.PuluoOrderStatus;
+import com.puluo.enumeration.PuluoOrderStatus;
 
 public interface PuluoPaymentDao {
 	

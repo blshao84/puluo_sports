@@ -10,9 +10,9 @@ import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.impl.PuluoPaymentOrderImpl;
 import com.puluo.entity.payment.OrderEvent;
 import com.puluo.entity.payment.impl.OrderEventImpl;
-import com.puluo.entity.payment.impl.OrderEventType;
 import com.puluo.entity.payment.impl.PuluoOrderStateMachine;
-import com.puluo.entity.payment.impl.PuluoOrderStatus;
+import com.puluo.enumeration.OrderEventType;
+import com.puluo.enumeration.PuluoOrderStatus;
 
 public class OrderStateMachineTest {
 

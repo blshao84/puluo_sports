@@ -2,6 +2,8 @@ package com.puluo.entity;
 
 import org.joda.time.DateTime;
 
+import com.puluo.enumeration.PuluoMessageType;
+
 
 public interface PuluoPrivateMessage {
 

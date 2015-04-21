@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import com.puluo.dao.PuluoPaymentDao;
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.impl.PuluoPaymentOrderImpl;
-import com.puluo.entity.payment.impl.PuluoOrderStatus;
+import com.puluo.enumeration.PuluoOrderStatus;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;

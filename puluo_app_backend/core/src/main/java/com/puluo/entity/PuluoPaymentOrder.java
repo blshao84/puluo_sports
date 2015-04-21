@@ -5,7 +5,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import com.puluo.entity.payment.OrderEvent;
-import com.puluo.entity.payment.impl.PuluoOrderStatus;
+import com.puluo.enumeration.PuluoOrderStatus;
 
 
 public interface PuluoPaymentOrder {

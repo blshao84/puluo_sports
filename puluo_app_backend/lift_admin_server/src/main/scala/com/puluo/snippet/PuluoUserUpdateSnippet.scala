@@ -23,7 +23,7 @@ import net.liftweb.http.SessionVar
 import com.puluo.dao.impl.DaoApi
 import com.puluo.util.TimeUtils
 import com.puluo.snippet.util.PuluoSnippetUtil
-import com.puluo.entity.impl.PuluoUserType
+import com.puluo.enumeration.PuluoUserType
 
 object PuluoUserUpdateSnippet extends PuluoSnippetUtil with Loggable{
   object searchUser extends SessionVar[Option[PuluoUser]](None)

@@ -1,4 +1,4 @@
-package com.puluo.entity.payment.impl;
+package com.puluo.enumeration;
 
 public enum OrderEventType {
 	CancelOrderEvent, CompleteOrderEvent, ConfirmOrderEvent, DropOrderEvent, PayOrderEvent, PlaceOrderEvent

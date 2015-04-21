@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.payment.OrderEvent;
+import com.puluo.enumeration.PuluoOrderStatus;
 
 public class PuluoOrderStateMachine {
 	public static PuluoOrderStatus nextState(PuluoPaymentOrder order,
