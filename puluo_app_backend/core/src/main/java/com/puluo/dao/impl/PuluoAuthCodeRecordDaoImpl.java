@@ -64,7 +64,7 @@ public class PuluoAuthCodeRecordDaoImpl extends DalTemplate implements
 					.append("select count(1) from ")
 					.append(super.getFullTableName())
 					.append(" where user_mobile = '" + mobile
-							+ "' and auth_type = '" + authType.toString()
+							+ "' and auth_type = '" + authType.name()
 							+ "'").toString();
 			log.info(sqlRequestLog(querySQL, mobile));
 			int resCnt = reader.queryForInt(querySQL);
@@ -75,14 +75,14 @@ public class PuluoAuthCodeRecordDaoImpl extends DalTemplate implements
 						.append(super.getFullTableName())
 						.append(" set auth_code = '" + authCode
 								+ "', updated_at = now()::timestamp")
-						.append(" where user_mobile = '" + mobile + "' and auth_type='"+authType.toString()+"'")
+						.append(" where user_mobile = '" + mobile + "' and auth_type='"+authType.name()+"'")
 						.toString();
 			} else {
 				updateSQL = new StringBuilder()
 						.append("insert into ")
 						.append(super.getFullTableName())
 						.append(" (user_mobile, auth_code,auth_type, created_at)")
-						.append(" values ('" + mobile + "', '" + authCode + "','"+authType.toString()
+						.append(" values ('" + mobile + "', '" + authCode + "','"+authType.name()
 								+ "', now()::timestamp)").toString();
 			}
 			log.info(sqlRequestLog(updateSQL, authCode, mobile));

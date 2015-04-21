@@ -354,7 +354,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 			StringBuilder updateSQL = new StringBuilder().append("update ")
 					.append(super.getFullTableName()).append(" set ");
 			if (userType!=null) {
-				updateSQL.append("user_type = '" + userType.toString() + "', ");
+				updateSQL.append("user_type = '" + userType.name() + "', ");
 			}
 			if (banned!=null) {
 				updateSQL.append("banned = " + banned.toString() + ", ");
