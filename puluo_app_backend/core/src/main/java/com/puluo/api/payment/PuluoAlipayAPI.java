@@ -6,6 +6,7 @@ import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.AlipaymentResult;
 import com.puluo.config.Configurations;
 import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.PuluoUser;
@@ -30,11 +31,16 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 
 	public PuluoAlipayAPI(HashMap<String, String> params, String trade_status,
 			String trade_id, String paymentRef) {
-		super();
+		this(params, trade_status, trade_id, paymentRef, DaoApi.getInstance());
+	}
+	
+	public PuluoAlipayAPI(HashMap<String, String> params, String trade_status,
+			String trade_id, String paymentRef, PuluoDSI dsi) {
 		this.params = params;
 		this.trade_status = trade_status;
 		this.trade_id = trade_id;
 		this.paymentRef = paymentRef;
+		this.dsi = dsi;
 	}
 
 	@Override
@@ -64,11 +70,11 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 				boolean successUpdate = updateOrderStatus(order);
 				if (successUpdate) {
 					if (Configurations.enableSMSNotification) {
-						sendNotification(order);
+//						sendNotification(order);
 					}
 					setSuccessfulPaymentResult();
 				} else {
-					sendNotification(order);
+//					sendNotification(order);
 					sendSystemWarningEmail(order);
 					setSuccessfulPaymentResult();
 				}

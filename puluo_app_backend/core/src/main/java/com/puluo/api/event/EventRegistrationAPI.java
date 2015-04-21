@@ -146,7 +146,7 @@ public class EventRegistrationAPI extends
 					String paymentLink = AlipayUtil.generateDirectWAPLink(savedOrder);
 					return new EventRegistrationResult(paymentLink, order.orderUUID(), false);
 				} else {
-					String out_trade_no = AlipayUtil.generateOrderID(order, Configurations.orderIDBase);
+					String out_trade_no = AlipayUtil.generateOrderID(savedOrder, Configurations.orderIDBase);
 					PuluoAlipayAPI alipay = new PuluoAlipayAPI(new HashMap<String, String>(), null, out_trade_no, "DO NOT NEED A PAYMENT!");
 					alipay.processOrderWithZero();
 					return new EventRegistrationResult("", order.orderUUID(), true);
