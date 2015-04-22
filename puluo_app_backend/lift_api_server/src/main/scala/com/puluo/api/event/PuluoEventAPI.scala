@@ -63,11 +63,15 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val params = PuluoResponseFactory.createParamMap(Seq(
       "event_from_date", "event_to_date", "keyword", "sort", "sort_direction",
       "user_lattitude", "user_longitude", "status"))
-    val eventFromDate: DateTime = getEventDate(params,"event_from_date")
-    val eventToDate: DateTime = getEventDate(params,"event_to_date")
+    val eventFromDate: DateTime = getEventDate(params, "event_from_date")
+    val eventToDate: DateTime = getEventDate(params, "event_to_date")
     logger.info(s"creating event search api with:\n${params.mkString("\n")}")
     val keyword = params.getOrElse("keyword", "")
-    val level = params.getOrElse("level", "")
+    val level: PuluoEventLevel = try {
+      PuluoEventLevel.valueOf(params.getOrElse("level", ""))
+    } catch {
+      case e: Exception => null
+    }
     val status = try {
       params.get("status").map(s => EventStatus.valueOf(s)).getOrElse {
         logger.info(s"use default sort param:price:${params.get("status")}")
@@ -105,9 +109,9 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
       locationToDouble(params.get("user_longitude"))) match {
         case (Some(lattitude), Some(longitude)) => {
           logger.info("api has longitude and lattitude")
-          new EventSearchAPI(eventFromDate,eventToDate, keyword, level, sort, sortDirection, lattitude, longitude, 0.0, status)
+          new EventSearchAPI(eventFromDate, eventToDate, keyword, level, sort, sortDirection, lattitude, longitude, 0.0, status)
         }
-        case _ => new EventSearchAPI(eventFromDate,eventToDate, keyword, level, sort, sortDirection, 0.0, 0.0, 0.0, status)
+        case _ => new EventSearchAPI(eventFromDate, eventToDate, keyword, level, sort, sortDirection, 0.0, 0.0, 0.0, status)
       }
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)
@@ -120,7 +124,7 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
     } catch { case e: Exception => None }).flatten
   }
 
-  private def getEventDate(params: Map[String, String], dateType: String):DateTime = {
+  private def getEventDate(params: Map[String, String], dateType: String): DateTime = {
     params.get(dateType).map(d =>
       try {
         new DateTime(d.toLong)

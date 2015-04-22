@@ -12,6 +12,7 @@ import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.enumeration.EventSortType;
 import com.puluo.enumeration.EventStatus;
+import com.puluo.enumeration.PuluoEventLevel;
 import com.puluo.enumeration.SortDirection;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
@@ -22,7 +23,7 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 	public DateTime event_from_date;
 	public DateTime event_to_date;
 	public String keyword;
-	public String level;
+	public PuluoEventLevel level;
 	public EventSortType sort;
 	public SortDirection sort_direction;
 	public Double latitude;
@@ -32,7 +33,7 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 	public List<PuluoEvent> searchedEvents;
 	
 	public EventSearchAPI(DateTime event_from_date, DateTime event_to_date,
-			String keyword, String level, EventSortType sort,
+			String keyword, PuluoEventLevel level, EventSortType sort,
 			SortDirection sort_direction, double latitude, double longitude,
 			double range_from, EventStatus status) {
 		this(event_from_date, event_to_date, keyword, level, sort,
@@ -41,7 +42,7 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 	}
 
 	public EventSearchAPI(DateTime event_from_date, DateTime event_to_date,
-			String keyword, String level, EventSortType sort,
+			String keyword, PuluoEventLevel level, EventSortType sort,
 			SortDirection sort_direction, double latitude, double longitude,
 			double range_from, EventStatus status, PuluoDSI dsi) {
 		this.dsi = dsi;

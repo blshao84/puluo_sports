@@ -22,6 +22,8 @@ import com.puluo.entity.impl.PuluoEventLocationImpl;
 import com.puluo.entity.impl.PuluoEventMemoryImpl;
 import com.puluo.entity.impl.PuluoEventPosterImpl;
 import com.puluo.enumeration.EventStatus;
+import com.puluo.enumeration.PuluoEventCategory;
+import com.puluo.enumeration.PuluoEventLevel;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.TimeUtils;
@@ -85,10 +87,10 @@ public class EventTestDataSource {
 				1234.537, 7654.341, 0, 20, 0);
 
 		PuluoEventInfo eventInfo1 = new PuluoEventInfoImpl(infoID1, "臀部炸弹",
-				"瘦臀、减脂", "Jerry Ass", "123456", "", "详细信息", 60, 1, 0);
+				"瘦臀、减脂", "Jerry Ass", "123456", "", "详细信息", 60, PuluoEventLevel.Level1, PuluoEventCategory.Others);
 
 		PuluoEventInfo eventInfo2 = new PuluoEventInfoImpl(infoID2, "减脂集中营",
-				"减脂", "Tom Fat", "7080234", "", "详细信息", 45, 2, 0);
+				"减脂", "Tom Fat", "7080234", "", "详细信息", 45, PuluoEventLevel.Level1, PuluoEventCategory.Others);
 
 		PuluoEvent event1 = new PuluoEventImpl(eventID1, event_date_0601,
 				EventStatus.Open, 3, 15, 80.0, 50.0,

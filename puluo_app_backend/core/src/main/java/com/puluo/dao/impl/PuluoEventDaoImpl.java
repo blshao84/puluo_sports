@@ -13,6 +13,7 @@ import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.impl.PuluoEventImpl;
 import com.puluo.enumeration.EventSortType;
 import com.puluo.enumeration.EventStatus;
+import com.puluo.enumeration.PuluoEventLevel;
 import com.puluo.enumeration.SortDirection;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
@@ -89,7 +90,7 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 	}
 	
 	@Override
-	public List<PuluoEvent> findEvents(DateTime event_from_date,DateTime event_to_date, String keyword, String level, 
+	public List<PuluoEvent> findEvents(DateTime event_from_date,DateTime event_to_date, String keyword, PuluoEventLevel level, 
 			EventSortType sort, SortDirection sort_direction, double latitude, double longitude, double range_from, EventStatus es) {
 		ArrayList<String> params = new ArrayList<String>();
 		String dateQuery = null;

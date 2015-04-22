@@ -19,6 +19,8 @@ import com.puluo.entity.impl.PuluoEventInfoImpl;
 import com.puluo.entity.impl.PuluoEventLocationImpl;
 import com.puluo.enumeration.EventSortType;
 import com.puluo.enumeration.EventStatus;
+import com.puluo.enumeration.PuluoEventCategory;
+import com.puluo.enumeration.PuluoEventLevel;
 import com.puluo.enumeration.SortDirection;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.util.Log;
@@ -35,13 +37,13 @@ public class PuluoEventDaoTest {
 		PuluoEventInfoDao infoDao = DaoTestApi.eventInfoDevDao;
 		infoDao.createTable();
 		PuluoEventInfo info0 = new PuluoEventInfoImpl("event_info_uuid_0", "name_0", "description_0",
-				"coach_name_0", "coach_uuid_0", "thumbnail_uuid_0", "details_0", 0, 0, 0);
+				"coach_name_0", "coach_uuid_0", "thumbnail_uuid_0", "details_0", 0, PuluoEventLevel.Level1, PuluoEventCategory.Others);
 		infoDao.upsertEventInfo(info0);
 		PuluoEventInfo info1 = new PuluoEventInfoImpl("event_info_uuid_1", "name_1", "description_1",
-				"coach_name_0", "coach_uuid_0", "thumbnail_uuid_0", "details_0", 0, 1, 0);
+				"coach_name_0", "coach_uuid_0", "thumbnail_uuid_0", "details_0", 0, PuluoEventLevel.Level1, PuluoEventCategory.Others);
 		infoDao.upsertEventInfo(info1);
 		PuluoEventInfo info2 = new PuluoEventInfoImpl("event_info_uuid_2", "name_2", "description_1",
-				"coach_name_0", "coach_uuid_0", "thumbnail_uuid_0", "details_0", 0, 2, 0);
+				"coach_name_0", "coach_uuid_0", "thumbnail_uuid_0", "details_0", 0, PuluoEventLevel.Level1, PuluoEventCategory.Others);
 		infoDao.upsertEventInfo(info2);
 		PuluoEventLocationDao locationDao = DaoTestApi.eventLocationDevDao;
 		locationDao.createTable();
@@ -141,9 +143,9 @@ public class PuluoEventDaoTest {
 		events = eventDao.findEvents(null,null, null, null, EventSortType.Price, SortDirection.valueOf("Desc"), 0.0, 0.0, 0.0, null);
 		Assert.assertEquals("价格最昂贵的event的id应该为event_uuid_0!", "event_uuid_0" , events.get(0).eventUUID());
 
-		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-02 20:35:59"),null, "0", "0", EventSortType.Price, SortDirection.valueOf("Asc"), 2.0, 2.0, 2, null);
+		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-02 20:35:59"),null, "0", null, EventSortType.Price, SortDirection.valueOf("Asc"), 2.0, 2.0, 2, null);
 		Assert.assertEquals("符合条件event应该有1个!", 1 , events.size());
-		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-01 20:35:59"),null, "0", "0", EventSortType.Distance, SortDirection.valueOf("Desc"), 2.0, 2.0, 2, null);
+		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-01 20:35:59"),null, "0", null, EventSortType.Distance, SortDirection.valueOf("Desc"), 2.0, 2.0, 2, null);
 		Assert.assertEquals("符合条件event应该有1个!", 1 , events.size());
 
 		events = eventDao.findEvents(null,null, null, null, EventSortType.Price, SortDirection.Asc, 0.0, 0.0, 0.0, EventStatus.Open);

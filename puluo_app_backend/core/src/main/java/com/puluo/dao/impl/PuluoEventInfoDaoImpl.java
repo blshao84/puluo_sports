@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.RowMapper;
 import com.puluo.dao.PuluoEventInfoDao;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.impl.PuluoEventInfoImpl;
+import com.puluo.enumeration.PuluoEventCategory;
+import com.puluo.enumeration.PuluoEventLevel;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
@@ -32,8 +34,8 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 					.append("event_name text, ").append("description text, ")
 					.append("coach_name text, ").append("coach_uuid text, ")
 					.append("thumbnail_uuid text, ").append("details text, ")
-					.append("duration int, ").append("event_level int, ")
-					.append("event_type int)").toString();
+					.append("duration int, ").append("event_level text, ")
+					.append("event_type text)").toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
 			// TODO create index
@@ -136,7 +138,7 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 						.append(Strs.isEmpty(info.details()) ? "null" : "'"
 								+ info.details() + "'").append(", ")
 						.append(info.duration() + ", ")
-						.append(info.level() + ", ").append(info.type() + ")")
+						.append("'"+info.level().name() + "', '").append(info.type().name() + "')")
 						.toString();
 				log.info(Strs.join("SQL:", updateSQL));
 				getWriter().update(updateSQL);
@@ -191,11 +193,11 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 				updateSQL
 						.append(" duration = ")
 						.append(info.duration() + ",")
-						.append(" event_level = ")
-						.append(info.level() + ",")
-						.append(" event_type = ")
-						.append(info.type())
-						.append(" where event_info_uuid = '"
+						.append(" event_level = '")
+						.append(info.level().name() + "',")
+						.append(" event_type = '")
+						.append(info.type().name())
+						.append("' where event_info_uuid = '"
 								+ info.eventInfoUUID() + "'");
 				log.info(Strs.join("SQL:", updateSQL.toString()));
 				getWriter().update(updateSQL.toString());
@@ -220,7 +222,8 @@ class PuluoEventInfoRowMapper implements RowMapper<PuluoEventInfo> {
 				rs.getString("description"), rs.getString("coach_name"),
 				rs.getString("coach_uuid"), rs.getString("thumbnail_uuid"),
 				rs.getString("details"), rs.getInt("duration"),
-				rs.getInt("event_level"), rs.getInt("event_type"));
+				PuluoEventLevel.valueOf(rs.getString("event_level")),
+				PuluoEventCategory.valueOf(rs.getString("event_type")));
 		return info;
 	}
 }

@@ -22,6 +22,8 @@ import com.puluo.entity.impl.PuluoEventImpl;
 import com.puluo.entity.impl.PuluoEventInfoImpl;
 import com.puluo.entity.impl.PuluoEventLocationImpl;
 import com.puluo.enumeration.EventStatus;
+import com.puluo.enumeration.PuluoEventCategory;
+import com.puluo.enumeration.PuluoEventLevel;
 import com.puluo.test.functional.util.APIFunctionalTest;
 import com.puluo.test.functional.util.PuluoAuthenticatedFunctionalTestRunner;
 import com.puluo.util.Log;
@@ -46,7 +48,7 @@ public class EventRegisterFunctionalTest extends APIFunctionalTest {
 				"浦东新区浦东南路978号东园三村331号", "200000", "东泰大楼南楼", "18521564305", "上海", 1.0, 1.0, 0, 15, 0);
 		DaoApi.getInstance().eventLocationDao().saveEventLocation(location);
 		PuluoEventInfo info = new PuluoEventInfoImpl(info_uuid, "臀部炸弹",
-				"瘦臀、减脂", "James Bond", "007", "", "", 60, 1, 0);
+				"瘦臀、减脂", "James Bond", "007", "", "", 60, PuluoEventLevel.Level1, PuluoEventCategory.Others);
 		DaoApi.getInstance().eventInfoDao().saveEventInfo(info);
 		PuluoEvent event = new PuluoEventImpl(event_uuid, TimeUtils.parseDateTime("2015-06-01 00:00:00"),
 				EventStatus.Open, 3, 15, 0.0, 0.0, info_uuid, location_uuid, 0);

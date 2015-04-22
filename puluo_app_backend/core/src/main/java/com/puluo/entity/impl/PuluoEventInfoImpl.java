@@ -6,6 +6,8 @@ import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventPoster;
+import com.puluo.enumeration.PuluoEventCategory;
+import com.puluo.enumeration.PuluoEventLevel;
 
 public class PuluoEventInfoImpl implements PuluoEventInfo {
 	
@@ -17,8 +19,8 @@ public class PuluoEventInfoImpl implements PuluoEventInfo {
 	private final String thumbnail_uuid;
 	private final String details;
 	private final int duration;
-	private final int level;
-	private final int type;
+	private final PuluoEventLevel level;
+	private final PuluoEventCategory type;
 
 	public PuluoEventInfoImpl(String uuid) {
 		this.uuid = uuid;
@@ -29,12 +31,12 @@ public class PuluoEventInfoImpl implements PuluoEventInfo {
 		this.thumbnail_uuid = null;
 		this.details = null;
 		this.duration = 0;
-		this.level = 0;
-		this.type = 0;
+		this.level = null;
+		this.type = null;
 	}
 	public PuluoEventInfoImpl(String uuid, String name, String description,
 			String coach_name, String coach_uuid, String thumbnail_uuid,
-			String details, int duration, int level, int type) {
+			String details, int duration, PuluoEventLevel level, PuluoEventCategory type) {
 		super();
 		this.uuid = uuid;
 		this.name = name;
@@ -117,12 +119,12 @@ public class PuluoEventInfoImpl implements PuluoEventInfo {
 	}
 
 	@Override
-	public int level() {
+	public PuluoEventLevel level() {
 		return level;
 	}
 
 	@Override
-	public int type() {
+	public PuluoEventCategory type() {
 		return type;
 	}
 
