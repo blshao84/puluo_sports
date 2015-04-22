@@ -1,6 +1,6 @@
 <lift:surround with="bootstrap_base" at="content">
-<h1>普罗课程更新</h1>
-<div data-lift="EventUpdateSnippet.render?eager_eval=true">
+<h1>普罗活动信息更新</h1>
+<div data-lift="EventInfoUpdateSnippet.render?eager_eval=true">
 		<div id="search-panel" class="panel panel-primary">
 			<div class="panel-heading">
 				<div class="panel-title">查询条件</div>
@@ -8,19 +8,21 @@
 			<div class="panel-body">
 				<form class="col-md-6">
 					<div class="form-group">
-						<label for="uuid">课程ID</label> 
+						<label for="uuid">活动ID</label> 
 						<input class="form-control" id="uuid">
 					</div>
-					<button id="search" type="submit" class="btn btn-primary">搜索</button>	
+					<button id="search" type="submit" class="btn btn-primary">搜索</button>
+					<button id="add" type="submit" class="btn btn-primary">添加</button>	
 				</form>
 			</div>
 		</div>
 		
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<div class="panel-title">课程信息</div>
+				<div class="panel-title">活动信息</div>
 			</div>
 			<div id="body" class="panel-body">
+			
 			</div>
 		</div>
 </div>

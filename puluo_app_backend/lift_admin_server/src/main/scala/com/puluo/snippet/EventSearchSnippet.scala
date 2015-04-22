@@ -54,7 +54,8 @@ class EventSearchSnippet extends PuluoSnippetUtil with Loggable {
     "#event-uuid *" #> event.eventUUID() &
       "#event-name *" #> info.name() &
       "#event-desc *" #> info.description() &
-      "#event_time *" #> TimeUtils.formatDate(event.eventTime())
+      "#event_time *" #> TimeUtils.formatDate(event.eventTime()) &
+       "#update [href]" #> s"/event?uuid=${event.eventUUID()}"
   }
 
   private def doSearch: Unit = {

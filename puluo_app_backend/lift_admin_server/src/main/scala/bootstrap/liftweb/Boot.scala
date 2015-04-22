@@ -104,9 +104,10 @@ class Boot extends Loggable {
     val menus = List(
       Menu("网站") / "site" / ** >> LocGroup("public"),
       Menu("图片上传") / "image" >> LocGroup("public") >> MustBeLoggedIn,
+      Menu("活动信息更新") / "event_info" >> LocGroup("public") >> MustBeLoggedIn,
+      Menu("课程更新") / "event" >> LocGroup("public") >> MustBeLoggedIn,
       Menu("活动信息搜索") / "event_info_search" >> LocGroup("public") >> MustBeLoggedIn,
       Menu("课程搜索") / "event_search" >> LocGroup("public") >> MustBeLoggedIn,
-      Menu("活动管理") / "event" >> LocGroup("public") >> MustBeLoggedIn,
       Menu("用户管理") / "user" >> LocGroup("public") >> MustBeLoggedIn,
       Menu("主页") / "index" >> LocGroup("public")) ::: userMenus
     LiftRules.setSiteMap(SiteMap(menus: _*))

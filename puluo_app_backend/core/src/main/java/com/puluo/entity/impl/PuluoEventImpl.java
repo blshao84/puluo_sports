@@ -28,6 +28,21 @@ public class PuluoEventImpl implements PuluoEvent {
 
 	private final PuluoDSI dsi;
 
+	public PuluoEventImpl(String uuid) {
+
+		this.uuid = uuid;
+		this.event_time = null;
+		this.status = null;
+		this.registeredUsers = 0;
+		this.capatcity = 0;
+		this.price = 0.0;
+		this.discountedPrice = 0.0;
+		this.info_uuid = null;
+		this.location_uuid = null;
+		this.hottest = 1;
+		this.dsi = null;
+	}
+	
 	public PuluoEventImpl(String uuid, DateTime event_time, EventStatus status,
 			int registeredUsers, int capatcity, Double price,
 			Double discountedPrice, String info_uuid, String location_uuid, int hottest,

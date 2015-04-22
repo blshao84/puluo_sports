@@ -20,6 +20,18 @@ public class PuluoEventInfoImpl implements PuluoEventInfo {
 	private final int level;
 	private final int type;
 
+	public PuluoEventInfoImpl(String uuid) {
+		this.uuid = uuid;
+		this.name = null;
+		this.description = null;
+		this.coach_name = null;
+		this.coach_uuid = null;
+		this.thumbnail_uuid = null;
+		this.details = null;
+		this.duration = 0;
+		this.level = 0;
+		this.type = 0;
+	}
 	public PuluoEventInfoImpl(String uuid, String name, String description,
 			String coach_name, String coach_uuid, String thumbnail_uuid,
 			String details, int duration, int level, int type) {

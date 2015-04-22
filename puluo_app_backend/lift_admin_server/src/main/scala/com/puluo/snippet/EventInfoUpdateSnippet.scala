@@ -37,46 +37,43 @@ import com.puluo.enumeration.EventStatus
 import com.puluo.util.TimeUtils
 import com.puluo.entity.PuluoEventInfo
 import com.puluo.dao.impl.DaoApi
+import com.puluo.entity.impl.PuluoEventInfoImpl
 
-class EventInfoSearchSnippet extends PuluoSnippetUtil with Loggable {
-  object keyword extends RequestVar[Option[String]](None)
-  object eventInfos extends SessionVar[Seq[PuluoEventInfo]](Seq.empty)
+class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
+  object uuid extends RequestVar[Option[String]](None)
+  object info extends SessionVar[Option[PuluoEventInfo]](None)
 
   def render = {
-    "#keyword" #> renderText(keyword) &
-      "#search" #> SHtml.ajaxButton("搜索", () => {
-        doSearch
-        JsCmds.Reload
-      }) &
-      ".event-results *" #> eventInfos.get.map(renderEventInfo(_))
+    val uuidFromURL = S.param("uuid")
+    (if (uuidFromURL.isDefined) {
+      doSearch
+      "#search-panel" #> ""
+    } else {
+      "#uuid" #> renderText(uuid) &
+        "#search" #> SHtml.ajaxButton("搜索", () => {
+          doSearch
+          JsCmds.Reload
+        })
+    }) &
+    "#add" #> SHtml.ajaxButton("添加", () => {
+      doAddEvent
+      JsCmds.Reload
+    }) &
+      "#body *" #> info.map(_.eventInfoUUID()).getOrElse("not found")
   }
 
-  private def renderEventInfo(info: PuluoEventInfo) = {
-    "#info-uuid *" #> info.eventInfoUUID() &
-      "#info-name *" #> info.name() &
-      "#info-desc *" #> info.description() &
-      "#info-coach *" #> info.coachName() &
-      "#update [href]" #> s"/event_info?uuid=${info.eventInfoUUID}"
+  private def doAddEvent = {
+    val newUUID = UUID.randomUUID().toString()
+    info(Some(new PuluoEventInfoImpl(newUUID)))
   }
-
-  private def doSearch: Unit = {
-    eventInfos(Seq())
-    if (keyword.get.isDefined) {
-      val keys = keyword.get.get
-      val resultSet = keys.trim.split(' ').map(searchOneWord(_))
-      if (!resultSet.isEmpty) {
-        val first = resultSet.head
-        val tail = resultSet.tail
-        val allEvents = resultSet.foldLeft(first)((res, next) => res.intersect(next))
-        logger.info(s"searched ${allEvents.size}")
-        eventInfos(allEvents)
+  private def doSearch = {
+    val infoUUID = uuid.get.getOrElse(S.param("uuid").getOrElse(""))
+    info(None)
+    if (!Strs.isEmpty(infoUUID)) {
+      val i = DaoApi.getInstance().eventInfoDao().getEventInfoByUUID(infoUUID)
+      if (i != null) {
+        info(Some(i))
       }
     }
-  }
-
-  private def searchOneWord(word: String): Seq[PuluoEventInfo] = {
-    val res = DaoApi.getInstance().eventInfoDao().findEventInfo(word)
-    logger.info(s"search ${word} for event info returns ${res.size}")
-    res
   }
 }
