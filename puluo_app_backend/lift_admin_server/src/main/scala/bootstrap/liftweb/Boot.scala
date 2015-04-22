@@ -102,6 +102,7 @@ class Boot extends Loggable {
 
     SiteMap.enforceUniqueLinks = false
     val menus = List(
+      Menu("网站") / "site" / ** >> LocGroup("public"),
       Menu("图片上传") / "image" >> LocGroup("public") >> MustBeLoggedIn,
       Menu("活动信息搜索") / "event_info_search" >> LocGroup("public") >> MustBeLoggedIn,
       Menu("课程搜索") / "event_search" >> LocGroup("public") >> MustBeLoggedIn,
