@@ -25,12 +25,13 @@ public class EventDetailResult extends HasJSON{
 	public List<String> images;
 	public double price;
 	public List<PuluoEventAttendee> attendees;
+	public boolean registered;
 	
 	public EventDetailResult(String status,
 			String event_name, long event_time, String address,
 			String city, String phone, String coach_name, String coach_uuid,
 			List<String> thumbnail, int registered_users, int capacity, int likes,
-			EventLocationResult geo_location, String details, List<String> images, double price, List<PuluoEventAttendee> attendees) {
+			EventLocationResult geo_location, String details, List<String> images, double price, List<PuluoEventAttendee> attendees, boolean registered) {
 		super();
 		this.status = status;
 		this.event_name = event_name;
@@ -49,15 +50,16 @@ public class EventDetailResult extends HasJSON{
 		this.images = images;
 		this.price = price;
 		this.attendees = attendees;
+		this.registered = registered;
 	}
 	
 	public EventDetailResult(String status,
 			String event_name, long event_time, String address,
 			String city, String phone, String coach_name, String coach_uuid,
 			List<String> thumbnail, int registered_users, int capacity, int likes,
-			double latitude, double longitude, String details, List<String> images, double price, List<PuluoEventAttendee> attendees) {
+			double latitude, double longitude, String details, List<String> images, double price, List<PuluoEventAttendee> attendees, boolean registered) {
 		this(status, event_name, event_time, address, city, phone, coach_name, coach_uuid, thumbnail, registered_users,
-				capacity, likes, new EventLocationResult(latitude, longitude), details, images, price, attendees);
+				capacity, likes, new EventLocationResult(latitude, longitude), details, images, price, attendees, registered);
 	}
 	
 	public static EventDetailResult dummy() {
@@ -76,7 +78,7 @@ public class EventDetailResult extends HasJSON{
 		return new EventDetailResult("open", "Weapons of Ass Reduction", 
 				1427007059034L, "888 Happy Mansion", "beijing", "86-555-5555",
 				"Mr. Bob Smith", "de305d54-75b4-431b-adb2-eb6b9e546014", thumbnails, 
-				22, 30, 2,  new EventLocationResult(39.92889, 116.38833), "Get fit with friends.", images, 0.0, attendees);
+				22, 30, 2,  new EventLocationResult(39.92889, 116.38833), "Get fit with friends.", images, 0.0, attendees, false);
 	}
 }
 

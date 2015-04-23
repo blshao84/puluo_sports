@@ -17,14 +17,16 @@ import com.puluo.util.TimeUtils;
 public class EventDetailAPI extends PuluoAPI<PuluoDSI, EventDetailResult> {
 	public static Log log = LogFactory.getLog(EventDetailAPI.class);
 	public String event_uuid;
+	public String user_uuid;
 
-	public EventDetailAPI(String event_uuid) {
-		this(event_uuid, DaoApi.getInstance());
+	public EventDetailAPI(String event_uuid, String user_uuid) {
+		this(event_uuid, user_uuid, DaoApi.getInstance());
 	}
 
-	public EventDetailAPI(String event_uuid, PuluoDSI dsi) {
+	public EventDetailAPI(String event_uuid, String user_uuid, PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.event_uuid = event_uuid;
+		this.user_uuid = user_uuid;
 	}
 
 	@Override
@@ -43,7 +45,7 @@ public class EventDetailAPI extends PuluoAPI<PuluoDSI, EventDetailResult> {
 					TimeUtils.dateTime2Millis(event.eventTime()),event.eventLocation().address(),event.eventLocation().city(),
 					event.eventLocation().phone(),event.eventInfo().coachName(),event.eventInfo().coachUUID(),thumbnails, 
 					event.registeredUsers(),event.capatcity(),event.eventInfo().likes(),event.eventLocation().latitude(), 
-					event.eventLocation().longitude(),event.eventInfo().details(),images,event.price(),event.attendees());
+					event.eventLocation().longitude(),event.eventInfo().details(),images,event.price(),event.attendees(),event.registered(user_uuid));
 			rawResult = result;
 		} else {
 			log.error(String.format("活动%s信息不存在",event_uuid));

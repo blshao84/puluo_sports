@@ -37,8 +37,10 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
     PuluoResponseFactory.createJSONResponse(api)
   }
 
-  private def doGetEventDetail(eventUUID: String) = {
-    val api = new EventDetailAPI(eventUUID)
+  private def doGetEventDetail(eventUUID: String) = {val token = PuluoResponseFactory.createParamMap(Seq("token")).values.head
+    val session = PuluoSessionManager.getSession(token)
+    val userUUID = session.userUUID()
+    val api = new EventDetailAPI(eventUUID, userUUID)
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)
   }
