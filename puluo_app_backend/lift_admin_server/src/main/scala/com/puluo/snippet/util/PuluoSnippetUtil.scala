@@ -25,24 +25,28 @@ import com.puluo.util.TimeUtils
 import com.puluo.util.Location
 
 trait PuluoSnippetUtil {
+  def hidDiv(id: String)(cond: => Boolean) = {
+    val hide = if (cond) "display: none;" else ""
+    s"#${id} [style]" #> hide
+  }
   def renderText(v: RequestVar[Option[String]]) = {
     SHtml.ajaxText(v.getOrElse(""), s => {
       v(Some(s.trim()))
       JsCmds.Noop
     })
   }
-  
+
   def renderInt(v: RequestVar[Option[Int]]) = {
     SHtml.ajaxText(v.map(_.toString).getOrElse("0"), s => {
-      try{
+      try {
         v(Some(s.toInt))
         JsCmds.Noop
-      }catch{
-        case e:Exception => JsCmds.Alert("请输入数字")
+      } catch {
+        case e: Exception => JsCmds.Alert("请输入数字")
       }
     })
   }
-  
+
   def renderTextArea(v: RequestVar[Option[String]]) = {
     SHtml.ajaxTextarea(v.getOrElse(""), s => {
       v(Some(s.trim()))
@@ -67,7 +71,7 @@ trait PuluoSnippetUtil {
     options: Seq[String],
     sel: RequestVar[Option[String]]) = {
     SHtml.ajaxSelect(
-      options.map(s=>(s,s)),
+      options.map(s => (s, s)),
       sel.get,
       s => { sel(Some(s)); JsCmds.Noop })
 

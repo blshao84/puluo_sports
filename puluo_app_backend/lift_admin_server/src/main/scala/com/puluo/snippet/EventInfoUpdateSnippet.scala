@@ -80,7 +80,10 @@ class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
         doAddEvent
         JsCmds.Reload
       }) &
-      "#uuid *" #> infoUUID &
+      (hidDiv("body"){
+        !info.isDefined
+      }) &
+      "#id *" #> infoUUID &
       "#name" #> renderText(name) &
       "#desc" #> renderText(desc) &
       "#coach-uuid" #> renderText(coachUUID) &
