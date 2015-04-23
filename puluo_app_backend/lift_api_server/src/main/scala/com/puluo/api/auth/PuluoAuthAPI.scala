@@ -40,6 +40,26 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
         "password" -> ErrorResponseResult(15).copy(message = "password"),
         "auth_code" -> ErrorResponseResult(15).copy(message = "auth_code")))(doRegister)
     }
+    case "users" :: "credential" :: "reset" :: Nil Post _ => {
+      callWithParam(Map(
+        "mobile" -> ErrorResponseResult(15).copy(message = "mobile"),
+        "new_password" -> ErrorResponseResult(15).copy(message = "new_password"),
+        "auth_code" -> ErrorResponseResult(15).copy(message = "auth_code")))(doUpdatePassword)
+
+    }
+  }
+
+  private def doUpdatePassword(params: Map[String, String]) = {
+    val newPassword = params("new_password")
+    val authCode = params("auth_code")
+    val mobile = params("mobile")
+    val user = DaoApi.getInstance().userDao().getByMobile(mobile)
+    if (user != null) {
+      val uuid = user.userUUID()
+      val api = new UserPasswordUpdateAPI(uuid, authCode, newPassword)
+      safeRun(api)
+      PuluoResponseFactory.createJSONResponse(api)
+    } else PuluoResponseFactory.createErrorResponse(ErrorResponseResult(18))
   }
 
   private def doLogin(params: Map[String, String]) = {
@@ -52,7 +72,7 @@ object PuluoAuthAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val sessionOpt = api.obtainSession
     if (sessionOpt != null) {
       val uuid = DaoApi.getInstance().userDao().getByMobile(mobile).userUUID();
-      PuluoSessionManager.login(sessionID,sessionOpt)
+      PuluoSessionManager.login(sessionID, sessionOpt)
       //PuluoSession(SessionInfo(uuid,Some(sessionOpt)))
     }
 
