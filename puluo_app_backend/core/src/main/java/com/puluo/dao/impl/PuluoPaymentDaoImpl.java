@@ -28,11 +28,6 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 	}
 
 	@Override
-	public PuluoPaymentOrder getOrderByEvent(String eventUUID) {
-		return getOrderByKey("event_id", eventUUID);
-	}
-
-	@Override
 	public boolean updateOrderStatus(PuluoPaymentOrder order,
 			PuluoOrderStatus nextStatus) {
 		return updateOrderForKey(order.orderUUID(), "status", nextStatus.name());
@@ -217,6 +212,42 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 		} catch (Exception e) {
 			log.info(e.getMessage());
 			return false;
+		}
+	}
+
+	@Override
+	public List<PuluoPaymentOrder> getOrderByEvent(String eventUUID) {
+		try {
+			SqlReader reader = getReader();
+			String selectSQL = new StringBuilder()
+					.append("select * from ")
+					.append(super.getFullTableName())
+					.append(" where event_id = ?").toString();
+			log.info(super.sqlRequestLog(selectSQL,eventUUID));
+			List<PuluoPaymentOrder> entities = reader.query(
+					selectSQL.toString(), new Object[] {eventUUID}, new PuluoPaymentOrderMapper());
+			return entities;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
+	}
+
+	@Override
+	public PuluoPaymentOrder getOrderByEvent(String eventUUID, String userUUID) {
+		try {
+			SqlReader reader = getReader();
+			String selectSQL = new StringBuilder()
+					.append("select * from ")
+					.append(super.getFullTableName())
+					.append(" where event_id = ? and user_id = ?").toString();
+			log.info(super.sqlRequestLog(selectSQL,eventUUID,userUUID));
+			List<PuluoPaymentOrder> entities = reader.query(
+					selectSQL.toString(), new Object[] {eventUUID, userUUID}, new PuluoPaymentOrderMapper());
+			return super.verifyUniqueResult(entities);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
 		}
 	}
 }

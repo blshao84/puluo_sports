@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import com.puluo.entity.impl.PuluoEventAttendee;
+
 public interface PuluoEvent {
 
 	String eventUUID();
@@ -18,4 +20,6 @@ public interface PuluoEvent {
 	PuluoEventLocation eventLocation();
 	List<PuluoEventMemory> memory();
 	int hottest();
+	List<PuluoEventAttendee> attendees();
+	boolean registered(String userUUID);
 }

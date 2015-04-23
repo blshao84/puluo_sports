@@ -33,6 +33,7 @@ public class EventRegistrationAPITest {
 			.mock(PuluoOrderEventDaoImpl.class);
 
 	private final String eventUUID = "1";
+	private final String userUUID = "1";
 
 	private class MockDSI extends MockTestDSI {
 
@@ -88,24 +89,24 @@ public class EventRegistrationAPITest {
 		assertPaymentlink(api.result());
 	}
 
-	@Test
-	public void testDifferentUserInOrderAndAPI() {
-		PuluoPaymentOrder order = Mockito.mock(PuluoPaymentOrderImpl.class);
-		Mockito.when(order.userId()).thenReturn("2");
-		Mockito.when(mockPaymentDao.getOrderByEvent(Matchers.anyString()))
-				.thenReturn(order);
-		EventRegistrationAPI api = new EventRegistrationAPI("1", "1", mockDsi);
-		api.execute();
-		String expectedErrorMessage = "{\"id\":3,\"error_type\":\"系统支付错误\",\"message\":\"订单中的用户id与该用户不匹配\",\"url\":\"\"}";
-		Assert.assertEquals("unexpected error message", expectedErrorMessage,
-				api.result());
-	}
+//	@Test
+//	public void testDifferentUserInOrderAndAPI() {
+//		PuluoPaymentOrder order = Mockito.mock(PuluoPaymentOrderImpl.class);
+//		Mockito.when(order.userId()).thenReturn("2");
+//		Mockito.when(mockPaymentDao.getOrderByEvent(Matchers.anyString()))
+//				.thenReturn(order);
+//		EventRegistrationAPI api = new EventRegistrationAPI("1", "1", mockDsi);
+//		api.execute();
+//		String expectedErrorMessage = "{\"id\":3,\"error_type\":\"系统支付错误\",\"message\":\"订单中的用户id与该用户不匹配\",\"url\":\"\"}";
+//		Assert.assertEquals("unexpected error message", expectedErrorMessage,
+//				api.result());
+//	}
 
 	@Test
 	public void testCanceledOrder() {
 		PuluoPaymentOrder order = Mockito.mock(PuluoPaymentOrderImpl.class);
 		setupOrder(order, PuluoOrderStatus.Cancel);
-		Mockito.when(mockPaymentDao.getOrderByEvent(eventUUID)).thenReturn(
+		Mockito.when(mockPaymentDao.getOrderByEvent(eventUUID, userUUID)).thenReturn(
 				order);
 		String actualErrorMessage = run();
 		String expectedErrorMessage = "{\"id\":2,\"error_type\":\"系统支付错误\",\"message\":\"订单已取消\",\"url\":\"\"}";
@@ -117,7 +118,7 @@ public class EventRegistrationAPITest {
 	public void testPaidOrder() {
 		PuluoPaymentOrder order = Mockito.mock(PuluoPaymentOrderImpl.class);
 		setupOrder(order, PuluoOrderStatus.Paid);
-		Mockito.when(mockPaymentDao.getOrderByEvent(eventUUID)).thenReturn(
+		Mockito.when(mockPaymentDao.getOrderByEvent(eventUUID, userUUID)).thenReturn(
 				order);
 		String actualResult = run();
 		assertPaid(actualResult);
@@ -127,7 +128,7 @@ public class EventRegistrationAPITest {
 	public void testCompleteOrder() {
 		PuluoPaymentOrder order = Mockito.mock(PuluoPaymentOrderImpl.class);
 		setupOrder(order, PuluoOrderStatus.Complete);
-		Mockito.when(mockPaymentDao.getOrderByEvent(eventUUID)).thenReturn(
+		Mockito.when(mockPaymentDao.getOrderByEvent(eventUUID, userUUID)).thenReturn(
 				order);
 		String actualResult = run();
 		assertPaid(actualResult);
@@ -183,7 +184,7 @@ public class EventRegistrationAPITest {
 			boolean getOrderByEvent) {
 		Mockito.when(mockEventDao.getEventByUUID(eventUUID)).thenReturn(event);
 		if (getOrderByEvent) {
-			Mockito.when(mockPaymentDao.getOrderByEvent(eventUUID)).thenReturn(
+			Mockito.when(mockPaymentDao.getOrderByEvent(eventUUID, userUUID)).thenReturn(
 					order);
 		}
 		Mockito.when(mockPaymentDao.getOrderByUUID(Matchers.anyString()))

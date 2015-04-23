@@ -1,5 +1,6 @@
 package com.puluo.entity.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -10,6 +11,8 @@ import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventLocation;
 import com.puluo.entity.PuluoEventMemory;
+import com.puluo.entity.PuluoPaymentOrder;
+import com.puluo.entity.PuluoUser;
 import com.puluo.enumeration.EventStatus;
 
 public class PuluoEventImpl implements PuluoEvent {
@@ -155,6 +158,27 @@ public class PuluoEventImpl implements PuluoEvent {
 			return false;
 		return true;
 	}
-	
-	
+
+	@Override
+	public List<PuluoEventAttendee> attendees() {
+		List<PuluoPaymentOrder> orders = dsi.paymentDao().getOrderByEvent(uuid);
+		List<PuluoEventAttendee> attendees = new ArrayList<PuluoEventAttendee>();
+		PuluoUser user;
+		for (PuluoPaymentOrder order: orders) {
+			if (order.status().isPaid()) {
+				user = dsi.userDao().getByUUID(order.userId());
+				attendees.add(new PuluoEventAttendee(user.name(), user.userUUID(), user.thumbnail()));
+			}
+		}
+		return new ArrayList<PuluoEventAttendee>();
+	}
+
+	@Override
+	public boolean registered(String userUUID) {
+		PuluoPaymentOrder order = dsi.paymentDao().getOrderByEvent(uuid, userUUID);
+		if (order!=null && order.status().isPaid()) {
+			return true;
+		}
+		return false;
+	}
 }

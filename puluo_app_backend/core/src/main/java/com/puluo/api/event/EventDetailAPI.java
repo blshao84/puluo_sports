@@ -43,7 +43,7 @@ public class EventDetailAPI extends PuluoAPI<PuluoDSI, EventDetailResult> {
 					TimeUtils.dateTime2Millis(event.eventTime()),event.eventLocation().address(),event.eventLocation().city(),
 					event.eventLocation().phone(),event.eventInfo().coachName(),event.eventInfo().coachUUID(),thumbnails, 
 					event.registeredUsers(),event.capatcity(),event.eventInfo().likes(),event.eventLocation().latitude(), 
-					event.eventLocation().longitude(),event.eventInfo().details(),images);
+					event.eventLocation().longitude(),event.eventInfo().details(),images,event.price(),event.attendees());
 			rawResult = result;
 		} else {
 			log.error(String.format("活动%s信息不存在",event_uuid));

@@ -45,12 +45,12 @@ public class EventRegistrationAPI extends
 
 	@Override
 	public void execute() {
-		PuluoPaymentOrder order = dsi.paymentDao().getOrderByEvent(event_uuid);
+		PuluoPaymentOrder order = dsi.paymentDao().getOrderByEvent(event_uuid, user_uuid);
 		if (order == null) {
 			EventRegistrationResult result = createNewOrder();
 			this.rawResult = result;
 		} else {
-			if (order.userId().equals(user_uuid)) {
+//			if (order.userId().equals(user_uuid)) {
 				PuluoOrderStatus status = order.status();
 				if (status.isCancel()) {
 					log.error(String.format("订单(uuid is %s)已经被取消", order.orderUUID()));
@@ -63,11 +63,11 @@ public class EventRegistrationAPI extends
 					EventRegistrationResult result = updateOrder(order);
 					this.rawResult = result;
 				}
-			} else {
-				log.error(String.format("订单中的用户id is %s与该用户id is %s不匹配", order.userId(), user_uuid));
-				this.error = ApiErrorResult.getError(3);
-				this.rawResult = null;
-			}
+//			} else {
+//				log.error(String.format("订单中的用户id is %s与该用户id is %s不匹配", order.userId(), user_uuid));
+//				this.error = ApiErrorResult.getError(3);
+//				this.rawResult = null;
+//			}
 		}
 	}
 
