@@ -124,7 +124,7 @@ public class PuluoEventInfoImpl implements PuluoEventInfo {
 	}
 
 	@Override
-	public PuluoEventCategory type() {
+	public PuluoEventCategory eventType() {
 		return type;
 	}
 

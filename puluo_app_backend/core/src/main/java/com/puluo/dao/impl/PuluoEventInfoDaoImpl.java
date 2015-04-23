@@ -115,6 +115,10 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 			int resCnt = reader.queryForInt(querySQL);
 			String updateSQL;
 			if (resCnt == 0) {
+				PuluoEventCategory eventType;
+				if(info.eventType()==null) eventType = PuluoEventCategory.Others; else eventType = info.eventType();
+				PuluoEventLevel eventLevel;
+				if(info.level()==null) eventLevel = PuluoEventLevel.Level1; else eventLevel = info.level();
 				updateSQL = new StringBuilder()
 						.append("insert into ")
 						.append(super.getFullTableName())
@@ -138,7 +142,7 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 						.append(Strs.isEmpty(info.details()) ? "null" : "'"
 								+ info.details() + "'").append(", ")
 						.append(info.duration() + ", ")
-						.append("'"+info.level().name() + "', '").append(info.type().name() + "')")
+						.append("'"+eventLevel.name() + "', '").append(eventType.name() + "')")
 						.toString();
 				log.info(Strs.join("SQL:", updateSQL));
 				getWriter().update(updateSQL);
@@ -166,6 +170,11 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 			int resCnt = reader.queryForInt(querySQL);
 			StringBuilder updateSQL;
 			if (resCnt > 0) {
+				PuluoEventCategory eventType;
+				if(info.eventType()==null) eventType = PuluoEventCategory.Others; else eventType = info.eventType();
+				PuluoEventLevel eventLevel;
+				if(info.level()==null) eventLevel = PuluoEventLevel.Level1; else eventLevel = info.level();
+				
 				updateSQL = new StringBuilder().append("update ")
 						.append(super.getFullTableName()).append(" set");
 				if (!Strs.isEmpty(info.name())) {
@@ -194,9 +203,9 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 						.append(" duration = ")
 						.append(info.duration() + ",")
 						.append(" event_level = '")
-						.append(info.level().name() + "',")
+						.append(eventLevel.name() + "',")
 						.append(" event_type = '")
-						.append(info.type().name())
+						.append(eventType.name())
 						.append("' where event_info_uuid = '"
 								+ info.eventInfoUUID() + "'");
 				log.info(Strs.join("SQL:", updateSQL.toString()));

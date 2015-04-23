@@ -31,6 +31,24 @@ trait PuluoSnippetUtil {
       JsCmds.Noop
     })
   }
+  
+  def renderInt(v: RequestVar[Option[Int]]) = {
+    SHtml.ajaxText(v.map(_.toString).getOrElse("0"), s => {
+      try{
+        v(Some(s.toInt))
+        JsCmds.Noop
+      }catch{
+        case e:Exception => JsCmds.Alert("请输入数字")
+      }
+    })
+  }
+  
+  def renderTextArea(v: RequestVar[Option[String]]) = {
+    SHtml.ajaxTextarea(v.getOrElse(""), s => {
+      v(Some(s.trim()))
+      JsCmds.Noop
+    })
+  }
 
   def renderDate(v: RequestVar[Option[String]]) = {
     SHtml.ajaxText(v.getOrElse(""), s => {

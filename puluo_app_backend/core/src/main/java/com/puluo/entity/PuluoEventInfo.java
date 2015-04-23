@@ -16,7 +16,7 @@ public interface PuluoEventInfo {
 	String details();
 	int duration(); 
 	PuluoEventLevel level(); 
-	PuluoEventCategory type(); 
+	PuluoEventCategory eventType(); 
 	int likes();
 	double rating(); 	
 	List<PuluoEventPoster> poster();
