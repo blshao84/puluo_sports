@@ -1,5 +1,7 @@
 package com.puluo.test.functional.util;
 
+import java.util.UUID;
+
 import org.joda.time.DateTime;
 
 import com.puluo.dao.PuluoDSI;
@@ -9,21 +11,25 @@ import com.puluo.dao.impl.PuluoEventInfoDaoImpl;
 import com.puluo.dao.impl.PuluoEventLocationDaoImpl;
 import com.puluo.dao.impl.PuluoEventMemoryDaoImpl;
 import com.puluo.dao.impl.PuluoEventPosterDaoImpl;
+import com.puluo.dao.impl.PuluoPaymentDaoImpl;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventLocation;
 import com.puluo.entity.PuluoEventMemory;
 import com.puluo.entity.PuluoEventPoster;
+import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.PuluoUser;
 import com.puluo.entity.impl.PuluoEventImpl;
 import com.puluo.entity.impl.PuluoEventInfoImpl;
 import com.puluo.entity.impl.PuluoEventLocationImpl;
 import com.puluo.entity.impl.PuluoEventMemoryImpl;
 import com.puluo.entity.impl.PuluoEventPosterImpl;
+import com.puluo.entity.impl.PuluoPaymentOrderImpl;
 import com.puluo.enumeration.EventStatus;
 import com.puluo.enumeration.PuluoEventCategory;
 import com.puluo.enumeration.PuluoEventLevel;
+import com.puluo.enumeration.PuluoOrderStatus;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.TimeUtils;
@@ -51,6 +57,8 @@ public class EventTestDataSource {
 			.parseDateTime("2015-06-01 13:30:00");
 	public DateTime event_date_0602 = TimeUtils
 			.parseDateTime("2015-06-02 10:30:00");
+	public String userID;
+	public String orderID;
 
 	public EventTestDataSource(String prefix) {
 		this.locID1 = prefix + "_" + prefix + "_" + "loc_1";
@@ -77,6 +85,8 @@ public class EventTestDataSource {
 		PuluoDSI dsi = DaoApi.getInstance();
 		dsi.userDao().save(mobile, password);
 		PuluoUser user = dsi.userDao().getByMobile(mobile);
+		dsi.userDao().updateProfile(user, "Lei", "Shi", "http://www.puluosports.com/logo.jpg", null, null, null, null, null, null, null, null, null);
+		userID = user.userUUID();
 
 		PuluoEventLocation location1 = new PuluoEventLocationImpl(locID1,
 				"北京市国贸大厦250号", "110110", "国贸大厦3-1-2", "123456789", "北京",
@@ -132,6 +142,10 @@ public class EventTestDataSource {
 		PuluoEventPoster poster2 = new PuluoEventPosterImpl(posterID2,
 				"http://upyun.com/puluo/abc.jpg",
 				"http://upyun.com/puluo/abc.jpg", infoID2);
+		
+		PuluoPaymentOrder payment = new PuluoPaymentOrderImpl(UUID.randomUUID().toString(), 0.0,
+				DateTime.now(), user.userUUID(), eventID1, PuluoOrderStatus.Paid);
+		orderID = payment.orderUUID();
 
 		dsi.eventInfoDao().saveEventInfo(eventInfo1);
 		dsi.eventInfoDao().saveEventInfo(eventInfo2);
@@ -148,6 +162,7 @@ public class EventTestDataSource {
 		dsi.eventMemoryDao().saveEventMemory(mem5);
 		dsi.eventPosterDao().saveEventPhoto(poster1);
 		dsi.eventPosterDao().saveEventPhoto(poster2);
+		dsi.paymentDao().upsertOrder(payment);
 		dump();
 
 	}
@@ -164,6 +179,7 @@ public class EventTestDataSource {
 		PuluoEventPosterDaoImpl eventPosterDao = (PuluoEventPosterDaoImpl) dsi
 				.eventPosterDao();
 		PuluoEventDaoImpl eventDao = (PuluoEventDaoImpl) dsi.eventDao();
+		PuluoPaymentDaoImpl paymentDao = (PuluoPaymentDaoImpl) dsi.paymentDao();
 
 		eventInfoDao.deleteByEventInfoUUID(infoID1);
 		eventInfoDao.deleteByEventInfoUUID(infoID2);
@@ -183,6 +199,7 @@ public class EventTestDataSource {
 		PuluoUser user = userDao.getByMobile(mobile);
 		if (user != null)
 			userDao.deleteByUserUUID(user.userUUID());
+		paymentDao.deleteByOrderUUID(orderID);
 	}
 
 	public void dump() {
@@ -196,6 +213,7 @@ public class EventTestDataSource {
 		PuluoEventPosterDaoImpl eventPosterDao = (PuluoEventPosterDaoImpl) dsi
 				.eventPosterDao();
 		PuluoEventDaoImpl eventDao = (PuluoEventDaoImpl) dsi.eventDao();
+		PuluoPaymentDaoImpl paymentDao = (PuluoPaymentDaoImpl) dsi.paymentDao();
 		log.info(dsi.userDao().getByMobile(mobile));
 		log.info(eventInfoDao.getEventInfoByUUID(infoID1));
 		log.info(eventInfoDao.getEventInfoByUUID(infoID2));
@@ -212,6 +230,7 @@ public class EventTestDataSource {
 		log.info(eventMemoryDao.getEventMemoryByUUID(memID5));
 		log.info(eventPosterDao.getEventPosterByUUID(posterID1));
 		log.info(eventPosterDao.getEventPosterByUUID(posterID2));
+		log.info(paymentDao.getOrderByUUID(orderID));
 	}
 
 }

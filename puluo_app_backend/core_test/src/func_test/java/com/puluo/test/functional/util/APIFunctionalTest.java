@@ -95,6 +95,22 @@ public abstract class APIFunctionalTest {
 		return array;
 	}
 
+	protected ArrayList<JsonNode> getJsonArrayFromJson(JsonNode result,
+			String key) {
+		JSONObject jo = result.getObject();
+		ArrayList<JsonNode> array = new ArrayList<JsonNode>();
+		if (jo != null) {
+			JSONArray value = jo.getJSONArray(key);
+			if (value != null) {
+				for (int i = 0; i < value.length(); i++) {
+					array.add(new JsonNode(String.valueOf(value.get(i))));
+				}
+			}
+
+		}
+		return array;
+	}
+
 	protected String getSessionID(JsonNode result) {
 		return getStringFromJson(result, "token");
 	}

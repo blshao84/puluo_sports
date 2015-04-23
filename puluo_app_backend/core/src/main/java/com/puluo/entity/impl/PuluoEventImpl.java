@@ -170,7 +170,7 @@ public class PuluoEventImpl implements PuluoEvent {
 				attendees.add(new PuluoEventAttendee(user.name(), user.userUUID(), user.thumbnail()));
 			}
 		}
-		return new ArrayList<PuluoEventAttendee>();
+		return attendees;
 	}
 
 	@Override

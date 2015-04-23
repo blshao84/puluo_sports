@@ -18,6 +18,7 @@ import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventLocation;
 import com.puluo.entity.PuluoEventMemory;
 import com.puluo.entity.PuluoEventPoster;
+import com.puluo.entity.impl.PuluoEventAttendee;
 import com.puluo.test.functional.util.APIFunctionalTest;
 import com.puluo.test.functional.util.EventFunctionalTestRunner;
 import com.puluo.test.functional.util.EventTestDataSource;
@@ -128,15 +129,22 @@ public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 				"longitude");
 		String latitude = super.getStringFromJson(json, "geo_location",
 				"latitude");
+		String actualRegistered = super.getStringFromJson(json, "registered");
+		Set<String> actualAttendees = new HashSet<String>();
+		for (JsonNode node: super.getJsonArrayFromJson(json, "attendees")) {
+			actualAttendees.add("{" + "\"name\":\"" + super.getStringFromJson(node, "name") + "\","
+					+ "\"uuid\":\"" + super.getStringFromJson(node, "uuid") + "\","
+					+ "\"thumbnail\":\"" + super.getStringFromJson(node, "thumbnail") + "\"" + "}");
+		}
 
 		log.info(String.format("values extracted from json:\n" + "phone:%s,\n"
 				+ "status:%s,\n" + "city:%s\n" + "details:%s\n"
 				+ "address:%s\n" + "coach_uuid:%s\n" + "capacity:%s\n"
 				+ "registered_users:%s\n" + "event_name:%s\n"
 				+ "coach_name:%s\n" + "thumbnail:%s\n" + "images:%s\n"
-				+ "longitude:%s\n" + "lattitude:%s\n", phone, status, city,
+				+ "longitude:%s\n" + "lattitude:%s\n" + "registered:%s\n" + "attendees:%s\n", phone, status, city,
 				details, address, coach_uuid, capacity, registered_users,
-				event_name, coach_name, thumbnail, images, longitude, latitude));
+				event_name, coach_name, thumbnail, images, longitude, latitude, actualRegistered, actualAttendees));
 		PuluoDSI dsi = DaoApi.getInstance();
 		PuluoEventInfo info = event.eventInfo();
 		PuluoEventLocation loc = event.eventLocation();
@@ -144,14 +152,22 @@ public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 				.getEventPosterByInfoUUID(info.eventInfoUUID());
 		List<PuluoEventMemory> memories = dsi.eventMemoryDao()
 				.getEventMemoryByEventUUID(event.eventUUID());
+		List<PuluoEventAttendee> attendees = event.attendees();
 		Set<String> posterThumbnails = new HashSet<String>();
 		Set<String> memoryImages = new HashSet<String>();
+		Set<String> expectedAttendees = new HashSet<String>();
 		for (PuluoEventPoster p : posters) {
 			posterThumbnails.add(p.thumbnail());
 		}
 		for (PuluoEventMemory m : memories) {
 			memoryImages.add(m.imageURL());
 		}
+		for (PuluoEventAttendee a : attendees) {
+			expectedAttendees.add("{" + "\"name\":\"" + a.name() + "\","
+									+ "\"uuid\":\"" + a.uuid() + "\","
+									+ "\"thumbnail\":\"" + a.thumbnail() + "\"" + "}");
+		}
+		String expectedRregistered = String.valueOf(event.registered(dataSource.userID));
 		Assert.assertEquals(phone, loc.phone());
 		Assert.assertEquals(status, event.statusName());
 		Assert.assertEquals(city, loc.city());
@@ -166,6 +182,8 @@ public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 		Assert.assertEquals(latitude, "" + loc.latitude());
 		Assert.assertEquals(thumbnail, posterThumbnails);
 		Assert.assertEquals(images, memoryImages);
+		Assert.assertEquals(actualRegistered, expectedRregistered);
+		Assert.assertEquals(actualAttendees, expectedAttendees);
 
 	}
 
