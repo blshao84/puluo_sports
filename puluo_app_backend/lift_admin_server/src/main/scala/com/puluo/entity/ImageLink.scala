@@ -19,6 +19,9 @@ import net.liftweb.mapper.CreatedTrait
 import com.puluo.config.Configurations
 import com.puluo.util.Strs
 import com.puluo.dao.impl.DaoApi
+import net.liftweb.mapper.QueryParam
+import net.liftweb.mapper.QueryParam
+import net.liftweb.mapper.By
 
 trait UploadFile {
   /**
@@ -44,6 +47,9 @@ object UserImage extends UserImage
   override def dbTableName = "user_images"
   //constrains
   override def dbIndexes =  UniqueIndex(uuid,mobile)::super.dbIndexes
+  def findByUUID(id:String) = {
+    UserImage.find(By(uuid,id))
+  }
 }
 class UserImage extends LongKeyedMapper[UserImage] with IdPK with UploadImage with CreatedTrait {
   def getSingleton = UserImage

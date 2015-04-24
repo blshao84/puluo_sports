@@ -12,6 +12,7 @@
 						<input class="form-control" id="uuid">
 					</div>
 					<button id="search" type="submit" class="btn btn-primary">搜索</button>	
+					<button id="add" type="submit" class="btn btn-primary">添加</button>	
 				</form>
 			</div>
 		</div>
@@ -21,9 +22,9 @@
 				<div class="panel-title">课程信息</div>
 			</div>
 			<div id="body" class="panel-body">
-				<div class="form-group row">
-						<label class="col-md-offset-1">课程ID</label>
-						<span id="id"></span>
+				<div class="form-group">
+					<label>课程ID</label>
+					<span id="id"></span>
 				</div>
 				<div class="form-group">
 						<label>活动ID</label>
@@ -33,18 +34,20 @@
 						<label>场地ID</label>
 						<input class="form-control" id="loc-uuid">
 				</div>
-				<div class="form-group row">
+				<div class="form-group">
+						<label>课程状态</label>
+						<select class="form-control" id="status"></select>
+				</div>
+				<div class="form-group">
+						<label>课程容量</label>
+						<select class="form-control" id="capacity"></select>
+				</div>
+				<div class="form-group">
 						<label>课程时间</label>
-						<input class="form-control" id="year">
-						<label>年</label>
-						<input class="form-control" id="month">
-						<label>月</label>
-						<input class="form-control" id="day">
-						<label>日</label>
-						<input class="form-control" id="hour">
-						<label>时</label>
-						<input class="form-control" id="min">
-						<label>分</label>
+						<input id="year">年
+						<input id="year">月
+						<input id="year">日
+						<input id="year">时
 				</div>
 				<div class="form-group">
 						<label>原始价格</label>

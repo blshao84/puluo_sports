@@ -42,6 +42,7 @@ import com.puluo.enumeration.PuluoEventCategory
 import com.puluo.enumeration.PuluoEventLevel
 import com.puluo.entity.PuluoUser
 import com.puluo.dao.PuluoDSI
+import com.puluo.entity.impl.PuluoEventPosterImpl
 
 class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
   object uuid extends RequestVar[Option[String]](None)
@@ -53,6 +54,12 @@ class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
   object duration extends RequestVar[Option[Int]](None)
   object level extends RequestVar[Option[String]](None)
   object infoType extends RequestVar[Option[String]](None)
+
+  object poster1 extends RequestVar[Option[String]](None)
+  object poster2 extends RequestVar[Option[String]](None)
+  object poster3 extends RequestVar[Option[String]](None)
+  object poster4 extends RequestVar[Option[String]](None)
+  object poster5 extends RequestVar[Option[String]](None)
 
   def render = {
     val allTypes = PuluoEventCategory.values.map(_.name()).toSeq
@@ -96,6 +103,21 @@ class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
       "#update" #> SHtml.ajaxButton("更新", () => doUpdate)
   }
 
+  private def savePoster(eventInfoUUID: String, poster: RequestVar[Option[String]]): Boolean = {
+    val posterDao = DaoApi.getInstance().eventPosterDao()
+    if (poster.isDefined) {
+      val posterUUID = poster.get.get
+      val ui = UserImage.findByUUID(posterUUID)
+      if (ui.isDefined) {
+        val imageName = ui.get.imageUUID
+        val imageUUID = UUID.randomUUID().toString()
+        val newEventPoster = new PuluoEventPosterImpl(imageUUID, imageName, "", eventInfoUUID)
+        //we always save a new image link for event info
+        posterDao.saveEventPhoto(newEventPoster)
+      } else true
+    } else true
+  }
+
   private def doUpdate = {
     val dsi = DaoApi.getInstance();
     val (coachName, coachThumb) = if (coachUUID.get.isDefined) {
@@ -114,8 +136,9 @@ class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
     } catch {
       case e: Exception => PuluoEventLevel.Level1
     }
+    val infoUUID = info.get.get.eventInfoUUID()
     val newInfo = new PuluoEventInfoImpl(
-      info.get.get.eventInfoUUID(),
+      infoUUID,
       name.getOrElse(""),
       desc.getOrElse(""),
       coachName,
@@ -125,7 +148,17 @@ class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
       duration.getOrElse(0),
       l, t);
     val success = dsi.eventInfoDao().upsertEventInfo(newInfo)
-    val msg = if (success) "成功更新活动信息" else "更新活动时发生错误，请检查您的输入"
+    val msg = if (success) {
+      val successSavePoster = (
+        savePoster(infoUUID, poster1) &&
+        savePoster(infoUUID, poster2) &&
+        savePoster(infoUUID, poster3) &&
+        savePoster(infoUUID, poster4) &&
+        savePoster(infoUUID, poster5))
+      if (successSavePoster) {
+        "成功更新活动信息"
+      } else "成功更新活动信息，但保存活动官方图片时出错"
+    } else "更新活动时发生错误，请检查您的输入"
     JsCmds.Alert(msg)
   }
   private def loadInfo = {

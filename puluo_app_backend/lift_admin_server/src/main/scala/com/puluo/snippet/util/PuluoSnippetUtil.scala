@@ -46,6 +46,17 @@ trait PuluoSnippetUtil {
       }
     })
   }
+  
+  def renderDouble(v: RequestVar[Option[Double]]) = {
+    SHtml.ajaxText(v.map(_.toString).getOrElse("0"), s => {
+      try {
+        v(Some(s.toDouble))
+        JsCmds.Noop
+      } catch {
+        case e: Exception => JsCmds.Alert("请输入数字")
+      }
+    })
+  }
 
   def renderTextArea(v: RequestVar[Option[String]]) = {
     SHtml.ajaxTextarea(v.getOrElse(""), s => {
@@ -90,6 +101,17 @@ trait PuluoSnippetUtil {
         city(Some(s))
         JsCmds.Noop
       }, ("id" -> "city"))
+  }
+  
+  def parseFileName(fileName:String):(String,String) = {
+     val lastDot = fileName.lastIndexOf('.')
+    if (lastDot > 0) {
+      val fileType = fileName.subSequence(lastDot+1, fileName.length()).toString
+      val name = fileName.subSequence(0, lastDot).toString
+      (name, fileType)
+    } else {
+     (fileName,"")
+    }
   }
   private def replace(s: String): JsCmd = {
     val cities = Location.getCity(s)

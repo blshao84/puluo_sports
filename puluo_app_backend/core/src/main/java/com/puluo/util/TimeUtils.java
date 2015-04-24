@@ -47,6 +47,11 @@ public class TimeUtils {
 		return format;
 	}
 
+	/**
+	 * format: yyyy-mm-dd
+	 * @param dt
+	 * @return
+	 */
 	public static DateTime parseDate(String dt) {
 		String[] dates = dt.split("-");
 		if (dates.length == 3) {
@@ -64,6 +69,11 @@ public class TimeUtils {
 			return null;
 	}
 
+	/**
+	 * format: yyyy-mm-dd hh:mm:ss
+	 * @param dt
+	 * @return
+	 */
 	public static DateTime parseDateTime(String dt) {
 		String[] dateTime = dt.split(" ");
 		if (dateTime.length == 2) {
