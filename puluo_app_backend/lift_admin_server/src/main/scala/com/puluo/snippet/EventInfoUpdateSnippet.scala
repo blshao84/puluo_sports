@@ -100,6 +100,11 @@ class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
       "#duration" #> renderInt(duration) &
       "#type" #> renderSimpleSelect(allTypes, infoType) &
       "#level" #> renderSimpleSelect(allLevels, level) &
+      "#poster1" #> renderText(poster1) &
+      "#poster2" #> renderText(poster2) &
+      "#poster3" #> renderText(poster3) &
+      "#poster4" #> renderText(poster4) &
+      "#poster5" #> renderText(poster5) &
       "#update" #> SHtml.ajaxButton("更新", () => doUpdate)
   }
 
