@@ -310,7 +310,9 @@ public class PuluoAPIResultTest {
 				+ "\"price\":0.0,"
 				+ "\"attendees\":[{\"name\":\"Lei\",\"uuid\":\"0\",\"thumbnail\":\"http://upyun.com/puluo/thumbnail0.jpg\"},"
 				+ "{\"name\":\"Baolin\",\"uuid\":\"1\",\"thumbnail\":\"http://upyun.com/puluo/thumbnail1.jpg\"}],"
-				+ "\"registered\":false" + "}";
+				+ "\"registered\":false,"
+				+ "\"duration\":30}";
+		
 		String actualJsonResult = EventDetailResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}

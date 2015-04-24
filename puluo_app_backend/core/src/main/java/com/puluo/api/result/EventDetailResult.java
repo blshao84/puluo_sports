@@ -26,12 +26,14 @@ public class EventDetailResult extends HasJSON{
 	public double price;
 	public List<PuluoEventAttendee> attendees;
 	public boolean registered;
+	public int durations;
 	
 	public EventDetailResult(String status,
 			String event_name, long event_time, String address,
 			String city, String phone, String coach_name, String coach_uuid,
 			List<String> thumbnail, int registered_users, int capacity, int likes,
-			EventLocationResult geo_location, String details, List<String> images, double price, List<PuluoEventAttendee> attendees, boolean registered) {
+			EventLocationResult geo_location, String details, List<String> images, 
+			double price, List<PuluoEventAttendee> attendees, boolean registered,int durations) {
 		super();
 		this.status = status;
 		this.event_name = event_name;
@@ -51,15 +53,17 @@ public class EventDetailResult extends HasJSON{
 		this.price = price;
 		this.attendees = attendees;
 		this.registered = registered;
+		this.durations = durations;
 	}
 	
 	public EventDetailResult(String status,
 			String event_name, long event_time, String address,
 			String city, String phone, String coach_name, String coach_uuid,
 			List<String> thumbnail, int registered_users, int capacity, int likes,
-			double latitude, double longitude, String details, List<String> images, double price, List<PuluoEventAttendee> attendees, boolean registered) {
+			double latitude, double longitude, String details, List<String> images, 
+			double price, List<PuluoEventAttendee> attendees, boolean registered,int durations) {
 		this(status, event_name, event_time, address, city, phone, coach_name, coach_uuid, thumbnail, registered_users,
-				capacity, likes, new EventLocationResult(latitude, longitude), details, images, price, attendees, registered);
+				capacity, likes, new EventLocationResult(latitude, longitude), details, images, price, attendees, registered,durations);
 	}
 	
 	public static EventDetailResult dummy() {
@@ -78,7 +82,7 @@ public class EventDetailResult extends HasJSON{
 		return new EventDetailResult("open", "Weapons of Ass Reduction", 
 				1427007059034L, "888 Happy Mansion", "beijing", "86-555-5555",
 				"Mr. Bob Smith", "de305d54-75b4-431b-adb2-eb6b9e546014", thumbnails, 
-				22, 30, 2,  new EventLocationResult(39.92889, 116.38833), "Get fit with friends.", images, 0.0, attendees, false);
+				22, 30, 2,  new EventLocationResult(39.92889, 116.38833), "Get fit with friends.", images, 0.0, attendees, false,30);
 	}
 }
 

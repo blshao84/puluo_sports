@@ -50,6 +50,7 @@ public class ApiErrorResult extends HasJSON {
 		error_registry.put(40, new ApiErrorResult(40, "拒绝好友接口错误", "好友申请已被拒绝", ""));
 		error_registry.put(41, new ApiErrorResult(31, "发送消息接口错误", "用户发送消息失败", ""));
 		error_registry.put(42, new ApiErrorResult(42, "请求好友接口错误", "已收到过对方的请求，等待你的批准", ""));
+		error_registry.put(43, new ApiErrorResult(43, "活动信息接口错误", "EventInfo或EventLocation不存在", ""));
 		error_registry.put(100, new ApiErrorResult(100, "系统错误", "处理请求时出现异常", ""));
 	}
 
