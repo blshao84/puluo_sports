@@ -1,13 +1,16 @@
 package com.puluo.test.result;
 
+
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.puluo.api.result.ApproveFriendResult;
 import com.puluo.api.result.DeleteFriendResult;
 import com.puluo.api.result.DenyFriendResult;
 import com.puluo.api.result.EmailServiceResult;
+import com.puluo.api.result.EventConfigurationResult;
 import com.puluo.api.result.EventDetailResult;
 import com.puluo.api.result.ListFriendsResult;
 import com.puluo.api.result.ListMessageResult;
@@ -26,6 +29,15 @@ import com.puluo.api.result.UserSettingUpdateResult;
 import com.puluo.api.result.UserTimelineResult;
 
 public class PuluoAPIResultTest {
+
+	@Test
+	public void testDummyEventConfigurationResult() {
+		String expected = "{\"categories\":[\"Others\"],\"levels\":[\"Level1\",\"Level2\",\"Level3\",\"Level4\"]}";
+		String actual = EventConfigurationResult.dummy().toJson();
+		Assert.assertEquals(
+						"dummy event configuration result should be the same as PuluoEventConfiguraiotn and PuluoEventLevel",
+						expected, actual);
+	}
 
 	@Test
 	public void testDummyUserProfileResult() {
@@ -51,7 +63,7 @@ public class PuluoAPIResultTest {
 
 	@Test
 	public void testDummyUserRegistrationResult() {
-		String expectedJsonResult = "{" 
+		String expectedJsonResult = "{"
 				+ "\"user_uuid\":\"cd8460a5e0f2c2af596f170009bffc02df06b54d\","
 				+ "\"mobile\":\"12346789000\","
 				+ "\"password\":\"cd8460a5e0f2c2af596f170009bffc02df06b54d\""
@@ -274,21 +286,29 @@ public class PuluoAPIResultTest {
 
 	@Test
 	public void testEventDetailResult() {
-		String expectedJsonResult = "{" + "\"status\":\"open\","
+		String expectedJsonResult = "{"
+				+ "\"status\":\"open\","
 				+ "\"event_name\":\"Weapons of Ass Reduction\","
 				+ "\"event_time\":1427007059034,"
 				+ "\"address\":\"888 Happy Mansion\","
-				+ "\"city\":\"beijing\"," + "\"phone\":\"86-555-5555\","
+				+ "\"city\":\"beijing\","
+				+ "\"phone\":\"86-555-5555\","
 				+ "\"coach_name\":\"Mr. Bob Smith\","
 				+ "\"coach_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546014\","
 				+ "\"thumbnail\":[\"http://upyun.com/puluo/head.jpg\"],"
-				+ "\"registered_users\":22," + "\"capacity\":30,"
-				+ "\"likes\":2," + "\"geo_location\":{"
-				+ "\"latitude\":39.92889," + "\"longitude\":116.38833"
-				+ "}," + "\"details\":\"Get fit with friends.\","
+				+ "\"registered_users\":22,"
+				+ "\"capacity\":30,"
+				+ "\"likes\":2,"
+				+ "\"geo_location\":{"
+				+ "\"latitude\":39.92889,"
+				+ "\"longitude\":116.38833"
+				+ "},"
+				+ "\"details\":\"Get fit with friends.\","
 				+ "\"images\":[\"http://upyun.com/puluo/image1.jpg\","
-				+ "\"http://upyun.com/puluo/image2.jpg\"" + "],"
-				+ "\"price\":0.0," + "\"attendees\":[{\"name\":\"Lei\",\"uuid\":\"0\",\"thumbnail\":\"http://upyun.com/puluo/thumbnail0.jpg\"},"
+				+ "\"http://upyun.com/puluo/image2.jpg\""
+				+ "],"
+				+ "\"price\":0.0,"
+				+ "\"attendees\":[{\"name\":\"Lei\",\"uuid\":\"0\",\"thumbnail\":\"http://upyun.com/puluo/thumbnail0.jpg\"},"
 				+ "{\"name\":\"Baolin\",\"uuid\":\"1\",\"thumbnail\":\"http://upyun.com/puluo/thumbnail1.jpg\"}],"
 				+ "\"registered\":false" + "}";
 		String actualJsonResult = EventDetailResult.dummy().toJson();
@@ -305,19 +325,17 @@ public class PuluoAPIResultTest {
 				+ "\"created_at\":1427007059034" + "},"
 				+ "\"my_words\":\"This is an awesome event\"," + "\"likes\":["
 				+ "{\"user_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
-				+ "\"user_name\":\"Bob\","
-				+ "\"created_at\":1427007059034" + "},"
+				+ "\"user_name\":\"Bob\"," + "\"created_at\":1427007059034"
+				+ "},"
 				+ "{\"user_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
-				+ "\"user_name\":\"Bob\","
-				+ "\"created_at\":1427007059034" + "}],"
-				+ "\"comments\":[" + "{"
+				+ "\"user_name\":\"Bob\"," + "\"created_at\":1427007059034"
+				+ "}]," + "\"comments\":[" + "{"
 				+ "\"comment_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"reply_to_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"user_uuid\":\"de305d54-75b4-431b-adb2-eb6b9e546013\","
 				+ "\"user_name\":\"Bob\"," + "\"content\":\"abc\","
-				+ "\"read\":\"false\","
-				+ "\"created_at\":1427007059034" + "}],"
-				+ "\"create_at\":1427007059034,"
+				+ "\"read\":\"false\"," + "\"created_at\":1427007059034"
+				+ "}]," + "\"create_at\":1427007059034,"
 				+ "\"updated_at\":1427007059034}]}";
 
 		String actualJsonResult = UserTimelineResult.dummy().toJson();
@@ -331,7 +349,7 @@ public class PuluoAPIResultTest {
 		String actualJsonResult = EmailServiceResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
-	
+
 	@Test
 	public void testSMSServiceResult() {
 		String expectedJsonResult = "{" + "\"mobile\":\"1234567890\","

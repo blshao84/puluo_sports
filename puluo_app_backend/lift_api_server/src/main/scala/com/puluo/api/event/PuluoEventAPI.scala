@@ -1,12 +1,9 @@
 package com.puluo.api.event
 import net.liftweb.http.rest.RestHelper
 import net.liftweb.http.JsonResponse
-
 import com.puluo.api.util.PuluoSession
 import com.puluo.api.util.SessionInfo
-
 import net.liftweb.http.js.JsExp.strToJsExp
-
 import com.puluo.api.util.PuluoResponseFactory
 import com.puluo.api.result.EventRegistrationResult
 import com.puluo.api.result.EventDetailResult
@@ -21,10 +18,21 @@ import com.puluo.enumeration._
 
 object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
+    case "events" :: "configurations" :: Nil Post _ => callWithAuthParam()(doGetEventConfigurations)
     case "events" :: "payment" :: eventUUID :: Nil Post _ => doRegister(eventUUID)
     case "events" :: "detail" :: eventUUID :: Nil Post _ => doGetEventDetail(eventUUID)
     case "events" :: "memory" :: eventUUID :: Nil Post _ => doGetEventMemory(eventUUID)
     case "events" :: "search" :: Nil Post _ => doEventSearch()
+  }
+  
+  private def doGetEventConfigurations(params:Map[String,String]) = {
+    val token = PuluoResponseFactory.createParamMap(Seq("token")).values.head
+    val session = PuluoSessionManager.getSession(token)
+    val userUUID = session.userUUID()
+    logger.info(s"user ${userUUID} is requesting event configurations")
+    val api = new EventConfigurationAPI()
+    safeRun(api)
+    PuluoResponseFactory.createJSONResponse(api)
   }
 
   private def doRegister(eventUUID: String) = {

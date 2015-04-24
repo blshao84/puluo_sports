@@ -856,6 +856,27 @@ $ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.13
 
 ### Event  
 
+##### Event Configuration 
+
+Get event related configuraiton constants like category and level
+
+`POST /events/configurations`
+
+
+###### cURL Example
+```
+$ curl --cookie "JSESSIONID=14hx6i00llj1oi3fawse5rz3q" -n -X POST https://183.131.76.93/events/configurations
+
+```
+###### Response Example
+
+```
+{
+    "categories":["Others"],
+    "levels":["Level1","Level2","Level3","Level4"]
+}
+```
+
 ##### Event Registration 
 
 Create orders and returns links to alipay
