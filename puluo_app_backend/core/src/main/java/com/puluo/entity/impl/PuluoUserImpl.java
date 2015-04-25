@@ -12,24 +12,24 @@ import com.puluo.util.Strs;
 
 public class PuluoUserImpl implements PuluoUser {
 
-	private String user_uuid;
-	private String mobile;
-	private String[] interests;
-	private String password;
-	private String firstName; // 名
-	private String lastName; // 姓
-	private String thumbnail; // 头像
-	private String largeImage; // 大图
-	private PuluoUserType user_type;
-	private String email;
+	private final String user_uuid;
+	private final String mobile;
+	private final String[] interests;
+	private final String password;
+	private final String firstName; // 名
+	private final String lastName; // 姓
+	private final String thumbnail; // 头像
+	private final String largeImage; // 大图
+	private final PuluoUserType user_type;
+	private final String email;
 	char sex;
-	private String zip;
-	private String country; // added by Xuyang
-	private String state;
-	private String city;
-	private String occupation; // added by Xuyang
-	private String address;
-	private String saying; // 只是saying而已
+	private final String zip;
+	private final String country; // added by Xuyang
+	private final String state;
+	private final String city;
+	private final String occupation; // added by Xuyang
+	private final String address;
+	private final String saying; // 只是saying而已
 	DateTime birthday;
 	DateTime created_at; // 用户创建时间
 	DateTime updated_at; // 用户信息最后一次更新时间
@@ -68,7 +68,7 @@ public class PuluoUserImpl implements PuluoUser {
 		this.banned = banned;
 		this.dsi = dsi;
 	}
-	
+
 	public PuluoUserImpl(String user_uuid, String mobile, String[] interests,
 			String password, String firstName, String lastName,
 			String thumbnail, String largeImage, PuluoUserType user_type,
@@ -84,139 +84,139 @@ public class PuluoUserImpl implements PuluoUser {
 
 	@Override
 	public String userUUID() {
-		
+
 		return user_uuid;
 	}
 
 	@Override
 	public String mobile() {
-		
+
 		return mobile;
 	}
 
 	@Override
 	public String password() {
-		
+
 		return password;
 	}
 
 	@Override
 	public String firstName() {
-		
+
 		return firstName;
 	}
 
 	@Override
 	public String lastName() {
-		
+
 		return lastName;
 	}
 
 	@Override
 	public String thumbnail() {
-		
+
 		return thumbnail;
 	}
 
 	@Override
 	public String largeImage() {
-		
+
 		return largeImage;
 	}
 
 	@Override
 	public PuluoUserType userType() {
-		
+
 		return user_type;
 	}
 
 	@Override
 	public String email() {
-		
+
 		return email;
 	}
 
 	@Override
 	public DateTime birthday() {
-		
+
 		return birthday;
 	}
 
 	@Override
 	public char sex() {
-		
+
 		return sex;
 	}
 
 	@Override
 	public String zip() {
-		
+
 		return zip;
 	}
 
 	@Override
 	public String country() {
-		
+
 		return country;
 	}
 
 	@Override
 	public String state() {
-		
+
 		return state;
 	}
 
 	@Override
 	public String city() {
-		
+
 		return city;
 	}
 
 	@Override
 	public String occupation() {
-		
+
 		return occupation;
 	}
 
 	@Override
 	public String address() {
-		
+
 		return address;
 	}
 
 	@Override
 	public String[] interests() {
-		
+
 		return interests;
 	}
 
 	@Override
 	public DateTime createdAt() {
-		
+
 		return created_at;
 	}
 
 	@Override
 	public DateTime updatedAt() {
-		
+
 		return updated_at;
 	}
 
 	@Override
 	public String saying() {
-		
+
 		return saying;
 	}
 
 	@Override
 	public boolean banned() {
-		
+
 		return banned;
 	}
-	
+
 	@Override
 	public String name() {
-		return Strs.join(firstName," ",lastName);
+		return Strs.join(firstName, " ", lastName);
 	}
 
 	@Override
@@ -226,14 +226,21 @@ public class PuluoUserImpl implements PuluoUser {
 	}
 
 	@Override
-	public int following() {
-		// TODO Auto-generated method stub
-		return 0;
+	public boolean following(String other_uuid) {
+		return following(other_uuid, DaoApi.getInstance());
+	}
+
+	public boolean following(String other_uuid, PuluoDSI dsi) {
+		if (other_uuid.equals(user_uuid)) {
+			return true;
+		} else {
+			return dsi.friendshipDao().isFriend(user_uuid, other_uuid);
+		}
 	}
 
 	@Override
 	public boolean isCoach() {
-		
+
 		if (user_type.equals(PuluoUserType.Coach))
 			return true;
 		return false;
@@ -241,31 +248,32 @@ public class PuluoUserImpl implements PuluoUser {
 
 	@Override
 	public DateTime lastLogin() {
-		
+
 		return dsi.sessionDao().getByMobile(mobile).createdAt();
 	}
 
 	@Override
 	public long lastDuration() {
-		
-		return Calendar.getInstance().getTimeInMillis() - lastLogin().getMillis();
+
+		return Calendar.getInstance().getTimeInMillis()
+				- lastLogin().getMillis();
 	}
 
 	@Override
 	public boolean autoAddFriend() {
-		
+
 		return dsi.userSettingDao().getByUserUUID(user_uuid).autoAddFriend();
 	}
 
 	@Override
 	public boolean allowStrangerViewTimeline() {
-		
+
 		return dsi.userSettingDao().getByUserUUID(user_uuid).isTimelinePublic();
 	}
 
 	@Override
 	public boolean allowSearched() {
-		
+
 		return dsi.userSettingDao().getByUserUUID(user_uuid).isSearchable();
 	}
 

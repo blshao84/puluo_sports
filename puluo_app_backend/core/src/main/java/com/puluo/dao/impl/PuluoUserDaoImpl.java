@@ -259,7 +259,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 			getWriter().update(sql);
 			return getByUUID(uuid);
 		} catch (Exception e) {
-			log.info(e.getMessage());
+			e.printStackTrace();
 			throw new PuluoDatabaseException("更新profile时出错！");
 		}
 	}

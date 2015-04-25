@@ -35,7 +35,7 @@ public interface PuluoUser {
 	 */
 	String name();
 	int likes();
-	int following();
+	boolean following(String other_uuid);
 	boolean isCoach();
 	DateTime lastLogin(); //最后一次登录时间
 	long lastDuration(); //最后一次登录时长
