@@ -68,7 +68,7 @@ public class WechatButtonAPI {
 	}
 
 	private WechatMessage createCustomerServiceMessage() {
-		return new WechatTextMessage("<p>地址：尚都SOHO西塔三层1308室</p><br><p>客服电话：13522898646</p>");
+		return new WechatTextMessage("地址：尚都SOHO西塔三层1308室\n客服电话：13522898646");
 	}
 
 	private WechatMessage createHistOrders() {
