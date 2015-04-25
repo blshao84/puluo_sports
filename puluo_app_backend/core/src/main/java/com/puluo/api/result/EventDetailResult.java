@@ -26,14 +26,14 @@ public class EventDetailResult extends HasJSON{
 	public double price;
 	public List<PuluoEventAttendee> attendees;
 	public boolean registered;
-	public int durations;
+	public int duration;
 	
 	public EventDetailResult(String status,
 			String event_name, long event_time, String address,
 			String city, String phone, String coach_name, String coach_uuid,
 			List<String> thumbnail, int registered_users, int capacity, int likes,
 			EventLocationResult geo_location, String details, List<String> images, 
-			double price, List<PuluoEventAttendee> attendees, boolean registered,int durations) {
+			double price, List<PuluoEventAttendee> attendees, boolean registered,int duration) {
 		super();
 		this.status = status;
 		this.event_name = event_name;
@@ -53,7 +53,7 @@ public class EventDetailResult extends HasJSON{
 		this.price = price;
 		this.attendees = attendees;
 		this.registered = registered;
-		this.durations = durations;
+		this.duration = duration;
 	}
 	
 	public EventDetailResult(String status,

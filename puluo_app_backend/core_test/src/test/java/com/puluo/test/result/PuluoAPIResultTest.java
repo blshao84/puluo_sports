@@ -48,7 +48,7 @@ public class PuluoAPIResultTest {
 				+ "\"thumbnail\":\"http://upyun/puluo/userThumb.jpg!200\","
 				+ "\"large_image\":\"http://upyun/puluo/userThumb.jpg\","
 				+ "\"saying\":\"I’ve got an app for that.\"," + "\"likes\":2,"
-				+ "\"banned\":false," + "\"following\":1,"
+				+ "\"banned\":false," + "\"following\":true,"
 				+ "\"is_coach\":false" + "}," + "\"private_info\":{"
 				+ "\"email\":\"tracey.boyd@kotebo.com\"," + "\"sex\":\"m\","
 				+ "\"birthday\":\"1984-09-12\","

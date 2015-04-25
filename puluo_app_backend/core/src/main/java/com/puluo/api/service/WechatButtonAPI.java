@@ -63,11 +63,12 @@ public class WechatButtonAPI {
 	}
 
 	private WechatMessage createDownloadLink() {
-		return new WechatTextMessage("<a href=\"www.baidu.com\">下载App</a>");
+		//<a href=\"www.baidu.com\">下载App</a>
+		return new WechatTextMessage("敬请期待");
 	}
 
 	private WechatMessage createCustomerServiceMessage() {
-		return new WechatTextMessage("客服电话：400-19840801");
+		return new WechatTextMessage("<p>地址：尚都SOHO西塔三层1308室</p><br><p>客服电话：13522898646</p>");
 	}
 
 	private WechatMessage createHistOrders() {
@@ -93,7 +94,7 @@ public class WechatButtonAPI {
 
 	private WechatMessage createHottestEvent() {
 		// TODO Auto-generated method stub
-		return new WechatTextMessage("coming soon");
+		return new WechatTextMessage("敬请期待");
 	}
 
 	private WechatMessage createCurriculum() {
