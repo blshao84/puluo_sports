@@ -33,14 +33,14 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 		return updateOrderForKey(order.orderUUID(), "status", nextStatus.name());
 	}
 
-	@Override
-	public boolean upsertOrder(PuluoPaymentOrder order) {
-		if (getOrderByUUID(order.orderUUID())!=null) {
-			return updateOrder(order);
-		} else {
-			return saveOrder(order);
-		}
-	}
+//	@Override
+//	public boolean upsertOrder(PuluoPaymentOrder order) {
+//		if (getOrderByUUID(order.orderUUID())!=null) {
+//			return updateOrder(order);
+//		} else {
+//			return saveOrder(order);
+//		}
+//	}
 
 	@Override
 	public PuluoPaymentOrder getOrderByNumericID(long orderNumericID) {
@@ -68,7 +68,37 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 					.append("status text)").toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
-			// TODO create index
+			
+			String updateSQL = new StringBuilder().append("alter table ")
+					.append(super.getFullTableName())
+					.append(" add constraint " + super.getFullTableName() + "_pk_user_n_event unique(user_id, event_id)").toString();
+			log.info(updateSQL);
+			getWriter().execute(updateSQL);
+			
+			String indexSQL1 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_order_num_id on ")
+					.append(super.getFullTableName())
+					.append(" (order_num_id)").toString();
+			log.info(indexSQL1);
+			getWriter().execute(indexSQL1);
+			
+			String indexSQL2 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_order_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (order_uuid)").toString();
+			log.info(indexSQL2);
+			getWriter().execute(indexSQL2);
+			
+			String indexSQL3 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_user_n_event on ")
+					.append(super.getFullTableName())
+					.append(" (user_id, event_id)").toString();
+			log.info(indexSQL3);
+			getWriter().execute(indexSQL3);
+			
+			String indexSQL4 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_event_id on ")
+					.append(super.getFullTableName())
+					.append(" (event_id)").toString();
+			log.info(indexSQL1);
+			getWriter().execute(indexSQL4);
+			
 			return true;
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -114,7 +144,8 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 		}
 	}
 	
-	private boolean saveOrder(PuluoPaymentOrder order) {
+	@Override
+	public boolean saveOrder(PuluoPaymentOrder order) {
 		try {
 			SqlReader reader = getReader();
 			String querySQL = new StringBuilder().append("select count(1) from ")
@@ -125,20 +156,24 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 			int resCnt = reader.queryForInt(querySQL);
 			String updateSQL;
 			if (resCnt==0) {
-				updateSQL = new StringBuilder().append("insert into ")
-						.append(super.getFullTableName())
-						.append(" (order_uuid, payment_id, amount, payment_time, user_id, event_id, status)")
-						.append("values ('" + order.orderUUID() + "', ")
-						.append(Strs.isEmpty(order.paymentId()) ? "null" : "'" + order.paymentId() + "'").append(", ")
-						.append(order.amount()).append(", ")
-						.append(Strs.isEmpty(TimeUtils.formatDate(order.paymentTime())) ? "null" : "'" + TimeUtils.formatDate(order.paymentTime()) + "'").append(", ")
-						.append(Strs.isEmpty(order.userId()) ? "null" : "'" + order.userId() + "'").append(", ")
-						.append(Strs.isEmpty(order.eventId()) ? "null" : "'" + order.eventId() + "'").append(", ")
-						.append("'" + order.status().name() + "'").append(")")
-						.toString();
-				log.info(Strs.join("SQL: ", updateSQL));
-				getWriter().update(updateSQL);
-				return true;
+				if (getOrderByEvent(order.eventId(), order.userId())!=null) {
+					throw new PuluoDatabaseException("userID为'" + order.userId() + "'且eventID为'" + order.eventId() + "'已存在不能插入数据！");
+				} else {
+					updateSQL = new StringBuilder().append("insert into ")
+							.append(super.getFullTableName())
+							.append(" (order_uuid, payment_id, amount, payment_time, user_id, event_id, status)")
+							.append("values ('" + order.orderUUID() + "', ")
+							.append(Strs.isEmpty(order.paymentId()) ? "null" : "'" + order.paymentId() + "'").append(", ")
+							.append(order.amount()).append(", ")
+							.append(Strs.isEmpty(TimeUtils.formatDate(order.paymentTime())) ? "null" : "'" + TimeUtils.formatDate(order.paymentTime()) + "'").append(", ")
+							.append(Strs.isEmpty(order.userId()) ? "null" : "'" + order.userId() + "'").append(", ")
+							.append(Strs.isEmpty(order.eventId()) ? "null" : "'" + order.eventId() + "'").append(", ")
+							.append("'" + order.status().name() + "'").append(")")
+							.toString();
+					log.info(Strs.join("SQL: ", updateSQL));
+					getWriter().update(updateSQL);
+					return true;
+				}
 			} else {
 				throw new PuluoDatabaseException("order_uuid为'" + order.orderUUID() + "'已存在不能插入数据！");
 			}
@@ -148,7 +183,8 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 		}
 	}
 	
-	private boolean updateOrder(PuluoPaymentOrder order) {
+	@Override
+	public boolean updateOrder(PuluoPaymentOrder order) {
 		try {
 			SqlReader reader = getReader();
 			String querySQL = new StringBuilder().append("select count(1) from ")

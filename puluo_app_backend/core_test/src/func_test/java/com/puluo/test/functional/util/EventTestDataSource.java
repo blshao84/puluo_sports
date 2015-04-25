@@ -162,7 +162,7 @@ public class EventTestDataSource {
 		dsi.eventMemoryDao().saveEventMemory(mem5);
 		dsi.eventPosterDao().saveEventPhoto(poster1);
 		dsi.eventPosterDao().saveEventPhoto(poster2);
-		dsi.paymentDao().upsertOrder(payment);
+		dsi.paymentDao().saveOrder(payment);
 		dump();
 
 	}

@@ -190,7 +190,7 @@ public class EventRegistrationAPITest {
 		Mockito.when(mockPaymentDao.getOrderByUUID(Matchers.anyString()))
 				.thenReturn(order);
 		Mockito.when(
-				mockPaymentDao.upsertOrder(Matchers
+				mockPaymentDao.saveOrder(Matchers
 						.any(PuluoPaymentOrderImpl.class))).thenReturn(true);
 		Mockito.when(
 				mockOrderEventDao.saveOrderEvent(Matchers

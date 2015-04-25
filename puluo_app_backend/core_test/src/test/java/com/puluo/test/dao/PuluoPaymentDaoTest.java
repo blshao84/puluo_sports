@@ -41,10 +41,10 @@ public class PuluoPaymentDaoTest {
 		PuluoPaymentOrder payment_order_4 = new PuluoPaymentOrderImpl(UUID.randomUUID().toString(), 0.04,
 				DateTime.now(), UUID.randomUUID().toString(), event_id_2, PuluoOrderStatus.Paid);
 		paymentDao.createTable();
-		paymentDao.upsertOrder(payment_order_1);
-		paymentDao.upsertOrder(payment_order_2);
-		paymentDao.upsertOrder(payment_order_3);
-		paymentDao.upsertOrder(payment_order_4);
+		paymentDao.saveOrder(payment_order_1);
+		paymentDao.saveOrder(payment_order_2);
+		paymentDao.saveOrder(payment_order_3);
+		paymentDao.saveOrder(payment_order_4);
 		order_uuid_1 = payment_order_1.orderUUID();
 		order_uuid_2 = payment_order_2.orderUUID();
 		log.info("setUpDB done!");
@@ -100,6 +100,17 @@ public class PuluoPaymentDaoTest {
 	}
 
 	@Test
+	public void testSaveDuplicateOrder() {
+		log.info("testSaveDuplicateOrder start!");
+		PuluoPaymentDao paymentDao = DaoTestApi.paymentDevDao;
+		PuluoPaymentOrder payment_order = new PuluoPaymentOrderImpl(UUID.randomUUID().toString(), 0.03,
+				DateTime.now(), user_uuid, event_id_2, PuluoOrderStatus.Paying);
+		boolean fail = paymentDao.saveOrder(payment_order);
+		Assert.assertFalse("saving a dupplicate order should be failed", fail);
+		log.info("testSaveDuplicateOrder done!");
+	}
+
+	@Test
 	public void testUpdateOrder() {
 		log.info("testUpdateOrder start!");
 		PuluoPaymentDao paymentDao = DaoTestApi.paymentDevDao;
@@ -109,7 +120,7 @@ public class PuluoPaymentDaoTest {
 		String eventID = UUID.randomUUID().toString();
 		PuluoPaymentOrder payment_order_2 = new PuluoPaymentOrderImpl(payment_order_1.orderNumericID(), payment_order_1.orderUUID(), paymentId, 0.03,
 				DateTime.now().minusMinutes(1), userID, eventID, PuluoOrderStatus.Paying);
-		paymentDao.upsertOrder(payment_order_2);
+		paymentDao.updateOrder(payment_order_2);
 		PuluoPaymentOrder payment_order_3 = paymentDao.getOrderByUUID(order_uuid_2);
 		Assert.assertEquals("the payment id should be " + paymentId, paymentId, payment_order_3.paymentId());
 		Assert.assertTrue("the amount should be 0.03", 0.03==payment_order_3.amount());

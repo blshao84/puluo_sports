@@ -38,7 +38,7 @@ public class PuluoOrderEventDaoTest {
 				DateTime.now(), UUID.randomUUID().toString(), UUID.randomUUID().toString(),
 				PuluoOrderStatus.Undefined);
 		paymentDao.createTable();
-		paymentDao.upsertOrder(paymentOrder);
+		paymentDao.saveOrder(paymentOrder);
 		order_uuid_1 = paymentOrder.orderUUID();
 		PuluoOrderEventDaoImpl orderEventDao = (PuluoOrderEventDaoImpl) DaoTestApi.orderEventDevDao;
 		orderEventDao.createTable();

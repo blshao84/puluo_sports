@@ -16,7 +16,7 @@ public interface PuluoPaymentDao {
 	public boolean updateOrderStatus(PuluoPaymentOrder order,
 			PuluoOrderStatus nextStatus);
 
-	public boolean upsertOrder(PuluoPaymentOrder order);
+//	public boolean upsertOrder(PuluoPaymentOrder order);
 
 	public PuluoPaymentOrder getOrderByNumericID(long orderNumericID);
 
@@ -24,4 +24,8 @@ public interface PuluoPaymentDao {
 			String paymentRef);
 	
 	public PuluoPaymentOrder getOrderByEvent(String eventUUID, String userUUID);
+	
+	public boolean saveOrder(PuluoPaymentOrder order);
+	
+	public boolean updateOrder(PuluoPaymentOrder order);
 }
