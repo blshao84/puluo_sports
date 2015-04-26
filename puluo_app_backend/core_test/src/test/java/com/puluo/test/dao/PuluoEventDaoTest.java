@@ -43,7 +43,7 @@ public class PuluoEventDaoTest {
 				"coach_name_0", "coach_uuid_0", "thumbnail_uuid_0", "details_0", 0, PuluoEventLevel.Level1, PuluoEventCategory.Others);
 		infoDao.upsertEventInfo(info1);
 		PuluoEventInfo info2 = new PuluoEventInfoImpl("event_info_uuid_2", "name_2", "description_1",
-				"coach_name_0", "coach_uuid_0", "thumbnail_uuid_0", "details_0", 0, PuluoEventLevel.Level1, PuluoEventCategory.Others);
+				"coach_name_0", "coach_uuid_0", "thumbnail_uuid_0", "details_0", 0, PuluoEventLevel.Level2, PuluoEventCategory.Others);
 		infoDao.upsertEventInfo(info2);
 		PuluoEventLocationDao locationDao = DaoTestApi.eventLocationDevDao;
 		locationDao.createTable();
@@ -152,6 +152,9 @@ public class PuluoEventDaoTest {
 		Assert.assertEquals("符合条件event应该有2个!", 2 , events.size());
 		events = eventDao.findEvents(null,null, null, null, EventSortType.Price, SortDirection.Desc, 0.0, 0.0, 0.0, EventStatus.Full, PuluoEventCategory.Others);
 		Assert.assertEquals("符合条件event应该有3个!", 3 , events.size());
+
+		events = eventDao.findEvents(null,null, null, PuluoEventLevel.Level2, EventSortType.Price, SortDirection.Desc, 0.0, 0.0, 0.0, EventStatus.Full, PuluoEventCategory.Others);
+		Assert.assertEquals("符合条件event应该有1个!", 1 , events.size());
 		
 		log.info("testFindEvents done!");
 	}
