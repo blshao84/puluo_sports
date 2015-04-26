@@ -71,14 +71,19 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
 
   private def doEventSearch() = {
     val params = PuluoResponseFactory.createParamMap(Seq(
-      "event_from_date", "event_to_date", "keyword", "sort", "sort_direction",
-      "user_lattitude", "user_longitude", "status"))
+      "event_from_date", "event_to_date", "keyword", "level", "sort", "sort_direction",
+      "user_lattitude", "user_longitude", "status", "type"))
     val eventFromDate: DateTime = getEventDate(params, "event_from_date")
     val eventToDate: DateTime = getEventDate(params, "event_to_date")
     logger.info(s"creating event search api with:\n${params.mkString("\n")}")
     val keyword = params.getOrElse("keyword", "")
     val level: PuluoEventLevel = try {
       PuluoEventLevel.valueOf(params.getOrElse("level", ""))
+    } catch {
+      case e: Exception => null
+    }
+    val category: PuluoEventCategory = try {
+      PuluoEventCategory.valueOf(params.getOrElse("type", ""))
     } catch {
       case e: Exception => null
     }
@@ -119,9 +124,9 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
       locationToDouble(params.get("user_longitude"))) match {
         case (Some(lattitude), Some(longitude)) => {
           logger.info("api has longitude and lattitude")
-          new EventSearchAPI(eventFromDate, eventToDate, keyword, level, sort, sortDirection, lattitude, longitude, 0.0, status)
+          new EventSearchAPI(eventFromDate, eventToDate, keyword, level, sort, sortDirection, lattitude, longitude, 0.0, status, category)
         }
-        case _ => new EventSearchAPI(eventFromDate, eventToDate, keyword, level, sort, sortDirection, 0.0, 0.0, 0.0, status)
+        case _ => new EventSearchAPI(eventFromDate, eventToDate, keyword, level, sort, sortDirection, 0.0, 0.0, 0.0, status, category)
       }
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)

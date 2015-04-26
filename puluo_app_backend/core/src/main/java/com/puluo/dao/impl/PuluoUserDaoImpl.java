@@ -46,12 +46,30 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 					.append("banned boolean default true)").toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
-			// TODO create index
+			
+			String indexSQL1 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_id on ")
+					.append(super.getFullTableName())
+					.append(" (id)").toString();
+			log.info(indexSQL1);
+			getWriter().execute(indexSQL1);
+			
+			String indexSQL2 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_user_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (user_uuid)").toString();
+			log.info(indexSQL2);
+			getWriter().execute(indexSQL2);
+			
+			String indexSQL3 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_mobile on ")
+					.append(super.getFullTableName())
+					.append(" (mobile)").toString();
+			log.info(indexSQL3);
+			getWriter().execute(indexSQL3);
+			
+			return true;
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			return false;
 		}
-		return true;
 	}
 	
 	public boolean deleteByUserUUID(String uuid){

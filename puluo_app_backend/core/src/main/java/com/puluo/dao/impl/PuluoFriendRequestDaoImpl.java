@@ -37,7 +37,37 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 					.append("updated_at timestamp)").toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
-			// TODO create index
+			
+			String indexSQL1 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_id on ")
+					.append(super.getFullTableName())
+					.append(" (id)").toString();
+			log.info(indexSQL1);
+			getWriter().execute(indexSQL1);
+			
+			String indexSQL2 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_request_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (request_uuid)").toString();
+			log.info(indexSQL2);
+			getWriter().execute(indexSQL2);
+			
+			String indexSQL3 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_from_user_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (from_user_uuid)").toString();
+			log.info(indexSQL3);
+			getWriter().execute(indexSQL3);
+			
+			String indexSQL4 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_to_user_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (to_user_uuid)").toString();
+			log.info(indexSQL4);
+			getWriter().execute(indexSQL4);
+			
+			String indexSQL5 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_from_n_to on ")
+					.append(super.getFullTableName())
+					.append(" (from_user_uuid, to_user_uuid)").toString();
+			log.info(indexSQL5);
+			getWriter().execute(indexSQL5);
+			
 			return true;
 		} catch (Exception e) {
 			log.error(e.getMessage());

@@ -37,12 +37,24 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements
 					.append("location_type int)").toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
-			// TODO create index
+			
+			String indexSQL1 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_id on ")
+					.append(super.getFullTableName())
+					.append(" (id)").toString();
+			log.info(indexSQL1);
+			getWriter().execute(indexSQL1);
+			
+			String indexSQL2 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_location_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (location_uuid)").toString();
+			log.info(indexSQL2);
+			getWriter().execute(indexSQL2);
+			
+			return true;
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			return false;
 		}
-		return true;
 	}
 
 	public boolean deleteByLocationUUID(String uuid) {

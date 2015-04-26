@@ -35,6 +35,7 @@ import com.puluo.enumeration.EventSortType
 import com.puluo.enumeration.SortDirection
 import com.puluo.enumeration.EventStatus
 import com.puluo.util.TimeUtils
+import com.puluo.enumeration.PuluoEventCategory
 
 class EventSearchSnippet extends PuluoSnippetUtil with Loggable {
   object keyword extends RequestVar[Option[String]](None)
@@ -75,7 +76,7 @@ class EventSearchSnippet extends PuluoSnippetUtil with Loggable {
 
   private def searchOneWord(word: String): Seq[PuluoEvent] = {
     val api = new EventSearchAPI(null, null, word, null, EventSortType.Time,
-      SortDirection.Desc, 0.0, 0.0, 0.0, EventStatus.Open)
+      SortDirection.Desc, 0.0, 0.0, 0.0, EventStatus.Open, null)
     api.execute()
     val res = api.searchedEvents.toSeq
     logger.info(s"search ${word} returns ${res.size}")

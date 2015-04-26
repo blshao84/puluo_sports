@@ -37,17 +37,24 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 			log.info(createSQL);
 			getWriter().execute(createSQL);
 			
-			String indexSQL1 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_event_poster_uuid on ")
+			String indexSQL1 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_id on ")
 					.append(super.getFullTableName())
-					.append(" (event_poster_uuid)").toString();
+					.append(" (id)").toString();
 			log.info(indexSQL1);
 			getWriter().execute(indexSQL1);
 			
-			String indexSQL2 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_event_info_uuid on ")
+			String indexSQL2 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_event_poster_uuid on ")
 					.append(super.getFullTableName())
-					.append(" (event_info_uuid)").toString();
+					.append(" (event_poster_uuid)").toString();
 			log.info(indexSQL2);
 			getWriter().execute(indexSQL2);
+			
+			String indexSQL3 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_event_info_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (event_info_uuid)").toString();
+			log.info(indexSQL3);
+			getWriter().execute(indexSQL3);
+			
 			return true;
 		} catch (Exception e) {
 			log.debug(e.getMessage());

@@ -111,8 +111,8 @@ public class PuluoPrivateMessageDaoTest {
 		PuluoPrivateMessageDao messageDao = DaoTestApi.privateMessageDevDao;
 		List<PuluoPrivateMessage> messages = messageDao.getFriendRequestMessage(user1, user2);
 		Assert.assertEquals("messages' size should be 2", 2, messages.size());
-		Assert.assertEquals("message uuid should be 1", "1", messages.get(0).messageUUID());
-		Assert.assertEquals("message uuid should be 2", "2", messages.get(1).messageUUID());
+		Assert.assertEquals("message uuid should be 2", "2", messages.get(0).messageUUID());
+		Assert.assertEquals("message uuid should be 1", "1", messages.get(1).messageUUID());
 		
 		log.info("testGetFriendRequestMessage done!");
 	}
