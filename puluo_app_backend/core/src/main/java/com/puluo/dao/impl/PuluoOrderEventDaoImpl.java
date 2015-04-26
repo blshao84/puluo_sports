@@ -77,7 +77,25 @@ public class PuluoOrderEventDaoImpl extends DalTemplate implements
 					.append("type text)").toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
-			// TODO create index
+			
+			String indexSQL1 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_order_num_id on ")
+					.append(super.getFullTableName())
+					.append(" (order_num_id)").toString();
+			log.info(indexSQL1);
+			getWriter().execute(indexSQL1);
+			
+			String indexSQL2 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (uuid)").toString();
+			log.info(indexSQL2);
+			getWriter().execute(indexSQL2);
+			
+			String indexSQL3 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_order_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (order_uuid)").toString();
+			log.info(indexSQL3);
+			getWriter().execute(indexSQL3);
+			
 			return true;
 		} catch (Exception e) {
 			log.error(e.getMessage());

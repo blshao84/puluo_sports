@@ -33,12 +33,24 @@ public class PuluoAuthCodeRecordDaoImpl extends DalTemplate implements
 					.append("updated_at timestamp)").toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
-			// TODO create index
+			
+			String indexSQL1 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_id on ")
+					.append(super.getFullTableName())
+					.append(" (id)").toString();
+			log.info(indexSQL1);
+			getWriter().execute(indexSQL1);
+			
+			String indexSQL2 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_user_mobile on ")
+					.append(super.getFullTableName())
+					.append(" (user_mobile)").toString();
+			log.info(indexSQL2);
+			getWriter().execute(indexSQL2);
+
+			return true;
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return false;
 		}
-		return true;
 	}
 
 	public boolean deleteByMobile(String mobile) {

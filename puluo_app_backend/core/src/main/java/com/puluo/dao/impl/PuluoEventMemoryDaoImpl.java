@@ -36,12 +36,42 @@ public class PuluoEventMemoryDaoImpl extends DalTemplate implements PuluoEventMe
 				.toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
-			// TODO create index
+			
+			String indexSQL1 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_id on ")
+					.append(super.getFullTableName())
+					.append(" (id)").toString();
+			log.info(indexSQL1);
+			getWriter().execute(indexSQL1);
+			
+			String indexSQL2 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_memory_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (memory_uuid)").toString();
+			log.info(indexSQL2);
+			getWriter().execute(indexSQL2);
+			
+			String indexSQL3 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_user_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (user_uuid)").toString();
+			log.info(indexSQL3);
+			getWriter().execute(indexSQL3);
+			
+			String indexSQL4 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_event_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (event_uuid)").toString();
+			log.info(indexSQL4);
+			getWriter().execute(indexSQL4);
+			
+			String indexSQL5 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_timeline_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (timeline_uuid)").toString();
+			log.info(indexSQL5);
+			getWriter().execute(indexSQL5);
+			
+			return true;
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			return false;
 		}
-		return true;
 	}
 	
 	public boolean deleteByMemoryUUID(String uuid){

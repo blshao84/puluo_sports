@@ -38,12 +38,24 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 					.append("event_type text)").toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
-			// TODO create index
+			
+			String indexSQL1 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_id on ")
+					.append(super.getFullTableName())
+					.append(" (id)").toString();
+			log.info(indexSQL1);
+			getWriter().execute(indexSQL1);
+			
+			String indexSQL2 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_event_info_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (event_info_uuid)").toString();
+			log.info(indexSQL2);
+			getWriter().execute(indexSQL2);
+			
+			return true;
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			return false;
 		}
-		return true;
 	}
 
 	@Override
