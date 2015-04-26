@@ -39,6 +39,7 @@ import com.puluo.session.PuluoSessionManager
 import com.puluo.api.test.DummyAPI
 import com.puluo.api.test.DummyPrivateAPI
 import com.puluo.api.test.PrivateWechatService
+import net.liftweb.http.S
 
 class Boot extends Loggable {
 
@@ -64,6 +65,17 @@ class Boot extends Loggable {
     verified
 
   }
+  
+  def addHeader(s:net.liftweb.http.provider.HTTPResponse):Unit = {
+    val allowedOrigin = S.request.get.header("Origin").getOrElse("http://localhost:8100")
+    logger.info(s"allowedOrigin:${allowedOrigin}")
+    s.addHeaders(
+      List( //HTTPParam("X-Lift-Version", LiftRules.liftVersion),
+        HTTPParam("Access-Control-Allow-Origin", allowedOrigin),
+        HTTPParam("Access-Control-Allow-Credentials", "true"),
+        HTTPParam("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS"),
+        HTTPParam("Access-Control-Allow-Headers", "Accept,WWW-Authenticate,Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Content-Type")))
+  }
 
   def setupRequestConfig() = {
     val withAuthentication: PartialFunction[Req, Unit] = {
@@ -74,12 +86,7 @@ class Boot extends Loggable {
       case (req, failure) => NotFoundAsTemplate(ParsePath(List("404"), "html", false, false))
     })
     // setup cors
-    LiftRules.supplimentalHeaders = s => s.addHeaders(
-      List( //HTTPParam("X-Lift-Version", LiftRules.liftVersion),
-        HTTPParam("Access-Control-Allow-Origin", "http://localhost:8100"),
-        HTTPParam("Access-Control-Allow-Credentials", "true"),
-        HTTPParam("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS"),
-        HTTPParam("Access-Control-Allow-Headers", "Accept,WWW-Authenticate,Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Content-Type")))
+    LiftRules.supplimentalHeaders = addHeader
     // make requests utf-8
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
     LiftRules.dispatch.append(DemoAPI)
