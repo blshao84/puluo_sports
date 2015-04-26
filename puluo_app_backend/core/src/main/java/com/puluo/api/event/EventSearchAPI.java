@@ -12,6 +12,7 @@ import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.enumeration.EventSortType;
 import com.puluo.enumeration.EventStatus;
+import com.puluo.enumeration.PuluoEventCategory;
 import com.puluo.enumeration.PuluoEventLevel;
 import com.puluo.enumeration.SortDirection;
 import com.puluo.util.Log;
@@ -31,20 +32,21 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 	public Double range_from = 5.0;
 	public EventStatus status = EventStatus.Open;
 	public List<PuluoEvent> searchedEvents;
+	public PuluoEventCategory type = PuluoEventCategory.Others;
 	
 	public EventSearchAPI(DateTime event_from_date, DateTime event_to_date,
 			String keyword, PuluoEventLevel level, EventSortType sort,
 			SortDirection sort_direction, double latitude, double longitude,
-			double range_from, EventStatus status) {
+			double range_from, EventStatus status, PuluoEventCategory type) {
 		this(event_from_date, event_to_date, keyword, level, sort,
-				sort_direction, latitude, longitude, range_from, status, DaoApi
+				sort_direction, latitude, longitude, range_from, status, type, DaoApi
 						.getInstance());
 	}
 
 	public EventSearchAPI(DateTime event_from_date, DateTime event_to_date,
 			String keyword, PuluoEventLevel level, EventSortType sort,
 			SortDirection sort_direction, double latitude, double longitude,
-			double range_from, EventStatus status, PuluoDSI dsi) {
+			double range_from, EventStatus status, PuluoEventCategory type, PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.event_from_date = event_from_date;
 		this.event_to_date = event_to_date;
@@ -56,6 +58,7 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 		this.longitude = longitude;
 		this.range_from = range_from;
 		this.status = status;
+		this.type = type;
 	}
 
 	@Override
@@ -74,7 +77,7 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 				getTodayMidNight(event_from_date),
 				getTomorrowMidNight(event_to_date), keyword,
 				level, sort, sort_direction, latitude, longitude, range_from,
-				status);
+				status, type);
 		log.info(String.format("找到符合条件的%d个活动", searchedEvents.size()));
 		EventSearchResult result = new EventSearchResult();
 		result.setSearchResult(searchedEvents);

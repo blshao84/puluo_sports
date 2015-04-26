@@ -13,6 +13,7 @@ import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.impl.PuluoEventImpl;
 import com.puluo.enumeration.EventSortType;
 import com.puluo.enumeration.EventStatus;
+import com.puluo.enumeration.PuluoEventCategory;
 import com.puluo.enumeration.PuluoEventLevel;
 import com.puluo.enumeration.SortDirection;
 import com.puluo.jdbc.DalTemplate;
@@ -91,7 +92,7 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 	
 	@Override
 	public List<PuluoEvent> findEvents(DateTime event_from_date,DateTime event_to_date, String keyword, PuluoEventLevel level, 
-			EventSortType sort, SortDirection sort_direction, double latitude, double longitude, double range_from, EventStatus es) {
+			EventSortType sort, SortDirection sort_direction, double latitude, double longitude, double range_from, EventStatus es, PuluoEventCategory type) {
 		ArrayList<String> params = new ArrayList<String>();
 		String dateQuery = null;
 		if(event_from_date!=null && event_to_date!=null){
@@ -120,6 +121,9 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 		if (dateQuery!=null) {
 			params.add(dateQuery);
 		}
+		if (level!=null) {
+			params.add(" and i.event_level = '" + level.name() + "'");
+		}
 		if (keyword!=null) {
 			params.add(" and (position('" + keyword + "' in i.event_name)>0 or position('" + keyword + "' in i.description)>0)");
 		}
@@ -128,6 +132,9 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 		}
 		if (es!=null && !EventStatus.Full.equals(es)) {
 			params.add(" and e.status = '" + es.name() + "'");
+		}
+		if (type!=null) {
+			params.add(" and i.event_type = '" + type.name() + "'");
 		}
 		StringBuilder orderBy = new StringBuilder("");
 		if (EventSortType.Time.equals(sort)) {
