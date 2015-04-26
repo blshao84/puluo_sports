@@ -40,16 +40,16 @@ public class UserSearchFunctionalTest extends APIFunctionalTest {
 		PuluoUserDaoImpl dao = (PuluoUserDaoImpl) DaoApi.getInstance().userDao();
 		dao.save(mobile1, password1);
 		uuid1 = dao.getByMobile(mobile1).userUUID();
-		dao.updateProfile(dao.getByMobile(mobile1), "Lei", "Shi", null, null, null, "sinorockie@gmail.com", null, null, null, null, null, null);
+		dao.updateProfile(dao.getByMobile(mobile1), "Sports_1", "Puluo_1", null, null, null, "sinorockie@puluo_1.com", null, null, null, null, null, null);
 		dao.save(mobile2, password2);
 		uuid2 = dao.getByMobile(mobile2).userUUID();
-		dao.updateProfile(dao.getByMobile(mobile2), "Lei", "Shi", null, null, null, "sinorockie@outlook.com", null, null, null, null, null, null);
+		dao.updateProfile(dao.getByMobile(mobile2), "Sports_1", "Puluo_1", null, null, null, "sinorockie@puluo_2.com", null, null, null, null, null, null);
 		dao.save(mobile3, password3);
 		uuid3 = dao.getByMobile(mobile3).userUUID();
-		dao.updateProfile(dao.getByMobile(mobile3), "Luke", "Shi", null, null, null, "sinorockie@qq.com", null, null, null, null, null, null);
+		dao.updateProfile(dao.getByMobile(mobile3), "Sports_2", "Puluo_1", null, null, null, "sinorockie@puluo_3.com", null, null, null, null, null, null);
 		dao.save(mobile4, password4);
 		uuid4 = dao.getByMobile(mobile4).userUUID();
-		dao.updateProfile(dao.getByMobile(mobile4), "Lucas", "Shih", null, null, null, "sinorockie@gmail.com", null, null, null, null, null, null);
+		dao.updateProfile(dao.getByMobile(mobile4), "Sports_3", "Puluo_2", null, null, null, "sinorockie@puluo_1.com", null, null, null, null, null, null);
 	}
 
 	@AfterClass
@@ -176,17 +176,17 @@ public class UserSearchFunctionalTest extends APIFunctionalTest {
 	
 	@Test
 	public void testSearchByFirstName() {
-		testSearch1Parameter("testSearchByFirstName", "first_name", "Lei", 2);
+		testSearch1Parameter("testSearchByFirstName", "first_name", "Sports_1", 2);
 	}
 	
 	@Test
 	public void testSearchByLastName() {
-		testSearch1Parameter("testSearchByLastName", "last_name", "Shi", 3);
+		testSearch1Parameter("testSearchByLastName", "last_name", "Puluo_1", 3);
 	}
 	
 	@Test
 	public void testSearchByEmail() {
-		testSearch1Parameter("testSearchByEmail", "email", "sinorockie@gmail.com", 2);
+		testSearch1Parameter("testSearchByEmail", "email", "sinorockie@puluo_1.com", 2);
 	}
 	
 	@Test
@@ -196,25 +196,25 @@ public class UserSearchFunctionalTest extends APIFunctionalTest {
 	
 	@Test
 	public void testSearchBy2Parameters() {
-		testSearch2Parameters("testSearchBy2Parameters: First Name/Last Name", new String[]{"first_name", "last_name"}, new String[]{"Lei", "Shi"}, 2);
-		testSearch2Parameters("testSearchBy2Parameters: First Name/Mobile", new String[]{"first_name", "mobile"}, new String[]{"Lei", "123456789"}, 1);
-		testSearch2Parameters("testSearchBy2Parameters: First Name/Email", new String[]{"first_name", "email"}, new String[]{"Lei", "sinorockie@outlook.com"}, 1);
-		testSearch2Parameters("testSearchBy2Parameters: Last Name/Mobile", new String[]{"mobile", "last_name"}, new String[]{"23456789", "Shih"}, 0);
-		testSearch2Parameters("testSearchBy2Parameters: Last Name/Email", new String[]{"email", "last_name"}, new String[]{"sinorockie@gmail.com", "Shih"}, 1);
-		testSearch2Parameters("testSearchBy2Parameters: Email/Mobile", new String[]{"email", "mobile"}, new String[]{"sinorockie@gmail.com", "123456789"}, 1);
+		testSearch2Parameters("testSearchBy2Parameters: First Name/Last Name", new String[]{"first_name", "last_name"}, new String[]{"Sports_1", "Puluo_1"}, 2);
+		testSearch2Parameters("testSearchBy2Parameters: First Name/Mobile", new String[]{"first_name", "mobile"}, new String[]{"Sports_1", "123456789"}, 1);
+		testSearch2Parameters("testSearchBy2Parameters: First Name/Email", new String[]{"first_name", "email"}, new String[]{"Sports_1", "sinorockie@puluo_2.com"}, 1);
+		testSearch2Parameters("testSearchBy2Parameters: Last Name/Mobile", new String[]{"mobile", "last_name"}, new String[]{"23456789", "Puluo_2"}, 0);
+		testSearch2Parameters("testSearchBy2Parameters: Last Name/Email", new String[]{"email", "last_name"}, new String[]{"sinorockie@puluo_1.com", "Puluo_2"}, 1);
+		testSearch2Parameters("testSearchBy2Parameters: Email/Mobile", new String[]{"email", "mobile"}, new String[]{"sinorockie@puluo_1.com", "123456789"}, 1);
 	}
 	
 	@Test
 	public void testSearchBy3Parameters() {
-		testSearch3Parameters("testSearchBy3Parameters: First Name/Last Name/Mobile", new String[]{"first_name", "last_name", "mobile"}, new String[]{"Lei", "Shi", "123456789"}, 1);
-		testSearch3Parameters("testSearchBy3Parameters: First Name/Mobile/Email", new String[]{"first_name", "mobile", "email"}, new String[]{"Lei", "123456789", "sinorockie@gmail.com"}, 1);
-		testSearch3Parameters("testSearchBy3Parameters: First Name/Last Name/Email", new String[]{"first_name", "last_name", "email"}, new String[]{"Lei", "Shi", "sinorockie@outlook.com"}, 1);
-		testSearch3Parameters("testSearchBy3Parameters: Last Name/Mobile/Email", new String[]{"last_name", "mobile", "email"}, new String[]{"Shih", "23456789", "sinorockie@qq.com"}, 0);
+		testSearch3Parameters("testSearchBy3Parameters: First Name/Last Name/Mobile", new String[]{"first_name", "last_name", "mobile"}, new String[]{"Sports_1", "Puluo_1", "123456789"}, 1);
+		testSearch3Parameters("testSearchBy3Parameters: First Name/Mobile/Email", new String[]{"first_name", "mobile", "email"}, new String[]{"Sports_1", "123456789", "sinorockie@puluo_1.com"}, 1);
+		testSearch3Parameters("testSearchBy3Parameters: First Name/Last Name/Email", new String[]{"first_name", "last_name", "email"}, new String[]{"Sports_1", "Puluo_1", "sinorockie@puluo_2.com"}, 1);
+		testSearch3Parameters("testSearchBy3Parameters: Last Name/Mobile/Email", new String[]{"last_name", "mobile", "email"}, new String[]{"Puluo_2", "23456789", "sinorockie@puluo_3.com"}, 0);
 	}
 	
 	@Test
 	public void testSearchBy4Parameters() {
-		testSearch4Parameters("testSearchBy4Parameters: First Name/Last Name/Email/Mobile", new String[]{"first_name", "last_name", "email", "mobile"}, new String[]{"Lucas", "Shih", "sinorockie@gmail.com", "456789012"}, 1);
-		testSearch4Parameters("testSearchBy4Parameters: First Name/Last Name/Email/Mobile", new String[]{"first_name", "last_name", "email", "mobile"}, new String[]{"Lucas", "Shih", "sinorockie@gmail.com", "123456789"}, 0);
+		testSearch4Parameters("testSearchBy4Parameters: First Name/Last Name/Email/Mobile", new String[]{"first_name", "last_name", "email", "mobile"}, new String[]{"Sports_3", "Puluo_2", "sinorockie@puluo_1.com", "456789012"}, 1);
+		testSearch4Parameters("testSearchBy4Parameters: First Name/Last Name/Email/Mobile", new String[]{"first_name", "last_name", "email", "mobile"}, new String[]{"Sports_3", "Puluo_2", "sinorockie@puluo_1.com", "123456789"}, 0);
 	}
 }
