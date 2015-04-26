@@ -24,7 +24,7 @@ public class PuluoSessionManager {
 									.userUUID()));
 				}
 
-			}).expireAfterAccess(60, TimeUnit.MINUTES).build();
+			}).expireAfterAccess(30, TimeUnit.DAYS).build();
 
 	public static void login(String key, PuluoSession session) {
 		cache.put(key, session);
