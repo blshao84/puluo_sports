@@ -2,6 +2,7 @@ package com.puluo.test.dao;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -24,7 +25,7 @@ public class PuluoEventPosterDaoTest {
 		log.info("setUpDB start!");
 		PuluoEventPosterDao posterDao = DaoTestApi.eventPosterDevDao;
 		posterDao.createTable();
-		PuluoEventPoster photo = new PuluoEventPosterImpl("uuid_0","image_url_0","thumbnail_0","event_info_uuid_0");
+		PuluoEventPoster photo = new PuluoEventPosterImpl("uuid_0","image_url_0","thumbnail_0","event_info_uuid_0",DateTime.now());
 		posterDao.saveEventPhoto(photo);
 		log.info("setUpDB done!");
 	}
@@ -41,7 +42,7 @@ public class PuluoEventPosterDaoTest {
 	@Test
 	public void testSaveDupPoster() {
 		log.info("testSaveDupPoster start!");
-		boolean success = DaoTestApi.eventPosterDevDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_0","image_url_0","thumbnail_0","event_info_uuid_0"));
+		boolean success = DaoTestApi.eventPosterDevDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_0","image_url_0","thumbnail_0","event_info_uuid_0",DateTime.now()));
 		Assert.assertFalse("save a duplicate poster should fail!", success);
 		log.info("testSaveDupPoster done!");
 	}
@@ -50,10 +51,14 @@ public class PuluoEventPosterDaoTest {
 	public void testGetEventPoster() {
 		log.info("testGetEventPoster start!");
 		PuluoEventPosterDao posterDao = DaoTestApi.eventPosterDevDao;
-		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_1","image_url_0","thumbnail_0","event_info_uuid_0"));
-		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_2","image_url_0","thumbnail_0","event_info_uuid_0"));
+		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_1","image_url_1","thumbnail_1","event_info_uuid_0",DateTime.now().plusMinutes(5)));
+		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_2","image_url_2","thumbnail_2","event_info_uuid_0",DateTime.now().plusMinutes(4)));
+		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_3","image_url_3","thumbnail_3","event_info_uuid_0",DateTime.now().plusMinutes(3)));
+		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_4","image_url_4","thumbnail_4","event_info_uuid_0",DateTime.now().plusMinutes(2)));
+		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_5","image_url_5","thumbnail_5","event_info_uuid_0",DateTime.now().plusMinutes(1)));
 		List<PuluoEventPoster> posters = posterDao.getEventPosterByInfoUUID("event_info_uuid_0");
-		Assert.assertEquals("posters' size should be 3!", 3, posters.size());
+		Assert.assertEquals("posters' size should be 5!", 5, posters.size());
+		Assert.assertEquals("the first image url of the posters should be image_url_1!", "image_url_1", posters.get(0).imageURL());
 		log.info("testGetEventPoster done!");
 	}
 
@@ -61,12 +66,12 @@ public class PuluoEventPosterDaoTest {
 	public void testUpdateEventPoster() {
 		log.info("testUpdateEventPoster start!");
 		PuluoEventPosterDao posterDao = DaoTestApi.eventPosterDevDao;
-		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_3","image_url_0","thumbnail_0","event_info_uuid_1"));
-		posterDao.updateEventPhoto(new PuluoEventPosterImpl("uuid_3","image_url_1",null,null));
+		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_6","image_url_6","thumbnail_6","event_info_uuid_1",DateTime.now()));
+		posterDao.updateEventPhoto(new PuluoEventPosterImpl("uuid_6","image_url_7",null,null,DateTime.now()));
 		List<PuluoEventPoster> posters = posterDao.getEventPosterByInfoUUID("event_info_uuid_1");
 		PuluoEventPoster poster = posters.get(0);
-		Assert.assertEquals("poster's image url should be image_url_1!", "image_url_1", poster.imageURL());
-		Assert.assertEquals("poster's thumbnail should be thumbnail_0", "thumbnail_0", poster.thumbnail());
+		Assert.assertEquals("poster's image url should be image_url_7!", "image_url_7", poster.imageURL());
+		Assert.assertEquals("poster's thumbnail should be thumbnail_6", "thumbnail_6", poster.thumbnail());
 		log.info("testUpdateEventPoster done!");
 	}
 }

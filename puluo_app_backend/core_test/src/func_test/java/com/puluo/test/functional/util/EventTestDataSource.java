@@ -137,11 +137,11 @@ public class EventTestDataSource {
 
 		PuluoEventPoster poster1 = new PuluoEventPosterImpl(posterID1,
 				"http://upyun.com/puluo/xyz.jpg",
-				"http://upyun.com/puluo/xyz.jpg", infoID1);
+				"http://upyun.com/puluo/xyz.jpg", infoID1, DateTime.now());
 
 		PuluoEventPoster poster2 = new PuluoEventPosterImpl(posterID2,
 				"http://upyun.com/puluo/abc.jpg",
-				"http://upyun.com/puluo/abc.jpg", infoID2);
+				"http://upyun.com/puluo/abc.jpg", infoID2, DateTime.now());
 		
 		PuluoPaymentOrder payment = new PuluoPaymentOrderImpl(UUID.randomUUID().toString(), 0.0,
 				DateTime.now(), user.userUUID(), eventID1, PuluoOrderStatus.Paid);

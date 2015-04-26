@@ -1,5 +1,7 @@
 package com.puluo.entity;
 
+import org.joda.time.DateTime;
+
 public interface PuluoEventPoster { 
 
 	String imageId();
@@ -7,4 +9,5 @@ public interface PuluoEventPoster {
 	String thumbnail();
 	String eventInfoUUID();
 	PuluoEventInfo eventInfo();
+	DateTime createdAt();
 }
