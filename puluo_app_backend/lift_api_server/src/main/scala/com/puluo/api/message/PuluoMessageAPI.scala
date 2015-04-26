@@ -37,11 +37,11 @@ object PuluoMessageAPI extends RestHelper with PuluoAPIUtil with Loggable {
   }
 
   private def doListMessages = {
-    val params = PuluoResponseFactory.createParamMap(Seq("token", "user_uuid", "since"))
+    val params = PuluoResponseFactory.createParamMap(Seq("token", "from_user_uuid","to_user_uuid", "since"))
     val token = params("token")
     val session = PuluoSessionManager.getSession(token)
-    val fromUserUUID = session.userUUID()
-    val toUserUUID = params.getOrElse("user_uuid", "")
+    val fromUserUUID = params.getOrElse("from_user_uuid", "")//session.userUUID()
+    val toUserUUID = params.getOrElse("to_user_uuid", "")
     val since = params.get("since").map {
       s =>
         try {

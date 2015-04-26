@@ -37,7 +37,8 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 
 	@BeforeClass
 	public static void setupDB() {
-		PuluoUserDaoImpl userDao = (PuluoUserDaoImpl) DaoApi.getInstance().userDao();
+		PuluoUserDaoImpl userDao = (PuluoUserDaoImpl) DaoApi.getInstance()
+				.userDao();
 		userDao.save(mobile1, password);
 		uuid1 = userDao.getByMobile(mobile1).userUUID();
 		userDao.save(mobile2, password);
@@ -48,9 +49,12 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 
 	@AfterClass
 	public static void cleanupDB() {
-		PuluoUserDaoImpl dao = (PuluoUserDaoImpl) DaoApi.getInstance().userDao();
-		PuluoSessionDaoImpl sessionDao = (PuluoSessionDaoImpl) DaoApi.getInstance().sessionDao();
-		PuluoPrivateMessageDaoImpl messageDao = (PuluoPrivateMessageDaoImpl) DaoApi.getInstance().privateMessageDao();
+		PuluoUserDaoImpl dao = (PuluoUserDaoImpl) DaoApi.getInstance()
+				.userDao();
+		PuluoSessionDaoImpl sessionDao = (PuluoSessionDaoImpl) DaoApi
+				.getInstance().sessionDao();
+		PuluoPrivateMessageDaoImpl messageDao = (PuluoPrivateMessageDaoImpl) DaoApi
+				.getInstance().privateMessageDao();
 		PuluoUser user;
 		user = dao.getByMobile(mobile1);
 		if (user != null) {
@@ -67,19 +71,23 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 			dao.deleteByUserUUID(user.userUUID());
 			sessionDao.obliterateAllSessions(user.mobile());
 		}
-		for (String msgId: msgIds) {
+		for (String msgId : msgIds) {
 			messageDao.deleteByMsgUUID(msgId);
 		}
 	}
-	
+
 	@Test
 	public void testNotExistingToUUID() {
 		log.info("testNotExistingToUUID start!");
 		try {
 			String session = super.login(mobile1, password);
-			Assert.assertFalse("successful login should give not null session id", Strs.isEmpty(session));
-			
-			String str = String.format("{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}", session, uuid3, "", "");
+			Assert.assertFalse(
+					"successful login should give not null session id",
+					Strs.isEmpty(session));
+
+			String str = String
+					.format("{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}",
+							session, uuid3, "", "");
 			JsonNode json = callAPI("users/message/send", str);
 			log.info(json);
 			String error = super.getStringFromJson(json, "id");
@@ -90,15 +98,19 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 		}
 		log.info("testNotExistingToUUID done!");
 	}
-	
+
 	@Test
 	public void testNullContent() {
 		log.info("testNullContent start!");
 		try {
 			String session = super.login(mobile1, password);
-			Assert.assertFalse("successful login should give not null session id", Strs.isEmpty(session));
-			
-			String str = String.format("{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content_type\":\"%s\"}", session, uuid2, PuluoMessageType.TextMessage.name());
+			Assert.assertFalse(
+					"successful login should give not null session id",
+					Strs.isEmpty(session));
+
+			String str = String
+					.format("{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content_type\":\"%s\"}",
+							session, uuid2, PuluoMessageType.TextMessage.name());
 			JsonNode json = callAPI("users/message/send", str);
 			log.info(json);
 			String error = super.getStringFromJson(json, "id");
@@ -109,15 +121,20 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 		}
 		log.info("testNullContent done!");
 	}
-	
+
 	@Test
 	public void testSendMessage() {
 		log.info("testSendMessage start!");
 		try {
 			String session = super.login(mobile1, password);
-			Assert.assertFalse("successful login should give not null session id", Strs.isEmpty(session));
-			
-			String str = String.format("{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}", session, uuid2, "Hello, Puluo!", PuluoMessageType.TextMessage.name());
+			Assert.assertFalse(
+					"successful login should give not null session id",
+					Strs.isEmpty(session));
+
+			String str = String
+					.format("{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}",
+							session, uuid2, "Hello, Puluo!",
+							PuluoMessageType.TextMessage.name());
 			JsonNode json = callAPI("users/message/send", str);
 			log.info(json);
 			String to_uuid = super.getStringFromJson(json, "to_user");
@@ -129,15 +146,20 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 		}
 		log.info("testSendMessage done!");
 	}
-	
+
 	@Test
 	public void testOtherContentTypes() {
 		log.info("testOtherContentTypes start!");
 		try {
 			String session = super.login(mobile1, password);
-			Assert.assertFalse("successful login should give not null session id", Strs.isEmpty(session));
-			
-			String str = String.format("{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}", session, uuid2, "Hello, Puluo!", PuluoMessageType.ImageMessage.name());
+			Assert.assertFalse(
+					"successful login should give not null session id",
+					Strs.isEmpty(session));
+
+			String str = String
+					.format("{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}",
+							session, uuid2, "Hello, Puluo!",
+							PuluoMessageType.ImageMessage.name());
 			JsonNode json = callAPI("users/message/send", str);
 			log.info(json);
 			String error = super.getStringFromJson(json, "id");
@@ -148,21 +170,27 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 		}
 		log.info("testOtherContentTypes done!");
 	}
-	
+
 	@Test
 	public void testListMessagesNotExistingUUID() {
 		log.info("testListMessagesNotExistingUUID start!");
 		try {
 			String session = super.login(mobile2, password);
-			Assert.assertFalse("successful login should give not null session id", Strs.isEmpty(session));
-			
-			PuluoSessionDaoImpl sessionDao = (PuluoSessionDaoImpl) DaoApi.getInstance().sessionDao();
+			Assert.assertFalse(
+					"successful login should give not null session id",
+					Strs.isEmpty(session));
+
+			PuluoSessionDaoImpl sessionDao = (PuluoSessionDaoImpl) DaoApi
+					.getInstance().sessionDao();
 			DateTime now = sessionDao.now();
-			
-			String str = String.format("{\"token\":\"%s\", \"user_uuid\":\"%s\", \"since\":\"%s\"}", session, uuid4, now.getMillis() - 10000);
+
+			String str = String
+					.format("{\"token\":\"%s\", \"from_user_uuid\":\"%s\",\"user_uuid\":\"%s\", \"since\":\"%s\"}",
+							session, uuid2, uuid4, now.getMillis() - 10000);
 			JsonNode json = callAPI("users/messages", str);
 			log.info(json);
-			JsonNode msgs = new JsonNode(super.getStringFromJson(json, "messages"));
+			JsonNode msgs = new JsonNode(super.getStringFromJson(json,
+					"messages"));
 			log.info(msgs.getArray().length());
 			Assert.assertEquals("size should be 0", 0, msgs.getArray().length());
 		} catch (UnirestException e) {
@@ -171,27 +199,46 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 		}
 		log.info("testListMessagesNotExistingUUID done!");
 	}
-	
+
 	@Test
 	public void testListMessagesWithHistory() {
 		log.info("testListMessagesWithHistory start!");
 		try {
 			String session = super.login(mobile3, password);
-			Assert.assertFalse("successful login should give not null session id", Strs.isEmpty(session));
-			
+			Assert.assertFalse(
+					"successful login should give not null session id",
+					Strs.isEmpty(session));
+
 			JsonNode json;
 
-			json = callAPI("users/message/send", String.format("{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}", session, uuid2, "1: Hello, Puluo!", PuluoMessageType.TextMessage.name()));
+			json = callAPI(
+					"users/message/send",
+					String.format(
+							"{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}",
+							session, uuid2, "1: Hello, Puluo!",
+							PuluoMessageType.TextMessage.name()));
 			msgIds.add(super.getStringFromJson(json, "msg_id"));
-			json = callAPI("users/message/send", String.format("{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}", session, uuid2, "2: Hello, Puluo!", PuluoMessageType.TextMessage.name()));
+			json = callAPI(
+					"users/message/send",
+					String.format(
+							"{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}",
+							session, uuid2, "2: Hello, Puluo!",
+							PuluoMessageType.TextMessage.name()));
 			msgIds.add(super.getStringFromJson(json, "msg_id"));
-			json = callAPI("users/message/send", String.format("{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}", session, uuid2, "3: Hello, Puluo!", PuluoMessageType.TextMessage.name()));
+			json = callAPI(
+					"users/message/send",
+					String.format(
+							"{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}",
+							session, uuid2, "3: Hello, Puluo!",
+							PuluoMessageType.TextMessage.name()));
 			msgIds.add(super.getStringFromJson(json, "msg_id"));
-			
-			String str = String.format("{\"token\":\"%s\", \"user_uuid\":\"%s\"}", session, uuid2);
+
+			String str = String.format(
+					"{\"token\":\"%s\",\"from_user_uuid\":\"%s\", \"to_user_uuid\":\"%s\"}", session,uuid3, uuid2);
 			json = callAPI("users/messages", str);
 			log.info(json);
-			JsonNode msgs = new JsonNode(super.getStringFromJson(json, "messages"));
+			JsonNode msgs = new JsonNode(super.getStringFromJson(json,
+					"messages"));
 			log.info(msgs.getArray().length());
 			Assert.assertEquals("size should be 3", 3, msgs.getArray().length());
 		} catch (UnirestException e) {
@@ -200,18 +247,22 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 		}
 		log.info("testListMessagesWithHistory done!");
 	}
-	
+
 	@Test
 	public void testListMessagesWithoutHistory() {
 		log.info("testListMessagesWithoutHistory start!");
 		try {
 			String session = super.login(mobile2, password);
-			Assert.assertFalse("successful login should give not null session id", Strs.isEmpty(session));
-			
-			String str = String.format("{\"token\":\"%s\", \"user_uuid\":\"%s\"}", session, uuid3);
+			Assert.assertFalse(
+					"successful login should give not null session id",
+					Strs.isEmpty(session));
+
+			String str = String.format(
+					"{\"token\":\"%s\",\"from_user_uuid\":\"%s\", \"to_user_uuid\":\"%s\"}", session,uuid2, uuid3);
 			JsonNode json = callAPI("users/messages", str);
 			log.info(json);
-			JsonNode msgs = new JsonNode(super.getStringFromJson(json, "messages"));
+			JsonNode msgs = new JsonNode(super.getStringFromJson(json,
+					"messages"));
 			log.info(msgs.getArray().length());
 			Assert.assertEquals("size should be 0", 0, msgs.getArray().length());
 		} catch (UnirestException e) {
@@ -220,29 +271,50 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 		}
 		log.info("testListMessagesWithoutHistory done!");
 	}
-	
+
 	@Test
 	public void testListMessagesBasic() {
 		log.info("testListMessagesBasic start!");
 		try {
 			String session = super.login(mobile2, password);
-			Assert.assertFalse("successful login should give not null session id", Strs.isEmpty(session));
-			
-			PuluoSessionDaoImpl sessionDao = (PuluoSessionDaoImpl) DaoApi.getInstance().sessionDao();
+			Assert.assertFalse(
+					"successful login should give not null session id",
+					Strs.isEmpty(session));
+
+			PuluoSessionDaoImpl sessionDao = (PuluoSessionDaoImpl) DaoApi
+					.getInstance().sessionDao();
 			DateTime now = sessionDao.now();
 			JsonNode json;
 
-			json = callAPI("users/message/send", String.format("{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}", session, uuid1, "1: Hello, Puluo!", PuluoMessageType.TextMessage.name()));
+			json = callAPI(
+					"users/message/send",
+					String.format(
+							"{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}",
+							session, uuid1, "1: Hello, Puluo!",
+							PuluoMessageType.TextMessage.name()));
 			msgIds.add(super.getStringFromJson(json, "msg_id"));
-			json = callAPI("users/message/send", String.format("{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}", session, uuid1, "2: Hello, Puluo!", PuluoMessageType.TextMessage.name()));
+			json = callAPI(
+					"users/message/send",
+					String.format(
+							"{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}",
+							session, uuid1, "2: Hello, Puluo!",
+							PuluoMessageType.TextMessage.name()));
 			msgIds.add(super.getStringFromJson(json, "msg_id"));
-			json = callAPI("users/message/send", String.format("{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}", session, uuid1, "3: Hello, Puluo!", PuluoMessageType.TextMessage.name()));
+			json = callAPI(
+					"users/message/send",
+					String.format(
+							"{\"token\":\"%s\", \"to_uuid\":\"%s\", \"content\":\"%s\", \"content_type\":\"%s\"}",
+							session, uuid1, "3: Hello, Puluo!",
+							PuluoMessageType.TextMessage.name()));
 			msgIds.add(super.getStringFromJson(json, "msg_id"));
-			
-			String str = String.format("{\"token\":\"%s\", \"user_uuid\":\"%s\", \"since\":\"%s\"}", session, uuid1, now.getMillis() - 10000);
+
+			String str = String
+					.format("{\"token\":\"%s\", \"from_user_uuid\":\"%s\", \"to_user_uuid\":\"%s\", \"since\":\"%s\"}",
+							session,uuid2, uuid1, now.getMillis() - 10000);
 			json = callAPI("users/messages", str);
 			log.info(json);
-			JsonNode msgs = new JsonNode(super.getStringFromJson(json, "messages"));
+			JsonNode msgs = new JsonNode(super.getStringFromJson(json,
+					"messages"));
 			log.info(msgs.getArray().length());
 			Assert.assertEquals("size should be 3", 3, msgs.getArray().length());
 		} catch (UnirestException e) {
