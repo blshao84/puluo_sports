@@ -15,6 +15,7 @@ import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.PuluoDatabaseException;
 import com.puluo.util.Strs;
+import com.puluo.util.TimeUtils;
 
 public class PuluoEventPosterDaoImpl extends DalTemplate implements
 		PuluoEventPosterDao {
@@ -30,16 +31,28 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 				.append("event_poster_uuid text unique, ")
 				.append("image_url text, ")
 				.append("thumbnail text, ")
-				.append("event_info_uuid text)")
+				.append("event_info_uuid text, ")
+				.append("created_at timestamp)")
 				.toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
-			// TODO create index
+			
+			String indexSQL1 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_event_poster_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (event_poster_uuid)").toString();
+			log.info(indexSQL1);
+			getWriter().execute(indexSQL1);
+			
+			String indexSQL2 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_event_info_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (event_info_uuid)").toString();
+			log.info(indexSQL2);
+			getWriter().execute(indexSQL2);
+			return true;
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			return false;
 		}
-		return true;
 	}
 	
 	public boolean deleteByPosterUUID(String uuid){
@@ -60,11 +73,12 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 			if (resCnt==0) {
 				updateSQL = new StringBuilder().append("insert into ")
 						.append(super.getFullTableName())
-						.append(" (event_poster_uuid, image_url, thumbnail, event_info_uuid)")
+						.append(" (event_poster_uuid, image_url, thumbnail, event_info_uuid, created_at)")
 						.append(" values ('" + photo.imageId() + "', ")
 						.append(Strs.isEmpty(photo.imageURL()) ? "null" : "'" + photo.imageURL() + "'").append(", ")
 						.append(Strs.isEmpty(photo.thumbnail()) ? "null" : "'" + photo.thumbnail() + "'").append(", ")
-						.append(Strs.isEmpty(photo.eventInfoUUID()) ? "null" : "'" + photo.eventInfoUUID() + "'").append(")")
+						.append(Strs.isEmpty(photo.eventInfoUUID()) ? "null" : "'" + photo.eventInfoUUID() + "'").append(", ")
+						.append(Strs.isEmpty(TimeUtils.formatDate(photo.createdAt())) ? "now()::timestamp" : "'" + TimeUtils.formatDate(photo.createdAt()) + "'").append(")")
 						.toString();
 				log.info(Strs.join("SQL:",updateSQL));
 				getWriter().update(updateSQL);
@@ -82,7 +96,7 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 	public List<PuluoEventPoster> getEventPosterByInfoUUID(String event_info_uuid) {
 		SqlReader reader = getReader();
 		StringBuilder selectSQL = new StringBuilder().append("select * from ")
-				.append(super.getFullTableName()).append(" where event_info_uuid = ?");
+				.append(super.getFullTableName()).append(" where event_info_uuid = ? order by created_at desc limit 5");
 		List<PuluoEventPoster> entities = reader.query(selectSQL.toString(), new Object[]{event_info_uuid},
 				new PuluoEventPosterMapper());
 		return entities;
@@ -152,7 +166,8 @@ class PuluoEventPosterMapper implements RowMapper<PuluoEventPoster> {
 				rs.getString("event_poster_uuid"),
 				rs.getString("image_url"),
 				rs.getString("thumbnail"),
-				rs.getString("event_info_uuid"));
+				rs.getString("event_info_uuid"),
+				TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at"))));
 		return eventPoster;
 	}
 }
