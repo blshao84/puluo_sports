@@ -74,12 +74,12 @@ class Boot extends Loggable {
       case (req, failure) => NotFoundAsTemplate(ParsePath(List("404"), "html", false, false))
     })
     // setup cors
-    LiftRules.supplimentalHeaders = s => s.addHeaders(
+    /*LiftRules.supplimentalHeaders = s => s.addHeaders(
       List( //HTTPParam("X-Lift-Version", LiftRules.liftVersion),
         HTTPParam("Access-Control-Allow-Origin", "http://puluo.kotebo.com"),
         HTTPParam("Access-Control-Allow-Credentials", "true"),
         HTTPParam("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS"),
-        HTTPParam("Access-Control-Allow-Headers", "Accept,WWW-Authenticate,Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Content-Type")))
+        HTTPParam("Access-Control-Allow-Headers", "Accept,WWW-Authenticate,Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Content-Type")))*/
     // make requests utf-8
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
     LiftRules.dispatch.append(DemoAPI)
