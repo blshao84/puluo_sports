@@ -75,12 +75,10 @@ object PuluoUserAPI extends RestHelper with PuluoAPIUtil with Loggable {
   }
 
   private def doUserSearch = {
-    val optionalParams = Seq("first_name", "last_name", "email", "mobile")
+    val optionalParams = Seq("keyword","first_name", "last_name", "email", "mobile")
     val optionalParamsMap = PuluoResponseFactory.createParamMap(optionalParams)
     logger.info("param map for users/search:\n" + optionalParamsMap.mkString("\n"))
-    val api = new UserSearchAPI(
-      optionalParamsMap.getOrElse("first_name", ""), optionalParamsMap.getOrElse("last_name", ""),
-      optionalParamsMap.getOrElse("email", ""), optionalParamsMap.getOrElse("mobile", ""))
+    val api = new UserSearchAPI(optionalParamsMap.getOrElse("keyword", ""))
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)
   }
