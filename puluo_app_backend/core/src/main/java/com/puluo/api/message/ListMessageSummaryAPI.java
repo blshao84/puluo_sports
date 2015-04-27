@@ -53,7 +53,9 @@ public class ListMessageSummaryAPI extends
 		List<MessageSummaryResult> results = new ArrayList<MessageSummaryResult>();
 		while (keys.hasNext()) {
 			String key = keys.next();
+			log.info(String.format("process user %s", key));
 			if ((limit == 0) || (i >= offset && i < offset + limit)) {
+				log.info(String.format("\toffset:%s,limit:%s,i=%s,add user %s", offset,limit,i,key));
 				PuluoPrivateMessage msg = buffers.get(key).first();
 				PuluoUser theOtherUser = null;
 				if (user_uuid.equals(msg.fromUserUUID())) {
