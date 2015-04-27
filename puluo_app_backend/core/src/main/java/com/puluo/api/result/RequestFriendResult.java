@@ -45,6 +45,8 @@ class FriendRequestResult {
 		messages.add(new MessageResult("de305d54-75b4-431b-adb2-eb6b9e546013",
 				"de305d54-75b4-431b-adb2-eb6b9e546013",
 				"de305d54-75b4-431b-adb2-eb6b9e546013",
+				"Baolin","Shao",
+				"Tracey","Boydston",
 				"http://upyun.com/puluo/xxxx", "http://upyun.com/puluo/xxxx",
 				"hi, this is Tracy!", 1427007059034L));
 		return new FriendRequestResult("", "pending", messages,

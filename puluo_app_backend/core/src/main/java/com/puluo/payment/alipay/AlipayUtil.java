@@ -24,7 +24,7 @@ public class AlipayUtil {
 	}
 
 	public static String generateDirectPayLink(PuluoPaymentOrder order) {
-	    String ALIPAY_GATEWAY_NEW = "https://mapi.alipay.com/gateway.do?";
+		String ALIPAY_GATEWAY_NEW = "https://mapi.alipay.com/gateway.do?";
 
 		String outTradeNo = generateOrderID(order, Configurations.orderIDBase);
 		String payment_type = "1";
@@ -48,12 +48,14 @@ public class AlipayUtil {
 		sParaTemp.put("total_fee", total_fee);// 付款金额
 		sParaTemp.put("body", body);
 		sParaTemp.put("show_url", show_url);// 商品展示地址
-		String link = AlipaySubmit.buildRequestLink(ALIPAY_GATEWAY_NEW,sParaTemp);
+		String link = AlipaySubmit.buildRequestLink(ALIPAY_GATEWAY_NEW,
+				sParaTemp);
 		log.info(String.format("支付宝支付链接:\n %s", link));
 		return link;
 	}
 
-	public static String generateDirectWAPLink(PuluoPaymentOrder order) throws Exception {
+	public static String generateDirectWAPLink(PuluoPaymentOrder order,
+			boolean mock) throws Exception {
 		String out_trade_no = generateOrderID(order, Configurations.orderIDBase);
 		String subject = out_trade_no;
 		String notify_url = Configurations.webServer + "/payment/alipay/notify";
@@ -115,7 +117,11 @@ public class AlipayUtil {
 		sHtmlTextToken = URLDecoder.decode(sHtmlTextToken,
 				AlipayConfig.input_charset);
 		// 获取token
-		String request_token = AlipaySubmit.getRequestToken(sHtmlTextToken);
+		String request_token;
+		if (mock)
+			request_token = "";
+		else
+			request_token = AlipaySubmit.getRequestToken(sHtmlTextToken);
 		// out.println(request_token);
 
 		// //////////////////////////////////根据授权码token调用交易接口alipay.wap.auth.authAndExecute//////////////////////////////////////
@@ -135,7 +141,8 @@ public class AlipayUtil {
 		sParaTemp.put("v", v);
 		sParaTemp.put("req_data", req_data);
 
-		String link = AlipaySubmit.buildRequestLink(ALIPAY_GATEWAY_NEW,sParaTemp);
+		String link = AlipaySubmit.buildRequestLink(ALIPAY_GATEWAY_NEW,
+				sParaTemp);
 		log.info(String.format("支付宝支付链接:\n %s", link));
 		return link;
 	}

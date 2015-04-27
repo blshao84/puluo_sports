@@ -18,6 +18,7 @@ import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoFriendRequest;
 import com.puluo.entity.PuluoPrivateMessage;
+import com.puluo.entity.PuluoUser;
 import com.puluo.entity.impl.PuluoFriendRequestImpl;
 import com.puluo.entity.impl.PuluoPrivateMessageImpl;
 import com.puluo.enumeration.FriendRequestStatus;
@@ -90,11 +91,17 @@ public class RequestFriendAPI extends PuluoAPI<PuluoDSI, RequestFriendResult> {
 				messagedao.saveMessage(message);
 				
 				List<MessageResult> messages_result =  new ArrayList<MessageResult>();
-				for(int i=0;i<request.messages().size();i++) 
-					messages_result.add(new MessageResult(request.messages().get(i).messageUUID(),
-							request.messages().get(i).fromUser().userUUID(),request.messages().get(i).toUser().userUUID(),
-							request.messages().get(i).fromUser().thumbnail(),request.messages().get(i).toUser().thumbnail(),
-							request.messages().get(i).content(),TimeUtils.dateTime2Millis(request.messages().get(i).createdAt())));
+				for(int i=0;i<request.messages().size();i++) {
+					PuluoPrivateMessage msg = request.messages().get(i);
+					PuluoUser fromUser = msg.fromUser();
+					PuluoUser toUser = msg.toUser();
+					messages_result.add(new MessageResult(msg.messageUUID(),
+							fromUser.userUUID(),toUser.userUUID(),
+							fromUser.firstName(),toUser.firstName(),
+							fromUser.lastName(),toUser.lastName(),
+							fromUser.thumbnail(),toUser.thumbnail(),
+							msg.content(),TimeUtils.dateTime2Millis(msg.createdAt())));
+				}
 				RequestFriendResult result = new RequestFriendResult(request.requestUUID(),request.requestStatus().name(),
 						messages_result,TimeUtils.dateTime2Millis(request.createdAt()),TimeUtils.dateTime2Millis(request.updatedAt()));
 				rawResult = result;

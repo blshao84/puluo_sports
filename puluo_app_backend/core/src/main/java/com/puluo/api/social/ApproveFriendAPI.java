@@ -18,6 +18,7 @@ import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoFriendRequest;
 import com.puluo.entity.PuluoPrivateMessage;
+import com.puluo.entity.PuluoUser;
 import com.puluo.entity.impl.PuluoPrivateMessageImpl;
 import com.puluo.enumeration.FriendRequestStatus;
 import com.puluo.enumeration.PuluoMessageType;
@@ -76,11 +77,18 @@ public class ApproveFriendAPI extends PuluoAPI<PuluoDSI,ApproveFriendResult> {
 
 			List<MessageResult> messages_result =  new ArrayList<MessageResult>();
 			List<PuluoPrivateMessage> messages = request.messages();
-			for(int i=0;i<messages.size();i++) 
-				messages_result.add(new MessageResult(messages.get(i).messageUUID(),
-						messages.get(i).fromUser().name(),messages.get(i).toUser().name(),
-						messages.get(i).fromUser().thumbnail(),messages.get(i).toUser().thumbnail(),
+			for(int i=0;i<messages.size();i++) {
+				PuluoPrivateMessage msg = messages.get(i);
+				PuluoUser fromUser = msg.fromUser();
+				PuluoUser toUser = msg.toUser();
+				
+				messages_result.add(new MessageResult(msg.messageUUID(),
+						fromUser.userUUID(),toUser.userUUID(),
+						fromUser.firstName(),toUser.firstName(),
+						fromUser.lastName(),toUser.lastName(),
+						fromUser.thumbnail(),toUser.thumbnail(),
 						messages.get(i).content(),TimeUtils.dateTime2Millis(messages.get(i).createdAt())));
+			}
 			ApproveFriendResult result = new ApproveFriendResult(request.requestUUID(),FriendRequestStatus.Approved.name(),
 					messages_result,TimeUtils.dateTime2Millis(request.createdAt()),TimeUtils.dateTime2Millis(DateTime.now()));
 			rawResult = result;

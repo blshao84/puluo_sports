@@ -29,18 +29,23 @@ public class EventRegistrationAPI extends
 		PuluoAPI<PuluoDSI, EventRegistrationResult> {
 	public static Log log = LogFactory.getLog(EventRegistrationAPI.class);
 
-	public String event_uuid;
-	public String user_uuid;
+	public final String event_uuid;
+	public final String user_uuid;
+	public final boolean mock;
 
 	public EventRegistrationAPI(String event_uuid, String user_uuid) {
-		this(event_uuid, user_uuid, DaoApi.getInstance());
+		this(event_uuid, user_uuid,false, DaoApi.getInstance());
 	}
 
-	public EventRegistrationAPI(String event_uuid, String user_uuid,
+	public EventRegistrationAPI(String event_uuid, String user_uuid,boolean mock) {
+		this(event_uuid, user_uuid,mock, DaoApi.getInstance());
+	}
+	public EventRegistrationAPI(String event_uuid, String user_uuid,boolean mock,
 			PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.event_uuid = event_uuid;
 		this.user_uuid = user_uuid;
+		this.mock = mock;
 	}
 
 	@Override
@@ -78,7 +83,7 @@ public class EventRegistrationAPI extends
 		try {
 			switch (status) {
 			case Undefined:
-				paymentLink = AlipayUtil.generateDirectWAPLink(order);
+				paymentLink = AlipayUtil.generateDirectWAPLink(order,mock);
 				OrderEvent event1 = new OrderEventImpl(order.orderUUID(),
 						OrderEventType.PlaceOrderEvent);
 				dsi.orderEventDao().saveOrderEvent(event1);
@@ -95,7 +100,7 @@ public class EventRegistrationAPI extends
 						order.orderUUID(), false);
 				break;
 			case New:
-				paymentLink = AlipayUtil.generateDirectWAPLink(order);
+				paymentLink = AlipayUtil.generateDirectWAPLink(order,mock);
 				OrderEvent event3 = new OrderEventImpl(order.orderUUID(),
 						OrderEventType.PayOrderEvent);
 				dsi.orderEventDao().saveOrderEvent(event3);
@@ -106,7 +111,7 @@ public class EventRegistrationAPI extends
 						order.orderUUID(), false);
 				break;
 			case Paying:
-				paymentLink = AlipayUtil.generateDirectWAPLink(order);
+				paymentLink = AlipayUtil.generateDirectWAPLink(order,mock);
 				result = new EventRegistrationResult(paymentLink,
 						order.orderUUID(), false);
 				break;
@@ -143,7 +148,7 @@ public class EventRegistrationAPI extends
 						savedOrder, payOrderEvent);
 				dsi.paymentDao().updateOrderStatus(order, nextStatus2);
 				if (amount!=0.0) {
-					String paymentLink = AlipayUtil.generateDirectWAPLink(savedOrder);
+					String paymentLink = AlipayUtil.generateDirectWAPLink(savedOrder,mock);
 					return new EventRegistrationResult(paymentLink, order.orderUUID(), false);
 				} else {
 					String out_trade_no = AlipayUtil.generateOrderID(savedOrder, Configurations.orderIDBase);

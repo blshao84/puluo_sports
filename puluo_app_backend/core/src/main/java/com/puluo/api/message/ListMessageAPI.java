@@ -12,6 +12,7 @@ import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoPrivateMessage;
+import com.puluo.entity.PuluoUser;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.TimeUtils;
@@ -41,10 +42,17 @@ public class ListMessageAPI extends PuluoAPI<PuluoDSI,ListMessageResult> {
 		List<PuluoPrivateMessage> messages = messagedao.getMessagesByUser(from_user_uuid,
 				to_user_uuid,since,DateTime.now());
 		List<MessageResult> messagelist =  new ArrayList<MessageResult>();
-		for(int i=0;i<messages.size();i++) 
-			messagelist.add(new MessageResult(messages.get(i).messageUUID(),messages.get(i).fromUser().userUUID(),
-					messages.get(i).toUser().userUUID(),messages.get(i).fromUser().thumbnail(),messages.get(i).toUser().thumbnail(),
-					messages.get(i).content(),TimeUtils.dateTime2Millis(messages.get(i).createdAt())));
+		for(int i=0;i<messages.size();i++) {
+			PuluoPrivateMessage msg = messages.get(i);
+			PuluoUser fromUser = msg.fromUser();
+			PuluoUser toUser = msg.toUser();
+			messagelist.add(new MessageResult(msg.messageUUID(),
+					fromUser.userUUID(),toUser.userUUID(),
+					fromUser.firstName(),toUser.firstName(),
+					fromUser.lastName(),toUser.lastName(),
+					fromUser.thumbnail(),toUser.thumbnail(),
+					msg.content(),TimeUtils.dateTime2Millis(msg.createdAt())));
+		}
 		ListMessageResult result = new ListMessageResult(messagelist);
 		rawResult = result;
 	}

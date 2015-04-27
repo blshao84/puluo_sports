@@ -2,6 +2,8 @@ package com.puluo.api.message;
 
 import java.util.UUID;
 
+import org.joda.time.DateTime;
+
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.result.ApiErrorResult;
 import com.puluo.api.result.SendMessageResult;
@@ -15,8 +17,6 @@ import com.puluo.enumeration.PuluoMessageType;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.TimeUtils;
-
-import org.joda.time.DateTime;
 
 
 public class SendMessageAPI extends PuluoAPI<PuluoDSI,SendMessageResult> {
@@ -41,7 +41,9 @@ public class SendMessageAPI extends PuluoAPI<PuluoDSI,SendMessageResult> {
 	@Override
 	public void execute() {
 		log.info(String.format("开始发送用户:%s信息到用户:%s",from_uuid,to_uuid));
-		if (user(to_uuid)!=null) {
+		PuluoUser fromUser = dsi.userDao().getByUUID(from_uuid);
+		PuluoUser toUser = dsi.userDao().getByUUID(to_uuid);
+		if (fromUser!=null && toUser!=null) {
 			if (PuluoMessageType.TextMessage.name().equals(content_type)) {
 				String message_id = UUID.randomUUID().toString();
 				DateTime dt = DateTime.now();
@@ -50,10 +52,13 @@ public class SendMessageAPI extends PuluoAPI<PuluoDSI,SendMessageResult> {
 						dt,PuluoMessageType.valueOf(content_type),"",from_uuid,to_uuid);
 				boolean save_status = messagedao.saveMessage(message);
 				if(save_status) {
-					String from_tn = (dsi.userDao().getByUUID(from_uuid)).thumbnail();
-					String to_tn = (dsi.userDao().getByUUID(to_uuid)).thumbnail();
-					SendMessageResult result = new SendMessageResult(message_id,from_uuid,
-							to_uuid,from_tn,to_tn,content,TimeUtils.dateTime2Millis(dt));
+					String from_tn =fromUser.thumbnail();
+					String to_tn = toUser.thumbnail();
+					SendMessageResult result = new SendMessageResult(message_id,
+							from_uuid,to_uuid,
+							fromUser.firstName(),toUser.firstName(),
+							fromUser.lastName(),toUser.lastName(),
+							from_tn,to_tn,content,TimeUtils.dateTime2Millis(dt));
 					rawResult = result;
 				} else {
 					log.error(String.format("用户%s发送消息到用户%s失败",from_uuid,message_id));
@@ -67,9 +72,5 @@ public class SendMessageAPI extends PuluoAPI<PuluoDSI,SendMessageResult> {
 			log.error(String.format("用户%s发送消息失败,用户%s不存在",from_uuid,to_uuid));
 			this.error = ApiErrorResult.getError(31);
 		}
-	}
-
-	private PuluoUser user(String uuid) {
-		return dsi.userDao().getByUUID(uuid);
 	}
 }

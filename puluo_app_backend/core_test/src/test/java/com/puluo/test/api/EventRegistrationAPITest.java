@@ -64,7 +64,7 @@ public class EventRegistrationAPITest {
 		Mockito.when(mockEventDao.getEventByUUID(eventUUID)).thenReturn(null);
 		Mockito.when(mockPaymentDao.getOrderByEvent(eventUUID))
 				.thenReturn(null);
-		EventRegistrationAPI api = new EventRegistrationAPI(eventUUID, "1",
+		EventRegistrationAPI api = new EventRegistrationAPI(eventUUID, "1",true,
 				mockDsi);
 		api.execute();
 
@@ -84,7 +84,7 @@ public class EventRegistrationAPITest {
 		setupDao(event, order, false);
 		setupEvent(event);
 		setupOrder(order, PuluoOrderStatus.Undefined);
-		EventRegistrationAPI api = new EventRegistrationAPI("1", "1", mockDsi);
+		EventRegistrationAPI api = new EventRegistrationAPI("1", "1",true, mockDsi);
 		api.execute();
 		assertPaymentlink(api.result());
 	}
@@ -175,7 +175,7 @@ public class EventRegistrationAPITest {
 	}
 
 	private String run() {
-		EventRegistrationAPI api = new EventRegistrationAPI("1", "1", mockDsi);
+		EventRegistrationAPI api = new EventRegistrationAPI("1", "1",true, mockDsi);
 		api.execute();
 		return api.result();
 	}
