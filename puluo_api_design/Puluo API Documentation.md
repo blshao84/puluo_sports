@@ -401,10 +401,7 @@ Search user by parameters. If more parameters are specified, search conditions a
 
 |Name|Type|Description|Example|
 | ------------- |:-------------|:----- |:-----|
-|first_name|String|user's first name|"Tracy"|
-|last_name|String|user's last name|"Boyd"|
-|email|String| user's email | "tracey.boyd@kotebo.com" |
-|mobile|String| user's mobile | "1234567780" |
+|keyword|String|search first_name or last_name or email or mobile|"Tracy"|
 
 
 ###### cURL Example
