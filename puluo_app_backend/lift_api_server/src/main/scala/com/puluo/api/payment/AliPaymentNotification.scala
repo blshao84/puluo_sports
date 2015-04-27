@@ -15,6 +15,7 @@ import com.puluo.api.payment.PuluoAlipayAPI
 import java.util.HashMap
 import com.puluo.api.result.AlipaymentResult
 import com.puluo.api.util.PuluoAPIUtil
+import scala.xml.XML
 
 object AliPaymentNotification extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
@@ -38,13 +39,16 @@ object AliPaymentNotification extends RestHelper with PuluoAPIUtil with Loggable
 
     val params = new HashMap[String, String]();
     request.params.foreach(p => params.put(p._1, p._2.mkString(",")))
+    val notifyData = new String(request.param("notify_data").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
+    val notifyXML = XML.loadString(notifyData)
+    
     //商户订单号
-    val tradeID = new String(request.param("out_trade_no").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
+    val tradeID = notifyXML \\ "out_trade_no"//new String(request.param("out_trade_no").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
     //支付宝交易号
-    val paymentRef = new String(request.param("trade_no").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
+    val paymentRef = notifyXML \\ "out_trade_no" //new String(request.param("trade_no").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
     //交易状态
-    val trade_status = new String(request.param("trade_status").getOrElse("").getBytes("ISO-8859-1"), "UTF-8")
-    new PuluoAlipayAPI(params, trade_status, tradeID,paymentRef)
+    val trade_status = notifyXML \\ "out_trade_no" //new String(request.param("trade_status").getOrElse("").getBytes("ISO-8859-1"), "UTF-8")
+    new PuluoAlipayAPI(params, trade_status.text, tradeID.text,paymentRef.text)
   }
 
 }
