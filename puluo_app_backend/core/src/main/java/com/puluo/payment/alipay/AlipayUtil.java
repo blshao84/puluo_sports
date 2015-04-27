@@ -33,7 +33,7 @@ public class AlipayUtil {
 		String notify_url = Configurations.webServer + "/payment/alipay/notify";
 		String return_url = Configurations.webServer + "/payment/alipay/return";
 		String seller_email = AlipayConfig.seller_email;
-		String total_fee = Strs.prettyDouble(order.amount(), 1);
+		String total_fee = Strs.prettyDouble(order.amount(), 2);
 		String show_url = Configurations.webServer;
 		HashMap<String, String> sParaTemp = new HashMap<String, String>();
 		sParaTemp.put("service", "create_direct_pay_by_user");
@@ -59,9 +59,10 @@ public class AlipayUtil {
 		String out_trade_no = generateOrderID(order, Configurations.orderIDBase);
 		String subject = out_trade_no;
 		String notify_url = Configurations.webServer + "/payment/alipay/notify";
-		String return_url = Configurations.webServer + "/payment/alipay/return";
+//		String return_url = Configurations.webServer + "/payment/alipay/return";
+		String return_url = "";
 		String merchant_url = "";
-		String total_fee = Strs.prettyDouble(order.amount(), 1);
+		String total_fee = Strs.prettyDouble(order.amount(), 2);
 
 		// 支付宝网关地址
 		String ALIPAY_GATEWAY_NEW = "http://wappaygw.alipay.com/service/rest.htm?";
@@ -87,7 +88,7 @@ public class AlipayUtil {
 
 		// 请求业务参数详细
 		String req_dataToken = "<direct_trade_create_req><notify_url>"
-				+ notify_url + "</notify_url><call_back_url>" + notify_url
+				+ notify_url + "</notify_url><call_back_url>" + return_url
 				+ "</call_back_url><seller_account_name>"
 				+ AlipayConfig.seller_email
 				+ "</seller_account_name><out_trade_no>" + out_trade_no
