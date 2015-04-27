@@ -42,7 +42,13 @@ public class ListFriendsAPI extends PuluoAPI<PuluoDSI, ListFriendsResult> {
 				List<PuluoFriendInfo> friends = friendlist.friends();
 				for (PuluoFriendInfo friend: friends) {
 					friend_detail.add(new ListFriendsResultDetail(friend.user_uuid,
-							new ListFriendsPublicResult(friend.first_name, friend.last_name, friend.user_email, friend.user_mobile)));
+							new ListFriendsPublicResult(
+									friend.first_name, 
+									friend.last_name, 
+									friend.user_email, 
+									friend.user_mobile,
+									friend.user_thumbnail,
+									friend.user_saying)));
 				}
 			}
 			ListFriendsResult result = new ListFriendsResult(friend_detail);

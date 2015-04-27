@@ -165,11 +165,15 @@ public class PuluoAPIResultTest {
 				+ "\"public_info\":{" + "\"first_name\":\"baolins\","
 				+ "\"last_name\":\"Boyd\","
 				+ "\"email\":\"tracey.boyd@kotebo.com\","
-				+ "\"mobile\":\"123456789000\"" + "}" + "}," + "{"
+				+ "\"mobile\":\"123456789000\","
+				+ "\"thumbnail\":\"http://upyun.com/tracey.jpg\","
+				+ "\"saying\":\"I am Tracey\"" + "}" + "}," + "{"
 				+ "\"uuid\":\"ze2345d54-75b4-3234-adb2-ajfs230948jsdf\","
 				+ "\"public_info\":{" + "\"first_name\":\"baolins\","
 				+ "\"last_name\":\"Shao\"," + "\"email\":\"blshao@qq.com\","
-				+ "\"mobile\":\"18646655333\"" + "}" + "}" + "]" + "}";
+				+ "\"mobile\":\"18646655333\","
+				+ "\"thumbnail\":\"http://upyun.com/baolin.jpg\","
+				+ "\"saying\":\"I am Baolin\"" + "}" + "}" + "]" + "}";
 		String actualJsonResult = ListFriendsResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}

@@ -14,12 +14,13 @@ public class PuluoUserFriendshipImpl implements PuluoUserFriendship {
 	private final String user_uuid;
 	private final String[] friend_uuids;
 	private PuluoDSI dsi;
-	
+
 	public PuluoUserFriendshipImpl(String user_uuid, String[] friend_uuids) {
 		this(user_uuid, friend_uuids, DaoApi.getInstance());
 	}
-	
-	public PuluoUserFriendshipImpl(String user_uuid, String[] friend_uuids, PuluoDSI dsi) {
+
+	public PuluoUserFriendshipImpl(String user_uuid, String[] friend_uuids,
+			PuluoDSI dsi) {
 		super();
 		this.user_uuid = user_uuid;
 		this.friend_uuids = friend_uuids;
@@ -30,7 +31,7 @@ public class PuluoUserFriendshipImpl implements PuluoUserFriendship {
 	public void setDSI(PuluoDSI dsi) {
 		this.dsi = dsi;
 	}
-	
+
 	@Override
 	public String userUUID() {
 		return user_uuid;
@@ -45,13 +46,19 @@ public class PuluoUserFriendshipImpl implements PuluoUserFriendship {
 		String first_name;
 		String user_email;
 		String user_mobile;
-		for (String friend_uuid: friend_uuids) {
+		String user_thumbnail;
+		String user_saying;
+		for (String friend_uuid : friend_uuids) {
 			puluoUser = puluoUserDao.getByUUID(friend_uuid);
 			last_name = puluoUser.lastName();
 			first_name = puluoUser.firstName();
 			user_email = puluoUser.email();
 			user_mobile = puluoUser.mobile();
-			puluoFriendInfoList.add(new PuluoFriendInfo(friend_uuid, last_name, first_name, user_email, user_mobile));
+			user_thumbnail = puluoUser.thumbnail();
+			user_saying = puluoUser.saying();
+			puluoFriendInfoList.add(new PuluoFriendInfo(friend_uuid, last_name,
+					first_name, user_email, user_mobile, user_thumbnail,
+					user_saying));
 		}
 		return puluoFriendInfoList;
 	}
