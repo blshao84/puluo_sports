@@ -19,7 +19,7 @@ public interface PuluoPrivateMessageDao {
 	
 	public List<PuluoPrivateMessage> getFriendRequestMessage(String fromUserUUID, String toUserUUID);
 	
-	public List<PuluoPrivateMessage> getMessagesByFromUser(String userUUID, DateTime time_from, DateTime time_to);
+	public List<PuluoPrivateMessage> getMessagesByFromUser(String userUUID, DateTime time_from, DateTime time_to,int limit, int offset);
 	
-	public List<PuluoPrivateMessage> getMessagesByUser(String from_user_uuid, String to_user_uuid, DateTime time_from, DateTime time_to);
+	public List<PuluoPrivateMessage> getMessagesByUser(String from_user_uuid, String to_user_uuid, DateTime time_from, DateTime time_to,int limit, int offset);
 }

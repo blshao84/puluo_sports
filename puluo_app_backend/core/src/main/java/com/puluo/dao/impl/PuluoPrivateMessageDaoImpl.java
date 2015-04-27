@@ -79,7 +79,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 
 	@Override
 	public List<PuluoPrivateMessage> getMessagesByFromUser(String userUUID,
-			DateTime time_from, DateTime time_to) {
+			DateTime time_from, DateTime time_to,int limit, int offset) {
 		try {
 			SqlReader reader = getReader();
 			StringBuilder selectSQL = new StringBuilder()
@@ -96,6 +96,9 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 						+ TimeUtils.formatDate(time_to) + "'");
 			}
 			selectSQL.append(" order by created_at desc");
+			if(limit>0) selectSQL.append(" limit ").append(limit);
+			if(offset>0) selectSQL.append(" offset ").append(offset);
+			
 			log.info(selectSQL.toString());
 			List<PuluoPrivateMessage> entities = reader.query(
 					selectSQL.toString(), new Object[] { userUUID },
@@ -167,7 +170,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 
 	@Override
 	public List<PuluoPrivateMessage> getMessagesByUser(String from_user_uuid,
-			String to_user_uuid, DateTime time_from, DateTime time_to) {
+			String to_user_uuid, DateTime time_from, DateTime time_to, int limit, int offset) {
 		try {
 			SqlReader reader = getReader();
 			StringBuilder selectSQL = new StringBuilder()
@@ -198,6 +201,8 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 						+ TimeUtils.formatDate(time_to) + "'");
 			}
 			selectSQL.append(" order by created_at desc");
+			if(limit>0) selectSQL.append(" limit ").append(limit);
+			if(offset>0) selectSQL.append(" offset ").append(offset);
 			log.info(selectSQL.toString());
 			List<PuluoPrivateMessage> entities = reader.query(
 					selectSQL.toString(), args, new PrivateMessageMapper());

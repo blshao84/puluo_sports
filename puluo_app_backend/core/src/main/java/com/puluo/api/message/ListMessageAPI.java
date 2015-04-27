@@ -17,41 +17,47 @@ import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.TimeUtils;
 
-
-public class ListMessageAPI extends PuluoAPI<PuluoDSI,ListMessageResult> {
+public class ListMessageAPI extends PuluoAPI<PuluoDSI, ListMessageResult> {
 	public static Log log = LogFactory.getLog(ListMessageAPI.class);
-	public String from_user_uuid;
-	public String to_user_uuid;
-	public DateTime since;
-	
-	public ListMessageAPI(String from_user_uuid, String to_user_uuid, DateTime since){
-		this(from_user_uuid, to_user_uuid, since, DaoApi.getInstance());
+	public final String from_user_uuid;
+	public final String to_user_uuid;
+	public final DateTime since;
+	public final int limit;
+	public final int offset;
+
+	public ListMessageAPI(String from_user_uuid, String to_user_uuid,
+			DateTime since, int limit, int offset) {
+		this(from_user_uuid, to_user_uuid, since, limit, offset, DaoApi
+				.getInstance());
 	}
-	
-	public ListMessageAPI(String from_user_uuid, String to_user_uuid, DateTime since, PuluoDSI dsi) {
+
+	public ListMessageAPI(String from_user_uuid, String to_user_uuid,
+			DateTime since, int limit, int offset, PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.from_user_uuid = from_user_uuid;
 		this.to_user_uuid = to_user_uuid;
 		this.since = since;
+		this.limit = limit;
+		this.offset = offset;
 	}
 
 	@Override
 	public void execute() {
-		log.info(String.format("开始查找从用户:%s到用户:%s的消息,since:%s",from_user_uuid,to_user_uuid,since));
+		log.info(String.format("开始查找从用户:%s到用户:%s的消息,since:%s", from_user_uuid,
+				to_user_uuid, since));
 		PuluoPrivateMessageDao messagedao = dsi.privateMessageDao();
-		List<PuluoPrivateMessage> messages = messagedao.getMessagesByUser(from_user_uuid,
-				to_user_uuid,since,DateTime.now());
-		List<MessageResult> messagelist =  new ArrayList<MessageResult>();
-		for(int i=0;i<messages.size();i++) {
+		List<PuluoPrivateMessage> messages = messagedao.getMessagesByUser(
+				from_user_uuid, to_user_uuid, since, DateTime.now(),limit,offset);
+		List<MessageResult> messagelist = new ArrayList<MessageResult>();
+		for (int i = 0; i < messages.size(); i++) {
 			PuluoPrivateMessage msg = messages.get(i);
 			PuluoUser fromUser = msg.fromUser();
 			PuluoUser toUser = msg.toUser();
-			messagelist.add(new MessageResult(msg.messageUUID(),
-					fromUser.userUUID(),toUser.userUUID(),
-					fromUser.firstName(),toUser.firstName(),
-					fromUser.lastName(),toUser.lastName(),
-					fromUser.thumbnail(),toUser.thumbnail(),
-					msg.content(),TimeUtils.dateTime2Millis(msg.createdAt())));
+			messagelist.add(new MessageResult(msg.messageUUID(), fromUser
+					.userUUID(), toUser.userUUID(), fromUser.firstName(),
+					toUser.firstName(), fromUser.lastName(), toUser.lastName(),
+					fromUser.thumbnail(), toUser.thumbnail(), msg.content(),
+					TimeUtils.dateTime2Millis(msg.createdAt())));
 		}
 		ListMessageResult result = new ListMessageResult(messagelist);
 		rawResult = result;
