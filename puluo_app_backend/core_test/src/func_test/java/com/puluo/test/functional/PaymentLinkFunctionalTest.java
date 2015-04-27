@@ -62,12 +62,12 @@ public class PaymentLinkFunctionalTest extends APIFunctionalTest {
 		if (user != null) {
 			userDao.deleteByUserUUID(user.userUUID());
 		}
-		PuluoEventDaoImpl eventDao = (PuluoEventDaoImpl) DaoApi.getInstance().eventDao();
-		eventDao.deleteByEventUUID(event_uuid);
-		PuluoPaymentDaoImpl paymentDao = (PuluoPaymentDaoImpl) DaoApi.getInstance().paymentDao();
-		paymentDao.deleteByOrderUUID(order_uuid);
-		PuluoOrderEventDaoImpl orderEventDao = (PuluoOrderEventDaoImpl) DaoApi.getInstance().orderEventDao();
-		orderEventDao.deleteByOrderUUID(order_uuid);
+//		PuluoEventDaoImpl eventDao = (PuluoEventDaoImpl) DaoApi.getInstance().eventDao();
+//		eventDao.deleteByEventUUID(event_uuid);
+//		PuluoPaymentDaoImpl paymentDao = (PuluoPaymentDaoImpl) DaoApi.getInstance().paymentDao();
+//		paymentDao.deleteByOrderUUID(order_uuid);
+//		PuluoOrderEventDaoImpl orderEventDao = (PuluoOrderEventDaoImpl) DaoApi.getInstance().orderEventDao();
+//		orderEventDao.deleteByOrderUUID(order_uuid);
 	}
 
 	@Test
