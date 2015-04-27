@@ -4,7 +4,7 @@ import com.puluo.weichat.WechatKey;
 
 public class Configurations {
 	public static long orderIDBase = 10000;
-	public static String webServer = "";
+	public static String webServer = "https://www.puluosports.com";
 	public static boolean enableSMSNotification = true;
 	public static String imageServer ="http://puluodev.b0.upaiyun.com/";
 
