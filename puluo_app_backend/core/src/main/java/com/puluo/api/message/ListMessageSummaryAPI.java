@@ -69,7 +69,7 @@ public class ListMessageSummaryAPI extends
 				MessageSummaryResult res = new MessageSummaryResult(theOtherUser.firstName(),
 						theOtherUser.lastName(), theOtherUser.userUUID(),
 						theOtherUser.thumbnail(), msg.createdAt().getMillis(),
-						msg.messageUUID());
+						msg.messageUUID(),msg.content());
 				results.add(res);
 			}
 			i++;

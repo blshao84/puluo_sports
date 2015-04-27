@@ -102,86 +102,109 @@ public class PuluoUserImpl implements PuluoUser {
 
 	@Override
 	public String firstName() {
-
-		return firstName;
+		if (firstName == null)
+			return "";
+		else
+			return firstName;
 	}
 
 	@Override
 	public String lastName() {
-
-		return lastName;
+		if (lastName == null)
+			return "";
+		else
+			return lastName;
 	}
 
 	@Override
 	public String thumbnail() {
-
-		return thumbnail;
+		if (thumbnail == null)
+			// FIXME: should have a default img!!!
+			return "";
+		else
+			return thumbnail;
 	}
 
 	@Override
 	public String largeImage() {
-
-		return largeImage;
+		if (thumbnail == null)
+			return "";
+		else
+			return largeImage;
 	}
 
 	@Override
 	public PuluoUserType userType() {
-
 		return user_type;
 	}
 
 	@Override
 	public String email() {
-
-		return email;
+		if (email == null)
+			return "";
+		else
+			return email;
 	}
 
 	@Override
 	public DateTime birthday() {
-
-		return birthday;
+		if (birthday == null)
+			return new DateTime(0);
+		else
+			return birthday;
 	}
 
 	@Override
 	public char sex() {
-
 		return sex;
 	}
 
 	@Override
 	public String zip() {
-
-		return zip;
+		if (zip == null)
+			return "";
+		else
+			return zip;
 	}
 
 	@Override
 	public String country() {
-
-		return country;
+		if (country == null)
+			return "";
+		else
+			return country;
 	}
 
 	@Override
 	public String state() {
-
-		return state;
+		if (state == null)
+			return "";
+		else
+			return state;
 	}
 
 	@Override
 	public String city() {
-
-		return city;
+		if (city == null)
+			return "";
+		else
+			return city;
 	}
 
 	@Override
 	public String occupation() {
-
-		return occupation;
+		if (occupation == null)
+			return "";
+		else
+			return occupation;
 	}
 
 	@Override
 	public String address() {
-
-		return address;
+		if (address == null)
+			return "";
+		else
+			return address;
 	}
 
 	@Override
@@ -204,8 +227,10 @@ public class PuluoUserImpl implements PuluoUser {
 
 	@Override
 	public String saying() {
-
-		return saying;
+		if (saying == null)
+			return "";
+		else
+			return saying;
 	}
 
 	@Override

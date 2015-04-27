@@ -17,10 +17,10 @@ public class ListMessageSummaryResult extends HasJSON{
 		List<MessageSummaryResult> sum = new ArrayList<MessageSummaryResult>();
 		sum.add(new MessageSummaryResult(
 				"Baolin", "Shao", "de305d54-75b4-431b-adb2-eb6b9e546013", 
-				"http://upyun.com/baolin.jpg",1427007059034L, "de305d54-75b4-431b-adb2-eb6b9e546013"));
+				"http://upyun.com/baolin.jpg",1427007059034L, "de305d54-75b4-431b-adb2-eb6b9e546013","hello"));
 		sum.add(new MessageSummaryResult(
 				"Tracey", "Boydston", "de305d54-75b4-431b-adb2-eb6b9e546013", 
-				"http://upyun.com/tracey.jpg",1427007059034L, "de305d54-75b4-431b-adb2-eb6b9e546013"));
+				"http://upyun.com/tracey.jpg",1427007059034L, "de305d54-75b4-431b-adb2-eb6b9e546013","hello"));
 		return new ListMessageSummaryResult(sum);
 	}
 }

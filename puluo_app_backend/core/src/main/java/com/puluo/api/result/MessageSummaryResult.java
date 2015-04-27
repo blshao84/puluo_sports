@@ -9,10 +9,11 @@ public class MessageSummaryResult extends HasJSON{
 	public final String user_thumbnail;
 	public final long last_message_created_at;
 	public final String last_message_uuid;
+	public final String last_message_content;
 	
 	public MessageSummaryResult(String user_first_name, String user_last_name,
 			String user_uuid, String user_thumbnail,
-			long last_message_created_at, String last_message_uuid) {
+			long last_message_created_at, String last_message_uuid,String last_message_content) {
 		super();
 		this.user_first_name = user_first_name;
 		this.user_last_name = user_last_name;
@@ -20,6 +21,7 @@ public class MessageSummaryResult extends HasJSON{
 		this.user_thumbnail = user_thumbnail;
 		this.last_message_created_at = last_message_created_at;
 		this.last_message_uuid = last_message_uuid;
+		this.last_message_content = last_message_content;
 	}
 	
 	
