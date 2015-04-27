@@ -40,6 +40,7 @@ import com.puluo.api.test.DummyAPI
 import com.puluo.api.test.DummyPrivateAPI
 import com.puluo.api.test.PrivateWechatService
 import net.liftweb.http.S
+import com.puluo.api.payment.AliPaymentNotification
 
 class Boot extends Loggable {
 
@@ -94,6 +95,7 @@ class Boot extends Loggable {
     LiftRules.dispatch.append(PuluoAuthAPI)
     LiftRules.dispatch.append(WechatService)
     LiftRules.dispatch.append(DummyAPI)
+    LiftRules.dispatch.append(AliPaymentNotification)
     LiftRules.dispatch.append(withAuthentication guard PrivateWechatService)
     LiftRules.dispatch.append(withAuthentication guard DummyPrivateAPI)
     LiftRules.dispatch.append(withAuthentication guard PuluoPrivateServiceAPI)

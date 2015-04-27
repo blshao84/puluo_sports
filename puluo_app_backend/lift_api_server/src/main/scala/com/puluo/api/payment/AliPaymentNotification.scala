@@ -1,4 +1,4 @@
-package com.unuotech.snippet.api
+package com.puluo.api.payment
 
 import net.liftweb.http.rest.RestHelper
 import scala.collection.JavaConversions._
