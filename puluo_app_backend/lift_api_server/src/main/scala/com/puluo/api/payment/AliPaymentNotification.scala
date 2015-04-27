@@ -24,14 +24,18 @@ object AliPaymentNotification extends RestHelper with PuluoAPIUtil with Loggable
   }
 
   def doNotify: Box[LiftResponse] = {
-    logger.info("接收到支付宝notify_url的request")
-    val api = createPaymentAPI(S.request.get)
-    safeRun(api)
-    val result = api.getPaymentResult();
-    if (result.isSuccess()) {
-      Full(PlainTextResponse("success"))
-    } else {
-      Full(ForbiddenResponse(result.error()))
+    logger.info("received alipay notify_url request")
+    try {
+      val api = createPaymentAPI(S.request.get)
+      safeRun(api)
+      val result = api.getPaymentResult();
+      if (result.isSuccess()) {
+        Full(PlainTextResponse("success"))
+      } else {
+        Full(ForbiddenResponse(result.error()))
+      }
+    } catch {
+      case e: Exception => Full(ForbiddenResponse("error request"))
     }
   }
 
@@ -41,14 +45,14 @@ object AliPaymentNotification extends RestHelper with PuluoAPIUtil with Loggable
     request.params.foreach(p => params.put(p._1, p._2.mkString(",")))
     val notifyData = new String(request.param("notify_data").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
     val notifyXML = XML.loadString(notifyData)
-    
+
     //商户订单号
-    val tradeID = notifyXML \\ "out_trade_no"//new String(request.param("out_trade_no").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
+    val tradeID = notifyXML \\ "out_trade_no" //new String(request.param("out_trade_no").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
     //支付宝交易号
     val paymentRef = notifyXML \\ "trade_no" //new String(request.param("trade_no").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
     //交易状态
     val trade_status = notifyXML \\ "trade_status" //new String(request.param("trade_status").getOrElse("").getBytes("ISO-8859-1"), "UTF-8")
-    new PuluoAlipayAPI(params, trade_status.text, tradeID.text,paymentRef.text)
+    new PuluoAlipayAPI(params, trade_status.text, tradeID.text, paymentRef.text)
   }
 
 }
