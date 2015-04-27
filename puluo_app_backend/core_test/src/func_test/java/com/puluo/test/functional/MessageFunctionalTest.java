@@ -1,7 +1,10 @@
 package com.puluo.test.functional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 import org.joda.time.DateTime;
 import org.junit.AfterClass;
@@ -11,11 +14,14 @@ import org.junit.Test;
 
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.dao.impl.PuluoPrivateMessageDaoImpl;
 import com.puluo.dao.impl.PuluoSessionDaoImpl;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
+import com.puluo.entity.PuluoPrivateMessage;
 import com.puluo.entity.PuluoUser;
+import com.puluo.entity.impl.PuluoPrivateMessageImpl;
 import com.puluo.enumeration.PuluoMessageType;
 import com.puluo.test.functional.util.APIFunctionalTest;
 import com.puluo.util.Log;
@@ -73,6 +79,117 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 		}
 		for (String msgId : msgIds) {
 			messageDao.deleteByMsgUUID(msgId);
+		}
+	}
+	
+	@Test
+	public void testListMessageSummaryWithLimitOffset() {
+		DateTime today = DateTime.now();
+		PuluoPrivateMessage mgs1 = new PuluoPrivateMessageImpl(
+				"a", "msg1", today,
+				PuluoMessageType.TextMessage, "", uuid1, uuid2);
+		PuluoPrivateMessage mgs2 = new PuluoPrivateMessageImpl(
+				"b", "msg2", today.plusDays(1),
+				PuluoMessageType.TextMessage, "", uuid2, uuid3);
+		PuluoPrivateMessage mgs4 = new PuluoPrivateMessageImpl(
+				"c",
+				"msg4", 
+				today, 
+				PuluoMessageType.TextMessage, 
+				"", 
+				uuid1, uuid3);
+		PuluoPrivateMessageDao msgDao = DaoApi.getInstance().privateMessageDao();
+		msgDao.saveMessage(mgs1);
+		msgDao.saveMessage(mgs2);
+		msgDao.saveMessage(mgs4);
+		msgIds.add(mgs1.messageUUID());
+		msgIds.add(mgs2.messageUUID());
+		msgIds.add(mgs4.messageUUID());
+		
+		try {
+			String session = super.login(mobile1, password);
+			Assert.assertFalse(
+					"successful login should give not null session id",
+					Strs.isEmpty(session));
+
+			String str = String
+					.format("{\"token\":\"%s\",\"limit\":%s,\"offset\":%s}",session,1,1);
+			JsonNode json = callAPI("users/messages/summary", str);
+			log.info(json);
+			ArrayList<JsonNode> msgs = super.getJsonArrayFromJson(json, "summaries");
+			Assert.assertEquals("should return 1 msg", 1,msgs.size());
+			JsonNode jmsg1 = msgs.get(0);
+			String msgUUID1 = super.getStringFromJson(jmsg1,"last_message_uuid");
+			Assert.assertEquals(mgs4.messageUUID(), msgUUID1);
+			
+			
+		} catch (UnirestException e) {
+			e.printStackTrace();
+			Assert.assertTrue(false);
+		}
+	}
+	
+
+	@Test
+	public void testListMessageSummary() {
+		DateTime today = DateTime.now();
+		PuluoPrivateMessage mgs1 = new PuluoPrivateMessageImpl(UUID
+				.randomUUID().toString(), "msg1", today,
+				PuluoMessageType.TextMessage, "", uuid1, uuid2);
+		PuluoPrivateMessage mgs2 = new PuluoPrivateMessageImpl(UUID
+				.randomUUID().toString(), "msg2", today.plusDays(1),
+				PuluoMessageType.TextMessage, "", uuid1, uuid2);
+		PuluoPrivateMessage mgs3 = new PuluoPrivateMessageImpl(
+				UUID.randomUUID().toString(), 
+				"msg3", 
+				today.minusDays(1), 
+				PuluoMessageType.TextMessage, 
+				"", 
+				uuid2, uuid1);
+		PuluoPrivateMessage mgs4 = new PuluoPrivateMessageImpl(
+				UUID.randomUUID().toString(), 
+				"msg4", 
+				today, 
+				PuluoMessageType.TextMessage, 
+				"", 
+				uuid1, uuid3);
+		PuluoPrivateMessageDao msgDao = DaoApi.getInstance().privateMessageDao();
+		msgDao.saveMessage(mgs1);
+		msgDao.saveMessage(mgs2);
+		msgDao.saveMessage(mgs3);
+		msgDao.saveMessage(mgs4);
+		msgIds.add(mgs1.messageUUID());
+		msgIds.add(mgs2.messageUUID());
+		msgIds.add(mgs3.messageUUID());
+		msgIds.add(mgs4.messageUUID());
+		
+		try {
+			String session = super.login(mobile1, password);
+			Assert.assertFalse(
+					"successful login should give not null session id",
+					Strs.isEmpty(session));
+
+			String str = String
+					.format("{\"token\":\"%s\"}",session);
+			JsonNode json = callAPI("users/messages/summary", str);
+			log.info(json);
+			ArrayList<JsonNode> msgs = super.getJsonArrayFromJson(json, "summaries");
+			Assert.assertEquals("should return 2 msg", 2,msgs.size());
+			JsonNode jmsg1 = msgs.get(0);
+			JsonNode jmsg2 = msgs.get(1);
+			String msgUUID1 = super.getStringFromJson(jmsg1,"last_message_uuid");
+			String msgUUID2 = super.getStringFromJson(jmsg2,"last_message_uuid");
+			Set<String> expected = new HashSet<String>();
+			Set<String> actual = new HashSet<String>();
+			expected.add(mgs2.messageUUID());
+			expected.add(mgs4.messageUUID());
+			actual.add(msgUUID1);
+			actual.add(msgUUID2);
+			Assert.assertEquals("",expected,actual);
+			
+		} catch (UnirestException e) {
+			e.printStackTrace();
+			Assert.assertTrue(false);
 		}
 	}
 
@@ -233,8 +350,9 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 							PuluoMessageType.TextMessage.name()));
 			msgIds.add(super.getStringFromJson(json, "msg_id"));
 
-			String str = String.format(
-					"{\"token\":\"%s\",\"from_user_uuid\":\"%s\", \"to_user_uuid\":\"%s\"}", session,uuid3, uuid2);
+			String str = String
+					.format("{\"token\":\"%s\",\"from_user_uuid\":\"%s\", \"to_user_uuid\":\"%s\"}",
+							session, uuid3, uuid2);
 			json = callAPI("users/messages", str);
 			log.info(json);
 			JsonNode msgs = new JsonNode(super.getStringFromJson(json,
@@ -257,8 +375,9 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 					"successful login should give not null session id",
 					Strs.isEmpty(session));
 
-			String str = String.format(
-					"{\"token\":\"%s\",\"from_user_uuid\":\"%s\", \"to_user_uuid\":\"%s\"}", session,uuid2, uuid3);
+			String str = String
+					.format("{\"token\":\"%s\",\"from_user_uuid\":\"%s\", \"to_user_uuid\":\"%s\"}",
+							session, uuid2, uuid3);
 			JsonNode json = callAPI("users/messages", str);
 			log.info(json);
 			JsonNode msgs = new JsonNode(super.getStringFromJson(json,
@@ -310,7 +429,7 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 
 			String str = String
 					.format("{\"token\":\"%s\", \"from_user_uuid\":\"%s\", \"to_user_uuid\":\"%s\", \"since\":\"%s\"}",
-							session,uuid2, uuid1, now.getMillis() - 10000);
+							session, uuid2, uuid1, now.getMillis() - 10000);
 			json = callAPI("users/messages", str);
 			log.info(json);
 			JsonNode msgs = new JsonNode(super.getStringFromJson(json,

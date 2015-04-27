@@ -95,4 +95,14 @@ public class PuluoPrivateMessageImpl implements PuluoPrivateMessage {
 		return friend_request_uuid;
 	}
 
+	@Override
+	public String fromUserUUID() {
+		return from_user_uuid;
+	}
+
+	@Override
+	public String toUserUUID() {
+		return to_user_uuid;
+	}
+
 }

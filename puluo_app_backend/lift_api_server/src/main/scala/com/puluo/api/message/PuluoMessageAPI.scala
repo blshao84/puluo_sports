@@ -22,6 +22,8 @@ object PuluoMessageAPI extends RestHelper with PuluoAPIUtil with Loggable {
         "content_type" -> ErrorResponseResult(15).copy(message = "content_type")))(doSendMessage)
     }
     case "users" :: "messages" :: Nil Post _ => doListMessages
+
+    case "users" :: "messages" :: "summary" :: Nil Post _ => doListMessageSummary
   }
 
   private def doSendMessage(params: Map[String, String]) = {
@@ -31,26 +33,26 @@ object PuluoMessageAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val contentType = params("content_type")
     val session = PuluoSessionManager.getSession(token)
     val fromUserUUID = session.userUUID()
-    val api = new SendMessageAPI( fromUserUUID, toUserUUID, content, contentType)
+    val api = new SendMessageAPI(fromUserUUID, toUserUUID, content, contentType)
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api, 201)
   }
 
   private def doListMessages = {
-    val params = PuluoResponseFactory.createParamMap(Seq("token", "from_user_uuid","to_user_uuid", "since","limit","offset"))
+    val params = PuluoResponseFactory.createParamMap(Seq("token", "from_user_uuid", "to_user_uuid", "since", "limit", "offset"))
     val token = params("token")
     val session = PuluoSessionManager.getSession(token)
-    val fromUserUUID = params.getOrElse("from_user_uuid", "")//session.userUUID()
+    val fromUserUUID = params.getOrElse("from_user_uuid", "") //session.userUUID()
     val toUserUUID = params.getOrElse("to_user_uuid", "")
-    val limit = try{
+    val limit = try {
       params.get("limit").get.toInt
-    }catch {
-      case e:Exception => 0
+    } catch {
+      case e: Exception => 0
     }
-    val offset = try{
+    val offset = try {
       params.get("offset").get.toInt
-    }catch {
-      case e:Exception => 0
+    } catch {
+      case e: Exception => 0
     }
     val since = params.get("since").map {
       s =>
@@ -63,7 +65,39 @@ object PuluoMessageAPI extends RestHelper with PuluoAPIUtil with Loggable {
           }
         }
     }.flatten.getOrElse(null)
-    val api = new ListMessageAPI(fromUserUUID,toUserUUID,since,limit,offset)
+    val api = new ListMessageAPI(fromUserUUID, toUserUUID, since, limit, offset)
+    safeRun(api)
+    PuluoResponseFactory.createJSONResponse(api)
+  }
+  
+  private def doListMessageSummary = {
+    val params = PuluoResponseFactory.createParamMap(Seq("token","limit", "offset"))
+    val token = params("token")
+    val session = PuluoSessionManager.getSession(token)
+    val userUUID = session.userUUID();
+    val limit = try {
+      params.get("limit").get.toInt
+    } catch {
+      case e: Exception => 0
+    }
+    val offset = try {
+      params.get("offset").get.toInt
+    } catch {
+      case e: Exception => 0
+    }
+    val since = params.get("since").map {
+      s =>
+        try {
+          Some(new DateTime(s.toLong))
+        } catch {
+          case e: Exception => {
+            logger.warn(s"'since' param has wrong format, expecting unix timestamp, but was $s")
+            None
+          }
+        }
+    }.flatten.getOrElse(null)
+    logger.info(s"call ListMessageSummaryAPI with uuid=${userUUID},limit=${limit},offset=${offset}")
+    val api = new ListMessageSummaryAPI(userUUID,limit, offset)
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)
   }

@@ -14,5 +14,7 @@ public interface PuluoPrivateMessage {
 	PuluoFriendRequest friendRequest();
 	PuluoUser fromUser();
 	PuluoUser toUser();
+	String fromUserUUID();
+	String toUserUUID();
 	String requestUUID();
 }

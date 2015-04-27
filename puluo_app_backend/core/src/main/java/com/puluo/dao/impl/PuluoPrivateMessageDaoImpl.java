@@ -231,6 +231,60 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			return null;
 		}
 	}
+
+	/**
+	 * list all users 'user_uuid' sent messages to and for each user returns the latest msg
+	 */
+	@Override
+	public List<PuluoPrivateMessage> getSentMessageSummary(String user_uuid) {
+		try {
+			SqlReader reader = getReader();
+			String selectSQL = new StringBuilder()
+					.append("select d.* from ( select to_user_uuid, max(created_at) as max_time from ")
+					.append(super.getFullTableName())
+					.append(" where from_user_uuid = ? group by to_user_uuid) s ")
+					.append("join ").append(super.getFullTableName())
+					.append(" d on s.to_user_uuid = d.to_user_uuid")
+					.append(" and s.max_time = d.created_at")
+					.toString();
+
+			log.info(super.sqlRequestLog(selectSQL, user_uuid));
+			List<PuluoPrivateMessage> entities = reader.query(
+					selectSQL, new Object[] { user_uuid },
+					new PrivateMessageMapper());
+			return entities;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
+	}
+	
+	/**
+	 * list all users 'user_uuid' received messages from and for each user returns the latest msg
+	 */
+	@Override
+	public List<PuluoPrivateMessage> getReceivedMessageSummary(String user_uuid) {
+		try {
+			SqlReader reader = getReader();
+			String selectSQL = new StringBuilder()
+					.append("select d.* from ( select from_user_uuid, max(created_at) as max_time from ")
+					.append(super.getFullTableName())
+					.append(" where to_user_uuid = ? group by from_user_uuid) s ")
+					.append("join ").append(super.getFullTableName())
+					.append(" d on s.from_user_uuid = d.from_user_uuid")
+					.append(" and s.max_time = d.created_at")
+					.toString();
+
+			log.info(super.sqlRequestLog(selectSQL, user_uuid));
+			List<PuluoPrivateMessage> entities = reader.query(
+					selectSQL, new Object[] { user_uuid },
+					new PrivateMessageMapper());
+			return entities;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
+	}
 }
 
 class PrivateMessageMapper implements RowMapper<PuluoPrivateMessage> {
