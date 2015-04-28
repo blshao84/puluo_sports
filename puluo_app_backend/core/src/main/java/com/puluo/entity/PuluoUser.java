@@ -1,5 +1,7 @@
 package com.puluo.entity;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
 
 import com.puluo.enumeration.PuluoUserType;
@@ -42,5 +44,6 @@ public interface PuluoUser {
 	boolean autoAddFriend(); //自动添加好友
 	boolean allowStrangerViewTimeline(); //允许陌生人查看
 	boolean allowSearched(); //允许被搜索到
+	List<PuluoFriendRequest> pending();
 	 
 }

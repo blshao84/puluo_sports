@@ -1,5 +1,8 @@
 package com.puluo.api.result;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserPrivateProfileResult {
 	public String email;
 	public String sex;
@@ -9,10 +12,11 @@ public class UserPrivateProfileResult {
 	public String state;
 	public String city;
 	public String zip;
+	public List<RequestFriendResult> pending;
 
 	public UserPrivateProfileResult(String email, String sex, String birthday,
 			String occupation, String country, String state, String city,
-			String zip) {
+			String zip, List<RequestFriendResult> pending) {
 		super();
 		this.email = email;
 		this.sex = sex;
@@ -22,16 +26,18 @@ public class UserPrivateProfileResult {
 		this.state = state;
 		this.city = city;
 		this.zip = zip;
+		this.pending = pending;
 	}
 	
 	public static UserPrivateProfileResult empty() {
-		return new UserPrivateProfileResult("","","","","","","","");
+		return new UserPrivateProfileResult("","","","","","","","",new ArrayList<RequestFriendResult>());
 	}
 
 	public static UserPrivateProfileResult dummy() {
-
+		List<RequestFriendResult> pending = new ArrayList<RequestFriendResult>();
+		pending.add(RequestFriendResult.dummy());
 		return new UserPrivateProfileResult("tracey.boyd@kotebo.com", "m",
 				"1984-09-12", "Internet Plumber", "USA", "Washington",
-				"Seattle", "234234");
+				"Seattle", "234234", pending);
 	}
 }

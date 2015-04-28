@@ -1,11 +1,13 @@
 package com.puluo.entity.impl;
 
 import java.util.Calendar;
+import java.util.List;
 
 import org.joda.time.DateTime;
 
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.entity.PuluoFriendRequest;
 import com.puluo.entity.PuluoUser;
 import com.puluo.enumeration.PuluoUserType;
 import com.puluo.util.Strs;
@@ -300,6 +302,15 @@ public class PuluoUserImpl implements PuluoUser {
 	public boolean allowSearched() {
 
 		return dsi.userSettingDao().getByUserUUID(user_uuid).isSearchable();
+	}
+
+	@Override
+	public List<PuluoFriendRequest> pending() {
+		return pending(DaoApi.getInstance());
+	}
+	
+	public List<PuluoFriendRequest> pending(PuluoDSI dsi) {
+		return dsi.friendRequestDao().getPendingFriendRequestsByUserUUID(user_uuid);
 	}
 
 }

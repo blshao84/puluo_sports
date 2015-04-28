@@ -182,7 +182,7 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 			String selectSQL = new StringBuilder()
 					.append("select * from ").append(super.getFullTableName())
 					.append(" where from_user_uuid = ? and to_user_uuid = ? and request_status = '" + status.name() + "'").toString();
-			log.info(super.sqlRequestLog(selectSQL,userUUID,userUUID));
+			log.info(super.sqlRequestLog(selectSQL,userUUID,friendUUID));
 			List<PuluoFriendRequest> entities = reader.query(
 					selectSQL, new Object[] {userUUID, friendUUID},new FriendRequestMapper());
 			return entities;
@@ -200,7 +200,7 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 			String selectSQL = new StringBuilder()
 					.append("select * from ").append(super.getFullTableName())
 					.append(" where from_user_uuid = ? and to_user_uuid = ? ").toString();
-			log.info(super.sqlRequestLog(selectSQL,userUUID,userUUID));
+			log.info(super.sqlRequestLog(selectSQL,userUUID,friendUUID));
 			List<PuluoFriendRequest> entities = reader.query(
 					selectSQL.toString(), new Object[] {userUUID, friendUUID},new FriendRequestMapper());
 			return entities;
@@ -222,6 +222,24 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 					TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at"))),
 					TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("updated_at"))));
 			return message;
+		}
+	}
+
+	@Override
+	public List<PuluoFriendRequest> getPendingFriendRequestsByUserUUID(
+			String userUUID) {
+		try {
+			SqlReader reader = getReader();
+			String selectSQL = new StringBuilder()
+					.append("select * from ").append(super.getFullTableName())
+					.append(" where to_user_uuid = ? and request_status = '" + FriendRequestStatus.Requested.name() + "' order by created_at desc").toString();
+			log.info(super.sqlRequestLog(selectSQL,userUUID));
+			List<PuluoFriendRequest> entities = reader.query(
+					selectSQL.toString(), new Object[] {userUUID},new FriendRequestMapper());
+			return entities;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
 		}
 	}
 }
