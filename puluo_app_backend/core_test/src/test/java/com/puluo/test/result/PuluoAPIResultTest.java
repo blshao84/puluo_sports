@@ -129,11 +129,15 @@ public class PuluoAPIResultTest {
 				+ "\"public_info\":{" + "\"first_name\":\"baolins\","
 				+ "\"last_name\":\"Boyd\","
 				+ "\"email\":\"tracey.boyd@kotebo.com\","
-				+ "\"mobile\":\"123456789000\"" + "}" + "}," + "{"
+				+ "\"mobile\":\"123456789000\","
+				+ "\"thumbnail\":\"http://www.puluosports.com/logo.jpg\","
+				+ "\"saying\":\"I'm not Baolin!\"" + "}" + "}," + "{"
 				+ "\"uuid\":\"ze2345d54-75b4-3234-adb2-ajfs230948jsdf\","
 				+ "\"public_info\":{" + "\"first_name\":\"baolins\","
 				+ "\"last_name\":\"Shao\"," + "\"email\":\"blshao@qq.com\","
-				+ "\"mobile\":\"18646655333\"" + "}" + "}" + "]" + "}";
+				+ "\"mobile\":\"18646655333\","
+				+ "\"thumbnail\":\"http://www.puluosports.com/logo.jpg\","
+				+ "\"saying\":\"I'm Baolin.\"" + "}" + "}" + "]" + "}";
 		String actualJsonResult = UserSearchResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
