@@ -28,4 +28,6 @@ public interface PuluoPaymentDao {
 	public boolean saveOrder(PuluoPaymentOrder order);
 	
 	public boolean updateOrder(PuluoPaymentOrder order);
+	
+	public List<PuluoPaymentOrder> getPaidOrdersByUserUUID(String userUUID);
 }
