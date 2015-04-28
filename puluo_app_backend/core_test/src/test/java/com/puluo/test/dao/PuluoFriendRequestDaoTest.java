@@ -22,6 +22,7 @@ public class PuluoFriendRequestDaoTest {
 	public static String user1;
 	public static String user2;
 	public static String user3;
+	public static String user4;
 
 	@BeforeClass
 	public static void setUpDB() {
@@ -32,14 +33,17 @@ public class PuluoFriendRequestDaoTest {
 		userDao.save("31", "111111");
 		userDao.save("32", "222222");
 		userDao.save("33", "333333");
+		userDao.save("34", "444444");
 		user1 = userDao.getByMobile("31").userUUID();
 		user2 = userDao.getByMobile("32").userUUID();
 		user3 = userDao.getByMobile("33").userUUID();
+		user4 = userDao.getByMobile("34").userUUID();
 		
 		PuluoFriendRequestDao requestDao = DaoTestApi.friendRequestDevDao;
 		requestDao.createTable();
 		requestDao.saveNewRequest("123456", user1, user2);
 		requestDao.saveNewRequest("234567", user2, user3);
+		requestDao.saveNewRequest("345678", user4, user3);
 		
 		log.info("setUpDB done!");
 	}
@@ -80,5 +84,16 @@ public class PuluoFriendRequestDaoTest {
 		Assert.assertEquals("request's uuid should be 234567", "234567", requests.get(0).requestUUID());
 		
 		log.info("testGetFriendRequestByUsers done!");
+	}
+
+	@Test
+	public void testGetPendingFriendRequestsByUserUUID() {
+		log.info("testGetPendingFriendRequestsByUserUUID start!");
+
+		PuluoFriendRequestDao requestDao = DaoTestApi.friendRequestDevDao;
+		List<PuluoFriendRequest> requests = requestDao.getPendingFriendRequestsByUserUUID(user3);
+		Assert.assertTrue("the requests' size should be 2", 2==requests.size());
+		
+		log.info("testGetPendingFriendRequestsByUserUUID done!");
 	}
 }

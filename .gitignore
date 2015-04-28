@@ -53,3 +53,4 @@ puluo_app_backend/core_test/.settings/org.eclipse.jdt.core.prefs
 puluo_app_backend/core_test/data/testdb.h2.db
 puluo_app_backend/lift_admin_server/data/dist/lift_admin_server.war
 puluo_app_backend/lift_api_server/data/dist/lift_api_server.war
+puluo_app_backend/core_test/data/testdb.h2.db
