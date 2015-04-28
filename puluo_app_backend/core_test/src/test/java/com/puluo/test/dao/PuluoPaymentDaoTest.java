@@ -37,9 +37,9 @@ public class PuluoPaymentDaoTest {
 		PuluoPaymentOrder payment_order_2 = new PuluoPaymentOrderImpl(UUID.randomUUID().toString(), 0.02,
 				DateTime.now(), UUID.randomUUID().toString(), event_id_1, PuluoOrderStatus.Undefined);
 		PuluoPaymentOrder payment_order_3 = new PuluoPaymentOrderImpl(UUID.randomUUID().toString(), 0.03,
-				DateTime.now(), user_uuid, event_id_2, PuluoOrderStatus.Undefined);
+				DateTime.now(), user_uuid, event_id_2, PuluoOrderStatus.Paid);
 		PuluoPaymentOrder payment_order_4 = new PuluoPaymentOrderImpl(UUID.randomUUID().toString(), 0.04,
-				DateTime.now(), UUID.randomUUID().toString(), event_id_2, PuluoOrderStatus.Paid);
+				DateTime.now(), UUID.randomUUID().toString(), event_id_2, PuluoOrderStatus.Undefined);
 		paymentDao.createTable();
 		paymentDao.saveOrder(payment_order_1);
 		paymentDao.saveOrder(payment_order_2);
@@ -151,5 +151,16 @@ public class PuluoPaymentDaoTest {
 		paymentOrder = paymentDao.getOrderByUUID(order_uuid_1);
 		Assert.assertEquals("the payment id should be " + paymentId, paymentId, paymentOrder.paymentId());
 		log.info("testUpdateOrderPaymentInfo done!");
+	}
+
+	@Test
+	public void testGetPaidOrdersByUserUUID() {
+		log.info("testGetPaidOrdersByUserUUID start!");
+		PuluoPaymentDao paymentDao = DaoTestApi.paymentDevDao;
+		List<PuluoPaymentOrder> paymentOrders = paymentDao.getPaidOrdersByUserUUID(user_uuid);
+		Assert.assertEquals("the size should be 1", 1, paymentOrders.size());
+		Assert.assertEquals("the event uuid should be " + event_id_2, event_id_2, paymentOrders.get(0).eventId());
+		Assert.assertTrue("the event uuid should be 0.03", 0.03==paymentOrders.get(0).amount());
+		log.info("testGetPaidOrdersByUserUUID done!");
 	}
 }
