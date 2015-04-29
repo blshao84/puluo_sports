@@ -100,7 +100,13 @@ public class PuluoEventImpl implements PuluoEvent {
 	}
 
 	@Override
-	public Double price() {
+	public Double price(){
+		if(discountedPrice < price && discountedPrice>0) {
+			return discountedPrice;
+		} else return price;
+	}
+	@Override
+	public Double originalPrice() {
 		return price;
 	}
 

@@ -242,7 +242,7 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 						.append(Strs.isEmpty(event.statusName()) ? "null" : "'" + event.statusName() + "'").append(", ")
 						.append(event.registeredUsers() + ", ")
 						.append(event.capatcity() + ", ")
-						.append(event.price() + ", ")
+						.append(event.originalPrice() + ", ")
 						.append(event.discountedPrice() + ", ")
 						.append(Strs.isEmpty(event.eventInfo().eventInfoUUID()) ? "null" : "'" + event.eventInfo().eventInfoUUID() + "'").append(", ")
 						.append(Strs.isEmpty(event.eventLocation().locationId()) ? "null" : "'" + event.eventLocation().locationId() + "'").append(")")
@@ -281,7 +281,7 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 				}
 				updateSQL.append(" registered_users = " + event.registeredUsers() + ",")
 						.append(" capatcity = " + event.capatcity() + ",")
-						.append(" price = " + event.price() + ",")
+						.append(" price = " + event.originalPrice() + ",")
 						.append(" discounted_price = " + event.discountedPrice() + ",");
 				if (!Strs.isEmpty(event.eventInfo().eventInfoUUID())) {
 					updateSQL.append(" info_uuid = '" + event.eventInfo().eventInfoUUID() + "',");

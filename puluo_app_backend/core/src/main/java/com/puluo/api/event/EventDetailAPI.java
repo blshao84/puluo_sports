@@ -61,7 +61,7 @@ public class EventDetailAPI extends PuluoAPI<PuluoDSI, EventDetailResult> {
 					location.latitude(), 
 					location.longitude(),
 					info.details(),
-					images,event.price(),
+					images,event.originalPrice(),
 					event.attendees(),
 					event.registered(user_uuid),
 					info.duration());

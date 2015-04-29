@@ -170,7 +170,8 @@ public class PuluoEventDaoTest {
 		event0 = eventDao.getEventByUUID("event_uuid_0");
 		Assert.assertEquals("status应该为Open!", "Open" , event0.statusName());
 		Assert.assertTrue("capatcity应该等于1!", 1==event0.capatcity());
-		Assert.assertTrue("price应该等于340!", 340.00==event0.price());
+		Assert.assertTrue("originalPrice应该等于340!", 340.00==event0.originalPrice());
+		Assert.assertTrue("price应该等于249.99", 249.99==event0.price());
 		log.info("testGetEventByUUID done!");
 	}
 }

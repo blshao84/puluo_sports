@@ -13,7 +13,7 @@ public interface PuluoEvent {
 	String statusName();
 	int registeredUsers();
 	int capatcity();
-	Double price();
+	Double originalPrice();
 	Double discount();
 	Double discountedPrice();
 	PuluoEventInfo eventInfo();
@@ -22,4 +22,5 @@ public interface PuluoEvent {
 	int hottest();
 	List<PuluoEventAttendee> attendees();
 	boolean registered(String userUUID);
+	Double price();
 }

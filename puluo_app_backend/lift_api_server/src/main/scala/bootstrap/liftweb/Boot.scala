@@ -56,10 +56,8 @@ class Boot extends Loggable {
     SiteMap.enforceUniqueLinks = false
 
     LiftRules.setSiteMap(SiteMap(
-    Menu("test_bootstrap9") / "proto" / "test" >> net.liftweb.sitemap.Loc.Hidden,
-    Menu("single_event") / "single_event" >> net.liftweb.sitemap.Loc.Hidden,
-    Menu("goto_payment") / "goto_payment" >> net.liftweb.sitemap.Loc.Hidden
-    ))
+      Menu("test_bootstrap9") / "proto" / "test" >> net.liftweb.sitemap.Loc.Hidden,
+      Menu("single_event") / "single_event" >> net.liftweb.sitemap.Loc.Hidden))
   }
 
   def authenticate(r: Req): Boolean = {
@@ -69,8 +67,8 @@ class Boot extends Loggable {
     verified
 
   }
-  
-  def addHeader(s:net.liftweb.http.provider.HTTPResponse):Unit = {
+
+  def addHeader(s: net.liftweb.http.provider.HTTPResponse): Unit = {
     val allowedOrigin = S.request.get.header("Origin").getOrElse("http://localhost:8100")
     logger.info(s"allowedOrigin:${allowedOrigin}")
     s.addHeaders(
@@ -85,6 +83,8 @@ class Boot extends Loggable {
     val withAuthentication: PartialFunction[Req, Unit] = {
       case r: Req if authenticate(r) =>
     }
+    LiftRules.addToPackages("com.puluo.snippet")
+    LiftRules.addToPackages("com.puluo")
     // setup the 404 handler 
     LiftRules.uriNotFound.prepend(NamedPF("404handler") {
       case (req, failure) => NotFoundAsTemplate(ParsePath(List("404"), "html", false, false))

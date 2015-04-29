@@ -163,4 +163,10 @@ public class EventRegistrationAPI extends
 			}
 		}
 	}
+	
+	public String paymentLink() {
+		if(rawResult==null){
+			return "";
+		} else return rawResult.link;
+	}
 }
