@@ -79,7 +79,7 @@ public class EventRegisterFunctionalTest extends APIFunctionalTest {
 				log.info("testOrderWithZero start!");
 				JsonNode json = callAPI("/events/payment/" + event_uuid, inputs(session));
 				log.info(json);
-				getOrderUUID(json);
+				String order = getStringFromJson(json, "order_uuid");
 				String paid = getPaid(json);
 				Assert.assertTrue("paid should be true", Boolean.valueOf(paid));
 				log.info("testOrderWithZero done!");

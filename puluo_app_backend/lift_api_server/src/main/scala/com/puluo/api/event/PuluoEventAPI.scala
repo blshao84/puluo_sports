@@ -15,14 +15,26 @@ import com.puluo.session.PuluoSessionManager
 import net.liftweb.common.Loggable
 import org.joda.time.DateTime
 import com.puluo.enumeration._
+import com.puluo.api.event.RegisteredEventSearchAPI
 
 object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
+    case "events" :: "registered" :: Nil Post _ => callWithAuthParam()(doGetRegisteredEvents)
     case "events" :: "configurations" :: Nil Post _ => callWithAuthParam()(doGetEventConfigurations)
     case "events" :: "payment" :: eventUUID :: Nil Post _ => doRegister(eventUUID)
     case "events" :: "detail" :: eventUUID :: Nil Post _ => doGetEventDetail(eventUUID)
     case "events" :: "memory" :: eventUUID :: Nil Post _ => doGetEventMemory(eventUUID)
     case "events" :: "search" :: Nil Post _ => doEventSearch()
+  }
+  
+  private def doGetRegisteredEvents(params:Map[String,String]) = {
+    val token = PuluoResponseFactory.createParamMap(Seq("token")).values.head
+    val session = PuluoSessionManager.getSession(token)
+    val userUUID = session.userUUID()
+    logger.info(s"user ${userUUID} is requesting registered events")
+    val api = new RegisteredEventSearchAPI(userUUID)
+    safeRun(api)
+    PuluoResponseFactory.createJSONResponse(api)
   }
   
   private def doGetEventConfigurations(params:Map[String,String]) = {

@@ -13,6 +13,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.dao.impl.PuluoOrderEventDaoImpl;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventLocation;
@@ -29,6 +30,7 @@ import com.puluo.util.Strs;
 public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 	public static Log log = LogFactory
 			.getLog(GetEventDetailFunctionalTest.class);
+	private static String order_uuid;
 	private static EventTestDataSource dataSource = new EventTestDataSource(
 			"event_detail");
 
@@ -40,6 +42,42 @@ public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 	@AfterClass
 	public static void cleanupDB() {
 		dataSource.cleanupDB();
+		PuluoOrderEventDaoImpl orderEventDao = (PuluoOrderEventDaoImpl) DaoApi
+				.getInstance().orderEventDao();
+		orderEventDao.deleteByOrderUUID(order_uuid);
+	}
+
+	@Test
+	public void testGetRegisteredEvent() {
+		super.runAuthenticatedTest(new EventFunctionalTestRunner() {
+
+			@Override
+			public void run(String session) throws UnirestException {
+				JsonNode json = callAPI("/events/payment/"
+						+ dataSource.eventID1, inputs(session));
+				log.info(json);
+				order_uuid = getStringFromJson(json, "order_uuid");
+				String paid = getStringFromJson(json, "paid");
+				Assert.assertTrue("paid should be true", Boolean.valueOf(paid));
+				JsonNode json2 = callAPI("/events/registered", inputs(session));
+				log.info(json2);
+				List<JsonNode> events = getJsonArrayFromJson(json2, "events");
+				Assert.assertEquals(1, events.size());
+				String event_uuid = getStringFromJson(events.get(0), "event_uuid");
+				Assert.assertEquals(dataSource.eventID1, event_uuid);
+				
+			}
+
+			@Override
+			public String inputs(String session) {
+				return String.format("{\"token\":\"%s\"}", session);
+			}
+
+			@Override
+			public EventTestDataSource dataSource() {
+				return dataSource;
+			}
+		});
 	}
 
 	@Test
@@ -131,10 +169,12 @@ public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 				"latitude");
 		String actualRegistered = super.getStringFromJson(json, "registered");
 		Set<String> actualAttendees = new HashSet<String>();
-		for (JsonNode node: super.getJsonArrayFromJson(json, "attendees")) {
-			actualAttendees.add("{" + "\"name\":\"" + super.getStringFromJson(node, "name") + "\","
-					+ "\"uuid\":\"" + super.getStringFromJson(node, "uuid") + "\","
-					+ "\"thumbnail\":\"" + super.getStringFromJson(node, "thumbnail") + "\"" + "}");
+		for (JsonNode node : super.getJsonArrayFromJson(json, "attendees")) {
+			actualAttendees.add("{" + "\"name\":\""
+					+ super.getStringFromJson(node, "name") + "\","
+					+ "\"uuid\":\"" + super.getStringFromJson(node, "uuid")
+					+ "\"," + "\"thumbnail\":\""
+					+ super.getStringFromJson(node, "thumbnail") + "\"" + "}");
 		}
 
 		log.info(String.format("values extracted from json:\n" + "phone:%s,\n"
@@ -142,9 +182,11 @@ public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 				+ "address:%s\n" + "coach_uuid:%s\n" + "capacity:%s\n"
 				+ "registered_users:%s\n" + "event_name:%s\n"
 				+ "coach_name:%s\n" + "thumbnail:%s\n" + "images:%s\n"
-				+ "longitude:%s\n" + "lattitude:%s\n" + "registered:%s\n" + "attendees:%s\n", phone, status, city,
-				details, address, coach_uuid, capacity, registered_users,
-				event_name, coach_name, thumbnail, images, longitude, latitude, actualRegistered, actualAttendees));
+				+ "longitude:%s\n" + "lattitude:%s\n" + "registered:%s\n"
+				+ "attendees:%s\n", phone, status, city, details, address,
+				coach_uuid, capacity, registered_users, event_name, coach_name,
+				thumbnail, images, longitude, latitude, actualRegistered,
+				actualAttendees));
 		PuluoDSI dsi = DaoApi.getInstance();
 		PuluoEventInfo info = event.eventInfo();
 		PuluoEventLocation loc = event.eventLocation();
@@ -164,10 +206,11 @@ public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 		}
 		for (PuluoEventAttendee a : attendees) {
 			expectedAttendees.add("{" + "\"name\":\"" + a.name() + "\","
-									+ "\"uuid\":\"" + a.uuid() + "\","
-									+ "\"thumbnail\":\"" + a.thumbnail() + "\"" + "}");
+					+ "\"uuid\":\"" + a.uuid() + "\"," + "\"thumbnail\":\""
+					+ a.thumbnail() + "\"" + "}");
 		}
-		String expectedRregistered = String.valueOf(event.registered(dataSource.userID));
+		String expectedRregistered = String.valueOf(event
+				.registered(dataSource.userID));
 		Assert.assertEquals(phone, loc.phone());
 		Assert.assertEquals(status, event.statusName());
 		Assert.assertEquals(city, loc.city());
