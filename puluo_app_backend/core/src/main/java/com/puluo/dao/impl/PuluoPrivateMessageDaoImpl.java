@@ -39,7 +39,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 					.append("'" + message.toUser().userUUID() + "', ")
 					.append("'" + TimeUtils.formatDate(message.createdAt())
 							+ "')").toString();
-			log.info(Strs.join("SQL:",updateSQL));
+			log.info(Strs.join("SQL:", updateSQL));
 			getWriter().update(updateSQL);
 			return true;
 		} catch (Exception e) {
@@ -65,8 +65,9 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 					.append("select * from ")
 					.append(super.getFullTableName())
 					.append(" where from_user_uuid = ?  and to_user_uuid = ? and message_type = '"
-							+ PuluoMessageType.FriendRequest.name() + "' order by created_at desc").toString();
-			log.info(super.sqlRequestLog(selectSQL,fromUserUUID,toUserUUID));
+							+ PuluoMessageType.FriendRequest.name()
+							+ "' order by created_at desc").toString();
+			log.info(super.sqlRequestLog(selectSQL, fromUserUUID, toUserUUID));
 			List<PuluoPrivateMessage> entities = reader.query(
 					selectSQL.toString(), new Object[] { fromUserUUID,
 							toUserUUID }, new PrivateMessageMapper());
@@ -79,7 +80,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 
 	@Override
 	public List<PuluoPrivateMessage> getMessagesByFromUser(String userUUID,
-			DateTime time_from, DateTime time_to,int limit, int offset) {
+			DateTime time_from, DateTime time_to, int limit, int offset) {
 		try {
 			SqlReader reader = getReader();
 			StringBuilder selectSQL = new StringBuilder()
@@ -96,9 +97,11 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 						+ TimeUtils.formatDate(time_to) + "'");
 			}
 			selectSQL.append(" order by created_at desc");
-			if(limit>0) selectSQL.append(" limit ").append(limit);
-			if(offset>0) selectSQL.append(" offset ").append(offset);
-			
+			if (limit > 0)
+				selectSQL.append(" limit ").append(limit);
+			if (offset > 0)
+				selectSQL.append(" offset ").append(offset);
+
 			log.info(selectSQL.toString());
 			List<PuluoPrivateMessage> entities = reader.query(
 					selectSQL.toString(), new Object[] { userUUID },
@@ -124,43 +127,54 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 					.append("created_at timestamp)").toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
-			
-			String indexSQL1 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_id on ")
-					.append(super.getFullTableName())
+
+			String indexSQL1 = new StringBuilder()
+					.append("create index " + super.getFullTableName()
+							+ "_i_id on ").append(super.getFullTableName())
 					.append(" (id)").toString();
 			log.info(indexSQL1);
 			getWriter().execute(indexSQL1);
-			
-			String indexSQL2 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_message_uuid on ")
-					.append(super.getFullTableName())
-					.append(" (message_uuid)").toString();
+
+			String indexSQL2 = new StringBuilder()
+					.append("create index " + super.getFullTableName()
+							+ "_i_message_uuid on ")
+					.append(super.getFullTableName()).append(" (message_uuid)")
+					.toString();
 			log.info(indexSQL2);
 			getWriter().execute(indexSQL2);
-			
-			String indexSQL3 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_friend_request_uuid on ")
+
+			String indexSQL3 = new StringBuilder()
+					.append("create index " + super.getFullTableName()
+							+ "_i_friend_request_uuid on ")
 					.append(super.getFullTableName())
 					.append(" (friend_request_uuid)").toString();
 			log.info(indexSQL3);
 			getWriter().execute(indexSQL3);
-			
-			String indexSQL4 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_from_user_uuid on ")
+
+			String indexSQL4 = new StringBuilder()
+					.append("create index " + super.getFullTableName()
+							+ "_i_from_user_uuid on ")
 					.append(super.getFullTableName())
 					.append(" (from_user_uuid)").toString();
 			log.info(indexSQL4);
 			getWriter().execute(indexSQL4);
-			
-			String indexSQL5 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_to_user_uuid on ")
-					.append(super.getFullTableName())
-					.append(" (to_user_uuid)").toString();
+
+			String indexSQL5 = new StringBuilder()
+					.append("create index " + super.getFullTableName()
+							+ "_i_to_user_uuid on ")
+					.append(super.getFullTableName()).append(" (to_user_uuid)")
+					.toString();
 			log.info(indexSQL5);
 			getWriter().execute(indexSQL5);
-			
-			String indexSQL6 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_from_n_to on ")
+
+			String indexSQL6 = new StringBuilder()
+					.append("create index " + super.getFullTableName()
+							+ "_i_from_n_to on ")
 					.append(super.getFullTableName())
 					.append(" (from_user_uuid, to_user_uuid)").toString();
 			log.info(indexSQL6);
 			getWriter().execute(indexSQL6);
-			
+
 			return true;
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -170,26 +184,29 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 
 	@Override
 	public List<PuluoPrivateMessage> getMessagesByUser(String from_user_uuid,
-			String to_user_uuid, DateTime time_from, DateTime time_to, int limit, int offset) {
+			String to_user_uuid, DateTime time_from, DateTime time_to,
+			int limit, int offset) {
 		try {
 			SqlReader reader = getReader();
 			StringBuilder selectSQL = new StringBuilder()
 					.append("select * from ").append(super.getFullTableName())
 					.append(" where");
-			Object[] args;
+			String usersFilter = null;
 			if (!Strs.isEmpty(from_user_uuid) && !Strs.isEmpty(to_user_uuid)) {
-				selectSQL
-						.append(" from_user_uuid = ? and to_user_uuid = ? and");
-				args = new Object[] { from_user_uuid, to_user_uuid };
+				usersFilter = String
+						.format(" ((from_user_uuid = '%s' and to_user_uuid = '%s') or (from_user_uuid = '%s' and to_user_uuid = '%s')) and",
+								from_user_uuid, to_user_uuid, to_user_uuid,
+								from_user_uuid);
 			} else if (!Strs.isEmpty(from_user_uuid)) {
-				selectSQL.append(" from_user_uuid = ? and");
-				args = new Object[] { from_user_uuid };
+				usersFilter = String
+						.format(" from_user_uuid = '%s' and",from_user_uuid);
 			} else if (!Strs.isEmpty(to_user_uuid)) {
-				selectSQL.append(" to_user_uuid = ? and");
-				args = new Object[] { to_user_uuid };
+				usersFilter = String
+						.format(" to_user_uuid = '%s' and",to_user_uuid);
 			} else {
-				args = new Object[] {};
+				usersFilter = "";
 			}
+			selectSQL.append(usersFilter);
 			selectSQL.append(" message_type <> '"
 					+ PuluoMessageType.FriendRequest.name() + "'");
 			if (!Strs.isEmpty(TimeUtils.formatDate(time_from))) {
@@ -201,11 +218,13 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 						+ TimeUtils.formatDate(time_to) + "'");
 			}
 			selectSQL.append(" order by created_at desc");
-			if(limit>0) selectSQL.append(" limit ").append(limit);
-			if(offset>0) selectSQL.append(" offset ").append(offset);
+			if (limit > 0)
+				selectSQL.append(" limit ").append(limit);
+			if (offset > 0)
+				selectSQL.append(" offset ").append(offset);
 			log.info(selectSQL.toString());
 			List<PuluoPrivateMessage> entities = reader.query(
-					selectSQL.toString(), args, new PrivateMessageMapper());
+					selectSQL.toString(), new PrivateMessageMapper());
 			return entities;
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -217,14 +236,13 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 	public PuluoPrivateMessage findByUUID(String uuid) {
 		try {
 			SqlReader reader = getReader();
-			String selectSQL = new StringBuilder()
-					.append("select * from ").append(super.getFullTableName())
+			String selectSQL = new StringBuilder().append("select * from ")
+					.append(super.getFullTableName())
 					.append(" where message_uuid = ?").toString();
 
 			log.info(super.sqlRequestLog(selectSQL, uuid));
-			List<PuluoPrivateMessage> entities = reader.query(
-					selectSQL, new Object[] { uuid },
-					new PrivateMessageMapper());
+			List<PuluoPrivateMessage> entities = reader.query(selectSQL,
+					new Object[] { uuid }, new PrivateMessageMapper());
 			return verifyUniqueResult(entities);
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -233,7 +251,8 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 	}
 
 	/**
-	 * list all users 'user_uuid' sent messages to and for each user returns the latest msg
+	 * list all users 'user_uuid' sent messages to and for each user returns the
+	 * latest msg
 	 */
 	@Override
 	public List<PuluoPrivateMessage> getSentMessageSummary(String user_uuid) {
@@ -245,22 +264,21 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 					.append(" where from_user_uuid = ? group by to_user_uuid) s ")
 					.append("join ").append(super.getFullTableName())
 					.append(" d on s.to_user_uuid = d.to_user_uuid")
-					.append(" and s.max_time = d.created_at")
-					.toString();
+					.append(" and s.max_time = d.created_at").toString();
 
 			log.info(super.sqlRequestLog(selectSQL, user_uuid));
-			List<PuluoPrivateMessage> entities = reader.query(
-					selectSQL, new Object[] { user_uuid },
-					new PrivateMessageMapper());
+			List<PuluoPrivateMessage> entities = reader.query(selectSQL,
+					new Object[] { user_uuid }, new PrivateMessageMapper());
 			return entities;
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return null;
 		}
 	}
-	
+
 	/**
-	 * list all users 'user_uuid' received messages from and for each user returns the latest msg
+	 * list all users 'user_uuid' received messages from and for each user
+	 * returns the latest msg
 	 */
 	@Override
 	public List<PuluoPrivateMessage> getReceivedMessageSummary(String user_uuid) {
@@ -272,13 +290,11 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 					.append(" where to_user_uuid = ? group by from_user_uuid) s ")
 					.append("join ").append(super.getFullTableName())
 					.append(" d on s.from_user_uuid = d.from_user_uuid")
-					.append(" and s.max_time = d.created_at")
-					.toString();
+					.append(" and s.max_time = d.created_at").toString();
 
 			log.info(super.sqlRequestLog(selectSQL, user_uuid));
-			List<PuluoPrivateMessage> entities = reader.query(
-					selectSQL, new Object[] { user_uuid },
-					new PrivateMessageMapper());
+			List<PuluoPrivateMessage> entities = reader.query(selectSQL,
+					new Object[] { user_uuid }, new PrivateMessageMapper());
 			return entities;
 		} catch (Exception e) {
 			log.error(e.getMessage());
