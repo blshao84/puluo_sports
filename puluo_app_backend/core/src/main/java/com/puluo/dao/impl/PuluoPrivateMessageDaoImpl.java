@@ -66,7 +66,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 					.append(super.getFullTableName())
 					.append(" where from_user_uuid = ?  and to_user_uuid = ? and message_type = '"
 							+ PuluoMessageType.FriendRequest.name()
-							+ "' order by created_at").toString();
+							+ "' order by created_at desc").toString();
 			log.info(super.sqlRequestLog(selectSQL, fromUserUUID, toUserUUID));
 			List<PuluoPrivateMessage> entities = reader.query(
 					selectSQL.toString(), new Object[] { fromUserUUID,
