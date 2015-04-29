@@ -54,9 +54,12 @@ class Boot extends Loggable {
   def setupNewSiteMap() = {
 
     SiteMap.enforceUniqueLinks = false
-    val menus: List[Menu] = (Menu("test_bootstrap9") / "proto" / "test" >> net.liftweb.sitemap.Loc.Hidden) :: Nil
 
-    LiftRules.setSiteMap(SiteMap(menus: _*))
+    LiftRules.setSiteMap(SiteMap(
+    Menu("test_bootstrap9") / "proto" / "test" >> net.liftweb.sitemap.Loc.Hidden,
+    Menu("single_event") / "single_event" >> net.liftweb.sitemap.Loc.Hidden,
+    Menu("goto_payment") / "goto_payment" >> net.liftweb.sitemap.Loc.Hidden
+    ))
   }
 
   def authenticate(r: Req): Boolean = {
