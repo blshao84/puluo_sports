@@ -10,6 +10,7 @@ import org.joda.time.DateTime;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.mashape.unirest.http.JsonNode;
@@ -82,7 +83,7 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 		}
 	}
 	
-	@Test
+	@Test @Ignore("https://github.com/blshao84/puluo_sports/issues/24")
 	public void testListMessageSummaryWithLimitOffset() {
 		DateTime today = DateTime.now();
 		PuluoPrivateMessage mgs1 = new PuluoPrivateMessageImpl(
