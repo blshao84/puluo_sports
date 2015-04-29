@@ -96,5 +96,5 @@ object PuluoAdmin extends PuluoAdmin
 class PuluoAdmin extends MegaProtoUser[PuluoAdmin] {
   def getSingleton = PuluoAdmin
   object mobile extends MappedString(this, 100)
-  def puluoUser = DaoApi.getInstance().userDao().getByMobile(mobile)
+  def puluoUser = DaoApi.getInstance().userDao().getByMobile(mobile.get)
 }

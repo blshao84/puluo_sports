@@ -15,9 +15,7 @@ import net.liftweb.common.Loggable
 import net.liftweb.http.LiftRules
 import net.liftweb.http.js.JsCmds._
 import net.liftweb.sitemap.Loc.Value
-import bootstrap.liftweb.Boot
 import net.liftweb.util.PassThru
-import com.puluo.entity.PuluoAdmin
 import com.puluo.entity.PuluoUser
 import net.liftweb.http.SessionVar
 import com.puluo.dao.impl.DaoApi

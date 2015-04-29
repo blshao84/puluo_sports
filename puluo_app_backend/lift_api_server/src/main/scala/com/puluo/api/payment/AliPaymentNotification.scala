@@ -11,7 +11,6 @@ import net.liftweb.common.Full
 import net.liftweb.http.PlainTextResponse
 import net.liftweb.common.Box._
 import net.liftweb.http.S
-import com.puluo.api.payment.PuluoAlipayAPI
 import java.util.HashMap
 import com.puluo.api.result.AlipaymentResult
 import com.puluo.api.util.PuluoAPIUtil

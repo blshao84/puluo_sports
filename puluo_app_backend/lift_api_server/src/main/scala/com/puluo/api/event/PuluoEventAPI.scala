@@ -15,7 +15,6 @@ import com.puluo.session.PuluoSessionManager
 import net.liftweb.common.Loggable
 import org.joda.time.DateTime
 import com.puluo.enumeration._
-import com.puluo.api.event.RegisteredEventSearchAPI
 
 object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {

@@ -1,1 +1,1 @@
-include "core","lift_api_server","core_test","lift_admin_server"
+include "core","lift_api_server","core_test","lift_admin_server","lift_common"
