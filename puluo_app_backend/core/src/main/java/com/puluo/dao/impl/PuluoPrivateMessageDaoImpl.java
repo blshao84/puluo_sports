@@ -66,7 +66,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 					.append(super.getFullTableName())
 					.append(" where from_user_uuid = ?  and to_user_uuid = ? and message_type = '"
 							+ PuluoMessageType.FriendRequest.name()
-							+ "' order by created_at desc").toString();
+							+ "' order by created_at").toString();
 			log.info(super.sqlRequestLog(selectSQL, fromUserUUID, toUserUUID));
 			List<PuluoPrivateMessage> entities = reader.query(
 					selectSQL.toString(), new Object[] { fromUserUUID,
@@ -96,7 +96,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 				selectSQL.append(" and created_at <= '"
 						+ TimeUtils.formatDate(time_to) + "'");
 			}
-			selectSQL.append(" order by created_at desc");
+			selectSQL.append(" order by created_at");
 			if (limit > 0)
 				selectSQL.append(" limit ").append(limit);
 			if (offset > 0)
@@ -217,7 +217,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 				selectSQL.append(" and created_at <= '"
 						+ TimeUtils.formatDate(time_to) + "'");
 			}
-			selectSQL.append(" order by created_at desc");
+			selectSQL.append(" order by created_at");
 			if (limit > 0)
 				selectSQL.append(" limit ").append(limit);
 			if (offset > 0)
