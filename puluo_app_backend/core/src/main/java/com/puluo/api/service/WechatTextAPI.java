@@ -1,17 +1,30 @@
 package com.puluo.api.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.joda.time.DateTime;
+
 import com.puluo.api.auth.UserRegistrationAPI;
+import com.puluo.api.event.EventSearchAPI;
 import com.puluo.api.result.ApiErrorResult;
+import com.puluo.api.result.wechat.WechatArticleMessage;
 import com.puluo.api.result.wechat.WechatMessage;
+import com.puluo.api.result.wechat.WechatNewsMessage;
 import com.puluo.api.result.wechat.WechatTextMessage;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoWechatBinding;
+import com.puluo.enumeration.EventSortType;
+import com.puluo.enumeration.EventStatus;
 import com.puluo.enumeration.PuluoSMSType;
+import com.puluo.enumeration.SortDirection;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.PasswordEncryptionUtil;
 import com.puluo.util.Strs;
+import com.puluo.weichat.WechatUtil;
 
 public class WechatTextAPI {
 	public static Log log = LogFactory.getLog(WechatTextAPI.class);
@@ -125,8 +138,25 @@ public class WechatTextAPI {
 		if("bd".equals(content)){
 			return new WechatTextMessage("您已经成功注册啦！");
 		} else {
-		// TODO Auto-generated method stub
-		return new WechatTextMessage("您已经成功注册，为了让您的锻炼更方便，小普们正在玩儿命为您增加新功能！");
+			EventSearchAPI api = new EventSearchAPI(
+				DateTime.now(),//today 
+				null, // don't restrict event_to_date
+				content, 
+				null, //ignore level
+				EventSortType.Price, 
+				SortDirection.Asc, 
+				0, 0, 0, //ignore location for now
+				EventStatus.Open, 
+				null); // any event type
+			api.execute();
+			List<PuluoEvent> events = api.searchedEvents;
+			log.info(String.format("searched %s events from wechat",
+					events.size()));
+			List<WechatArticleMessage> articles = new ArrayList<WechatArticleMessage>();
+			for (PuluoEvent e : events) {
+				articles.add(WechatUtil.createArticleMessageFromEvent(e));
+			}
+			return new WechatNewsMessage(articles);
 		}
 	}
 

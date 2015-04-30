@@ -68,11 +68,11 @@ public class PuluoEventDaoTest {
 		eventDao.upsertEvent(event0);
 		PuluoEvent event1 = new PuluoEventImpl("event_uuid_1", TimeUtils.parseDateTime("2015-03-01 20:35:59"), EventStatus.Open, 
 				0, 0, 300.00, 199.99, 
-				"event_info_uuid_1", "uuid_2", 0, DaoTestApi.getInstance());
+				"event_info_uuid_1", "uuid_2", 1, DaoTestApi.getInstance());
 		eventDao.upsertEvent(event1);
 		PuluoEvent event2 = new PuluoEventImpl("event_uuid_2", TimeUtils.parseDateTime("2015-03-02 20:35:59"), EventStatus.Closed, 
 				0, 0, 300.00, 99.99, 
-				"event_info_uuid_2", "uuid_1", 0, DaoTestApi.getInstance());
+				"event_info_uuid_2", "uuid_1", 2, DaoTestApi.getInstance());
 		eventDao.upsertEvent(event2);
 		log.info("setUpDB done!");
 	}
@@ -173,5 +173,12 @@ public class PuluoEventDaoTest {
 		Assert.assertTrue("originalPrice应该等于340!", 340.00==event0.originalPrice());
 		Assert.assertTrue("price应该等于249.99", 249.99==event0.price());
 		log.info("testGetEventByUUID done!");
+	}
+	
+	@Test
+	public void testGetPopularEvents() {
+		List<PuluoEvent> recommendations = DaoTestApi.eventDevDao.findPopularEvent(0);
+		Assert.assertEquals("should be 1 events that has hottest greater than 0 and open", 1, recommendations.size());
+		Assert.assertEquals(1, recommendations.get(0).hottest());
 	}
 }

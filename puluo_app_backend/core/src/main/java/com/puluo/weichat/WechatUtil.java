@@ -26,8 +26,12 @@ import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.puluo.api.result.ImageUploadServiceResult;
+import com.puluo.api.result.wechat.WechatArticleMessage;
+import com.puluo.config.Configurations;
 import com.puluo.dao.WechatMediaResourceDao;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.entity.PuluoEvent;
+import com.puluo.entity.PuluoEventInfo;
 import com.puluo.service.PuluoService;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
@@ -258,6 +262,22 @@ public class WechatUtil {
 		return httpsJsonRequest(requestUrl, "POST", inputs);
 	}
 
+	public static WechatArticleMessage createArticleMessageFromEvent(PuluoEvent event) {
+		PuluoEventInfo info = event.eventInfo();
+		String name = info.name();
+		String desc = info.description();
+		String img = null;
+		if (info.poster() != null && !info.poster().isEmpty()) {
+			img = info.poster().get(0).imageURL();
+		} else {
+			img = "empty.jpeg";
+		}
+		String url = String.format("%s%s", Configurations.imageServer, img);
+		String page_url = String.format(
+				"www.puluosports.com/single_event?uuid=%s", event.eventUUID());
+		return new WechatArticleMessage(name, desc, url, page_url, false);
+	}
+	
 	public static void main(String[] args) {
 
 		String token = PuluoWechatTokenCache.token();
@@ -352,7 +372,7 @@ class WechatHttpJSONPostProcessor implements
 		log.debug(String.format("将结果转化为json格式:%s", jsonObject.toString()));
 		return jsonObject;
 	}
-
+	
 }
 
 class WechatHttpByteArrayPostProcessor implements

@@ -26,4 +26,6 @@ public interface PuluoEventDao {
 	public boolean saveEvent(PuluoEvent event);
 	
 	public boolean updateEvent(PuluoEvent event);
+
+	public List<PuluoEvent> findPopularEvent(int popularity);
 }

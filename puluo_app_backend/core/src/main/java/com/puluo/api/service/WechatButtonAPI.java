@@ -12,7 +12,6 @@ import com.puluo.api.result.wechat.WechatTextMessage;
 import com.puluo.config.Configurations;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
-import com.puluo.entity.PuluoEventInfo;
 import com.puluo.enumeration.WechatButtonType;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
@@ -66,7 +65,7 @@ public class WechatButtonAPI {
 	}
 
 	private WechatMessage createDownloadLink() {
-		//<a href=\"www.baidu.com\">下载App</a>
+		// <a href=\"www.baidu.com\">下载App</a>
 		return new WechatTextMessage("敬请期待");
 	}
 
@@ -96,20 +95,11 @@ public class WechatButtonAPI {
 	}
 
 	private WechatMessage createHottestEvent() {
-		PuluoEvent event = DaoApi.getInstance().eventDao().getEventByUUID("6f8391e1-9ae9-4738-937f-82fd2713c854");
-		PuluoEventInfo info = event.eventInfo();
-		String name = info.name();
-		String desc = info.description();
-		String img = null;
-		if(info.poster()!=null && !info.poster().isEmpty()){
-			img = info.poster().get(0).imageURL();
-		} else {
-			img = "empty.jpeg";
-		}
-		String url = String.format("%s%s",Configurations.imageServer,img);
-		String page_url = String.format("www.puluosports.com/single_event?uuid=%s",event.eventUUID());
+		List<PuluoEvent> recommendations = DaoApi.getInstance().eventDao().findPopularEvent(0);
 		List<WechatArticleMessage> articles = new ArrayList<WechatArticleMessage>();
-		articles.add(new WechatArticleMessage(name, desc,url,page_url,false));
+		for(PuluoEvent e:recommendations){
+			articles.add(WechatUtil.createArticleMessageFromEvent(e));
+		}
 		return new WechatNewsMessage(articles);
 	}
 
