@@ -13,6 +13,8 @@ public interface PuluoFriendRequest {
 	List<PuluoPrivateMessage> messages();
 	PuluoUser fromUser();
 	PuluoUser toUser();
+	String fromUserUUID();
+	String toUserUUID();
 	DateTime createdAt();
 	DateTime updatedAt();
 }

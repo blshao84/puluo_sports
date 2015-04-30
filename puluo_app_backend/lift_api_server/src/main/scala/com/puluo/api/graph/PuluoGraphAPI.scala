@@ -19,6 +19,7 @@ import com.puluo.api.social.RequestFriendAPI
 import com.puluo.api.social.DeleteFriendAPI
 import com.puluo.api.social.DenyFriendAPI
 import com.puluo.api.social.ApproveFriendAPI
+import com.puluo.api.social.ListFriendRequestsAPI
 
 object PuluoGraphAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
@@ -44,6 +45,17 @@ object PuluoGraphAPI extends RestHelper with PuluoAPIUtil with Loggable {
       callWithAuthParam(Map(
         "user_uuid" -> ErrorResponseResult(15).copy(message = "user_uuid")))(doApproveFriend)
     }
+    case "users" :: "friends" :: "request" :: "get" :: Nil Post _ => doGetFriendRequest
+  }
+  
+  private def doGetFriendRequest = {
+    val params = PuluoResponseFactory.createParamMap(Seq("token"))
+    val token = params("token")
+    val session = PuluoSessionManager.getSession(token)
+    val uuid = session.userUUID()
+    val api = new ListFriendRequestsAPI(uuid)
+    safeRun(api)
+    PuluoResponseFactory.createJSONResponse(api)
   }
 
   private def doFriendAPI(params: Map[String, String], apiType: String) = {

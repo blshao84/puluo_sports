@@ -75,4 +75,14 @@ public class PuluoFriendRequestImpl implements PuluoFriendRequest {
 		return dsi.userDao().getByUUID(to_user_uuid);
 	}
 
+	@Override
+	public String fromUserUUID() {
+		return from_user_uuid;
+	}
+
+	@Override
+	public String toUserUUID() {
+		return to_user_uuid;
+	}
+
 }
