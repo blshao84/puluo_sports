@@ -27,6 +27,11 @@ public class PuluoPrivateMessageDaoTest {
 
 	@BeforeClass
 	public static void setUpDB() {
+		try{
+			cleanUpDB();
+		}catch(Exception e){
+			
+		}
 		log.info("setUpDB start!");
 		
 		PuluoUserDao userDao = DaoTestApi.userDevDao;
@@ -152,6 +157,9 @@ public class PuluoPrivateMessageDaoTest {
 		messages = messageDao.getMessagesByUser(user2, user3, TimeUtils.parseDateTime("2015-03-28 12:36:59"), TimeUtils.parseDateTime("2015-03-29 12:34:59"),0,0);
 		Assert.assertEquals("messages' size should be 0", 0, messages.size());
 		
+		
+		int size = messageDao.getMessagesCountByUser(user2, null, TimeUtils.parseDateTime("2015-03-27 12:35:59"), null);
+		Assert.assertEquals("messages' size should be 2", 2, size);
 		log.info("testGetMessagesByUser done!");
 	}
 }

@@ -181,6 +181,26 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			return false;
 		}
 	}
+	
+	@Override
+	public int getMessagesCountByUser(String from_user_uuid,
+			String to_user_uuid, DateTime time_from, DateTime time_to) {
+		try {
+			SqlReader reader = getReader();
+			StringBuilder selectSQL = new StringBuilder()
+					.append("select count(*) from ").append(super.getFullTableName())
+					.append(" where ");
+			String query = buildMessageQuery(from_user_uuid, to_user_uuid,
+					time_from, time_to);
+			selectSQL.append(query);
+			log.info(selectSQL.toString());
+			int cnt = reader.queryForInt(selectSQL.toString());
+			return cnt;
+		} catch (Exception e) {
+			log.error(e.getStackTrace().toString());
+			return 0;
+		}
+	}
 
 	@Override
 	public List<PuluoPrivateMessage> getMessagesByUser(String from_user_uuid,
@@ -190,33 +210,10 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			SqlReader reader = getReader();
 			StringBuilder selectSQL = new StringBuilder()
 					.append("select * from ").append(super.getFullTableName())
-					.append(" where");
-			String usersFilter = null;
-			if (!Strs.isEmpty(from_user_uuid) && !Strs.isEmpty(to_user_uuid)) {
-				usersFilter = String
-						.format(" ((from_user_uuid = '%s' and to_user_uuid = '%s') or (from_user_uuid = '%s' and to_user_uuid = '%s')) and",
-								from_user_uuid, to_user_uuid, to_user_uuid,
-								from_user_uuid);
-			} else if (!Strs.isEmpty(from_user_uuid)) {
-				usersFilter = String
-						.format(" from_user_uuid = '%s' and",from_user_uuid);
-			} else if (!Strs.isEmpty(to_user_uuid)) {
-				usersFilter = String
-						.format(" to_user_uuid = '%s' and",to_user_uuid);
-			} else {
-				usersFilter = "";
-			}
-			selectSQL.append(usersFilter);
-			selectSQL.append(" message_type <> '"
-					+ PuluoMessageType.FriendRequest.name() + "'");
-			if (!Strs.isEmpty(TimeUtils.formatDate(time_from))) {
-				selectSQL.append(" and created_at >= '"
-						+ TimeUtils.formatDate(time_from) + "'");
-			}
-			if (!Strs.isEmpty(TimeUtils.formatDate(time_to))) {
-				selectSQL.append(" and created_at <= '"
-						+ TimeUtils.formatDate(time_to) + "'");
-			}
+					.append(" where ");
+			String query = buildMessageQuery(from_user_uuid, to_user_uuid,
+					time_from, time_to);
+			selectSQL.append(query);
 			selectSQL.append(" order by created_at");
 			if (limit > 0)
 				selectSQL.append(" limit ").append(limit);
@@ -300,6 +297,38 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			log.error(e.getMessage());
 			return null;
 		}
+	}
+
+	private String buildMessageQuery(String from_user_uuid,
+			String to_user_uuid, DateTime time_from, DateTime time_to) {
+		StringBuilder selectSQL = new StringBuilder();
+		String usersFilter = null;
+		if (!Strs.isEmpty(from_user_uuid) && !Strs.isEmpty(to_user_uuid)) {
+			usersFilter = String
+					.format(" ((from_user_uuid = '%s' and to_user_uuid = '%s') or (from_user_uuid = '%s' and to_user_uuid = '%s')) and",
+							from_user_uuid, to_user_uuid, to_user_uuid,
+							from_user_uuid);
+		} else if (!Strs.isEmpty(from_user_uuid)) {
+			usersFilter = String.format(" from_user_uuid = '%s' and",
+					from_user_uuid);
+		} else if (!Strs.isEmpty(to_user_uuid)) {
+			usersFilter = String.format(" to_user_uuid = '%s' and",
+					to_user_uuid);
+		} else {
+			usersFilter = "";
+		}
+		selectSQL.append(usersFilter);
+		selectSQL.append(" message_type <> '"
+				+ PuluoMessageType.FriendRequest.name() + "'");
+		if (!Strs.isEmpty(TimeUtils.formatDate(time_from))) {
+			selectSQL.append(" and created_at >= '"
+					+ TimeUtils.formatDate(time_from) + "'");
+		}
+		if (!Strs.isEmpty(TimeUtils.formatDate(time_to))) {
+			selectSQL.append(" and created_at <= '"
+					+ TimeUtils.formatDate(time_to) + "'");
+		}
+		return selectSQL.toString();
 	}
 }
 

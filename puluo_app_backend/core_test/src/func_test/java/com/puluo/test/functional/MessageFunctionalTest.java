@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.joda.time.DateTime;
+import org.json.JSONObject;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -46,6 +47,7 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 
 	@BeforeClass
 	public static void setupDB() {
+		cleanupDB();
 		PuluoUserDaoImpl userDao = (PuluoUserDaoImpl) DaoApi.getInstance()
 				.userDao();
 		userDao.save(mobile0, password);
@@ -97,28 +99,125 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 	public void testListConversations() {
 		try {
 			String session0 = super.login(mobile0, password);
-			PuluoPrivateMessageDao msgDao = DaoApi.getInstance().privateMessageDao();
-			
-			PuluoPrivateMessageImpl msg1 = new PuluoPrivateMessageImpl(
-					UUID.randomUUID().toString(), 
-					"uuid0 to uuid1", DateTime.now(),PuluoMessageType.TextMessage, "", uuid0, uuid1);
+			PuluoPrivateMessageDao msgDao = DaoApi.getInstance()
+					.privateMessageDao();
+
+			PuluoPrivateMessageImpl msg1 = new PuluoPrivateMessageImpl(UUID
+					.randomUUID().toString(), "uuid0 to uuid1 1", DateTime
+					.now().minusDays(4), PuluoMessageType.TextMessage, "",
+					uuid0, uuid1);
 			msgDao.saveMessage(msg1);
 			msgIds.add(msg1.messageUUID());
-			PuluoPrivateMessageImpl msg2 = new PuluoPrivateMessageImpl(
-					UUID.randomUUID().toString(), 
-					"uuid1 to uuid0", DateTime.now(),PuluoMessageType.TextMessage, "", uuid1, uuid0);
+			PuluoPrivateMessageImpl msg2 = new PuluoPrivateMessageImpl(UUID
+					.randomUUID().toString(), "uuid1 to uuid0 2", DateTime
+					.now().minusDays(3), PuluoMessageType.TextMessage, "",
+					uuid1, uuid0);
 			msgDao.saveMessage(msg2);
 			msgIds.add(msg2.messageUUID());
-			
+
+			PuluoPrivateMessageImpl msg3 = new PuluoPrivateMessageImpl(UUID
+					.randomUUID().toString(), "uuid0 to uuid1 3", DateTime
+					.now().minusDays(2), PuluoMessageType.TextMessage, "",
+					uuid0, uuid1);
+			msgDao.saveMessage(msg3);
+			msgIds.add(msg3.messageUUID());
+			PuluoPrivateMessageImpl msg4 = new PuluoPrivateMessageImpl(UUID
+					.randomUUID().toString(), "uuid1 to uuid0 4", DateTime
+					.now().minusDays(1), PuluoMessageType.TextMessage, "",
+					uuid1, uuid0);
+			msgDao.saveMessage(msg4);
+			msgIds.add(msg4.messageUUID());
+
 			String str = String
 					.format("{\"token\":\"%s\",\"from_user_uuid\":\"%s\", \"to_user_uuid\":\"%s\"}",
 							session0, uuid0, uuid1);
-			JsonNode json = callAPI("users/messages", str);
-			log.info(json);
-			JsonNode msgs = new JsonNode(super.getStringFromJson(json,
+			JsonNode json1 = callAPI("users/messages", str);
+			log.info(json1);
+			JsonNode msgs1 = new JsonNode(super.getStringFromJson(json1,
 					"messages"));
-			log.info(msgs.getArray().length());
-			Assert.assertEquals("size should be 2", 2, msgs.getArray().length());
+			int size1 = msgs1.getArray().length();
+			Assert.assertEquals("size should be 4", 4, size1);
+			List<String> actualIds = new ArrayList<String>();
+			for (int i = 0; i < size1; i++) {
+				JSONObject j = msgs1.getArray().getJSONObject(i);
+				actualIds.add((String) j.get("msg_id"));
+			}
+			List<String> expectedIds = new ArrayList<String>();
+			expectedIds.add(msg1.messageUUID());
+			expectedIds.add(msg2.messageUUID());
+			expectedIds.add(msg3.messageUUID());
+			expectedIds.add(msg4.messageUUID());
+			Assert.assertEquals(
+					"returned message should be sorted by created_at asc",
+					expectedIds, actualIds);
+
+			long since = DateTime.now().minusDays(3).getMillis();
+			str = String.format("{\"token\":\"%s\","
+					+ "\"from_user_uuid\":\"%s\", "
+					+ "\"to_user_uuid\":\"%s\"," + "\"since\":%s}", session0,
+					uuid0, uuid1, since);
+			json1 = callAPI("users/messages", str);
+			log.info(json1);
+			msgs1 = new JsonNode(super.getStringFromJson(json1,
+					"messages"));
+			size1 = msgs1.getArray().length();
+			Assert.assertEquals("size should be 3", 3, size1);
+			actualIds = new ArrayList<String>();
+			for (int i = 0; i < size1; i++) {
+				JSONObject j = msgs1.getArray().getJSONObject(i);
+				actualIds.add((String) j.get("msg_id"));
+			}
+			expectedIds = new ArrayList<String>();
+			expectedIds.add(msg2.messageUUID());
+			expectedIds.add(msg3.messageUUID());
+			expectedIds.add(msg4.messageUUID());
+			Assert.assertEquals(
+					"returned message should be msg2,msg3,msg4 and sorted by created_at asc",
+					expectedIds, actualIds);
+			
+			
+			str = String.format("{\"token\":\"%s\","
+					+ "\"from_user_uuid\":\"%s\", "
+					+ "\"to_user_uuid\":\"%s\"," + "\"since\":%s,\"limit\":%s,\"offset\":%s}", 
+					session0,uuid0, uuid1, since,1,0);
+			json1 = callAPI("users/messages", str);
+			log.info(json1);
+			msgs1 = new JsonNode(super.getStringFromJson(json1,
+					"messages"));
+			size1 = msgs1.getArray().length();
+			Assert.assertEquals("size should be 1", 1, size1);
+			actualIds = new ArrayList<String>();
+			for (int i = 0; i < size1; i++) {
+				JSONObject j = msgs1.getArray().getJSONObject(i);
+				actualIds.add((String) j.get("msg_id"));
+			}
+			expectedIds = new ArrayList<String>();
+			expectedIds.add(msg2.messageUUID());
+			Assert.assertEquals(
+					"returned message should be msg2 and sorted by created_at asc",
+					expectedIds, actualIds);
+			
+			str = String.format("{\"token\":\"%s\","
+					+ "\"from_user_uuid\":\"%s\", "
+					+ "\"to_user_uuid\":\"%s\"," + "\"since\":%s,\"limit\":%s,\"offset\":%s}", 
+					session0,uuid0, uuid1, since,1,2);
+			json1 = callAPI("users/messages", str);
+			log.info(json1);
+			msgs1 = new JsonNode(super.getStringFromJson(json1,
+					"messages"));
+			size1 = msgs1.getArray().length();
+			Assert.assertEquals("size should be 1", 1, size1);
+			actualIds = new ArrayList<String>();
+			for (int i = 0; i < size1; i++) {
+				JSONObject j = msgs1.getArray().getJSONObject(i);
+				actualIds.add((String) j.get("msg_id"));
+			}
+			expectedIds = new ArrayList<String>();
+			expectedIds.add(msg4.messageUUID());
+			Assert.assertEquals(
+					"returned message should be msg4 and sorted by created_at asc",
+					expectedIds, actualIds);
+
 		} catch (UnirestException e) {
 			e.printStackTrace();
 			Assert.assertTrue(false);
