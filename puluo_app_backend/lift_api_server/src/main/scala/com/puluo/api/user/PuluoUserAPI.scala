@@ -16,6 +16,7 @@ import com.puluo.api.setting.UserSettingAPI
 import com.puluo.api.util.PuluoAPIUtil
 import com.puluo.api.setting.UserSettingUpdateAPI
 import com.puluo.session.PuluoSessionManager
+import net.liftweb.json._
 
 object PuluoUserAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
@@ -25,24 +26,30 @@ object PuluoUserAPI extends RestHelper with PuluoAPIUtil with Loggable {
     case "users" :: "profile" :: mobileOrUUID :: Nil Post _ => {
       val token = PuluoResponseFactory.createParamMap(Seq("token")).values.head
       val uuid = PuluoSessionManager.getUserUUID(token)
-      val api = new UserProfileAPI(mobileOrUUID,uuid)
+      val api = new UserProfileAPI(mobileOrUUID, uuid)
       safeRun(api)
       PuluoResponseFactory.createJSONResponse(api)
     }
     case "users" :: "update" :: Nil Post _ => callWithAuthParam()(doUserUpdate)
     case "users" :: "search" :: Nil Post _ => doUserSearch
 
-    case "users" :: "privacy" :: Nil Post _ => doUserSetting
+    case "users" :: "privacy" :: Nil Post _ => doUserSetting(true)
+
+    case "users" :: "setting" :: Nil Post _ => doUserSetting(false)
 
     case "users" :: "setting" :: "update" :: Nil Post _ => callWithAuthParam()(doSettingUpdate)
   }
 
-  private def doUserSetting = {
+  private def doUserSetting(legacyFormat: Boolean) = {
     val token = PuluoResponseFactory.createParamMap(Seq("token")).values.head
     val uuid = PuluoSessionManager.getUserUUID(token)
     val api = new UserSettingAPI(uuid)
     safeRun(api)
-    PuluoResponseFactory.createJSONResponse(api)
+    if (legacyFormat) {
+      PuluoResponseFactory.createDummyJSONResponse(api.legacyResult())
+    } else {
+      PuluoResponseFactory.createJSONResponse(api)
+    }
   }
 
   private def doSettingUpdate(params: Map[String, String]) = {
@@ -75,7 +82,7 @@ object PuluoUserAPI extends RestHelper with PuluoAPIUtil with Loggable {
   }
 
   private def doUserSearch = {
-    val optionalParams = Seq("keyword","first_name", "last_name", "email", "mobile")
+    val optionalParams = Seq("keyword", "first_name", "last_name", "email", "mobile")
     val optionalParamsMap = PuluoResponseFactory.createParamMap(optionalParams)
     logger.info("param map for users/search:\n" + optionalParamsMap.mkString("\n"))
     val api = new UserSearchAPI(optionalParamsMap.getOrElse("keyword", ""))

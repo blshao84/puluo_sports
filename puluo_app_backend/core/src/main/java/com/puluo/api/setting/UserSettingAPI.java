@@ -47,6 +47,9 @@ public class UserSettingAPI extends PuluoAPI<PuluoDSI, UserSettingResult> {
 		}
 	}
 
+	public String legacyResult() {
+		return rawResult.legacyResult();
+	}
 	private PuluoUser user() {
 		PuluoUserDao userdao = dsi.userDao();
 		PuluoUser user = userdao.getByMobile(mobile_or_uuid);

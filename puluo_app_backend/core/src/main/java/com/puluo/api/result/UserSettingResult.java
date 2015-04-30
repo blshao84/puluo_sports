@@ -17,6 +17,18 @@ public class UserSettingResult extends HasJSON {
 		this.allow_searched =  new SettingPair("允许被搜索到",allow_searched);
 	}
 	
+	public String legacyResult() {
+		return String.format("{"
+				+ "\"user_uuid\":\"%s\","
+				+ "\"auto_add_friend\":%s,"
+				+ "\"allow_stranger_view_timeline\":%s,"
+				+ "\"allow_searched\":%s}", 
+				user_uuid,
+				auto_add_friend,
+				allow_stranger_view_timeline,
+				allow_searched);
+	}
+	
 	public static UserSettingResult dummy() {
 		return new UserSettingResult("", true, true, true);
 	}
