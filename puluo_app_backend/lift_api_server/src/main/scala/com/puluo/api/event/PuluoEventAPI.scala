@@ -15,11 +15,13 @@ import com.puluo.session.PuluoSessionManager
 import net.liftweb.common.Loggable
 import org.joda.time.DateTime
 import com.puluo.enumeration._
+import com.puluo.api.service.PuluoServiceAPI
 
 object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
   serve {
     case "events" :: "registered" :: Nil Post _ => callWithAuthParam()(doGetRegisteredEvents)
-    case "events" :: "configurations" :: Nil Post _ => callWithAuthParam()(doGetEventConfigurations)
+    //TODO: will remove it later
+    case "events" :: "configurations" :: Nil Post _ => callWithAuthParam()(PuluoServiceAPI.doGetConfigurations)
     case "events" :: "payment" :: eventUUID :: Nil Post _ => doRegister(eventUUID)
     case "events" :: "detail" :: eventUUID :: Nil Post _ => doGetEventDetail(eventUUID)
     case "events" :: "memory" :: eventUUID :: Nil Post _ => doGetEventMemory(eventUUID)
@@ -36,15 +38,6 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
     PuluoResponseFactory.createJSONResponse(api)
   }
   
-  private def doGetEventConfigurations(params:Map[String,String]) = {
-    val token = PuluoResponseFactory.createParamMap(Seq("token")).values.head
-    val session = PuluoSessionManager.getSession(token)
-    val userUUID = session.userUUID()
-    logger.info(s"user ${userUUID} is requesting event configurations")
-    val api = new EventConfigurationAPI()
-    safeRun(api)
-    PuluoResponseFactory.createJSONResponse(api)
-  }
 
   private def doRegister(eventUUID: String) = {
     //token must exist because it's authenticated

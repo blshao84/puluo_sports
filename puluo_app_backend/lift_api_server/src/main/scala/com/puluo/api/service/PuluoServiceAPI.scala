@@ -12,6 +12,8 @@ import com.puluo.api.util.PuluoAPIUtil
 import com.puluo.api.util.ErrorResponseResult
 import java.util.HashMap
 import net.liftweb.common.Loggable
+import com.puluo.session.PuluoSessionManager
+import com.puluo.api.event.PuluoConfigurationAPI
 
 object PuluoServiceAPI extends RestHelper with PuluoAPIUtil with SMSSender with Loggable {
   serve {
@@ -19,11 +21,20 @@ object PuluoServiceAPI extends RestHelper with PuluoAPIUtil with SMSSender with 
       "mobile" -> ErrorResponseResult(15).copy(message = "mobile")))(doSendRegisterSMS)
     case "services" :: "sms" :: "reset" :: Nil Post _ => callWithParam(Map(
       "mobile" -> ErrorResponseResult(15).copy(message = "mobile")))(doSendResetSMS)
+    case "services" :: "configurations" :: Nil Post _ => callWithAuthParam()(PuluoServiceAPI.doGetConfigurations)
 
-   
   }
   private def doSendRegisterSMS(params: Map[String, String]) = doSendSMS(params + ("sms_type" -> "UserRegistration"))
 
   private def doSendResetSMS(params: Map[String, String]) = doSendSMS(params + ("sms_type" -> "PasswordReset"))
 
+  def doGetConfigurations(params: Map[String, String]) = {
+    val token = PuluoResponseFactory.createParamMap(Seq("token")).values.head
+    val session = PuluoSessionManager.getSession(token)
+    val userUUID = session.userUUID()
+    logger.info(s"user ${userUUID} is requesting event configurations")
+    val api = new PuluoConfigurationAPI()
+    safeRun(api)
+    PuluoResponseFactory.createJSONResponse(api)
+  }
 }

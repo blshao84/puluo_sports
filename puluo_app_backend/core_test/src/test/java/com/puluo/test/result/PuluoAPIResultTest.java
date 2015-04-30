@@ -10,10 +10,10 @@ import com.puluo.api.result.ApproveFriendResult;
 import com.puluo.api.result.DeleteFriendResult;
 import com.puluo.api.result.DenyFriendResult;
 import com.puluo.api.result.EmailServiceResult;
-import com.puluo.api.result.EventConfigurationResult;
 import com.puluo.api.result.EventDetailResult;
 import com.puluo.api.result.ListFriendsResult;
 import com.puluo.api.result.ListMessageResult;
+import com.puluo.api.result.PuluoConfigurationResult;
 import com.puluo.api.result.RequestFriendResult;
 import com.puluo.api.result.SMSServiceResult;
 import com.puluo.api.result.SendMessageResult;
@@ -33,7 +33,7 @@ public class PuluoAPIResultTest {
 	@Test
 	public void testDummyEventConfigurationResult() {
 		String expected = "{\"categories\":[\"Others\"],\"levels\":[\"Level1\",\"Level2\",\"Level3\",\"Level4\"]}";
-		String actual = EventConfigurationResult.dummy().toJson();
+		String actual = PuluoConfigurationResult.dummy().toJson();
 		Assert.assertEquals(
 						"dummy event configuration result should be the same as PuluoEventConfiguraiotn and PuluoEventLevel",
 						expected, actual);
@@ -161,10 +161,12 @@ public class PuluoAPIResultTest {
 
 	@Test
 	public void testUserSettingResult() {
-		String expectedJsonResult = "{" + "\"user_uuid\":\"\","
-				+ "\"auto_add_friend\":true,"
-				+ "\"allow_stranger_view_timeline\":true,"
-				+ "\"allow_searched\":true" + "}";
+		String expectedJsonResult = 
+		"{\"user_uuid\":\"\","
+		+ "\"auto_add_friend\":{\"name\":\"允许自动添加好友\",\"value\":true},"
+		+ "\"allow_stranger_view_timeline\":{\"name\":\"允许陌生人浏览\",\"value\":true},"
+		+ "\"allow_searched\":{\"name\":\"允许被搜索到\",\"value\":true}"
+		+ "}";
 		String actualJsonResult = UserSettingResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
