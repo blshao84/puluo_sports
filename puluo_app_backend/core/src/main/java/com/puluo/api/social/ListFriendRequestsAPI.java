@@ -39,7 +39,7 @@ public class ListFriendRequestsAPI extends PuluoAPI<PuluoDSI, ListFriendRequests
 					r.fromUserUUID(),
 					r.toUserUUID(),
 					r.createdAt().getMillis(),
-					r.updatedAt().getMillis()));
+					r.createdAt().getMillis()));
 		}
 		this.rawResult = new ListFriendRequestsResult(results);
 		
