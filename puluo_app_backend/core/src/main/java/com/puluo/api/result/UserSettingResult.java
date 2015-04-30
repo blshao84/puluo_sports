@@ -24,9 +24,9 @@ public class UserSettingResult extends HasJSON {
 				+ "\"allow_stranger_view_timeline\":%s,"
 				+ "\"allow_searched\":%s}", 
 				user_uuid,
-				auto_add_friend,
-				allow_stranger_view_timeline,
-				allow_searched);
+				auto_add_friend.value,
+				allow_stranger_view_timeline.value,
+				allow_searched.value);
 	}
 	
 	public static UserSettingResult dummy() {

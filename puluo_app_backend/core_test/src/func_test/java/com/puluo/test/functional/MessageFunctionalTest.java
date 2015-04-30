@@ -93,6 +93,10 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 		for (String msgId : msgIds) {
 			messageDao.deleteByMsgUUID(msgId);
 		}
+		messageDao.deleteByMsgUUID("event1");
+		messageDao.deleteByMsgUUID("event2");
+		messageDao.deleteByMsgUUID("event3");
+		messageDao.deleteByMsgUUID("event4");
 	}
 
 	@Test
@@ -102,31 +106,26 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 			PuluoPrivateMessageDao msgDao = DaoApi.getInstance()
 					.privateMessageDao();
 
-			PuluoPrivateMessageImpl msg1 = new PuluoPrivateMessageImpl(UUID
-					.randomUUID().toString(), "uuid0 to uuid1 1", DateTime
-					.now().minusDays(4), PuluoMessageType.TextMessage, "",
+			PuluoPrivateMessageImpl msg1 = new PuluoPrivateMessageImpl(
+					"event1", "uuid0 to uuid1 1", DateTime
+					.now().minusDays(3), PuluoMessageType.TextMessage, "",
 					uuid0, uuid1);
 			msgDao.saveMessage(msg1);
-			msgIds.add(msg1.messageUUID());
-			PuluoPrivateMessageImpl msg2 = new PuluoPrivateMessageImpl(UUID
-					.randomUUID().toString(), "uuid1 to uuid0 2", DateTime
-					.now().minusDays(3), PuluoMessageType.TextMessage, "",
+			PuluoPrivateMessageImpl msg2 = new PuluoPrivateMessageImpl(
+					"event2", "uuid1 to uuid0 2", DateTime
+					.now().minusDays(2), PuluoMessageType.TextMessage, "",
 					uuid1, uuid0);
 			msgDao.saveMessage(msg2);
-			msgIds.add(msg2.messageUUID());
-
-			PuluoPrivateMessageImpl msg3 = new PuluoPrivateMessageImpl(UUID
-					.randomUUID().toString(), "uuid0 to uuid1 3", DateTime
-					.now().minusDays(2), PuluoMessageType.TextMessage, "",
+			PuluoPrivateMessageImpl msg3 = new PuluoPrivateMessageImpl(
+					"event3", "uuid0 to uuid1 3", DateTime
+					.now().minusDays(1), PuluoMessageType.TextMessage, "",
 					uuid0, uuid1);
 			msgDao.saveMessage(msg3);
-			msgIds.add(msg3.messageUUID());
-			PuluoPrivateMessageImpl msg4 = new PuluoPrivateMessageImpl(UUID
-					.randomUUID().toString(), "uuid1 to uuid0 4", DateTime
-					.now().minusDays(1), PuluoMessageType.TextMessage, "",
+			PuluoPrivateMessageImpl msg4 = new PuluoPrivateMessageImpl(
+					"event4", "uuid1 to uuid0 4", DateTime
+					.now(), PuluoMessageType.TextMessage, "",
 					uuid1, uuid0);
 			msgDao.saveMessage(msg4);
-			msgIds.add(msg4.messageUUID());
 
 			String str = String
 					.format("{\"token\":\"%s\",\"from_user_uuid\":\"%s\", \"to_user_uuid\":\"%s\"}",
@@ -217,7 +216,11 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 			Assert.assertEquals(
 					"returned message should be msg4 and sorted by created_at asc",
 					expectedIds, actualIds);
-
+			PuluoPrivateMessageDaoImpl md = (PuluoPrivateMessageDaoImpl)DaoApi.getInstance().privateMessageDao();
+			md.deleteByMsgUUID("event1");
+			md.deleteByMsgUUID("event2");
+			md.deleteByMsgUUID("event3");
+			md.deleteByMsgUUID("event4");
 		} catch (UnirestException e) {
 			e.printStackTrace();
 			Assert.assertTrue(false);
