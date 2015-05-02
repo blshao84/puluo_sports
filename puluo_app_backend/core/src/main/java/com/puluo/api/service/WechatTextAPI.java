@@ -152,11 +152,14 @@ public class WechatTextAPI {
 			List<PuluoEvent> events = api.searchedEvents;
 			log.info(String.format("searched %s events from wechat",
 					events.size()));
-			List<WechatArticleMessage> articles = new ArrayList<WechatArticleMessage>();
-			for (PuluoEvent e : events) {
-				articles.add(WechatUtil.createArticleMessageFromEvent(e));
-			}
-			return new WechatNewsMessage(articles);
+			if(events.size()>0){
+				List<WechatArticleMessage> articles = new ArrayList<WechatArticleMessage>();
+				for (PuluoEvent e : events) {
+					articles.add(WechatUtil.createArticleMessageFromEvent(e));
+				}
+				return new WechatNewsMessage(articles);
+			} else
+				return new WechatTextMessage("没有找到您感兴趣的课程");
 		}
 	}
 

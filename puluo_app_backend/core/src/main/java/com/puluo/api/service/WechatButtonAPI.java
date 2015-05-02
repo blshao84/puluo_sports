@@ -95,12 +95,16 @@ public class WechatButtonAPI {
 	}
 
 	private WechatMessage createHottestEvent() {
-		List<PuluoEvent> recommendations = DaoApi.getInstance().eventDao().findPopularEvent(0);
-		List<WechatArticleMessage> articles = new ArrayList<WechatArticleMessage>();
-		for(PuluoEvent e:recommendations){
-			articles.add(WechatUtil.createArticleMessageFromEvent(e));
-		}
-		return new WechatNewsMessage(articles);
+		List<PuluoEvent> recommendations = DaoApi.getInstance().eventDao()
+				.findPopularEvent(0);
+		if (recommendations.size() > 0) {
+			List<WechatArticleMessage> articles = new ArrayList<WechatArticleMessage>();
+			for (PuluoEvent e : recommendations) {
+				articles.add(WechatUtil.createArticleMessageFromEvent(e));
+			}
+			return new WechatNewsMessage(articles);
+		} else
+			return new WechatTextMessage("精彩课程，敬请期待！");
 	}
 
 	private WechatMessage createCurriculum() {
