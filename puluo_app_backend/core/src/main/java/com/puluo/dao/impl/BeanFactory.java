@@ -22,10 +22,16 @@ public abstract class BeanFactory
     private static final Log LOGGER = LogFactory.getLog(BeanFactory.class);
     private static final ApplicationContext context;
 
-    private static final String fileName = "puluo.xml";
+    private static final String fileName;
 
     static
     {
+    	String mode = System.getProperty("run.mode");
+    	if(mode!=null && mode.equals("production")){
+    		fileName = "puluo-prod.xml";
+    	} else {
+    		fileName = "puluo.xml";
+    	}
         File dir = new File("");
         LOGGER.info("DIR=" + dir.getAbsolutePath());
         // System.out.println("LIST=" + dir.listFiles());
