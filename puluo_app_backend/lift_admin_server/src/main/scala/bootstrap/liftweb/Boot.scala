@@ -38,10 +38,14 @@ class Boot extends Loggable {
 
   lazy val dsi: StandardDBVendor = createDSI
   def createDSI = {
-    val dsiUri = "jdbc:postgresql://www.puluosports.com:2345/puluo"
+    val env = System.getProperty("run.mode")
+    val (ip,user) = if(env == "production") {
+      ("localhost:5432","puluoprod")
+    } else ("183.131.76.93:2345","puluodev")
+    val dsiUri = s"jdbc:postgresql://${ip}/puluo"
     val dsiDriver = "org.postgresql.Driver"
     logger.info("dsiUri=%s,dsiDriver=%s".format(dsiUri, dsiDriver))
-    new StandardDBVendor(dsiDriver, dsiUri, Full("puluodev"), Full("puLuo20!5")) {
+    new StandardDBVendor(dsiDriver, dsiUri, Full(user), Full("puLuo20!5")) {
       override def maxPoolSize = 50
       override def doNotExpandBeyond = 50
     }
