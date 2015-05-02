@@ -81,4 +81,8 @@ public abstract class DalTemplate {
 		.append("ARG:").append(Strs.mkString(",", params));
 		return sb.toString();
 	}
+	
+	protected String processSingleQuote(String str) {
+		return str.replaceAll("'", "''");
+	}
 }

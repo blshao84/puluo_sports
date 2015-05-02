@@ -137,13 +137,13 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 						.append(" (event_info_uuid, event_name, description, coach_name, coach_uuid, thumbnail_uuid, details, duration, event_level, event_type)")
 						.append(" values ('" + info.eventInfoUUID() + "', ")
 						.append(Strs.isEmpty(info.name()) ? "null" : "'"
-								+ info.name() + "'")
+								+ super.processSingleQuote(info.name()) + "'")
 						.append(", ")
 						.append(Strs.isEmpty(info.description()) ? "null" : "'"
-								+ info.description() + "'")
+								+ super.processSingleQuote(info.description()) + "'")
 						.append(", ")
 						.append(Strs.isEmpty(info.coachName()) ? "null" : "'"
-								+ info.coachName() + "'")
+								+ super.processSingleQuote(info.coachName()) + "'")
 						.append(", ")
 						.append(Strs.isEmpty(info.coachUUID()) ? "null" : "'"
 								+ info.coachUUID() + "'")
@@ -152,7 +152,7 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 								: "'" + info.coachThumbnail() + "'")
 						.append(", ")
 						.append(Strs.isEmpty(info.details()) ? "null" : "'"
-								+ info.details() + "'").append(", ")
+								+ super.processSingleQuote(info.details()) + "'").append(", ")
 						.append(info.duration() + ", ")
 						.append("'"+eventLevel.name() + "', '").append(eventType.name() + "')")
 						.toString();
@@ -190,14 +190,14 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 				updateSQL = new StringBuilder().append("update ")
 						.append(super.getFullTableName()).append(" set");
 				if (!Strs.isEmpty(info.name())) {
-					updateSQL.append(" event_name = '" + info.name() + "',");
+					updateSQL.append(" event_name = '" + super.processSingleQuote(info.name()) + "',");
 				}
 				if (!Strs.isEmpty(info.description())) {
-					updateSQL.append(" description = '" + info.description()
+					updateSQL.append(" description = '" + super.processSingleQuote(info.description())
 							+ "',");
 				}
 				if (!Strs.isEmpty(info.coachName())) {
-					updateSQL.append(" coach_name = '" + info.coachName()
+					updateSQL.append(" coach_name = '" + super.processSingleQuote(info.coachName())
 							+ "',");
 				}
 				if (!Strs.isEmpty(info.coachUUID())) {
@@ -209,7 +209,7 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 							+ info.coachThumbnail() + "',");
 				}
 				if (!Strs.isEmpty(info.details())) {
-					updateSQL.append(" details = '" + info.details() + "',");
+					updateSQL.append(" details = '" + super.processSingleQuote(info.details()) + "',");
 				}
 				updateSQL
 						.append(" duration = ")

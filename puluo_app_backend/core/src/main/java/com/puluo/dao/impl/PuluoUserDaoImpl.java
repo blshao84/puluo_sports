@@ -235,10 +235,10 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 			StringBuilder updateSQL = new StringBuilder().append("update ")
 					.append(super.getFullTableName()).append(" set ");
 			if (!Strs.isEmpty(first_name)) {
-				updateSQL.append("first_name = '" + first_name + "', ");
+				updateSQL.append("first_name = '" + super.processSingleQuote(first_name) + "', ");
 			}
 			if (!Strs.isEmpty(last_name)) {
-				updateSQL.append("last_name = '" + last_name + "', ");
+				updateSQL.append("last_name = '" + super.processSingleQuote(last_name) + "', ");
 			}
 			if (!Strs.isEmpty(thumbnail)) {
 				updateSQL.append("thumbnail = '" + thumbnail + "', ");
@@ -247,10 +247,10 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 				updateSQL.append("large_image = '" + large_image + "', ");
 			}
 			if (!Strs.isEmpty(saying)) {
-				updateSQL.append("saying = '" + saying + "', ");
+				updateSQL.append("saying = '" + super.processSingleQuote(saying) + "', ");
 			}
 			if (!Strs.isEmpty(email)) {
-				updateSQL.append("email = '" + email + "', ");
+				updateSQL.append("email = '" + super.processSingleQuote(email) + "', ");
 			}
 			if (!Strs.isEmpty(sex)) {
 				updateSQL.append("sex = '" + sex + "', ");
@@ -259,13 +259,13 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 				updateSQL.append("birthday = '" + birthday + "', ");
 			}
 			if (!Strs.isEmpty(country)) {
-				updateSQL.append("country = '" + country + "', ");
+				updateSQL.append("country = '" + super.processSingleQuote(country) + "', ");
 			}
 			if (!Strs.isEmpty(state)) {
-				updateSQL.append("state = '" + state + "', ");
+				updateSQL.append("state = '" + super.processSingleQuote(state) + "', ");
 			}
 			if (!Strs.isEmpty(city)) {
-				updateSQL.append("city = '" + city + "', ");
+				updateSQL.append("city = '" + super.processSingleQuote(city) + "', ");
 			}
 			if (!Strs.isEmpty(zip)) {
 				updateSQL.append("zip = '" + zip + "', ");

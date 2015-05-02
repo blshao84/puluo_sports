@@ -31,7 +31,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 					.append(super.getFullTableName())
 					.append(" (message_uuid, content, message_type, friend_request_uuid, from_user_uuid, to_user_uuid, created_at)")
 					.append("values ('" + message.messageUUID() + "', ")
-					.append("'" + message.content() + "', ")
+					.append("'" + super.processSingleQuote(message.content()) + "', ")
 					.append("'" + message.messageType().name() + "', ")
 					.append(Strs.isEmpty(message.requestUUID()) ? "null, "
 							: "'" + message.requestUUID() + "', ")

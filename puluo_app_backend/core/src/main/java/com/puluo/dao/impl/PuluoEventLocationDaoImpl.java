@@ -132,19 +132,19 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements
 						.append(" (location_uuid, address, zip, name, phone, city, longitude, latitude, court, capacity, location_type)")
 						.append(" values ('" + location.locationId() + "', ")
 						.append(Strs.isEmpty(location.address()) ? "null" : "'"
-								+ location.address() + "'")
+								+ super.processSingleQuote(location.address()) + "'")
 						.append(", ")
 						.append(Strs.isEmpty(location.zip()) ? "null" : "'"
 								+ location.zip() + "'")
 						.append(", ")
 						.append(Strs.isEmpty(location.name()) ? "null" : "'"
-								+ location.name() + "'")
+								+ super.processSingleQuote(location.name()) + "'")
 						.append(", ")
 						.append(Strs.isEmpty(location.phone()) ? "null" : "'"
 								+ location.phone() + "'")
 						.append(", ")
 						.append(Strs.isEmpty(location.city()) ? "null" : "'"
-								+ location.city() + "'").append(", ")
+								+ super.processSingleQuote(location.city()) + "'").append(", ")
 						.append(location.longitude() + ", ")
 						.append(location.latitude() + ", ")
 						.append(location.court() + ", ")
@@ -180,19 +180,19 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements
 						.append(super.getFullTableName()).append(" set");
 				if (!Strs.isEmpty(location.address())) {
 					updateSQL
-							.append(" address = '" + location.address() + "',");
+							.append(" address = '" + super.processSingleQuote(location.address()) + "',");
 				}
 				if (!Strs.isEmpty(location.zip())) {
 					updateSQL.append(" zip = '" + location.zip() + "',");
 				}
 				if (!Strs.isEmpty(location.name())) {
-					updateSQL.append(" name = '" + location.name() + "',");
+					updateSQL.append(" name = '" + super.processSingleQuote(location.name()) + "',");
 				}
 				if (!Strs.isEmpty(location.phone())) {
 					updateSQL.append(" phone = '" + location.phone() + "',");
 				}
 				if (!Strs.isEmpty(location.city())) {
-					updateSQL.append(" city = '" + location.city() + "',");
+					updateSQL.append(" city = '" + super.processSingleQuote(location.city()) + "',");
 				}
 				updateSQL
 						.append(" longitude = ")
