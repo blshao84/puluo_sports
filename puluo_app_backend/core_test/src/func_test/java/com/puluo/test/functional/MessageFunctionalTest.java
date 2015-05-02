@@ -101,6 +101,7 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 
 	@Test
 	public void testListConversations() {
+		log.info("testListConversations start!");
 		try {
 			String session0 = super.login(mobile0, password);
 			PuluoPrivateMessageDao msgDao = DaoApi.getInstance()
@@ -150,7 +151,7 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 					"returned message should be sorted by created_at asc",
 					expectedIds, actualIds);
 
-			long since = DateTime.now().minusDays(3).getMillis();
+			long since = DateTime.now().minusDays(3).plusSeconds(1).getMillis();
 			str = String.format("{\"token\":\"%s\","
 					+ "\"from_user_uuid\":\"%s\", "
 					+ "\"to_user_uuid\":\"%s\"," + "\"since\":%s}", session0,
@@ -225,11 +226,13 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 			e.printStackTrace();
 			Assert.assertTrue(false);
 		}
+		log.info("testListConversations done!");
 	}
 
 	@Test
 	@Ignore("https://github.com/blshao84/puluo_sports/issues/24")
 	public void testListMessageSummaryWithLimitOffset() {
+		log.info("testListMessageSummaryWithLimitOffset start!");
 		DateTime today = DateTime.now();
 		PuluoPrivateMessage mgs1 = new PuluoPrivateMessageImpl("a", "msg1",
 				today, PuluoMessageType.TextMessage, "", uuid1, uuid2);
@@ -270,10 +273,12 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 			e.printStackTrace();
 			Assert.assertTrue(false);
 		}
+		log.info("testListMessageSummaryWithLimitOffset done!");
 	}
 
 	@Test
 	public void testListMessageSummary() {
+		log.info("testListMessageSummary start!");
 		DateTime today = DateTime.now();
 		PuluoPrivateMessage mgs1 = new PuluoPrivateMessageImpl(UUID
 				.randomUUID().toString(), "msg1", today,
@@ -328,6 +333,7 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 			e.printStackTrace();
 			Assert.assertTrue(false);
 		}
+		log.info("testListMessageSummary done!");
 	}
 
 	@Test
