@@ -3,6 +3,7 @@ package com.puluo.test.functional;
 import java.util.List;
 import java.util.UUID;
 
+import org.joda.time.DateTime;
 import org.json.JSONObject;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -24,7 +25,9 @@ import com.puluo.dao.impl.PuluoUserFriendshipDaoImpl;
 import com.puluo.entity.PuluoFriendRequest;
 import com.puluo.entity.PuluoPrivateMessage;
 import com.puluo.entity.PuluoUser;
+import com.puluo.entity.impl.PuluoPrivateMessageImpl;
 import com.puluo.enumeration.FriendRequestStatus;
+import com.puluo.enumeration.PuluoMessageType;
 import com.puluo.test.functional.util.APIFunctionalTest;
 import com.puluo.test.functional.util.PuluoAuthenticatedFunctionalTestRunner;
 import com.puluo.util.Log;
@@ -52,11 +55,17 @@ public class RequestFriendFunctionalTest extends APIFunctionalTest {
 		userDao.save(mobile5, password);
 		PuluoUser user1 = userDao.getByMobile(mobile1);
 		PuluoUser user2 = userDao.getByMobile(mobile2);
+		PuluoUser user3 = userDao.getByMobile(mobile3);
 		PuluoUser user4 = userDao.getByMobile(mobile4);
 		PuluoUser user5 = userDao.getByMobile(mobile5);
 		friendDao.addOneFriend(user1.userUUID(), user2.userUUID());
 		requestDao.saveNewRequest(UUID.randomUUID().toString(), user4.userUUID(), user1.userUUID());
 		requestDao.saveNewRequest(UUID.randomUUID().toString(), user1.userUUID(), user5.userUUID());
+		String requestId = UUID.randomUUID().toString();
+		PuluoPrivateMessage message = new PuluoPrivateMessageImpl(UUID.randomUUID().toString(),
+				String.format("用户:%s向您提出好友申请","user3"),
+				DateTime.now(),PuluoMessageType.FriendRequest,requestId,user1.userUUID(),user3.userUUID());
+		DaoApi.getInstance().privateMessageDao().saveMessage(message);
 	}
 
 	@AfterClass
@@ -251,7 +260,7 @@ public class RequestFriendFunctionalTest extends APIFunctionalTest {
 				Assert.assertEquals("msg's from_user should match the returned from user",fromUUID,msg.fromUser().userUUID());
 				Assert.assertEquals("msg's to_user should match the returned from user",toUUID,msg.toUser().userUUID());
 				List<PuluoPrivateMessage> msgs = req.messages();
-				Assert.assertEquals("this req should only return 1 msg", 1,msgs.size());
+				Assert.assertEquals("this req should only return 2 msg", 2,msgs.size());
 				PuluoPrivateMessage reqMsg = msgs.get(0);
 				Assert.assertEquals("req's message should match the returned msg", msgUUID,reqMsg.messageUUID());
 			}
@@ -278,5 +287,28 @@ public class RequestFriendFunctionalTest extends APIFunctionalTest {
 			return password;
 		}
 	}
+	
+//	@Test
+//	public void testIssue40() {
+//		log.info("issue#40 start!");
+//		try {
+//			String session = super.login("13581901543", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92");
+//			String str = String
+//					.format("{\"token\":\"%s\",\"user_uuid\":\"%s\"}",
+//							session, "1c3c26e3-e468-4d4e-834e-69ca4ab47e11");
+//			JsonNode json = callAPI("users/friends/request/send", str);
+//			log.info(json);
+//			session = super.login("18646655333", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92");
+//			str = String
+//					.format("{\"token\":\"%s\",\"user_uuid\":\"%s\"}",
+//							session, "1c3c26e3-e468-4d4e-834e-69ca4ab47e11");
+//			json = callAPI("users/friends/request/send", str);
+//			log.info(json);
+//		} catch (UnirestException e) {
+//			e.printStackTrace();
+//			Assert.assertTrue(false);
+//		}
+//		log.info("issue#4 done!");
+//	}
 }
 

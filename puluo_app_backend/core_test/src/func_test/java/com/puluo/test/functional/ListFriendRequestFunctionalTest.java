@@ -17,6 +17,7 @@ import com.puluo.dao.impl.PuluoPrivateMessageDaoImpl;
 import com.puluo.dao.impl.PuluoSessionDaoImpl;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
 import com.puluo.entity.PuluoUser;
+import com.puluo.enumeration.FriendRequestStatus;
 import com.puluo.test.functional.util.APIFunctionalTest;
 import com.puluo.test.functional.util.PuluoAuthenticatedFunctionalTestRunner;
 import com.puluo.util.Log;
@@ -40,6 +41,9 @@ public class ListFriendRequestFunctionalTest extends APIFunctionalTest {
 		PuluoUser user1 = userDao.getByMobile(mobile1);
 		PuluoUser user2 = userDao.getByMobile(mobile2);
 		PuluoUser user3 = userDao.getByMobile(mobile3);
+		String requestId = UUID.randomUUID().toString();
+		requestDao.saveNewRequest(requestId, user2.userUUID(), user1.userUUID());
+		requestDao.updateRequestStatus(requestId, FriendRequestStatus.Denied);
 		requestDao.saveNewRequest(UUID.randomUUID().toString(), user2.userUUID(), user1.userUUID());
 		requestDao.saveNewRequest(UUID.randomUUID().toString(), user3.userUUID(), user1.userUUID());
 	}
