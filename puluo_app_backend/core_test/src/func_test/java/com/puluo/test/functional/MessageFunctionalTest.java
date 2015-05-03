@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.joda.time.DateTime;
+//import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -585,4 +586,28 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 		}
 		log.info("testListMessagesBasic done!");
 	}
+	
+//	@Test
+//	public void testListMessagesBasic() {
+//		log.info("issue#41 start!");
+//		try {
+//			String session = super.login("18646655333", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92");
+//			String str = String
+//					.format("{\"token\":\"%s\",\"from_user_uuid\":\"%s\",\"to_user_uuid\":\"%s\",\"limit\":%s,\"offset\":%s}",
+//							session, "beac0ed2-e5aa-42db-bfa2-1855b1679366", "1c3c26e3-e468-4d4e-834e-69ca4ab47e11", 10, 0);
+//			JsonNode json = callAPI("users/messages", str);
+//			log.info(json);
+//			JsonNode msgs = new JsonNode(super.getStringFromJson(json,
+//					"messages"));
+//			log.info(msgs.getArray().length());
+//			Assert.assertEquals("size should be 10", 10, msgs.getArray().length());
+//			for (int i=0; i<10; i++) {
+//				log.info(super.getStringFromJson(new JsonNode(msgs.getArray().get(i).toString()), "created_at"));
+//			}
+//		} catch (UnirestException e) {
+//			e.printStackTrace();
+//			Assert.assertTrue(false);
+//		}
+//		log.info("issue#41 done!");
+//	}
 }
