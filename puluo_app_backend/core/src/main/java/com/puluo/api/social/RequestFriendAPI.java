@@ -91,8 +91,9 @@ public class RequestFriendAPI extends PuluoAPI<PuluoDSI, RequestFriendResult> {
 				messagedao.saveMessage(message);
 				
 				List<MessageResult> messages_result =  new ArrayList<MessageResult>();
-				for(int i=0;i<request.messages().size();i++) {
-					PuluoPrivateMessage msg = request.messages().get(i);
+				List<PuluoPrivateMessage> messages = request.messages();
+				for(int i=0;i<messages.size();i++) {
+					PuluoPrivateMessage msg = messages.get(i);
 					PuluoUser fromUser = msg.fromUser();
 					PuluoUser toUser = msg.toUser();
 					messages_result.add(new MessageResult(msg.messageUUID(),

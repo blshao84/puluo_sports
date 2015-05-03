@@ -214,7 +214,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			String query = buildMessageQuery(from_user_uuid, to_user_uuid,
 					time_from, time_to);
 			selectSQL.append(query);
-			selectSQL.append(" order by created_at");
+			selectSQL.append(" order by created_at desc");
 			if (limit > 0)
 				selectSQL.append(" limit ").append(limit);
 			if (offset > 0)
