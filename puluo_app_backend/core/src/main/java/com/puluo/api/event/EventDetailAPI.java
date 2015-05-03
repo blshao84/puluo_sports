@@ -12,6 +12,8 @@ import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventLocation;
+import com.puluo.entity.PuluoEventMemory;
+import com.puluo.entity.PuluoEventPoster;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.TimeUtils;
@@ -33,45 +35,41 @@ public class EventDetailAPI extends PuluoAPI<PuluoDSI, EventDetailResult> {
 
 	@Override
 	public void execute() {
-		log.info(String.format("开始查找活动%s信息",event_uuid));
+		log.info(String.format("开始查找活动%s信息", event_uuid));
 		List<String> thumbnails = new ArrayList<String>();
 		List<String> images = new ArrayList<String>();
 		PuluoEventDao event_dao = dsi.eventDao();
 		PuluoEvent event = event_dao.getEventByUUID(event_uuid);
-		if(event!=null) {
-			for(int i=0;i<event.eventInfo().poster().size();i++) 
-				thumbnails.add(event.eventInfo().poster().get(i).thumbnail());
-			for(int j=0;j<event.memory().size();j++)
-				images.add(event.memory().get(j).thumbnail());
+		if (event != null) {
 			PuluoEventInfo info = event.eventInfo();
 			PuluoEventLocation location = event.eventLocation();
-			if(info!=null & location!=null){
-			EventDetailResult result = new EventDetailResult(
-					event.statusName(),
-					info.name(),
-					TimeUtils.dateTime2Millis(event.eventTime()),
-					location.address(),
-					location.city(),
-					location.phone(),
-					info.coachName(),
-					info.coachUUID(),thumbnails, 
-					event.registeredUsers(),
-					event.capatcity(),
-					info.likes(),
-					location.latitude(), 
-					location.longitude(),
-					info.details(),
-					images,event.originalPrice(),
-					event.attendees(),
-					event.registered(user_uuid),
-					info.duration());
-			rawResult = result;
+			if (info != null & location != null) {
+				List<PuluoEventPoster> posters = info.poster();
+				List<PuluoEventMemory> memories = event.memory();
+				
+				for (int i = 0; i < posters.size(); i++)
+					thumbnails.add(posters.get(i).thumbnail());
+				for (int j = 0; j < memories.size(); j++)
+					images.add(memories.get(j).thumbnail());
+				
+				EventDetailResult result = new EventDetailResult(
+						event.statusName(), info.name(),
+						TimeUtils.dateTime2Millis(event.eventTime()),
+						location.address(), location.city(), location.phone(),
+						info.coachName(), info.coachUUID(), thumbnails,
+						event.registeredUsers(), event.capatcity(),
+						info.likes(), location.latitude(),
+						location.longitude(), info.details(), images,
+						event.originalPrice(), event.attendees(),
+						event.registered(user_uuid), info.duration());
+				rawResult = result;
 			} else {
-				log.error(String.format("event %s info or location doesn't exist",event_uuid));
+				log.error(String.format(
+						"event %s info or location doesn't exist", event_uuid));
 				this.error = ApiErrorResult.getError(43);
 			}
 		} else {
-			log.error(String.format("活动%s信息不存在",event_uuid));
+			log.error(String.format("活动%s信息不存在", event_uuid));
 			this.error = ApiErrorResult.getError(28);
 		}
 	}

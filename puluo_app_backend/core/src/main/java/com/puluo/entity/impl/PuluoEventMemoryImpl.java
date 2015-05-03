@@ -1,19 +1,21 @@
 package com.puluo.entity.impl;
 
+import com.puluo.config.Configurations;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoEventMemory;
 import com.puluo.entity.PuluoTimelinePost;
 import com.puluo.entity.PuluoUser;
+import com.puluo.util.Strs;
 
 public class PuluoEventMemoryImpl implements PuluoEventMemory {
 
-	private String uuid;
-	private String image_url;
-	private String thumbnail;
-	private String event_uuid;
-	private String user_uuid;
-	private String timeline_uuid;
+	private final String uuid;
+	private final String image_url;
+	private final String thumbnail;
+	private final String event_uuid;
+	private final String user_uuid;
+	private final String timeline_uuid;
 
 	public PuluoEventMemoryImpl(String uuid, String image_url,
 			String thumbnail, String event_uuid, String user_uuid,
@@ -34,12 +36,16 @@ public class PuluoEventMemoryImpl implements PuluoEventMemory {
 
 	@Override
 	public String imageURL() {
-		return image_url;
+		if (image_url.equals("")) {
+			return Strs.join(Configurations.emptyImage);
+		} else {
+			return Strs.join(Configurations.imageServer, image_url);
+		}
 	}
-	
+
 	@Override
 	public String thumbnail() {
-		return thumbnail;
+		return Strs.join(imageURL(),"!small");
 	}
 
 	@Override

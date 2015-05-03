@@ -2,23 +2,24 @@ package com.puluo.entity.impl;
 
 import org.joda.time.DateTime;
 
+import com.puluo.config.Configurations;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventPoster;
-
+import com.puluo.util.Strs;
 
 public class PuluoEventPosterImpl implements PuluoEventPoster {
-	
-	private String uuid;
-	private String image_url;
-	private String thumbnail;
-	private String event_info_uuid;
-	private DateTime created_at;
+	private final String uuid;
+	private final String image_url;
+	private final String thumbnail;
+	private final String event_info_uuid;
+	private final DateTime created_at;
 	private PuluoDSI dsi;
 
 	public PuluoEventPosterImpl(String uuid, String image_url,
-			String thumbnail, String event_info_uuid, DateTime created_at, PuluoDSI dsi) {
+			String thumbnail, String event_info_uuid, DateTime created_at,
+			PuluoDSI dsi) {
 		super();
 		this.uuid = uuid;
 		this.image_url = image_url;
@@ -29,9 +30,10 @@ public class PuluoEventPosterImpl implements PuluoEventPoster {
 
 	public PuluoEventPosterImpl(String uuid, String image_url,
 			String thumbnail, String event_info_uuid, DateTime created_at) {
-		this(uuid, image_url, thumbnail, event_info_uuid, created_at, DaoApi.getInstance());
+		this(uuid, image_url, thumbnail, event_info_uuid, created_at, DaoApi
+				.getInstance());
 	}
-	
+
 	@Override
 	public String imageId() {
 		return uuid;
@@ -39,12 +41,16 @@ public class PuluoEventPosterImpl implements PuluoEventPoster {
 
 	@Override
 	public String imageURL() {
-		return image_url;
+		if (image_url.equals("")) {
+			return Strs.join(Configurations.emptyImage);
+		} else {
+			return Strs.join(Configurations.imageServer, image_url);
+		}
 	}
-	
+
 	@Override
 	public String thumbnail() {
-		return thumbnail;
+		return Strs.join(imageURL(),"!small");
 	}
 
 	@Override
