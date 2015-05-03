@@ -1,6 +1,7 @@
 package com.puluo.util
 import scala.xml.Elem
 import scala.xml.Node
+import scala.xml._
 
 object XMLUtil {
   def addChild(n: Node, newChild: Node) = n match {

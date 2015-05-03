@@ -1,6 +1,9 @@
 package com.puluo.api.event;
 
+import java.util.List;
+
 import com.puluo.api.PuluoAPI;
+import com.puluo.api.result.GeoLocationResult;
 import com.puluo.api.result.PuluoConfigurationResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.util.Log;
@@ -12,6 +15,10 @@ public class PuluoConfigurationAPI extends PuluoAPI<PuluoDSI, PuluoConfiguration
 	@Override
 	public void execute() {
 		this.rawResult = PuluoConfigurationResult.getInstance();
+	}
+	
+	public void setGeoLocations(List<GeoLocationResult> geo) {
+		this.rawResult.geo = geo;
 	}
 
 }

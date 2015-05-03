@@ -10,6 +10,7 @@ import com.puluo.util.HasJSON;
 public class PuluoConfigurationResult extends HasJSON {
 	public List<String> categories;
 	public List<String> levels;
+	public List<GeoLocationResult> geo;
 	
 	private PuluoConfigurationResult(){
 		categories = new ArrayList<String>();
@@ -20,6 +21,9 @@ public class PuluoConfigurationResult extends HasJSON {
 		for(PuluoEventLevel l:PuluoEventLevel.values()){
 			levels.add(l.name());
 		}
+		
+		//FIXME: geo is not constructed here but from scala. 
+		//It's because we have scala code to do that but should really fix this.
 		
 	}
 	
