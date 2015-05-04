@@ -144,12 +144,12 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 				actualIds.add((String) j.get("msg_id"));
 			}
 			List<String> expectedIds = new ArrayList<String>();
-			expectedIds.add(msg4.messageUUID());
-			expectedIds.add(msg3.messageUUID());
-			expectedIds.add(msg2.messageUUID());
 			expectedIds.add(msg1.messageUUID());
+			expectedIds.add(msg2.messageUUID());
+			expectedIds.add(msg3.messageUUID());
+			expectedIds.add(msg4.messageUUID());
 			Assert.assertEquals(
-					"returned message should be sorted by created_at desc",
+					"returned message should be sorted by created_at asc",
 					expectedIds, actualIds);
 
 			long since = DateTime.now().minusDays(3).plusSeconds(1).getMillis();
@@ -169,11 +169,11 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 				actualIds.add((String) j.get("msg_id"));
 			}
 			expectedIds = new ArrayList<String>();
-			expectedIds.add(msg4.messageUUID());
-			expectedIds.add(msg3.messageUUID());
 			expectedIds.add(msg2.messageUUID());
+			expectedIds.add(msg3.messageUUID());
+			expectedIds.add(msg4.messageUUID());
 			Assert.assertEquals(
-					"returned message should be msg2,msg3,msg4 and sorted by created_at desc",
+					"returned message should be msg2,msg3,msg4 and sorted by created_at asc",
 					expectedIds, actualIds);
 			
 			
@@ -195,19 +195,19 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 			expectedIds = new ArrayList<String>();
 			expectedIds.add(msg4.messageUUID());
 			Assert.assertEquals(
-					"returned message should be msg4 and sorted by created_at desc",
+					"returned message should be msg4 and sorted by created_at asc",
 					expectedIds, actualIds);
 			
 			str = String.format("{\"token\":\"%s\","
 					+ "\"from_user_uuid\":\"%s\", "
 					+ "\"to_user_uuid\":\"%s\"," + "\"since\":%s,\"limit\":%s,\"offset\":%s}", 
-					session0,uuid0, uuid1, since,1,2);
+					session0,uuid0, uuid1, since,2,1);
 			json1 = callAPI("users/messages", str);
 			log.info(json1);
 			msgs1 = new JsonNode(super.getStringFromJson(json1,
 					"messages"));
 			size1 = msgs1.getArray().length();
-			Assert.assertEquals("size should be 1", 1, size1);
+			Assert.assertEquals("size should be 2", 2, size1);
 			actualIds = new ArrayList<String>();
 			for (int i = 0; i < size1; i++) {
 				JSONObject j = msgs1.getArray().getJSONObject(i);
@@ -215,14 +215,15 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 			}
 			expectedIds = new ArrayList<String>();
 			expectedIds.add(msg2.messageUUID());
+			expectedIds.add(msg3.messageUUID());
 			Assert.assertEquals(
-					"returned message should be msg2 and sorted by created_at desc",
+					"returned message should be msg1,msg2 and sorted by created_at asc",
 					expectedIds, actualIds);
 			PuluoPrivateMessageDaoImpl md = (PuluoPrivateMessageDaoImpl)DaoApi.getInstance().privateMessageDao();
-			md.deleteByMsgUUID("event4");
-			md.deleteByMsgUUID("event3");
-			md.deleteByMsgUUID("event2");
 			md.deleteByMsgUUID("event1");
+			md.deleteByMsgUUID("event2");
+			md.deleteByMsgUUID("event3");
+			md.deleteByMsgUUID("event4");
 		} catch (UnirestException e) {
 			e.printStackTrace();
 			Assert.assertTrue(false);

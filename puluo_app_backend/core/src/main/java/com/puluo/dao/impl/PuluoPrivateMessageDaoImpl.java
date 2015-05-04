@@ -209,7 +209,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 		try {
 			SqlReader reader = getReader();
 			StringBuilder selectSQL = new StringBuilder()
-					.append("select * from ").append(super.getFullTableName())
+					.append("select t.* from (select * from ").append(super.getFullTableName())
 					.append(" where ");
 			String query = buildMessageQuery(from_user_uuid, to_user_uuid,
 					time_from, time_to);
@@ -219,6 +219,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 				selectSQL.append(" limit ").append(limit);
 			if (offset > 0)
 				selectSQL.append(" offset ").append(offset);
+			selectSQL.append(") t order by t.created_at");
 			log.info(selectSQL.toString());
 			List<PuluoPrivateMessage> entities = reader.query(
 					selectSQL.toString(), new PrivateMessageMapper());
