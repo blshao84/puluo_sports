@@ -36,8 +36,8 @@ public class EventDetailAPI extends PuluoAPI<PuluoDSI, EventDetailResult> {
 	@Override
 	public void execute() {
 		log.info(String.format("开始查找活动%s信息", event_uuid));
-		List<String> thumbnails = new ArrayList<String>();
-		List<String> images = new ArrayList<String>();
+		List<String> posterImgs = new ArrayList<String>();
+		List<String> memoryImgs = new ArrayList<String>();
 		PuluoEventDao event_dao = dsi.eventDao();
 		PuluoEvent event = event_dao.getEventByUUID(event_uuid);
 		if (event != null) {
@@ -48,18 +48,18 @@ public class EventDetailAPI extends PuluoAPI<PuluoDSI, EventDetailResult> {
 				List<PuluoEventMemory> memories = event.memory();
 				
 				for (int i = 0; i < posters.size(); i++)
-					thumbnails.add(posters.get(i).thumbnailURL());
+					posterImgs.add(posters.get(i).thumbnailURL());
 				for (int j = 0; j < memories.size(); j++)
-					images.add(memories.get(j).thumbnailURL());
+					memoryImgs.add(memories.get(j).thumbnailURL());
 				
 				EventDetailResult result = new EventDetailResult(
 						event.statusName(), info.name(),
 						TimeUtils.dateTime2Millis(event.eventTime()),
 						location.address(), location.city(), location.phone(),
-						info.coachName(), info.coachUUID(), thumbnails,
+						info.coachName(), info.coachUUID(), posterImgs,
 						event.registeredUsers(), event.capatcity(),
 						info.likes(), location.latitude(),
-						location.longitude(), info.details(), images,
+						location.longitude(), info.details(), memoryImgs,
 						event.originalPrice(), event.attendees(),
 						event.registered(user_uuid), info.duration());
 				rawResult = result;

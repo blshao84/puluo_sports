@@ -159,10 +159,10 @@ public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 				"registered_users");
 		String event_name = super.getStringFromJson(json, "event_name");
 		String coach_name = super.getStringFromJson(json, "coach_name");
-		Set<String> thumbnail = new HashSet<String>(
-				super.getStringArrayFromJson(json, "thumbnail"));
-		Set<String> images = new HashSet<String>(super.getStringArrayFromJson(
-				json, "images"));
+		Set<String> posters = new HashSet<String>(
+				super.getStringArrayFromJson(json, "posters"));
+		Set<String> memories = new HashSet<String>(super.getStringArrayFromJson(
+				json, "memories"));
 		String longitude = super.getStringFromJson(json, "geo_location",
 				"longitude");
 		String latitude = super.getStringFromJson(json, "geo_location",
@@ -181,28 +181,28 @@ public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 				+ "status:%s,\n" + "city:%s\n" + "details:%s\n"
 				+ "address:%s\n" + "coach_uuid:%s\n" + "capacity:%s\n"
 				+ "registered_users:%s\n" + "event_name:%s\n"
-				+ "coach_name:%s\n" + "thumbnail:%s\n" + "images:%s\n"
+				+ "coach_name:%s\n" + "posters:%s\n" + "memories:%s\n"
 				+ "longitude:%s\n" + "lattitude:%s\n" + "registered:%s\n"
 				+ "attendees:%s\n", phone, status, city, details, address,
 				coach_uuid, capacity, registered_users, event_name, coach_name,
-				thumbnail, images, longitude, latitude, actualRegistered,
+				posters, memories, longitude, latitude, actualRegistered,
 				actualAttendees));
 		PuluoDSI dsi = DaoApi.getInstance();
 		PuluoEventInfo info = event.eventInfo();
 		PuluoEventLocation loc = event.eventLocation();
-		List<PuluoEventPoster> posters = dsi.eventPosterDao()
+		List<PuluoEventPoster> eventPosters = dsi.eventPosterDao()
 				.getEventPosterByInfoUUID(info.eventInfoUUID());
-		List<PuluoEventMemory> memories = dsi.eventMemoryDao()
+		List<PuluoEventMemory> eventMemories = dsi.eventMemoryDao()
 				.getEventMemoryByEventUUID(event.eventUUID());
 		List<PuluoEventAttendee> attendees = event.attendees();
 		Set<String> posterThumbnails = new HashSet<String>();
-		Set<String> memoryImages = new HashSet<String>();
+		Set<String> memoryThumbnails = new HashSet<String>();
 		Set<String> expectedAttendees = new HashSet<String>();
-		for (PuluoEventPoster p : posters) {
+		for (PuluoEventPoster p : eventPosters) {
 			posterThumbnails.add(p.thumbnailURL());
 		}
-		for (PuluoEventMemory m : memories) {
-			memoryImages.add(m.imageURL());
+		for (PuluoEventMemory m : eventMemories) {
+			memoryThumbnails.add(m.thumbnailURL());
 		}
 		for (PuluoEventAttendee a : attendees) {
 			expectedAttendees.add("{" + "\"name\":\"" + a.name() + "\","
@@ -223,8 +223,8 @@ public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 		Assert.assertEquals(coach_name, info.coachName());
 		Assert.assertEquals(longitude, "" + loc.longitude());
 		Assert.assertEquals(latitude, "" + loc.latitude());
-		Assert.assertEquals(thumbnail, posterThumbnails);
-		Assert.assertEquals(images, memoryImages);
+		Assert.assertEquals(posters, posterThumbnails);
+		Assert.assertEquals(memories, memoryThumbnails);
 		Assert.assertEquals(actualRegistered, expectedRregistered);
 		Assert.assertEquals(actualAttendees, expectedAttendees);
 

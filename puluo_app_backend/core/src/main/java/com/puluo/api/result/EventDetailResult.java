@@ -16,13 +16,13 @@ public class EventDetailResult extends HasJSON{
 	public String phone;
 	public String coach_name;
 	public String coach_uuid;
-	public List<String> thumbnail;
+	public List<String> posters;
 	public int registered_users;
 	public int capacity;
 	public int likes;
 	public EventLocationResult geo_location;
 	public String details;
-	public List<String> images;
+	public List<String> memories;
 	public double price;
 	public List<PuluoEventAttendee> attendees;
 	public boolean registered;
@@ -31,8 +31,8 @@ public class EventDetailResult extends HasJSON{
 	public EventDetailResult(String status,
 			String event_name, long event_time, String address,
 			String city, String phone, String coach_name, String coach_uuid,
-			List<String> thumbnail, int registered_users, int capacity, int likes,
-			EventLocationResult geo_location, String details, List<String> images, 
+			List<String> posters, int registered_users, int capacity, int likes,
+			EventLocationResult geo_location, String details, List<String> memories, 
 			double price, List<PuluoEventAttendee> attendees, boolean registered,int duration) {
 		super();
 		this.status = status;
@@ -43,13 +43,13 @@ public class EventDetailResult extends HasJSON{
 		this.phone = phone;
 		this.coach_name = coach_name;
 		this.coach_uuid = coach_uuid;
-		this.thumbnail = thumbnail;
+		this.posters = posters;
 		this.registered_users = registered_users;
 		this.capacity = capacity;
 		this.likes = likes;
 		this.geo_location = geo_location;
 		this.details = details;
-		this.images = images;
+		this.memories = memories;
 		this.price = price;
 		this.attendees = attendees;
 		this.registered = registered;
@@ -59,11 +59,11 @@ public class EventDetailResult extends HasJSON{
 	public EventDetailResult(String status,
 			String event_name, long event_time, String address,
 			String city, String phone, String coach_name, String coach_uuid,
-			List<String> thumbnail, int registered_users, int capacity, int likes,
-			double latitude, double longitude, String details, List<String> images, 
+			List<String> posters, int registered_users, int capacity, int likes,
+			double latitude, double longitude, String details, List<String> memories, 
 			double price, List<PuluoEventAttendee> attendees, boolean registered,int durations) {
-		this(status, event_name, event_time, address, city, phone, coach_name, coach_uuid, thumbnail, registered_users,
-				capacity, likes, new EventLocationResult(latitude, longitude), details, images, price, attendees, registered,durations);
+		this(status, event_name, event_time, address, city, phone, coach_name, coach_uuid, posters, registered_users,
+				capacity, likes, new EventLocationResult(latitude, longitude), details, memories, price, attendees, registered,durations);
 	}
 	
 	public static EventDetailResult dummy() {

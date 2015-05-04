@@ -119,23 +119,23 @@ public class EventTestDataSource {
 				eventInfo2.eventInfoUUID(), location2.locationId(), 0);
 
 		PuluoEventMemory mem1 = new PuluoEventMemoryImpl(memID1,
-				"http://upyun.com/puluo/123.jpg", eventID4, user.userUUID(),
+				"123.jpg", eventID4, user.userUUID(),
 				null);
 		PuluoEventMemory mem3 = new PuluoEventMemoryImpl(memID3,
-				"http://upyun.com/puluo/789.jpg", eventID2, user.userUUID(),
+				"789.jpg", eventID2, user.userUUID(),
 				null);
 		PuluoEventMemory mem4 = new PuluoEventMemoryImpl(memID4,
-				"http://upyun.com/puluo/1234.jpg", eventID1, user.userUUID(),
+				"1234.jpg", eventID1, user.userUUID(),
 				null);
 		PuluoEventMemory mem5 = new PuluoEventMemoryImpl(memID5,
-				"http://upyun.com/puluo/5678.jpg", eventID1, user.userUUID(),
+				"5678.jpg", eventID1, user.userUUID(),
 				null);
 
 		PuluoEventPoster poster1 = new PuluoEventPosterImpl(posterID1,
-				"http://upyun.com/puluo/xyz.jpg", infoID1, DateTime.now());
+				"xyz.jpg", infoID1, DateTime.now());
 
 		PuluoEventPoster poster2 = new PuluoEventPosterImpl(posterID2,
-				"http://upyun.com/puluo/abc.jpg", infoID2, DateTime.now());
+				"abc.jpg", infoID2, DateTime.now());
 		
 		PuluoPaymentOrder payment = new PuluoPaymentOrderImpl(UUID.randomUUID().toString(), 0.0,
 				DateTime.now(), user.userUUID(), eventID1, PuluoOrderStatus.Paid);
