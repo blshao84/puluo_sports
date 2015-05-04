@@ -10,6 +10,7 @@ import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoFriendRequestDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoFriendRequest;
+import com.puluo.entity.PuluoUser;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 
@@ -34,10 +35,18 @@ public class ListFriendRequestsAPI extends PuluoAPI<PuluoDSI, ListFriendRequests
 		List<PuluoFriendRequest> requests = reqDao.getPendingFriendRequestsByUserUUID(user_uuid);
 		List<SingleFriendRequestResult> results = new ArrayList<SingleFriendRequestResult>();
 		for(PuluoFriendRequest r:requests){
+			PuluoUser fromUser = r.fromUser();
+			PuluoUser toUser = r.toUser();
 			results.add(new SingleFriendRequestResult(
 					r.requestUUID(),
-					r.fromUserUUID(),
-					r.toUserUUID(),
+					fromUser.userUUID(),
+					fromUser.firstName(),
+					fromUser.lastName(),
+					fromUser.thumbnail(),
+					toUser.userUUID(),
+					toUser.firstName(),
+					toUser.lastName(),
+					toUser.thumbnail(),
 					r.createdAt().getMillis(),
 					r.createdAt().getMillis()));
 		}
