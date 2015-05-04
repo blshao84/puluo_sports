@@ -6,7 +6,8 @@ public interface PuluoEventPoster {
 
 	String imageId();
 	String imageURL();
-	String thumbnail();
+	String thumbnailURL();
+	String imageName();
 	String eventInfoUUID();
 	PuluoEventInfo eventInfo();
 	DateTime createdAt();

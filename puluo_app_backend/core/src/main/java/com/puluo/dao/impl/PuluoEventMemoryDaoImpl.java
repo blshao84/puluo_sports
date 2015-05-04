@@ -126,8 +126,7 @@ public class PuluoEventMemoryDaoImpl extends DalTemplate implements PuluoEventMe
 						.append(super.getFullTableName())
 						.append(" (memory_uuid, image_url, thumbnail, event_uuid, user_uuid, timeline_uuid)")
 						.append(" values ('" + memory.imageId() + "', ")
-						.append(Strs.isEmpty(memory.imageURL()) ? "null" : "'" + memory.imageURL() + "'").append(", ")
-						.append(Strs.isEmpty(memory.thumbnail()) ? "null" : "'" + memory.thumbnail() + "'").append(", ")
+						.append(Strs.isEmpty(memory.imageName()) ? "null" : "'" + memory.imageName() + "'").append(", ")
 						.append(Strs.isEmpty(memory.eventId()) ? "null" : "'" + memory.eventId() + "'").append(", ")
 						.append(Strs.isEmpty(memory.userId()) ? "null" : "'" + memory.userId() + "'").append(", ")
 						.append(Strs.isEmpty(memory.timelineId()) ? "null" : "'" + memory.timelineId() + "'").append(")")
@@ -159,12 +158,8 @@ public class PuluoEventMemoryDaoImpl extends DalTemplate implements PuluoEventMe
 				updateSQL = new StringBuilder().append("update ")
 						.append(super.getFullTableName()).append(" set");
 				boolean comma = false;
-				if (!Strs.isEmpty(memory.imageURL())) {
-					updateSQL.append(" image_url = '" + memory.imageURL() + "',");
-					comma = true;
-				}
-				if (!Strs.isEmpty(memory.thumbnail())) {
-					updateSQL.append(" thumbnail = '" + memory.thumbnail() + "',");
+				if (!Strs.isEmpty(memory.imageName())) {
+					updateSQL.append(" image_url = '" + memory.imageName() + "',");
 					comma = true;
 				}
 				if (!Strs.isEmpty(memory.eventId())) {
@@ -215,7 +210,6 @@ class PuluoEventMemoryMapper implements RowMapper<PuluoEventMemory> {
 		PuluoEventMemoryImpl eventPoster = new PuluoEventMemoryImpl(
 				rs.getString("memory_uuid"),
 				rs.getString("image_url"),
-				rs.getString("thumbnail"),
 				rs.getString("event_uuid"),
 				rs.getString("user_uuid"),
 				rs.getString("timeline_uuid"));

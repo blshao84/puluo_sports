@@ -34,7 +34,7 @@ public class EventSearchResult extends HasJSON {
 			List<PuluoEventPoster> posters = info.poster();
 			for (int j = 0; j < posters.size(); j++) {
 				PuluoEventPoster p = posters.get(j);
-				thumbnails.add(p.thumbnail());
+				thumbnails.add(p.thumbnailURL());
 				images.add(p.imageURL());
 			}
 			events.add(new EventSearchResultDetail(

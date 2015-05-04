@@ -117,7 +117,7 @@ class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
       if (ui.isDefined) {
         val imageName = ui.get.imageUUID
         val imageUUID = UUID.randomUUID().toString()
-        val newEventPoster = new PuluoEventPosterImpl(imageUUID, imageName, "", eventInfoUUID, DateTime.now())
+        val newEventPoster = new PuluoEventPosterImpl(imageUUID, imageName, eventInfoUUID, DateTime.now())
         //we always save a new image link for event info
         posterDao.saveEventPhoto(newEventPoster)
       } else true

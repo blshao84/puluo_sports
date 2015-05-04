@@ -199,7 +199,7 @@ public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 		Set<String> memoryImages = new HashSet<String>();
 		Set<String> expectedAttendees = new HashSet<String>();
 		for (PuluoEventPoster p : posters) {
-			posterThumbnails.add(p.thumbnail());
+			posterThumbnails.add(p.thumbnailURL());
 		}
 		for (PuluoEventMemory m : memories) {
 			memoryImages.add(m.imageURL());

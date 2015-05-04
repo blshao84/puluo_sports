@@ -82,8 +82,7 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 						.append(super.getFullTableName())
 						.append(" (event_poster_uuid, image_url, thumbnail, event_info_uuid, created_at)")
 						.append(" values ('" + photo.imageId() + "', ")
-						.append(Strs.isEmpty(photo.imageURL()) ? "null" : "'" + photo.imageURL() + "'").append(", ")
-						.append(Strs.isEmpty(photo.thumbnail()) ? "null" : "'" + photo.thumbnail() + "'").append(", ")
+						.append(Strs.isEmpty(photo.imageName()) ? "null" : "'" + photo.imageName() + "'").append(", ")
 						.append(Strs.isEmpty(photo.eventInfoUUID()) ? "null" : "'" + photo.eventInfoUUID() + "'").append(", ")
 						.append(Strs.isEmpty(TimeUtils.formatDate(photo.createdAt())) ? "now()::timestamp" : "'" + TimeUtils.formatDate(photo.createdAt()) + "'").append(")")
 						.toString();
@@ -123,12 +122,8 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 				updateSQL = new StringBuilder().append("update ")
 						.append(super.getFullTableName()).append(" set");
 				boolean comma = false;
-				if (!Strs.isEmpty(photo.imageURL())) {
-					updateSQL.append(" image_url = '" + photo.imageURL() + "',");
-					comma = true;
-				}
-				if (!Strs.isEmpty(photo.thumbnail())) {
-					updateSQL.append(" thumbnail = '" + photo.thumbnail() + "',");
+				if (!Strs.isEmpty(photo.imageName())) {
+					updateSQL.append(" image_url = '" + photo.imageName() + "',");
 					comma = true;
 				}
 				if (!Strs.isEmpty(photo.eventInfoUUID())) {
@@ -172,7 +167,6 @@ class PuluoEventPosterMapper implements RowMapper<PuluoEventPoster> {
 		PuluoEventPosterImpl eventPoster = new PuluoEventPosterImpl(
 				rs.getString("event_poster_uuid"),
 				rs.getString("image_url"),
-				rs.getString("thumbnail"),
 				rs.getString("event_info_uuid"),
 				TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at"))));
 		return eventPoster;

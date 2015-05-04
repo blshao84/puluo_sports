@@ -25,7 +25,7 @@ public class PuluoEventMemoryDaoTest {
 		PuluoEventMemoryDao memoryDao = DaoTestApi.eventMemoryDevDao;
 		memoryDao.createTable();
 		PuluoEventMemory memory = new PuluoEventMemoryImpl("uuid_0",
-				"image_url_0", "thumbnail_0", "event_uuid_0", "user_uuid_0", "timeline_uuid_0");
+				"image_url_0", "event_uuid_0", "user_uuid_0", "timeline_uuid_0");
 		memoryDao.upsertEventMemory(memory);
 		log.info("setUpDB done!");
 	}
@@ -44,11 +44,11 @@ public class PuluoEventMemoryDaoTest {
 		log.info("testUpsertEventMemory start!");
 		boolean success1 = DaoTestApi.eventMemoryDevDao
 				.upsertEventMemory(new PuluoEventMemoryImpl("uuid_0",
-						null, null, "event_uuid_0", "user_uuid_0", "timeline_uuid_0"));
+						null, "event_uuid_0", "user_uuid_0", "timeline_uuid_0"));
 		Assert.assertTrue("updating a memory should be successful!", success1);
 		boolean success2 = DaoTestApi.eventMemoryDevDao
 				.upsertEventMemory(new PuluoEventMemoryImpl("uuid_1",
-						null, null, "event_uuid_1", "user_uuid_1", "timeline_uuid_1"));
+						null, "event_uuid_1", "user_uuid_1", "timeline_uuid_1"));
 		Assert.assertTrue("inserting a memory should be successful!", success2);
 		log.info("testUpsertEventMemory done!");
 	}
@@ -58,9 +58,9 @@ public class PuluoEventMemoryDaoTest {
 		log.info("testGetEventMemoryByUUID start!");
 		PuluoEventMemoryDao memoryDao = DaoTestApi.eventMemoryDevDao;
 		DaoTestApi.eventMemoryDevDao.upsertEventMemory(new PuluoEventMemoryImpl("uuid_2",
-				null, null, "event_uuid_0", "user_uuid_0", "timeline_uuid_0"));
+				null, "event_uuid_0", "user_uuid_0", "timeline_uuid_0"));
 		DaoTestApi.eventMemoryDevDao.upsertEventMemory(new PuluoEventMemoryImpl("uuid_3",
-				"image_url_3", "thumbnail_3", "event_uuid_0", "user_uuid_0", "timeline_uuid_0"));
+				"image_url_3", "event_uuid_0", "user_uuid_0", "timeline_uuid_0"));
 		List<PuluoEventMemory> memories = memoryDao.getEventMemoryByEventUUID("event_uuid_0");
 		Assert.assertEquals("memories' size should be 3!", 3, memories.size());
 		log.info("testGetEventMemoryByUUID done!");

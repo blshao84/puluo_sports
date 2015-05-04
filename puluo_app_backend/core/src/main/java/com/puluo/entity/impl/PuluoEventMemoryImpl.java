@@ -11,24 +11,21 @@ import com.puluo.util.Strs;
 public class PuluoEventMemoryImpl implements PuluoEventMemory {
 
 	private final String uuid;
-	private final String image_url;
-	private final String thumbnail;
+	private final String image_name;
 	private final String event_uuid;
 	private final String user_uuid;
 	private final String timeline_uuid;
 
 	public PuluoEventMemoryImpl(String uuid, String image_url,
-			String thumbnail, String event_uuid, String user_uuid,
-			String timeline_uuid) {
+			String event_uuid, String user_uuid, String timeline_uuid) {
 		super();
 		this.uuid = uuid;
-		this.image_url = image_url;
-		this.thumbnail = thumbnail;
+		this.image_name = image_url;
 		this.event_uuid = event_uuid;
 		this.user_uuid = user_uuid;
 		this.timeline_uuid = timeline_uuid;
 	}
-	
+
 	@Override
 	public String imageId() {
 		return uuid;
@@ -36,16 +33,16 @@ public class PuluoEventMemoryImpl implements PuluoEventMemory {
 
 	@Override
 	public String imageURL() {
-		if (image_url.equals("")) {
+		if (image_name.equals("")) {
 			return Strs.join(Configurations.emptyImage);
 		} else {
-			return Strs.join(Configurations.imageServer, image_url);
+			return Strs.join(Configurations.imageServer, image_name);
 		}
 	}
 
 	@Override
-	public String thumbnail() {
-		return Strs.join(imageURL(),"!small");
+	public String thumbnailURL() {
+		return Strs.join(imageURL(), "!small");
 	}
 
 	@Override
@@ -77,5 +74,10 @@ public class PuluoEventMemoryImpl implements PuluoEventMemory {
 	@Override
 	public String timelineId() {
 		return timeline_uuid;
+	}
+
+	@Override
+	public String imageName() {
+		return image_name;
 	}
 }
