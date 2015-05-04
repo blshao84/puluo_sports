@@ -124,7 +124,7 @@ public class PuluoEventMemoryDaoImpl extends DalTemplate implements PuluoEventMe
 			if (resCnt==0) {
 				updateSQL = new StringBuilder().append("insert into ")
 						.append(super.getFullTableName())
-						.append(" (memory_uuid, image_url, thumbnail, event_uuid, user_uuid, timeline_uuid)")
+						.append(" (memory_uuid, image_url, event_uuid, user_uuid, timeline_uuid)")
 						.append(" values ('" + memory.imageId() + "', ")
 						.append(Strs.isEmpty(memory.imageName()) ? "null" : "'" + memory.imageName() + "'").append(", ")
 						.append(Strs.isEmpty(memory.eventId()) ? "null" : "'" + memory.eventId() + "'").append(", ")

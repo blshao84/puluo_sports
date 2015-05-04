@@ -80,7 +80,7 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 			if (resCnt==0) {
 				updateSQL = new StringBuilder().append("insert into ")
 						.append(super.getFullTableName())
-						.append(" (event_poster_uuid, image_url, thumbnail, event_info_uuid, created_at)")
+						.append(" (event_poster_uuid, image_url, event_info_uuid, created_at)")
 						.append(" values ('" + photo.imageId() + "', ")
 						.append(Strs.isEmpty(photo.imageName()) ? "null" : "'" + photo.imageName() + "'").append(", ")
 						.append(Strs.isEmpty(photo.eventInfoUUID()) ? "null" : "'" + photo.eventInfoUUID() + "'").append(", ")
