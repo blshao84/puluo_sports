@@ -86,7 +86,7 @@ public class ApproveFriendAPI extends PuluoAPI<PuluoDSI,ApproveFriendResult> {
 						fromUser.userUUID(),toUser.userUUID(),
 						fromUser.firstName(),toUser.firstName(),
 						fromUser.lastName(),toUser.lastName(),
-						fromUser.thumbnail(),toUser.thumbnail(),
+						fromUser.thumbnailURL(),toUser.thumbnailURL(),
 						messages.get(i).content(),TimeUtils.dateTime2Millis(messages.get(i).createdAt())));
 			}
 			ApproveFriendResult result = new ApproveFriendResult(request.requestUUID(),FriendRequestStatus.Approved.name(),

@@ -25,7 +25,7 @@ public class UserSearchResult extends HasJSON {
 		for(int i=0;i<users.size();i++) {
 			UserSearchResultDetail tmp = new UserSearchResultDetail(users.get(i).userUUID(),
 					users.get(i).firstName(), users.get(i).lastName(), users.get(i).email(),
-					users.get(i).mobile(),users.get(i).thumbnail(),users.get(i).saying());
+					users.get(i).mobile(),users.get(i).thumbnailURL(),users.get(i).saying());
 			details.add(tmp);
 		}
 		return true;

@@ -52,8 +52,8 @@ public class SendMessageAPI extends PuluoAPI<PuluoDSI,SendMessageResult> {
 						dt,PuluoMessageType.valueOf(content_type),"",from_uuid,to_uuid);
 				boolean save_status = messagedao.saveMessage(message);
 				if(save_status) {
-					String from_tn =fromUser.thumbnail();
-					String to_tn = toUser.thumbnail();
+					String from_tn =fromUser.thumbnailURL();
+					String to_tn = toUser.thumbnailURL();
 					SendMessageResult result = new SendMessageResult(message_id,
 							from_uuid,to_uuid,
 							fromUser.firstName(),toUser.firstName(),

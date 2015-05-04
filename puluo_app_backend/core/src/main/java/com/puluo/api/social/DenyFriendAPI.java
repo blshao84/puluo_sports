@@ -80,7 +80,7 @@ public class DenyFriendAPI extends PuluoAPI<PuluoDSI,DenyFriendResult> {
 						fromUser.userUUID(),toUser.userUUID(),
 						fromUser.firstName(),toUser.firstName(),
 						fromUser.lastName(),toUser.lastName(),
-						fromUser.thumbnail(),toUser.thumbnail(),
+						fromUser.thumbnailURL(),toUser.thumbnailURL(),
 						msg.content(),TimeUtils.dateTime2Millis(msg.createdAt())));
 			}
 			DenyFriendResult result = new DenyFriendResult(request.requestUUID(),FriendRequestStatus.Denied.name(),

@@ -60,28 +60,28 @@ public class UserProfileFunctionalTest extends APIFunctionalTest {
 				.userDao();
 		dao.save(mobile1, password1);
 		PuluoUser user1 = dao.getByMobile(mobile1);
-		dao.updateProfile(user1, "user1", "user1", "http://upyun.com/puluo/user1.jpg", "http://upyun.com/puluo/user1.jpg",
+		dao.updateProfile(user1, "user1", "user1", "http://upyun.com/puluo/user1.jpg",
 				"i am user1","user1@puluo.com","M", null,
 				null, null, null, null);
 		uuid1 = user1.userUUID();
 		
 		dao.save(mobile2, password2);
 		PuluoUser user2 = dao.getByMobile(mobile2);
-		dao.updateProfile(user2, "user2", "user2", "http://upyun.com/puluo/user2.jpg", "http://upyun.com/puluo/user2.jpg",
+		dao.updateProfile(user2, "user2", "user2", "http://upyun.com/puluo/user2.jpg", 
 				"i am user2","user2@puluo.com","M", null,
 				null, null, null, null);
 		uuid2 = user2.userUUID();
 		
 		dao.save(mobile4, password4);
 		PuluoUser user4 = dao.getByMobile(mobile4);
-		dao.updateProfile(user4, "user4", "user4", "http://upyun.com/puluo/user4.jpg", "http://upyun.com/puluo/user4.jpg",
+		dao.updateProfile(user4, "user4", "user4", "http://upyun.com/puluo/user4.jpg", 
 				"i am user4","user4@puluo.com","M", null,
 				null, null, null, null);
 		uuid4 = user4.userUUID();
 		
 		dao.save(mobile5, password5);
 		PuluoUser user5 = dao.getByMobile(mobile5);
-		dao.updateProfile(user5, "user5", "user5", "http://upyun.com/puluo/user5.jpg", "http://upyun.com/puluo/user5.jpg",
+		dao.updateProfile(user5, "user5", "user5", "http://upyun.com/puluo/user5.jpg", 
 				"i am user5","user5@puluo.com","M", null,
 				null, null, null, null);
 		uuid5 = user5.userUUID();

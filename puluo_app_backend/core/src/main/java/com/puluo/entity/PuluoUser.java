@@ -13,8 +13,8 @@ public interface PuluoUser {
 	String password();
 	String firstName(); //名
 	String lastName(); //姓
+	String thumbnailURL(); //头像
 	String thumbnail(); //头像
-	String largeImage(); //大图
 	PuluoUserType userType(); 
 	String email();
 	DateTime birthday();

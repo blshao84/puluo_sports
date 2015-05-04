@@ -23,7 +23,6 @@ public interface PuluoUserDao {
 			String first_name,
 			String last_name, 
 			String thumbnail, 
-			String large_image,
 			String saying, 
 			String email, 
 			String sex, 

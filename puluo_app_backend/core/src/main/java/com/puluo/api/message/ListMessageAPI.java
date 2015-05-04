@@ -56,7 +56,7 @@ public class ListMessageAPI extends PuluoAPI<PuluoDSI, ListMessageResult> {
 			messagelist.add(new MessageResult(msg.messageUUID(), fromUser
 					.userUUID(), toUser.userUUID(), fromUser.firstName(),
 					toUser.firstName(), fromUser.lastName(), toUser.lastName(),
-					fromUser.thumbnail(), toUser.thumbnail(), msg.content(),
+					fromUser.thumbnailURL(), toUser.thumbnailURL(), msg.content(),
 					TimeUtils.dateTime2Millis(msg.createdAt())));
 		}
 		ListMessageResult result = new ListMessageResult(messagelist);

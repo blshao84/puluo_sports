@@ -37,31 +37,31 @@ public class PuluoUserFriendshipDaoTest {
 		user = userDao.getByMobile("17721014665");
 		uuid_1 = user.userUUID();
 		userDao.updateProfile(user, "LEI", "SHI", "1.jpg",
-				"1_large.jpg", "saying", "email_1", "M", "1984-10-11", "China",
+				 "saying", "email_1", "M", "1984-10-11", "China",
 				"Liaoning", "Dalian", "116000");
 		userDao.save("18521564305", "123456");
 		user = userDao.getByMobile("18521564305");
 		uuid_2 = user.userUUID();
 		userDao.updateProfile(user, "LEI", "SHI", "1.jpg",
-				"1_large.jpg", "saying", "email_2", "M", "1984-10-11", "China",
+				 "saying", "email_2", "M", "1984-10-11", "China",
 				"Liaoning", "Dalian", "116000");
 		userDao.save("13262247972", "123456");
 		user = userDao.getByMobile("13262247972");
 		uuid_3 = user.userUUID();
 		userDao.updateProfile(user, "LEI", "SHI", "1.jpg",
-				"1_large.jpg", "saying", "email_3", "M", "1984-10-11", "China",
+				 "saying", "email_3", "M", "1984-10-11", "China",
 				"Liaoning", "Dalian", "116000");
 		userDao.save("15330820432", "123456");
 		user = userDao.getByMobile("15330820432");
 		uuid_4 = user.userUUID();
 		userDao.updateProfile(user, "LEI", "SHI", "1.jpg",
-				"1_large.jpg", "saying", "email_4", "M", "1984-10-11", "China",
+				"saying", "email_4", "M", "1984-10-11", "China",
 				"Liaoning", "Dalian", "116000");
 		userDao.save("00000000000", "123456");
 		user = userDao.getByMobile("00000000000");
 		uuid_5 = user.userUUID();
 		userDao.updateProfile(user, "LEI", "SHI", "1.jpg",
-				"1_large.jpg", "saying", "email_5", "M", "1984-10-11", "China",
+				"saying", "email_5", "M", "1984-10-11", "China",
 				"Liaoning", "Dalian", "116000");
 		
 		PuluoUserFriendshipDao friendDao = DaoTestApi.friendDevDao;

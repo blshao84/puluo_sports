@@ -85,7 +85,7 @@ public class EventTestDataSource {
 		PuluoDSI dsi = DaoApi.getInstance();
 		dsi.userDao().save(mobile, password);
 		PuluoUser user = dsi.userDao().getByMobile(mobile);
-		dsi.userDao().updateProfile(user, "Lei", "Shi", "http://www.puluosports.com/logo.jpg", null, null, null, null, null, null, null, null, null);
+		dsi.userDao().updateProfile(user, "Lei", "Shi", "http://www.puluosports.com/logo.jpg", null, null, null, null, null, null, null, null);
 		userID = user.userUUID();
 
 		PuluoEventLocation location1 = new PuluoEventLocationImpl(locID1,

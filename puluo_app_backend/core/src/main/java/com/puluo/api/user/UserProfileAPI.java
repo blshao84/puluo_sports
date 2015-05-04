@@ -13,9 +13,9 @@ import com.puluo.api.result.UserPublicProfileResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.entity.PuluoFriendRequest;
 import com.puluo.entity.PuluoPrivateMessage;
 import com.puluo.entity.PuluoUser;
-import com.puluo.entity.PuluoFriendRequest;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.TimeUtils;
@@ -48,8 +48,8 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI, UserProfileResult> {
 			UserPublicProfileResult publicInfo = new UserPublicProfileResult(
 					user.firstName(), 
 					user.lastName(), 
-					user.thumbnail(),
-					user.largeImage(), 
+					user.thumbnailURL(),
+					"",//FIXME: should remove it later
 					user.saying(), 
 					user.likes(),
 					user.banned(), 
@@ -96,7 +96,7 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI, UserProfileResult> {
 						fromUser.userUUID(),toUser.userUUID(),
 						fromUser.firstName(),toUser.firstName(),
 						fromUser.lastName(),toUser.lastName(),
-						fromUser.thumbnail(),toUser.thumbnail(),
+						fromUser.thumbnailURL(),toUser.thumbnailURL(),
 						msg.content(),TimeUtils.dateTime2Millis(msg.createdAt())));
 			}
 			result = new RequestFriendResult(request.requestUUID(),request.requestStatus().name(),

@@ -100,7 +100,7 @@ public class RequestFriendAPI extends PuluoAPI<PuluoDSI, RequestFriendResult> {
 							fromUser.userUUID(),toUser.userUUID(),
 							fromUser.firstName(),toUser.firstName(),
 							fromUser.lastName(),toUser.lastName(),
-							fromUser.thumbnail(),toUser.thumbnail(),
+							fromUser.thumbnailURL(),toUser.thumbnailURL(),
 							msg.content(),TimeUtils.dateTime2Millis(msg.createdAt())));
 				}
 				RequestFriendResult result = new RequestFriendResult(request.requestUUID(),request.requestStatus().name(),

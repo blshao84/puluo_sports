@@ -54,7 +54,7 @@ public class PuluoUserFriendshipImpl implements PuluoUserFriendship {
 			first_name = puluoUser.firstName();
 			user_email = puluoUser.email();
 			user_mobile = puluoUser.mobile();
-			user_thumbnail = puluoUser.thumbnail();
+			user_thumbnail = puluoUser.thumbnailURL();
 			user_saying = puluoUser.saying();
 			puluoFriendInfoList.add(new PuluoFriendInfo(friend_uuid, last_name,
 					first_name, user_email, user_mobile, user_thumbnail,

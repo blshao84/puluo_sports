@@ -83,13 +83,12 @@ public class PuluoUserDaoTest {
 		log.info("testUpdateProfile start!");
 		PuluoUser user = DaoTestApi.userDevDao.getByMobile("17721014665");
 		user = DaoTestApi.userDevDao.updateProfile(user, "LEI", "SHI", "1.jpg",
-				"1_large.jpg", "saying", "email", "M", "1984-10-11", "China",
+				"saying", "email", "M", "1984-10-11", "China",
 				"Liaoning", "Dalian", "116000");
 		Assert.assertNotNull(user);
 		Assert.assertEquals("user's first name should be LEI", "LEI", user.firstName());
 		Assert.assertEquals("user's last name should be SHI", "SHI", user.lastName());
 		Assert.assertEquals("user's thumbnail should be 1.jpg", "1.jpg", user.thumbnail());
-		Assert.assertEquals("user's large image should be 1_large.jpg", "1_large.jpg", user.largeImage());
 		Assert.assertEquals("user's saying should be saying", "saying", user.saying());
 		Assert.assertEquals("user's email should be email", "email", user.email());
 		Assert.assertEquals("user's sex should be M", "M", String.valueOf((user.sex())));
@@ -107,19 +106,19 @@ public class PuluoUserDaoTest {
 		PuluoUser user = DaoTestApi.userDevDao.getByMobile("17721014665");
 		Assert.assertNotNull(user);
 		user = DaoTestApi.userDevDao.updateProfile(user, "LEI", "SHI", "1.jpg",
-				"1_large.jpg", "saying", "email", "M", "1984-10-11", "China",
+				"saying", "email", "M", "1984-10-11", "China",
 				"Liaoning", "Dalian", "116000");
 		Assert.assertNotNull(user);
 		user = DaoTestApi.userDevDao.getByMobile("18521564305");
 		Assert.assertNotNull(user);
 		user = DaoTestApi.userDevDao.updateProfile(user, "LEI", "SHI", "2.jpg",
-				"2_large.jpg", "saying", "email", "M", "1984-10-11", "China",
+				"saying", "email", "M", "1984-10-11", "China",
 				"Liaoning", "Dalian", "116000");
 		Assert.assertNotNull(user);
 		DaoTestApi.userDevDao.save("13262247972", "123456");
 		user = DaoTestApi.userDevDao.getByMobile("13262247972");
 		user = DaoTestApi.userDevDao.updateProfile(user, "LUKE", "SHI", "3.jpg",
-				"3_large.jpg", "saying", "email", "M", "1984-10-11", "China",
+				"saying", "email", "M", "1984-10-11", "China",
 				"Liaoning", "Dalian", "116000");
 		Assert.assertNotNull(user);
 		ArrayList<PuluoUser> users = (ArrayList<PuluoUser>) DaoTestApi.userDevDao.findUser("LEI", "SHI", "email", null, true);

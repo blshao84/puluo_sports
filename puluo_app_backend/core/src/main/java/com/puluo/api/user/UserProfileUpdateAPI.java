@@ -19,7 +19,6 @@ public class UserProfileUpdateAPI extends PuluoAPI<PuluoDSI, UserProfileUpdateRe
 	public String first_name;
 	public String last_name;
 	public String thumbnail;
-	public String large_image;
 	public String saying;
 	public String email;
 	public String sex;
@@ -30,15 +29,15 @@ public class UserProfileUpdateAPI extends PuluoAPI<PuluoDSI, UserProfileUpdateRe
 	public String zip;
 
 	public UserProfileUpdateAPI(String uuid, String first_name, String last_name,
-			String thumbnail, String large_image, String saying, String email,
+			String thumbnail, String saying, String email,
 			String sex, String birthday, String country, String state,
 			String city, String zip) {
-		this(uuid, first_name, last_name, thumbnail, large_image, saying, email, sex,
+		this(uuid, first_name, last_name, thumbnail, saying, email, sex,
 				birthday, country, state, city, zip, DaoApi.getInstance());
 	}
 
 	public UserProfileUpdateAPI(String uuid, String first_name, String last_name,
-			String thumbnail, String large_image, String saying, String email,
+			String thumbnail,  String saying, String email,
 			String sex, String birthday, String country, String state,
 			String city, String zip, PuluoDSI dsi) {
 		this.dsi = dsi;
@@ -46,7 +45,6 @@ public class UserProfileUpdateAPI extends PuluoAPI<PuluoDSI, UserProfileUpdateRe
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.thumbnail = thumbnail;
-		this.large_image = large_image;
 		this.saying = saying;
 		this.email = email;
 		this.sex = sex;
@@ -63,10 +61,11 @@ public class UserProfileUpdateAPI extends PuluoAPI<PuluoDSI, UserProfileUpdateRe
 		PuluoUserDao userdao = dsi.userDao();
 		PuluoUser curuser = userdao.getByUUID(uuid);
 		PuluoUser upduser = userdao.updateProfile(curuser,first_name,last_name,thumbnail,
-				large_image,saying,email,sex,birthday,country,state,city,zip);
+				saying,email,sex,birthday,country,state,city,zip);
 		if (upduser!=null) {
 			UserProfileUpdateResult result = new UserProfileUpdateResult(upduser.userUUID(),
-					upduser.firstName(),upduser.lastName(),upduser.thumbnail(),upduser.largeImage(), 
+					upduser.firstName(),upduser.lastName(),upduser.thumbnailURL(),
+					"",//FIXME:should reomve
 					upduser.saying(),upduser.email(),Strs.isEmpty(String.valueOf(upduser.sex()).trim()) ? null : String.valueOf(upduser.sex()), 
 					Strs.isEmpty(TimeUtils.formatBirthday(upduser.birthday())) ? null : TimeUtils.formatBirthday(upduser.birthday()),upduser.occupation(),
 					upduser.country(),upduser.state(),upduser.city(),upduser.zip(), 

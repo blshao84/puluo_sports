@@ -34,7 +34,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 					.append("interests text[], ")
 					.append("user_password text not null, ")
 					.append("first_name text, ").append("last_name text, ")
-					.append("thumbnail text, ").append("large_image text, ")
+					.append("thumbnail text, ")
 					.append("user_type text, ").append("email text, ")
 					.append("sex varchar(1), ").append("zip text, ")
 					.append("country text, ").append("state text, ")
@@ -142,7 +142,6 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 									rs.getString("first_name"),
 									rs.getString("last_name"),
 									rs.getString("thumbnail"),
-									rs.getString("large_image"),
 									PuluoUserType.valueOf(user_type),
 									rs.getString("email"),
 									sex != null ? new String(sex + " ").charAt(0) : new String(" ").charAt(0),
@@ -194,7 +193,6 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 								rs.getString("first_name"),
 								rs.getString("last_name"),
 								rs.getString("thumbnail"),
-								rs.getString("large_image"),
 								PuluoUserType.valueOf(user_type),
 								rs.getString("email"),
 								sex != null ? new String(sex + " ").charAt(0) : new String(" ").charAt(0),
@@ -221,7 +219,6 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 			String first_name,
 			String last_name, 
 			String thumbnail, 
-			String large_image,
 			String saying, 
 			String email, 
 			String sex, 
@@ -242,9 +239,6 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 			}
 			if (!Strs.isEmpty(thumbnail)) {
 				updateSQL.append("thumbnail = '" + thumbnail + "', ");
-			}
-			if (!Strs.isEmpty(large_image)) {
-				updateSQL.append("large_image = '" + large_image + "', ");
 			}
 			if (!Strs.isEmpty(saying)) {
 				updateSQL.append("saying = '" + super.processSingleQuote(saying) + "', ");
@@ -343,7 +337,6 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 								rs.getString("first_name"),
 								rs.getString("last_name"),
 								rs.getString("thumbnail"),
-								rs.getString("large_image"),
 								PuluoUserType.valueOf(user_type),
 								rs.getString("email"),
 								sex != null ? new String(sex + " ").charAt(0) : new String(" ").charAt(0),

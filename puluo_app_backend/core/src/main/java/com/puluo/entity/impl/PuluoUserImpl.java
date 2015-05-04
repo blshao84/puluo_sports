@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import com.puluo.config.Configurations;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoFriendRequest;
@@ -21,7 +22,6 @@ public class PuluoUserImpl implements PuluoUser {
 	private final String firstName; // 名
 	private final String lastName; // 姓
 	private final String thumbnail; // 头像
-	private final String largeImage; // 大图
 	private final PuluoUserType user_type;
 	private final String email;
 	char sex;
@@ -40,7 +40,7 @@ public class PuluoUserImpl implements PuluoUser {
 
 	public PuluoUserImpl(String user_uuid, String mobile, String[] interests,
 			String password, String firstName, String lastName,
-			String thumbnail, String largeImage, PuluoUserType user_type,
+			String thumbnail, PuluoUserType user_type,
 			String email, char sex, String zip, String country, String state,
 			String city, String occupation, String address, String saying,
 			DateTime birthday, DateTime created_at, DateTime updated_at,
@@ -53,7 +53,6 @@ public class PuluoUserImpl implements PuluoUser {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.thumbnail = thumbnail;
-		this.largeImage = largeImage;
 		this.user_type = user_type;
 		this.email = email;
 		this.sex = sex;
@@ -73,13 +72,13 @@ public class PuluoUserImpl implements PuluoUser {
 
 	public PuluoUserImpl(String user_uuid, String mobile, String[] interests,
 			String password, String firstName, String lastName,
-			String thumbnail, String largeImage, PuluoUserType user_type,
+			String thumbnail, PuluoUserType user_type,
 			String email, char sex, String zip, String country, String state,
 			String city, String occupation, String address, String saying,
 			DateTime birthday, DateTime created_at, DateTime updated_at,
 			boolean banned) {
 		this(user_uuid, mobile, interests, password, firstName, lastName,
-				thumbnail, largeImage, user_type, email, sex, zip, country,
+				thumbnail, user_type, email, sex, zip, country,
 				state, city, occupation, address, saying, birthday, created_at,
 				updated_at, banned, DaoApi.getInstance());
 	}
@@ -126,14 +125,12 @@ public class PuluoUserImpl implements PuluoUser {
 		else
 			return thumbnail;
 	}
-
+	
 	@Override
-	public String largeImage() {
-		if (thumbnail == null)
-			return "";
-		else
-			return largeImage;
+	public String thumbnailURL() {
+		return Strs.join(Configurations.imageServer,thumbnail(),"!small");
 	}
+
 
 	@Override
 	public PuluoUserType userType() {

@@ -173,7 +173,7 @@ public class PuluoEventImpl implements PuluoEvent {
 		for (PuluoPaymentOrder order: orders) {
 			if (order.status().isPaid()) {
 				user = dsi.userDao().getByUUID(order.userId());
-				attendees.add(new PuluoEventAttendee(user.name(), user.userUUID(), user.thumbnail()));
+				attendees.add(new PuluoEventAttendee(user.name(), user.userUUID(), user.thumbnailURL()));
 			}
 		}
 		return attendees;

@@ -42,22 +42,22 @@ public class UserSearchFunctionalTest extends APIFunctionalTest {
 		dao.save(mobile1, password1);
 		uuid1 = dao.getByMobile(mobile1).userUUID();
 		dao.updateProfile(dao.getByMobile(mobile1), "Sports_1", "Puluo_1",
-				null, null, null, "sinorockie@puluo_1.com", null, null, null,
+				null, null, "sinorockie@puluo_1.com", null, null, null,
 				null, null, null);
 		dao.save(mobile2, password2);
 		uuid2 = dao.getByMobile(mobile2).userUUID();
 		dao.updateProfile(dao.getByMobile(mobile2), "Sports_1", "Puluo_1",
-				null, null, null, "sinorockie@puluo_2.com", null, null, null,
+				null, null, "sinorockie@puluo_2.com", null, null, null,
 				null, null, null);
 		dao.save(mobile3, password3);
 		uuid3 = dao.getByMobile(mobile3).userUUID();
 		dao.updateProfile(dao.getByMobile(mobile3), "Sports_2", "Puluo_1",
-				null, null, null, "sinorockie@puluo_3.com", null, null, null,
+				null, null, "sinorockie@puluo_3.com", null, null, null,
 				null, null, null);
 		dao.save(mobile4, password4);
 		uuid4 = dao.getByMobile(mobile4).userUUID();
 		dao.updateProfile(dao.getByMobile(mobile4), "Sports_3", "Puluo_2",
-				null, null, null, "sinorockie@puluo_1.com", null, null, null,
+				null, null, "sinorockie@puluo_1.com", null, null, null,
 				null, null, null);
 	}
 

@@ -90,7 +90,6 @@ object PuluoUserUpdateSnippet extends PuluoSnippetUtil with Loggable{
               first.getOrElse(""),
               last.getOrElse(""),
               "", //thumbnail
-              "", //large_image
               saying.getOrElse(""),
               email.getOrElse(""),
               sex.getOrElse(""), //sex

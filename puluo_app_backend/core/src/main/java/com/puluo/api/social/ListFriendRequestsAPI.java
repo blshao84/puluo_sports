@@ -42,11 +42,11 @@ public class ListFriendRequestsAPI extends PuluoAPI<PuluoDSI, ListFriendRequests
 					fromUser.userUUID(),
 					fromUser.firstName(),
 					fromUser.lastName(),
-					fromUser.thumbnail(),
+					fromUser.thumbnailURL(),
 					toUser.userUUID(),
 					toUser.firstName(),
 					toUser.lastName(),
-					toUser.thumbnail(),
+					toUser.thumbnailURL(),
 					r.createdAt().getMillis(),
 					r.createdAt().getMillis()));
 		}

@@ -68,7 +68,7 @@ public class ListMessageSummaryAPI extends
 								TimeUtils.formatDate(msg.createdAt())));
 				MessageSummaryResult res = new MessageSummaryResult(theOtherUser.firstName(),
 						theOtherUser.lastName(), theOtherUser.userUUID(),
-						theOtherUser.thumbnail(), msg.createdAt().getMillis(),
+						theOtherUser.thumbnailURL(), msg.createdAt().getMillis(),
 						msg.messageUUID(),msg.content());
 				results.add(res);
 			}

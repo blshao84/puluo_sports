@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.puluo.config.Configurations;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.dao.impl.PuluoSessionDaoImpl;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
@@ -14,6 +15,7 @@ import com.puluo.entity.PuluoUser;
 import com.puluo.test.functional.util.APIFunctionalTest;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.Strs;
 
 public class UserUpdateFunctionalTest extends APIFunctionalTest {
 	
@@ -38,7 +40,7 @@ public class UserUpdateFunctionalTest extends APIFunctionalTest {
 		}
 	}
 	
-	private void test(String name, String key, String value, String info) {
+	private void test(String name, String key, String value, String info, boolean isThumbnail) {
 		log.info(name + " start!");
 		try {
 			login();
@@ -46,7 +48,9 @@ public class UserUpdateFunctionalTest extends APIFunctionalTest {
 			JsonNode json = callAPI("users/update", str);
 			log.info(json);
 			JsonNode public_info = new JsonNode(super.getStringFromJson(json, info));
-			Assert.assertEquals(key.replace("_", " ") + " should be " + value, value, super.getStringFromJson(public_info, key));
+			String expectedValue = null;
+			if(isThumbnail) expectedValue = Strs.join(Configurations.imageServer,value,"!small"); else expectedValue = value;
+			Assert.assertEquals(key.replace("_", " ") + " should be " + value, expectedValue, super.getStringFromJson(public_info, key));
 		} catch (UnirestException e) {
 			e.printStackTrace();
 			Assert.assertTrue(false);
@@ -76,61 +80,56 @@ public class UserUpdateFunctionalTest extends APIFunctionalTest {
 
 	@Test
 	public void testUpdateFirstName() {
-		test("testUpdateFirstName", "first_name", "Lei", "public_info");
+		test("testUpdateFirstName", "first_name", "Lei", "public_info",false);
 	}
 
 	@Test
 	public void testUpdateLastName() {
-		test("testUpdateLastName", "last_name", "Shi", "public_info");
+		test("testUpdateLastName", "last_name", "Shi", "public_info",false);
 	}
 
 	@Test
 	public void testUpdateThumbnail() {
-		test("testUpdateThumbnail", "thumbnail", "http://upyun.com/puluo/1234.jpg", "public_info");
-	}
-
-	@Test
-	public void testUpdateLargeImage() {
-		test("testUpdateLargeImage", "large_image", "http://upyun.com/puluo/5678.jpg", "public_info");
+		test("testUpdateThumbnail", "thumbnail", "1234.jpg", "public_info",true);
 	}
 
 	@Test
 	public void testUpdateSaying() {
-		test("testUpdateSaying", "saying", "Hello, Puluo!", "public_info");
+		test("testUpdateSaying", "saying", "Hello, Puluo!", "public_info",false);
 	}
 
 	@Test
 	public void testUpdateEmail() {
-		test("testUpdateEmail", "email", "sinorockie@outlook.com", "private_info");
+		test("testUpdateEmail", "email", "sinorockie@outlook.com", "private_info",false);
 	}
 
 	@Test
 	public void testUpdateSex() {
-		test("testUpdateSex", "sex", "M", "private_info");
+		test("testUpdateSex", "sex", "M", "private_info",false);
 	}
 
 	@Test
 	public void testUpdateBirthday() {
-		test("testUpdateBirthday", "birthday", "1984-10-11", "private_info");
+		test("testUpdateBirthday", "birthday", "1984-10-11", "private_info",false);
 	}
 
 	@Test
 	public void testUpdateCountry() {
-		test("testUpdateCountry", "country", "China", "private_info");
+		test("testUpdateCountry", "country", "China", "private_info",false);
 	}
 
 	@Test
 	public void testUpdateState() {
-		test("testUpdateState", "state", "Shanghai", "private_info");
+		test("testUpdateState", "state", "Shanghai", "private_info",false);
 	}
 
 	@Test
 	public void testUpdateCity() {
-		test("testUpdateCity", "city", "Pudong", "private_info");
+		test("testUpdateCity", "city", "Pudong", "private_info",false);
 	}
 
 	@Test
 	public void testUpdateZip() {
-		test("testUpdateZip", "zip", "200000", "private_info");
+		test("testUpdateZip", "zip", "200000", "private_info",false);
 	}
 }
