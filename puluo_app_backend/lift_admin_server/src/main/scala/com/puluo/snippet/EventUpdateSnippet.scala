@@ -111,8 +111,8 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
         day(Some(dt.getDayOfMonth()))
         hour(Some(dt.getHourOfDay()))
       }
-      if(e.price()!=0.0) price(Some(e.price()))
-      if(e.discount()!=0.0) discount(Some(e.discount()))
+      if(e.price()!=0.0) price(Some(e.originalPrice()))
+      if(e.discountedPrice()!=0.0) discount(Some(e.discountedPrice()))
       if(e.hottest()!=0) hottest(Some(e.hottest().toString))
     }
   }
@@ -127,7 +127,7 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
     if (infoEntity != null) {
       if (locEntity != null) {
         if (year.isDefined && month.isDefined && day.isDefined && hour.isDefined) {
-          val eventTime = TimeUtils.parseDate(
+          val eventTime = TimeUtils.parseDateTime(
             s"${year.get.get}-${month.get.get}-${day.get.get} ${hour.get.get}:0:0")
           if (eventTime != null) {
             val eventStatus = EventStatus.valueOf(status.get.get)
@@ -146,6 +146,7 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
                 infoEntity.eventInfoUUID(),
                 locEntity.locationId(),
                 eventHottest)
+            println(newEvent.toString())
             val success = eventDao.upsertEvent(newEvent)
             if(success){
               JsCmds.Alert("成功更新课程")
@@ -154,7 +155,6 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
         } else JsCmds.Alert(s"课程时间不完整")
       } else JsCmds.Alert(s"活动场地ID:${loc.getOrElse("")}不存在")
     } else JsCmds.Alert(s"活动信息ID:${info.getOrElse("")}不存现在")
-    JsCmds.Alert("")
   }
 
   private def doAddEvent = {

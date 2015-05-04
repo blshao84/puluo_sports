@@ -187,4 +187,16 @@ public class PuluoEventImpl implements PuluoEvent {
 		}
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		return "PuluoEventImpl [uuid=" + uuid + ", event_time=" + event_time
+				+ ", status=" + status + ", registeredUsers=" + registeredUsers
+				+ ", capatcity=" + capatcity + ", price=" + price
+				+ ", discountedPrice=" + discountedPrice + ", info_uuid="
+				+ info_uuid + ", location_uuid=" + location_uuid + ", hottest="
+				+ hottest + "]";
+	}
+	
+	
 }

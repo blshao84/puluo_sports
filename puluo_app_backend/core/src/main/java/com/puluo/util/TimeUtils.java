@@ -53,6 +53,7 @@ public class TimeUtils {
 	 * @return
 	 */
 	public static DateTime parseDate(String dt) {
+		System.out.println(dt);
 		String[] dates = dt.split("-");
 		if (dates.length == 3) {
 			String yearString = dates[0];
