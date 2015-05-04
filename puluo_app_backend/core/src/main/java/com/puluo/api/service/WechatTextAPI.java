@@ -147,7 +147,7 @@ public class WechatTextAPI {
 				SortDirection.Asc, 
 				0, 0, 0, //ignore location for now
 				EventStatus.Open, 
-				null); // any event type
+				null,5,0); // any event type
 			api.execute();
 			List<PuluoEvent> events = api.searchedEvents;
 			log.info(String.format("searched %s events from wechat",

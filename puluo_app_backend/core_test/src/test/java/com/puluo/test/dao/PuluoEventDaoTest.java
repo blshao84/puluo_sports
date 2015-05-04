@@ -96,64 +96,65 @@ public class PuluoEventDaoTest {
 	public void testFindEvents() {
 		log.info("testFindEvents start!");
 		PuluoEventDao eventDao = DaoTestApi.eventDevDao;
-		
-		List<PuluoEvent> events = eventDao.findEvents(null,null, null, null, null, null, 2.0, 2.0, 2, null, PuluoEventCategory.Others);
+		int limit = 20;
+		int offset = 0;
+		List<PuluoEvent> events = eventDao.findEvents(null,null, null, null, null, null, 2.0, 2.0, 2, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("距离在2以内的event应该有3个!", 3 , events.size());
-		events = eventDao.findEvents(null,null, null, null, null, null, 2.0, 2.0, 1.5, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,null, null, null, null, null, 2.0, 2.0, 1.5, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("距离在1.5以内的event应该有2个!", 2 , events.size());
-		events = eventDao.findEvents(null,null, null, null, null, null, 2.0, 2.0, 1.0, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,null, null, null, null, null, 2.0, 2.0, 1.0, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("距离在1以内的event应该有1个!", 1 , events.size());
-		events = eventDao.findEvents(null,null, null, null, null, null, 2.0, 2.0, 0.5, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,null, null, null, null, null, 2.0, 2.0, 0.5, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("距离在0.5以内的event应该有0个!", 0 , events.size());
 		
-		events = eventDao.findEvents(null,null, "1", null, null, null, 0.0, 0.0, 0.0, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,null, "1", null, null, null, 0.0, 0.0, 0.0, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("keyword包含1的event应该有2个!", 2 , events.size());
-		events = eventDao.findEvents(null,null, "2", null, null, null, 0.0, 0.0, 0.0, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,null, "2", null, null, null, 0.0, 0.0, 0.0, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("keyword包含2的event应该有1个!", 1 , events.size());
-		events = eventDao.findEvents(null,null, "3", null, null, null, 0.0, 0.0, 0.0, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,null, "3", null, null, null, 0.0, 0.0, 0.0, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("keyword包含3的event应该有0个!", 0 , events.size());
 		//from date
-		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-02-01 20:35:59"),null, null, null, null, null, 0.0, 0.0, 0.0, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-02-01 20:35:59"),null, null, null, null, null, 0.0, 0.0, 0.0, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("time在2015-03-01 20:35:59的event应该有3个!", 3 , events.size());
 		//to date
-		events = eventDao.findEvents(null,TimeUtils.parseDateTime("2015-03-03 20:35:59"), null, null, null, null, 0.0, 0.0, 0.0, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,TimeUtils.parseDateTime("2015-03-03 20:35:59"), null, null, null, null, 0.0, 0.0, 0.0, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("time在2015-03-02 20:35:59的event应该有2个!", 3 , events.size());
 		
 		//from and to date
 		events = eventDao.findEvents(
 				TimeUtils.parseDateTime("2015-02-27 20:35:59"),
-				TimeUtils.parseDateTime("2015-03-02 10:35:59"), null, null, null, null, 0.0, 0.0, 0.0, null, PuluoEventCategory.Others);
+				TimeUtils.parseDateTime("2015-03-02 10:35:59"), null, null, null, null, 0.0, 0.0, 0.0, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("time在2015-03-02 20:35:59的event应该有1个!", 1 , events.size());
 		
-		events = eventDao.findEvents(null,null, null, null, null, null, 0.0, 0.0, 0.0, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,null, null, null, null, null, 0.0, 0.0, 0.0, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("所有event应该有3个!", 3 , events.size());
 
-		events = eventDao.findEvents(null,null, null, null,EventSortType.Distance, SortDirection.valueOf("Asc"), 0.0, 0.0, 0.0, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,null, null, null,EventSortType.Distance, SortDirection.valueOf("Asc"), 0.0, 0.0, 0.0, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("距离最近的event的id应该为event_uuid_0!", "event_uuid_0" , events.get(0).eventUUID());
-		events = eventDao.findEvents(null,null, null, null, EventSortType.Distance, SortDirection.valueOf("Desc"), 0.0, 0.0, 0.0, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,null, null, null, EventSortType.Distance, SortDirection.valueOf("Desc"), 0.0, 0.0, 0.0, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("距离最远的event的id应该为event_uuid_1!", "event_uuid_1" , events.get(0).eventUUID());
 		
-		events = eventDao.findEvents(null,null, null, null, EventSortType.Time, SortDirection.valueOf("Asc"), 0.0, 0.0, 0.0, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,null, null, null, EventSortType.Time, SortDirection.valueOf("Asc"), 0.0, 0.0, 0.0, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("时间最近的event的time应该为2015-03-01 20:35:59!", TimeUtils.parseDateTime("2015-03-01 20:35:59") , events.get(0).eventTime());
-		events = eventDao.findEvents(null,null, null, null, EventSortType.Time, SortDirection.valueOf("Desc"), 0.0, 0.0, 0.0, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,null, null, null, EventSortType.Time, SortDirection.valueOf("Desc"), 0.0, 0.0, 0.0, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("时间最远的event的time应该为2015-03-02 20:35:59!", TimeUtils.parseDateTime("2015-03-02 20:35:59") , events.get(0).eventTime());
 		
-		events = eventDao.findEvents(null,null, null, null, EventSortType.Price, SortDirection.valueOf("Asc"), 0.0, 0.0, 0.0, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,null, null, null, EventSortType.Price, SortDirection.valueOf("Asc"), 0.0, 0.0, 0.0, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("价格最便宜的event的id应该为event_uuid_2!", "event_uuid_2" , events.get(0).eventUUID());
-		events = eventDao.findEvents(null,null, null, null, EventSortType.Price, SortDirection.valueOf("Desc"), 0.0, 0.0, 0.0, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,null, null, null, EventSortType.Price, SortDirection.valueOf("Desc"), 0.0, 0.0, 0.0, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("价格最昂贵的event的id应该为event_uuid_0!", "event_uuid_0" , events.get(0).eventUUID());
 
-		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-02 20:35:59"),null, "0", null, EventSortType.Price, SortDirection.valueOf("Asc"), 2.0, 2.0, 2, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-02 20:35:59"),null, "0", null, EventSortType.Price, SortDirection.valueOf("Asc"), 2.0, 2.0, 2, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("符合条件event应该有1个!", 1 , events.size());
-		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-01 20:35:59"),null, "0", null, EventSortType.Distance, SortDirection.valueOf("Desc"), 2.0, 2.0, 2, null, PuluoEventCategory.Others);
+		events = eventDao.findEvents(TimeUtils.parseDateTime("2015-03-01 20:35:59"),null, "0", null, EventSortType.Distance, SortDirection.valueOf("Desc"), 2.0, 2.0, 2, null, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("符合条件event应该有1个!", 1 , events.size());
 
-		events = eventDao.findEvents(null,null, null, null, EventSortType.Price, SortDirection.Asc, 0.0, 0.0, 0.0, EventStatus.Open, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,null, null, null, EventSortType.Price, SortDirection.Asc, 0.0, 0.0, 0.0, EventStatus.Open, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("符合条件event应该有2个!", 2 , events.size());
-		events = eventDao.findEvents(null,null, null, null, EventSortType.Price, SortDirection.Desc, 0.0, 0.0, 0.0, EventStatus.Full, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,null, null, null, EventSortType.Price, SortDirection.Desc, 0.0, 0.0, 0.0, EventStatus.Full, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("符合条件event应该有3个!", 3 , events.size());
 
-		events = eventDao.findEvents(null,null, null, PuluoEventLevel.Level2, EventSortType.Price, SortDirection.Desc, 0.0, 0.0, 0.0, EventStatus.Full, PuluoEventCategory.Others);
+		events = eventDao.findEvents(null,null, null, PuluoEventLevel.Level2, EventSortType.Price, SortDirection.Desc, 0.0, 0.0, 0.0, EventStatus.Full, PuluoEventCategory.Others,limit,offset);
 		Assert.assertEquals("符合条件event应该有1个!", 1 , events.size());
 		
 		log.info("testFindEvents done!");

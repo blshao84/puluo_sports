@@ -103,7 +103,7 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 			DateTime event_to_date, String keyword, PuluoEventLevel level,
 			EventSortType sort, SortDirection sort_direction, double latitude,
 			double longitude, double range_from, EventStatus es,
-			PuluoEventCategory type) {
+			PuluoEventCategory type, int limit,int offset) {
 		ArrayList<String> params = new ArrayList<String>();
 		String dateQuery = null;
 		if (event_from_date != null && event_to_date != null) {
@@ -165,7 +165,8 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 				.append("select e.* from ")
 				.append(super.getFullTableName()
 						+ " e, puluo_event_info i, puluo_event_location l")
-				.append(" where e.info_uuid = i.event_info_uuid and e.location_uuid = l.location_uuid");
+				.append(" where e.info_uuid = i.event_info_uuid and e.location_uuid = l.location_uuid")
+				.append(" limit ").append(limit).append(" offset ").append(offset);
 		for (String tmp : params) {
 			selectSQL.append(tmp);
 		}

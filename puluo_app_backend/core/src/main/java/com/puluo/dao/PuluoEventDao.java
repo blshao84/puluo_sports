@@ -19,7 +19,7 @@ public interface PuluoEventDao {
 	public PuluoEvent getEventByUUID(String idevent);
 	
 	public List<PuluoEvent> findEvents(DateTime event_from_date,DateTime event_to_date, String keyword, PuluoEventLevel level,
-			EventSortType sort, SortDirection sort_direction, double latitude, double longitude, double range_from, EventStatus es, PuluoEventCategory type);
+			EventSortType sort, SortDirection sort_direction, double latitude, double longitude, double range_from, EventStatus es, PuluoEventCategory type, int limit, int offset);
 	
 	public boolean upsertEvent(PuluoEvent event);
 	

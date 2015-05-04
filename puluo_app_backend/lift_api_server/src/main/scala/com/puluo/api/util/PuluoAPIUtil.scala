@@ -46,4 +46,15 @@ trait PuluoAPIUtil extends Loggable {
     }
     api
   }
+  
+  def getIntParam(params:Map[String,String],name:String, default:Int):Int = {
+    try {
+      params.get(name).map(_.toInt).getOrElse(default)
+    }catch {
+      case e:Exception => {
+        logger.info(s"use default ${name} as ${default}")
+        default
+      }
+    }
+  }
 }

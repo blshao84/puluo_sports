@@ -32,21 +32,23 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 	public Double range_from = 5.0;
 	public EventStatus status = EventStatus.Open;
 	public List<PuluoEvent> searchedEvents;
+	public int limit;
+	public int offset;
 	public PuluoEventCategory type = PuluoEventCategory.Others;
 	
 	public EventSearchAPI(DateTime event_from_date, DateTime event_to_date,
 			String keyword, PuluoEventLevel level, EventSortType sort,
 			SortDirection sort_direction, double latitude, double longitude,
-			double range_from, EventStatus status, PuluoEventCategory type) {
+			double range_from, EventStatus status, PuluoEventCategory type,int limit, int offset) {
 		this(event_from_date, event_to_date, keyword, level, sort,
-				sort_direction, latitude, longitude, range_from, status, type, DaoApi
+				sort_direction, latitude, longitude, range_from, status, type, limit,offset,DaoApi
 						.getInstance());
 	}
 
 	public EventSearchAPI(DateTime event_from_date, DateTime event_to_date,
 			String keyword, PuluoEventLevel level, EventSortType sort,
 			SortDirection sort_direction, double latitude, double longitude,
-			double range_from, EventStatus status, PuluoEventCategory type, PuluoDSI dsi) {
+			double range_from, EventStatus status, PuluoEventCategory type,int limit,int offset, PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.event_from_date = event_from_date;
 		this.event_to_date = event_to_date;
@@ -59,17 +61,19 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 		this.range_from = range_from;
 		this.status = status;
 		this.type = type;
+		this.limit = limit;
+		this.offset = offset;
 	}
 
 	@Override
 	public void execute() {
 		log.info(String
 				.format("开始根据Event From_Date:%s,To_Date:%s,  Keyword:%s, Level:%s, Sort:%s, "
-						+ "Sort Direction:%s, Latitude:%s, Longitude:%s, Range From:%s条件查找用户",
+						+ "Sort Direction:%s, Latitude:%s, Longitude:%s, Range From:%s, limit:%s, offset:%s,条件查找用户",
 						TimeUtils.formatDate(event_from_date),
 						TimeUtils.formatDate(event_to_date), keyword, level,
 						sort, sort_direction, latitude.toString(),
-						longitude.toString(), range_from.toString()));
+						longitude.toString(), range_from.toString(),limit,offset));
 		PuluoEventDao event_dao = dsi.eventDao();
 		if (keyword.trim().isEmpty())
 			keyword = null;
@@ -77,7 +81,7 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 				getTodayMidNight(event_from_date),
 				getTomorrowMidNight(event_to_date), keyword,
 				level, sort, sort_direction, latitude, longitude, range_from,
-				status, type);
+				status, type,limit,offset);
 		log.info(String.format("找到符合条件的%d个活动", searchedEvents.size()));
 		EventSearchResult result = new EventSearchResult();
 		result.setSearchResult(searchedEvents);

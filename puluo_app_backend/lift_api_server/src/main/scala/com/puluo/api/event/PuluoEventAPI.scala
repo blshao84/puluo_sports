@@ -124,13 +124,15 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
         SortDirection.Asc
       }
     }
+    val limit = getIntParam(params, "limit", 20)
+    val offset = getIntParam(params, "offset", 0)
     val api = (locationToDouble(params.get("user_lattitude")),
       locationToDouble(params.get("user_longitude"))) match {
         case (Some(lattitude), Some(longitude)) => {
           logger.info("api has longitude and lattitude")
-          new EventSearchAPI(eventFromDate, eventToDate, keyword, level, sort, sortDirection, lattitude, longitude, 0.0, status, category)
+          new EventSearchAPI(eventFromDate, eventToDate, keyword, level, sort, sortDirection, lattitude, longitude, 0.0, status, category,limit,offset)
         }
-        case _ => new EventSearchAPI(eventFromDate, eventToDate, keyword, level, sort, sortDirection, 0.0, 0.0, 0.0, status, category)
+        case _ => new EventSearchAPI(eventFromDate, eventToDate, keyword, level, sort, sortDirection, 0.0, 0.0, 0.0, status, category,limit,offset)
       }
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)
