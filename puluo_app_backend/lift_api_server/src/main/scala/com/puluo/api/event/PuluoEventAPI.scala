@@ -76,7 +76,7 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
   private def doEventSearch() = {
     val params = PuluoResponseFactory.createParamMap(Seq(
       "event_from_date", "event_to_date", "keyword", "level", "sort", "sort_direction",
-      "user_lattitude", "user_longitude", "status", "type"))
+      "user_lattitude", "user_longitude", "status", "type","limit","offset"))
     val eventFromDate: DateTime = getEventDate(params, "event_from_date")
     val eventToDate: DateTime = getEventDate(params, "event_to_date")
     logger.info(s"creating event search api with:\n${params.mkString("\n")}")
