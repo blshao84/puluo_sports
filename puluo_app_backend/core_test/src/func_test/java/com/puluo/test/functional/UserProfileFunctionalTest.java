@@ -48,6 +48,10 @@ public class UserProfileFunctionalTest extends APIFunctionalTest {
 	static String uuid3 = "88d8e55d-bc48-4471-bf1a-a0d7066cd8b2";
 	static String sessionId;
 	
+	static String mobile6 = "456789012";
+	static String uuid6;
+	static String password6 = "bcdefgh";
+	
 	static String requestId1 = UUID.randomUUID().toString();
 	static String requestId2 = UUID.randomUUID().toString();
 
@@ -85,6 +89,13 @@ public class UserProfileFunctionalTest extends APIFunctionalTest {
 				"i am user5","user5@puluo.com","M", null,
 				null, null, null, null);
 		uuid5 = user5.userUUID();
+		
+		dao.save(mobile6, password6);
+		PuluoUser user6 = dao.getByMobile(mobile6);
+		dao.updateProfile(user6, "user6", "user6", "http://upyun.com/puluo/user6.jpg", 
+				"i am user6","user6@puluo.com","M", null,
+				null, null, null, null);
+		uuid6 = user6.userUUID();
 		
 		DaoApi.getInstance().friendshipDao().addOneFriend(uuid1, uuid4);
 
@@ -126,6 +137,11 @@ public class UserProfileFunctionalTest extends APIFunctionalTest {
 			dao.deleteByUserUUID(user.userUUID());
 			sessionDao.obliterateAllSessions(user.mobile());
 		}
+		user = dao.getByMobile(mobile6);
+		if (user != null) {
+			dao.deleteByUserUUID(user.userUUID());
+			sessionDao.obliterateAllSessions(user.mobile());
+		}
 		friendDao.deleteByUserUUID(uuid1);
 		friendDao.deleteByUserUUID(uuid4);
 
@@ -151,12 +167,17 @@ public class UserProfileFunctionalTest extends APIFunctionalTest {
 				JsonNode json4 = callAPI("users/profile/" + mobile4,
 						inputs(session));
 				log.info(json4);
+				JsonNode json6 = callAPI("users/profile/" + mobile6,
+						inputs(session));
+				log.info(json6);
 				String f1 = getStringFromJson(json1,"public_info","following");
 				String f2 = getStringFromJson(json2,"public_info","following");
 				String f4 = getStringFromJson(json4,"public_info","following");
+				String f6 = getStringFromJson(json6,"public_info","following");
 				Assert.assertEquals("mobile1 should be friend of himself", "true",f1);
 				Assert.assertEquals("mobile1 should be friend of mobile4", "true",f4);
-				Assert.assertEquals("mobile1 should NOT be friend of mobile2", "false",f2);
+				Assert.assertEquals("mobile1 should be in pending status with mobile2", "pending",f2);
+				Assert.assertEquals("mobile1 should NOT be friend of mobile6", "false",f6);
 			}
 		});
 	}

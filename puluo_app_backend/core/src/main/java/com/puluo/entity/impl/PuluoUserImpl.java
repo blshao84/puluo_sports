@@ -10,6 +10,7 @@ import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoFriendRequest;
 import com.puluo.entity.PuluoUser;
+import com.puluo.enumeration.FriendRequestStatus;
 import com.puluo.enumeration.PuluoUserType;
 import com.puluo.util.Strs;
 
@@ -250,15 +251,22 @@ public class PuluoUserImpl implements PuluoUser {
 	}
 
 	@Override
-	public boolean following(String other_uuid) {
+	public String following(String other_uuid) {
 		return following(other_uuid, DaoApi.getInstance());
 	}
 
-	public boolean following(String other_uuid, PuluoDSI dsi) {
+	public String following(String other_uuid, PuluoDSI dsi) {
 		if (other_uuid.equals(user_uuid)) {
-			return true;
+			return "true";
 		} else {
-			return dsi.friendshipDao().isFriend(user_uuid, other_uuid);
+			if (dsi.friendshipDao().isFriend(user_uuid, other_uuid)) {
+				return "true";
+			} else if (dsi.friendRequestDao().getFriendRequestByUsers(user_uuid,other_uuid,FriendRequestStatus.Requested).size()>0
+					|| dsi.friendRequestDao().getFriendRequestByUsers(other_uuid,user_uuid,FriendRequestStatus.Requested).size()>0) {
+				return "pending";
+			} else {
+				return "false";
+			}
 		}
 	}
 
