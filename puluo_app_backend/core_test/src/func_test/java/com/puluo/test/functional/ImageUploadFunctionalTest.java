@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.mashape.unirest.http.HttpResponse;
@@ -40,6 +41,7 @@ import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.Strs;
 
+@Ignore("https://github.com/blshao84/puluo_sports/issues/33")
 public class ImageUploadFunctionalTest extends APIFunctionalTest {
 	public static Log log = LogFactory.getLog(ImageUploadFunctionalTest.class);
 	static String mobile1 = "123456789";
@@ -95,9 +97,10 @@ public class ImageUploadFunctionalTest extends APIFunctionalTest {
 			@Override
 			public void run(String session) throws UnirestException {
 				HttpResponse<JsonNode> jsonResponse = Unirest
-						.post(Strs.join(host, "services/images/user"))
+						.post(Strs.join(host, "services/images/upload"))
 						.header("accept", "application/json")
 						.field("token", session).field("mock", "true")
+						.field("usage", "user")
 						.field("file", getFile()).asJson();
 				JsonNode json = jsonResponse.getBody();
 				String actualLink = getStringFromJson(json, "image_link");
@@ -121,10 +124,11 @@ public class ImageUploadFunctionalTest extends APIFunctionalTest {
 			@Override
 			public void run(String session) throws UnirestException {
 				HttpResponse<JsonNode> jsonResponse = Unirest
-						.post(Strs.join(host, "services/images/poster"))
+						.post(Strs.join(host, "services/images/upload"))
 						.header("accept", "application/json")
 						.field("token", session).field("mock", "true")
 						.field("event_uuid",event_uuid)
+						.field("usage", "poster")
 						.field("file", getFile()).asJson();
 				JsonNode json = jsonResponse.getBody();
 				String actualLink = getStringFromJson(json, "image_link");
@@ -150,10 +154,11 @@ public class ImageUploadFunctionalTest extends APIFunctionalTest {
 			@Override
 			public void run(String session) throws UnirestException {
 				HttpResponse<JsonNode> jsonResponse = Unirest
-						.post(Strs.join(host, "services/images/memory"))
+						.post(Strs.join(host, "services/images/upload"))
 						.header("accept", "application/json")
 						.field("token", session).field("mock", "true")
 						.field("event_uuid",event_uuid)
+						.field("usage", "memory")
 						.field("file", getFile()).asJson();
 				JsonNode json = jsonResponse.getBody();
 				String actualLink = getStringFromJson(json, "image_link");
