@@ -33,25 +33,30 @@ public class WechatMediaResourceDaoImpl extends DalTemplate implements
 					.toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
-			
-			String indexSQL1 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_id on ")
-					.append(super.getFullTableName())
+
+			String indexSQL1 = new StringBuilder()
+					.append("create index " + super.getFullTableName()
+							+ "_i_id on ").append(super.getFullTableName())
 					.append(" (id)").toString();
 			log.info(indexSQL1);
 			getWriter().execute(indexSQL1);
-			
-			String indexSQL2 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_media_news_id on ")
+
+			String indexSQL2 = new StringBuilder()
+					.append("create index " + super.getFullTableName()
+							+ "_i_media_news_id on ")
 					.append(super.getFullTableName())
 					.append(" (media_news_id)").toString();
 			log.info(indexSQL2);
 			getWriter().execute(indexSQL2);
-			
-			String indexSQL3 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_media_id on ")
-					.append(super.getFullTableName())
-					.append(" (media_id)").toString();
+
+			String indexSQL3 = new StringBuilder()
+					.append("create index " + super.getFullTableName()
+							+ "_i_media_id on ")
+					.append(super.getFullTableName()).append(" (media_id)")
+					.toString();
 			log.info(indexSQL3);
 			getWriter().execute(indexSQL3);
-			
+
 			return true;
 		} catch (Exception e) {
 			log.debug(e.getMessage());
@@ -62,7 +67,7 @@ public class WechatMediaResourceDaoImpl extends DalTemplate implements
 	@Override
 	public boolean saveMediaResource(String mediaID, String mediaName,
 			String mediaType, String mediaLink, String mediaItemTitle,
-			String medianNewsID) {
+			String mediaNewsID) {
 		try {
 			String insertSQL = new StringBuilder()
 					.append("insert into ")
@@ -70,7 +75,7 @@ public class WechatMediaResourceDaoImpl extends DalTemplate implements
 					.append(" (media_id, media_name, media_type,media_link,media_title,media_news_id)")
 					.append(" values ('" + mediaID + "', '" + mediaName
 							+ "', '" + mediaType + "', '" + mediaLink + "', '"
-							+ mediaItemTitle + "', '" + medianNewsID + "')")
+							+ mediaItemTitle + "', '" + mediaNewsID + "')")
 					.toString();
 			log.info(insertSQL);
 			getWriter().update(insertSQL);
@@ -79,6 +84,48 @@ public class WechatMediaResourceDaoImpl extends DalTemplate implements
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public boolean updateMediaResource(String mediaID, String mediaName,
+			String mediaType, String mediaLink, String mediaItemTitle,
+			String mediaNewsID) {
+		
+			StringBuilder updateClause = new StringBuilder();
+			if(!Strs.isEmpty(mediaName)) updateClause.append(" media_name = '").append(mediaName).append("',");
+			if(!Strs.isEmpty(mediaType)) updateClause.append(" media_type = '").append(mediaType).append("',");
+			if(!Strs.isEmpty(mediaLink)) updateClause.append(" media_link = '").append(mediaLink).append("',");
+			if(!Strs.isEmpty(mediaItemTitle)) updateClause.append(" media_title = '").append(mediaItemTitle).append("',");
+			if(!Strs.isEmpty(mediaNewsID)) updateClause.append(" media_news_id = '").append(mediaNewsID).append("'");
+			if(Strs.isEmpty(updateClause.toString())){
+				return false;
+			}else{
+				try {
+					String updateSQL = new StringBuilder()
+							.append("update ")
+							.append(super.getFullTableName())
+							.append(" set ")
+							.append(updateClause.toString())
+							.append(" where media_id = '").append(mediaID).append("'").toString();
+					log.info(updateSQL);
+					getWriter().update(updateSQL);
+				} catch (Exception e) {
+					log.info(e.getMessage());
+					return false;
+				}
+				return true;
+		}
+	}
+	
+	@Override
+	public boolean upsertMediaResource(String mediaID, String mediaName,
+			String mediaType, String mediaLink, String mediaItemTitle,
+			String mediaNewsID) {
+		WechatMediaResource res = getResourceByMediaID(mediaID);
+		if(res==null) 
+			return saveMediaResource(mediaID,mediaName,mediaType,mediaLink,mediaItemTitle,mediaNewsID);
+		else
+			return updateMediaResource(mediaID,mediaName,mediaType,mediaLink,mediaItemTitle,mediaNewsID);
 	}
 
 	@Override
@@ -92,13 +139,13 @@ public class WechatMediaResourceDaoImpl extends DalTemplate implements
 				new Object[] { mediaID }, new WechatMediaResourceMapper());
 		return verifyUniqueResult(entities);
 	}
-	
+
 	@Override
 	public List<WechatMediaResource> getResourceByNewsID(String mediaNewID) {
 		SqlReader reader = getReader();
 		String selectSQL = new StringBuilder().append("select * from ")
-				.append(super.getFullTableName()).append(" where media_news_id = ?")
-				.toString();
+				.append(super.getFullTableName())
+				.append(" where media_news_id = ?").toString();
 		log.info(super.sqlRequestLog(selectSQL, mediaNewID));
 		List<WechatMediaResource> entities = reader.query(selectSQL,
 				new Object[] { mediaNewID }, new WechatMediaResourceMapper());

@@ -14,4 +14,12 @@ public interface WechatMediaResourceDao {
 	public WechatMediaResource getResourceByMediaID(String mediaID);
 
 	public List<WechatMediaResource> getResourceByNewsID(String mediaNewID);
+
+	boolean updateMediaResource(String mediaID, String mediaName,
+			String mediaType, String mediaLink, String mediaItemTitle,
+			String medianNewsID);
+
+	boolean upsertMediaResource(String mediaID, String mediaName,
+			String mediaType, String mediaLink, String mediaItemTitle,
+			String medianNewsID);
 }
