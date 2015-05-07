@@ -95,6 +95,7 @@ class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
       "#name" #> renderText(name) &
       "#desc" #> renderText(desc) &
       "#coach-uuid" #> renderText(coachUUID) &
+      "#coach_link [href]" #> Strs.join("/user?uuid=",coachUUID.getOrElse("")) &
       "#coach-name *" #> coachName &
       "#coach-thumbnail [src]" #> coachThumb &
       "#details" #> renderTextArea(details) &
@@ -177,6 +178,11 @@ class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
       if (theInfo.duration() != 0) duration(Some(theInfo.duration()))
       if (theInfo.level() != null) level(Some(theInfo.level().name()))
       if (theInfo.eventType() != null) infoType(Some(theInfo.eventType().name()))
+      val posters = theInfo.poster()
+      val posterVars = Seq(poster1,poster2,poster3,poster4,poster5)
+      posters zip posterVars map {
+        case(p,v) => v(Some(p.imageURL()))
+      }
     }
   }
 

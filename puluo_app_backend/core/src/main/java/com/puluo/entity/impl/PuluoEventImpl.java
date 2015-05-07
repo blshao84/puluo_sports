@@ -34,16 +34,16 @@ public class PuluoEventImpl implements PuluoEvent {
 	public PuluoEventImpl(String uuid) {
 
 		this.uuid = uuid;
-		this.event_time = null;
-		this.status = null;
+		this.event_time = DateTime.now();
+		this.status = EventStatus.Open;
 		this.registeredUsers = 0;
 		this.capatcity = 0;
 		this.price = 0.0;
 		this.discountedPrice = 0.0;
-		this.info_uuid = null;
-		this.location_uuid = null;
-		this.hottest = 1;
-		this.dsi = null;
+		this.info_uuid = "";
+		this.location_uuid = "";
+		this.hottest = 0;
+		this.dsi = DaoApi.getInstance();
 	}
 	
 	public PuluoEventImpl(String uuid, DateTime event_time, EventStatus status,
