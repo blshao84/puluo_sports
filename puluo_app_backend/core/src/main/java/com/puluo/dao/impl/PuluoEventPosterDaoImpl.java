@@ -65,6 +65,10 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 	public boolean deleteByPosterUUID(String uuid){
 		return super.deleteByUniqueKey("event_poster_uuid", uuid);
 	}
+	
+	public boolean deleteByEventInfoUUID(String uuid){
+		return super.deleteByUniqueKey("event_info_uuid", uuid);
+	}
 
 	@Override
 	public boolean saveEventPhoto(PuluoEventPoster photo) {

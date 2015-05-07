@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.entity.PuluoEvent;
+import com.puluo.entity.PuluoEventInfo;
+import com.puluo.entity.PuluoEventLocation;
 import com.puluo.entity.impl.PuluoEventImpl;
 import com.puluo.enumeration.EventSortType;
 import com.puluo.enumeration.EventStatus;
@@ -213,6 +215,8 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 			int resCnt = reader.queryForInt(querySQL);
 			String updateSQL;
 			if (resCnt == 0) {
+				PuluoEventInfo info = event.eventInfo();
+				PuluoEventLocation loc = event.eventLocation();
 				updateSQL = new StringBuilder()
 						.append("insert into ")
 						.append(super.getFullTableName())
@@ -229,11 +233,10 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 						.append(event.capatcity() + ", ")
 						.append(event.originalPrice() + ", ")
 						.append(event.discountedPrice() + ", ")
-						.append(Strs.isEmpty(event.eventInfo().eventInfoUUID()) ? "null"
+						.append((info ==null || Strs.isEmpty(event.eventInfo().eventInfoUUID())) ? "null"
 								: "'" + event.eventInfo().eventInfoUUID() + "'")
 						.append(", ")
-						.append(Strs
-								.isEmpty(event.eventLocation().locationId()) ? "null"
+						.append((loc==null || Strs.isEmpty(event.eventLocation().locationId())) ? "null"
 								: "'" + event.eventLocation().locationId()
 										+ "'")
 						.append(",").append(event.hottest()).append(")").toString();

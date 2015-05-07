@@ -17,8 +17,7 @@ import java.util.HashMap
 import net.liftweb.common.Loggable
 import net.liftweb.http.Req
 import com.puluo.enumeration.PuluoImageType
-
-
+import com.puluo.session.PuluoSessionManager
 
 object PuluoPrivateServiceAPI extends RestHelper with PuluoAPIUtil with SMSSender with Loggable {
   serve {
@@ -26,20 +25,34 @@ object PuluoPrivateServiceAPI extends RestHelper with PuluoAPIUtil with SMSSende
       PuluoResponseFactory.createDummyJSONResponse(EmailServiceResult.dummy().toJson(), 201)
     }
     case "services" :: "images" :: "user" :: Nil Post req => {
+      val params = PuluoResponseFactory.createParamMap(Seq("token", "event_uuid", "mock"))
+      val mock = params.get("mock").map(_ == "true").getOrElse(false);
+      val token = params("token")
+      val userUUID = PuluoSessionManager.getUserUUID(token)
       val inputs = toImageUploadInputs(req)
-      val api = new ImageUploadServiceAPI(PuluoImageType.UserProfile, inputs)
+      val api = new ImageUploadServiceAPI(PuluoImageType.UserProfile, userUUID, null, inputs,mock)
       safeRun(api)
       PuluoResponseFactory.createJSONResponse(api, 201)
     }
     case "services" :: "images" :: "poster" :: Nil Post req => {
       val inputs = toImageUploadInputs(req)
-      val api = new ImageUploadServiceAPI(PuluoImageType.EventPoster, inputs)
+      val params = PuluoResponseFactory.createParamMap(Seq("token", "event_uuid", "mock"))
+      val mock = params.get("mock").map(_ == "true").getOrElse(false);
+      val token = params("token")
+      val eventUUID = params.get("event_uuid").getOrElse("")
+      val userUUID = PuluoSessionManager.getUserUUID(token)
+      val api = new ImageUploadServiceAPI(PuluoImageType.EventPoster, userUUID, eventUUID, inputs,mock)
       safeRun(api)
       PuluoResponseFactory.createJSONResponse(api, 201)
     }
     case "services" :: "images" :: "memory" :: Nil Post req => {
       val inputs = toImageUploadInputs(req)
-      val api = new ImageUploadServiceAPI(PuluoImageType.EventMemory, inputs)
+      val params = PuluoResponseFactory.createParamMap(Seq("token", "event_uuid", "mock"))
+      val mock = params.get("mock").map(_ == "true").getOrElse(false);
+      val token = params("token")
+      val eventUUID = params.get("event_uuid").getOrElse("")
+      val userUUID = PuluoSessionManager.getUserUUID(token)
+      val api = new ImageUploadServiceAPI(PuluoImageType.EventMemory, userUUID, eventUUID, inputs,mock)
       safeRun(api)
       PuluoResponseFactory.createJSONResponse(api, 201)
     }
@@ -47,7 +60,6 @@ object PuluoPrivateServiceAPI extends RestHelper with PuluoAPIUtil with SMSSende
       "sms_type" -> ErrorResponseResult(15).copy(message = "sms_type"),
       "mobile" -> ErrorResponseResult(15).copy(message = "mobile")))(doSendSMS)
 
-   
   }
 
   private def toImageUploadInputs(req: Req) = req.uploadedFiles.map { fph =>
