@@ -46,18 +46,10 @@ public class ImageUploadFunctionalTest extends APIFunctionalTest {
 	static String password1 = "abcdefg";
 	static String event_uuid = "event_uuid";
 	static String event_info_uuid = "event_info_uuid";
-	static File file;
-
+	
 	@BeforeClass
 	public static void setupDB() {
-		URL url = ImageUploadFunctionalTest.class
-				.getResource("/com/puluo/test/functional/util/puluoyundong.png");
-		try {
-			file = new File(url.toURI());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-			file = null;
-		}
+		
 		cleanupDB();
 		PuluoDSI dsi = DaoApi.getInstance();
 		dsi.userDao().save(mobile1, password1);
@@ -106,7 +98,7 @@ public class ImageUploadFunctionalTest extends APIFunctionalTest {
 						.post(Strs.join(host, "services/images/user"))
 						.header("accept", "application/json")
 						.field("token", session).field("mock", "true")
-						.field("file", file).asJson();
+						.field("file", getFile()).asJson();
 				JsonNode json = jsonResponse.getBody();
 				String actualLink = getStringFromJson(json, "image_link");
 				String thumbnail = DaoApi.getInstance().userDao()
@@ -133,7 +125,7 @@ public class ImageUploadFunctionalTest extends APIFunctionalTest {
 						.header("accept", "application/json")
 						.field("token", session).field("mock", "true")
 						.field("event_uuid",event_uuid)
-						.field("file", file).asJson();
+						.field("file", getFile()).asJson();
 				JsonNode json = jsonResponse.getBody();
 				String actualLink = getStringFromJson(json, "image_link");
 				PuluoEventInfo info = DaoApi.getInstance().eventInfoDao().getEventInfoByUUID(event_info_uuid);
@@ -162,7 +154,7 @@ public class ImageUploadFunctionalTest extends APIFunctionalTest {
 						.header("accept", "application/json")
 						.field("token", session).field("mock", "true")
 						.field("event_uuid",event_uuid)
-						.field("file", file).asJson();
+						.field("file", getFile()).asJson();
 				JsonNode json = jsonResponse.getBody();
 				String actualLink = getStringFromJson(json, "image_link");
 				PuluoEvent event = DaoApi.getInstance().eventDao().getEventByUUID(event_uuid);
@@ -178,6 +170,17 @@ public class ImageUploadFunctionalTest extends APIFunctionalTest {
 
 			}
 		});
+	}
+	
+	private File getFile() {
+		URL url = ImageUploadFunctionalTest.class
+				.getResource("/com/puluo/test/functional/util/puluoyundong.png");
+		try {
+			return new File(url.toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	abstract class ImageUploadFunctionalTestRunner implements
