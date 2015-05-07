@@ -270,12 +270,11 @@ public class WechatUtil {
 		if (info.poster() != null && !info.poster().isEmpty()) {
 			img = info.poster().get(0).imageURL();
 		} else {
-			img = "empty.jpeg";
+			img = String.format("%s%s", Configurations.imageServer,"empty.jpeg");
 		}
-		String url = String.format("%s%s", Configurations.imageServer, img);
 		String page_url = String.format(
 				"www.puluosports.com/single_event?uuid=%s", event.eventUUID());
-		return new WechatArticleMessage(name, desc, url, page_url, false);
+		return new WechatArticleMessage(name, desc, img, page_url, false);
 	}
 	
 	public static void main(String[] args) {
