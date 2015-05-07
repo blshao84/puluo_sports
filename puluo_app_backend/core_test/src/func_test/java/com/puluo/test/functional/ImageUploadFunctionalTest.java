@@ -46,9 +46,10 @@ public class ImageUploadFunctionalTest extends APIFunctionalTest {
 	static String password1 = "abcdefg";
 	static String event_uuid = "event_uuid";
 	static String event_info_uuid = "event_info_uuid";
-
 	static File file;
-	static {
+
+	@BeforeClass
+	public static void setupDB() {
 		URL url = ImageUploadFunctionalTest.class
 				.getResource("/com/puluo/test/functional/util/puluoyundong.png");
 		try {
@@ -57,10 +58,6 @@ public class ImageUploadFunctionalTest extends APIFunctionalTest {
 			e.printStackTrace();
 			file = null;
 		}
-	}
-
-	@BeforeClass
-	public static void setupDB() {
 		cleanupDB();
 		PuluoDSI dsi = DaoApi.getInstance();
 		dsi.userDao().save(mobile1, password1);
