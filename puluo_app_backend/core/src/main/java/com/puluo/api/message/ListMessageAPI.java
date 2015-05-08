@@ -46,8 +46,9 @@ public class ListMessageAPI extends PuluoAPI<PuluoDSI, ListMessageResult> {
 		log.info(String.format("开始查找从用户:%s到用户:%s的消息,since:%s", from_user_uuid,
 				to_user_uuid, since));
 		PuluoPrivateMessageDao messagedao = dsi.privateMessageDao();
+		DateTime now = DateTime.now();
 		List<PuluoPrivateMessage> messages = messagedao.getMessagesByUser(
-				from_user_uuid, to_user_uuid, since, DateTime.now(),limit,offset);
+				from_user_uuid, to_user_uuid, since, now,limit,offset);
 		List<MessageResult> messagelist = new ArrayList<MessageResult>();
 		for (int i = 0; i < messages.size(); i++) {
 			PuluoPrivateMessage msg = messages.get(i);
@@ -59,7 +60,8 @@ public class ListMessageAPI extends PuluoAPI<PuluoDSI, ListMessageResult> {
 					fromUser.thumbnailURL(), toUser.thumbnailURL(), msg.content(),
 					TimeUtils.dateTime2Millis(msg.createdAt())));
 		}
-		ListMessageResult result = new ListMessageResult(messagelist);
+		int total = messagedao.getMessagesCountByUser(from_user_uuid, to_user_uuid, since,now );
+		ListMessageResult result = new ListMessageResult(messagelist,total);
 		rawResult = result;
 	}
 }

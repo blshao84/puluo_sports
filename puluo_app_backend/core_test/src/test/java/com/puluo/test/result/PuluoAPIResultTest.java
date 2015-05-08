@@ -338,7 +338,7 @@ public class PuluoAPIResultTest {
 				+ "\"from_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"to_user_thumbnail\":\"http://upyun.com/puluo/xxxx\","
 				+ "\"content\":\"hi, this is Tracy!\","
-				+ "\"created_at\":1427007059034" + "}" + "]" + "}";
+				+ "\"created_at\":1427007059034" + "}" + "],\"total_count\":2" + "}";
 		String actualJsonResult = ListMessageResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}

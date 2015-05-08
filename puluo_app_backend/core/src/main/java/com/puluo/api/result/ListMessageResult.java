@@ -8,9 +8,11 @@ import com.puluo.util.HasJSON;
 
 public class ListMessageResult extends HasJSON {
 	public List<MessageResult> messages;
+	public int total_count;
 
-	public ListMessageResult(List<MessageResult> messages) {
+	public ListMessageResult(List<MessageResult> messages,int total_count) {
 		super();
+		this.total_count = total_count;
 		this.messages = messages;
 	}
 
@@ -32,6 +34,6 @@ public class ListMessageResult extends HasJSON {
 				"Tracey","Boydston",
 				"http://upyun.com/puluo/xxxx", "http://upyun.com/puluo/xxxx",
 				"hi, this is Tracy!", 1427007059034L));
-		return new ListMessageResult(messages);
+		return new ListMessageResult(messages,2);
 	}
 }
