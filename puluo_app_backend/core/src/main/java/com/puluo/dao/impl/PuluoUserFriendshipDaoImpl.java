@@ -64,18 +64,8 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 				.append(super.getFullTableName()).append(" where user_uuid = ?")
 				.toString();
 		log.info(super.sqlRequestLog(selectSQL, userUUID));
-		List<PuluoUserFriendship> entities = reader.query(selectSQL, new Object[] {userUUID},
-				new RowMapper<PuluoUserFriendship>() {
-					@Override
-					public PuluoUserFriendship mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						String[] friend_uuids = rs.getArray("friend_uuids")!=null ? (String[])rs.getArray("friend_uuids").getArray() : new String[]{};
-						PuluoUserFriendshipImpl puluoUserFriendship = new PuluoUserFriendshipImpl(
-								rs.getString("user_uuid"),
-								friend_uuids);
-						return puluoUserFriendship;
-					}
-				});
+		List<PuluoUserFriendship> entities = reader.query(
+				selectSQL, new Object[] {userUUID},new FriendshipMapper());
 
 		return verifyUniqueResult(entities);
 	}
@@ -192,5 +182,17 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 			log.info(e.getMessage());
 			return false;
 		}
+	}
+}
+
+class FriendshipMapper implements RowMapper<PuluoUserFriendship>{
+	@Override
+	public PuluoUserFriendship mapRow(ResultSet rs, int rowNum)
+			throws SQLException {
+		String[] friend_uuids = rs.getArray("friend_uuids")!=null ? (String[])rs.getArray("friend_uuids").getArray() : new String[]{};
+		PuluoUserFriendshipImpl puluoUserFriendship = new PuluoUserFriendshipImpl(
+				rs.getString("user_uuid"),
+				friend_uuids);
+		return puluoUserFriendship;
 	}
 }

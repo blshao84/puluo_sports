@@ -15,6 +15,7 @@ public abstract  class PuluoDSI {
 	public abstract  PuluoSessionDao sessionDao();
 	public abstract  PuluoUserDao userDao();
 	public abstract  PuluoUserFriendshipDao friendshipDao();
+	public abstract  PuluoUserBlacklistDao blacklistDao();
 	public abstract  PuluoOrderEventDao orderEventDao();
 	public abstract  PuluoUserSettingDao userSettingDao();
 	public abstract  PuluoAuthCodeRecordDao authCodeRecordDao();

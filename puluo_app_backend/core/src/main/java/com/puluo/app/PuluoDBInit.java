@@ -20,6 +20,7 @@ public class PuluoDBInit {
 		dsi.privateMessageDao().createTable();
 		dsi.friendRequestDao().createTable();
 		dsi.friendshipDao().createTable();
+		dsi.blacklistDao().createTable();
 		dsi.wechatMediaResourceDao().createTable();
 		dsi.paymentDao().createTable();
 		dsi.orderEventDao().createTable();

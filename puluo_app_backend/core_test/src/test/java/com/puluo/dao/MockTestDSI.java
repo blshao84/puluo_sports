@@ -116,4 +116,10 @@ public class MockTestDSI extends PuluoDSI {
 		return null;
 	}
 
+	@Override
+	public PuluoUserBlacklistDao blacklistDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -13,7 +13,7 @@ import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoUser;
 import com.puluo.entity.PuluoUserFriendship;
-import com.puluo.entity.impl.PuluoFriendInfo;
+import com.puluo.entity.impl.PuluoUserInfo;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 
@@ -39,8 +39,8 @@ public class ListFriendsAPI extends PuluoAPI<PuluoDSI, ListFriendsResult> {
 			List<ListFriendsResultDetail> friend_detail = new ArrayList<ListFriendsResultDetail>();
 			PuluoUserFriendship friendlist = friendshipdao.getFriendListByUUID(user().userUUID());
 			if (friendlist!=null) {
-				List<PuluoFriendInfo> friends = friendlist.friends();
-				for (PuluoFriendInfo friend: friends) {
+				List<PuluoUserInfo> friends = friendlist.friends();
+				for (PuluoUserInfo friend: friends) {
 					friend_detail.add(new ListFriendsResultDetail(friend.user_uuid,
 							new ListFriendsPublicResult(
 									friend.first_name, 

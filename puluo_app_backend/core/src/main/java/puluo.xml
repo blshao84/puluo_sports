@@ -157,6 +157,10 @@
 		<property name="fullTableName" value="puluo_friendship"></property>
 	</bean>	
 	
+	<bean id="blacklistDao" class="com.puluo.dao.impl.PuluoUserBlacklistDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_user_blacklist"></property>
+	</bean>	
+	
 	<bean id="orderEventDao" class="com.puluo.dao.impl.PuluoOrderEventDaoImpl" parent="dalTemplate">
 		<property name="fullTableName" value="puluo_order_event"></property>
 	</bean>	

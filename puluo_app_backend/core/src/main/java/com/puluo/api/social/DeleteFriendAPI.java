@@ -9,7 +9,7 @@ import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoUserFriendship;
-import com.puluo.entity.impl.PuluoFriendInfo;
+import com.puluo.entity.impl.PuluoUserInfo;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 
@@ -34,7 +34,7 @@ public class DeleteFriendAPI extends PuluoAPI<PuluoDSI,DeleteFriendResult> {
 		PuluoUserFriendshipDao friendshipdao = dsi.friendshipDao();
 		List<String> newFriends = new ArrayList<String>();
 		PuluoUserFriendship friendship = friendshipdao.deleteOneFriend(fromUser,toUser);
-		for(PuluoFriendInfo info:friendship.friends()){
+		for(PuluoUserInfo info:friendship.friends()){
 			newFriends.add(info.user_uuid);
 		}
 		DeleteFriendResult result = new DeleteFriendResult(newFriends);

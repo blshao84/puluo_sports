@@ -152,6 +152,11 @@
 		parent="testDevDao">
 		<property name="fullTableName" value="puluo_friendship"></property>
 	</bean>
+	
+	<bean id="blacklistDevDao" class="com.puluo.dao.impl.PuluoUserBlacklistDaoImpl"
+		parent="testDevDao">
+		<property name="fullTableName" value="puluo_user_blacklist"></property>
+	</bean>
 
 	<bean id="settingDevDao" class="com.puluo.dao.impl.PuluoUserSettingDaoImpl"
 		parent="testDevDao">

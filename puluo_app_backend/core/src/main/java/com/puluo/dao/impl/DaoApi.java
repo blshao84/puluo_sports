@@ -15,6 +15,7 @@ import com.puluo.dao.PuluoPostDao;
 import com.puluo.dao.PuluoPostLikeDao;
 import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.dao.PuluoSessionDao;
+import com.puluo.dao.PuluoUserBlacklistDao;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.PuluoUserSettingDao;
@@ -35,6 +36,7 @@ public class DaoApi extends PuluoDSI {
 	protected PuluoSessionDao sessionDao;
 	protected PuluoUserDao userDao;
 	protected PuluoUserFriendshipDao friendshipDao;
+	protected PuluoUserBlacklistDao blacklistDao;
 	protected PuluoOrderEventDao orderEventDao;
 	protected PuluoUserSettingDao userSettingDao;
 	protected PuluoAuthCodeRecordDao authCodeRecordDao;
@@ -64,6 +66,8 @@ public class DaoApi extends PuluoDSI {
 		userDao = BeanFactory.getBean(PuluoUserDao.class, "userDao");
 		friendshipDao = BeanFactory.getBean(PuluoUserFriendshipDao.class,
 				"friendshipDao");
+		blacklistDao = BeanFactory.getBean(PuluoUserBlacklistDao.class,
+				"blacklistDao");
 		orderEventDao = BeanFactory.getBean(PuluoOrderEventDao.class,
 				"orderEventDao");
 		userSettingDao = BeanFactory.getBean(PuluoUserSettingDao.class,
@@ -199,5 +203,10 @@ public class DaoApi extends PuluoDSI {
 	@Override
 	public WechatMediaResourceDao wechatMediaResourceDao() {
 		return wechatMediaResourceDao;
+	}
+
+	@Override
+	public PuluoUserBlacklistDao blacklistDao() {
+		return blacklistDao;
 	}
 }

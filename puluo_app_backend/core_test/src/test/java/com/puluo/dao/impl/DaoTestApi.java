@@ -16,6 +16,7 @@ import com.puluo.dao.PuluoPostDao;
 import com.puluo.dao.PuluoPostLikeDao;
 import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.dao.PuluoSessionDao;
+import com.puluo.dao.PuluoUserBlacklistDao;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.PuluoUserSettingDao;
@@ -32,6 +33,7 @@ public class DaoTestApi extends PuluoDSI {
 	public static PuluoUserDao userDevDao	= BeanTestFactory.getBean(PuluoUserDaoImpl.class, "userDevDao");
 	public static PuluoSessionDao sessionDevDao	= BeanTestFactory.getBean(PuluoSessionDaoImpl.class, "sessionDevDao");
 	public static PuluoUserFriendshipDao friendDevDao	= BeanTestFactory.getBean(PuluoUserFriendshipDao.class, "friendDevDao");
+	public static PuluoUserBlacklistDao blacklistDevDao	= BeanTestFactory.getBean(PuluoUserBlacklistDao.class, "blacklistDevDao");
 	public static PuluoUserSettingDao settingDevDao	= BeanTestFactory.getBean(PuluoUserSettingDao.class, "settingDevDao");
 	public static PuluoAuthCodeRecordDao authCodeRecordDevDao	= BeanTestFactory.getBean(PuluoAuthCodeRecordDao.class, "authCodeRecordDevDao");
 	public static PuluoEventPosterDao eventPosterDevDao	= BeanTestFactory.getBean(PuluoEventPosterDao.class, "eventPosterDevDao");
@@ -158,6 +160,11 @@ public class DaoTestApi extends PuluoDSI {
 	@Override
 	public WechatMediaResourceDao wechatMediaResourceDao() {
 		return wechatMediaResourceDao;
+	}
+
+	@Override
+	public PuluoUserBlacklistDao blacklistDao() {
+		return blacklistDevDao;
 	}
 
 }

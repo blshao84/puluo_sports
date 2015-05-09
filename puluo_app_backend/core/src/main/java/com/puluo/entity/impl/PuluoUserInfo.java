@@ -1,6 +1,6 @@
 package com.puluo.entity.impl;
 
-public class PuluoFriendInfo {
+public class PuluoUserInfo {
 
 	public final String user_uuid;
 	public final String last_name;
@@ -10,7 +10,7 @@ public class PuluoFriendInfo {
 	public final String user_thumbnail;
 	public final String user_saying;
 
-	public PuluoFriendInfo(String user_uuid, String last_name,
+	public PuluoUserInfo(String user_uuid, String last_name,
 			String first_name, String user_email, String user_mobile,
 			String user_thumbnail, String user_saying) {
 		super();

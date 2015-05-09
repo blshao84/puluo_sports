@@ -7,29 +7,16 @@ import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoUser;
-import com.puluo.entity.PuluoUserFriendship;
+import com.puluo.entity.PuluoUserBlacklist;
 
-public class PuluoUserFriendshipImpl implements PuluoUserFriendship {
+public class PuluoUserBlacklistImpl implements PuluoUserBlacklist {
 
 	private final String user_uuid;
-	private final String[] friend_uuids;
-	private PuluoDSI dsi;
+	private final String[] banned_uuids;
 
-	public PuluoUserFriendshipImpl(String user_uuid, String[] friend_uuids) {
-		this(user_uuid, friend_uuids, DaoApi.getInstance());
-	}
-
-	public PuluoUserFriendshipImpl(String user_uuid, String[] friend_uuids,
-			PuluoDSI dsi) {
-		super();
+	public PuluoUserBlacklistImpl(String user_uuid, String[] banned_uuids) {
 		this.user_uuid = user_uuid;
-		this.friend_uuids = friend_uuids;
-		this.dsi = dsi;
-	}
-
-	@Override
-	public void setDSI(PuluoDSI dsi) {
-		this.dsi = dsi;
+		this.banned_uuids = banned_uuids;
 	}
 
 	@Override
@@ -38,7 +25,11 @@ public class PuluoUserFriendshipImpl implements PuluoUserFriendship {
 	}
 
 	@Override
-	public List<PuluoUserInfo> friends() {
+	public List<PuluoUserInfo> bannedUsers() {
+		return bannedUsers(DaoApi.getInstance());
+	}
+
+	public List<PuluoUserInfo> bannedUsers(PuluoDSI dsi) {
 		ArrayList<PuluoUserInfo> puluoFriendInfoList = new ArrayList<PuluoUserInfo>();
 		PuluoUserDao puluoUserDao = dsi.userDao();
 		PuluoUser puluoUser;
@@ -48,19 +39,28 @@ public class PuluoUserFriendshipImpl implements PuluoUserFriendship {
 		String user_mobile;
 		String user_thumbnail;
 		String user_saying;
-		for (String friend_uuid : friend_uuids) {
-			puluoUser = puluoUserDao.getByUUID(friend_uuid);
+		for (String banned_uuid : banned_uuids) {
+			puluoUser = puluoUserDao.getByUUID(banned_uuid);
 			last_name = puluoUser.lastName();
 			first_name = puluoUser.firstName();
 			user_email = puluoUser.email();
 			user_mobile = puluoUser.mobile();
 			user_thumbnail = puluoUser.thumbnailURL();
 			user_saying = puluoUser.saying();
-			puluoFriendInfoList.add(new PuluoUserInfo(friend_uuid, last_name,
+			puluoFriendInfoList.add(new PuluoUserInfo(banned_uuid, last_name,
 					first_name, user_email, user_mobile, user_thumbnail,
 					user_saying));
 		}
 		return puluoFriendInfoList;
+	}
+
+	@Override
+	public List<String> bannedUUIDs() {
+		List<String> ids = new ArrayList<String>();
+		for(String banned_uuid : banned_uuids ){
+			ids.add(banned_uuid);
+		}
+		return ids;
 	}
 
 }
