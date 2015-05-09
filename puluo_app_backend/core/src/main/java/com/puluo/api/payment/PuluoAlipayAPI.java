@@ -3,7 +3,6 @@ package com.puluo.api.payment;
 import java.util.HashMap;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.AlipaymentResult;
 import com.puluo.config.Configurations;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
@@ -16,6 +15,7 @@ import com.puluo.enumeration.OrderEventType;
 import com.puluo.enumeration.PuluoOrderStatus;
 import com.puluo.payment.alipay.AlipayNotify;
 import com.puluo.payment.alipay.AlipayUtil;
+import com.puluo.result.event.AlipaymentResult;
 import com.puluo.service.PuluoService;
 import com.puluo.service.util.JuheSMSResult;
 import com.puluo.util.Log;

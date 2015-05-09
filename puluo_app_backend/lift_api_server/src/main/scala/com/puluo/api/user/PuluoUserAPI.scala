@@ -6,11 +6,6 @@ import com.puluo.api.util.PuluoSession
 import com.puluo.api.util.SessionInfo
 import net.liftweb.http.js.JsExp.strToJsExp
 import com.puluo.api.util.PuluoResponseFactory
-import com.puluo.api.result.UserProfileResult
-import com.puluo.api.result.UserProfileUpdateResult
-import com.puluo.api.result.UserSearchResult
-import com.puluo.api.result.UserSettingResult
-import com.puluo.api.result.UserSettingUpdateResult
 import net.liftweb.common.Loggable
 import com.puluo.api.setting.UserSettingAPI
 import com.puluo.api.util.PuluoAPIUtil

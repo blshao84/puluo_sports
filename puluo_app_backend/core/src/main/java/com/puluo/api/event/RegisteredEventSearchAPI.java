@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.EventSearchResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.dao.PuluoPaymentDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoPaymentOrder;
+import com.puluo.result.event.EventSearchResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 

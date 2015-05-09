@@ -6,10 +6,6 @@ import com.puluo.api.util.PuluoSession
 import com.puluo.api.util.SessionInfo
 import net.liftweb.http.js.JsExp.strToJsExp
 import com.puluo.api.util.PuluoResponseFactory
-import com.puluo.api.result.UserLoginResult
-import com.puluo.api.result.UserLogoutResult
-import com.puluo.api.result.UserRegistrationResult
-import com.puluo.api.result.UserPasswordUpdateResult
 import com.puluo.entity.impl.PuluoSessionImpl
 import org.joda.time.DateTime
 import net.liftweb.http.S
@@ -17,7 +13,6 @@ import net.liftweb.common.Full
 import net.liftweb.common.Empty
 import com.puluo.api.util.ErrorResponseResult
 import com.puluo.api.util.PuluoAPIUtil
-import com.puluo.api.result.ApiErrorResult
 import net.liftweb.json.Printer
 import net.liftweb.json.JsonAST
 import net.liftweb.common.Loggable

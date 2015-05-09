@@ -5,8 +5,6 @@ import com.puluo.api.util.PuluoSession
 import com.puluo.api.util.SessionInfo
 import net.liftweb.http.js.JsExp.strToJsExp
 import com.puluo.api.util.PuluoResponseFactory
-import com.puluo.api.result.SendMessageResult
-import com.puluo.api.result.ListMessageResult
 import com.puluo.api.util.PuluoAPIUtil
 import net.liftweb.common.Loggable
 import com.puluo.api.util.ErrorResponseResult

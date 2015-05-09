@@ -1,12 +1,12 @@
 package com.puluo.api.user;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.ApiErrorResult;
-import com.puluo.api.result.UserProfileUpdateResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoUser;
+import com.puluo.result.ApiErrorResult;
+import com.puluo.result.user.UserProfileUpdateResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.Strs;

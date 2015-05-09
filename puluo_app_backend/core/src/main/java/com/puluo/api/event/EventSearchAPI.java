@@ -5,7 +5,6 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.EventSearchResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.dao.impl.DaoApi;
@@ -15,6 +14,7 @@ import com.puluo.enumeration.EventStatus;
 import com.puluo.enumeration.PuluoEventCategory;
 import com.puluo.enumeration.PuluoEventLevel;
 import com.puluo.enumeration.SortDirection;
+import com.puluo.result.event.EventSearchResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.TimeUtils;

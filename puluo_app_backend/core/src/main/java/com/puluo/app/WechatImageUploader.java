@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.puluo.api.result.ImageUploadServiceResult;
 import com.puluo.dao.WechatMediaResourceDao;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.result.ImageUploadServiceResult;
 import com.puluo.service.PuluoService;
 import com.puluo.weichat.PuluoWechatTokenCache;
 import com.puluo.weichat.WechatImageMediaListResult;

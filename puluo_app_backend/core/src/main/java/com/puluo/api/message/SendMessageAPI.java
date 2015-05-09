@@ -5,8 +5,6 @@ import java.util.UUID;
 import org.joda.time.DateTime;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.ApiErrorResult;
-import com.puluo.api.result.SendMessageResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.dao.impl.DaoApi;
@@ -14,6 +12,8 @@ import com.puluo.entity.PuluoPrivateMessage;
 import com.puluo.entity.PuluoUser;
 import com.puluo.entity.impl.PuluoPrivateMessageImpl;
 import com.puluo.enumeration.PuluoMessageType;
+import com.puluo.result.ApiErrorResult;
+import com.puluo.result.message.SendMessageResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.TimeUtils;

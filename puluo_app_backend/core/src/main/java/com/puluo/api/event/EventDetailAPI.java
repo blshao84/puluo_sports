@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.ApiErrorResult;
-import com.puluo.api.result.EventDetailResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.dao.impl.DaoApi;
@@ -14,6 +12,8 @@ import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventLocation;
 import com.puluo.entity.PuluoEventMemory;
 import com.puluo.entity.PuluoEventPoster;
+import com.puluo.result.ApiErrorResult;
+import com.puluo.result.event.EventDetailResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.TimeUtils;

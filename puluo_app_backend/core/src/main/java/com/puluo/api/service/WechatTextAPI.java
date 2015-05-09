@@ -7,7 +7,6 @@ import org.joda.time.DateTime;
 
 import com.puluo.api.auth.UserRegistrationAPI;
 import com.puluo.api.event.EventSearchAPI;
-import com.puluo.api.result.ApiErrorResult;
 import com.puluo.api.result.wechat.WechatArticleMessage;
 import com.puluo.api.result.wechat.WechatMessage;
 import com.puluo.api.result.wechat.WechatNewsMessage;
@@ -20,6 +19,7 @@ import com.puluo.enumeration.EventSortType;
 import com.puluo.enumeration.EventStatus;
 import com.puluo.enumeration.PuluoSMSType;
 import com.puluo.enumeration.SortDirection;
+import com.puluo.result.ApiErrorResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.PasswordEncryptionUtil;

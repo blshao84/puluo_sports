@@ -1,13 +1,13 @@
 package com.puluo.api.auth;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.ApiErrorResult;
-import com.puluo.api.result.UserPasswordUpdateResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoAuthCodeRecord;
 import com.puluo.entity.PuluoUser;
+import com.puluo.result.ApiErrorResult;
+import com.puluo.result.user.UserPasswordUpdateResult;
 
 public class UserPasswordUpdateAPI extends
 		PuluoAPI<PuluoDSI, UserPasswordUpdateResult> {

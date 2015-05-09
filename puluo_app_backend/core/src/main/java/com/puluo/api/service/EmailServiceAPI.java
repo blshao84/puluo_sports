@@ -1,9 +1,9 @@
 package com.puluo.api.service;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.EmailServiceResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.result.EmailServiceResult;
 
 
 public class EmailServiceAPI extends PuluoAPI<PuluoDSI,EmailServiceResult> {

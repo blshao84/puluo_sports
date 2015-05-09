@@ -4,7 +4,7 @@ import net.liftweb.http.LiftResponse
 import net.liftweb.http.S
 import com.puluo.api.PuluoAPI
 import net.liftweb.common.Loggable
-import com.puluo.api.result.ApiErrorResult
+import com.puluo.result.ApiErrorResult
 
 trait PuluoAPIUtil extends Loggable {
 

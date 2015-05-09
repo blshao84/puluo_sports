@@ -13,8 +13,8 @@ import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.puluo.api.result.ImageUploadServiceResult;
 import com.puluo.config.Configurations;
+import com.puluo.result.ImageUploadServiceResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.Strs;

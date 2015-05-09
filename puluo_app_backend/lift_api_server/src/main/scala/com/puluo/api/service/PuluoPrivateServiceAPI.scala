@@ -8,9 +8,6 @@ import com.puluo.api.util.PuluoSession
 import com.puluo.api.util.SessionInfo
 import net.liftweb.http.js.JsExp.strToJsExp
 import com.puluo.api.util.PuluoResponseFactory
-import com.puluo.api.result.EmailServiceResult
-import com.puluo.api.result.SMSServiceResult
-import com.puluo.api.result.ImageUploadServiceResult
 import com.puluo.api.util.PuluoAPIUtil
 import com.puluo.api.util.ErrorResponseResult
 import java.util.HashMap
@@ -19,6 +16,7 @@ import net.liftweb.http.Req
 import com.puluo.enumeration.PuluoImageType
 import com.puluo.session.PuluoSessionManager
 import net.liftweb.http.LiftResponse
+import com.puluo.result.EmailServiceResult
 
 object PuluoPrivateServiceAPI extends RestHelper with PuluoAPIUtil with SMSSender with Loggable {
   serve {

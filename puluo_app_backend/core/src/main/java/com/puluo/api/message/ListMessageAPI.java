@@ -6,13 +6,13 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.ListMessageResult;
-import com.puluo.api.result.MessageResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoPrivateMessage;
 import com.puluo.entity.PuluoUser;
+import com.puluo.result.message.ListMessageResult;
+import com.puluo.result.message.MessageResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.TimeUtils;

@@ -3,12 +3,12 @@ package com.puluo.api.auth;
 import org.joda.time.DateTime;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.ApiErrorResult;
-import com.puluo.api.result.UserLoginResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoSession;
 import com.puluo.entity.PuluoUser;
+import com.puluo.result.ApiErrorResult;
+import com.puluo.result.user.UserLoginResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 

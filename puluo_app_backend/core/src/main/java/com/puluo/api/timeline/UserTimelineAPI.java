@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.ApiErrorResult;
-import com.puluo.api.result.UserTimelineResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoPostDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoTimelinePost;
+import com.puluo.result.ApiErrorResult;
+import com.puluo.result.UserTimelineResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 

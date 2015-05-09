@@ -5,12 +5,12 @@ import java.util.Map;
 import java.util.Random;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.ApiErrorResult;
-import com.puluo.api.result.SMSServiceResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.enumeration.PuluoAuthCodeType;
 import com.puluo.enumeration.PuluoSMSType;
+import com.puluo.result.ApiErrorResult;
+import com.puluo.result.SMSServiceResult;
 import com.puluo.service.PuluoService;
 import com.puluo.service.util.JuheSMSResult;
 import com.puluo.util.Log;

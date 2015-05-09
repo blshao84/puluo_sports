@@ -1,11 +1,11 @@
 package com.puluo.api.timeline;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.ApiErrorResult;
-import com.puluo.api.result.LikeTimelineResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoPostLikeDao;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.result.ApiErrorResult;
+import com.puluo.result.LikeTimelineResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 

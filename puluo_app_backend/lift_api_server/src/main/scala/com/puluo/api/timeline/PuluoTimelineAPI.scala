@@ -5,10 +5,8 @@ import com.puluo.api.util.PuluoSession
 import com.puluo.api.util.SessionInfo
 import net.liftweb.http.js.JsExp.strToJsExp
 import com.puluo.api.util.PuluoResponseFactory
-import com.puluo.api.result.UserTimelineResult
-import com.puluo.api.result.LikeTimelineResult
-import com.puluo.api.result.CommentTimelineResult
-import com.puluo.api.result.DeleteTimelineCommentResult
+import com.puluo.result._
+
 
 object PuluoTimelineAPI extends RestHelper {
   serve {

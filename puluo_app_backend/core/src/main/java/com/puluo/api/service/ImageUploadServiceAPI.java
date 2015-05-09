@@ -6,8 +6,6 @@ import java.util.UUID;
 import org.joda.time.DateTime;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.ApiErrorResult;
-import com.puluo.api.result.ImageUploadServiceResult;
 import com.puluo.config.Configurations;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoEventDao;
@@ -23,6 +21,8 @@ import com.puluo.entity.PuluoUser;
 import com.puluo.entity.impl.PuluoEventMemoryImpl;
 import com.puluo.entity.impl.PuluoEventPosterImpl;
 import com.puluo.enumeration.PuluoImageType;
+import com.puluo.result.ApiErrorResult;
+import com.puluo.result.ImageUploadServiceResult;
 import com.puluo.service.PuluoService;
 import com.puluo.util.Strs;
 

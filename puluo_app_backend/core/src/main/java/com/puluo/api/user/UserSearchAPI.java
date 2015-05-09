@@ -3,11 +3,11 @@ package com.puluo.api.user;
 import java.util.List;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.UserSearchResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoUser;
+import com.puluo.result.user.UserSearchResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 

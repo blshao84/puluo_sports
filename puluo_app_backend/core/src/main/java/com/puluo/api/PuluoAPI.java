@@ -1,7 +1,7 @@
 package com.puluo.api;
 
-import com.puluo.api.result.ApiErrorResult;
 import com.puluo.dao.PuluoDSI;
+import com.puluo.result.ApiErrorResult;
 import com.puluo.util.HasJSON;
 
 public abstract class PuluoAPI<DSI extends PuluoDSI, RESULT extends HasJSON> {

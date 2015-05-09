@@ -9,7 +9,7 @@ import net.liftweb.json._
 import com.puluo.api.PuluoAPI
 import net.liftweb.http.S
 import net.liftweb.common.Loggable
-import com.puluo.api.result.ApiErrorResult
+import com.puluo.result.ApiErrorResult
 
 object PuluoResponseFactory extends Loggable{
 

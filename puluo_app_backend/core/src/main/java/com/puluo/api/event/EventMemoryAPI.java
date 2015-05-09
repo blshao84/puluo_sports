@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.EventMemoryResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoEventMemoryDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEventMemory;
 import com.puluo.entity.impl.PuluoEventMemoryImpl;
+import com.puluo.result.event.EventMemoryResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 

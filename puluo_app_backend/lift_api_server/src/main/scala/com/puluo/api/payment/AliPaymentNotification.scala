@@ -1,20 +1,21 @@
 package com.puluo.api.payment
 
-import net.liftweb.http.rest.RestHelper
-import scala.collection.JavaConversions._
-import net.liftweb.common.Loggable
-import net.liftweb.http.LiftResponse
-import net.liftweb.http.Req
-import net.liftweb.http.ForbiddenResponse
-import net.liftweb.common.Box
-import net.liftweb.common.Full
-import net.liftweb.http.PlainTextResponse
-import net.liftweb.common.Box._
-import net.liftweb.http.S
 import java.util.HashMap
-import com.puluo.api.result.AlipaymentResult
-import com.puluo.api.util.PuluoAPIUtil
+
 import scala.xml.XML
+
+import com.puluo.api.util.PuluoAPIUtil
+
+import net.liftweb.common.Box
+import net.liftweb.common.Box.box2Option
+import net.liftweb.common.Full
+import net.liftweb.common.Loggable
+import net.liftweb.http.ForbiddenResponse
+import net.liftweb.http.LiftResponse
+import net.liftweb.http.PlainTextResponse
+import net.liftweb.http.Req
+import net.liftweb.http.S
+import net.liftweb.http.rest.RestHelper
 
 object AliPaymentNotification extends RestHelper with PuluoAPIUtil with Loggable {
   serve {

@@ -8,13 +8,13 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.ListMessageSummaryResult;
-import com.puluo.api.result.MessageSummaryResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoPrivateMessage;
 import com.puluo.entity.PuluoUser;
+import com.puluo.result.message.ListMessageSummaryResult;
+import com.puluo.result.message.MessageSummaryResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.TimeUtils;

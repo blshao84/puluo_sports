@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.ApiErrorResult;
-import com.puluo.api.result.ListFriendsPublicResult;
-import com.puluo.api.result.ListFriendsResult;
-import com.puluo.api.result.ListFriendsResultDetail;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoUser;
 import com.puluo.entity.PuluoUserFriendship;
 import com.puluo.entity.impl.PuluoUserInfo;
+import com.puluo.result.ApiErrorResult;
+import com.puluo.result.user.ListFriendsPublicResult;
+import com.puluo.result.user.ListFriendsResult;
+import com.puluo.result.user.ListFriendsResultDetail;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 

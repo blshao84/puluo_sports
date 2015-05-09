@@ -6,27 +6,27 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.puluo.api.result.ApproveFriendResult;
-import com.puluo.api.result.DeleteFriendResult;
-import com.puluo.api.result.DenyFriendResult;
-import com.puluo.api.result.EmailServiceResult;
-import com.puluo.api.result.EventDetailResult;
-import com.puluo.api.result.ListFriendsResult;
-import com.puluo.api.result.ListMessageResult;
-import com.puluo.api.result.PuluoConfigurationResult;
-import com.puluo.api.result.RequestFriendResult;
-import com.puluo.api.result.SMSServiceResult;
-import com.puluo.api.result.SendMessageResult;
-import com.puluo.api.result.UserLoginResult;
-import com.puluo.api.result.UserLogoutResult;
-import com.puluo.api.result.UserPasswordUpdateResult;
-import com.puluo.api.result.UserProfileResult;
-import com.puluo.api.result.UserProfileUpdateResult;
-import com.puluo.api.result.UserRegistrationResult;
-import com.puluo.api.result.UserSearchResult;
-import com.puluo.api.result.UserSettingResult;
-import com.puluo.api.result.UserSettingUpdateResult;
-import com.puluo.api.result.UserTimelineResult;
+import com.puluo.result.EmailServiceResult;
+import com.puluo.result.PuluoConfigurationResult;
+import com.puluo.result.SMSServiceResult;
+import com.puluo.result.UserTimelineResult;
+import com.puluo.result.event.EventDetailResult;
+import com.puluo.result.message.ApproveFriendResult;
+import com.puluo.result.message.DeleteFriendResult;
+import com.puluo.result.message.ListMessageResult;
+import com.puluo.result.message.RequestFriendResult;
+import com.puluo.result.message.SendMessageResult;
+import com.puluo.result.user.DenyFriendResult;
+import com.puluo.result.user.ListFriendsResult;
+import com.puluo.result.user.UserLoginResult;
+import com.puluo.result.user.UserLogoutResult;
+import com.puluo.result.user.UserPasswordUpdateResult;
+import com.puluo.result.user.UserProfileResult;
+import com.puluo.result.user.UserProfileUpdateResult;
+import com.puluo.result.user.UserRegistrationResult;
+import com.puluo.result.user.UserSearchResult;
+import com.puluo.result.user.UserSettingResult;
+import com.puluo.result.user.UserSettingUpdateResult;
 
 public class PuluoAPIResultTest {
 

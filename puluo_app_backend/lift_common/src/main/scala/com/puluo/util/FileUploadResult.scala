@@ -6,8 +6,8 @@ import javax.imageio.ImageIO
 import net.liftweb.json.Serialization
 import net.liftweb.json.DefaultFormats
 import net.liftweb.json.Extraction
-import com.puluo.api.result.ImageUploadServiceResult
 import net.liftweb.common.Loggable
+import com.puluo.result.ImageUploadServiceResult
 
 trait JQueryFileUploadResult {
   def name:String

@@ -5,11 +5,6 @@ import com.puluo.api.util.PuluoSession
 import com.puluo.api.util.SessionInfo
 import net.liftweb.http.js.JsExp.strToJsExp
 import com.puluo.api.util.PuluoResponseFactory
-import com.puluo.api.result.ListFriendsResult
-import com.puluo.api.result.RequestFriendResult
-import com.puluo.api.result.DeleteFriendResult
-import com.puluo.api.result.DenyFriendResult
-import com.puluo.api.result.ApproveFriendResult
 import com.puluo.api.social.ListFriendsAPI
 import com.puluo.api.util.PuluoAPIUtil
 import net.liftweb.common.Loggable

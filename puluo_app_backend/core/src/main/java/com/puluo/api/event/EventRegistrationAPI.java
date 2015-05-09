@@ -8,8 +8,6 @@ import org.joda.time.DateTime;
 
 import com.puluo.api.PuluoAPI;
 import com.puluo.api.payment.PuluoAlipayAPI;
-import com.puluo.api.result.ApiErrorResult;
-import com.puluo.api.result.EventRegistrationResult;
 import com.puluo.config.Configurations;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
@@ -22,6 +20,8 @@ import com.puluo.entity.payment.impl.PuluoOrderStateMachine;
 import com.puluo.enumeration.OrderEventType;
 import com.puluo.enumeration.PuluoOrderStatus;
 import com.puluo.payment.alipay.AlipayUtil;
+import com.puluo.result.ApiErrorResult;
+import com.puluo.result.event.EventRegistrationResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 

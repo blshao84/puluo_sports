@@ -1,8 +1,8 @@
 package com.puluo.api;
 
-import com.puluo.api.result.ApiTestResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.result.ApiTestResult;
 import com.puluo.util.Strs;
 
 public class DemoAPI extends PuluoAPI<PuluoDSI,ApiTestResult> {

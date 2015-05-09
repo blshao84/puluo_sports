@@ -6,7 +6,6 @@ import org.mockito.Matchers;
 import org.mockito.Mockito;
 
 import com.puluo.api.event.EventRegistrationAPI;
-import com.puluo.api.result.ApiErrorResult;
 import com.puluo.dao.MockTestDSI;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoEventDao;
@@ -21,6 +20,7 @@ import com.puluo.entity.impl.PuluoEventImpl;
 import com.puluo.entity.impl.PuluoPaymentOrderImpl;
 import com.puluo.entity.payment.impl.OrderEventImpl;
 import com.puluo.enumeration.PuluoOrderStatus;
+import com.puluo.result.ApiErrorResult;
 
 public class EventRegistrationAPITest {
 	private final PuluoPaymentDao mockPaymentDao = Mockito

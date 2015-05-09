@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.puluo.api.PuluoAPI;
-import com.puluo.api.result.DeleteFriendResult;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoUserFriendshipDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoUserFriendship;
 import com.puluo.entity.impl.PuluoUserInfo;
+import com.puluo.result.message.DeleteFriendResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 

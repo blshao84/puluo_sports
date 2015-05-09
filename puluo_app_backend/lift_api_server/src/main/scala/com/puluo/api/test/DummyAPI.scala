@@ -3,13 +3,17 @@ package com.puluo.api.test
 import net.liftweb.http.rest.RestHelper
 import com.puluo.api.util.PuluoAPIUtil
 import com.puluo.api.util.PuluoResponseFactory
-import com.puluo.api.result.ApiErrorResult
 import com.puluo.api.util.PuluoSession
 import com.puluo.api.util.SessionInfo
 import org.joda.time.DateTime
 import com.puluo.api.result._
 import net.liftweb.http.S
+import com.puluo.result.SMSServiceResult
+import com.puluo.result.event.EventRegistrationResult
+import com.puluo.result.user.UserLoginResult
+import com.puluo.result.user.UserRegistrationResult
 import com.puluo.session.PuluoSessionManager
+import com.puluo.result.ApiErrorResult
 
 object DummyAPI extends RestHelper with PuluoAPIUtil {
   serve {
