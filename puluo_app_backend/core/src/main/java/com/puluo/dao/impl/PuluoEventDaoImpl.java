@@ -229,7 +229,6 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 						.append(Strs.isEmpty(event.statusName()) ? "null" : "'"
 								+ event.statusName() + "'")
 						.append(", ")
-//						.append(event.registeredUsers() + ", ")
 						.append("0, ")
 						.append(event.capatcity() + ", ")
 						.append(event.originalPrice() + ", ")
@@ -280,7 +279,6 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 					updateSQL.append(" status = '" + event.statusName() + "',");
 				}
 				updateSQL
-//						.append(" registered_users = " + event.registeredUsers() + ",")
 						.append(" registered_users = 0,")
 						.append(" capatcity = " + event.capatcity() + ",")
 						.append(" price = " + event.originalPrice() + ",")
@@ -330,7 +328,7 @@ class PuluoEventMapper implements RowMapper<PuluoEvent> {
 		PuluoEventImpl event = new PuluoEventImpl(rs.getString("event_uuid"),
 				TimeUtils.parseDateTime(TimeUtils.formatDate(rs
 						.getTimestamp("event_time"))), es,
-				rs.getInt("registered_users"), rs.getInt("capatcity"),
+				0, rs.getInt("capatcity"),
 				rs.getDouble("price"), rs.getDouble("discounted_price"),
 				rs.getString("info_uuid"), rs.getString("location_uuid"),
 				rs.getInt("hottest"));
