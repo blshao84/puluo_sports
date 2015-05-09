@@ -322,4 +322,24 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 			return null;
 		}
 	}
+
+	@Override
+	public List<PuluoPaymentOrder> getPaidOrdersByUserUUID(String userUUID,
+			int limit) {
+		try {
+			SqlReader reader = getReader();
+			String selectSQL = new StringBuilder()
+					.append("select * from ")
+					.append(super.getFullTableName())
+					.append(" where user_id = ? and (status = '" + PuluoOrderStatus.Paid + "' or status = '" + PuluoOrderStatus.Complete + "') order by payment_time desc")
+					.append(limit>0 ? " limit " + limit : "").toString();
+			log.info(super.sqlRequestLog(selectSQL,userUUID));
+			List<PuluoPaymentOrder> entities = reader.query(
+					selectSQL.toString(), new Object[] {userUUID}, new PuluoPaymentOrderMapper());
+			return entities;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
+	}
 }

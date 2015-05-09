@@ -229,7 +229,8 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 						.append(Strs.isEmpty(event.statusName()) ? "null" : "'"
 								+ event.statusName() + "'")
 						.append(", ")
-						.append(event.registeredUsers() + ", ")
+//						.append(event.registeredUsers() + ", ")
+						.append("0, ")
 						.append(event.capatcity() + ", ")
 						.append(event.originalPrice() + ", ")
 						.append(event.discountedPrice() + ", ")
@@ -279,8 +280,8 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 					updateSQL.append(" status = '" + event.statusName() + "',");
 				}
 				updateSQL
-						.append(" registered_users = "
-								+ event.registeredUsers() + ",")
+//						.append(" registered_users = " + event.registeredUsers() + ",")
+						.append(" registered_users = 0,")
 						.append(" capatcity = " + event.capatcity() + ",")
 						.append(" price = " + event.originalPrice() + ",")
 						.append(" discounted_price = "
