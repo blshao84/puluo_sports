@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.puluo.api.result.wechat.WechatArticleMessage;
-import com.puluo.api.result.wechat.WechatImageMessage;
 import com.puluo.api.result.wechat.WechatMessage;
 import com.puluo.api.result.wechat.WechatNewsMessage;
 import com.puluo.api.result.wechat.WechatTextMessage;
@@ -70,7 +69,7 @@ public class WechatButtonAPI {
 	}
 
 	private WechatMessage createCustomerServiceMessage() {
-		return new WechatTextMessage("地址：尚都SOHO西塔三层1308室\n客服电话：13522898646");
+		return new WechatTextMessage("地址：尚都SOHO西塔三层1308室\n客服电话：010-59003866");
 	}
 
 	private WechatMessage createHistOrders() {
@@ -108,8 +107,8 @@ public class WechatButtonAPI {
 	}
 
 	private WechatMessage createCurriculum() {
-
-		return new WechatImageMessage(Configurations.wechatCurriculum);
+		return new WechatTextMessage("精彩课程，敬请期待！");
+		//return new WechatImageMessage(Configurations.wechatCurriculum);
 	}
 
 	private WechatMessage createInfo(String[] mediaList) {

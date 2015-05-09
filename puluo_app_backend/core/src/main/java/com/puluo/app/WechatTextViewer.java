@@ -1,0 +1,28 @@
+package com.puluo.app;
+
+import com.puluo.weichat.PuluoWechatTokenCache;
+import com.puluo.weichat.WechatNewsContentItem;
+import com.puluo.weichat.WechatNewsItem;
+import com.puluo.weichat.WechatTextMediaListResult;
+import com.puluo.weichat.WechatUtil;
+
+public class WechatTextViewer {
+
+	public static void main(String[] args) {
+		dumpWechatText();
+
+	}
+
+	public static void dumpWechatText() {
+		String token = PuluoWechatTokenCache.token();
+		WechatTextMediaListResult res1 = WechatUtil.getTextMediaList(token);
+		for (WechatNewsItem item : res1.item) {
+			System.out.println(item.media_id);
+			for (WechatNewsContentItem ci : item.content.news_item) {
+				System.out.println("\t" + ci.title);
+			}
+		}
+		
+	}
+
+}

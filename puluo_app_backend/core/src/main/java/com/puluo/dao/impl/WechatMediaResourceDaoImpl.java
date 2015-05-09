@@ -92,11 +92,11 @@ public class WechatMediaResourceDaoImpl extends DalTemplate implements
 			String mediaNewsID) {
 		
 			StringBuilder updateClause = new StringBuilder();
-			if(!Strs.isEmpty(mediaName)) updateClause.append(" media_name = '").append(mediaName).append("',");
-			if(!Strs.isEmpty(mediaType)) updateClause.append(" media_type = '").append(mediaType).append("',");
-			if(!Strs.isEmpty(mediaLink)) updateClause.append(" media_link = '").append(mediaLink).append("',");
-			if(!Strs.isEmpty(mediaItemTitle)) updateClause.append(" media_title = '").append(mediaItemTitle).append("',");
-			if(!Strs.isEmpty(mediaNewsID)) updateClause.append(" media_news_id = '").append(mediaNewsID).append("'");
+			if(!Strs.isEmpty(mediaName)) updateClause.append(" media_name = '").append(mediaName).append("'");
+			if(!Strs.isEmpty(mediaType)) updateClause.append(", media_type = '").append(mediaType).append("'");
+			if(!Strs.isEmpty(mediaLink)) updateClause.append(", media_link = '").append(mediaLink).append("'");
+			if(!Strs.isEmpty(mediaItemTitle)) updateClause.append(", media_title = '").append(mediaItemTitle).append("'");
+			if(!Strs.isEmpty(mediaNewsID)) updateClause.append(", media_news_id = '").append(mediaNewsID).append("'");
 			if(Strs.isEmpty(updateClause.toString())){
 				return false;
 			}else{

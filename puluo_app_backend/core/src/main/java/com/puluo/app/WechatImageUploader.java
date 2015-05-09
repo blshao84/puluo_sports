@@ -22,6 +22,7 @@ public class WechatImageUploader {
 		saveWechatImages();
 
 	}
+
 	public static void saveWechatImages() {
 		String token = PuluoWechatTokenCache.token();
 		WechatTextMediaListResult res1 = WechatUtil.getTextMediaList(token);
@@ -34,7 +35,13 @@ public class WechatImageUploader {
 				imageIdToItemTitle.put(ci.thumb_media_id, ci.title);
 				System.out.println(ci.thumb_media_id + "->" + item.media_id);
 				System.out.println(ci.thumb_media_id + "->" + ci.title);
-				doSaveImage(token,ci.thumb_media_id,UUID.randomUUID().toString(),ci.title,item.media_id);
+				WechatMediaResourceDao dao = DaoApi.getInstance()
+						.wechatMediaResourceDao();
+				if(dao.getResourceByMediaID(ci.thumb_media_id)==null){
+					doSaveImage(token,ci.thumb_media_id,UUID.randomUUID().toString(),ci.title,item.media_id);
+				} else {
+					System.out.println("image is already saved, ignore this time ...");
+				}
 			}
 		}
 		WechatImageMediaListResult res = WechatUtil.getImageMediaList(token, "image");
@@ -62,14 +69,14 @@ public class WechatImageUploader {
 			doSaveImage(token,item.media_id,name,itemTitle,newsId);
 		}
 	}
-	
-	private static void doSaveImage(String token, String mediaID,
-			String name, String title, String newsID) {
+
+	private static void doSaveImage(String token, String mediaID, String name,
+			String title, String newsID) {
 		WechatMediaResourceDao dao = DaoApi.getInstance()
 				.wechatMediaResourceDao();
 		byte[] blob = WechatUtil.getImageMedia(token, mediaID);
-		ImageUploadServiceResult del = PuluoService.image.deleteImage(name);
-		System.out.println(del);
+		// ImageUploadServiceResult del = PuluoService.image.deleteImage(name);
+		// System.out.println(del);
 		ImageUploadServiceResult save = PuluoService.image
 				.saveImage(blob, name);
 		if (save.status.equals("success")) {
