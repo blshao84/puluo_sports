@@ -17,7 +17,7 @@ import com.puluo.result.message.ListMessageResult;
 import com.puluo.result.message.RequestFriendResult;
 import com.puluo.result.message.SendMessageResult;
 import com.puluo.result.user.DenyFriendResult;
-import com.puluo.result.user.ListFriendsResult;
+import com.puluo.result.user.CommonListAPIResult;
 import com.puluo.result.user.UserLoginResult;
 import com.puluo.result.user.UserLogoutResult;
 import com.puluo.result.user.UserPasswordUpdateResult;
@@ -197,7 +197,7 @@ public class PuluoAPIResultTest {
 				+ "\"mobile\":\"18646655333\","
 				+ "\"thumbnail\":\"http://upyun.com/baolin.jpg\","
 				+ "\"saying\":\"I am Baolin\"" + "}" + "}" + "]" + "}";
-		String actualJsonResult = ListFriendsResult.dummy().toJson();
+		String actualJsonResult = CommonListAPIResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
 

@@ -1,43 +1,38 @@
 package com.puluo.api.test
 
 import net.liftweb.http.rest.RestHelper
-
 import com.puluo.api.util.PuluoAPIUtil
 import com.puluo.api.util.PuluoResponseFactory
 import com.puluo.api.util.PuluoSession
 import com.puluo.api.util.SessionInfo
-
 import org.joda.time.DateTime
-
 import com.puluo.api.result._
-
 import net.liftweb.http.S
-
-import com.puluo.result.CommentTimelineResult;
-import com.puluo.result.DeleteTimelineCommentResult;
-import com.puluo.result.EmailServiceResult;
-import com.puluo.result.ImageUploadServiceResult;
-import com.puluo.result.LikeTimelineResult;
-import com.puluo.result.SMSServiceResult;
-import com.puluo.result.UserTimelineResult;
-import com.puluo.result.event.EventDetailResult;
-import com.puluo.result.event.EventMemoryResult;
-import com.puluo.result.event.EventSearchResult;
-import com.puluo.result.message.ApproveFriendResult;
-import com.puluo.result.message.DeleteFriendResult;
-import com.puluo.result.message.ListMessageResult;
-import com.puluo.result.message.RequestFriendResult;
-import com.puluo.result.message.SendMessageResult;
-import com.puluo.result.user.DenyFriendResult;
-import com.puluo.result.user.ListFriendsResult;
-import com.puluo.result.user.UserLogoutResult;
-import com.puluo.result.user.UserPasswordUpdateResult;
-import com.puluo.result.user.UserProfileResult;
-import com.puluo.result.user.UserProfileUpdateResult;
-import com.puluo.result.user.UserSearchResult;
-import com.puluo.result.user.UserSettingResult;
-import com.puluo.result.user.UserSettingUpdateResult;
+import com.puluo.result.CommentTimelineResult
+import com.puluo.result.DeleteTimelineCommentResult
+import com.puluo.result.EmailServiceResult
+import com.puluo.result.ImageUploadServiceResult
+import com.puluo.result.LikeTimelineResult
+import com.puluo.result.SMSServiceResult
+import com.puluo.result.UserTimelineResult
+import com.puluo.result.event.EventDetailResult
+import com.puluo.result.event.EventMemoryResult
+import com.puluo.result.event.EventSearchResult
+import com.puluo.result.message.ApproveFriendResult
+import com.puluo.result.message.DeleteFriendResult
+import com.puluo.result.message.ListMessageResult
+import com.puluo.result.message.RequestFriendResult
+import com.puluo.result.message.SendMessageResult
+import com.puluo.result.user.DenyFriendResult
+import com.puluo.result.user.UserLogoutResult
+import com.puluo.result.user.UserPasswordUpdateResult
+import com.puluo.result.user.UserProfileResult
+import com.puluo.result.user.UserProfileUpdateResult
+import com.puluo.result.user.UserSearchResult
+import com.puluo.result.user.UserSettingResult
+import com.puluo.result.user.UserSettingUpdateResult
 import com.puluo.session.PuluoSessionManager
+import com.puluo.result.user.CommonListAPIResult
 
 object DummyPrivateAPI extends RestHelper with PuluoAPIUtil {
   serve {
@@ -59,7 +54,7 @@ object DummyPrivateAPI extends RestHelper with PuluoAPIUtil {
       PuluoResponseFactory.createDummyJSONResponse(EventSearchResult.dummy().toJson())
     }
     case "dummy" :: "users" :: "friends" :: mobileOrUUID :: Nil Post _ => {
-      PuluoResponseFactory.createDummyJSONResponse(ListFriendsResult.dummy().toJson())
+      PuluoResponseFactory.createDummyJSONResponse(CommonListAPIResult.dummy().toJson())
     }
     case "dummy" :: "users" :: "friends" :: "request" :: "send" :: Nil Post _ => {
       PuluoResponseFactory.createDummyJSONResponse(RequestFriendResult.dummy().toJson())

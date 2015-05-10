@@ -1,7 +1,7 @@
 package com.puluo.result.user;
 
 
-public class ListFriendsPublicResult {
+public class ListUserPublicInfoResult {
 	public String first_name;
 	public String last_name;
 	public String email;
@@ -9,7 +9,7 @@ public class ListFriendsPublicResult {
 	public String thumbnail;
 	public String saying;
 	
-	public ListFriendsPublicResult(String first_name, String last_name,
+	public ListUserPublicInfoResult(String first_name, String last_name,
 			String email, String mobile,String thumbnail,String saying) {
 		super();
 		this.first_name = first_name;
@@ -20,7 +20,7 @@ public class ListFriendsPublicResult {
 		this.saying = saying;
 	}
 	
-	public static ListFriendsPublicResult dummy() {
+	public static ListUserPublicInfoResult dummy() {
 		// TODO
 		return null;
 	}
