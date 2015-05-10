@@ -79,7 +79,7 @@ public class EventRegistrationAPI extends
 	private EventRegistrationResult updateOrder(PuluoPaymentOrder order) {
 		PuluoEvent event = dsi.eventDao().getEventByUUID(order.eventId());
 		if (event.registeredUsers() >= event.capatcity()) {
-			this.error = ApiErrorResult.getError(47);
+			this.error = ApiErrorResult.getError(51);
 			return null;
 		}
 		EventRegistrationResult result = null;
@@ -135,7 +135,7 @@ public class EventRegistrationAPI extends
 			this.error = ApiErrorResult.getError(1);
 			return null;
 		} else if (event.registeredUsers() >= event.capatcity()) {
-			this.error = ApiErrorResult.getError(47);
+			this.error = ApiErrorResult.getError(51);
 			return null;
 		} else {
 			try{
