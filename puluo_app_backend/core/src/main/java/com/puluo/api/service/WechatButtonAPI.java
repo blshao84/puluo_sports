@@ -81,18 +81,23 @@ public class WechatButtonAPI {
 		PuluoWechatBinding binding = DaoApi.getInstance().wechatBindingDao().findByOpenId(openId);
 		PuluoUser user = binding.user();
 		List<PuluoPaymentOrder> orders = DaoApi.getInstance().paymentDao().getPaidOrdersByUserUUID(user.userUUID(), 3);
-		StringBuilder history = new StringBuilder("[");
+		StringBuilder history = new StringBuilder();
 		PuluoEvent event;
-		boolean isFirst = true;
-		for (PuluoPaymentOrder order: orders) {
-			event = DaoApi.getInstance().eventDao().getEventByUUID(order.eventId());
-			history.append(isFirst ? "" : ",");
-			isFirst = false;
-			history.append("{time=" + TimeUtils.formatDate(event.eventTime())
-					+ ", name=" + event.eventInfo().name()
-					+ ", location=" + event.eventLocation().address() + "}");
+		if (orders.size()==0) {
+			history.append("您最近的订单信息不存在。");
+		} else {
+			history.append("您最近的" + orders.size() + "个订单是：");
+			boolean isFirst = true;
+			for (PuluoPaymentOrder order: orders) {
+				event = DaoApi.getInstance().eventDao().getEventByUUID(order.eventId());
+				history.append(isFirst ? "": "；");
+				isFirst = false;
+				history.append(TimeUtils.formatDate(event.eventTime()) + "，"
+						+ "，" + event.eventInfo().name()
+						+ "，" + event.eventLocation().address());
+			}
+			history.append("。");
 		}
-		history.append("]");
 		return new WechatTextMessage(history.toString());
 	}
 
