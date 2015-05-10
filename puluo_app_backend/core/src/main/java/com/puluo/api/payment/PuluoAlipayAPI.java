@@ -28,18 +28,20 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 	private final String trade_status;
 	private final String trade_id;
 	private final String paymentRef;
+	private final boolean mock;
 
 	public PuluoAlipayAPI(HashMap<String, String> params, String trade_status,
-			String trade_id, String paymentRef) {
-		this(params, trade_status, trade_id, paymentRef, DaoApi.getInstance());
+			String trade_id, String paymentRef,boolean mock) {
+		this(params, trade_status, trade_id, paymentRef,mock, DaoApi.getInstance());
 	}
 	
 	public PuluoAlipayAPI(HashMap<String, String> params, String trade_status,
-			String trade_id, String paymentRef, PuluoDSI dsi) {
+			String trade_id, String paymentRef,boolean mock, PuluoDSI dsi) {
 		this.params = params;
 		this.trade_status = trade_status;
 		this.trade_id = trade_id;
 		this.paymentRef = paymentRef;
+		this.mock = mock;
 		this.dsi = dsi;
 	}
 
@@ -70,11 +72,11 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 				boolean successUpdate = updateOrderStatus(order);
 				if (successUpdate) {
 					if (Configurations.enableSMSNotification) {
-//						sendNotification(order);
+						if(!mock) sendNotification(order);
 					}
 					setSuccessfulPaymentResult();
 				} else {
-//					sendNotification(order);
+					if(!mock) sendNotification(order);
 					sendSystemWarningEmail(order);
 					setSuccessfulPaymentResult();
 				}

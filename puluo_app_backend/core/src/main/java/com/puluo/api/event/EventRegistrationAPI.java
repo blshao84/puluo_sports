@@ -160,7 +160,7 @@ public class EventRegistrationAPI extends
 					return new EventRegistrationResult(paymentLink, order.orderUUID(), false);
 				} else {
 					String out_trade_no = AlipayUtil.generateOrderID(savedOrder, Configurations.orderIDBase);
-					PuluoAlipayAPI alipay = new PuluoAlipayAPI(new HashMap<String, String>(), null, out_trade_no, "DO NOT NEED A PAYMENT!");
+					PuluoAlipayAPI alipay = new PuluoAlipayAPI(new HashMap<String, String>(), null, out_trade_no, "DO NOT NEED A PAYMENT!",mock);
 					alipay.processOrderWithZero();
 					return new EventRegistrationResult("", order.orderUUID(), true);
 				}

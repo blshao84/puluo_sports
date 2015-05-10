@@ -52,7 +52,7 @@ object AliPaymentNotification extends RestHelper with PuluoAPIUtil with Loggable
     val paymentRef = notifyXML \\ "trade_no" //new String(request.param("trade_no").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
     //交易状态
     val trade_status = notifyXML \\ "trade_status" //new String(request.param("trade_status").getOrElse("").getBytes("ISO-8859-1"), "UTF-8")
-    new PuluoAlipayAPI(params, trade_status.text, tradeID.text, paymentRef.text)
+    new PuluoAlipayAPI(params, trade_status.text, tradeID.text, paymentRef.text,false)
   }
 
 }
