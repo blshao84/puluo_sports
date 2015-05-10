@@ -1,7 +1,9 @@
 package com.puluo.dao.impl;
 
 import com.puluo.dao.PgDummyDao;
+import com.puluo.dao.PuluoAccountDao;
 import com.puluo.dao.PuluoAuthCodeRecordDao;
+import com.puluo.dao.PuluoCouponDao;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.dao.PuluoEventInfoDao;
@@ -47,7 +49,9 @@ public class DaoTestApi extends PuluoDSI {
 	public static WechatMediaResourceDao wechatMediaResourceDao	= BeanTestFactory.getBean(WechatMediaResourceDaoImpl.class, "wechatMediaResourceDao");
 	public static PuluoOrderEventDao orderEventDevDao = BeanTestFactory.getBean(PuluoOrderEventDao.class, "orderEventDevDao");
 	public static PuluoPaymentDao paymentDevDao = BeanTestFactory.getBean(PuluoPaymentDao.class, "paymentDevDao");
-	
+	public static PuluoAccountDao accountDevDao = null;//BeanTestFactory.getBean(PuluoAccountDao.class, "accountDevDao");
+	public static PuluoCouponDao couponDevDao = null;//BeanTestFactory.getBean(PuluoCouponDao.class, "couponDevDao");
+
 	private static class SingletonHolder {
 		private static final DaoTestApi INSTANCE = new DaoTestApi();
 	}
@@ -165,6 +169,16 @@ public class DaoTestApi extends PuluoDSI {
 	@Override
 	public PuluoUserBlacklistDao blacklistDao() {
 		return blacklistDevDao;
+	}
+
+	@Override
+	public PuluoAccountDao accountDao() {
+		return accountDevDao;
+	}
+
+	@Override
+	public PuluoCouponDao couponDao() {
+		return couponDevDao;
 	}
 
 }

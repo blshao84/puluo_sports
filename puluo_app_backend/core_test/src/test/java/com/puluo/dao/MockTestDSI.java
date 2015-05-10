@@ -122,4 +122,16 @@ public class MockTestDSI extends PuluoDSI {
 		return null;
 	}
 
+	@Override
+	public PuluoAccountDao accountDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoCouponDao couponDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
