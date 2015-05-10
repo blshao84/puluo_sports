@@ -91,7 +91,7 @@ public class PuluoEventImpl implements PuluoEvent {
 
 	@Override
 	public int registeredUsers() {
-		return registeredUsers;
+		return attendees().size();
 	}
 
 	@Override
@@ -167,14 +167,15 @@ public class PuluoEventImpl implements PuluoEvent {
 
 	@Override
 	public List<PuluoEventAttendee> attendees() {
-		List<PuluoPaymentOrder> orders = dsi.paymentDao().getOrderByEvent(uuid);
+//		List<PuluoPaymentOrder> orders = dsi.paymentDao().getOrderByEvent(uuid);
+		List<PuluoPaymentOrder> orders = dsi.paymentDao().getPaidOrdersByEventUUID(uuid);
 		List<PuluoEventAttendee> attendees = new ArrayList<PuluoEventAttendee>();
 		PuluoUser user;
 		for (PuluoPaymentOrder order: orders) {
-			if (order.status().isPaid()) {
+//			if (order.status().isPaid()) {
 				user = dsi.userDao().getByUUID(order.userId());
 				attendees.add(new PuluoEventAttendee(user.name(), user.userUUID(), user.thumbnailURL()));
-			}
+//			}
 		}
 		return attendees;
 	}

@@ -77,6 +77,11 @@ public class EventRegistrationAPI extends
 	}
 
 	private EventRegistrationResult updateOrder(PuluoPaymentOrder order) {
+		PuluoEvent event = dsi.eventDao().getEventByUUID(order.eventId());
+		if (event.registeredUsers() >= event.capatcity()) {
+			this.error = ApiErrorResult.getError(47);
+			return null;
+		}
 		EventRegistrationResult result = null;
 		PuluoOrderStatus status = order.status();
 		String paymentLink;
@@ -128,6 +133,9 @@ public class EventRegistrationAPI extends
 		PuluoEvent event = dsi.eventDao().getEventByUUID(event_uuid);
 		if (event == null) {
 			this.error = ApiErrorResult.getError(1);
+			return null;
+		} else if (event.registeredUsers() >= event.capatcity()) {
+			this.error = ApiErrorResult.getError(47);
 			return null;
 		} else {
 			try{

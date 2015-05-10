@@ -207,10 +207,13 @@ public class EventRegistrationAPITest {
 		Mockito.when(order.status()).thenReturn(status);
 		Mockito.when(order.amount()).thenReturn(50.0);
 		Mockito.when(order.orderNumericID()).thenReturn(9999L);
+		Mockito.when(order.eventId()).thenReturn("1");
 
 	}
 
 	private void setupEvent(PuluoEvent event) {
 		Mockito.when(event.price()).thenReturn(50.0);
+		Mockito.when(event.registeredUsers()).thenReturn(1);
+		Mockito.when(event.capatcity()).thenReturn(2);
 	}
 }

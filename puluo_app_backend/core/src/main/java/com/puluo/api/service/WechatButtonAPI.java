@@ -11,9 +11,13 @@ import com.puluo.api.result.wechat.WechatTextMessage;
 import com.puluo.config.Configurations;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
+import com.puluo.entity.PuluoPaymentOrder;
+import com.puluo.entity.PuluoUser;
+import com.puluo.entity.PuluoWechatBinding;
 import com.puluo.enumeration.WechatButtonType;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.TimeUtils;
 import com.puluo.weichat.PuluoWechatTokenCache;
 import com.puluo.weichat.WechatNewsContentItem;
 import com.puluo.weichat.WechatPermMediaItemResult;
@@ -73,8 +77,23 @@ public class WechatButtonAPI {
 	}
 
 	private WechatMessage createHistOrders() {
-		// TODO Auto-generated method stub
-		return new WechatTextMessage("coming soon");
+		String openId = params.get("openId");
+		PuluoWechatBinding binding = DaoApi.getInstance().wechatBindingDao().findByOpenId(openId);
+		PuluoUser user = binding.user();
+		List<PuluoPaymentOrder> orders = DaoApi.getInstance().paymentDao().getPaidOrdersByUserUUID(user.userUUID(), 3);
+		StringBuilder history = new StringBuilder("[");
+		PuluoEvent event;
+		boolean isFirst = true;
+		for (PuluoPaymentOrder order: orders) {
+			event = DaoApi.getInstance().eventDao().getEventByUUID(order.eventId());
+			history.append(isFirst ? "" : ",");
+			isFirst = false;
+			history.append("{time=" + TimeUtils.formatDate(event.eventTime())
+					+ ", name=" + event.eventInfo().name()
+					+ ", location=" + event.eventLocation().address() + "}");
+		}
+		history.append("]");
+		return new WechatTextMessage(history.toString());
 	}
 
 	private WechatMessage createRegisterMessage() {

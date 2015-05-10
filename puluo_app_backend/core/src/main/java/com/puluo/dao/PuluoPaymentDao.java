@@ -30,4 +30,8 @@ public interface PuluoPaymentDao {
 	public boolean updateOrder(PuluoPaymentOrder order);
 	
 	public List<PuluoPaymentOrder> getPaidOrdersByUserUUID(String userUUID);
+
+	public List<PuluoPaymentOrder> getPaidOrdersByEventUUID(String eventUUID);
+	
+	public List<PuluoPaymentOrder> getPaidOrdersByUserUUID(String userUUID, int limit);
 }
