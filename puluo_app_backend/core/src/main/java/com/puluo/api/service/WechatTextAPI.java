@@ -124,7 +124,7 @@ public class WechatTextAPI {
 			}
 			break;
 		case 2:
-			msg = new WechatTextMessage("您已经成功将手机与微信绑定");
+			msg = new WechatTextMessage("您已经成功将手机与微信绑定并且注册为普罗运动的会员，您收到的验证码为您的初始密码！");
 			break;
 		default:
 			dsi.wechatBindingDao().updateBinding(from_user, 0);
