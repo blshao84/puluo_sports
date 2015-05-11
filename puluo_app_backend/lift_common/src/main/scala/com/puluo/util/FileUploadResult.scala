@@ -38,7 +38,7 @@ object JQueryFileUploadResult extends Loggable{
   def apply(originalName:String,res:ImageUploadServiceResult):JQueryFileUploadResult = {
     logger.info(s"image upload result:${res.image_link},${res.status}")
     if(res.status=="success"){
-      FileUploadSuccess(originalName,0,res.image_link,res.thumbnai())
+      FileUploadSuccess(originalName,0,res.image_link,res.thumbnaiURL())
     } else FileUploadError(originalName,0,"上传图片失败")
   }
 }
