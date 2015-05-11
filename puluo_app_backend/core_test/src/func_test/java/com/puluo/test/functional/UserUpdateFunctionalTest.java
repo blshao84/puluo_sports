@@ -49,7 +49,7 @@ public class UserUpdateFunctionalTest extends APIFunctionalTest {
 			log.info(json);
 			JsonNode public_info = new JsonNode(super.getStringFromJson(json, info));
 			String expectedValue = null;
-			if(isThumbnail) expectedValue = Strs.join(Configurations.imageServer,value,"!small"); else expectedValue = value;
+			if(isThumbnail) expectedValue = Strs.join(Configurations.imageServer,value,""); else expectedValue = value;
 			Assert.assertEquals(key.replace("_", " ") + " should be " + value, expectedValue, super.getStringFromJson(public_info, key));
 		} catch (UnirestException e) {
 			e.printStackTrace();

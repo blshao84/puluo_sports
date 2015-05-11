@@ -37,10 +37,12 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
 
   private def doRegister(eventUUID: String) = {
     //token must exist because it's authenticated
-    val token = PuluoResponseFactory.createParamMap(Seq("token")).values.head
+    val params = PuluoResponseFactory.createParamMap(Seq("token","mock"))
+    val token = params("token")
     val session = PuluoSessionManager.getSession(token)
     val userUUID = session.userUUID()
-    val api = new EventRegistrationAPI(eventUUID, userUUID)
+    val mock = params.get("mock").map(_=="true").getOrElse(false)
+    val api = new EventRegistrationAPI(eventUUID, userUUID,mock)
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)
   }

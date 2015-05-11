@@ -56,7 +56,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with Loggable {
           if (mobile.isDefined) {
             val user = DaoApi.getInstance().userDao().getByMobile(mobile.get.get)
             if (user != null) {
-              val api = new EventRegistrationAPI(event.eventUUID(), user.userUUID())
+              val api = new EventRegistrationAPI(event.eventUUID(), user.userUUID(),false)
               api.execute()
               if (api.error == null) {
                 val link = api.paymentLink

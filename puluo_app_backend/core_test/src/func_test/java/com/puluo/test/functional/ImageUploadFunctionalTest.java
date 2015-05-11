@@ -139,7 +139,7 @@ public class ImageUploadFunctionalTest extends APIFunctionalTest {
 				String expectedThumbnail = "puluoyundong.png";
 				String expectedLink = Strs.join(Configurations.imageServer,
 						expectedThumbnail);
-				String expectedThumbnailURL = Strs.join(expectedLink,"!small");
+				String expectedThumbnailURL = Strs.join(expectedLink,"");
 				Assert.assertEquals(expectedLink, actualLink);
 				Assert.assertEquals(expectedThumbnailURL, thumbnailURL);
 
@@ -169,7 +169,7 @@ public class ImageUploadFunctionalTest extends APIFunctionalTest {
 				String expectedThumbnail = "puluoyundong.png";
 				String expectedLink = Strs.join(Configurations.imageServer,
 						expectedThumbnail);
-				String expectedThumbnailURL = Strs.join(expectedLink,"!small");
+				String expectedThumbnailURL = Strs.join(expectedLink,"");
 				Assert.assertEquals(expectedLink, actualLink);
 				Assert.assertEquals(expectedThumbnailURL, thumbnailURL);
 

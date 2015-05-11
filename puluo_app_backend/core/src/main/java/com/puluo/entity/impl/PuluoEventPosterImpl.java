@@ -46,7 +46,7 @@ public class PuluoEventPosterImpl implements PuluoEventPoster {
 
 	@Override
 	public String thumbnailURL() {
-		return Strs.join(imageURL(), "!small");
+		return Strs.join(imageURL(), "");
 	}
 
 	@Override

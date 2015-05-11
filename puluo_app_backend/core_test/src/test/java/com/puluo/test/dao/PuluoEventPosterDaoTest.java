@@ -74,7 +74,7 @@ public class PuluoEventPosterDaoTest {
 		List<PuluoEventPoster> posters = posterDao.getEventPosterByInfoUUID("event_info_uuid_1");
 		PuluoEventPoster poster = posters.get(0);
 		String expectedImg = Strs.join(Configurations.imageServer,"image_url_6");
-		String expectedThumbnail = Strs.join(Configurations.imageServer,"image_url_6","!small");
+		String expectedThumbnail = Strs.join(Configurations.imageServer,"image_url_6","");
 		Assert.assertEquals("poster's image url should be image_url_6!",expectedImg, poster.imageURL());
 		Assert.assertEquals("poster's thumbnail should be thumbnail_6", expectedThumbnail, poster.thumbnailURL());
 		log.info("testUpdateEventPoster done!");

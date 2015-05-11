@@ -70,7 +70,7 @@ public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 
 			@Override
 			public String inputs(String session) {
-				return String.format("{\"token\":\"%s\"}", session);
+				return String.format("{\"token\":\"%s\",\"mock\":true}", session);
 			}
 
 			@Override

@@ -33,9 +33,6 @@ public class EventRegistrationAPI extends
 	public final String user_uuid;
 	public final boolean mock;
 
-	public EventRegistrationAPI(String event_uuid, String user_uuid) {
-		this(event_uuid, user_uuid,false, DaoApi.getInstance());
-	}
 
 	public EventRegistrationAPI(String event_uuid, String user_uuid,boolean mock) {
 		this(event_uuid, user_uuid,mock, DaoApi.getInstance());

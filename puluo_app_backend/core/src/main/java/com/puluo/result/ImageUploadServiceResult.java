@@ -18,7 +18,7 @@ public class ImageUploadServiceResult extends HasJSON{
 	
 	
 	public String thumbnaiURL() {
-		return Strs.join(image_link,"!small");
+		return Strs.join(image_link,"");
 	}
 	
 	public boolean isSuccess() {

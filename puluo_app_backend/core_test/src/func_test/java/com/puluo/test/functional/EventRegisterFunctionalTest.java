@@ -88,7 +88,8 @@ public class EventRegisterFunctionalTest extends APIFunctionalTest {
 			@Override
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
-						+ "\"user_uuid\":\"%s\""
+						+ "\"user_uuid\":\"%s\","
+						+ "\"mock\":true"
 						+ "}", session, event_uuid);
 			}
 			

@@ -10,9 +10,6 @@ import org.junit.Test;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.puluo.dao.impl.DaoApi;
-import com.puluo.dao.impl.PuluoEventDaoImpl;
-import com.puluo.dao.impl.PuluoOrderEventDaoImpl;
-import com.puluo.dao.impl.PuluoPaymentDaoImpl;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoEventInfo;
@@ -88,7 +85,8 @@ public class PaymentLinkFunctionalTest extends APIFunctionalTest {
 			@Override
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
-						+ "\"user_uuid\":\"%s\""
+						+ "\"user_uuid\":\"%s\","
+						+ "\"mock\":true"
 						+ "}", session, event_uuid);
 			}
 			

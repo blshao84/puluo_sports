@@ -129,7 +129,7 @@ public class PuluoUserImpl implements PuluoUser {
 	
 	@Override
 	public String thumbnailURL() {
-		return Strs.join(Configurations.imageServer,thumbnail(),"!small");
+		return Strs.join(Configurations.imageServer,thumbnail(),"");
 	}
 
 
