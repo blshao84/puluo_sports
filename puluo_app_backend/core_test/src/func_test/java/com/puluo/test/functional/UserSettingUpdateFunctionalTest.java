@@ -73,7 +73,7 @@ public class UserSettingUpdateFunctionalTest extends APIFunctionalTest {
 			String str = String.format("{\"token\":\"%s\", \"" + key + "\":\"%s\"}", sessionId, value);
 			JsonNode json = callAPI("users/setting/update", str);
 			log.info(json);
-			String result = super.getStringFromJson(json, key);
+			String result = super.getStringFromJson(json, key,"value");
 			Assert.assertEquals(key.replace("_", " ") + " should be " + value, value, result);
 		} catch (UnirestException e) {
 			e.printStackTrace();
