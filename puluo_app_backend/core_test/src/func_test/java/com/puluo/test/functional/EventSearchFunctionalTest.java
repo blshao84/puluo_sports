@@ -44,16 +44,16 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
 						+ "\"event_from_date\":%s,\"limit\":200}", session,
-						TimeUtils.parseDateTime("2015-06-01 14:00:00").getMillis());
+						TimeUtils.parseDateTime("2100-06-01 14:00:00").getMillis());
 			}
 
 			@Override
 			public void run(String session) throws UnirestException {
 				JsonNode json = callAPI("events/search", inputs(session));
 				Set<String> expectedEvents = new HashSet<String>();
-				expectedEvents.add(dataSource.eventID1);
-				expectedEvents.add(dataSource.eventID2);
-				expectedEvents.add(dataSource.eventID3);
+				expectedEvents.add(dataSource.eventID5);
+				expectedEvents.add(dataSource.eventID6);
+				expectedEvents.add(dataSource.eventID7);
 				Set<String> actualEvents = extractUUID(json, new HashSet<String>());
 				Assert.assertEquals(expectedEvents, actualEvents);
 			}
@@ -71,7 +71,7 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
 						+ "\"event_to_date\":%s,\"limit\":200}", session,
-						TimeUtils.parseDateTime("2015-06-01 10:00:00").getMillis());
+						TimeUtils.parseDateTime("2000-06-01 10:00:00").getMillis());
 			}
 
 			@Override
@@ -97,8 +97,8 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
 						+ "\"event_from_date\":%s,"+ "\"event_to_date\":%s,\"limit\":200}", session,
-						TimeUtils.parseDateTime("2015-06-02 14:00:00").getMillis(),
-						TimeUtils.parseDateTime("2015-06-02 12:00:00").getMillis());
+						TimeUtils.parseDateTime("2000-06-02 14:00:00").getMillis(),
+						TimeUtils.parseDateTime("2000-06-02 12:00:00").getMillis());
 			}
 
 			@Override
@@ -124,7 +124,7 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
 						+ "\"event_date\":%s,"
-						+ "\"status\":\"%s\",\"limit\":200}", session,
+						+ "\"status\":\"%s\",\"limit\":3}", session,
 						dataSource.event_date_0602.getMillis(),
 						EventStatus.Closed.name());
 			}
@@ -152,7 +152,7 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 			@Override
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
-						+ "\"keyword\":%s,\"limit\":200}", session,"臀部炸弹");
+						+ "\"keyword\":%s,\"limit\":3}", session,"臀部炸弹（测试）");
 			}
 
 			@Override
@@ -161,6 +161,7 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 				Set<String> expectedEvents = new HashSet<String>();
 				expectedEvents.add(dataSource.eventID1);
 				expectedEvents.add(dataSource.eventID2);
+				expectedEvents.add(dataSource.eventID5);
 				Set<String> actualEvents = extractUUID(json, new HashSet<String>());
 				Assert.assertEquals(expectedEvents, actualEvents);
 			}
@@ -179,7 +180,7 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 			@Override
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
-						+ "\"keyword\":%s,\"limit\":200}", session,"瘦臀");
+						+ "\"keyword\":%s,\"limit\":3}", session,"瘦臀（测试）");
 			}
 
 			@Override
@@ -188,6 +189,7 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 				Set<String> expectedEvents = new HashSet<String>();
 				expectedEvents.add(dataSource.eventID1);
 				expectedEvents.add(dataSource.eventID2);
+				expectedEvents.add(dataSource.eventID5);
 				Set<String> actualEvents = extractUUID(json, new HashSet<String>());
 				Assert.assertEquals(expectedEvents, actualEvents);
 			}
@@ -206,7 +208,7 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 			@Override
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
-						+ "\"keyword\":%s,\"limit\":200}", session,"减脂");
+						+ "\"keyword\":%s,\"limit\":3}", session,"减脂（测试）");
 			}
 
 			@Override
@@ -235,7 +237,7 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
 						+ "\"keyword\":%s,"
-						+ "\"sort\":\"Price\",\"limit\":200}", session,"减脂");
+						+ "\"sort\":\"Price\",\"limit\":5}", session,"减脂（测试）");
 			}
 
 			@Override
@@ -245,6 +247,8 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 				expectedEvents.add(dataSource.eventID1);
 				expectedEvents.add(dataSource.eventID3);
 				expectedEvents.add(dataSource.eventID2);
+				expectedEvents.add(dataSource.eventID5);
+				expectedEvents.add(dataSource.eventID6);
 				ArrayList<String> actualEvents = extractUUID(json, new ArrayList<String>());
 				Assert.assertEquals(expectedEvents, actualEvents);
 			}
@@ -265,16 +269,18 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 				return String.format("{" + "\"token\":\"%s\","
 						+ "\"keyword\":%s,"
 						+ "\"sort\":\"Price\","
-						+ "\"sort_direction\":\"Desc\",\"limit\":200}", session,"减脂");
+						+ "\"sort_direction\":\"Desc\",\"limit\":5}", session,"减脂（测试）");
 			}
 
 			@Override
 			public void run(String session) throws UnirestException {
 				JsonNode json = callAPI("events/search", inputs(session));
 				ArrayList<String> expectedEvents = new ArrayList<String>();
+				expectedEvents.add(dataSource.eventID7);
+				expectedEvents.add(dataSource.eventID6);
+				expectedEvents.add(dataSource.eventID5);
 				expectedEvents.add(dataSource.eventID2);
 				expectedEvents.add(dataSource.eventID3);
-				expectedEvents.add(dataSource.eventID1);
 				ArrayList<String> actualEvents = extractUUID(json, new ArrayList<String>());
 				Assert.assertEquals(expectedEvents, actualEvents);
 			}

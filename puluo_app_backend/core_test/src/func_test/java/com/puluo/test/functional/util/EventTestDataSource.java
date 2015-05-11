@@ -44,6 +44,9 @@ public class EventTestDataSource {
 	public String eventID2 = "event_2";
 	public String eventID3 = "event_3";
 	public String eventID4 = "event_4";
+	public String eventID5 = "event_5";
+	public String eventID6 = "event_6";
+	public String eventID7 = "event_7";
 	public String memID1 = "mem_1";
 	// public String memID2 = "mem_2";
 	public String memID3 = "mem_3";
@@ -54,9 +57,13 @@ public class EventTestDataSource {
 	public String mobile = "1234567";
 	public String password = "abcdefg";
 	public DateTime event_date_0601 = TimeUtils
-			.parseDateTime("2015-06-01 13:30:00");
+			.parseDateTime("2000-06-01 13:30:00");
 	public DateTime event_date_0602 = TimeUtils
-			.parseDateTime("2015-06-02 10:30:00");
+			.parseDateTime("2000-06-02 10:30:00");
+	public DateTime event_date_21000601 = TimeUtils
+			.parseDateTime("2100-06-01 13:30:00");
+	public DateTime event_date_21000602 = TimeUtils
+			.parseDateTime("2100-06-02 10:30:00");
 	public String userID;
 	public String orderID;
 
@@ -69,6 +76,9 @@ public class EventTestDataSource {
 		this.eventID2 = prefix + "_" + "event_2";
 		this.eventID3 = prefix + "_" + "event_3";
 		this.eventID4 = prefix + "_" + "event_4";
+		this.eventID5 = prefix + "_" + "event_5";
+		this.eventID6 = prefix + "_" + "event_6";
+		this.eventID7 = prefix + "_" + "event_7";
 		this.memID1 = prefix + "_" + "mem_1";
 		// this.memID2 = prefix + "_" + "mem_2";
 		this.memID3 = prefix + "_" + "mem_3";
@@ -96,11 +106,11 @@ public class EventTestDataSource {
 				"北京市尚都sohou 3-2-1", "110110", "普罗总部", "123456789", "北京",
 				1234.537, 7654.341, 0, 20, 0);
 
-		PuluoEventInfo eventInfo1 = new PuluoEventInfoImpl(infoID1, "臀部炸弹",
-				"瘦臀、减脂", "Jerry Ass", "123456", "", "详细信息", 60, PuluoEventLevel.Level1, PuluoEventCategory.Others);
+		PuluoEventInfo eventInfo1 = new PuluoEventInfoImpl(infoID1, "臀部炸弹（测试）",
+				"瘦臀（测试）、减脂（测试）", "Jerry Ass", "123456", "", "详细信息", 60, PuluoEventLevel.Level1, PuluoEventCategory.Others);
 
-		PuluoEventInfo eventInfo2 = new PuluoEventInfoImpl(infoID2, "减脂集中营",
-				"减脂", "Tom Fat", "7080234", "", "详细信息", 45, PuluoEventLevel.Level1, PuluoEventCategory.Others);
+		PuluoEventInfo eventInfo2 = new PuluoEventInfoImpl(infoID2, "减脂集中营（测试）",
+				"减脂（测试）", "Tom Fat", "7080234", "", "详细信息", 45, PuluoEventLevel.Level1, PuluoEventCategory.Others);
 
 		PuluoEvent event1 = new PuluoEventImpl(eventID1, event_date_0601,
 				EventStatus.Open, 3, 15, 80.0, 50.0,
@@ -117,6 +127,18 @@ public class EventTestDataSource {
 		PuluoEvent event4 = new PuluoEventImpl(eventID4, event_date_0602,
 				EventStatus.Closed, 3, 15, 150.0, 50.0,
 				eventInfo2.eventInfoUUID(), location2.locationId(), 0);
+
+		PuluoEvent event5 = new PuluoEventImpl(eventID5, event_date_21000602,
+				EventStatus.Open, 3, 15, 150.0, 100.0,
+				eventInfo1.eventInfoUUID(), location1.locationId(), 0);
+
+		PuluoEvent event6 = new PuluoEventImpl(eventID6, event_date_21000602,
+				EventStatus.Open, 3, 15, 150.0, 110.0,
+				eventInfo1.eventInfoUUID(), location2.locationId(), 0);
+
+		PuluoEvent event7 = new PuluoEventImpl(eventID7, event_date_21000602,
+				EventStatus.Open, 3, 15, 150.0, 120.0,
+				eventInfo2.eventInfoUUID(), location1.locationId(), 0);
 
 		PuluoEventMemory mem1 = new PuluoEventMemoryImpl(memID1,
 				"123.jpg", eventID4, user.userUUID(),
@@ -149,6 +171,9 @@ public class EventTestDataSource {
 		dsi.eventDao().saveEvent(event2);
 		dsi.eventDao().saveEvent(event3);
 		dsi.eventDao().saveEvent(event4);
+		dsi.eventDao().saveEvent(event5);
+		dsi.eventDao().saveEvent(event6);
+		dsi.eventDao().saveEvent(event7);
 		dsi.eventMemoryDao().saveEventMemory(mem1);
 		// dsi.eventMemoryDao().saveEventMemory(mem2);
 		dsi.eventMemoryDao().saveEventMemory(mem3);
@@ -183,6 +208,9 @@ public class EventTestDataSource {
 		eventDao.deleteByEventUUID(eventID2);
 		eventDao.deleteByEventUUID(eventID3);
 		eventDao.deleteByEventUUID(eventID4);
+		eventDao.deleteByEventUUID(eventID5);
+		eventDao.deleteByEventUUID(eventID6);
+		eventDao.deleteByEventUUID(eventID7);
 		eventMemoryDao.deleteByMemoryUUID(memID1);
 		// eventMemoryDao.deleteByMemoryUUID(memID2);
 		eventMemoryDao.deleteByMemoryUUID(memID3);
@@ -217,6 +245,9 @@ public class EventTestDataSource {
 		log.info(eventDao.getEventByUUID(eventID2));
 		log.info(eventDao.getEventByUUID(eventID3));
 		log.info(eventDao.getEventByUUID(eventID4));
+		log.info(eventDao.getEventByUUID(eventID5));
+		log.info(eventDao.getEventByUUID(eventID6));
+		log.info(eventDao.getEventByUUID(eventID7));
 		log.info(eventMemoryDao.getEventMemoryByUUID(memID1));
 		// log.info(eventMemoryDao.getEventMemoryByUUID(memID2));
 		log.info(eventMemoryDao.getEventMemoryByUUID(memID3));
