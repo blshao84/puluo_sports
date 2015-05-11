@@ -36,7 +36,7 @@ public class ListFriendRequestsAPI extends PuluoAPI<PuluoDSI, ListFriendRequests
 	public void execute() {
 		log.info(String.format("开始查找用户:%s的pending friend request列表", user_uuid));
 		PuluoFriendRequestDao reqDao = dsi.friendRequestDao();
-		List<PuluoFriendRequest> requests = reqDao.getPendingFriendRequestsByUserUUID(user_uuid,0,0);
+		List<PuluoFriendRequest> requests = reqDao.getPendingFriendRequestsByUserUUID(user_uuid,limit,offset);
 		List<SingleFriendRequestResult> results = new ArrayList<SingleFriendRequestResult>();
 		for(PuluoFriendRequest r:requests){
 			PuluoUser fromUser = r.fromUser();
