@@ -16,8 +16,8 @@ import com.puluo.result.message.DeleteFriendResult;
 import com.puluo.result.message.ListMessageResult;
 import com.puluo.result.message.RequestFriendResult;
 import com.puluo.result.message.SendMessageResult;
-import com.puluo.result.user.DenyFriendResult;
 import com.puluo.result.user.CommonListAPIResult;
+import com.puluo.result.user.DenyFriendResult;
 import com.puluo.result.user.UserLoginResult;
 import com.puluo.result.user.UserLogoutResult;
 import com.puluo.result.user.UserPasswordUpdateResult;
@@ -163,9 +163,9 @@ public class PuluoAPIResultTest {
 	public void testUserSettingResult() {
 		String expectedJsonResult = 
 		"{\"user_uuid\":\"\","
-		+ "\"auto_add_friend\":{\"name\":\"允许自动添加好友\",\"value\":true},"
-		+ "\"allow_stranger_view_timeline\":{\"name\":\"允许陌生人浏览\",\"value\":true},"
-		+ "\"allow_searched\":{\"name\":\"允许被搜索到\",\"value\":true}"
+		+ "\"auto_add_friend\":{\"key\":\"auto_add_friend\",\"name\":\"允许自动添加好友\",\"value\":true},"
+		+ "\"allow_stranger_view_timeline\":{\"key\":\"allow_stranger_view_timeline\",\"name\":\"允许陌生人浏览\",\"value\":true},"
+		+ "\"allow_searched\":{\"key\":\"allow_searched\",\"name\":\"允许被搜索到\",\"value\":true}"
 		+ "}";
 		String actualJsonResult = UserSettingResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
@@ -173,10 +173,12 @@ public class PuluoAPIResultTest {
 
 	@Test
 	public void testUserSettingUpdateResult() {
-		String expectedJsonResult = "{" + "\"user_uuid\":\"\","
-				+ "\"auto_add_friend\":true,"
-				+ "\"allow_stranger_view_timeline\":true,"
-				+ "\"allow_searched\":true" + "}";
+		String expectedJsonResult = 
+				"{\"user_uuid\":\"\","
+				+ "\"auto_add_friend\":{\"key\":\"auto_add_friend\",\"name\":\"允许自动添加好友\",\"value\":true},"
+				+ "\"allow_stranger_view_timeline\":{\"key\":\"allow_stranger_view_timeline\",\"name\":\"允许陌生人浏览\",\"value\":true},"
+				+ "\"allow_searched\":{\"key\":\"allow_searched\",\"name\":\"允许被搜索到\",\"value\":true}"
+				+ "}";
 		String actualJsonResult = UserSettingUpdateResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
