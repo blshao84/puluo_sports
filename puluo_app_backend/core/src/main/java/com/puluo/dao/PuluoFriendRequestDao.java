@@ -19,5 +19,5 @@ public interface PuluoFriendRequestDao {
 	
 	public List<PuluoFriendRequest> getFriendRequestByUsers(String userUUID, String friendUUID);
 	
-	public List<PuluoFriendRequest> getPendingFriendRequestsByUserUUID(String userUUID);
+	public List<PuluoFriendRequest> getPendingFriendRequestsByUserUUID(String userUUID,int limit, int offset);
 }

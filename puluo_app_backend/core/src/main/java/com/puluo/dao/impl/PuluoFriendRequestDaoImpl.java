@@ -227,12 +227,17 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 
 	@Override
 	public List<PuluoFriendRequest> getPendingFriendRequestsByUserUUID(
-			String userUUID) {
+			String userUUID, int limit, int offset) {
 		try {
 			SqlReader reader = getReader();
-			String selectSQL = new StringBuilder()
+			StringBuilder sb = new StringBuilder()
 					.append("select * from ").append(super.getFullTableName())
-					.append(" where to_user_uuid = ? and request_status = '" + FriendRequestStatus.Requested.name() + "' order by created_at desc").toString();
+					.append(" where to_user_uuid = ? and request_status = '")
+				    .append(FriendRequestStatus.Requested.name())
+				    .append("' order by created_at desc");
+			if(limit > 0) sb.append(" limit ").append(limit);
+			if(offset > 0) sb.append(" offset ").append(offset);
+			String selectSQL = sb.toString();
 			log.info(super.sqlRequestLog(selectSQL,userUUID));
 			List<PuluoFriendRequest> entities = reader.query(
 					selectSQL.toString(), new Object[] {userUUID},new FriendRequestMapper());

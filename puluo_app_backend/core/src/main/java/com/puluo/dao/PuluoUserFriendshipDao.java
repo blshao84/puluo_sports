@@ -7,7 +7,7 @@ public interface PuluoUserFriendshipDao {
 	
 	public boolean createTable();
 
-	public PuluoUserFriendship getFriendListByUUID(String userUUID);
+	public PuluoUserFriendship getFriendListByUUID(String userUUID,int limit, int offset);
 	
 	public PuluoUserFriendship deleteOneFriend(String userUUID, String friendUUID);
 	

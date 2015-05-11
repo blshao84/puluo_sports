@@ -18,21 +18,25 @@ import com.puluo.util.LogFactory;
 public class ListFriendRequestsAPI extends PuluoAPI<PuluoDSI, ListFriendRequestsResult> {
 	public static Log log = LogFactory.getLog(ListFriendRequestsAPI.class);
 	private final String user_uuid;
+	private final int limit;
+	private final int offset;
 
-	public ListFriendRequestsAPI(String user_uuid) {
-		this(user_uuid, DaoApi.getInstance());
+	public ListFriendRequestsAPI(String user_uuid, int limit, int offset) {
+		this(user_uuid,limit,offset, DaoApi.getInstance());
 	}
 
-	public ListFriendRequestsAPI(String user_uuid, PuluoDSI dsi) {
+	public ListFriendRequestsAPI(String user_uuid,int limit, int offset, PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.user_uuid = user_uuid;
+		this.limit = limit;
+		this.offset = offset;
 	}
 
 	@Override
 	public void execute() {
 		log.info(String.format("开始查找用户:%s的pending friend request列表", user_uuid));
 		PuluoFriendRequestDao reqDao = dsi.friendRequestDao();
-		List<PuluoFriendRequest> requests = reqDao.getPendingFriendRequestsByUserUUID(user_uuid);
+		List<PuluoFriendRequest> requests = reqDao.getPendingFriendRequestsByUserUUID(user_uuid,limit,offset);
 		List<SingleFriendRequestResult> results = new ArrayList<SingleFriendRequestResult>();
 		for(PuluoFriendRequest r:requests){
 			PuluoUser fromUser = r.fromUser();

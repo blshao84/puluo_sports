@@ -91,7 +91,7 @@ public class PuluoFriendRequestDaoTest {
 		log.info("testGetPendingFriendRequestsByUserUUID start!");
 
 		PuluoFriendRequestDao requestDao = DaoTestApi.friendRequestDevDao;
-		List<PuluoFriendRequest> requests = requestDao.getPendingFriendRequestsByUserUUID(user3);
+		List<PuluoFriendRequest> requests = requestDao.getPendingFriendRequestsByUserUUID(user3,0,0);
 		Assert.assertTrue("the requests' size should be 2", 2==requests.size());
 		
 		log.info("testGetPendingFriendRequestsByUserUUID done!");

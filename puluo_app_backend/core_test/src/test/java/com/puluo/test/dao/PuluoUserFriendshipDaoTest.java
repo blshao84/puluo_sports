@@ -102,7 +102,7 @@ public class PuluoUserFriendshipDaoTest {
 	public void testGetFriendListByUUID() {
 		log.info("testGetFriendListByUUID start!");
 		PuluoUserFriendshipDao friendDao = DaoTestApi.friendDevDao;
-		PuluoUserFriendship friendship = friendDao.getFriendListByUUID(uuid_1);
+		PuluoUserFriendship friendship = friendDao.getFriendListByUUID(uuid_1,0,0);
 		String user_uuid = friendship.userUUID();
 		Assert.assertEquals("user's uuid should be " + uuid_1, uuid_1, user_uuid);
 		friendship.setDSI(DaoTestApi.getInstance());
@@ -121,7 +121,7 @@ public class PuluoUserFriendshipDaoTest {
 		log.info("testAddOneFriend start!");
 		PuluoUserFriendshipDao friendDao = DaoTestApi.friendDevDao;
 		friendDao.addOneFriend(uuid_2, uuid_4);
-		PuluoUserFriendship friendship = friendDao.getFriendListByUUID(uuid_2);
+		PuluoUserFriendship friendship = friendDao.getFriendListByUUID(uuid_2,0,0);
 		String user_uuid = friendship.userUUID();
 		Assert.assertEquals("user2's uuid should be " + uuid_2, uuid_2, user_uuid);
 		friendship.setDSI(DaoTestApi.getInstance());
@@ -132,7 +132,7 @@ public class PuluoUserFriendshipDaoTest {
 			current[i] = friends.get(i).user_uuid;
 		}
 		Assert.assertArrayEquals("user2's friends should be " + expected2, expected2, current);
-		friendship = friendDao.getFriendListByUUID(uuid_4);
+		friendship = friendDao.getFriendListByUUID(uuid_4,0,0);
 		user_uuid = friendship.userUUID();
 		Assert.assertEquals("user4's uuid should be " + uuid_4, uuid_4, user_uuid);
 		friendship.setDSI(DaoTestApi.getInstance());
@@ -151,7 +151,7 @@ public class PuluoUserFriendshipDaoTest {
 		log.info("testDeleteOneFriend start!");
 		PuluoUserFriendshipDao friendDao = DaoTestApi.friendDevDao;
 		friendDao.deleteOneFriend(uuid_5, uuid_3);
-		PuluoUserFriendship friendship = friendDao.getFriendListByUUID(uuid_3);
+		PuluoUserFriendship friendship = friendDao.getFriendListByUUID(uuid_3,0,0);
 		String user_uuid = friendship.userUUID();
 		Assert.assertEquals("user3's uuid should be " + uuid_3, uuid_3, user_uuid);
 		friendship.setDSI(DaoTestApi.getInstance());
@@ -162,7 +162,7 @@ public class PuluoUserFriendshipDaoTest {
 			current[i] = friends.get(i).user_uuid;
 		}
 		Assert.assertArrayEquals("user3's friends should be " + expected3, expected3, current);
-		friendship = friendDao.getFriendListByUUID(uuid_5);
+		friendship = friendDao.getFriendListByUUID(uuid_5,0,0);
 		user_uuid = friendship.userUUID();
 		Assert.assertEquals("user5's uuid should be " + uuid_5, uuid_5, user_uuid);
 		friendship.setDSI(DaoTestApi.getInstance());
