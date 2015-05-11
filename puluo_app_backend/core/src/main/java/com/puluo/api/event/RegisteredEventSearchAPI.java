@@ -1,6 +1,8 @@
 package com.puluo.api.event;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.puluo.api.PuluoAPI;
@@ -38,6 +40,12 @@ public class RegisteredEventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResu
 		for (PuluoPaymentOrder order: orders) {
 			searchedEvents.add(event_dao.getEventByUUID(order.eventId()));
 		}
+		Collections.sort(searchedEvents, new Comparator<PuluoEvent>(){
+			@Override
+			public int compare(PuluoEvent o1, PuluoEvent o2) {
+				return o1.eventTime().compareTo(o2.eventTime());
+			}
+		});
 		log.info(String.format("找到%d个已注册活动", searchedEvents.size()));
 		EventSearchResult result = new EventSearchResult();
 		result.setSearchResult(searchedEvents);
