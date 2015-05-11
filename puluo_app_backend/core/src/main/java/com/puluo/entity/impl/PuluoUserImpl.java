@@ -315,7 +315,7 @@ public class PuluoUserImpl implements PuluoUser {
 	}
 	
 	public List<PuluoFriendRequest> pending(PuluoDSI dsi) {
-		return dsi.friendRequestDao().getPendingFriendRequestsByUserUUID(user_uuid);
+		return dsi.friendRequestDao().getPendingFriendRequestsByUserUUID(user_uuid,0,0);
 	}
 
 }

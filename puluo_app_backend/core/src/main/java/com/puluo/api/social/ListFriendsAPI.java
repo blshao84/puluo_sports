@@ -11,9 +11,9 @@ import com.puluo.entity.PuluoUser;
 import com.puluo.entity.PuluoUserFriendship;
 import com.puluo.entity.impl.PuluoUserInfo;
 import com.puluo.result.ApiErrorResult;
-import com.puluo.result.user.ListUserPublicInfoResult;
 import com.puluo.result.user.CommonListAPIResult;
 import com.puluo.result.user.ListResultUserDetail;
+import com.puluo.result.user.ListUserPublicInfoResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 
@@ -21,14 +21,18 @@ import com.puluo.util.LogFactory;
 public class ListFriendsAPI extends PuluoAPI<PuluoDSI, CommonListAPIResult> {
 	public static Log log = LogFactory.getLog(ListFriendsAPI.class);
 	private final String user_mobile_or_uuid;
+	private final int limit;
+	private final int offset;
 
-	public ListFriendsAPI(String user_mobile_or_uuid) {
-		this(user_mobile_or_uuid, DaoApi.getInstance());
+	public ListFriendsAPI(String user_mobile_or_uuid, int limit, int offset) {
+		this(user_mobile_or_uuid,limit,offset, DaoApi.getInstance());
 	}
 
-	public ListFriendsAPI(String user_mobile_or_uuid, PuluoDSI dsi) {
+	public ListFriendsAPI(String user_mobile_or_uuid, int limit, int offset, PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.user_mobile_or_uuid = user_mobile_or_uuid;
+		this.limit = limit;
+		this.offset = offset;
 	}
 
 	@Override
@@ -37,7 +41,7 @@ public class ListFriendsAPI extends PuluoAPI<PuluoDSI, CommonListAPIResult> {
 		PuluoUserFriendshipDao friendshipdao = dsi.friendshipDao();
 		if (user()!=null) {
 			List<ListResultUserDetail> friend_detail = new ArrayList<ListResultUserDetail>();
-			PuluoUserFriendship friendlist = friendshipdao.getFriendListByUUID(user().userUUID());
+			PuluoUserFriendship friendlist = friendshipdao.getFriendListByUUID(user().userUUID(),limit,offset);
 			if (friendlist!=null) {
 				List<PuluoUserInfo> friends = friendlist.friends();
 				for (PuluoUserInfo friend: friends) {

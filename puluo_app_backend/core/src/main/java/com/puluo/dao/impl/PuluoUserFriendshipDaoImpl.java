@@ -58,11 +58,14 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 	}
 
 	@Override
-	public PuluoUserFriendship getFriendListByUUID(String userUUID) {
+	public PuluoUserFriendship getFriendListByUUID(String userUUID,int limit, int offset) {
 		SqlReader reader = getReader();
-		String selectSQL = new StringBuilder().append("select * from ")
-				.append(super.getFullTableName()).append(" where user_uuid = ?")
-				.toString();
+		StringBuilder sb = new StringBuilder().append("select * from ")
+				.append(super.getFullTableName()).append(" where user_uuid = ?");
+		if(limit>0) sb.append(" limit ").append(limit);
+		if(offset>0) sb.append(" offset ").append(offset);
+		sb.append(" order by id");
+		String selectSQL = sb.toString();
 		log.info(super.sqlRequestLog(selectSQL, userUUID));
 		List<PuluoUserFriendship> entities = reader.query(
 				selectSQL, new Object[] {userUUID},new FriendshipMapper());
@@ -88,7 +91,7 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 					.toString();
 			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);
-			return getFriendListByUUID(userUUID);
+			return getFriendListByUUID(userUUID,0,0);
 		} catch (Exception e) {
 			log.info(e.getMessage());
 			return null;
@@ -146,7 +149,7 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 			}
 			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);
-			return getFriendListByUUID(userUUID);
+			return getFriendListByUUID(userUUID,0,0);
 		} catch (Exception e) {
 			log.info(e.getMessage());
 			return null;

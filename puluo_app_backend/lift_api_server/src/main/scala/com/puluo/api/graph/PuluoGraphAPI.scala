@@ -35,7 +35,10 @@ object PuluoGraphAPI extends RestHelper with PuluoAPIUtil with Loggable {
         "user_uuid" -> ErrorResponseResult(15).copy(message = "user_uuid")))(doFreeUser)
     }
     case "users" :: "friends" :: mobileOrUUID :: Nil Post _ => {
-      val api = new ListFriendsAPI(mobileOrUUID)
+      val param = PuluoResponseFactory.createParamMap(Seq("limit","offset"))
+      val limit = getIntParam(param, "limit", 0)
+      val offset = getIntParam(param, "offset", 0)
+      val api = new ListFriendsAPI(mobileOrUUID,limit,offset)
       safeRun(api)
       PuluoResponseFactory.createJSONResponse(api)
     }
@@ -60,11 +63,13 @@ object PuluoGraphAPI extends RestHelper with PuluoAPIUtil with Loggable {
   }
 
   private def doGetFriendRequest = {
-    val params = PuluoResponseFactory.createParamMap(Seq("token"))
+    val params = PuluoResponseFactory.createParamMap(Seq("token","limit","offset"))
     val token = params("token")
     val session = PuluoSessionManager.getSession(token)
     val uuid = session.userUUID()
-    val api = new ListFriendRequestsAPI(uuid)
+    val limit = getIntParam(params, "limit", 0)
+    val offset = getIntParam(params, "offset", 0)
+    val api = new ListFriendRequestsAPI(uuid,limit,offset)
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)
   }
