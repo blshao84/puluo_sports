@@ -59,7 +59,7 @@ subprojects {
     task functionalTest(dependsOn: 'functionalTestClasses', type:Test) {
 	testClassesDir = sourceSets.functionalTest.output.classesDir
 	classpath = sourceSets.functionalTest.runtimeClasspath
-
+	jvmArgs '-Drun.mode=functional'
     }
 
     project.functionalTest.ignoreFailures = true

@@ -4,14 +4,49 @@
  */
 package com.puluo.util;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
  
 public class FileIOUtil {
+	public static byte[] read(String filename) throws IOException {  
+		  
+        File f = new File(filename);  
+        if (!f.exists()) {  
+            throw new FileNotFoundException(filename);  
+        }  
+  
+        ByteArrayOutputStream bos = new ByteArrayOutputStream((int) f.length());  
+        BufferedInputStream in = null;  
+        try {  
+            in = new BufferedInputStream(new FileInputStream(f));  
+            int buf_size = 1024;  
+            byte[] buffer = new byte[buf_size];  
+            int len = 0;  
+            while (-1 != (len = in.read(buffer, 0, buf_size))) {  
+                bos.write(buffer, 0, len);  
+            }  
+            return bos.toByteArray();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+            throw e;  
+        } finally {  
+            try {  
+                in.close();  
+            } catch (IOException e) {  
+                e.printStackTrace();  
+            }  
+            bos.close();  
+        }  
+    }  
+	
     public static String read(String fileName, String encoding) {
         StringBuilder fileContent = new StringBuilder();
         try {

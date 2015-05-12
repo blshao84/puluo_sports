@@ -8,6 +8,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.puluo.util.ArrayUtils;
 import com.puluo.util.BeanFactoryHelper;
+import com.puluo.util.DSIResolver;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 
@@ -17,46 +18,31 @@ import com.puluo.util.LogFactory;
  * @author mefan
  * 
  */
-public abstract class BeanFactory 
-{
-    private static final Log LOGGER = LogFactory.getLog(BeanFactory.class);
-    private static final ApplicationContext context;
+public abstract class BeanFactory {
+	private static final Log log = LogFactory.getLog(BeanFactory.class);
+	private static final ApplicationContext context;
 
-    private static final String fileName;
+	private static final String fileName;
 
-    static
-    {
-    	String mode = System.getProperty("run.mode");
-    	if(mode!=null && mode.equals("production")){
-    		fileName = "puluo-prod.xml";
-    	} else {
-    		fileName = "puluo.xml";
-    	}
-        File dir = new File("");
-        LOGGER.info("DIR=" + dir.getAbsolutePath());
-        // System.out.println("LIST=" + dir.listFiles());
-        if (dir.isDirectory() && !ArrayUtils.isEmpty(dir.listFiles()))
-        {
-            LOGGER.info("reading the config file {} from {}",fileName, dir);
-            context = new FileSystemXmlApplicationContext(fileName);
-        }
-        else
-        {
-            context = new ClassPathXmlApplicationContext(fileName);
-        }
-    }
+	static {
+		fileName = DSIResolver.resolveDSIConfig();
+		File dir = new File("");
+		log.info("DIR=" + dir.getAbsolutePath());
+		log.info("configuration file:" + fileName);
+		if (dir.isDirectory() && !ArrayUtils.isEmpty(dir.listFiles())) {
+			log.info("reading the config file {} from {}", fileName, dir);
+			context = new FileSystemXmlApplicationContext(fileName);
+		} else {
+			context = new ClassPathXmlApplicationContext(fileName);
+		}
+	}
 
-	
-    public static <T> T getBean(Class<T> beanClass, String... beanName)
-    {
-        return BeanFactoryHelper.getBean(context,beanClass,beanName);
-    }
+	public static <T> T getBean(Class<T> beanClass, String... beanName) {
+		return BeanFactoryHelper.getBean(context, beanClass, beanName);
+	}
 
-    
-    public static <T> T getBean(String beanId)
-    {
-        return BeanFactoryHelper.getBean(context,beanId);
-    }
-    
+	public static <T> T getBean(String beanId) {
+		return BeanFactoryHelper.getBean(context, beanId);
+	}
 
 }
