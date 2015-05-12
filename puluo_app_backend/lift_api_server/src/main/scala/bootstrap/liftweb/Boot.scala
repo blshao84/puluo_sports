@@ -57,6 +57,7 @@ class Boot extends Loggable {
 
     LiftRules.setSiteMap(SiteMap(
       Menu("test_bootstrap9") / "proto" / "test" >> net.liftweb.sitemap.Loc.Hidden,
+      Menu("payment_success") / "payment_success" >> net.liftweb.sitemap.Loc.Hidden,
       Menu("single_event") / "single_event" >> net.liftweb.sitemap.Loc.Hidden))
   }
 

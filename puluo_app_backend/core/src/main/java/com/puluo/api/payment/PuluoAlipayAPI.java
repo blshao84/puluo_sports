@@ -177,7 +177,11 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 		return false;
 	}
 
-	private long orderNumericID() {
+	public long orderNumericID() {
 		return AlipayUtil.parseOrderID(trade_id, Configurations.orderIDBase);
+	}
+	
+	public boolean isSuccess() {
+		return rawResult.isSuccess();
 	}
 }

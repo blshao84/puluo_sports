@@ -123,6 +123,7 @@ class Boot extends Loggable {
     val withAuthentication: PartialFunction[Req, Unit] = {
       case r: Req if S.loggedIn_? =>
     }
+    LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
     // setup the 404 handler 
     LiftRules.uriNotFound.prepend(NamedPF("404handler") {
       case (req, failure) => NotFoundAsTemplate(ParsePath(List("404"), "html", false, false))
