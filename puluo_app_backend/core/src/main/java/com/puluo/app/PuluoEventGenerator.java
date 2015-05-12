@@ -15,6 +15,7 @@ import com.puluo.entity.PuluoEventPoster;
 import com.puluo.entity.PuluoUser;
 import com.puluo.entity.impl.PuluoEventImpl;
 import com.puluo.entity.impl.PuluoEventInfoImpl;
+import com.puluo.entity.impl.PuluoEventLocationImpl;
 import com.puluo.entity.impl.PuluoEventPosterImpl;
 import com.puluo.enumeration.EventStatus;
 import com.puluo.enumeration.PuluoEventCategory;
@@ -27,9 +28,12 @@ public class PuluoEventGenerator {
 	public static PuluoEventLocation location2 = DaoApi.getInstance().eventLocationDao().getEventLocationByUUID("dfc60ac8-0638-44fc-9f54-9ff84f582a41");
 	
 	public static void main(String[] args) {
-		generateWeeklyEvents(new DateTime(2014,4,27,0,0,0,0));
-		generateWeeklyEvents(new DateTime(2014,4,27,0,0,0,0).plusWeeks(1));
-		generateWeeklyEvents(new DateTime(2014,4,27,0,0,0,0).plusWeeks(2));
+		DaoApi.getInstance().eventLocationDao().saveEventLocation(new PuluoEventLocationImpl(
+				UUID.randomUUID().toString(), "尚都SOHO西塔三层1308室", 
+				"100020", "普罗总部", "010-59003866", "北京", 0, 0, 0, 30, 0));
+		//generateWeeklyEvents(new DateTime(2014,4,27,0,0,0,0));
+		//generateWeeklyEvents(new DateTime(2014,4,27,0,0,0,0).plusWeeks(1));
+		//generateWeeklyEvents(new DateTime(2014,4,27,0,0,0,0).plusWeeks(2));
 
 	}
 	

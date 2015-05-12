@@ -50,6 +50,7 @@ public class AlipayUtil {
 		sParaTemp.put("show_url", show_url);// 商品展示地址
 		String link = AlipaySubmit.buildRequestLink(ALIPAY_GATEWAY_NEW,
 				sParaTemp);
+		log.info(String.format("Alipay params:\n %s",sParaTemp.toString()));
 		log.info(String.format("支付宝支付链接:\n %s", link));
 		return link;
 	}
