@@ -28,7 +28,7 @@ import com.puluo.api.payment.AliPaymentNotification
 
 object PaymentNotificationSnippet extends PuluoSnippetUtil with Loggable {
   val errorMsg = "抱歉，支付出现异常，如果您没有收到短信确认的通知，请于我们客服联系，电话：010-59003866"
-  def render = {
+  def render = try {
     val req = S.request
     if (req.isDefined) {
       val api = AliPaymentNotification.createPaymentAPI(req.get)
@@ -36,14 +36,13 @@ object PaymentNotificationSnippet extends PuluoSnippetUtil with Loggable {
       if (api.isSuccess) {
         val dsi = DaoApi.getInstance()
         val order = dsi.paymentDao().getOrderByNumericID(api.orderNumericID)
-        if(order!=null){
+        if (order != null) {
           val event = dsi.eventDao().getEventByUUID(order.eventId())
           "#order_id *" #> order.orderNumericID() &
-          "#event_name *" #> event.eventInfo().name() &
-          "#event_time *" #> TimeUtils.formatDate(event.eventTime()) &
-          "#event_location *" #> event.eventLocation().address() &
-          "#order_status *" #> order.status().toString()
-          
+            "#event_name *" #> event.eventInfo().name() &
+            "#event_time *" #> TimeUtils.formatDate(event.eventTime()) &
+            "#event_location *" #> event.eventLocation().address() &
+            "#order_status *" #> order.status().toString()
         } else {
           "#notification" #> errorMsg
         }
@@ -53,5 +52,7 @@ object PaymentNotificationSnippet extends PuluoSnippetUtil with Loggable {
     } else {
       "#notification" #> errorMsg
     }
+  } catch {
+    case e: Exception => "#notification" #> errorMsg
   }
 }

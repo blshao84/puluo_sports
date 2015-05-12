@@ -31,7 +31,7 @@ public class AlipayUtil {
 		String subject = outTradeNo;
 		String body = outTradeNo;
 		String notify_url = "http://" + Configurations.webServer + "/payment/alipay/notify";
-		String return_url = "https://" + Configurations.webServer + "/payment/alipay/notify";
+		String return_url = "https://" + Configurations.webServer + "/payment_success";
 		String seller_email = AlipayConfig.seller_email;
 		String total_fee = Strs.prettyDouble(order.amount(), 2);
 		String show_url = Configurations.webServer;
