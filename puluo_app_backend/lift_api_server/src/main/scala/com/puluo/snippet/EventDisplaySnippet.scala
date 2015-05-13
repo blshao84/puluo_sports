@@ -43,7 +43,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with Loggable {
         "#loc *" #> loc.address() &
         "#coach *" #> info.coachName() &
         "#duration *" #> info.duration() &
-        (if (event.discount()<1) {
+        (if (event.discount() < 1) {
           "#price *" #> Strs.prettyDouble(event.price(), 2) &
             "#discount *" #> Strs.prettyDouble(event.discountedPrice(), 2)
         } else {
@@ -59,11 +59,15 @@ object EventDisplaySnippet extends PuluoSnippetUtil with Loggable {
           if (mobile.isDefined) {
             val user = DaoApi.getInstance().userDao().getByMobile(mobile.get.get)
             if (user != null) {
-              val api = new EventRegistrationAPI(event.eventUUID(), user.userUUID(),false)
+              val api = new EventRegistrationAPI(event.eventUUID(), user.userUUID(), false)
               api.execute()
               if (api.error == null) {
-                val link = api.paymentLink
-                JsCmds.RedirectTo(link)
+                if (event.price() == 0) {
+                  JsCmds.Alert("恭喜您成功预订课程！")
+                } else {
+                  val link = api.paymentLink
+                  JsCmds.RedirectTo(link)
+                }
               } else JsCmds.Alert("注册课程时发生异常，请稍后再试")
             } else {
               JsCmds.Alert("您还没有注册，请您通过微信公众号一键注册！")
