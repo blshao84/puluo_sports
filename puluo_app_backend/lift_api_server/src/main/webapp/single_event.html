@@ -6,40 +6,43 @@
       <div class="caption">
         <h3 id="name">腹肌撕裂TRX</h3>
       </div>
-        <div class="row">
-        	<div class="col-xs-3 col-md-3">时间</div>
-        	<div id="time" class="col-xs-9 col-md-9">2014-05-15</div>
-        </div>
-        <div class="row">
-        	<div class="col-xs-3 col-md-3">地点</div>
-        	<div id="loc" class="col-xs-9 col-md-9">尚都SOHO</div>
-        </div>
-        <div class="row">
-        	<div class="col-xs-3 col-md-3">教练</div>
-        	<div id="coach" class="col-xs-9 col-md-9">Jerry</div>
-        </div>
-        <div class="row">
-        	<div class="col-xs-3 col-md-3">时长</div>
-        	<div id="duration" class="col-xs-9 col-md-9">60分钟</div>
-        </div>
-        <div id="priceDiv" class="row" style="TEXT-DECORATION: line-through">
-        	<div class="col-xs-3 col-md-3">原价</div>
-        	<div id="price" class="col-xs-9 col-md-9">100元</div>
-        </div>
-        <div id="discountDiv" class="row" style="color:red;font-size:16px">
-        	<div class="col-xs-3 col-md-3">现价</div>
-        	<div id="discount" class="col-xs-9 col-md-9">30元</div>
-        </div>
-        <div class="row">
-        	<div class="col-xs-3 col-md-3">详细描述</div>
-        	<div id="desc" class="col-xs-9 col-md-9">TRX是Total Resistance Exercise的缩写，即“全身抗阻力锻炼”的意思，
-        	然而健身界似乎更喜欢称其为“悬挂训练系统”。TRX 一直致力于为用户提供全面、创新的训练课程和动作设计。</div>
-        </div>
-        <div class="row">
-        	<div class="col-xs-3 col-md-3">电话</div>
-        	<input class="col-xs-3 col-md-3" id="mobile"/>
-        </div>
-        <button id="reserve" style="margin-top:15px" class="col-xs-3 col-xs-offset-3 btn btn-primary">预定</button>        
+      <table class="table table-hover table-bordered">
+      	<tbody>
+			<tr>
+				<td>时间</td>
+				<td><span id="time"></span></td>
+			</tr>
+			<tr>
+				<td>地点</td>
+				<td><span id="loc"></span></td>
+			</tr>
+			<tr>
+				<td>教练</td>
+				<td><span id="coach"></span></td>
+			</tr>
+			<tr>
+				<td>时长</td>
+				<td><span id="duration"></span></td>
+			</tr>
+			<tr id="priceDiv" style="TEXT-DECORATION: line-through">
+				<td>原价</td>
+				<td><span id="price"></span></td>
+			</tr>
+			<tr id="discountDiv" style="color:red;font-size:16px">
+				<td>现价</td>
+				<td><span id="discount"></span></td>
+			</tr>
+			<tr>
+				<td>详细描述</td>
+				<td><span id="desc"></span></td>
+			</tr>
+			<tr>
+				<td>您的电话</td>
+			<td><input id="mobile"/></td>
+			</tr>
+		</tbody>
+	  </table>
+       <button id="reserve" style="margin-top:15px" class="col-xs-3 col-xs-offset-3 btn btn-primary">预定</button>        
       </div>
     </div>
   </div>

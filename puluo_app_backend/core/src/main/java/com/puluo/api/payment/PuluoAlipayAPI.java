@@ -31,12 +31,13 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 	private final boolean mock;
 
 	public PuluoAlipayAPI(HashMap<String, String> params, String trade_status,
-			String trade_id, String paymentRef,boolean mock) {
-		this(params, trade_status, trade_id, paymentRef,mock, DaoApi.getInstance());
+			String trade_id, String paymentRef, boolean mock) {
+		this(params, trade_status, trade_id, paymentRef, mock, DaoApi
+				.getInstance());
 	}
-	
+
 	public PuluoAlipayAPI(HashMap<String, String> params, String trade_status,
-			String trade_id, String paymentRef,boolean mock, PuluoDSI dsi) {
+			String trade_id, String paymentRef, boolean mock, PuluoDSI dsi) {
 		this.params = params;
 		this.trade_status = trade_status;
 		this.trade_id = trade_id;
@@ -52,12 +53,12 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 		}
 		return;
 	}
-	
+
 	public void processOrderWithZero() {
 		processValidRequest();
 	}
 
-	private void processValidRequest() {
+	public void processValidRequest() {
 		log.info(String.format("订单PaymentOrder=%s状态正常", orderNumericID()));
 		// verifyRequest ensures order exists
 		PuluoPaymentOrder order = dsi.paymentDao().getOrderByNumericID(
@@ -72,11 +73,13 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 				boolean successUpdate = updateOrderStatus(order);
 				if (successUpdate) {
 					if (Configurations.enableSMSNotification) {
-						if(!mock) sendNotification(order);
+						if (!mock)
+							sendNotification(order);
 					}
 					setSuccessfulPaymentResult();
 				} else {
-					if(!mock) sendNotification(order);
+					if (!mock)
+						sendNotification(order);
 					sendSystemWarningEmail(order);
 					setSuccessfulPaymentResult();
 				}
@@ -180,8 +183,14 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 	public long orderNumericID() {
 		return AlipayUtil.parseOrderID(trade_id, Configurations.orderIDBase);
 	}
-	
+
 	public boolean isSuccess() {
-		return rawResult.isSuccess();
+		return isPaymentSuccess() && rawResult!=null && rawResult.isSuccess();
+	}
+
+	public boolean isPaymentSuccess() {
+		return trade_status.equals("TRADE_FINISHED")
+				|| trade_status.equals("TRADE_SUCCESS")
+				|| trade_status.equals("success");
 	}
 }

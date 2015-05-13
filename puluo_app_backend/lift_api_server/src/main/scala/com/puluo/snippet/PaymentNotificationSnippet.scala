@@ -37,7 +37,9 @@ object PaymentNotificationSnippet extends PuluoSnippetUtil with Loggable {
     if (req.isDefined) {
       logger.info("req is defined")
       val api = createPaymentAPI(req.get)
-      api.execute()
+      if (api.isPaymentSuccess()) {
+        api.processValidRequest()
+      }
       if (api.isSuccess) {
         val dsi = DaoApi.getInstance()
         val order = dsi.paymentDao().getOrderByNumericID(api.orderNumericID)
@@ -64,19 +66,19 @@ object PaymentNotificationSnippet extends PuluoSnippetUtil with Loggable {
       "#notification" #> errorMsg
     }
   }
-  
+
   def createPaymentAPI(request: Req) = {
 
     val params = new HashMap[String, String]();
     request.params.foreach(p => params.put(p._1, p._2.mkString(",")))
-    logger.info("params returned by notification url:"+params)
+    logger.info("params returned by notification url:" + params)
     //商户订单号
     val tradeID = new String(request.param("out_trade_no").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
     //支付宝交易号
-    val paymentRef =  new String(request.param("trade_no").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
+    val paymentRef = new String(request.param("trade_no").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
     //交易状态
-    val trade_status = new String(request.param("trade_status").getOrElse("").getBytes("ISO-8859-1"), "UTF-8")
+    val trade_status = new String(request.param("result").getOrElse("").getBytes("ISO-8859-1"), "UTF-8")
     logger.info(s"tradeID=${tradeID},paymentRef=${paymentRef},trade_status=${trade_status}")
-    new PuluoAlipayAPI(params, trade_status, tradeID, paymentRef,true)
+    new PuluoAlipayAPI(params, trade_status, tradeID, paymentRef, true)
   }
 }

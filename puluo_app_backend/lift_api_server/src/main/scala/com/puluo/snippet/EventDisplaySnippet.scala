@@ -36,7 +36,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with Loggable {
       val info = event.eventInfo()
       val loc = event.eventLocation()
       val pic = info.poster().headOption.map(_.imageURL()).getOrElse("empty.jpg")
-      "#pic [src]" #> s"${Configurations.imageServer}${pic}" &
+      "#pic [src]" #> s"${pic}!small" &
         "#name *" #> info.name() &
         "#time *" #> TimeUtils.formatDate(event.eventTime()) &
         "#loc *" #> loc.address() &
