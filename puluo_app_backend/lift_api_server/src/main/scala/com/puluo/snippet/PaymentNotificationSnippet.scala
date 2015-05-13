@@ -32,7 +32,7 @@ object PaymentNotificationSnippet extends PuluoSnippetUtil with Loggable {
     val req = S.request
     if (req.isDefined) {
       logger.info("req is defined")
-      val api = AliPaymentNotification.createPaymentAPI(req.get)
+      val api = AliPaymentNotification.createPaymentAPI(req.get,true)
       api.execute()
       if (api.isSuccess) {
         val dsi = DaoApi.getInstance()

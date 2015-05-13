@@ -74,7 +74,9 @@ public class JuheSMSResult {
 	
 	@Override
 	public String toString() {
-		return Strs.join("reason:",reason,";","errorCode:",error_code,";","result:{",result.toString(),"}");
+		String resStr;
+		if(result==null) resStr = "null"; else resStr = result.toString();
+		return Strs.join("reason:",reason,";","errorCode:",error_code,";","result:{",resStr,"}");
 	}
 
 	@Override
