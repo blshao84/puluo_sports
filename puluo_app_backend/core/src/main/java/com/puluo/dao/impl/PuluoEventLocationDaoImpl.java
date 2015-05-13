@@ -37,19 +37,22 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements
 					.append("location_type int)").toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
-			
-			String indexSQL1 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_id on ")
-					.append(super.getFullTableName())
+
+			String indexSQL1 = new StringBuilder()
+					.append("create index " + super.getFullTableName()
+							+ "_i_id on ").append(super.getFullTableName())
 					.append(" (id)").toString();
 			log.info(indexSQL1);
 			getWriter().execute(indexSQL1);
-			
-			String indexSQL2 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_location_uuid on ")
+
+			String indexSQL2 = new StringBuilder()
+					.append("create index " + super.getFullTableName()
+							+ "_i_location_uuid on ")
 					.append(super.getFullTableName())
 					.append(" (location_uuid)").toString();
 			log.info(indexSQL2);
 			getWriter().execute(indexSQL2);
-			
+
 			return true;
 		} catch (Exception e) {
 			log.debug(e.getMessage());
@@ -70,7 +73,7 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements
 					.append(super.getFullTableName())
 					.append(" where location_uuid = '" + location.locationId()
 							+ "'").toString();
-			log.info(Strs.join("SQL:",querySQL));
+			log.info(Strs.join("SQL:", querySQL));
 			int resCnt = reader.queryForInt(querySQL);
 			if (resCnt > 0) {
 				return this.updateEventLocation(location);
@@ -91,25 +94,7 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements
 				.append(" where location_uuid = ?").toString();
 		log.info(super.sqlRequestLog(selectSQL, location_uuid));
 		List<PuluoEventLocation> entities = reader.query(selectSQL,
-				new Object[] { location_uuid },
-				new RowMapper<PuluoEventLocation>() {
-					@Override
-					public PuluoEventLocation mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						PuluoEventLocationImpl location = new PuluoEventLocationImpl(
-								rs.getString("location_uuid"), rs
-										.getString("address"), rs
-										.getString("zip"),
-								rs.getString("name"), rs.getString("phone"), rs
-										.getString("city"), rs
-										.getDouble("longitude"), rs
-										.getDouble("latitude"), rs
-										.getInt("court"),
-								rs.getInt("capacity"), rs
-										.getInt("location_type"));
-						return location;
-					}
-				});
+				new Object[] { location_uuid },new EventLocationMapper());
 		return verifyUniqueResult(entities);
 	}
 
@@ -122,7 +107,7 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements
 					.append(super.getFullTableName())
 					.append(" where location_uuid = '" + location.locationId()
 							+ "'").toString();
-			log.info(Strs.join("SQL:",querySQL));
+			log.info(Strs.join("SQL:", querySQL));
 			int resCnt = reader.queryForInt(querySQL);
 			String updateSQL;
 			if (resCnt == 0) {
@@ -132,25 +117,28 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements
 						.append(" (location_uuid, address, zip, name, phone, city, longitude, latitude, court, capacity, location_type)")
 						.append(" values ('" + location.locationId() + "', ")
 						.append(Strs.isEmpty(location.address()) ? "null" : "'"
-								+ super.processSingleQuote(location.address()) + "'")
+								+ super.processSingleQuote(location.address())
+								+ "'")
 						.append(", ")
 						.append(Strs.isEmpty(location.zip()) ? "null" : "'"
 								+ location.zip() + "'")
 						.append(", ")
 						.append(Strs.isEmpty(location.name()) ? "null" : "'"
-								+ super.processSingleQuote(location.name()) + "'")
+								+ super.processSingleQuote(location.name())
+								+ "'")
 						.append(", ")
 						.append(Strs.isEmpty(location.phone()) ? "null" : "'"
 								+ location.phone() + "'")
 						.append(", ")
 						.append(Strs.isEmpty(location.city()) ? "null" : "'"
-								+ super.processSingleQuote(location.city()) + "'").append(", ")
+								+ super.processSingleQuote(location.city())
+								+ "'").append(", ")
 						.append(location.longitude() + ", ")
 						.append(location.latitude() + ", ")
 						.append(location.court() + ", ")
 						.append(location.capacity() + ", ")
 						.append(location.type() + ")").toString();
-				log.info(Strs.join("SQL:",updateSQL));
+				log.info(Strs.join("SQL:", updateSQL));
 				getWriter().update(updateSQL);
 				return true;
 			} else {
@@ -172,27 +160,30 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements
 					.append(super.getFullTableName())
 					.append(" where location_uuid = '" + location.locationId()
 							+ "'").toString();
-			log.info(Strs.join("SQL:",querySQL));
+			log.info(Strs.join("SQL:", querySQL));
 			int resCnt = reader.queryForInt(querySQL);
 			StringBuilder updateSQL;
 			if (resCnt > 0) {
 				updateSQL = new StringBuilder().append("update ")
 						.append(super.getFullTableName()).append(" set");
 				if (!Strs.isEmpty(location.address())) {
-					updateSQL
-							.append(" address = '" + super.processSingleQuote(location.address()) + "',");
+					updateSQL.append(" address = '"
+							+ super.processSingleQuote(location.address())
+							+ "',");
 				}
 				if (!Strs.isEmpty(location.zip())) {
 					updateSQL.append(" zip = '" + location.zip() + "',");
 				}
 				if (!Strs.isEmpty(location.name())) {
-					updateSQL.append(" name = '" + super.processSingleQuote(location.name()) + "',");
+					updateSQL.append(" name = '"
+							+ super.processSingleQuote(location.name()) + "',");
 				}
 				if (!Strs.isEmpty(location.phone())) {
 					updateSQL.append(" phone = '" + location.phone() + "',");
 				}
 				if (!Strs.isEmpty(location.city())) {
-					updateSQL.append(" city = '" + super.processSingleQuote(location.city()) + "',");
+					updateSQL.append(" city = '"
+							+ super.processSingleQuote(location.city()) + "',");
 				}
 				updateSQL
 						.append(" longitude = ")
@@ -207,7 +198,7 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements
 						.append(location.type())
 						.append(" where location_uuid = '"
 								+ location.locationId() + "'");
-				log.info(Strs.join("SQL:",updateSQL.toString()));
+				log.info(Strs.join("SQL:", updateSQL.toString()));
 				getWriter().update(updateSQL.toString());
 				return true;
 			} else {
@@ -217,6 +208,30 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements
 		} catch (Exception e) {
 			log.info(e.getMessage());
 			return false;
+		}
+	}
+
+	@Override
+	public List<PuluoEventLocation> findAll() {
+		SqlReader reader = getReader();
+		String selectSQL = new StringBuilder().append("select * from ")
+				.append(super.getFullTableName()).toString();
+		List<PuluoEventLocation> entities = reader.query(selectSQL,new EventLocationMapper());
+		return entities;
+	}
+
+	class EventLocationMapper implements RowMapper<PuluoEventLocation> {
+		@Override
+		public PuluoEventLocation mapRow(ResultSet rs, int rowNum)
+				throws SQLException {
+			PuluoEventLocationImpl location = new PuluoEventLocationImpl(
+					rs.getString("location_uuid"), rs.getString("address"),
+					rs.getString("zip"), rs.getString("name"),
+					rs.getString("phone"), rs.getString("city"),
+					rs.getDouble("longitude"), rs.getDouble("latitude"),
+					rs.getInt("court"), rs.getInt("capacity"),
+					rs.getInt("location_type"));
+			return location;
 		}
 	}
 

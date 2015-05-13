@@ -10,6 +10,10 @@ import org.junit.Test;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.dao.impl.PuluoEventDaoImpl;
+import com.puluo.dao.impl.PuluoEventLocationDaoImpl;
+import com.puluo.dao.impl.PuluoOrderEventDaoImpl;
+import com.puluo.dao.impl.PuluoPaymentDaoImpl;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoEventInfo;
@@ -59,12 +63,14 @@ public class PaymentLinkFunctionalTest extends APIFunctionalTest {
 		if (user != null) {
 			userDao.deleteByUserUUID(user.userUUID());
 		}
-//		PuluoEventDaoImpl eventDao = (PuluoEventDaoImpl) DaoApi.getInstance().eventDao();
-//		eventDao.deleteByEventUUID(event_uuid);
-//		PuluoPaymentDaoImpl paymentDao = (PuluoPaymentDaoImpl) DaoApi.getInstance().paymentDao();
-//		paymentDao.deleteByOrderUUID(order_uuid);
-//		PuluoOrderEventDaoImpl orderEventDao = (PuluoOrderEventDaoImpl) DaoApi.getInstance().orderEventDao();
-//		orderEventDao.deleteByOrderUUID(order_uuid);
+		PuluoEventDaoImpl eventDao = (PuluoEventDaoImpl) DaoApi.getInstance().eventDao();
+		eventDao.deleteByEventUUID(event_uuid);
+		PuluoPaymentDaoImpl paymentDao = (PuluoPaymentDaoImpl) DaoApi.getInstance().paymentDao();
+		paymentDao.deleteByOrderUUID(order_uuid);
+		PuluoOrderEventDaoImpl orderEventDao = (PuluoOrderEventDaoImpl) DaoApi.getInstance().orderEventDao();
+		orderEventDao.deleteByOrderUUID(order_uuid);
+		PuluoEventLocationDaoImpl locationDao = (PuluoEventLocationDaoImpl) DaoApi.getInstance().eventLocationDao();
+		locationDao.deleteByLocationUUID(location_uuid);
 	}
 
 	@Test

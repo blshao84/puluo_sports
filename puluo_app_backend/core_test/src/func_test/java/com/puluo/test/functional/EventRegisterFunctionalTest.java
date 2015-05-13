@@ -11,6 +11,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.dao.impl.PuluoEventDaoImpl;
+import com.puluo.dao.impl.PuluoEventLocationDaoImpl;
 import com.puluo.dao.impl.PuluoOrderEventDaoImpl;
 import com.puluo.dao.impl.PuluoPaymentDaoImpl;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
@@ -68,6 +69,8 @@ public class EventRegisterFunctionalTest extends APIFunctionalTest {
 		paymentDao.deleteByOrderUUID(order_uuid);
 		PuluoOrderEventDaoImpl orderEventDao = (PuluoOrderEventDaoImpl) DaoApi.getInstance().orderEventDao();
 		orderEventDao.deleteByOrderUUID(order_uuid);
+		PuluoEventLocationDaoImpl locationDao = (PuluoEventLocationDaoImpl) DaoApi.getInstance().eventLocationDao();
+		locationDao.deleteByLocationUUID(location_uuid);
 	}
 
 	@Test

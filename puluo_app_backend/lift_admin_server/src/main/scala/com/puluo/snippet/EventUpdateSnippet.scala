@@ -41,6 +41,9 @@ import com.puluo.entity.impl.PuluoEventImpl
 import org.joda.time.DateTime
 
 class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
+  val allLocations = DaoApi.getInstance().eventLocationDao().
+    findAll().map(l => (s"${l.name()} ${l.address()}",l.locationId())).toMap
+
   object uuid extends RequestVar[Option[String]](None)
   object event extends SessionVar[Option[PuluoEvent]](None)
 
@@ -60,6 +63,7 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
     val uuidFromURL = S.param("uuid")
     val eventUUID = event.map(_.eventUUID()).getOrElse("")
     val eventStatus = EventStatus.values.map(_.name)
+    val locOptions = allLocations.keys.toSeq
     val hot = Seq("0", "1")
     loadEvent
     (if (uuidFromURL.isDefined) {
@@ -81,7 +85,7 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
       } &
       "#id *" #> eventUUID &
       "#info-uuid" #> renderText(info) &
-      "#loc-uuid" #> renderText(loc) &
+      "#loc-uuid" #> renderSimpleSelect(locOptions, loc) &
       "#capacity" #> renderInt(capacity) &
       "#year" #> renderInt(year) &
       "#month" #> renderInt(month) &
@@ -98,22 +102,22 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
   }
 
   private def loadEvent = {
-    if(event.get.isDefined){
+    if (event.get.isDefined) {
       val e = event.get.get
-      if(e.eventInfo()!=null) info(Some(e.eventInfo().eventInfoUUID()))
-      if(e.eventLocation()!=null) loc(Some(e.eventLocation().locationId()))
-      if(e.statusName()!=null) status(Some(e.statusName()))
-      if(e.capatcity()!=0) capacity(Some(e.capatcity()))
-      if(e.eventTime()!=null) {
+      if (e.eventInfo() != null) info(Some(e.eventInfo().eventInfoUUID()))
+      if (e.eventLocation() != null) loc(Some(e.eventLocation().locationId()))
+      if (e.statusName() != null) status(Some(e.statusName()))
+      if (e.capatcity() != 0) capacity(Some(e.capatcity()))
+      if (e.eventTime() != null) {
         val dt = e.eventTime()
         year(Some(dt.getYear()))
         month(Some(dt.getMonthOfYear()))
         day(Some(dt.getDayOfMonth()))
         hour(Some(dt.getHourOfDay()))
       }
-      if(e.price()!=0.0) price(Some(e.originalPrice()))
-      if(e.discountedPrice()!=0.0) discount(Some(e.discountedPrice()))
-      if(e.hottest()!=0) hottest(Some(e.hottest().toString))
+      if (e.price() != 0.0) price(Some(e.originalPrice()))
+      if (e.discountedPrice() != 0.0) discount(Some(e.discountedPrice()))
+      if (e.hottest() != 0) hottest(Some(e.hottest().toString))
     }
   }
   private def doUpdate = {
@@ -123,7 +127,8 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
     val infoDao = dsi.eventInfoDao()
     val locDao = dsi.eventLocationDao()
     val infoEntity = infoDao.getEventInfoByUUID(info.getOrElse(""))
-    val locEntity = locDao.getEventLocationByUUID(loc.getOrElse(""))
+    val locId = allLocations.get(loc.getOrElse("")).getOrElse("")
+    val locEntity = locDao.getEventLocationByUUID(locId)
     if (infoEntity != null) {
       if (locEntity != null) {
         if (year.isDefined && month.isDefined && day.isDefined && hour.isDefined) {
@@ -133,22 +138,22 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
             val eventStatus = EventStatus.valueOf(status.get.get)
             val eventHottest = hottest.map(_.toInt).getOrElse(0)
             val eventCapacity = capacity.getOrElse(0)
-            val eventPrice:java.lang.Double = price.get.get
-            val eventDiscount:java.lang.Double = discount.get.get
+            val eventPrice: java.lang.Double = price.get.get
+            val eventDiscount: java.lang.Double = discount.get.get
             val newEvent = new PuluoEventImpl(
-                event.get.get.eventUUID(),
-                eventTime,
-                eventStatus,
-                0,
-                eventCapacity,
-                eventPrice,
-                eventDiscount,
-                infoEntity.eventInfoUUID(),
-                locEntity.locationId(),
-                eventHottest)
+              event.get.get.eventUUID(),
+              eventTime,
+              eventStatus,
+              0,
+              eventCapacity,
+              eventPrice,
+              eventDiscount,
+              infoEntity.eventInfoUUID(),
+              locEntity.locationId(),
+              eventHottest)
             println(newEvent.toString())
             val success = eventDao.upsertEvent(newEvent)
-            if(success){
+            if (success) {
               JsCmds.Alert("成功更新课程")
             } else JsCmds.Alert("保存课程时发生错误")
           } else JsCmds.Alert(s"课程时间格式有误")
