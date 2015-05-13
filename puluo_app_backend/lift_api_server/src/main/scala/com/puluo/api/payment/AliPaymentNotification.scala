@@ -43,6 +43,7 @@ object AliPaymentNotification extends RestHelper with PuluoAPIUtil with Loggable
 
     val params = new HashMap[String, String]();
     request.params.foreach(p => params.put(p._1, p._2.mkString(",")))
+    logger.info("params returned by notification url:"+params)
     val notifyData = new String(request.param("notify_data").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
     val notifyXML = XML.loadString(notifyData)
 
@@ -52,6 +53,7 @@ object AliPaymentNotification extends RestHelper with PuluoAPIUtil with Loggable
     val paymentRef = notifyXML \\ "trade_no" //new String(request.param("trade_no").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
     //交易状态
     val trade_status = notifyXML \\ "trade_status" //new String(request.param("trade_status").getOrElse("").getBytes("ISO-8859-1"), "UTF-8")
+    logger.info(s"tradeID=${tradeID},paymentRef=${paymentRef},trade_status=${trade_status}")
     new PuluoAlipayAPI(params, trade_status.text, tradeID.text, paymentRef.text,false)
   }
 

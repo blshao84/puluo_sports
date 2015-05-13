@@ -31,6 +31,7 @@ object PaymentNotificationSnippet extends PuluoSnippetUtil with Loggable {
   def render = try {
     val req = S.request
     if (req.isDefined) {
+      logger.info("req is defined")
       val api = AliPaymentNotification.createPaymentAPI(req.get)
       api.execute()
       if (api.isSuccess) {
@@ -53,6 +54,9 @@ object PaymentNotificationSnippet extends PuluoSnippetUtil with Loggable {
       "#notification" #> errorMsg
     }
   } catch {
-    case e: Exception => "#notification" #> errorMsg
+    case e: Exception => {
+      logger.error("encounter error in executing API ...")
+      "#notification" #> errorMsg
+    }
   }
 }
