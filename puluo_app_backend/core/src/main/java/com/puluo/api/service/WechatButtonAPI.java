@@ -77,7 +77,7 @@ public class WechatButtonAPI {
 	}
 
 	private WechatMessage createHistOrders() {
-		String openId = params.get("openId");
+		String openId = params.get("FromUserName");
 		PuluoWechatBinding binding = DaoApi.getInstance().wechatBindingDao().findByOpenId(openId);
 		PuluoUser user = binding.user();
 		List<PuluoPaymentOrder> orders = DaoApi.getInstance().paymentDao().getPaidOrdersByUserUUID(user.userUUID(), 3);
