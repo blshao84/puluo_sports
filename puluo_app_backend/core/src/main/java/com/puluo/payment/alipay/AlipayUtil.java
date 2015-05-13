@@ -60,7 +60,7 @@ public class AlipayUtil {
 		String out_trade_no = generateOrderID(order, Configurations.orderIDBase);
 		String subject = out_trade_no;
 		String notify_url = "http://" + Configurations.webServer + "/payment/alipay/notify";
-		String return_url = "https://" + Configurations.webServer + "/payment/alipay/notify";
+		String return_url = "https://" + Configurations.webServer + "payment_success";
 		String merchant_url = "";
 		String total_fee = Strs.prettyDouble(order.amount(), 2);
 
@@ -144,6 +144,7 @@ public class AlipayUtil {
 
 		String link = AlipaySubmit.buildRequestLink(ALIPAY_GATEWAY_NEW,
 				sParaTemp);
+		log.info(String.format("Alipay params:\n %s",sParaTemp.toString()));
 		log.info(String.format("支付宝支付链接:\n %s", link));
 		return link;
 	}
