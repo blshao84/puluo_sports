@@ -18,12 +18,13 @@ public class Configurations {
 		"IMQeaQEwrJVtUoS1W_GkVYci8RrdN0kkTuqzH8oXwcI",
 		"ZTOGRA6tGSontcNb6tVGLNbJ029gQlmqrHMiCRwO6Ww"};
 	public static final String[] wechatButtonInfo2List = {
-		"BS819dxlOQJuv7-NXwfmSYVGc0HnCZqw00I93W0Z8_U",
-		"JYAT93i8wrdHU_wvLB2FVaZTXx1ij6e4cgCD6LFZOxU"};
+		"jjDWGK-OKR98IkzcySpOMWIsPUo07i4oRoDLOfL6pGE",
+		"jjDWGK-OKR98IkzcySpOMUJCAN5B3TSnABKDs6Ntrfk"};
 	public static final String[] wechatButtonInfo3List = {
-		"-X0zZkkgECf8egokOha06U9VSUQ65UUJOPwV5u4H4ag"};
+		"jjDWGK-OKR98IkzcySpOMbU9U8CATWKFUURXXob0spI",
+		"jjDWGK-OKR98IkzcySpOMRzqhRRCPQ4bz6Ji7T25_cc"};
 	public static final String[] wechatButtonInfo4List = {
-		"BS819dxlOQJuv7-NXwfmSYVGc0HnCZqw00I93W0Z8_U"};
+		"jjDWGK-OKR98IkzcySpOMd3flhG2JL7WaHCzKt4IIW4"};
 	public static final String wechatCurriculum = "CpJlAUkrFja6edvm_4Ma-jkp5sRCffgm0yQRXBwSab4";
 	public static String emptyImage = Strs.join(imageServer,"empty.jpg");
 }
