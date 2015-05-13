@@ -56,6 +56,7 @@ object PaymentNotificationSnippet extends PuluoSnippetUtil with Loggable {
   } catch {
     case e: Exception => {
       logger.error("encounter error in executing API ...")
+      e.printStackTrace()
       "#notification" #> errorMsg
     }
   }
