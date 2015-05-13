@@ -39,16 +39,17 @@ import com.puluo.entity.PuluoEventInfo
 import com.puluo.dao.impl.DaoApi
 import com.puluo.entity.impl.PuluoEventImpl
 import org.joda.time.DateTime
+import com.puluo.entity.PuluoEventLocation
 
 class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
   val allLocations = DaoApi.getInstance().eventLocationDao().
-    findAll().map(l => (s"${l.name()} ${l.address()}",l.locationId())).toMap
+    findAll().map(l => (locationName(l),l.locationId())).toMap
 
   object uuid extends RequestVar[Option[String]](None)
   object event extends SessionVar[Option[PuluoEvent]](None)
 
   object info extends RequestVar[Option[String]](None)
-  object loc extends RequestVar[Option[String]](None)
+  object locName extends RequestVar[Option[String]](None)
   object status extends RequestVar[Option[String]](None)
   object capacity extends RequestVar[Option[Int]](None)
   object year extends RequestVar[Option[Int]](None)
@@ -85,7 +86,7 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
       } &
       "#id *" #> eventUUID &
       "#info-uuid" #> renderText(info) &
-      "#loc-uuid" #> renderSimpleSelect(locOptions, loc) &
+      "#loc-uuid" #> renderSimpleSelect(locOptions, locName) &
       "#capacity" #> renderInt(capacity) &
       "#year" #> renderInt(year) &
       "#month" #> renderInt(month) &
@@ -105,7 +106,7 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
     if (event.get.isDefined) {
       val e = event.get.get
       if (e.eventInfo() != null) info(Some(e.eventInfo().eventInfoUUID()))
-      if (e.eventLocation() != null) loc(Some(e.eventLocation().locationId()))
+      if (e.eventLocation() != null) locName(Some(locationName(e.eventLocation())))
       if (e.statusName() != null) status(Some(e.statusName()))
       if (e.capatcity() != 0) capacity(Some(e.capatcity()))
       if (e.eventTime() != null) {
@@ -127,7 +128,7 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
     val infoDao = dsi.eventInfoDao()
     val locDao = dsi.eventLocationDao()
     val infoEntity = infoDao.getEventInfoByUUID(info.getOrElse(""))
-    val locId = allLocations.get(loc.getOrElse("")).getOrElse("")
+    val locId = allLocations.get(locName.getOrElse("")).getOrElse("")
     val locEntity = locDao.getEventLocationByUUID(locId)
     if (infoEntity != null) {
       if (locEntity != null) {
@@ -158,7 +159,7 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
             } else JsCmds.Alert("保存课程时发生错误")
           } else JsCmds.Alert(s"课程时间格式有误")
         } else JsCmds.Alert(s"课程时间不完整")
-      } else JsCmds.Alert(s"活动场地ID:${loc.getOrElse("")}不存在")
+      } else JsCmds.Alert(s"活动场地ID:${locName.getOrElse("")}不存在")
     } else JsCmds.Alert(s"活动信息ID:${info.getOrElse("")}不存现在")
   }
 
@@ -177,5 +178,9 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
         event(Some(i))
       } else logger.info(s"could not find event ${eventUUID}")
     } else logger.info(s"${eventUUID} is empty")
+  }
+  
+  private def locationName(loc:PuluoEventLocation) = {
+    s"${loc.name()} ${loc.address()}"
   }
 }
