@@ -92,17 +92,23 @@ public class PuluoAccountDaoImpl extends DalTemplate implements PuluoAccountDao 
 						.append(" values ('" + account.accountUUID() 
 								+ "', '" + account.ownerUUID() 
 								+ "', " + account.balance() 
-								+ ", " + account.credit() + ", array[");
-				boolean isFirst = true;
-				for (PuluoCoupon coupon: account.coupons()) {
-					if (isFirst) {
-						isFirst = false;
-					} else {
-						sb.append(", ");
+								+ ", " + account.credit() + ", ");
+				if (account.coupons()!=null && account.coupons().size()>0) {
+					sb.append("text[");
+					boolean isFirst = true;
+					for (PuluoCoupon coupon: account.coupons()) {
+						if (isFirst) {
+							isFirst = false;
+						} else {
+							sb.append(", ");
+						}
+						sb.append("'" + coupon.uuid() + "'");
 					}
-					sb.append("'" + coupon.uuid() + "'");
+					sb.append("]");
+				} else {
+					sb.append("null");
 				}
-				sb.append("])");
+				sb.append(")");
 				String insertSQL = sb.toString();
 				log.info(Strs.join("SQL:",insertSQL));
 				getWriter().update(insertSQL);

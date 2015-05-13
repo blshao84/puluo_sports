@@ -28,7 +28,11 @@ public class PuluoAccountImpl implements PuluoAccount {
 		this.user_uuid = user_uuid;
 		this.balance = balance;
 		this.credit = credit;
-		this.coupon_uuids = coupon_uuids;
+		if (coupon_uuids!=null) {
+			this.coupon_uuids = coupon_uuids;
+		} else {
+			this.coupon_uuids = new ArrayList<String>();
+		}
 	}
 
 	@Override

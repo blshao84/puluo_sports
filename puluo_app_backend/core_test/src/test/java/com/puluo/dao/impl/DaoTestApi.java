@@ -49,8 +49,8 @@ public class DaoTestApi extends PuluoDSI {
 	public static WechatMediaResourceDao wechatMediaResourceDao	= BeanTestFactory.getBean(WechatMediaResourceDaoImpl.class, "wechatMediaResourceDao");
 	public static PuluoOrderEventDao orderEventDevDao = BeanTestFactory.getBean(PuluoOrderEventDao.class, "orderEventDevDao");
 	public static PuluoPaymentDao paymentDevDao = BeanTestFactory.getBean(PuluoPaymentDao.class, "paymentDevDao");
-	public static PuluoAccountDao accountDevDao = null;//BeanTestFactory.getBean(PuluoAccountDao.class, "accountDevDao");
-	public static PuluoCouponDao couponDevDao = null;//BeanTestFactory.getBean(PuluoCouponDao.class, "couponDevDao");
+	public static PuluoAccountDao accountDevDao = BeanTestFactory.getBean(PuluoAccountDao.class, "accountDevDao");
+	public static PuluoCouponDao couponDevDao = BeanTestFactory.getBean(PuluoCouponDao.class, "couponDevDao");
 
 	private static class SingletonHolder {
 		private static final DaoTestApi INSTANCE = new DaoTestApi();
