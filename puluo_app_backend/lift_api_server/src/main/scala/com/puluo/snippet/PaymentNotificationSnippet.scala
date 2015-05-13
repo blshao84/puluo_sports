@@ -25,6 +25,10 @@ import com.puluo.snippet.util.PuluoSnippetUtil
 import com.puluo.api.event.EventRegistrationAPI
 import com.puluo.config.Configurations
 import com.puluo.api.payment.AliPaymentNotification
+import com.puluo.api.payment.PuluoAlipayAPI
+import net.liftweb.http.Req
+import scala.xml.XML
+import java.util.HashMap
 
 object PaymentNotificationSnippet extends PuluoSnippetUtil with Loggable {
   val errorMsg = "抱歉，支付出现异常，如果您没有收到短信确认的通知，请于我们客服联系，电话：010-59003866"
@@ -32,7 +36,7 @@ object PaymentNotificationSnippet extends PuluoSnippetUtil with Loggable {
     val req = S.request
     if (req.isDefined) {
       logger.info("req is defined")
-      val api = AliPaymentNotification.createPaymentAPI(req.get,true)
+      val api = createPaymentAPI(req.get)
       api.execute()
       if (api.isSuccess) {
         val dsi = DaoApi.getInstance()
@@ -56,8 +60,23 @@ object PaymentNotificationSnippet extends PuluoSnippetUtil with Loggable {
   } catch {
     case e: Exception => {
       logger.error("encounter error in executing API ...")
-      e.printStackTrace()
+      logger.error(e.getStackTraceString)
       "#notification" #> errorMsg
     }
+  }
+  
+  def createPaymentAPI(request: Req) = {
+
+    val params = new HashMap[String, String]();
+    request.params.foreach(p => params.put(p._1, p._2.mkString(",")))
+    logger.info("params returned by notification url:"+params)
+    //商户订单号
+    val tradeID = new String(request.param("out_trade_no").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
+    //支付宝交易号
+    val paymentRef =  new String(request.param("trade_no").getOrElse("").getBytes("ISO-8859-1"), "UTF-8");
+    //交易状态
+    val trade_status = new String(request.param("trade_status").getOrElse("").getBytes("ISO-8859-1"), "UTF-8")
+    logger.info(s"tradeID=${tradeID},paymentRef=${paymentRef},trade_status=${trade_status}")
+    new PuluoAlipayAPI(params, trade_status, tradeID, paymentRef,true)
   }
 }
