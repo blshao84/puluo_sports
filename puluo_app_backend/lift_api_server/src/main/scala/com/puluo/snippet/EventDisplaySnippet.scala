@@ -33,6 +33,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with Loggable {
     if (event == null) {
       "#event" #> "课程不存在"
     } else {
+      val registered = event.registeredUsers()
       val info = event.eventInfo()
       val loc = event.eventLocation()
       val pic = info.poster().headOption.map(_.imageURL()).getOrElse("empty.jpg")
@@ -50,6 +51,8 @@ object EventDisplaySnippet extends PuluoSnippetUtil with Loggable {
             "#discountDiv" #> "" &
             "#priceDiv [style]" #> ""
         }) &
+        "#registered *" #> registered &
+        "#remaining *" #> (event.capatcity() - registered) &
         "#desc *" #> info.description() &
         "#mobile" #> renderText(mobile) &
         "#reserve" #> SHtml.ajaxButton("预定", () => {
