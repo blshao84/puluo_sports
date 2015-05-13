@@ -32,7 +32,7 @@ public class PuluoAPIResultTest {
 
 	@Test
 	public void testDummyEventConfigurationResult() {
-		String expected = "{\"categories\":[\"Others\"],\"levels\":[\"Level1\",\"Level2\",\"Level3\",\"Level4\"]}";
+		String expected = "{\"categories\":[\"Stamina\",\"Yoga\",\"Dance\",\"Health\",\"Others\"],\"levels\":[\"Level1\",\"Level2\",\"Level3\",\"Level4\"]}";
 		String actual = PuluoConfigurationResult.dummy().toJson();
 		Assert.assertEquals(
 						"dummy event configuration result should be the same as PuluoEventConfiguraiotn and PuluoEventLevel",
