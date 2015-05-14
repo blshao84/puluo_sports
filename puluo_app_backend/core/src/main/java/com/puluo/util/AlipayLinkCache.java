@@ -27,6 +27,9 @@ public class AlipayLinkCache {
 	}
 	
 	public static String get(String uuid) {
-		return cache.asMap().getOrDefault(uuid, "");
+		String res;
+		res = cache.asMap().get(uuid);
+		if(res==null) res = "";
+		return res;
 	}
 }
