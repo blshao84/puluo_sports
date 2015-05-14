@@ -121,7 +121,7 @@ object PuluoUserUpdateSnippet extends PuluoSnippetUtil with Loggable{
       val user = searchUser.get.get
       uuid(user.userUUID())
       mobile(user.mobile())
-      thumbnail(user.thumbnail())
+      thumbnail(user.thumbnailURL()+"!small")
       created_at(TimeUtils.formatDate(user.createdAt()))
       updated_at(TimeUtils.formatDate(user.updatedAt()))
       userType(Some(user.userType().toString()))
