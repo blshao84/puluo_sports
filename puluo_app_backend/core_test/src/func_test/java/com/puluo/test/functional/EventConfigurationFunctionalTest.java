@@ -50,7 +50,7 @@ public class EventConfigurationFunctionalTest extends APIFunctionalTest {
 			@Override
 			public void run(String session) throws UnirestException {
 				JsonNode json = callAPI("events/configurations", inputs(session));
-				String expectedCategories = "[\"Others\"]";
+				String expectedCategories = "[\"Stamina\",\"Yoga\",\"Dance\",\"Health\",\"Others\"]";
 				String expectedLevels = "[\"Level1\",\"Level2\",\"Level3\",\"Level4\"]";
 				String actualCategories = getStringFromJson(json, "categories");
 				String actualLevels = getStringFromJson(json, "levels");
