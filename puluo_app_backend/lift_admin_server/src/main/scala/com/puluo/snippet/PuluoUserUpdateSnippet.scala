@@ -78,9 +78,9 @@ object PuluoUserUpdateSnippet extends PuluoSnippetUtil with Loggable{
       "#zip" #> renderText(zip) &
       "#saying" #> renderText(saying) &
       (renderAllStatesAndCities(state,city)) &
-      "#sex" #> renderSimpleSelect(Seq("M","F","男","女"),sex) &
-      "#user_type" #> renderSimpleSelect(PuluoUserType.values.toSeq.map(_.toString),userType) &
-      "#banned" #> renderSimpleSelect(Seq("true","false"),banned) &
+      "#sex" #> renderSimpleSelect(Seq("M","F","男","女").map(v=>(v,v)),sex) &
+      "#user_type" #> renderSimpleSelect(PuluoUserType.values.toSeq.map(v=>(v.name(),v.toString())),userType) &
+      "#banned" #> renderSimpleSelect(Seq("true","false").map(v=>(v,v)),banned) &
       "#update" #> SHtml.ajaxButton("更新", () => {
         if (searchUser.isDefined) {
           val user = searchUser.get.get

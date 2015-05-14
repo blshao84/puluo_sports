@@ -77,13 +77,10 @@ trait PuluoSnippetUtil {
   }
 
   def renderSimpleSelect(
-    options: Seq[String],
+    options: Seq[(String,String)],
     sel: RequestVar[Option[String]]) = {
-    val target = sel.get.getOrElse("")
-    val unselectedOpts = options.filter( _ != target)
-    val newOptions = if(unselectedOpts.contains(target)) options else target :: unselectedOpts.toList
-    SHtml.ajaxSelect(
-      options.map(s => (s, s)),
+	  SHtml.ajaxSelect(
+      options,
       sel.get,
       s => { sel(Some(s)); JsCmds.Noop })
 

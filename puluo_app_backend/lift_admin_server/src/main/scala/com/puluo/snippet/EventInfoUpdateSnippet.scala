@@ -63,8 +63,8 @@ class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
   object poster5 extends RequestVar[Option[String]](None)
 
   def render = {
-    val allTypes = PuluoEventCategory.values.map(_.name()).toSeq
-    val allLevels = PuluoEventLevel.values.map(_.name()).toSeq
+    val allTypes = PuluoEventCategory.values.map(v=>(v.name(),v.toString())).toSeq
+    val allLevels = PuluoEventLevel.values.map(v=>(v.name(),v.toString())).toSeq
     val uuidFromURL = S.param("uuid")
     val (infoUUID, coachName, coachThumb) =
       if (!info.get.isDefined) {
