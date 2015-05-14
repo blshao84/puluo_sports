@@ -92,7 +92,7 @@ public class WechatButtonAPI {
 				event = DaoApi.getInstance().eventDao().getEventByUUID(order.eventId());
 				history.append(isFirst ? "": "；");
 				isFirst = false;
-				history.append(TimeUtils.formatDate(event.eventTime()) + "，"
+				history.append(TimeUtils.formatDate(event.eventTime()).substring(0, 16)
 						+ "，" + event.eventInfo().name()
 						+ "，" + event.eventLocation().address());
 			}
