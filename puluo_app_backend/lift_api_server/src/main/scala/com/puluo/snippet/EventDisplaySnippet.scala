@@ -68,15 +68,11 @@ object EventDisplaySnippet extends PuluoSnippetUtil with Loggable {
                   JsCmds.Alert("恭喜您成功预订课程！")
                 } else {
                   val link = api.paymentLink
-                  if(user.mobile()=="18646655333"){
-                    val uuid = UUID.randomUUID().toString()
-                    val redirectLink = s"/payment?uuid=${uuid}"
-                    AlipayLinkCache.put(uuid, link)
-                    logger.info(s"jump to own iframe page ${uuid}=${redirectLink}")
-                    JsCmds.RedirectTo(redirectLink)
-                  } else {
-                    JsCmds.RedirectTo(link)
-                  }
+                  val uuid = UUID.randomUUID().toString()
+                  val redirectLink = s"/payment?uuid=${uuid}"
+                  AlipayLinkCache.put(uuid, link)
+                  logger.info(s"jump to own iframe page ${uuid}=${redirectLink}")
+                  JsCmds.RedirectTo(redirectLink)
                 }
               } else JsCmds.Alert("注册课程时发生异常，请稍后再试")
             } else {
