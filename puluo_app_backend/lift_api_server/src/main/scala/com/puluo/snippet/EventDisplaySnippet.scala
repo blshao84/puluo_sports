@@ -24,6 +24,8 @@ import com.puluo.util.Strs
 import com.puluo.snippet.util.PuluoSnippetUtil
 import com.puluo.api.event.EventRegistrationAPI
 import com.puluo.config.Configurations
+import java.util.UUID
+import com.puluo.util.AlipayLinkCache
 
 object EventDisplaySnippet extends PuluoSnippetUtil with Loggable {
   object mobile extends RequestVar[Option[String]](None)
@@ -67,8 +69,10 @@ object EventDisplaySnippet extends PuluoSnippetUtil with Loggable {
                 } else {
                   val link = api.paymentLink
                   if(user.mobile()=="18646655333"){
-                    val redirectLink = s"/payment?link=${link}"
-                    logger.info("jump to own iframe page:"+redirectLink)
+                    val uuid = UUID.randomUUID().toString()
+                    val redirectLink = s"/payment?uuid=${uuid}"
+                    AlipayLinkCache.put(uuid, link)
+                    logger.info(s"jump to own iframe page ${uuid}=${redirectLink}")
                     JsCmds.RedirectTo(redirectLink)
                   } else {
                     JsCmds.RedirectTo(link)

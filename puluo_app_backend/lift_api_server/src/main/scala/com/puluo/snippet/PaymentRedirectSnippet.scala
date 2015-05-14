@@ -29,11 +29,13 @@ import com.puluo.api.payment.PuluoAlipayAPI
 import net.liftweb.http.Req
 import scala.xml.XML
 import java.util.HashMap
+import com.puluo.util.AlipayLinkCache
 
 object PaymentRedirectSnippet extends PuluoSnippetUtil with Loggable {
   def render = {
-     val link = S.param("link").getOrElse("")
-     logger.info("*********** get link:"+link+"***********")
+     val uuid = S.param("uuid").getOrElse("")
+     val link = AlipayLinkCache.get(uuid)
+     logger.info(s"get link from AlipayLinkCache:${uuid}=${link}")
      "#frame [src]" #> link
   }
 }
