@@ -33,6 +33,7 @@ import java.util.HashMap
 object PaymentRedirectSnippet extends PuluoSnippetUtil with Loggable {
   def render = {
      val link = S.param("link").getOrElse("")
+     logger.info("*********** get link:"+link+"***********")
      "#frame [src]" #> link
   }
 }
