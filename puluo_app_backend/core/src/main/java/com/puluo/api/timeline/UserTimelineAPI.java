@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.puluo.api.PuluoAPI;
 import com.puluo.dao.PuluoDSI;
-import com.puluo.dao.PuluoPostDao;
+import com.puluo.dao.PuluoTimelineDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoTimelinePost;
 import com.puluo.result.ApiErrorResult;
@@ -32,7 +32,7 @@ public class UserTimelineAPI extends PuluoAPI<PuluoDSI,UserTimelineResult> {
 	@Override
 	public void execute() {
 		log.info(String.format("开始查找用户%s的时间线(%s)",user_uuid,since_time));
-		PuluoPostDao post_dao = dsi.postDao();
+		PuluoTimelineDao post_dao = dsi.postDao();
 		List<PuluoTimelinePost> posts = post_dao.getUserTimeline(user_uuid,since_time);
 		UserTimelineResult result = new UserTimelineResult();
 		result.setTimelinePosts(posts);

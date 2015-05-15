@@ -1,12 +1,12 @@
 package com.puluo.dao.impl;
 
 import java.util.ArrayList;
-import com.puluo.dao.PuluoPostDao;
+import com.puluo.dao.PuluoTimelineDao;
 import com.puluo.entity.PuluoTimelinePost;
 import com.puluo.jdbc.DalTemplate;
 
 
-public class PuluoPostDaoImpl extends DalTemplate implements PuluoPostDao {
+public class PuluoTimelineDaoImpl extends DalTemplate implements PuluoTimelineDao {
 
 	@Override
 	public boolean createTable() {

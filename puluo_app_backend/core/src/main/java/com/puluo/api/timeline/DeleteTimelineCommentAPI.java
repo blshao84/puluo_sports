@@ -2,7 +2,7 @@ package com.puluo.api.timeline;
 
 import com.puluo.api.PuluoAPI;
 import com.puluo.dao.PuluoDSI;
-import com.puluo.dao.PuluoPostCommentDao;
+import com.puluo.dao.PuluoTimelineCommentDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.result.ApiErrorResult;
 import com.puluo.result.DeleteTimelineCommentResult;
@@ -25,7 +25,7 @@ public class DeleteTimelineCommentAPI extends PuluoAPI<PuluoDSI,DeleteTimelineCo
 	@Override
 	public void execute() {
 		log.info(String.format("开始删除时间线评论%s",comment_uuid));
-		PuluoPostCommentDao comment_dao = dsi.postCommentDao();
+		PuluoTimelineCommentDao comment_dao = dsi.postCommentDao();
 		String status = comment_dao.removeCommentUserTimeline(comment_uuid);
 		if(status.equals("success")) {
 			DeleteTimelineCommentResult comment_result = new DeleteTimelineCommentResult(status);

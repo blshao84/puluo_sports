@@ -2,7 +2,7 @@ package com.puluo.api.timeline;
 
 import com.puluo.api.PuluoAPI;
 import com.puluo.dao.PuluoDSI;
-import com.puluo.dao.PuluoPostLikeDao;
+import com.puluo.dao.PuluoTimelineLikeDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.result.ApiErrorResult;
 import com.puluo.result.LikeTimelineResult;
@@ -28,7 +28,7 @@ public class RemoveTimelineLikeAPI extends PuluoAPI<PuluoDSI,LikeTimelineResult>
 	@Override
 	public void execute() {
 		log.info(String.format("开始删除用户%s在时间线%s的like", uuid, timeline_uuid));
-		PuluoPostLikeDao like_dao = dsi.postLikeDao();
+		PuluoTimelineLikeDao like_dao = dsi.postLikeDao();
 		String status = like_dao.removeLikeUserTimeline(timeline_uuid);
 		if(status.equals("success")) {
 			LikeTimelineResult like_result = new LikeTimelineResult(status);

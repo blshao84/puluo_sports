@@ -13,9 +13,9 @@ import com.puluo.dao.PuluoEventPosterDao;
 import com.puluo.dao.PuluoFriendRequestDao;
 import com.puluo.dao.PuluoOrderEventDao;
 import com.puluo.dao.PuluoPaymentDao;
-import com.puluo.dao.PuluoPostCommentDao;
-import com.puluo.dao.PuluoPostDao;
-import com.puluo.dao.PuluoPostLikeDao;
+import com.puluo.dao.PuluoTimelineCommentDao;
+import com.puluo.dao.PuluoTimelineDao;
+import com.puluo.dao.PuluoTimelineLikeDao;
 import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.dao.PuluoSessionDao;
 import com.puluo.dao.PuluoUserBlacklistDao;
@@ -78,19 +78,19 @@ public class DaoTestApi extends PuluoDSI {
 	}
 
 	@Override
-	public PuluoPostCommentDao postCommentDao() {
+	public PuluoTimelineCommentDao postCommentDao() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public PuluoPostDao postDao() {
+	public PuluoTimelineDao postDao() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public PuluoPostLikeDao postLikeDao() {
+	public PuluoTimelineLikeDao postLikeDao() {
 		// TODO Auto-generated method stub
 		return null;
 	}

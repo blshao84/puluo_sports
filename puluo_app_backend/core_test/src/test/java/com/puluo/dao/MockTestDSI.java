@@ -39,19 +39,19 @@ public class MockTestDSI extends PuluoDSI {
 	}
 
 	@Override
-	public PuluoPostCommentDao postCommentDao() {
+	public PuluoTimelineCommentDao postCommentDao() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public PuluoPostDao postDao() {
+	public PuluoTimelineDao postDao() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public PuluoPostLikeDao postLikeDao() {
+	public PuluoTimelineLikeDao postLikeDao() {
 		// TODO Auto-generated method stub
 		return null;
 	}

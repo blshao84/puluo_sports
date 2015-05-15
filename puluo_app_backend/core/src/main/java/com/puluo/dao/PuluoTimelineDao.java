@@ -4,7 +4,7 @@ import java.util.List;
 import com.puluo.entity.PuluoTimelinePost;
 
 
-public interface PuluoPostDao {
+public interface PuluoTimelineDao {
 	
 	public boolean createTable();
 	

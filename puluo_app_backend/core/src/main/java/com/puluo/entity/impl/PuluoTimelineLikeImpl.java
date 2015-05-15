@@ -6,12 +6,12 @@ import com.puluo.entity.PuluoTimelineLike;
 import com.puluo.entity.PuluoTimelinePost;
 import com.puluo.entity.PuluoUser;
 
-public class PuluoPostLikeImpl implements PuluoTimelineLike {
+public class PuluoTimelineLikeImpl implements PuluoTimelineLike {
 	
 	private String timeline_uuid;
 	private String user_uuid;
 	private String user_name;
-	private DateTime creationTimestamp;
+	private DateTime created_at;
 
 	@Override
 	public String userUUID() {
@@ -28,7 +28,7 @@ public class PuluoPostLikeImpl implements PuluoTimelineLike {
 	@Override
 	public DateTime createdAt() {
 		// TODO Auto-generated method stub
-		return creationTimestamp;
+		return created_at;
 	}
 
 	@Override

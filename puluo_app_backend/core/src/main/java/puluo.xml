@@ -129,15 +129,15 @@
 		<property name="fullTableName" value="puluo_payment"></property>
 	</bean>
 	
-	<bean id="postDao" class="com.puluo.dao.impl.PuluoPostDaoImpl" parent="dalTemplate">
+	<bean id="postDao" class="com.puluo.dao.impl.PuluoTimelineDaoImpl" parent="dalTemplate">
 		<property name="fullTableName" value="puluo_event_location"></property>
 	</bean>
 	
-	<bean id="postCommentDao" class="com.puluo.dao.impl.PuluoPostCommentDaoImpl" parent="dalTemplate">
+	<bean id="postCommentDao" class="com.puluo.dao.impl.PuluoTimelineCommentDaoImpl" parent="dalTemplate">
 		<property name="fullTableName" value="puluo_post_comment"></property>
 	</bean>
 	
-	<bean id="postLikeDao" class="com.puluo.dao.impl.PuluoPostLikeDaoImpl" parent="dalTemplate">
+	<bean id="postLikeDao" class="com.puluo.dao.impl.PuluoTimelineLikeDaoImpl" parent="dalTemplate">
 		<property name="fullTableName" value="puluo_post_like"></property>
 	</bean>
 	

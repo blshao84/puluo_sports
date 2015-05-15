@@ -8,9 +8,9 @@ public abstract  class PuluoDSI {
 	public abstract  PuluoEventMemoryDao eventMemoryDao();
 	public abstract  PuluoEventPosterDao eventPosterDao();
 	public abstract  PuluoPaymentDao paymentDao();
-	public abstract  PuluoPostCommentDao postCommentDao();
-	public abstract  PuluoPostDao postDao();
-	public abstract  PuluoPostLikeDao postLikeDao();
+	public abstract  PuluoTimelineCommentDao postCommentDao();
+	public abstract  PuluoTimelineDao postDao();
+	public abstract  PuluoTimelineLikeDao postLikeDao();
 	public abstract  PuluoPrivateMessageDao privateMessageDao();
 	public abstract  PuluoSessionDao sessionDao();
 	public abstract  PuluoUserDao userDao();

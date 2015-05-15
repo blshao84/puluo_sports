@@ -12,9 +12,9 @@ import com.puluo.dao.PuluoEventPosterDao;
 import com.puluo.dao.PuluoFriendRequestDao;
 import com.puluo.dao.PuluoOrderEventDao;
 import com.puluo.dao.PuluoPaymentDao;
-import com.puluo.dao.PuluoPostCommentDao;
-import com.puluo.dao.PuluoPostDao;
-import com.puluo.dao.PuluoPostLikeDao;
+import com.puluo.dao.PuluoTimelineCommentDao;
+import com.puluo.dao.PuluoTimelineDao;
+import com.puluo.dao.PuluoTimelineLikeDao;
 import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.dao.PuluoSessionDao;
 import com.puluo.dao.PuluoUserBlacklistDao;
@@ -31,9 +31,9 @@ public class DaoApi extends PuluoDSI {
 	protected PuluoEventMemoryDao eventMemoryDao;
 	protected PuluoEventPosterDao eventPosterDao;
 	protected PuluoPaymentDao paymentDao;
-	protected PuluoPostCommentDao postCommentDao;
-	protected PuluoPostLikeDao postLikeDao;
-	protected PuluoPostDao postDao;
+	protected PuluoTimelineCommentDao postCommentDao;
+	protected PuluoTimelineLikeDao postLikeDao;
+	protected PuluoTimelineDao postDao;
 	protected PuluoPrivateMessageDao privateMessageDao;
 	protected PuluoSessionDao sessionDao;
 	protected PuluoUserDao userDao;
@@ -60,11 +60,11 @@ public class DaoApi extends PuluoDSI {
 		eventPosterDao = BeanFactory.getBean(PuluoEventPosterDao.class,
 				"eventPosterDao");
 		paymentDao = BeanFactory.getBean(PuluoPaymentDao.class, "paymentDao");
-		postCommentDao = BeanFactory.getBean(PuluoPostCommentDao.class,
+		postCommentDao = BeanFactory.getBean(PuluoTimelineCommentDao.class,
 				"postCommentDao");
 		postLikeDao = BeanFactory
-				.getBean(PuluoPostLikeDao.class, "postLikeDao");
-		postDao = BeanFactory.getBean(PuluoPostDao.class, "postDao");
+				.getBean(PuluoTimelineLikeDao.class, "postLikeDao");
+		postDao = BeanFactory.getBean(PuluoTimelineDao.class, "postDao");
 		privateMessageDao = BeanFactory.getBean(PuluoPrivateMessageDao.class,
 				"privateMessageDao");
 		sessionDao = BeanFactory.getBean(PuluoSessionDao.class, "sessionDao");
@@ -139,19 +139,19 @@ public class DaoApi extends PuluoDSI {
 	}
 
 	@Override
-	public PuluoPostCommentDao postCommentDao() {
+	public PuluoTimelineCommentDao postCommentDao() {
 
 		return postCommentDao;
 	}
 
 	@Override
-	public PuluoPostDao postDao() {
+	public PuluoTimelineDao postDao() {
 
 		return postDao;
 	}
 
 	@Override
-	public PuluoPostLikeDao postLikeDao() {
+	public PuluoTimelineLikeDao postLikeDao() {
 
 		return postLikeDao;
 	}

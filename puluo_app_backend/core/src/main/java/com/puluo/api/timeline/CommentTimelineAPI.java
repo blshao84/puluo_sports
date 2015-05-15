@@ -2,7 +2,7 @@ package com.puluo.api.timeline;
 
 import com.puluo.api.PuluoAPI;
 import com.puluo.dao.PuluoDSI;
-import com.puluo.dao.PuluoPostCommentDao;
+import com.puluo.dao.PuluoTimelineCommentDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.result.ApiErrorResult;
 import com.puluo.result.CommentTimelineResult;
@@ -32,7 +32,7 @@ public class CommentTimelineAPI extends PuluoAPI<PuluoDSI,CommentTimelineResult>
 	@Override
 	public void execute() {
 		log.info(String.format("开始添加时间线%s的评论"),timeline_uuid);
-		PuluoPostCommentDao comment_dao = dsi.postCommentDao();
+		PuluoTimelineCommentDao comment_dao = dsi.postCommentDao();
 		String status = comment_dao.commentUserTimeline(timeline_uuid,reply_to,comment);
 		if(status.equals("success")) {
 			CommentTimelineResult comment_result = new CommentTimelineResult(status);

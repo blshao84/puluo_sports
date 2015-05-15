@@ -1,7 +1,7 @@
 package com.puluo.dao;
 
 
-public interface PuluoPostCommentDao {
+public interface PuluoTimelineCommentDao {
 	
 	public boolean createTable();
 	

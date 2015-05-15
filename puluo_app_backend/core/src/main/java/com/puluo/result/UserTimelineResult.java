@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.puluo.entity.PuluoTimelinePost;
-import com.puluo.entity.impl.PuluoPostImpl;
+import com.puluo.entity.impl.PuluoTimelinePostImpl;
 import com.puluo.util.HasJSON;
 import com.puluo.util.TimeUtils;
 
@@ -25,7 +25,7 @@ public class UserTimelineResult extends HasJSON {
 
 		timelines = new ArrayList<UserTimeline>();
 		for (int i = 0; i < posts.size(); i++) {
-			PuluoPostImpl post_impl = (PuluoPostImpl) posts.get(i);
+			PuluoTimelinePostImpl post_impl = (PuluoTimelinePostImpl) posts.get(i);
 			// create timelineLikes array
 			ArrayList<TimelineLikes> tl_likes = new ArrayList<TimelineLikes>();
 			for (int j = 0; j < post_impl.likes().size(); j++) {

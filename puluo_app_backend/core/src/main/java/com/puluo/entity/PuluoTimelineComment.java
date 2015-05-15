@@ -6,8 +6,6 @@ public interface PuluoTimelineComment {
 
 	public String commentUUID();
 	
-	public String UUID();
-
 	public PuluoTimelinePost timeline();
 
 	public PuluoUser fromUser();

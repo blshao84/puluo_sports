@@ -1,10 +1,10 @@
 package com.puluo.dao.impl;
 
-import com.puluo.dao.PuluoPostLikeDao;
+import com.puluo.dao.PuluoTimelineCommentDao;
 import com.puluo.jdbc.DalTemplate;
 
-public class PuluoPostLikeDaoImpl extends DalTemplate implements
-		PuluoPostLikeDao {
+public class PuluoTimelineCommentDaoImpl extends DalTemplate implements
+		PuluoTimelineCommentDao {
 
 	@Override
 	public boolean createTable() {
@@ -13,13 +13,13 @@ public class PuluoPostLikeDaoImpl extends DalTemplate implements
 	}
 
 	@Override
-	public String likeUserTimeline(String timeline_uuid, String user_uuid) {
+	public String commentUserTimeline(String timeline_uuid, String reply_to, String comment) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String removeLikeUserTimeline(String timeline_uuid) {
+	public String removeCommentUserTimeline(String comment_uuid) {
 		// TODO Auto-generated method stub
 		return null;
 	}

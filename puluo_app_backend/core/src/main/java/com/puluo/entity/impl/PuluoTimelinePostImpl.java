@@ -10,16 +10,16 @@ import com.puluo.entity.PuluoTimelineLike;
 import com.puluo.entity.PuluoTimelinePost;
 import com.puluo.entity.PuluoUser;
 
-public class PuluoPostImpl implements PuluoTimelinePost {
+public class PuluoTimelinePostImpl implements PuluoTimelinePost {
 
 	protected String uuid;
 	protected String event_uuid;
 	protected String owner_uuid;
 	protected String content;
-	protected DateTime creation_time;
+	protected DateTime created_at;
 	protected DateTime update_time;
 
-	public PuluoPostImpl(String uuid, String eventUUID, String ownerUUID,
+	public PuluoTimelinePostImpl(String uuid, String eventUUID, String ownerUUID,
 			String timelineContent, DateTime creationTimestamp,
 			DateTime upDateTimestamp) {
 		super();
@@ -27,7 +27,7 @@ public class PuluoPostImpl implements PuluoTimelinePost {
 		this.event_uuid = eventUUID;
 		this.owner_uuid = ownerUUID;
 		this.content = timelineContent;
-		this.creation_time = creationTimestamp;
+		this.created_at = creationTimestamp;
 		this.update_time = upDateTimestamp;
 	}
 
@@ -43,7 +43,7 @@ public class PuluoPostImpl implements PuluoTimelinePost {
 
 	@Override
 	public DateTime createdAt() {
-		return creation_time;
+		return created_at;
 	}
 
 	@Override

@@ -6,39 +6,32 @@ import com.puluo.entity.PuluoTimelineComment;
 import com.puluo.entity.PuluoTimelinePost;
 import com.puluo.entity.PuluoUser;
 
-public class PuluoPostCommentImpl implements PuluoTimelineComment {
+public class PuluoTimelineCommentImpl implements PuluoTimelineComment {
 
-	private final String comment_uuid;
 	private final String uuid;	
 	private final String timeline_uuid;
 	private final String fromUser_uuid;
 	private final String toUser_uuid;
 	private final String comment_content;
-	private final DateTime creationTimestamp;
+	private final DateTime created_at;
 	private final boolean read;
 
-	public PuluoPostCommentImpl(String comment_uuid, String uuid, String timeline_uuid,
+	public PuluoTimelineCommentImpl(String comment_uuid, String uuid, String timeline_uuid,
 			String fromUser_uuid, String toUser_uuid, String comment_content,
 			DateTime creationTimestamp, boolean read) {
 		super();
-		this.comment_uuid = comment_uuid;
 		this.uuid = uuid;
 		this.timeline_uuid = timeline_uuid;
 		this.fromUser_uuid = fromUser_uuid;
 		this.toUser_uuid = toUser_uuid;
 		this.comment_content = comment_content;
-		this.creationTimestamp = creationTimestamp;
+		this.created_at = creationTimestamp;
 		this.read = read;
 	}
 
 	@Override
-	public String UUID() {
-		return uuid;
-	}
-
-	@Override
 	public String commentUUID() {
-		return comment_uuid;
+		return uuid;
 	}
 
 	@Override
@@ -58,7 +51,7 @@ public class PuluoPostCommentImpl implements PuluoTimelineComment {
 
 	@Override
 	public DateTime createdAt() {
-		return creationTimestamp;
+		return created_at;
 	}
 	
 	@Override
