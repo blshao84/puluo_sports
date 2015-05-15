@@ -15,5 +15,5 @@ public interface PuluoTimelinePost {
 	public List<PuluoTimelineLike> likes();
 	public List<PuluoTimelineComment> comments();
 	public DateTime createdAt();
-	public DateTime updatedAt();
+	public List<String> imageURLs();
 }

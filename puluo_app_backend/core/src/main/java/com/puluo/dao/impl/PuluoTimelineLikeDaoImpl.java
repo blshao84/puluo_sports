@@ -13,15 +13,21 @@ public class PuluoTimelineLikeDaoImpl extends DalTemplate implements
 	}
 
 	@Override
-	public String likeUserTimeline(String timeline_uuid, String user_uuid) {
+	public String saveTimelineLike(String timeline_uuid, String user_uuid) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String removeLikeUserTimeline(String timeline_uuid) {
+	public String removeTimelineLike(String timeline_uuid, String from_user_uuid) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int getTotalLikes(String timeline_uuid) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

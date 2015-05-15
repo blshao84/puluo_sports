@@ -55,7 +55,7 @@ public class UserTimelineResult extends HasJSON {
 							TimeUtils.dateTime2Millis(post_impl.event().eventTime())), 
 							post_impl.content(),tl_likes, tl_comments, 
 					TimeUtils.dateTime2Millis(post_impl.createdAt()),
-					TimeUtils.dateTime2Millis(post_impl.updatedAt()));
+					TimeUtils.dateTime2Millis(post_impl.createdAt()));
 			timelines.add(tmp);
 		}
 		return true;

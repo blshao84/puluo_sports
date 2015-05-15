@@ -16,8 +16,8 @@ public class PuluoTimelinePostImpl implements PuluoTimelinePost {
 	protected String event_uuid;
 	protected String owner_uuid;
 	protected String content;
+	protected List<String> images;
 	protected DateTime created_at;
-	protected DateTime update_time;
 
 	public PuluoTimelinePostImpl(String uuid, String eventUUID, String ownerUUID,
 			String timelineContent, DateTime creationTimestamp,
@@ -28,7 +28,6 @@ public class PuluoTimelinePostImpl implements PuluoTimelinePost {
 		this.owner_uuid = ownerUUID;
 		this.content = timelineContent;
 		this.created_at = creationTimestamp;
-		this.update_time = upDateTimestamp;
 	}
 
 	@Override
@@ -44,11 +43,6 @@ public class PuluoTimelinePostImpl implements PuluoTimelinePost {
 	@Override
 	public DateTime createdAt() {
 		return created_at;
-	}
-
-	@Override
-	public DateTime updatedAt() {
-		return update_time;
 	}
 
 	// TODO: the following methods need using id to fetch information from other
@@ -70,6 +64,12 @@ public class PuluoTimelinePostImpl implements PuluoTimelinePost {
 
 	@Override
 	public List<PuluoTimelineComment> comments() {
+		return null;
+	}
+
+	@Override
+	public List<String> imageURLs() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

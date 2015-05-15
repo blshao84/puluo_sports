@@ -33,7 +33,7 @@ public class CommentTimelineAPI extends PuluoAPI<PuluoDSI,CommentTimelineResult>
 	public void execute() {
 		log.info(String.format("开始添加时间线%s的评论"),timeline_uuid);
 		PuluoTimelineCommentDao comment_dao = dsi.postCommentDao();
-		String status = comment_dao.commentUserTimeline(timeline_uuid,reply_to,comment);
+		String status = comment_dao.saveTimelineComment(timeline_uuid,reply_to,comment);
 		if(status.equals("success")) {
 			CommentTimelineResult comment_result = new CommentTimelineResult(status);
 			rawResult = comment_result;

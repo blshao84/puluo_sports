@@ -29,7 +29,7 @@ public class RemoveTimelineLikeAPI extends PuluoAPI<PuluoDSI,LikeTimelineResult>
 	public void execute() {
 		log.info(String.format("开始删除用户%s在时间线%s的like", uuid, timeline_uuid));
 		PuluoTimelineLikeDao like_dao = dsi.postLikeDao();
-		String status = like_dao.removeLikeUserTimeline(timeline_uuid);
+		String status = like_dao.removeTimelineLike(timeline_uuid, null);
 		if(status.equals("success")) {
 			LikeTimelineResult like_result = new LikeTimelineResult(status);
 			rawResult = like_result;

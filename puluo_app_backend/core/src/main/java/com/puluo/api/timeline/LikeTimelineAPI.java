@@ -29,7 +29,7 @@ public class LikeTimelineAPI extends PuluoAPI<PuluoDSI,LikeTimelineResult> {
 	public void execute() {
 		log.info(String.format("开始添加用户%s时间线%s的like"), uuid, timeline_uuid);
 		PuluoTimelineLikeDao like_dao = dsi.postLikeDao();
-		String status = like_dao.likeUserTimeline(timeline_uuid, uuid);
+		String status = like_dao.saveTimelineLike(timeline_uuid, uuid);
 		if(status.equals("success")) {
 			LikeTimelineResult like_result = new LikeTimelineResult(status);
 			rawResult = like_result;

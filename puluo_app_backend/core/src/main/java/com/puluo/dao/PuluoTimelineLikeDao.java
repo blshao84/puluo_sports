@@ -5,7 +5,9 @@ public interface PuluoTimelineLikeDao {
 	
 	public boolean createTable();
 	
-	public String likeUserTimeline(String timeline_uuid, String user_uuid);
+	public String saveTimelineLike(String timeline_uuid, String from_user_uuid);
 	
-	public String removeLikeUserTimeline(String timeline_uuid);
+	public String removeTimelineLike(String timeline_uuid, String from_user_uuid);
+	
+	public int getTotalLikes(String timeline_uuid);
 }
