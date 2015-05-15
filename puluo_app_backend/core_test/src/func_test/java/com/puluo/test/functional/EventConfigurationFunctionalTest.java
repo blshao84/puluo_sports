@@ -1,8 +1,7 @@
 package com.puluo.test.functional;
 
 
-import java.util.ArrayList;
-
+import org.json.JSONArray;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -54,8 +53,8 @@ public class EventConfigurationFunctionalTest extends APIFunctionalTest {
 				String expectedLevels = "[\"Level1\",\"Level2\",\"Level3\",\"Level4\"]";
 				String actualCategories = getStringFromJson(json, "categories");
 				String actualLevels = getStringFromJson(json, "levels");
-				ArrayList<JsonNode> actualGeos = getJsonArrayFromJson(json, "geo");
-				Assert.assertEquals("should have 36 states",36, actualGeos.size());
+				JSONArray states = json.getObject().getJSONObject("geo").getJSONObject("China").names();
+				Assert.assertEquals("should have 36 states",36, states.length());
 				Assert.assertEquals("",expectedCategories, actualCategories);
 				Assert.assertEquals("",expectedLevels, actualLevels);
 				
