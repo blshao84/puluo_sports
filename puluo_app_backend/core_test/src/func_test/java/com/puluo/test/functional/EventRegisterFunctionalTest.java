@@ -84,6 +84,7 @@ public class EventRegisterFunctionalTest extends APIFunctionalTest {
 				log.info(json);
 				String order = getStringFromJson(json, "order_uuid");
 				String paid = getPaid(json);
+				Assert.assertNotNull(order_uuid);
 				Assert.assertTrue("paid should be true", Boolean.valueOf(paid));
 				log.info("testOrderWithZero done!");
 			}
@@ -114,8 +115,5 @@ public class EventRegisterFunctionalTest extends APIFunctionalTest {
 	private String getPaid(JsonNode json) {
 		return super.getStringFromJson(json, "paid");
 	}
-	
-	private void getOrderUUID(JsonNode json) {
-		order_uuid = super.getStringFromJson(json, "order_uuid");
-	}
+
 }

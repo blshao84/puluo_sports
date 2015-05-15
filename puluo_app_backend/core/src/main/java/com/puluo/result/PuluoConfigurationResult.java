@@ -2,16 +2,16 @@ package com.puluo.result;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.puluo.enumeration.PuluoEventCategory;
 import com.puluo.enumeration.PuluoEventLevel;
-import com.puluo.result.event.GeoLocationResult;
 import com.puluo.util.HasJSON;
 
 public class PuluoConfigurationResult extends HasJSON {
 	public List<String> categories;
 	public List<String> levels;
-	public List<GeoLocationResult> geo;
+	public Map<String, Map<String,List<String>>> geo;
 	
 	private PuluoConfigurationResult(){
 		categories = new ArrayList<String>();

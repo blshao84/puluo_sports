@@ -1,5 +1,6 @@
 package com.puluo.api.service
 import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 import net.liftweb.http.rest.RestHelper
 import net.liftweb.http.JsonResponse
 import com.puluo.api.util.PuluoSession
@@ -13,7 +14,6 @@ import net.liftweb.common.Loggable
 import com.puluo.session.PuluoSessionManager
 import com.puluo.api.event.PuluoConfigurationAPI
 import com.puluo.util.Location
-import com.puluo.result.event.GeoLocationResult
 
 object PuluoServiceAPI extends RestHelper with PuluoAPIUtil with SMSSender with Loggable {
   serve {
@@ -36,8 +36,8 @@ object PuluoServiceAPI extends RestHelper with PuluoAPIUtil with SMSSender with 
     val api = new PuluoConfigurationAPI()
     val geo = Location.states.map { state =>
       val cities = Location.getCity(state)
-      new GeoLocationResult(state,cities)
-    }
+      (state,cities.asJava)
+    }.toMap.asJava
     safeRun(api)
     api.setGeoLocations(geo)
     PuluoResponseFactory.createJSONResponse(api)
