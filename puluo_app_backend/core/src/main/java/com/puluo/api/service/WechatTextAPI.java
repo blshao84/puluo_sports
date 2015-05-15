@@ -2,6 +2,7 @@ package com.puluo.api.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.joda.time.DateTime;
 
@@ -99,7 +100,7 @@ public class WechatTextAPI {
 				}
 			} else {
 				log.error(String.format("mobile %s format is wrong", content));
-				msg = new WechatTextMessage("抱歉，您的电话号码不正确，我们无法为您发送验证码");
+				msg = new WechatTextMessage("抱歉，您还没有注册，请输入您的电话号码，一键搞定！");
 			}
 			break;
 		case 1:
@@ -165,11 +166,10 @@ public class WechatTextAPI {
 
 	private WechatMessage processNonBindingMessage() {
 		if (content.equals("bd")) {
-			dsi.wechatBindingDao().saveBinding("", from_user);
+			dsi.wechatBindingDao().saveBinding(UUID.randomUUID().toString(), from_user);
 			return new WechatTextMessage("请您微信回复手机号，两步即可完成绑定！");
 		} else
-			return new WechatTextMessage(Strs.join("Hi, I'm puluo echo:",
-					content));
+			return new WechatTextMessage(Strs.join("您还没有注册喔！点击右下角'我的普罗'->'快速注册'，一键完成！"));
 	}
 
 	private boolean isMobile() {
