@@ -15,10 +15,12 @@ public class PuluoTimelineCommentImpl implements PuluoTimelineComment {
 	private final String comment_content;
 	private final DateTime created_at;
 	private final boolean read;
+	//we never physically delete comments from db, only mark them as deleted
+	private final boolean deleted;
 
 	public PuluoTimelineCommentImpl(String comment_uuid, String uuid, String timeline_uuid,
 			String fromUser_uuid, String toUser_uuid, String comment_content,
-			DateTime creationTimestamp, boolean read) {
+			DateTime creationTimestamp, boolean read,boolean deleted) {
 		super();
 		this.uuid = uuid;
 		this.timeline_uuid = timeline_uuid;
@@ -27,6 +29,7 @@ public class PuluoTimelineCommentImpl implements PuluoTimelineComment {
 		this.comment_content = comment_content;
 		this.created_at = creationTimestamp;
 		this.read = read;
+		this.deleted = deleted;
 	}
 
 	@Override

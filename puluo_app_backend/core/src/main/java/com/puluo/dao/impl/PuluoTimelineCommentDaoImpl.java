@@ -1,6 +1,9 @@
 package com.puluo.dao.impl;
 
+import java.util.List;
+
 import com.puluo.dao.PuluoTimelineCommentDao;
+import com.puluo.entity.PuluoTimelineComment;
 import com.puluo.jdbc.DalTemplate;
 
 public class PuluoTimelineCommentDaoImpl extends DalTemplate implements
@@ -19,7 +22,25 @@ public class PuluoTimelineCommentDaoImpl extends DalTemplate implements
 	}
 
 	@Override
-	public String removeCommentUserTimeline(String comment_uuid) {
+	public String removeTimelineComment(String comment_uuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PuluoTimelineComment getByUUID(String comment_uuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<PuluoTimelineComment> getByTimeline(String timeline_uuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<PuluoTimelineComment> getUnreadCommentsFromUser(String user_uuid) {
 		// TODO Auto-generated method stub
 		return null;
 	}
