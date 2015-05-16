@@ -1,6 +1,6 @@
 <lift:surround with="bootstrap_base" at="content">
 <div class="row" data-lift="EventDisplaySnippet.render">
-  <div id="event" class="col-md-12">
+  <div id="event">
     <div class="thumbnail">
       <img id="pic" src="...">
       <div class="caption">
@@ -46,7 +46,11 @@
 			</tr>
 			<tr>
 				<td>您的电话</td>
-			<td><input id="mobile"/></td>
+				<td><input id="mobile"/></td>
+			</tr>
+			<tr>
+				<td>优惠券</td>
+				<td><select id="coupon"></select></td>
 			</tr>
 		</tbody>
 	  </table>

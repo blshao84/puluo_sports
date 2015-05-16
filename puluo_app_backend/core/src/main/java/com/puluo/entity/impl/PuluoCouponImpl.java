@@ -1,5 +1,7 @@
 package com.puluo.entity.impl;
 
+import org.joda.time.DateTime;
+
 import com.puluo.entity.PuluoCoupon;
 import com.puluo.enumeration.CouponType;
 
@@ -8,16 +10,16 @@ public class PuluoCouponImpl implements PuluoCoupon {
 	public final CouponType type;
 	public final Double amount;
 	public final String user_uuid;
-	public final boolean valid;
+	public final DateTime valid_until;
 	
 	public PuluoCouponImpl(String uuid, CouponType type, Double amount,
-			String user_uuid,boolean valid) {
+			String user_uuid,DateTime valid_until) {
 		super();
 		this.uuid = uuid;
 		this.type = type;
 		this.amount = amount;
 		this.user_uuid = user_uuid;
-		this.valid = valid;
+		this.valid_until = valid_until;
 	}
 
 	@Override
@@ -42,7 +44,12 @@ public class PuluoCouponImpl implements PuluoCoupon {
 
 	@Override
 	public boolean isValid() {
-		return valid;
+		return valid_until.isAfterNow();
+	}
+
+	@Override
+	public DateTime validUntil() {
+		return valid_until;
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.puluo.entity;
 
+import org.joda.time.DateTime;
+
 import com.puluo.enumeration.CouponType;
 
 public interface PuluoCoupon {
@@ -8,4 +10,5 @@ public interface PuluoCoupon {
 	public Double amount();
 	public String ownerUUID();
 	public boolean isValid();
+	public DateTime validUntil();
 }

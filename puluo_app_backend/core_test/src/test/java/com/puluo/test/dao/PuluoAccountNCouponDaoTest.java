@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.joda.time.DateTime;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -25,7 +26,8 @@ import com.puluo.util.LogFactory;
 public class PuluoAccountNCouponDaoTest {
 	
 	public static Log log = LogFactory.getLog(PuluoAccountNCouponDaoTest.class);
-	
+	private static DateTime validDate = DateTime.now().plusDays(10);
+	private static DateTime invalidDate = DateTime.now().minusDays(10);
 	private static String mobile1 = "18521564305";
 	private static String uuid1;
 	private static String mobile2 = "17721014665";
@@ -48,19 +50,19 @@ public class PuluoAccountNCouponDaoTest {
 		uuid3 = userDao.getByMobile(mobile3).userUUID();
 		PuluoCouponDao couponDao = DaoTestApi.couponDevDao;
 		couponDao.createTable();
-		PuluoCoupon coupon1 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Free, 0.0, uuid1, false);
+		PuluoCoupon coupon1 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Free, 0.0, uuid1, invalidDate);
 		couponDao.insertCoupon(coupon1);
 		coupons.add(coupon1.uuid());
-		PuluoCoupon coupon2 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Deduction, 100.0, uuid1, true);
+		PuluoCoupon coupon2 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Deduction, 100.0, uuid1, validDate);
 		couponDao.insertCoupon(coupon2);
 		coupons.add(coupon2.uuid());
-		PuluoCoupon coupon3 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Discount, 50.0, uuid1, true);
+		PuluoCoupon coupon3 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Discount, 50.0, uuid1, validDate);
 		couponDao.insertCoupon(coupon3);
 		coupons.add(coupon3.uuid());
-		PuluoCoupon coupon4 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Deduction, 10.0, uuid2, false);
+		PuluoCoupon coupon4 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Deduction, 10.0, uuid2, invalidDate);
 		couponDao.insertCoupon(coupon4);
 		coupons.add(coupon4.uuid());
-		PuluoCoupon coupon5 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Free, 0.0, uuid2, true);
+		PuluoCoupon coupon5 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Free, 0.0, uuid2, validDate);
 		couponDao.insertCoupon(coupon5);
 		coupons.add(coupon5.uuid());
 		PuluoAccountDao accountDao = DaoTestApi.accountDevDao;
@@ -139,7 +141,7 @@ public class PuluoAccountNCouponDaoTest {
 	public void testUpdateCoupon() {
 		log.info("testUpdateCoupon start!");
 		PuluoCouponDao couponDao = DaoTestApi.couponDevDao;
-		PuluoCoupon coupon = new PuluoCouponImpl(coupons.get(4), CouponType.Discount, 15.0, uuid3, false);
+		PuluoCoupon coupon = new PuluoCouponImpl(coupons.get(4), CouponType.Discount, 15.0, uuid3, invalidDate);
 		boolean result = couponDao.updateCoupon(coupon);
 		Assert.assertTrue("updateCoupon应该返回true!", result);
 		coupon = couponDao.getByCouponUUID(coupons.get(4));
@@ -147,7 +149,7 @@ public class PuluoAccountNCouponDaoTest {
 		Assert.assertEquals("amount应该为15.0!", new Double(15.0), coupon.amount());
 		Assert.assertEquals("ownerUUID应该为" + uuid3 + "!", uuid3, coupon.ownerUUID());
 		Assert.assertEquals("isValid应该为false!", false, coupon.isValid());
-		coupon = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Free, 0.01, UUID.randomUUID().toString(), false);
+		coupon = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Free, 0.01, UUID.randomUUID().toString(), invalidDate);
 		result = couponDao.updateCoupon(coupon);
 		Assert.assertFalse("updateCoupon应该返回false!", result);
 		log.info("testUpdateCoupon done!");
