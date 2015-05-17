@@ -15,6 +15,7 @@ import com.puluo.api.result.wechat.WechatTextMessage;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
+import com.puluo.entity.PuluoUser;
 import com.puluo.entity.PuluoWechatBinding;
 import com.puluo.enumeration.EventSortType;
 import com.puluo.enumeration.EventStatus;
@@ -27,7 +28,7 @@ import com.puluo.util.PasswordEncryptionUtil;
 import com.puluo.util.Strs;
 import com.puluo.weichat.WechatUtil;
 
-public class WechatTextAPI {
+public class WechatTextAPI extends WechatAPI{
 	public static Log log = LogFactory.getLog(WechatTextAPI.class);
 	public final String to_user;
 	public final String from_user;
@@ -154,9 +155,12 @@ public class WechatTextAPI {
 			log.info(String.format("searched %s events from wechat",
 					events.size()));
 			if(events.size()>0){
+				PuluoUser user = getUserFromOpenID(from_user);
+				String user_uuid;
+				if(user==null) user_uuid=""; else user_uuid=user.userUUID();
 				List<WechatArticleMessage> articles = new ArrayList<WechatArticleMessage>();
 				for (PuluoEvent e : events) {
-					articles.add(WechatUtil.createArticleMessageFromEvent(e));
+					articles.add(WechatUtil.createArticleMessageFromEvent(e,user_uuid));
 				}
 				return new WechatNewsMessage(articles);
 			} else

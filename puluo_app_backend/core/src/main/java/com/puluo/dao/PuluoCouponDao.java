@@ -12,6 +12,7 @@ public interface PuluoCouponDao {
 	//get coupon based on id and validity
 	public PuluoCoupon getByCouponUUID(String uuid, boolean is_valid);
 	public List<PuluoCoupon> getByUserUUID(String user_uuid,boolean is_valid);
+	public List<PuluoCoupon> getByOrderUUID(String order_uuid);
 	public boolean insertCoupon(PuluoCoupon coupon);
 	public boolean updateCoupon(PuluoCoupon coupon);
 	

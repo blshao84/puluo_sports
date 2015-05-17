@@ -26,5 +26,7 @@ public class Configurations {
 	public static final String[] wechatButtonInfo4List = {
 		"jjDWGK-OKR98IkzcySpOMd3flhG2JL7WaHCzKt4IIW4"};
 	public static final String wechatCurriculum = "CpJlAUkrFja6edvm_4Ma-jkp5sRCffgm0yQRXBwSab4";
-	public static String emptyImage = Strs.join(imageServer,"empty.jpg");
+	public static final String emptyImage = Strs.join(imageServer,"empty.jpg");
+	
+	public static final Double minPrice = 0.1;
 }

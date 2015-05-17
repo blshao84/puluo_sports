@@ -1,14 +1,20 @@
 package com.puluo.api.payment;
 
 import java.util.HashMap;
+import java.util.List;
+
+import org.joda.time.DateTime;
 
 import com.puluo.api.PuluoAPI;
 import com.puluo.config.Configurations;
+import com.puluo.dao.PuluoCouponDao;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.entity.PuluoCoupon;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.PuluoUser;
+import com.puluo.entity.impl.PuluoCouponImpl;
 import com.puluo.entity.payment.OrderEvent;
 import com.puluo.entity.payment.impl.OrderEventImpl;
 import com.puluo.enumeration.OrderEventType;
@@ -20,6 +26,7 @@ import com.puluo.service.PuluoService;
 import com.puluo.service.util.JuheSMSResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.Strs;
 import com.puluo.util.TimeUtils;
 
 public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
@@ -72,6 +79,16 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 			} else {
 				boolean successUpdate = updateOrderStatus(order);
 				if (successUpdate) {
+					PuluoCouponDao couponDao = dsi.couponDao();
+					List<PuluoCoupon> coupons = couponDao.getByOrderUUID(order.orderUUID());
+					DateTime now =DateTime.now();
+					for(PuluoCoupon coupon:coupons){
+						log.info(Strs.join("update coupon ",coupon.uuid()," valid_unitl to now",TimeUtils.formatDate(now)));
+						couponDao.updateCoupon(new PuluoCouponImpl(
+								coupon.uuid(), coupon.couponType(), 
+								coupon.amount(), coupon.ownerUUID(), 
+								coupon.orderUUID(), now));
+					}
 					if (Configurations.enableSMSNotification) {
 						if (!mock)
 							sendNotification(order);

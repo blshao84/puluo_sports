@@ -9,6 +9,7 @@ public interface PuluoCoupon {
 	public CouponType couponType();
 	public Double amount();
 	public String ownerUUID();
+	public String orderUUID();
 	public boolean isValid();
 	public DateTime validUntil();
 }

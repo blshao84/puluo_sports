@@ -36,6 +36,7 @@ public class PuluoAccountNCouponDaoTest {
 	private static String uuid3;
 	private static List<String> accounts = new ArrayList<String>();
 	private static List<String> coupons = new ArrayList<String>();
+	private static String order_uuid="abcdefg";
 
 	@BeforeClass
 	public static void setUpDB() {
@@ -50,19 +51,19 @@ public class PuluoAccountNCouponDaoTest {
 		uuid3 = userDao.getByMobile(mobile3).userUUID();
 		PuluoCouponDao couponDao = DaoTestApi.couponDevDao;
 		couponDao.createTable();
-		PuluoCoupon coupon1 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Free, 0.0, uuid1, invalidDate);
+		PuluoCoupon coupon1 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Free, 0.0, uuid1,order_uuid, invalidDate);
 		couponDao.insertCoupon(coupon1);
 		coupons.add(coupon1.uuid());
-		PuluoCoupon coupon2 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Deduction, 100.0, uuid1, validDate);
+		PuluoCoupon coupon2 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Deduction, 100.0, uuid1,order_uuid, validDate);
 		couponDao.insertCoupon(coupon2);
 		coupons.add(coupon2.uuid());
-		PuluoCoupon coupon3 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Discount, 50.0, uuid1, validDate);
+		PuluoCoupon coupon3 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Discount, 50.0, uuid1,null, validDate);
 		couponDao.insertCoupon(coupon3);
 		coupons.add(coupon3.uuid());
-		PuluoCoupon coupon4 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Deduction, 10.0, uuid2, invalidDate);
+		PuluoCoupon coupon4 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Deduction, 10.0, uuid2,null, invalidDate);
 		couponDao.insertCoupon(coupon4);
 		coupons.add(coupon4.uuid());
-		PuluoCoupon coupon5 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Free, 0.0, uuid2, validDate);
+		PuluoCoupon coupon5 = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Free, 0.0, uuid2,null, validDate);
 		couponDao.insertCoupon(coupon5);
 		coupons.add(coupon5.uuid());
 		PuluoAccountDao accountDao = DaoTestApi.accountDevDao;
@@ -127,6 +128,15 @@ public class PuluoAccountNCouponDaoTest {
 		Assert.assertEquals("coupons.size()应该为3!", 3, coupons.size());
 		log.info("testGetByUserUUID done!");
 	}
+	
+	@Test
+	public void testGetByOrderUUID() {
+		log.info("testGetByUserUUID start!");
+		PuluoCouponDao couponDao = DaoTestApi.couponDevDao;
+		List<PuluoCoupon> coupons = couponDao.getByOrderUUID(order_uuid);
+		Assert.assertEquals("coupons.size()应该为2!", 2, coupons.size());
+		log.info("testGetByOrderUUID done!");
+	}
 
 	@Test
 	public void testGetByUserUUIDnValid() {
@@ -141,15 +151,17 @@ public class PuluoAccountNCouponDaoTest {
 	public void testUpdateCoupon() {
 		log.info("testUpdateCoupon start!");
 		PuluoCouponDao couponDao = DaoTestApi.couponDevDao;
-		PuluoCoupon coupon = new PuluoCouponImpl(coupons.get(4), CouponType.Discount, 15.0, uuid3, invalidDate);
+		String orderUUID = "asdf";
+		PuluoCoupon coupon = new PuluoCouponImpl(coupons.get(4), CouponType.Discount, 15.0, uuid3,orderUUID, invalidDate);
 		boolean result = couponDao.updateCoupon(coupon);
 		Assert.assertTrue("updateCoupon应该返回true!", result);
 		coupon = couponDao.getByCouponUUID(coupons.get(4));
 		Assert.assertEquals("couponType应该为CouponType.Discount!", CouponType.Discount, coupon.couponType());
 		Assert.assertEquals("amount应该为15.0!", new Double(15.0), coupon.amount());
 		Assert.assertEquals("ownerUUID应该为" + uuid3 + "!", uuid3, coupon.ownerUUID());
+		Assert.assertEquals("orderUUID应该为"+orderUUID,orderUUID, coupon.orderUUID());
 		Assert.assertEquals("isValid应该为false!", false, coupon.isValid());
-		coupon = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Free, 0.01, UUID.randomUUID().toString(), invalidDate);
+		coupon = new PuluoCouponImpl(UUID.randomUUID().toString(), CouponType.Free, 0.01, UUID.randomUUID().toString(),null, invalidDate);
 		result = couponDao.updateCoupon(coupon);
 		Assert.assertFalse("updateCoupon应该返回false!", result);
 		log.info("testUpdateCoupon done!");

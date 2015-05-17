@@ -10,15 +10,17 @@ public class PuluoCouponImpl implements PuluoCoupon {
 	public final CouponType type;
 	public final Double amount;
 	public final String user_uuid;
+	public final String order_uuid;
 	public final DateTime valid_until;
 	
 	public PuluoCouponImpl(String uuid, CouponType type, Double amount,
-			String user_uuid,DateTime valid_until) {
+			String user_uuid,String order_uuid,DateTime valid_until) {
 		super();
 		this.uuid = uuid;
 		this.type = type;
 		this.amount = amount;
 		this.user_uuid = user_uuid;
+		this.order_uuid = order_uuid;
 		this.valid_until = valid_until;
 	}
 
@@ -50,6 +52,11 @@ public class PuluoCouponImpl implements PuluoCoupon {
 	@Override
 	public DateTime validUntil() {
 		return valid_until;
+	}
+
+	@Override
+	public String orderUUID() {
+		return order_uuid;
 	}
 
 }

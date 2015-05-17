@@ -184,5 +184,12 @@
 	<bean id="wechatMediaResourceDao" class="com.puluo.dao.impl.WechatMediaResourceDaoImpl" parent="dalTemplate">
 		<property name="fullTableName" value="puluo_wechat_resource"></property>
 	</bean>	
+		<bean id="couponDao" class="com.puluo.dao.impl.PuluoCouponDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_coupon"></property>
+	</bean>
+	
+	<bean id="accountDao" class="com.puluo.dao.impl.PuluoAccountDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_user_account"></property>
+	</bean>
 
 </beans>

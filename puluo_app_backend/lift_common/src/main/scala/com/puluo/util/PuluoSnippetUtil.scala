@@ -21,6 +21,8 @@ import net.liftweb.http.SessionVar
 import com.puluo.dao.impl.DaoApi
 import com.puluo.util.TimeUtils
 import com.puluo.util.Location
+import com.puluo.util.Strs
+import net.liftweb.http.js.JsCmds
 
 trait PuluoSnippetUtil {
   def hidDiv(id: String)(cond: => Boolean) = {
@@ -44,7 +46,7 @@ trait PuluoSnippetUtil {
       }
     })
   }
-  
+
   def renderDouble(v: RequestVar[Option[Double]]) = {
     SHtml.ajaxText(v.map(_.toString).getOrElse("0"), s => {
       try {
@@ -77,12 +79,13 @@ trait PuluoSnippetUtil {
   }
 
   def renderSimpleSelect(
-    options: Seq[(String,String)],
+    options: Seq[(String, String)],
     sel: RequestVar[Option[String]]) = {
-	  SHtml.ajaxSelect(
-      options,
+    val opts = ("", "") :: options.toList
+    SHtml.ajaxSelect(
+      opts,
       sel.get,
-      s => { sel(Some(s)); JsCmds.Noop })
+      s => { if (Strs.isEmpty(s)) JsCmds.Noop else { sel(Some(s)); JsCmds.Noop } })
 
   }
 
@@ -100,15 +103,15 @@ trait PuluoSnippetUtil {
         JsCmds.Noop
       }, ("id" -> "city"))
   }
-  
-  def parseFileName(fileName:String):(String,String) = {
-     val lastDot = fileName.lastIndexOf('.')
+
+  def parseFileName(fileName: String): (String, String) = {
+    val lastDot = fileName.lastIndexOf('.')
     if (lastDot > 0) {
-      val fileType = fileName.subSequence(lastDot+1, fileName.length()).toString
+      val fileType = fileName.subSequence(lastDot + 1, fileName.length()).toString
       val name = fileName.subSequence(0, lastDot).toString
       (name, fileType)
     } else {
-     (fileName,"")
+      (fileName, "")
     }
   }
   private def replace(s: String): JsCmd = {

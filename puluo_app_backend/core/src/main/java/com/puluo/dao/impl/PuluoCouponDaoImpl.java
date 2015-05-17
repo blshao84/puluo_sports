@@ -31,7 +31,7 @@ public class PuluoCouponDaoImpl extends DalTemplate implements PuluoCouponDao {
 					.append(" (uuid text primary key, ")
 					.append("type text not null, ")
 					.append("amount double precision, ")
-					.append("user_uuid text, ")
+					.append("user_uuid text, ").append("order_uuid text, ")
 					.append("valid timestamp default now()::timestamp)")
 					.toString();
 			log.info(createSQL);
@@ -52,6 +52,14 @@ public class PuluoCouponDaoImpl extends DalTemplate implements PuluoCouponDao {
 			log.info(indexSQL2);
 			getWriter().execute(indexSQL2);
 
+			String indexSQL3 = new StringBuilder()
+					.append("create index " + super.getFullTableName()
+							+ "_i_order_uuid on ")
+					.append(super.getFullTableName()).append(" (order_uuid)")
+					.toString();
+			log.info(indexSQL3);
+			getWriter().execute(indexSQL3);
+
 			return true;
 		} catch (Exception e) {
 			log.debug(e.getMessage());
@@ -61,6 +69,8 @@ public class PuluoCouponDaoImpl extends DalTemplate implements PuluoCouponDao {
 
 	@Override
 	public PuluoCoupon getByCouponUUID(String uuid) {
+		if (uuid == null)
+			return null;
 		SqlReader reader = getReader();
 		StringBuilder sb = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName()).append(" where uuid = ?");
@@ -83,21 +93,37 @@ public class PuluoCouponDaoImpl extends DalTemplate implements PuluoCouponDao {
 				new Object[] { user_uuid }, new PuluoCouponMapper());
 		return entities;
 	}
+	
+	@Override
+	public List<PuluoCoupon> getByOrderUUID(String order_uuid) {
+		SqlReader reader = getReader();
+		StringBuilder sb = new StringBuilder().append("select * from ")
+				.append(super.getFullTableName())
+				.append(" where order_uuid = ?");
+		String selectSQL = sb.toString();
+		log.info(super.sqlRequestLog(selectSQL, order_uuid));
+		List<PuluoCoupon> entities = reader.query(selectSQL,
+				new Object[] { order_uuid }, new PuluoCouponMapper());
+		return entities;
+	}
 
 	@Override
 	public PuluoCoupon getByCouponUUID(String uuid, boolean is_valid) {
 		String now = TimeUtils.formatDate(DateTime.now());
 		String comparator;
-		if(is_valid) comparator = ">="; else comparator = "<";
+		if (is_valid)
+			comparator = ">=";
+		else
+			comparator = "<";
 		SqlReader reader = getReader();
 		StringBuilder sb = new StringBuilder().append("select * from ")
-				.append(super.getFullTableName())
-				.append(" where uuid = '")
+				.append(super.getFullTableName()).append(" where uuid = '")
 				.append(uuid).append("'").append(" and valid ")
 				.append(comparator).append(" '").append(now).append("'");
 		String selectSQL = sb.toString();
 		log.info(super.sqlRequestLog(selectSQL));
-		List<PuluoCoupon> entities = reader.query(selectSQL, new PuluoCouponMapper());
+		List<PuluoCoupon> entities = reader.query(selectSQL,
+				new PuluoCouponMapper());
 		return verifyUniqueResult(entities);
 	}
 
@@ -105,16 +131,20 @@ public class PuluoCouponDaoImpl extends DalTemplate implements PuluoCouponDao {
 	public List<PuluoCoupon> getByUserUUID(String user_uuid, boolean is_valid) {
 		String now = TimeUtils.formatDate(DateTime.now());
 		String comparator;
-		if(is_valid) comparator = ">="; else comparator = "<";
+		if (is_valid)
+			comparator = ">=";
+		else
+			comparator = "<";
 		SqlReader reader = getReader();
 		StringBuilder sb = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName())
-				.append(" where user_uuid = '")
-				.append(user_uuid).append("'").append(" and valid ")
-				.append(comparator).append(" '").append(now).append("'");
+				.append(" where user_uuid = '").append(user_uuid).append("'")
+				.append(" and valid ").append(comparator).append(" '")
+				.append(now).append("'");
 		String selectSQL = sb.toString();
 		log.info(super.sqlRequestLog(selectSQL));
-		List<PuluoCoupon> entities = reader.query(selectSQL, new PuluoCouponMapper());
+		List<PuluoCoupon> entities = reader.query(selectSQL,
+				new PuluoCouponMapper());
 		return entities;
 	}
 
@@ -132,11 +162,11 @@ public class PuluoCouponDaoImpl extends DalTemplate implements PuluoCouponDao {
 				StringBuilder sb = new StringBuilder()
 						.append("insert into ")
 						.append(super.getFullTableName())
-						.append(" (uuid, type, amount, user_uuid, valid)")
+						.append(" (uuid, type, amount, user_uuid,order_uuid, valid)")
 						.append(" values ('" + coupon.uuid() + "', '"
 								+ coupon.couponType().name() + "', "
 								+ coupon.amount() + ", '" + coupon.ownerUUID()
-								+ "', '"
+								+ "', '" + coupon.orderUUID() +"','"
 								+ TimeUtils.formatDate(coupon.validUntil())
 								+ "')");
 				String insertSQL = sb.toString();
@@ -169,6 +199,7 @@ public class PuluoCouponDaoImpl extends DalTemplate implements PuluoCouponDao {
 						.append(" set type = '" + coupon.couponType().name())
 						.append("', amount = " + coupon.amount())
 						.append(", user_uuid = '" + coupon.ownerUUID())
+						.append("', order_uuid = '" + coupon.orderUUID())
 						.append("', valid = '"
 								+ TimeUtils.formatDate(coupon.validUntil()))
 						.append("' where uuid = '" + coupon.uuid() + "'");
@@ -188,11 +219,14 @@ public class PuluoCouponDaoImpl extends DalTemplate implements PuluoCouponDao {
 	class PuluoCouponMapper implements RowMapper<PuluoCoupon> {
 		@Override
 		public PuluoCoupon mapRow(ResultSet rs, int rowNum) throws SQLException {
-			PuluoCoupon coupon = new PuluoCouponImpl(rs.getString("uuid"),
+			PuluoCoupon coupon = new PuluoCouponImpl(
+					rs.getString("uuid"),
 					CouponType.valueOf(rs.getString("type")),
-					rs.getDouble("amount"), rs.getString("user_uuid"),
-					TimeUtils.parseDateTime(TimeUtils.formatDate(rs
-							.getTimestamp("valid"))));
+					rs.getDouble("amount"), 
+					rs.getString("user_uuid"),
+					rs.getString("order_uuid"),
+					TimeUtils.parseDateTime(
+							TimeUtils.formatDate(rs.getTimestamp("valid"))));
 			return coupon;
 		}
 	}

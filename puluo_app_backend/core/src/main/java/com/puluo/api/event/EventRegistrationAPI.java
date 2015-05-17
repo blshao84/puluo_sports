@@ -11,8 +11,11 @@ import com.puluo.api.payment.PuluoAlipayAPI;
 import com.puluo.config.Configurations;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.entity.PuluoCoupon;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoPaymentOrder;
+import com.puluo.entity.PuluoUser;
+import com.puluo.entity.impl.PuluoCouponImpl;
 import com.puluo.entity.impl.PuluoPaymentOrderImpl;
 import com.puluo.entity.payment.OrderEvent;
 import com.puluo.entity.payment.impl.OrderEventImpl;
@@ -22,6 +25,7 @@ import com.puluo.enumeration.PuluoOrderStatus;
 import com.puluo.payment.alipay.AlipayUtil;
 import com.puluo.result.ApiErrorResult;
 import com.puluo.result.event.EventRegistrationResult;
+import com.puluo.util.EventPriceCalculator;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 
@@ -31,45 +35,54 @@ public class EventRegistrationAPI extends
 
 	public final String event_uuid;
 	public final String user_uuid;
+	public final String coupon_uuid;
 	public final boolean mock;
 
-
-	public EventRegistrationAPI(String event_uuid, String user_uuid,boolean mock) {
-		this(event_uuid, user_uuid,mock, DaoApi.getInstance());
+	public EventRegistrationAPI(String event_uuid, String user_uuid,
+			boolean mock,PuluoDSI dsi) {
+		this(event_uuid, user_uuid, null, mock, dsi);
 	}
-	public EventRegistrationAPI(String event_uuid, String user_uuid,boolean mock,
-			PuluoDSI dsi) {
+	
+	public EventRegistrationAPI(String event_uuid, String user_uuid,
+			boolean mock) {
+		this(event_uuid, user_uuid, null, mock, DaoApi.getInstance());
+	}
+
+	public EventRegistrationAPI(String event_uuid, String user_uuid,
+			String coupon_uuid, boolean mock) {
+		this(event_uuid, user_uuid, coupon_uuid, mock, DaoApi.getInstance());
+	}
+
+	public EventRegistrationAPI(String event_uuid, String user_uuid,
+			String coupon_uuid, boolean mock, PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.event_uuid = event_uuid;
 		this.user_uuid = user_uuid;
+		this.coupon_uuid = coupon_uuid;
 		this.mock = mock;
 	}
 
 	@Override
 	public void execute() {
-		PuluoPaymentOrder order = dsi.paymentDao().getOrderByEvent(event_uuid, user_uuid);
+		PuluoPaymentOrder order = dsi.paymentDao().getOrderByEvent(event_uuid,
+				user_uuid);
 		if (order == null) {
 			EventRegistrationResult result = createNewOrder();
 			this.rawResult = result;
 		} else {
-//			if (order.userId().equals(user_uuid)) {
-				PuluoOrderStatus status = order.status();
-				if (status.isCancel()) {
-					log.error(String.format("订单(uuid is %s)已经被取消", order.orderUUID()));
-					this.error = ApiErrorResult.getError(2);
-					this.rawResult = null;
-				} else if (status.isPaid()) {
-					this.rawResult = new EventRegistrationResult("",
-							order.orderUUID(), true);
-				} else {
-					EventRegistrationResult result = updateOrder(order);
-					this.rawResult = result;
-				}
-//			} else {
-//				log.error(String.format("订单中的用户id is %s与该用户id is %s不匹配", order.userId(), user_uuid));
-//				this.error = ApiErrorResult.getError(3);
-//				this.rawResult = null;
-//			}
+			PuluoOrderStatus status = order.status();
+			if (status.isCancel()) {
+				log.error(String.format("订单(uuid is %s)已经被取消",
+						order.orderUUID()));
+				this.error = ApiErrorResult.getError(2);
+				this.rawResult = null;
+			} else if (status.isPaid()) {
+				this.rawResult = new EventRegistrationResult("",
+						order.orderUUID(), true);
+			} else {
+				EventRegistrationResult result = updateOrder(order);
+				this.rawResult = result;
+			}
 		}
 	}
 
@@ -85,7 +98,7 @@ public class EventRegistrationAPI extends
 		try {
 			switch (status) {
 			case Undefined:
-				paymentLink = AlipayUtil.generateDirectWAPLink(order,mock);
+				paymentLink = AlipayUtil.generateDirectWAPLink(order, mock);
 				OrderEvent event1 = new OrderEventImpl(order.orderUUID(),
 						OrderEventType.PlaceOrderEvent);
 				dsi.orderEventDao().saveOrderEvent(event1);
@@ -102,7 +115,7 @@ public class EventRegistrationAPI extends
 						order.orderUUID(), false);
 				break;
 			case New:
-				paymentLink = AlipayUtil.generateDirectWAPLink(order,mock);
+				paymentLink = AlipayUtil.generateDirectWAPLink(order, mock);
 				OrderEvent event3 = new OrderEventImpl(order.orderUUID(),
 						OrderEventType.PayOrderEvent);
 				dsi.orderEventDao().saveOrderEvent(event3);
@@ -113,7 +126,7 @@ public class EventRegistrationAPI extends
 						order.orderUUID(), false);
 				break;
 			case Paying:
-				paymentLink = AlipayUtil.generateDirectWAPLink(order,mock);
+				paymentLink = AlipayUtil.generateDirectWAPLink(order, mock);
 				result = new EventRegistrationResult(paymentLink,
 						order.orderUUID(), false);
 				break;
@@ -135,43 +148,62 @@ public class EventRegistrationAPI extends
 			this.error = ApiErrorResult.getError(51);
 			return null;
 		} else {
-			try{
-				Double amount = event.price();
+			try {
+				PuluoUser user = dsi.userDao().getByUUID(user_uuid);
+				PuluoCoupon coupon = dsi.couponDao().getByCouponUUID(coupon_uuid);
+				Double amount = EventPriceCalculator.calculate(event, coupon, user);
 				DateTime paymentTime = DateTime.now();
 				PuluoPaymentOrder order = new PuluoPaymentOrderImpl("", amount,
-						paymentTime, user_uuid, event_uuid, PuluoOrderStatus.New);
-				OrderEvent placeOrderEvent = new OrderEventImpl(order.orderUUID(),
-						OrderEventType.PlaceOrderEvent);
+						paymentTime, user_uuid, event_uuid,
+						PuluoOrderStatus.New);
+				OrderEvent placeOrderEvent = new OrderEventImpl(
+						order.orderUUID(), OrderEventType.PlaceOrderEvent);
 				dsi.paymentDao().saveOrder(order);
 				dsi.orderEventDao().saveOrderEvent(placeOrderEvent);
 				PuluoPaymentOrder savedOrder = dsi.paymentDao().getOrderByUUID(
 						order.orderUUID());
-				OrderEvent payOrderEvent = new OrderEventImpl(order.orderUUID(),
-						OrderEventType.PayOrderEvent);
+				OrderEvent payOrderEvent = new OrderEventImpl(
+						order.orderUUID(), OrderEventType.PayOrderEvent);
 				dsi.orderEventDao().saveOrderEvent(payOrderEvent);
-				PuluoOrderStatus nextStatus2 = PuluoOrderStateMachine.nextState(
-						savedOrder, payOrderEvent);
+				PuluoOrderStatus nextStatus2 = PuluoOrderStateMachine
+						.nextState(savedOrder, payOrderEvent);
 				dsi.paymentDao().updateOrderStatus(order, nextStatus2);
-				if (amount!=0.0) {
-					String paymentLink = AlipayUtil.generateDirectWAPLink(savedOrder,mock);
-					return new EventRegistrationResult(paymentLink, order.orderUUID(), false);
-				} else {
-					String out_trade_no = AlipayUtil.generateOrderID(savedOrder, Configurations.orderIDBase);
-					PuluoAlipayAPI alipay = new PuluoAlipayAPI(new HashMap<String, String>(), null, out_trade_no, "DO NOT NEED A PAYMENT!",mock);
-					alipay.processOrderWithZero();
-					return new EventRegistrationResult("", order.orderUUID(), true);
+				if(coupon!=null){
+					dsi.couponDao().updateCoupon(new PuluoCouponImpl(
+							coupon.uuid(), 
+							coupon.couponType(), 
+							coupon.amount(),
+							coupon.ownerUUID(), 
+							savedOrder.orderUUID(), 
+							coupon.validUntil()));
 				}
-			}catch(Exception e){
+				if (amount != 0.0) {
+					String paymentLink = AlipayUtil.generateDirectWAPLink(
+							savedOrder, mock);
+					return new EventRegistrationResult(paymentLink,
+							order.orderUUID(), false);
+				} else {
+					String out_trade_no = AlipayUtil.generateOrderID(
+							savedOrder, Configurations.orderIDBase);
+					PuluoAlipayAPI alipay = new PuluoAlipayAPI(
+							new HashMap<String, String>(), null, out_trade_no,
+							"DO NOT NEED A PAYMENT!", mock);
+					alipay.processOrderWithZero();
+					return new EventRegistrationResult("", order.orderUUID(),
+							true);
+				}
+			} catch (Exception e) {
 				log.error("生成订单时发生未知错误");
 				this.error = ApiErrorResult.getError(1);
 				return null;
 			}
 		}
 	}
-	
+
 	public String paymentLink() {
-		if(rawResult==null){
+		if (rawResult == null) {
 			return "";
-		} else return rawResult.link;
+		} else
+			return rawResult.link;
 	}
 }

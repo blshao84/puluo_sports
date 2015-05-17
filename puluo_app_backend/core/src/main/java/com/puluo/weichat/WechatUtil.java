@@ -256,7 +256,7 @@ public class WechatUtil {
 		return httpsJsonRequest(requestUrl, "POST", inputs);
 	}
 
-	public static WechatArticleMessage createArticleMessageFromEvent(PuluoEvent event) {
+	public static WechatArticleMessage createArticleMessageFromEvent(PuluoEvent event,String user_uuid) {
 		PuluoEventInfo info = event.eventInfo();
 		String name = info.name();
 		String desc = info.description();
@@ -267,7 +267,7 @@ public class WechatUtil {
 			img = String.format("%s%s", Configurations.imageServer,"empty.jpeg");
 		}
 		String page_url = String.format(
-				"www.puluosports.com/single_event?uuid=%s", event.eventUUID());
+				"www.puluosports.com/single_event?uuid=%s&user_uuid=%s", event.eventUUID(),user_uuid);
 		return new WechatArticleMessage(name, desc, img, page_url, false);
 	}
 	

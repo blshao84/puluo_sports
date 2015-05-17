@@ -61,13 +61,13 @@ object PuluoResponseFactory extends Loggable{
        if(jvalue.isDefined) Some(k,jvalue.get) else None
      }).toMap
    }.getOrElse(Map.empty[String,String])
-   logger.info("从req.json获得的参数:\n"+params.mkString("\n"))
+   logger.debug("从req.json获得的参数:\n"+params.mkString("\n"))
    params
   }
   
   private def createParamMapFromS(keys:Seq[String]) = {
     val params = keys.map(key=> S.param(key).map(value=>(key,value))).flatten.toMap
-    logger.info("从S.param获得的参数:\n"+params.mkString("\n"))
+    logger.debug("从S.param获得的参数:\n"+params.mkString("\n"))
     params
   }
 

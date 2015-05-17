@@ -13,7 +13,6 @@ import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.PuluoUser;
-import com.puluo.entity.PuluoWechatBinding;
 import com.puluo.enumeration.WechatButtonType;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
@@ -23,7 +22,7 @@ import com.puluo.weichat.WechatNewsContentItem;
 import com.puluo.weichat.WechatPermMediaItemResult;
 import com.puluo.weichat.WechatUtil;
 
-public class WechatButtonAPI {
+public class WechatButtonAPI extends WechatAPI{
 	public static Log log = LogFactory.getLog(WechatButtonAPI.class);
 	private final Map<String, String> params;
 	private WechatButtonType buttonType;
@@ -78,8 +77,7 @@ public class WechatButtonAPI {
 
 	private WechatMessage createHistOrders() {
 		String openId = params.get("FromUserName");
-		PuluoWechatBinding binding = DaoApi.getInstance().wechatBindingDao().findByOpenId(openId);
-		PuluoUser user = binding.user();
+		PuluoUser user = getUserFromOpenID(openId);
 		List<PuluoPaymentOrder> orders = DaoApi.getInstance().paymentDao().getPaidOrdersByUserUUID(user.userUUID(), 3);
 		StringBuilder history = new StringBuilder();
 		PuluoEvent event;
@@ -118,12 +116,16 @@ public class WechatButtonAPI {
 	}
 
 	private WechatMessage createHottestEvent() {
+		String openId = params.get("FromUserName");
+		PuluoUser user = getUserFromOpenID(openId);
+		String user_uuid;
+		if(user==null) user_uuid = ""; else user_uuid=user.userUUID();
 		List<PuluoEvent> recommendations = DaoApi.getInstance().eventDao()
 				.findPopularEvent(0);
 		if (recommendations.size() > 0) {
 			List<WechatArticleMessage> articles = new ArrayList<WechatArticleMessage>();
 			for (PuluoEvent e : recommendations) {
-				articles.add(WechatUtil.createArticleMessageFromEvent(e));
+				articles.add(WechatUtil.createArticleMessageFromEvent(e,user_uuid));
 			}
 			return new WechatNewsMessage(articles);
 		} else
