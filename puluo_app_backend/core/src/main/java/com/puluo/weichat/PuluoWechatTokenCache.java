@@ -67,9 +67,9 @@ public class PuluoWechatTokenCache {
 		try {
 			Map<WechatKey, String> map = cache.asMap();
 			for(WechatKey key:map.keySet()){
-				System.out.println(String.format("%s == %s is %s",key,Configurations.wechatKey,key.equals(Configurations.wechatKey)));
+				System.out.println(String.format("%s == %s is %s",key,Configurations.wechatKey(),key.equals(Configurations.wechatKey())));
 			}
-			return cache.get(Configurations.wechatKey);
+			return cache.get(Configurations.wechatKey());
 		} catch (ExecutionException e) {
 			return null;
 		}
