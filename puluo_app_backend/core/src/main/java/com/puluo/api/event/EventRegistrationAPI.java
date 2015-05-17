@@ -193,6 +193,7 @@ public class EventRegistrationAPI extends
 							true);
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				log.error("生成订单时发生未知错误");
 				this.error = ApiErrorResult.getError(1);
 				return null;

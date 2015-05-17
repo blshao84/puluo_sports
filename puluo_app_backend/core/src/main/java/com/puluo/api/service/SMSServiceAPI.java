@@ -113,4 +113,9 @@ public class SMSServiceAPI extends PuluoAPI<PuluoDSI, SMSServiceResult> {
 		else
 			return Strs.join(code);
 	}
+	
+	public boolean isSuccess() {
+		if(rawResult==null) return false;
+		else return rawResult.isSuccess();
+	}
 }

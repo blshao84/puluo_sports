@@ -44,25 +44,36 @@ public class UserRegistrationAPI extends
 				return;
 			} else {
 				if (!authCodeRecord.authCode().equals(auth_code)) {
-					log.error(String.format("auth_code doesn't match: db=%s,api=%s",authCodeRecord.authCode(),auth_code));
+					log.error(String.format(
+							"auth_code doesn't match: db=%s,api=%s",
+							authCodeRecord.authCode(), auth_code));
 					this.error = ApiErrorResult.getError(7);
 					return;
 				} else {
 					PuluoUserDao userDao = dsi.userDao();
 					userDao.save(mobile, password);
 					PuluoUser newUser = userDao.getByMobile(mobile);
-					boolean successSave2 = dsi.userSettingDao().saveNewSetting(newUser.userUUID());
-					if (successSave2){
-						String uuid = dsi.userDao().getByMobile(mobile).userUUID();
-						this.rawResult = new UserRegistrationResult(uuid,mobile,
-								password);
-					}else {
+					boolean successSave2 = dsi.userSettingDao().saveNewSetting(
+							newUser.userUUID());
+					if (successSave2) {
+						String uuid = dsi.userDao().getByMobile(mobile)
+								.userUUID();
+						this.rawResult = new UserRegistrationResult(uuid,
+								mobile, password);
+					} else {
 						this.error = ApiErrorResult.getError(8);
 						return;
 					}
 				}
 			}
 		}
+	}
+
+	public String userUUID() {
+		if (rawResult == null)
+			return null;
+		else
+			return rawResult.user_uuid;
 	}
 
 }

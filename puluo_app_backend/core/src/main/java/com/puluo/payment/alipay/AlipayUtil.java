@@ -110,19 +110,19 @@ public class AlipayUtil {
 		sParaTempToken.put("v", v);
 		sParaTempToken.put("req_id", req_id);
 		sParaTempToken.put("req_data", req_dataToken);
-
-		// 建立请求
-		String sHtmlTextToken = AlipaySubmit.buildRequest(ALIPAY_GATEWAY_NEW,
-				"", "", sParaTempToken);
-		// URLDECODE返回的信息
-		sHtmlTextToken = URLDecoder.decode(sHtmlTextToken,
-				AlipayConfig.input_charset);
 		// 获取token
 		String request_token;
 		if (mock)
 			request_token = "";
-		else
+		else{
+			// 建立请求
+			String sHtmlTextToken = AlipaySubmit.buildRequest(ALIPAY_GATEWAY_NEW,
+					"", "", sParaTempToken);
+			// URLDECODE返回的信息
+			sHtmlTextToken = URLDecoder.decode(sHtmlTextToken,
+					AlipayConfig.input_charset);
 			request_token = AlipaySubmit.getRequestToken(sHtmlTextToken);
+		}
 		// out.println(request_token);
 
 		// //////////////////////////////////根据授权码token调用交易接口alipay.wap.auth.authAndExecute//////////////////////////////////////

@@ -13,6 +13,10 @@ public class SMSServiceResult extends HasJSON{
 		this.status = status;
 	}
 	
+	public boolean isSuccess() {
+		return status.equals("success");
+	}
+	
 	public static SMSServiceResult dummy() {
 		return new SMSServiceResult("1234567890", "success");
 	}

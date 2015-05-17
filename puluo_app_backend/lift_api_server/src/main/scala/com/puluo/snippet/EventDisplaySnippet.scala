@@ -31,10 +31,24 @@ import com.puluo.entity.PuluoEvent
 import com.puluo.util.EventPriceCalculator
 import com.puluo.entity.PuluoUser
 import com.puluo.entity.impl.PuluoCouponImpl
+import com.puluo.api.auth.UserRegistrationAPI
+import com.puluo.util.PasswordEncryptionUtil
+import com.puluo.api.service.SMSServiceAPI
+import com.puluo.enumeration.PuluoSMSType
+import com.puluo.util.PuluoAuthCodeSender
 
-object EventDisplaySnippet extends PuluoSnippetUtil with Loggable {
+object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender with Loggable {
+  val mock = true
+  
   object mobile extends RequestVar[Option[String]](None)
   object coupon extends RequestVar[Option[PuluoCoupon]](None)
+  object authCode extends RequestVar[Option[String]](None)
+
+  def getAuthMobile = mobile
+
+  def setAuthCode(ac: String) = authCode(Some(ac))
+
+  def getAuthCode = authCode
 
   def render = {
     val dsi = DaoApi.getInstance()
@@ -65,6 +79,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with Loggable {
         "#registered *" #> registered &
         "#remaining *" #> (event.capatcity() - registered) &
         "#desc *" #> info.description() &
+        renderSendAuthCode &
         renderCoupons(couponOptions, event, userFromLink) &
         renderMobile(userFromLink) &
         renderReserve(userFromLink, event)
@@ -79,27 +94,42 @@ object EventDisplaySnippet extends PuluoSnippetUtil with Loggable {
         val user = if (userFromLink != null) userFromLink
         else userDao.getByMobile(mobile.get.get)
         if (user != null) {
-          val couponUUID: String = coupon.map(_.uuid()).getOrElse(null)
-          val api = new EventRegistrationAPI(event.eventUUID(), user.userUUID(), couponUUID, false)
-          api.execute()
-          if (api.error == null) {
-            if (event.price() == 0) {
-              JsCmds.Alert("恭喜您成功预订课程！")
-            } else {
-              val link = api.paymentLink
-              val uuid = UUID.randomUUID().toString()
-              val redirectLink = s"/payment?uuid=${uuid}"
-              AlipayLinkCache.put(uuid, link)
-              logger.info(s"jump to own iframe page ${uuid}=${redirectLink}")
-              JsCmds.RedirectTo(redirectLink)
-            }
-          } else JsCmds.Alert("注册课程时发生异常，请稍后再试")
+          doEventRegistration(user, event)
         } else {
-          JsCmds.Alert("您还没有注册，请您通过微信公众号一键注册！")
+          verifyAuthCodeForRegistration(
+            onNoInput = () => {
+              JsCmds.JsShowId("auth_code_row") &
+                JsCmds.Alert("您还不是普罗体育的注册用户，请点击\"发送验证码\"一步完成认证")
+            },
+            onSuccess = (newUser: PuluoUser) => {
+              doEventRegistration(newUser, event)
+            },
+            onFailure = () => {
+              JsCmds.Alert("抱歉，您输入的验证码不正确")
+            })
         }
       } else JsCmds.Alert("请输入您的电话")
     })
   }
+
+  private def doEventRegistration(user: PuluoUser, event: PuluoEvent) = {
+    val couponUUID: String = coupon.map(_.uuid()).getOrElse(null)
+    val api = new EventRegistrationAPI(event.eventUUID(), user.userUUID(), couponUUID, mock)
+    api.execute()
+    if (api.error == null) {
+      if (event.price() == 0) {
+        JsCmds.Alert("恭喜您成功预订课程！")
+      } else {
+        val link = api.paymentLink
+        val uuid = UUID.randomUUID().toString()
+        val redirectLink = s"/payment?uuid=${uuid}"
+        AlipayLinkCache.put(uuid, link)
+        logger.info(s"jump to own iframe page ${uuid}=${redirectLink}")
+        JsCmds.RedirectTo(redirectLink)
+      }
+    } else JsCmds.Alert("注册课程时发生异常，请稍后再试")
+  }
+
   private def renderCoupons(couponOptions: Seq[(String, String)], event: PuluoEvent, user: PuluoUser) = {
     val dsi = DaoApi.getInstance()
     val opts = ("", "") :: couponOptions.toList
