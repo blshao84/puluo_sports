@@ -63,11 +63,11 @@ public class UserPrivacyFunctionalTest extends APIFunctionalTest {
 			
 			String uuid = super.getStringFromJson(json, "user_uuid");
 			Assert.assertEquals("uuid should be " + uuid1, uuid1, uuid);
-			String allow_stranger_view_timeline = super.getStringFromJson(json, "allow_stranger_view_timeline");
+			String allow_stranger_view_timeline = super.getStringFromJson(json, "settings", "allow_stranger_view_timeline");
 			Assert.assertTrue("allow stranger view timeline should be true", Boolean.valueOf(allow_stranger_view_timeline));
-			String auto_add_friend = super.getStringFromJson(json, "auto_add_friend");
+			String auto_add_friend = super.getStringFromJson(json, "settings", "auto_add_friend");
 			Assert.assertTrue("auto add friend should be true", Boolean.valueOf(auto_add_friend));
-			String allow_searched = super.getStringFromJson(json, "allow_searched");
+			String allow_searched = super.getStringFromJson(json, "settings", "allow_searched");
 			Assert.assertTrue("allow searched should be true", Boolean.valueOf(allow_searched));
 		} catch (UnirestException e) {
 			e.printStackTrace();

@@ -234,9 +234,10 @@ public class PuluoFriendRequestDaoImpl extends DalTemplate implements
 					.append("select * from ").append(super.getFullTableName())
 					.append(" where to_user_uuid = ? and request_status = '")
 				    .append(FriendRequestStatus.Requested.name())
-				    .append("' order by created_at desc");
+				    .append("'");
 			if(limit > 0) sb.append(" limit ").append(limit);
 			if(offset > 0) sb.append(" offset ").append(offset);
+			sb.append(" order by created_at desc");
 			String selectSQL = sb.toString();
 			log.info(super.sqlRequestLog(selectSQL,userUUID));
 			List<PuluoFriendRequest> entities = reader.query(
