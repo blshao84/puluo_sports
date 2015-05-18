@@ -40,7 +40,7 @@ public class Configurations {
 			wechatAppKey = "b213b7abb4a2e6f8708cc9567f056d25";
 			break;
 		default:
-			wechatToken = "wwwdqxmtcom";
+			wechatToken = "puluosports";
 			wechatAppId = "wx002b167e928b4951";
 			wechatAppKey = "faa1e7c66e8be5f635e10f069b54af35";
 			break;
