@@ -163,10 +163,11 @@ public class PuluoAPIResultTest {
 	public void testUserSettingResult() {
 		String expectedJsonResult = 
 		"{\"user_uuid\":\"\","
-		+ "\"auto_add_friend\":{\"key\":\"auto_add_friend\",\"name\":\"允许自动添加好友\",\"value\":true},"
-		+ "\"allow_stranger_view_timeline\":{\"key\":\"allow_stranger_view_timeline\",\"name\":\"允许陌生人浏览\",\"value\":true},"
-		+ "\"allow_searched\":{\"key\":\"allow_searched\",\"name\":\"允许被搜索到\",\"value\":true}"
-		+ "}";
+		+ "\"settings\":["
+		+ "{\"key\":\"auto_add_friend\",\"name\":\"允许自动添加好友\",\"value\":true},"
+		+ "{\"key\":\"allow_stranger_view_timeline\",\"name\":\"允许陌生人浏览\",\"value\":true},"
+		+ "{\"key\":\"allow_searched\",\"name\":\"允许被搜索到\",\"value\":true}"
+		+ "]}";
 		String actualJsonResult = UserSettingResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}
@@ -175,10 +176,11 @@ public class PuluoAPIResultTest {
 	public void testUserSettingUpdateResult() {
 		String expectedJsonResult = 
 				"{\"user_uuid\":\"\","
-				+ "\"auto_add_friend\":{\"key\":\"auto_add_friend\",\"name\":\"允许自动添加好友\",\"value\":true},"
-				+ "\"allow_stranger_view_timeline\":{\"key\":\"allow_stranger_view_timeline\",\"name\":\"允许陌生人浏览\",\"value\":true},"
-				+ "\"allow_searched\":{\"key\":\"allow_searched\",\"name\":\"允许被搜索到\",\"value\":true}"
-				+ "}";
+				+ "\"settings\":["
+				+ "{\"key\":\"auto_add_friend\",\"name\":\"允许自动添加好友\",\"value\":true},"
+				+ "{\"key\":\"allow_stranger_view_timeline\",\"name\":\"允许陌生人浏览\",\"value\":true},"
+				+ "{\"key\":\"allow_searched\",\"name\":\"允许被搜索到\",\"value\":true}"
+				+ "]}";
 		String actualJsonResult = UserSettingUpdateResult.dummy().toJson();
 		assertEquals(actualJsonResult, expectedJsonResult);
 	}

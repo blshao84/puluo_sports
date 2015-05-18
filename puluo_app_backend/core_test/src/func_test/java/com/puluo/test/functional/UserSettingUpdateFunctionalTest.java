@@ -1,5 +1,9 @@
 package com.puluo.test.functional;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -25,6 +29,13 @@ public class UserSettingUpdateFunctionalTest extends APIFunctionalTest {
 	static String uuid1;
 	static String password1 = "abcdefg";
 	static String sessionId;
+	static Map<String, Integer> i = new HashMap<String, Integer>();
+	
+	{
+		i.put("auto_add_friend", 0);
+		i.put("allow_stranger_view_timeline", 1);
+		i.put("allow_searched", 2);
+	}
 
 	@BeforeClass
 	public static void setupDB() {
@@ -73,8 +84,8 @@ public class UserSettingUpdateFunctionalTest extends APIFunctionalTest {
 			String str = String.format("{\"token\":\"%s\", \"" + key + "\":\"%s\"}", sessionId, value);
 			JsonNode json = callAPI("users/setting/update", str);
 			log.info(json);
-			String result = super.getStringFromJson(json, key,"value");
-			Assert.assertEquals(key.replace("_", " ") + " should be " + value, value, result);
+			List<JsonNode> result = super.getJsonArrayFromJson(json, "settings");
+			Assert.assertEquals(key.replace("_", " ") + " should be " + value, value, super.getStringFromJson(result.get(i.get(key)), "value"));
 		} catch (UnirestException e) {
 			e.printStackTrace();
 			Assert.assertTrue(false);
