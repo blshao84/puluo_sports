@@ -9,7 +9,7 @@ import com.puluo.util.Strs;
 
 public abstract class DalTemplate {
 	private static Log log = LogFactory.getLog(DalTemplate.class);
-	
+
 	private List<SqlWriter> writers;
 	private List<SqlReader> readers;
 	private int writerSize;
@@ -48,13 +48,20 @@ public abstract class DalTemplate {
 		writerSize = writers.size();
 	}
 
+	protected void createIndex(String field) {
+		String indexSQL2 = new StringBuilder().append("create index ")
+				.append(getFullTableName()).append("_i_").append(field)
+				.append(" on ").append(getFullTableName()).append(" (")
+				.append(field).append(")").toString();
+		log.info(indexSQL2);
+		getWriter().execute(indexSQL2);
+	}
+
 	protected boolean deleteByUniqueKey(String key, String value) {
 		try {
 			String deleteSQL = new StringBuilder().append("delete from ")
-					.append(getFullTableName())
-					.append(" where ")
-					.append(key).append(" = '").append(value)
-					.append("'").toString();
+					.append(getFullTableName()).append(" where ").append(key)
+					.append(" = '").append(value).append("'").toString();
 			log.info(deleteSQL);
 			getWriter().execute(deleteSQL);
 		} catch (Exception e) {
@@ -64,24 +71,23 @@ public abstract class DalTemplate {
 		return true;
 
 	}
-	
-	protected <T> T verifyUniqueResult(List<T> entities){
+
+	protected <T> T verifyUniqueResult(List<T> entities) {
 		if (entities.size() == 1)
 			return entities.get(0);
 		else if (entities.size() > 1)
-			throw new PuluoDatabaseException(
-					"通过UUID查到多个Entities！");
+			throw new PuluoDatabaseException("通过UUID查到多个Entities！");
 		else
 			return null;
 	}
-	
-	protected String sqlRequestLog(String sql, Object...params){
+
+	protected String sqlRequestLog(String sql, Object... params) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("SQL:").append(sql).append("\n")
-		.append("ARG:").append(Strs.mkString(",", params));
+		sb.append("SQL:").append(sql).append("\n").append("ARG:")
+				.append(Strs.mkString(",", params));
 		return sb.toString();
 	}
-	
+
 	protected String processSingleQuote(String str) {
 		return str.replaceAll("'", "''");
 	}

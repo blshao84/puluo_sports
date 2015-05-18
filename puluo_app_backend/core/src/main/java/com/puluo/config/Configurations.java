@@ -30,7 +30,8 @@ public class Configurations {
 	public static final String emptyImage = Strs.join(imageServer, "empty.jpg");
 
 	public static final Double minPrice = 0.1;
-
+	public static final Double registrationAwardAmount = 50.0;
+	
 	static {
 		switch (env) {
 		case PROD:

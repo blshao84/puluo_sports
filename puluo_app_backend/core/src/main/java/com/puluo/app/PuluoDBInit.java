@@ -26,6 +26,7 @@ public class PuluoDBInit {
 		dsi.wechatMediaResourceDao().createTable();
 		dsi.paymentDao().createTable();
 		dsi.orderEventDao().createTable();
+		dsi.invitationDao().createTable();
 		
 	}
 

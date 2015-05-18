@@ -25,7 +25,7 @@ import com.puluo.api.auth.UserRegistrationAPI
 import com.puluo.entity.PuluoUser
 
 trait PuluoAuthCodeSender extends Loggable {
-  def mock:Boolean
+  def mock: Boolean
   def getAuthMobile: RequestVar[Option[String]]
   def setAuthCode(ac: String): Unit
   def getAuthCode: RequestVar[Option[String]]
@@ -56,25 +56,28 @@ trait PuluoAuthCodeSender extends Loggable {
     onNoInput: () => JsCmd,
     onSuccess: PuluoUser => JsCmd,
     onFailure: () => JsCmd) = {
-    val authDao = DaoApi.getInstance().authCodeRecordDao()
-    val authRecord = authDao.getRegistrationAuthCodeFromMobile(getAuthMobile.get.get)
-    if (authRecord == null || !getAuthCode.isDefined) {
-      onNoInput()
-    } else {
-      if (authRecord.authCode() == getAuthCode.get.get) {
-        val password = PasswordEncryptionUtil.encrypt(authRecord.authCode())
-        val api = new UserRegistrationAPI(getAuthMobile.get.get, password, authRecord.authCode())
-        api.execute()
-        val newUserUUID = api.userUUID
-        if (newUserUUID == null) {
-          JsCmds.Alert("注册发生错误")
-        } else {
-          val newUser = DaoApi.getInstance().userDao().getByUUID(newUserUUID)
-          onSuccess(newUser)
-        }
+    val existingUser = DaoApi.getInstance().userDao().getByMobile(getAuthMobile.get.get)
+    if (existingUser == null) {
+      val authDao = DaoApi.getInstance().authCodeRecordDao()
+      val authRecord = authDao.getRegistrationAuthCodeFromMobile(getAuthMobile.get.get)
+      if (authRecord == null || !getAuthCode.isDefined) {
+        onNoInput()
       } else {
-        onFailure()
+        if (authRecord.authCode() == getAuthCode.get.get) {
+          val password = PasswordEncryptionUtil.encrypt(authRecord.authCode())
+          val api = new UserRegistrationAPI(getAuthMobile.get.get, password, authRecord.authCode())
+          api.execute()
+          val newUserUUID = api.userUUID
+          if (newUserUUID == null) {
+            JsCmds.Alert("注册发生错误")
+          } else {
+            val newUser = DaoApi.getInstance().userDao().getByUUID(newUserUUID)
+            onSuccess(newUser)
+          }
+        } else {
+          onFailure()
+        }
       }
-    }
+    } else JsCmds.Alert("您已经是普罗体育的注册用户！")
   }
 }

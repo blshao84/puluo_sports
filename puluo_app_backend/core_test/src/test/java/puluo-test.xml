@@ -195,5 +195,7 @@
 	<bean id="couponDevDao" class="com.puluo.dao.impl.PuluoCouponDaoImpl" parent="testDevDao">
 		<property name="fullTableName" value="puluo_coupon"></property>
 	</bean>	
-
+	<bean id="invitationDao" class="com.puluo.dao.impl.PuluoRegistrationInvitationDaoImpl" parent="testDevDao">
+		<property name="fullTableName" value="puluo_registration_invitation"></property>
+	</bean>
 </beans>

@@ -13,6 +13,7 @@ import com.puluo.dao.PuluoFriendRequestDao;
 import com.puluo.dao.PuluoOrderEventDao;
 import com.puluo.dao.PuluoPaymentDao;
 import com.puluo.dao.PuluoPrivateMessageDao;
+import com.puluo.dao.PuluoRegistrationInvitationDao;
 import com.puluo.dao.PuluoSessionDao;
 import com.puluo.dao.PuluoTimelineCommentDao;
 import com.puluo.dao.PuluoTimelineDao;
@@ -47,6 +48,7 @@ public class DaoApi extends PuluoDSI {
 	protected WechatMediaResourceDao wechatMediaResourceDao;
 	protected PuluoAccountDao accountDao;
 	protected PuluoCouponDao couponDao;
+	protected PuluoRegistrationInvitationDao invitationDao;
 	
 
 	private DaoApi() {
@@ -87,6 +89,7 @@ public class DaoApi extends PuluoDSI {
 				WechatMediaResourceDaoImpl.class, "wechatMediaResourceDao");
 		accountDao = BeanFactory.getBean(PuluoAccountDao.class, "accountDao");
 		couponDao = BeanFactory.getBean(PuluoCouponDao.class, "couponDao");
+		invitationDao = BeanFactory.getBean(PuluoRegistrationInvitationDaoImpl.class, "invitationDao");
 	}
 
 	/**
@@ -225,5 +228,10 @@ public class DaoApi extends PuluoDSI {
 	@Override
 	public PuluoCouponDao couponDao() {
 		return couponDao;
+	}
+
+	@Override
+	public PuluoRegistrationInvitationDao invitationDao() {
+		return invitationDao;
 	}
 }

@@ -192,5 +192,9 @@
 	<bean id="accountDao" class="com.puluo.dao.impl.PuluoAccountDaoImpl" parent="dalTemplate">
 		<property name="fullTableName" value="puluo_user_account"></property>
 	</bean>
+	
+	<bean id="invitationDao" class="com.puluo.dao.impl.PuluoRegistrationInvitationDaoImpl" parent="dalTemplate">
+		<property name="fullTableName" value="puluo_registration_invitation"></property>
+	</bean>
 
 </beans>

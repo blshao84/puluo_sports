@@ -13,11 +13,12 @@ import com.puluo.dao.PuluoEventPosterDao;
 import com.puluo.dao.PuluoFriendRequestDao;
 import com.puluo.dao.PuluoOrderEventDao;
 import com.puluo.dao.PuluoPaymentDao;
+import com.puluo.dao.PuluoPrivateMessageDao;
+import com.puluo.dao.PuluoRegistrationInvitationDao;
+import com.puluo.dao.PuluoSessionDao;
 import com.puluo.dao.PuluoTimelineCommentDao;
 import com.puluo.dao.PuluoTimelineDao;
 import com.puluo.dao.PuluoTimelineLikeDao;
-import com.puluo.dao.PuluoPrivateMessageDao;
-import com.puluo.dao.PuluoSessionDao;
 import com.puluo.dao.PuluoUserBlacklistDao;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.PuluoUserFriendshipDao;
@@ -51,6 +52,7 @@ public class DaoTestApi extends PuluoDSI {
 	public static PuluoPaymentDao paymentDevDao = BeanTestFactory.getBean(PuluoPaymentDao.class, "paymentDevDao");
 	public static PuluoAccountDao accountDevDao = BeanTestFactory.getBean(PuluoAccountDao.class, "accountDevDao");
 	public static PuluoCouponDao couponDevDao = BeanTestFactory.getBean(PuluoCouponDao.class, "couponDevDao");
+	public static PuluoRegistrationInvitationDao invitationDao = BeanTestFactory.getBean(PuluoRegistrationInvitationDao.class, "invitationDao");
 
 	private static class SingletonHolder {
 		private static final DaoTestApi INSTANCE = new DaoTestApi();
@@ -179,6 +181,11 @@ public class DaoTestApi extends PuluoDSI {
 	@Override
 	public PuluoCouponDao couponDao() {
 		return couponDevDao;
+	}
+
+	@Override
+	public PuluoRegistrationInvitationDao invitationDao() {
+		return invitationDao;
 	}
 
 }

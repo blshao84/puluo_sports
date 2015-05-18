@@ -38,7 +38,7 @@ import com.puluo.enumeration.PuluoSMSType
 import com.puluo.util.PuluoAuthCodeSender
 
 object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender with Loggable {
-  val mock = true
+  val mock = false
   
   object mobile extends RequestVar[Option[String]](None)
   object coupon extends RequestVar[Option[PuluoCoupon]](None)

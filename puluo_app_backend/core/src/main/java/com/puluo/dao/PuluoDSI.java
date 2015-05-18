@@ -24,4 +24,5 @@ public abstract  class PuluoDSI {
 	public abstract  WechatMediaResourceDao wechatMediaResourceDao();
 	public abstract  PuluoAccountDao accountDao();
 	public abstract  PuluoCouponDao couponDao();
+	public abstract  PuluoRegistrationInvitationDao invitationDao();
 }
