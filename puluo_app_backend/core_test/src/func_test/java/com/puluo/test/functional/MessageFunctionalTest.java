@@ -144,12 +144,12 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 				actualIds.add((String) j.get("msg_id"));
 			}
 			List<String> expectedIds = new ArrayList<String>();
-			expectedIds.add(msg1.messageUUID());
-			expectedIds.add(msg2.messageUUID());
-			expectedIds.add(msg3.messageUUID());
 			expectedIds.add(msg4.messageUUID());
+			expectedIds.add(msg3.messageUUID());
+			expectedIds.add(msg2.messageUUID());
+			expectedIds.add(msg1.messageUUID());
 			Assert.assertEquals(
-					"returned message should be sorted by created_at asc",
+					"returned message should be sorted by created_at desc",
 					expectedIds, actualIds);
 
 			long since = DateTime.now().minusDays(3).plusSeconds(1).getMillis();
@@ -169,11 +169,11 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 				actualIds.add((String) j.get("msg_id"));
 			}
 			expectedIds = new ArrayList<String>();
-			expectedIds.add(msg2.messageUUID());
-			expectedIds.add(msg3.messageUUID());
 			expectedIds.add(msg4.messageUUID());
+			expectedIds.add(msg3.messageUUID());
+			expectedIds.add(msg2.messageUUID());
 			Assert.assertEquals(
-					"returned message should be msg2,msg3,msg4 and sorted by created_at asc",
+					"returned message should be msg2,msg3,msg4 and sorted by created_at desc",
 					expectedIds, actualIds);
 			
 			
@@ -214,10 +214,10 @@ public class MessageFunctionalTest extends APIFunctionalTest {
 				actualIds.add((String) j.get("msg_id"));
 			}
 			expectedIds = new ArrayList<String>();
-			expectedIds.add(msg2.messageUUID());
 			expectedIds.add(msg3.messageUUID());
+			expectedIds.add(msg2.messageUUID());
 			Assert.assertEquals(
-					"returned message should be msg1,msg2 and sorted by created_at asc",
+					"returned message should be msg1,msg2 and sorted by created_at desc",
 					expectedIds, actualIds);
 			PuluoPrivateMessageDaoImpl md = (PuluoPrivateMessageDaoImpl)DaoApi.getInstance().privateMessageDao();
 			md.deleteByMsgUUID("event1");

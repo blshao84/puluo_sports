@@ -219,7 +219,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 				selectSQL.append(" limit ").append(limit);
 			if (offset > 0)
 				selectSQL.append(" offset ").append(offset);
-			selectSQL.append(") t order by t.created_at");
+			selectSQL.append(") t order by t.created_at desc");
 			log.info(selectSQL.toString());
 			List<PuluoPrivateMessage> entities = reader.query(
 					selectSQL.toString(), new PrivateMessageMapper());
