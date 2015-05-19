@@ -29,6 +29,7 @@ import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.Strs;
 
 /**
  * 微信通用接口工具类
@@ -256,7 +257,8 @@ public class WechatUtil {
 		return httpsJsonRequest(requestUrl, "POST", inputs);
 	}
 
-	public static WechatArticleMessage createArticleMessageFromEvent(PuluoEvent event,String user_uuid) {
+	public static WechatArticleMessage createArticleMessageFromEvent(
+			PuluoEvent event, String user_uuid) {
 		PuluoEventInfo info = event.eventInfo();
 		String name = info.name();
 		String desc = info.description();
@@ -264,33 +266,33 @@ public class WechatUtil {
 		if (info.poster() != null && !info.poster().isEmpty()) {
 			img = info.poster().get(0).imageURL();
 		} else {
-			img = String.format("%s%s", Configurations.imageServer,"empty.jpeg");
+			img = String.format("%s%s", Configurations.imageServer,
+					"empty.jpeg");
 		}
-		String page_url = String.format(
-				"www.puluosports.com/single_event?uuid=%s&user_uuid=%s", event.eventUUID(),user_uuid);
+		String page_url = Strs.join("http://",Configurations.webServer(),
+				"/single_event?uuid=", event.eventUUID(), "&user_uuid=",
+				user_uuid);
 		return new WechatArticleMessage(name, desc, img, page_url, false);
 	}
-	
+
 	public static void main(String[] args) {
 
-		//String token = PuluoWechatTokenCache.token();
-		/*WechatPermMediaItemResult res2 = WechatUtil.getTextMedia(token,
-				Configurations.wechatButtonInfo1List[0]);
-		System.out.println(res2);*/
-		//WechatTextMediaListResult res = getTextMediaList(token);
-		
-		/*WechatTextMediaListResult res = getTextMediaList(token);
-		System.out.println(res);
-		for (WechatNewsItem item : res.item) {
-			System.out.println(item.media_id + ":\n");
-			for (WechatNewsContentItem ci : item.content.news_item) {
-				System.out.println("\t" + ci.url);
-			}
-		}*/
+		// String token = PuluoWechatTokenCache.token();
+		/*
+		 * WechatPermMediaItemResult res2 = WechatUtil.getTextMedia(token,
+		 * Configurations.wechatButtonInfo1List[0]); System.out.println(res2);
+		 */
+		// WechatTextMediaListResult res = getTextMediaList(token);
+
+		/*
+		 * WechatTextMediaListResult res = getTextMediaList(token);
+		 * System.out.println(res); for (WechatNewsItem item : res.item) {
+		 * System.out.println(item.media_id + ":\n"); for (WechatNewsContentItem
+		 * ci : item.content.news_item) { System.out.println("\t" + ci.url); } }
+		 */
 		// System.out.println(getTextMedia(token,Configurations.wechatButtonInfo2List[0]));
 	}
 
-	
 }
 
 class WechatHttpJSONPostProcessor implements
@@ -317,7 +319,7 @@ class WechatHttpJSONPostProcessor implements
 		log.debug(String.format("将结果转化为json格式:%s", jsonObject.toString()));
 		return jsonObject;
 	}
-	
+
 }
 
 class WechatHttpByteArrayPostProcessor implements

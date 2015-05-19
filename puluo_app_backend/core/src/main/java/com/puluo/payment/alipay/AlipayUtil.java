@@ -30,11 +30,11 @@ public class AlipayUtil {
 		String payment_type = "1";
 		String subject = outTradeNo;
 		String body = outTradeNo;
-		String notify_url = "http://" + Configurations.webServer + "/payment/alipay/notify";
-		String return_url = "https://" + Configurations.webServer + "/payment_success";
+		String notify_url = "http://" + Configurations.webServer() + "/payment/alipay/notify";
+		String return_url = "https://" + Configurations.webServer() + "/payment_success";
 		String seller_email = AlipayConfig.seller_email;
 		String total_fee = Strs.prettyDouble(order.amount(), 2);
-		String show_url = Configurations.webServer;
+		String show_url = Configurations.webServer();
 		HashMap<String, String> sParaTemp = new HashMap<String, String>();
 		sParaTemp.put("service", "create_direct_pay_by_user");
 		sParaTemp.put("partner", AlipayConfig.partner);
@@ -59,8 +59,8 @@ public class AlipayUtil {
 			boolean mock) throws Exception {
 		String out_trade_no = generateOrderID(order, Configurations.orderIDBase);
 		String subject = out_trade_no;
-		String notify_url = "http://" + Configurations.webServer + "/payment/alipay/notify";
-		String return_url = "https://" + Configurations.webServer + "/payment_success";
+		String notify_url = "http://" + Configurations.webServer() + "/payment/alipay/notify";
+		String return_url = "https://" + Configurations.webServer() + "/payment_success";
 		String merchant_url = "";
 		String total_fee = Strs.prettyDouble(order.amount(), 2);
 

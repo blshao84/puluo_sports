@@ -5,16 +5,18 @@ import com.puluo.util.Strs;
 import com.puluo.weichat.WechatKey;
 
 public class Configurations {
-	public static final PuluoEnvironment env = PuluoEnvironment
-			.getEnvironment();
-	public static final long orderIDBase = 10000;
-	public static final String webServer = "www.puluosports.com";
-	public static final boolean enableSMSNotification = true;
-	public static final String imageServer = "http://img.puluosports.com/";
-
 	private static String wechatToken;
 	private static String wechatAppId;
 	private static String wechatAppKey;
+	private static String webServer;
+	
+	
+	
+	public static final PuluoEnvironment env = PuluoEnvironment
+			.getEnvironment();
+	public static final long orderIDBase = 10000;
+	public static final boolean enableSMSNotification = true;
+	public static final String imageServer = "http://img.puluosports.com/";
 
 	public static final String[] wechatButtonInfo1List = {
 			"IMQeaQEwrJVtUoS1W_GkVYci8RrdN0kkTuqzH8oXwcI",
@@ -35,16 +37,22 @@ public class Configurations {
 	static {
 		switch (env) {
 		case PROD:
+			webServer = "puluosports.com";
 			wechatToken = "puluosports";
 			wechatAppId = "wx5d9079331e9af5e3";
 			wechatAppKey = "b213b7abb4a2e6f8708cc9567f056d25";
 			break;
 		default:
+			webServer = "183.131.76.93";
 			wechatToken = "puluosports";
 			wechatAppId = "wx61309c68eec99d0a";
 			wechatAppKey = "55466cee5f714f61e8a05476c50cccfb";
 			break;
 		}
+	}
+	
+	public static String webServer() {
+		return webServer;
 	}
 	
 	public static  WechatKey wechatKey() {
