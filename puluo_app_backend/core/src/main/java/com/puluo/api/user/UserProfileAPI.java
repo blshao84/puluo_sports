@@ -45,6 +45,7 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI, UserProfileResult> {
 		PuluoUser reqUser = userdao.getByUUID(reqUserUUID);
 		if (user != null && reqUser!=null) {
 			log.info(String.format("找到用户Mobile=%s,UUID=%s", user.mobile(),user.userUUID()));
+			boolean isBannedByReqUser = DaoApi.getInstance().blacklistDao().isBanned(reqUserUUID, user.userUUID());
 			UserPublicProfileResult publicInfo = new UserPublicProfileResult(
 					user.firstName(), 
 					user.lastName(), 
@@ -52,7 +53,7 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI, UserProfileResult> {
 					"",//FIXME: should remove it later
 					user.saying(), 
 					user.likes(),
-					user.banned(), 
+					isBannedByReqUser, 
 					user.following(reqUserUUID),
 					user.isCoach());
 			UserPrivateProfileResult privateInfo;
