@@ -68,11 +68,12 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
       val registered = event.registeredUsers()
       val info = event.eventInfo()
       val loc = event.eventLocation()
+      val address = if(loc==null) "" else loc.address()
       val pic = info.poster().headOption.map(_.imageURL()).getOrElse("empty.jpg")
       "#pic [src]" #> s"${pic}!small" &
         "#name *" #> info.name() &
         "#time *" #> TimeUtils.formatDate(event.eventTime()) &
-        "#loc *" #> loc.address() &
+        "#loc *" #> address &
         "#coach *" #> info.coachName() &
         "#duration *" #> info.duration() &
         renderPrice(event) &
