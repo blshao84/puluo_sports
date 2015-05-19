@@ -41,8 +41,8 @@ public class Configurations {
 			break;
 		default:
 			wechatToken = "puluosports";
-			wechatAppId = "wx002b167e928b4951";
-			wechatAppKey = "faa1e7c66e8be5f635e10f069b54af35";
+			wechatAppId = "wx61309c68eec99d0a";
+			wechatAppKey = "55466cee5f714f61e8a05476c50cccfb";
 			break;
 		}
 	}
