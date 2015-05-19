@@ -36,6 +36,7 @@ import com.puluo.util.PasswordEncryptionUtil
 import com.puluo.api.service.SMSServiceAPI
 import com.puluo.enumeration.PuluoSMSType
 import com.puluo.util.PuluoAuthCodeSender
+import org.joda.time.DateTime
 
 object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender with Loggable {
   val mock = false
@@ -62,7 +63,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
     val couponOptions = coupons.sortBy(_.validUntil().getMillis()).
       map(c => (c.uuid(),
         s"优惠${Strs.prettyDouble(c.amount(), 1)}元,有效期至${c.validUntil().getYear()}年${c.validUntil().getMonthOfYear()}月${c.validUntil().getDayOfMonth()}日"))
-    if (event == null) {
+    if (event == null || event.eventTime().isBefore(DateTime.now)) {
       "#event" #> "课程不存在"
     } else {
       val registered = event.registeredUsers()

@@ -147,7 +147,10 @@ public class EventRegistrationAPI extends
 		} else if (event.registeredUsers() >= event.capatcity()) {
 			this.error = ApiErrorResult.getError(51);
 			return null;
-		} else {
+		} else if (event.eventTime().isBefore(DateTime.now())){
+			this.error = ApiErrorResult.getError(52);
+			return null;
+		}else {
 			try {
 				PuluoUser user = dsi.userDao().getByUUID(user_uuid);
 				PuluoCoupon coupon = dsi.couponDao().getByCouponUUID(coupon_uuid);

@@ -2,6 +2,7 @@ package com.puluo.test.functional;
 
 import java.util.UUID;
 
+import org.joda.time.DateTime;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -38,6 +39,7 @@ public class EventRegisterFunctionalTest extends APIFunctionalTest {
 	private static String location_uuid = UUID.randomUUID().toString();
 	private static String info_uuid = UUID.randomUUID().toString();
 	private static String event_uuid = UUID.randomUUID().toString();
+	private static String event_uuid2 = UUID.randomUUID().toString();
 	private static String mobile = "17721014665";
 	private static String password = "123456";
 	private static String order_uuid = "0";
@@ -53,7 +55,10 @@ public class EventRegisterFunctionalTest extends APIFunctionalTest {
 		DaoApi.getInstance().eventInfoDao().saveEventInfo(info);
 		PuluoEvent event = new PuluoEventImpl(event_uuid, TimeUtils.parseDateTime("2015-06-01 00:00:00"),
 				EventStatus.Open, 3, 15, 0.0, 0.0, info_uuid, location_uuid, 0);
+		PuluoEvent event2 = new PuluoEventImpl(event_uuid2, DateTime.now().minusDays(1),
+				EventStatus.Open, 3, 15, 10.0, 10.0, info_uuid, location_uuid, 0);
 		DaoApi.getInstance().eventDao().saveEvent(event);
+		DaoApi.getInstance().eventDao().saveEvent(event2);
 	}
 
 	@AfterClass
@@ -65,6 +70,7 @@ public class EventRegisterFunctionalTest extends APIFunctionalTest {
 		}
 		PuluoEventDaoImpl eventDao = (PuluoEventDaoImpl) DaoApi.getInstance().eventDao();
 		eventDao.deleteByEventUUID(event_uuid);
+		eventDao.deleteByEventUUID(event_uuid2);
 		PuluoPaymentDaoImpl paymentDao = (PuluoPaymentDaoImpl) DaoApi.getInstance().paymentDao();
 		paymentDao.deleteByOrderUUID(order_uuid);
 		PuluoOrderEventDaoImpl orderEventDao = (PuluoOrderEventDaoImpl) DaoApi.getInstance().orderEventDao();
@@ -87,6 +93,30 @@ public class EventRegisterFunctionalTest extends APIFunctionalTest {
 				Assert.assertNotNull(order_uuid);
 				Assert.assertTrue("paid should be true", Boolean.valueOf(paid));
 				log.info("testOrderWithZero done!");
+			}
+
+			@Override
+			public String inputs(String session) {
+				return String.format("{" + "\"token\":\"%s\","
+						+ "\"user_uuid\":\"%s\","
+						+ "\"mock\":true"
+						+ "}", session, event_uuid);
+			}
+			
+		});
+	}
+	
+	@Test
+	public void testRegisterOverdueEvent() {
+		super.runAuthenticatedTest(new EventRegisterFunctionalTestRunner() {
+
+			@Override
+			public void run(String session) throws UnirestException {
+				JsonNode json = callAPI("/events/payment/" + event_uuid2, inputs(session));
+				log.info(json);
+				String expected = "52";
+				String actual = getStringFromJson(json, "id");
+				Assert.assertEquals(expected, actual);
 			}
 
 			@Override
