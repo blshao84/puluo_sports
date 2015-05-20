@@ -24,11 +24,13 @@ import com.puluo.enumeration.PuluoImageType;
 import com.puluo.result.ApiErrorResult;
 import com.puluo.result.ImageUploadServiceResult;
 import com.puluo.service.PuluoService;
+import com.puluo.util.Log;
+import com.puluo.util.LogFactory;
 import com.puluo.util.Strs;
 
 public class ImageUploadServiceAPI extends
 		PuluoAPI<PuluoDSI, ImageUploadServiceResult> {
-
+	private static final Log log = LogFactory.getLog(ImageUploadServiceAPI.class);
 	private final PuluoImageType image_type;
 	private final List<ImageUploadInput> images;
 	private final String user_uuid;
@@ -72,6 +74,8 @@ public class ImageUploadServiceAPI extends
 				this.rawResult = new ImageUploadServiceResult(
 						Strs.join(Configurations.imageServer,fileName),"success",image.length/1000);
 			} else {
+				String imageUUID = UUID.randomUUID().toString();
+				log.info(Strs.join("save image ",fileName," as ",imageUUID));
 				this.rawResult = PuluoService.image.saveImage(image, fileName);
 			}
 			if (this.rawResult.isSuccess()) {
