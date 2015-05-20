@@ -9,6 +9,7 @@ import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoFriendRequest;
 import com.puluo.entity.PuluoPrivateMessage;
+import com.puluo.entity.PuluoSession;
 import com.puluo.entity.PuluoUser;
 import com.puluo.result.ApiErrorResult;
 import com.puluo.result.message.MessageResult;
@@ -45,7 +46,13 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI, UserProfileResult> {
 		PuluoUser reqUser = userdao.getByUUID(reqUserUUID);
 		if (user != null && reqUser!=null) {
 			log.info(String.format("找到用户Mobile=%s,UUID=%s", user.mobile(),user.userUUID()));
-			boolean isBannedByReqUser = DaoApi.getInstance().blacklistDao().isBanned(reqUserUUID, user.userUUID());
+			boolean isBannedByReqUser = dsi.blacklistDao().isBanned(reqUserUUID, user.userUUID());
+			PuluoSession session = dsi.sessionDao().getByMobile(user.mobile());
+			long lastLogin;
+			if (session != null)
+				lastLogin = session.createdAt().getMillis();
+			else
+				lastLogin = 0;
 			UserPublicProfileResult publicInfo = new UserPublicProfileResult(
 					user.firstName(), 
 					user.lastName(), 
@@ -55,7 +62,8 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI, UserProfileResult> {
 					user.likes(),
 					isBannedByReqUser, 
 					user.following(reqUserUUID),
-					user.isCoach());
+					user.isCoach(),
+					lastLogin);
 			UserPrivateProfileResult privateInfo;
 			if(user.userUUID().equals(reqUserUUID)){
 				privateInfo = new UserPrivateProfileResult(
