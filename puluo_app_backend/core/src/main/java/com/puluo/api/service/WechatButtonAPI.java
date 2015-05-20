@@ -77,7 +77,9 @@ public class WechatButtonAPI extends WechatAPI{
 					+ "然后向朋友发送注册邀请，您就可以获得一次免费体验普罗团体课的机会");
 		} else {
 			String url = Strs.join(
-					"http://www.puluosports.com/promotion?uuid=",
+					"http://",
+					Configurations.webServer(),
+					"/promotion?uuid=",
 					user.userUUID());
 			return new WechatNewsMessage(
 					new WechatArticleMessage(
