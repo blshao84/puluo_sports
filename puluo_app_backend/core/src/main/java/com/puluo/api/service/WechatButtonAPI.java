@@ -16,6 +16,7 @@ import com.puluo.entity.PuluoUser;
 import com.puluo.enumeration.WechatButtonType;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.Strs;
 import com.puluo.util.TimeUtils;
 import com.puluo.weichat.PuluoWechatTokenCache;
 import com.puluo.weichat.WechatNewsContentItem;
@@ -51,6 +52,8 @@ public class WechatButtonAPI extends WechatAPI{
 			return createInfo(Configurations.wechatButtonInfo4List);
 		case CURRICULUM:
 			return createCurriculum();
+		case PROMOTION:
+			return createPromotion();
 		case HOTTEST:
 			return createHottestEvent();
 		case REGISTER:
@@ -64,6 +67,25 @@ public class WechatButtonAPI extends WechatAPI{
 		default:
 			throw new Exception("Unexpected button Type");
 		}
+	}
+
+	private WechatMessage createPromotion() {
+		String openId = params.get("FromUserName");
+		PuluoUser user = getUserFromOpenID(openId);
+		if(user==null){
+			return new WechatTextMessage("您还没有注册哦！点击‘我的普罗’一步完成注册!"
+					+ "然后向朋友发送注册邀请，您就可以获得一次免费体验普罗团体课的机会");
+		} else {
+			String url = Strs.join("http://www.puluosports.com/promotion?uuid=",user.userUUID());
+			return new WechatArticleMessage(
+					"普罗运动开课啦！", 
+					"点击进入页面，分享到朋友圈，然后拉上小伙伴一起动起来吧！"
+					+ "这里有人鱼线MM、马甲线GG以及颜值爆表的教练，这里让运动变的不再枯燥！"
+					+ "最重要的是只要您和您的小伙伴注册，所有活动都由小普罗给您买单哦！", 
+					"http://img.puluosports.com/86765fca-4c76-4110-9f45-f3dfe671a0da.png", 
+					url, false);
+		}
+		
 	}
 
 	private WechatMessage createDownloadLink() {
