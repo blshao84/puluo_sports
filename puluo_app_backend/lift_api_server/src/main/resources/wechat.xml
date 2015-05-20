@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <button_group>
-	<button button_type="click" button_name="普罗画报">
+	<button button_type="click" button_name="热门活动">
 		<sub_button_group>
-					<sub_button button_type="click" button_name="普罗动态" button_key="INFO1"></sub_button>
-					<sub_button button_type="click" button_name="运动前沿" button_key="INFO2"></sub_button>
-					<sub_button button_type="click" button_name="健康生活" button_key="INFO3"></sub_button>
-					<sub_button button_type="click" button_name="运动休闲" button_key="INFO4"></sub_button>
+					<sub_button button_type="click" button_name="净心瑜伽" button_key="INFO1"></sub_button>
+					<sub_button button_type="click" button_name="核心力量" button_key="INFO2"></sub_button>
+					<sub_button button_type="click" button_name="燃爆腰腹" button_key="INFO3"></sub_button>
+					<sub_button button_type="click" button_name="运动康复" button_key="INFO4"></sub_button>
 		</sub_button_group>
 	</button>
-	<button button_type="click" button_name="我要上课">
-		<sub_button_group>
-			<!--sub_button button_type="click" button_name="课程表" button_key="CURRICULUM"></sub_button-->
-			<sub_button button_type="click" button_name="呼唤小伙伴" button_key="PROMOTION"></sub_button>
-			<sub_button button_type="click" button_name="热门推荐" button_key="HOTTEST"></sub_button>
-		</sub_button_group>
-	</button>
+	<button button_type="click" button_name="呼唤小伙伴" button_key="PROMOTION"></button>
 	<button button_type="click" button_name="我的普罗">
 		<sub_button_group>
 			<sub_button button_type="click" button_name="快速注册" button_key="REGISTER"></sub_button>

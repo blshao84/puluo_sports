@@ -3,7 +3,6 @@ package com.puluo.app;
 import com.puluo.weichat.PuluoWechatTokenCache;
 import com.puluo.weichat.WechatNewsContentItem;
 import com.puluo.weichat.WechatNewsItem;
-import com.puluo.weichat.WechatPermMediaItemResult;
 import com.puluo.weichat.WechatTextMediaListResult;
 import com.puluo.weichat.WechatUtil;
 
@@ -16,7 +15,7 @@ public class WechatTextViewer {
 
 	public static void dumpWechatText() {
 		String token = PuluoWechatTokenCache.token();
-		WechatPermMediaItemResult res = WechatUtil.getTextMedia(token, "jjDWGK-OKR98IkzcySpOMd3flhG2JL7WaHCzKt4IIW4");
+//		WechatPermMediaItemResult res = WechatUtil.getTextMedia(token, "jjDWGK-OKR98IkzcySpOMd3flhG2JL7WaHCzKt4IIW4");
 		WechatTextMediaListResult res1 = WechatUtil.getTextMediaList(token);
 		for (WechatNewsItem item : res1.item) {
 			System.out.println(item.media_id);
