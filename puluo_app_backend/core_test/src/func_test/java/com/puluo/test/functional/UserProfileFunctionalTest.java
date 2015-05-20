@@ -15,6 +15,7 @@ import com.puluo.dao.impl.DaoApi;
 import com.puluo.dao.impl.PuluoFriendRequestDaoImpl;
 import com.puluo.dao.impl.PuluoPrivateMessageDaoImpl;
 import com.puluo.dao.impl.PuluoSessionDaoImpl;
+import com.puluo.dao.impl.PuluoUserBlacklistDaoImpl;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
 import com.puluo.dao.impl.PuluoUserFriendshipDaoImpl;
 import com.puluo.entity.PuluoUser;
@@ -149,6 +150,8 @@ public class UserProfileFunctionalTest extends APIFunctionalTest {
 		requestDao.deleteByReqUUID(requestId2);
 		
 		messageDao.deleteByMsgUUID(messageId);
+		PuluoUserBlacklistDaoImpl blacklistDao = (PuluoUserBlacklistDaoImpl)DaoApi.getInstance().blacklistDao();
+		blacklistDao.deleteByUserUUID(uuid1);
 	}
 
 	@Test
@@ -288,6 +291,28 @@ public class UserProfileFunctionalTest extends APIFunctionalTest {
 
 		});
 
+	}
+	
+	@Test
+	public void testBannedUser() {
+		super.runAuthenticatedTest(new UserProfileFunctionalTestRunner() {
+			
+			@Override
+			public void run(String session) throws UnirestException {
+				JsonNode json = callAPI("users/profile/" + mobile2,
+						inputs(session));
+				log.info(json);
+				String banned = getStringFromJson(json, "public_info","banned");
+				Assert.assertEquals("false", banned);
+				String input = String.format("{\"token\":\"%s\",\"user_uuid\":\"%s\"}", session,uuid2);
+				callAPI("users/blacklist/ban", input);
+				json = callAPI("users/profile/" + mobile2,
+						inputs(session));
+				banned = getStringFromJson(json, "public_info","banned");
+				Assert.assertEquals("true", banned);
+				
+			}
+		});
 	}
 
 	abstract class UserProfileFunctionalTestRunner implements
