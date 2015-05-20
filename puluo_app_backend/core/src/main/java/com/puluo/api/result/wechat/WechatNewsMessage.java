@@ -13,6 +13,13 @@ public class WechatNewsMessage extends WechatMessage{
 		this.articles = articles;
 	}
 	
+	public WechatNewsMessage(WechatArticleMessage article) {
+		super();
+		List<WechatArticleMessage> as = new ArrayList<WechatArticleMessage>();
+		as.add(article);
+		this.articles = as;
+	}
+	
 	public WechatNewsMessage(WechatPermMediaItemResult result, String mediaID) {
 		articles = new ArrayList<WechatArticleMessage>();
 		for(WechatNewsContentItem item:result.news_item){
