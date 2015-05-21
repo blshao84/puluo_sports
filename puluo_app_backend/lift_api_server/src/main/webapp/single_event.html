@@ -8,48 +8,66 @@
       </div>
       <table class="table table-hover table-bordered">
       	<tbody>
+      		<tr><td>时间</td></tr>
 			<tr>
-				<td>时间</td>
 				<td><span id="time"></span></td>
 			</tr>
+			<tr><td>地点</td></tr>
 			<tr>
-				<td>地点</td>
 				<td><span id="loc"></span></td>
 			</tr>
 			<tr>
 				<td>教练</td>
+			</tr>
+			<tr>
 				<td><span id="coach"></span></td>
 			</tr>
 			<tr>
 				<td>时长</td>
+			</tr>
+			<tr>
 				<td><span id="duration"></span></td>
 			</tr>
-			<tr id="priceDiv" style="TEXT-DECORATION: line-through">
+			<tr class="priceDiv" style="TEXT-DECORATION: line-through">
 				<td>原价</td>
+			</tr>
+			<tr class="priceDiv" style="TEXT-DECORATION: line-through">
 				<td><span id="price"></span></td>
 			</tr>
-			<tr id="discountDiv" style="color:red;font-size:16px">
+			<tr class="discountDiv" style="color:red;font-size:16px">
 				<td>现价</td>
+			</tr>
+			<tr class="discountDiv" style="color:red;font-size:16px">
 				<td><span id="discount"></span></td>
 			</tr>
 			<tr>
 				<td>详细描述</td>
+			</tr>
+			<tr>
 				<td><span id="desc"></span></td>
 			</tr>
 			<tr>
 				<td>已注册</td>
+			</tr>
+			<tr>
 				<td><span id="registered"></span>人</td>
 			</tr>
 			<tr>
 				<td>剩余</td>
+			</tr>
+			<tr>
 				<td><span id="remaining"></span>人</td>
 			</tr>
 			<tr>
 				<td>您的电话</td>
+			</tr>
+			<tr>
 				<td><input id="mobile"/></td>
 			</tr>
-			<tr id="auth_code_row" style="display:none">
+			<tr id="auth_code_row_name" style="display:none">
 				<td>验证码</td>
+			</tr>
+			<tr id="auth_code_row_value" style="display:none">
 				<td>
 					<input id="auth_code"/>  
 					<button id="send_auth_code" class="btn btn-danger">发送验证码</button>
@@ -57,6 +75,8 @@
 			</tr>
 			<tr>
 				<td>优惠券</td>
+			</tr>
+			<tr>
 				<td><select id="coupon"></select></td>
 			</tr>
 		</tbody>

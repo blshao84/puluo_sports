@@ -174,7 +174,7 @@ class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
       if (theInfo.name() != null) name(Some(theInfo.name()))
       if (theInfo.description() != null) desc(Some(theInfo.description()))
       if (theInfo.coachUUID() != null) coachUUID(Some(theInfo.coachUUID()))
-      if (theInfo.details() != null) details(Some(theInfo.description()))
+      if (theInfo.details() != null) details(Some(theInfo.details()))
       if (theInfo.duration() != 0) duration(Some(theInfo.duration()))
       if (theInfo.level() != null) level(Some(theInfo.level().name()))
       if (theInfo.eventType() != null) infoType(Some(theInfo.eventType().name()))

@@ -39,7 +39,7 @@ import com.puluo.util.PuluoAuthCodeSender
 import org.joda.time.DateTime
 
 object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender with Loggable {
-  val mock = false
+  val mock = true
   
   object mobile extends RequestVar[Option[String]](None)
   object coupon extends RequestVar[Option[PuluoCoupon]](None)
@@ -100,7 +100,8 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
         } else {
           verifyAuthCodeForRegistration(
             onNoInput = () => {
-              JsCmds.JsShowId("auth_code_row") &
+              JsCmds.JsShowId("auth_code_row_name") &
+              JsCmds.JsShowId("auth_code_row_value") &
                 JsCmds.Alert("您还不是普罗体育的注册用户，请点击\"发送验证码\"一步完成认证")
             },
             onSuccess = (newUser: PuluoUser) => {
@@ -164,12 +165,12 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
 
   private def renderPrice(event: PuluoEvent) = {
     if (event.discount() < 1) {
-      "#price *" #> Strs.prettyDouble(event.price(), 2) &
+      "#price *" #> Strs.prettyDouble(event.originalPrice(), 2) &
         "#discount *" #> Strs.prettyDouble(event.discountedPrice(), 2)
     } else {
       "#price *" #> Strs.prettyDouble(event.price(), 2) &
-        "#discountDiv" #> "" &
-        "#priceDiv [style]" #> ""
+        ".discountDiv" #> "" &
+        ".priceDiv [style]" #> ""
     }
   }
 }
