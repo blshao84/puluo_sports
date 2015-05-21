@@ -54,6 +54,8 @@ public class WechatButtonAPI extends WechatAPI{
 			return createCurriculum();
 		case PROMOTION:
 			return createPromotion();
+		case INTRODUCTION:
+			return createIntro();
 		case HOTTEST:
 			return createHottestEvent();
 		case REGISTER:
@@ -67,6 +69,10 @@ public class WechatButtonAPI extends WechatAPI{
 		default:
 			throw new Exception("Unexpected button Type");
 		}
+	}
+
+	private WechatMessage createIntro() {
+		return new WechatTextMessage("什么是普罗的文案");
 	}
 
 	private WechatMessage createPromotion() {

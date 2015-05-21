@@ -8,13 +8,15 @@
 					<sub_button button_type="click" button_name="运动康复" button_key="INFO4"></sub_button>
 		</sub_button_group>
 	</button>
-	<button button_type="click" button_name="呼唤小伙伴" button_key="PROMOTION"></button>
-	<button button_type="click" button_name="我的普罗">
+	<button button_type="view" button_name="注册抢红包" button_url="http://www.puluosports.com/promotion?uuid=puluo"></button>
+	<button button_type="click" button_name="普罗是什么">
 		<sub_button_group>
-			<sub_button button_type="click" button_name="快速注册" button_key="REGISTER"></sub_button>
+			<sub_button button_type="click" button_name="呼唤小伙伴" button_key="PROMOTION"></sub_button>
+			<sub_button button_type="click" button_name="普罗是什么" button_key="INTRODUCTION"></sub_button>
+			<!--sub_button button_type="click" button_name="快速注册" button_key="REGISTER"></sub_button>
 			<sub_button button_type="click" button_name="我的订单" button_key="ORDERS"></sub_button>
 			<sub_button button_type="click" button_name="App下载" button_key="DOWNLOAD"></sub_button>
-			<sub_button button_type="click" button_name="联系我们" button_key="SERVICE"></sub_button>
+			<sub_button button_type="click" button_name="联系我们" button_key="SERVICE"></sub_button-->
 		</sub_button_group>
 	</button>
 
