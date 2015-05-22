@@ -37,9 +37,10 @@ import com.puluo.api.service.SMSServiceAPI
 import com.puluo.enumeration.PuluoSMSType
 import com.puluo.util.PuluoAuthCodeSender
 import org.joda.time.DateTime
+import com.puluo.enumeration.CouponType
 
 object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender with Loggable {
-  val mock = true
+  val mock = false
 
   object mobile extends RequestVar[Option[String]](None)
   object coupon extends RequestVar[Option[PuluoCoupon]](None)
@@ -66,7 +67,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
       val couponOptions = coupons.sortBy(_.validUntil().getMillis()).
         map(c => (c.uuid(),
           s"优惠${Strs.prettyDouble(c.amount(), 1)}元,有效期至${c.validUntil().getYear()}年${c.validUntil().getMonthOfYear()}月${c.validUntil().getDayOfMonth()}日"))
-
+      logger.info(s"load ${couponOptions.size} coupons")
       val registered = event.registeredUsers()
       val info = event.eventInfo()
       val loc = event.eventLocation()
@@ -106,7 +107,17 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
                 JsCmds.Alert("您还不是普罗体育的注册用户，请点击\"发送验证码\"一步完成认证")
             },
             onSuccess = (newUser: PuluoUser) => {
-              doEventRegistration(newUser, event)
+              val couponDao = DaoApi.getInstance().couponDao()
+              couponDao.insertCoupon(new PuluoCouponImpl(
+                UUID.randomUUID().toString(),
+                CouponType.Deduction,
+                Configurations.registrationAwardAmount,
+                newUser.userUUID(),
+                null,
+                Configurations.puluoLocation.locationId(),
+                DateTime.now.plusDays(30)))
+              JsCmds.RedirectTo(s"/single_event?uuid=${event.eventUUID}&user_uuid=${newUser.userUUID()}")
+
             },
             onFailure = () => {
               JsCmds.Alert("抱歉，您输入的验证码不正确")
@@ -148,7 +159,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
           if (cp != null) {
             coupon(Some(cp))
             val finalPrice = EventPriceCalculator.calculate(event, cp, user)
-            JsCmds.Alert(s"成功选择一个${cp.amount()}元优惠券，您只需实际支付${finalPrice}")
+            JsCmds.Alert(s"成功选择一个${cp.amount()}元优惠券，您只需实际支付${finalPrice}元")
           } else {
             JsCmds.Alert("对不起，载入优惠券发生异常，请稍后再试")
           }
