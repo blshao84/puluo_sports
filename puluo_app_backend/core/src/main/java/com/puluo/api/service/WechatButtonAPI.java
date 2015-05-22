@@ -23,7 +23,7 @@ import com.puluo.weichat.WechatNewsContentItem;
 import com.puluo.weichat.WechatPermMediaItemResult;
 import com.puluo.weichat.WechatUtil;
 
-public class WechatButtonAPI extends WechatAPI{
+public class WechatButtonAPI extends WechatAPI {
 	public static Log log = LogFactory.getLog(WechatButtonAPI.class);
 	private final Map<String, String> params;
 	private WechatButtonType buttonType;
@@ -34,50 +34,55 @@ public class WechatButtonAPI extends WechatAPI{
 		String eventKey = params.get("EventKey");
 		if (event.toLowerCase().equals("click")) {
 			this.buttonType = WechatButtonType.valueOf(eventKey);
-		} else if(event.toLowerCase().equals("subscribe")){
+		} else if (event.toLowerCase().equals("subscribe")) {
 			this.buttonType = WechatButtonType.SUBSCRIBE;
-		} else if(event.toLowerCase().equals("view")){
-			//TODO: should log this for further stat!!
+		} else if (event.toLowerCase().equals("view")) {
+			// TODO: should log this for further stat!!
 			log.info("user view through wechat button");
-		}else
+		} else if (event.toLowerCase().equals("unsubscribe")) {
+			// TODO: should log this for further stat!!
+			log.info("user unsubscribe through wechat button");
+		} else
 			throw new Exception(String.format(
 					"Unexpected wechat button request:event=%s,eventKey=%s",
 					event, eventKey));
 	}
 
 	public WechatMessage process() throws Exception {
-		switch (buttonType) {
-		case SUBSCRIBE:
-			return createIntro();
-		case INFO1:
-			return createInfo(Configurations.wechatButtonInfo1List);
-		case INFO2:
-			return createInfo(Configurations.wechatButtonInfo2List);
-		case INFO3:
-			return createInfo(Configurations.wechatButtonInfo3List);
-		case INFO4:
-			return createInfo(Configurations.wechatButtonInfo4List);
-		case CURRICULUM:
-			return createCurriculum();
-		case PROMOTION:
-			return createPromotion();
-		case INTRODUCTION:
-			return createIntro();
-		case HOTTEST:
-			return createHottestEvent();
-		case REGISTER:
-			return createRegisterMessage();
-		case ORDERS:
-			return createHistOrders();
-		case DOWNLOAD:
-			return createDownloadLink();
-		case SERVICE:
-			return createCustomerServiceMessage();
-		default:
-			throw new Exception("Unexpected button Type");
-		}
+		if (buttonType != null) {
+			switch (buttonType) {
+			case SUBSCRIBE:
+				return createIntro();
+			case INFO1:
+				return createInfo(Configurations.wechatButtonInfo1List);
+			case INFO2:
+				return createInfo(Configurations.wechatButtonInfo2List);
+			case INFO3:
+				return createInfo(Configurations.wechatButtonInfo3List);
+			case INFO4:
+				return createInfo(Configurations.wechatButtonInfo4List);
+			case CURRICULUM:
+				return createCurriculum();
+			case PROMOTION:
+				return createPromotion();
+			case INTRODUCTION:
+				return createIntro();
+			case HOTTEST:
+				return createHottestEvent();
+			case REGISTER:
+				return createRegisterMessage();
+			case ORDERS:
+				return createHistOrders();
+			case DOWNLOAD:
+				return createDownloadLink();
+			case SERVICE:
+				return createCustomerServiceMessage();
+			default:
+				throw new Exception("Unexpected button Type");
+			}
+		} else
+			return new WechatTextMessage("");
 	}
-
 
 	private WechatMessage createIntro() {
 		return new WechatTextMessage("什么是普罗的文案");
@@ -86,15 +91,12 @@ public class WechatButtonAPI extends WechatAPI{
 	private WechatMessage createPromotion() {
 		String openId = params.get("FromUserName");
 		PuluoUser user = getUserFromOpenID(openId);
-		if(user==null){
+		if (user == null) {
 			return new WechatTextMessage("您还没有注册哦！点击‘我的普罗’一步完成注册!"
 					+ "然后向朋友发送注册邀请，您就可以获得一次免费体验普罗团体课的机会");
 		} else {
-			String url = Strs.join(
-					"http://",
-					Configurations.webServer(),
-					"/promotion?uuid=",
-					user.userUUID());
+			String url = Strs.join("http://", Configurations.webServer(),
+					"/promotion?uuid=", user.userUUID());
 			return new WechatNewsMessage(
 					new WechatArticleMessage(
 							"普罗运动开课啦！",
@@ -104,7 +106,7 @@ public class WechatButtonAPI extends WechatAPI{
 							"http://img.puluosports.com/86765fca-4c76-4110-9f45-f3dfe671a0da.png",
 							url, false));
 		}
-		
+
 	}
 
 	private WechatMessage createDownloadLink() {
@@ -119,20 +121,24 @@ public class WechatButtonAPI extends WechatAPI{
 	private WechatMessage createHistOrders() {
 		String openId = params.get("FromUserName");
 		PuluoUser user = getUserFromOpenID(openId);
-		List<PuluoPaymentOrder> orders = DaoApi.getInstance().paymentDao().getPaidOrdersByUserUUID(user.userUUID(), 3);
+		List<PuluoPaymentOrder> orders = DaoApi.getInstance().paymentDao()
+				.getPaidOrdersByUserUUID(user.userUUID(), 3);
 		StringBuilder history = new StringBuilder();
 		PuluoEvent event;
-		if (orders.size()==0) {
+		if (orders.size() == 0) {
 			history.append("您最近的订单信息不存在。");
 		} else {
 			history.append("您最近的" + orders.size() + "个订单是：");
 			boolean isFirst = true;
-			for (PuluoPaymentOrder order: orders) {
-				event = DaoApi.getInstance().eventDao().getEventByUUID(order.eventId());
-				history.append(isFirst ? "": "；");
+			for (PuluoPaymentOrder order : orders) {
+				event = DaoApi.getInstance().eventDao()
+						.getEventByUUID(order.eventId());
+				history.append(isFirst ? "" : "；");
 				isFirst = false;
-				history.append(TimeUtils.formatDate(event.eventTime()).substring(0, 16)
-						+ "，" + event.eventInfo().name()
+				history.append(TimeUtils.formatDate(event.eventTime())
+						.substring(0, 16)
+						+ "，"
+						+ event.eventInfo().name()
 						+ "，" + event.eventLocation().address());
 			}
 			history.append("。");
@@ -160,13 +166,17 @@ public class WechatButtonAPI extends WechatAPI{
 		String openId = params.get("FromUserName");
 		PuluoUser user = getUserFromOpenID(openId);
 		String user_uuid;
-		if(user==null) user_uuid = ""; else user_uuid=user.userUUID();
+		if (user == null)
+			user_uuid = "";
+		else
+			user_uuid = user.userUUID();
 		List<PuluoEvent> recommendations = DaoApi.getInstance().eventDao()
 				.findPopularEvent(0);
 		if (recommendations.size() > 0) {
 			List<WechatArticleMessage> articles = new ArrayList<WechatArticleMessage>();
 			for (PuluoEvent e : recommendations) {
-				articles.add(WechatUtil.createArticleMessageFromEvent(e,user_uuid));
+				articles.add(WechatUtil.createArticleMessageFromEvent(e,
+						user_uuid));
 			}
 			return new WechatNewsMessage(articles);
 		} else
@@ -175,7 +185,7 @@ public class WechatButtonAPI extends WechatAPI{
 
 	private WechatMessage createCurriculum() {
 		return new WechatTextMessage("精彩课程，敬请期待！");
-		//return new WechatImageMessage(Configurations.wechatCurriculum);
+		// return new WechatImageMessage(Configurations.wechatCurriculum);
 	}
 
 	private WechatMessage createInfo(String[] mediaList) {
