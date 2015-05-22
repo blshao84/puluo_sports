@@ -98,7 +98,11 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
         val user = if (userFromLink != null) userFromLink
         else userDao.getByMobile(mobile.get.get)
         if (user != null) {
-          doEventRegistration(user, event)
+          if (userFromLink != null) {
+            doEventRegistration(user, event)
+          } else {
+            JsCmds.RedirectTo(s"/single_event?uuid=${event.eventUUID}&user_uuid=${user.userUUID()}")
+          }
         } else {
           verifyAuthCodeForRegistration(
             onNoInput = () => {
