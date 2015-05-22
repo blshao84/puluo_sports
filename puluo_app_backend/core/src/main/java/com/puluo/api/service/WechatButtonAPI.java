@@ -32,10 +32,13 @@ public class WechatButtonAPI extends WechatAPI{
 		this.params = params;
 		String event = params.get("Event");
 		String eventKey = params.get("EventKey");
-		if (event.equals("CLICK")) {
+		if (event.toLowerCase().equals("click")) {
 			this.buttonType = WechatButtonType.valueOf(eventKey);
 		} else if(event.toLowerCase().equals("subscribe")){
 			this.buttonType = WechatButtonType.SUBSCRIBE;
+		} else if(event.toLowerCase().equals("view")){
+			//TODO: should log this for further stat!!
+			log.info("user view through wechat button");
 		}else
 			throw new Exception(String.format(
 					"Unexpected wechat button request:event=%s,eventKey=%s",
