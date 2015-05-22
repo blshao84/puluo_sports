@@ -178,6 +178,7 @@ public class EventRegistrationAPI extends
 							coupon.amount(),
 							coupon.ownerUUID(), 
 							savedOrder.orderUUID(), 
+							coupon.locationUUID(),
 							coupon.validUntil()));
 				}
 				if (amount != 0.0) {

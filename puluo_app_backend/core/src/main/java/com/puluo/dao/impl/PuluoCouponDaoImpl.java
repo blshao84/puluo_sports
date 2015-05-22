@@ -31,7 +31,9 @@ public class PuluoCouponDaoImpl extends DalTemplate implements PuluoCouponDao {
 					.append(" (uuid text primary key, ")
 					.append("type text not null, ")
 					.append("amount double precision, ")
-					.append("user_uuid text, ").append("order_uuid text, ")
+					.append("user_uuid text, ")
+					.append("order_uuid text, ")
+					.append("location_uuid text, ")
 					.append("valid timestamp default now()::timestamp)")
 					.toString();
 			log.info(createSQL);
@@ -59,6 +61,14 @@ public class PuluoCouponDaoImpl extends DalTemplate implements PuluoCouponDao {
 					.toString();
 			log.info(indexSQL3);
 			getWriter().execute(indexSQL3);
+			
+			String indexSQL4 = new StringBuilder()
+			.append("create index " + super.getFullTableName()
+					+ "_i_location_uuid on ")
+			.append(super.getFullTableName()).append(" (location_uuid)")
+			.toString();
+	log.info(indexSQL4);
+	getWriter().execute(indexSQL4);
 
 			return true;
 		} catch (Exception e) {
@@ -162,11 +172,12 @@ public class PuluoCouponDaoImpl extends DalTemplate implements PuluoCouponDao {
 				StringBuilder sb = new StringBuilder()
 						.append("insert into ")
 						.append(super.getFullTableName())
-						.append(" (uuid, type, amount, user_uuid,order_uuid, valid)")
+						.append(" (uuid, type, amount, user_uuid,order_uuid,location_uuid, valid)")
 						.append(" values ('" + coupon.uuid() + "', '"
 								+ coupon.couponType().name() + "', "
 								+ coupon.amount() + ", '" + coupon.ownerUUID()
 								+ "', '" + coupon.orderUUID() +"','"
+								+ coupon.locationUUID() +"','"
 								+ TimeUtils.formatDate(coupon.validUntil())
 								+ "')");
 				String insertSQL = sb.toString();
@@ -200,6 +211,7 @@ public class PuluoCouponDaoImpl extends DalTemplate implements PuluoCouponDao {
 						.append("', amount = " + coupon.amount())
 						.append(", user_uuid = '" + coupon.ownerUUID())
 						.append("', order_uuid = '" + coupon.orderUUID())
+						.append("', location_uuid = '" + coupon.locationUUID())
 						.append("', valid = '"
 								+ TimeUtils.formatDate(coupon.validUntil()))
 						.append("' where uuid = '" + coupon.uuid() + "'");
@@ -225,6 +237,7 @@ public class PuluoCouponDaoImpl extends DalTemplate implements PuluoCouponDao {
 					rs.getDouble("amount"), 
 					rs.getString("user_uuid"),
 					rs.getString("order_uuid"),
+					rs.getString("location_uuid"),
 					TimeUtils.parseDateTime(
 							TimeUtils.formatDate(rs.getTimestamp("valid"))));
 			return coupon;

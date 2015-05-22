@@ -198,6 +198,16 @@ public class PuluoEventImpl implements PuluoEvent {
 				+ info_uuid + ", location_uuid=" + location_uuid + ", hottest="
 				+ hottest + "]";
 	}
+
+	@Override
+	public String eventInfoUUID() {
+		return info_uuid;
+	}
+
+	@Override
+	public String eventLocationUUID() {
+		return location_uuid;
+	}
 	
 	
 }

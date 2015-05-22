@@ -87,7 +87,7 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 						couponDao.updateCoupon(new PuluoCouponImpl(
 								coupon.uuid(), coupon.couponType(), 
 								coupon.amount(), coupon.ownerUUID(), 
-								coupon.orderUUID(), now));
+								coupon.orderUUID(),coupon.locationUUID(), now));
 					}
 					if (Configurations.enableSMSNotification) {
 						if (!mock)

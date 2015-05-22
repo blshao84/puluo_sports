@@ -1,5 +1,7 @@
 package com.puluo.config;
 
+import com.puluo.dao.impl.DaoApi;
+import com.puluo.entity.PuluoEventLocation;
 import com.puluo.enumeration.PuluoEnvironment;
 import com.puluo.util.Strs;
 import com.puluo.weichat.WechatKey;
@@ -10,8 +12,9 @@ public class Configurations {
 	private static String wechatAppKey;
 	private static String webServer;
 	
-	
-	
+	public static final String puluoLocationName = "普罗总部";
+	public static final PuluoEventLocation puluoLocation =
+			DaoApi.getInstance().eventLocationDao().getEventLocationByName(puluoLocationName);
 	public static final PuluoEnvironment env = PuluoEnvironment
 			.getEnvironment();
 	public static final long orderIDBase = 10000;
@@ -67,5 +70,9 @@ public class Configurations {
 	
 	public static String wechatAppKey() {
 		return wechatAppKey;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(puluoLocation.locationId());
 	}
 }

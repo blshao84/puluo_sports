@@ -12,4 +12,5 @@ public interface PuluoCoupon {
 	public String orderUUID();
 	public boolean isValid();
 	public DateTime validUntil();
+	public String locationUUID();
 }

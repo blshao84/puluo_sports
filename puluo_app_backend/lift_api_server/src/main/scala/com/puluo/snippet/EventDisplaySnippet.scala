@@ -40,7 +40,7 @@ import org.joda.time.DateTime
 
 object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender with Loggable {
   val mock = true
-  
+
   object mobile extends RequestVar[Option[String]](None)
   object coupon extends RequestVar[Option[PuluoCoupon]](None)
   object authCode extends RequestVar[Option[String]](None)
@@ -58,18 +58,19 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
     val userUUID = S.param("user_uuid").getOrElse("")
     val userFromLink = userDao.getByUUID(userUUID)
     val event = dsi.eventDao().getEventByUUID(eventUUID)
-    //get valid coupons
-    val coupons = dsi.couponDao().getByUserUUID(userUUID, true)
-    val couponOptions = coupons.sortBy(_.validUntil().getMillis()).
-      map(c => (c.uuid(),
-        s"优惠${Strs.prettyDouble(c.amount(), 1)}元,有效期至${c.validUntil().getYear()}年${c.validUntil().getMonthOfYear()}月${c.validUntil().getDayOfMonth()}日"))
     if (event == null || event.eventTime().isBefore(DateTime.now)) {
       "#event" #> "课程不存在"
     } else {
+      //get valid coupons
+      val coupons = dsi.couponDao().getByUserUUID(userUUID, true).filter(_.locationUUID() == event.eventLocationUUID())
+      val couponOptions = coupons.sortBy(_.validUntil().getMillis()).
+        map(c => (c.uuid(),
+          s"优惠${Strs.prettyDouble(c.amount(), 1)}元,有效期至${c.validUntil().getYear()}年${c.validUntil().getMonthOfYear()}月${c.validUntil().getDayOfMonth()}日"))
+
       val registered = event.registeredUsers()
       val info = event.eventInfo()
       val loc = event.eventLocation()
-      val address = if(loc==null) "" else loc.address()
+      val address = if (loc == null) "" else loc.address()
       val pic = info.poster().headOption.map(_.imageURL()).getOrElse("empty.jpg")
       "#pic [src]" #> s"${pic}!small" &
         "#name *" #> info.name() &
@@ -101,7 +102,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
           verifyAuthCodeForRegistration(
             onNoInput = () => {
               JsCmds.JsShowId("auth_code_row_name") &
-              JsCmds.JsShowId("auth_code_row_value") &
+                JsCmds.JsShowId("auth_code_row_value") &
                 JsCmds.Alert("您还不是普罗体育的注册用户，请点击\"发送验证码\"一步完成认证")
             },
             onSuccess = (newUser: PuluoUser) => {
@@ -135,10 +136,10 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
 
   private def renderCoupons(couponOptions: Seq[(String, String)], event: PuluoEvent, user: PuluoUser) = {
     val dsi = DaoApi.getInstance()
-    val opts = ("", "") :: couponOptions.toList
     if (couponOptions.isEmpty) {
-      "#coupon" #> ""
+      ".couponDev" #> ""
     } else {
+      val opts = ("", "") :: couponOptions.toList
       "#coupon" #> SHtml.ajaxSelect(opts, Empty, cid => {
         if (Strs.isEmpty(cid)) {
           JsCmds.Noop

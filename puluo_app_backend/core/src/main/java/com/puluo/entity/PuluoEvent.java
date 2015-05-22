@@ -18,6 +18,8 @@ public interface PuluoEvent {
 	Double discountedPrice();
 	PuluoEventInfo eventInfo();
 	PuluoEventLocation eventLocation();
+	String eventInfoUUID();
+	String eventLocationUUID();
 	List<PuluoEventMemory> memory();
 	int hottest();
 	List<PuluoEventAttendee> attendees();

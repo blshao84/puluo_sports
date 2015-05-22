@@ -81,6 +81,7 @@ object PromotionRegistrationSnippet extends PuluoSnippetUtil with PuluoAuthCodeS
       Configurations.registrationAwardAmount,
       newUser.userUUID(),
       null,
+      Configurations.puluoLocation.locationId(),
       DateTime.now.plusDays(30)))
 
     val invitationDao = DaoApi.getInstance().invitationDao()

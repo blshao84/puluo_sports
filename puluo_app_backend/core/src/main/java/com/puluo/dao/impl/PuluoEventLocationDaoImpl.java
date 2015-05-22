@@ -97,6 +97,18 @@ public class PuluoEventLocationDaoImpl extends DalTemplate implements
 				new Object[] { location_uuid },new EventLocationMapper());
 		return verifyUniqueResult(entities);
 	}
+	
+	@Override
+	public PuluoEventLocation getEventLocationByName(String location_name) {
+		SqlReader reader = getReader();
+		String selectSQL = new StringBuilder().append("select * from ")
+				.append(super.getFullTableName())
+				.append(" where name = ?").toString();
+		log.info(super.sqlRequestLog(selectSQL, location_name));
+		List<PuluoEventLocation> entities = reader.query(selectSQL,
+				new Object[] { location_name },new EventLocationMapper());
+		return verifyUniqueResult(entities);
+	}
 
 	@Override
 	public boolean saveEventLocation(PuluoEventLocation location) {
