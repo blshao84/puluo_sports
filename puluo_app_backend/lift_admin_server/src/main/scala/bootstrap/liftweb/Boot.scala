@@ -21,6 +21,7 @@ import com.puluo.service.PuluoService
 import com.puluo.entity.PuluoAdmin
 import com.puluo.snippet.PuluoFileUploadAPI
 import com.puluo.entity.UserImage
+import com.puluo.snippet.PuluoDownloader
 
 object Boot {
   def MustBeLoggedIn = PuluoAdmin.loginFirst
@@ -107,6 +108,7 @@ class Boot extends Loggable {
     SiteMap.enforceUniqueLinks = false
     val menus = List(
       Menu("网站") / "site" / ** >> LocGroup("public"),
+      Menu("课程报表") / "event_report" >> LocGroup("public") >> MustBeLoggedIn,
       Menu("图片上传") / "image" >> LocGroup("public") >> MustBeLoggedIn,
       Menu("活动信息更新") / "event_info" >> LocGroup("public") >> MustBeLoggedIn,
       Menu("课程更新") / "event" >> LocGroup("public") >> MustBeLoggedIn,
@@ -130,6 +132,7 @@ class Boot extends Loggable {
     })
     LiftRules.addToPackages("com.puluo.snippet")
     LiftRules.addToPackages("com.puluo")
+    LiftRules.dispatch.append(PuluoDownloader)
     LiftRules.dispatch.append(withAuthentication guard PuluoFileUploadAPI)
 
   }
