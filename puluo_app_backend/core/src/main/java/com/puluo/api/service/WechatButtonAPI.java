@@ -92,7 +92,7 @@ public class WechatButtonAPI extends WechatAPI {
 		String openId = params.get("FromUserName");
 		PuluoUser user = getUserFromOpenID(openId);
 		if (user == null) {
-			return new WechatTextMessage("您还没有注册哦！点击‘我的普罗’一步完成注册!"
+			return new WechatTextMessage("您还没有注册哦！点击‘注册抢红包’一步完成注册!"
 					+ "然后向朋友发送注册邀请，您就可以获得一次免费体验普罗团体课的机会");
 		} else {
 			String url = Strs.join("http://", Configurations.webServer(),
