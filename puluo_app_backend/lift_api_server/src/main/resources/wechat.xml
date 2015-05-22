@@ -8,7 +8,7 @@
 					<sub_button button_type="click" button_name="运动康复" button_key="INFO4"></sub_button>
 		</sub_button_group>
 	</button>
-	<button button_type="view" button_name="注册抢红包" button_url="http://www.puluosports.com/promotion?uuid=puluo"></button>
+	<button button_type="click" button_name="注册抢红包" button_key="REGISTER"></button>
 	<button button_type="click" button_name="我的普罗">
 		<sub_button_group>
 			<sub_button button_type="click" button_name="呼唤小伙伴" button_key="PROMOTION"></sub_button>

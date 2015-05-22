@@ -12,11 +12,14 @@ import com.puluo.api.result.wechat.WechatArticleMessage;
 import com.puluo.api.result.wechat.WechatMessage;
 import com.puluo.api.result.wechat.WechatNewsMessage;
 import com.puluo.api.result.wechat.WechatTextMessage;
+import com.puluo.config.Configurations;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoUser;
 import com.puluo.entity.PuluoWechatBinding;
+import com.puluo.entity.impl.PuluoCouponImpl;
+import com.puluo.enumeration.CouponType;
 import com.puluo.enumeration.EventSortType;
 import com.puluo.enumeration.EventStatus;
 import com.puluo.enumeration.PuluoSMSType;
@@ -113,8 +116,19 @@ public class WechatTextAPI extends WechatAPI{
 					|| api.error.equals(ApiErrorResult.getError(5))) {
 				// if successfully create a new user or user has already in the
 				// system
+				String newUserUUID = api.userUUID();
 				dsi.wechatBindingDao().updateBinding(from_user, 2);
-				msg = new WechatTextMessage("您已经成功将手机与微信绑定");
+				dsi.couponDao().insertCoupon(new PuluoCouponImpl(
+					      UUID.randomUUID().toString(),
+					      CouponType.Deduction,
+					      Configurations.registrationAwardAmount,
+					      newUserUUID,
+					      null,
+					      DateTime.now().plusDays(30)));
+				msg = new WechatTextMessage(
+						"您已成功注册并将手机与微信绑定！"
+						+ "我们向您的账户中存入了一张普罗团课的免费体验券，"
+						+ "立刻点击‘热门活动’并注册您感兴趣的课程，然后加入我们吧！");
 			} else if (api.error.equals(ApiErrorResult.getError(6))) {
 				dsi.wechatBindingDao().updateBinding(from_user, 0);
 				msg = new WechatTextMessage("抱歉，请您再次回复手机号已开始绑定");
