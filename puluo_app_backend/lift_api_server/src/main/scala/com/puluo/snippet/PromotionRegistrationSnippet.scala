@@ -92,7 +92,8 @@ object PromotionRegistrationSnippet extends PuluoSnippetUtil with PuluoAuthCodeS
         null,null,null));
     val otherMsg = if(fromMobile=="puluo") "" else s"和您的好友 ${fromMobile}"
     JsCmds.Alert(s"恭喜，注册成功！普罗运动已向您${otherMsg}的账户中各存人价值${Configurations.registrationAwardAmount}元的普罗运动免费体验券一张" +
-      "\n赶快关注普罗运动公众号，约上小伙伴一起动起来吧！")
+      "\n现在转发这个页面到朋友圈，每当您的朋友注册并体验一次普罗团课，您都将再获得一次免费体验券！") &
+      JsCmds.RedirectTo(s"/promotion?uuid=${newUser.userUUID()}")
 
   }
 }
