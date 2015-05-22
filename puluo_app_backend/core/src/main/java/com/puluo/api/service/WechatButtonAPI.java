@@ -99,10 +99,8 @@ public class WechatButtonAPI extends WechatAPI {
 					"/promotion?uuid=", user.userUUID());
 			return new WechatNewsMessage(
 					new WechatArticleMessage(
-							"普罗运动开课啦！",
-							"点击进入页面，分享到朋友圈，然后拉上小伙伴一起动起来吧！"
-									+ "这里有人鱼线MM、马甲线GG以及颜值爆表的教练，这里让运动变的不再枯燥！"
-									+ "最重要的是只要您和您的小伙伴注册，所有活动都由小普罗给您买单哦！",
+							"普罗运动转发抢优惠",
+							"点击该文章并转发朋友圈邀请好友加入，您将获得一张免费上课优惠劵。",
 							"http://img.puluosports.com/86765fca-4c76-4110-9f45-f3dfe671a0da.png",
 							url, false));
 		}
