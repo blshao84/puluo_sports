@@ -34,7 +34,9 @@ public class WechatButtonAPI extends WechatAPI{
 		String eventKey = params.get("EventKey");
 		if (event.equals("CLICK")) {
 			this.buttonType = WechatButtonType.valueOf(eventKey);
-		} else
+		} else if(event.toLowerCase().equals("subscribe")){
+			this.buttonType = WechatButtonType.SUBSCRIBE;
+		}else
 			throw new Exception(String.format(
 					"Unexpected wechat button request:event=%s,eventKey=%s",
 					event, eventKey));
@@ -42,6 +44,8 @@ public class WechatButtonAPI extends WechatAPI{
 
 	public WechatMessage process() throws Exception {
 		switch (buttonType) {
+		case SUBSCRIBE:
+			return createIntro();
 		case INFO1:
 			return createInfo(Configurations.wechatButtonInfo1List);
 		case INFO2:
@@ -70,6 +74,7 @@ public class WechatButtonAPI extends WechatAPI{
 			throw new Exception("Unexpected button Type");
 		}
 	}
+
 
 	private WechatMessage createIntro() {
 		return new WechatTextMessage("什么是普罗的文案");
