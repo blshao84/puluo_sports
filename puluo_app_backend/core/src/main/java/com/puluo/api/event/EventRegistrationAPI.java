@@ -211,4 +211,11 @@ public class EventRegistrationAPI extends
 		} else
 			return rawResult.link;
 	}
+	
+	public String orderUUID() {
+		if (rawResult == null) {
+			return "";
+		} else
+			return rawResult.order_uuid;
+	}
 }

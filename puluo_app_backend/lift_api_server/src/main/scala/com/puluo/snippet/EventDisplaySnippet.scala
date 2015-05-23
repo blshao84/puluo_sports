@@ -136,7 +136,9 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
     val api = new EventRegistrationAPI(event.eventUUID(), user.userUUID(), couponUUID, mock)
     api.execute()
     if (api.error == null) {
-      if (event.price() == 0) {
+      val order = DaoApi.getInstance().paymentDao().getOrderByUUID(api.orderUUID)
+      val amount = order.amount
+      if (amount == 0) {
         JsCmds.Alert("恭喜您成功预订课程！")
       } else {
         val link = api.paymentLink
