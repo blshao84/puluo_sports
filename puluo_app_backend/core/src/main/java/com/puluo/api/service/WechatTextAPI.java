@@ -125,7 +125,7 @@ public class WechatTextAPI extends WechatAPI{
 					      newUserUUID,
 					      null,
 					      Configurations.puluoLocation.locationId(),
-					      DateTime.now().plusDays(30)));
+					      DateTime.now().plusDays(14)));
 				msg = new WechatTextMessage(
 						"您已成功注册并将手机与微信绑定！"
 						+ "我们向您的账户中存入了一张普罗团课的免费体验券，"
