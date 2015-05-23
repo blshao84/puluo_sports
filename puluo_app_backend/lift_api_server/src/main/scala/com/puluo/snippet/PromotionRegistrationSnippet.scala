@@ -44,7 +44,7 @@ object PromotionRegistrationSnippet extends PuluoSnippetUtil with PuluoAuthCodeS
   private def renderRegister = {
     uuid(S.param("uuid"))
     val userDao = DaoApi.getInstance().userDao()
-    "#register" #> SHtml.ajaxButton("预定", () => {
+    "#register" #> SHtml.ajaxButton("注册", () => {
       if (mobile.isDefined) {
         verifyAuthCodeForRegistration(
           onNoInput = () => {

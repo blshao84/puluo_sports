@@ -66,12 +66,18 @@ object PuluoUserAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val token = params("token")
     val uuid = PuluoSessionManager.getUserUUID(token)
     val api = new UserProfileUpdateAPI(
-      uuid, optionalParamsMap.getOrElse("first_name", ""), optionalParamsMap.getOrElse("last_name", ""),
+      uuid, 
+      optionalParamsMap.getOrElse("first_name", ""), 
+      optionalParamsMap.getOrElse("last_name", ""),
       optionalParamsMap.getOrElse("thumbnail", ""), 
-      optionalParamsMap.getOrElse("saying", ""), optionalParamsMap.getOrElse("email", ""),
-      optionalParamsMap.getOrElse("sex", ""), optionalParamsMap.getOrElse("birthday", ""),
-      optionalParamsMap.getOrElse("country", ""), optionalParamsMap.getOrElse("state", ""),
-      optionalParamsMap.getOrElse("city", ""), optionalParamsMap.getOrElse("zip", ""))
+      optionalParamsMap.getOrElse("saying", ""), 
+      optionalParamsMap.getOrElse("email", ""),
+      optionalParamsMap.getOrElse("sex", ""), 
+      optionalParamsMap.getOrElse("birthday", ""),
+      optionalParamsMap.getOrElse("country", ""), 
+      optionalParamsMap.getOrElse("state", ""),
+      optionalParamsMap.getOrElse("city", ""), 
+      optionalParamsMap.getOrElse("zip", ""))
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)
   }

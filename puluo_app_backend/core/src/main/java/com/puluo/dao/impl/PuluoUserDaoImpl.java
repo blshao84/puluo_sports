@@ -83,9 +83,9 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 			String insertSQL = new StringBuilder()
 					.append("insert into ")
 					.append(super.getFullTableName())
-					.append(" (user_uuid, mobile, user_password, created_at)")
+					.append(" (user_uuid, mobile, user_password,birthday, created_at)")
 					.append(" values ('" + uuid + "', '" + mobile + "', '"
-							+ password + "', now()::timestamp)").toString();
+							+ password + "','1970-01-01 0:0:0.0', now()::timestamp)").toString();
 			log.info(insertSQL);
 			getWriter().update(insertSQL);
 		} catch (Exception e) {
