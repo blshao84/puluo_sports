@@ -62,9 +62,9 @@ public class PuluoUserFriendshipDaoImpl extends DalTemplate implements
 		SqlReader reader = getReader();
 		StringBuilder sb = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName()).append(" where user_uuid = ?");
+		sb.append(" order by id");
 		if(limit>0) sb.append(" limit ").append(limit);
 		if(offset>0) sb.append(" offset ").append(offset);
-		sb.append(" order by id");
 		String selectSQL = sb.toString();
 		log.info(super.sqlRequestLog(selectSQL, userUUID));
 		List<PuluoUserFriendship> entities = reader.query(
