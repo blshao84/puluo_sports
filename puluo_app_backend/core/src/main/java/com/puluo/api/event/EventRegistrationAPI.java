@@ -188,7 +188,7 @@ public class EventRegistrationAPI extends
 					return new EventRegistrationResult(paymentLink,
 							order.orderUUID(), false);
 				} else {
-					log.info(String.format("generating alipay order amount =%s",amount));
+					log.info(String.format("skipping alipay order amount =%s",amount));
 					String out_trade_no = AlipayUtil.generateOrderID(
 							savedOrder, Configurations.orderIDBase);
 					PuluoAlipayAPI alipay = new PuluoAlipayAPI(

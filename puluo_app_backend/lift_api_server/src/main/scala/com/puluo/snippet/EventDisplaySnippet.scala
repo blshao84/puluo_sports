@@ -101,7 +101,9 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
           if (userFromLink != null) {
             doEventRegistration(user, event)
           } else {
-            JsCmds.RedirectTo(s"/single_event?uuid=${event.eventUUID}&user_uuid=${user.userUUID()}")
+            val coupons = DaoApi.getInstance().couponDao().getByUserUUID(user.userUUID())
+            val cmd = if(coupons.isEmpty()) JsCmds.Noop else JsCmds.Alert("您的账户中有优惠券噢！")
+            cmd & JsCmds.RedirectTo(s"/single_event?uuid=${event.eventUUID}&user_uuid=${user.userUUID()}")
           }
         } else {
           verifyAuthCodeForRegistration(
@@ -119,7 +121,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
                 newUser.userUUID(),
                 null,
                 Configurations.puluoLocation.locationId(),
-                DateTime.now.plusDays(30)))
+                DateTime.now.plusDays(14)))
               JsCmds.RedirectTo(s"/single_event?uuid=${event.eventUUID}&user_uuid=${newUser.userUUID()}")
 
             },
