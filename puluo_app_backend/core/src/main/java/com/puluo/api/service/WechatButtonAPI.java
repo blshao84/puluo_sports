@@ -61,6 +61,8 @@ public class WechatButtonAPI extends WechatAPI {
 				return createInfo(Configurations.wechatButtonInfo3List);
 			case INFO4:
 				return createInfo(Configurations.wechatButtonInfo4List);
+			case INFO5:
+				return createInfo(Configurations.wechatButtonInfo5List);
 			case CURRICULUM:
 				return createCurriculum();
 			case PROMOTION:

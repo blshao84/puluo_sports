@@ -241,7 +241,7 @@ public class PuluoUserImpl implements PuluoUser {
 
 	@Override
 	public String name() {
-		return Strs.join(firstName, " ", lastName);
+		return Strs.join(lastName," ",firstName);
 	}
 
 	@Override
