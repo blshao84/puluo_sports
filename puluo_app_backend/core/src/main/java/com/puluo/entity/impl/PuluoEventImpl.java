@@ -45,11 +45,11 @@ public class PuluoEventImpl implements PuluoEvent {
 		this.hottest = 0;
 		this.dsi = DaoApi.getInstance();
 	}
-	
+
 	public PuluoEventImpl(String uuid, DateTime event_time, EventStatus status,
 			int registeredUsers, int capatcity, Double price,
-			Double discountedPrice, String info_uuid, String location_uuid, int hottest,
-			PuluoDSI dsi) {
+			Double discountedPrice, String info_uuid, String location_uuid,
+			int hottest, PuluoDSI dsi) {
 
 		this.uuid = uuid;
 		this.event_time = event_time;
@@ -68,10 +68,12 @@ public class PuluoEventImpl implements PuluoEvent {
 
 	public PuluoEventImpl(String uuid, DateTime event_time, EventStatus status,
 			int registeredUsers, int capatcity, Double price,
-			Double discountedPrice, String info_uuid, String location_uuid, int hottest) {
+			Double discountedPrice, String info_uuid, String location_uuid,
+			int hottest) {
 
 		this(uuid, event_time, status, registeredUsers, capatcity, price,
-				discountedPrice, info_uuid, location_uuid, hottest, DaoApi.getInstance());
+				discountedPrice, info_uuid, location_uuid, hottest, DaoApi
+						.getInstance());
 	}
 
 	@Override
@@ -100,11 +102,13 @@ public class PuluoEventImpl implements PuluoEvent {
 	}
 
 	@Override
-	public Double price(){
-		if(discountedPrice < price && discountedPrice>0) {
+	public Double price() {
+		if (discountedPrice < price && discountedPrice > 0) {
 			return discountedPrice;
-		} else return price;
+		} else
+			return price;
 	}
+
 	@Override
 	public Double originalPrice() {
 		return price;
@@ -167,23 +171,25 @@ public class PuluoEventImpl implements PuluoEvent {
 
 	@Override
 	public List<PuluoEventAttendee> attendees() {
-//		List<PuluoPaymentOrder> orders = dsi.paymentDao().getOrderByEvent(uuid);
-		List<PuluoPaymentOrder> orders = dsi.paymentDao().getPaidOrdersByEventUUID(uuid);
+		List<PuluoPaymentOrder> orders = dsi.paymentDao()
+				.getPaidOrdersByEventUUID(uuid);
 		List<PuluoEventAttendee> attendees = new ArrayList<PuluoEventAttendee>();
 		PuluoUser user;
-		for (PuluoPaymentOrder order: orders) {
-//			if (order.status().isPaid()) {
-				user = dsi.userDao().getByUUID(order.userId());
-				attendees.add(new PuluoEventAttendee(user.name(), user.userUUID(), user.thumbnailURL()));
-//			}
+		for (PuluoPaymentOrder order : orders) {
+			user = dsi.userDao().getByUUID(order.userId());
+			if (user != null) {
+				attendees.add(new PuluoEventAttendee(user.name(), user
+						.userUUID(), user.thumbnailURL()));
+			}
 		}
 		return attendees;
 	}
 
 	@Override
 	public boolean registered(String userUUID) {
-		PuluoPaymentOrder order = dsi.paymentDao().getOrderByEvent(uuid, userUUID);
-		if (order!=null && order.status().isPaid()) {
+		PuluoPaymentOrder order = dsi.paymentDao().getOrderByEvent(uuid,
+				userUUID);
+		if (order != null && order.status().isPaid()) {
 			return true;
 		}
 		return false;
@@ -208,6 +214,5 @@ public class PuluoEventImpl implements PuluoEvent {
 	public String eventLocationUUID() {
 		return location_uuid;
 	}
-	
-	
+
 }
