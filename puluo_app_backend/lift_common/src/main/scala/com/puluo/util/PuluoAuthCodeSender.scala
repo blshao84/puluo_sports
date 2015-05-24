@@ -31,7 +31,7 @@ trait PuluoAuthCodeSender extends Loggable {
   def getAuthCode: RequestVar[Option[String]]
 
   def renderSendAuthCode = {
-    "#send_auth_code" #> SHtml.ajaxButton("发送验证码", () => {
+    "#send_auth_code" #> SHtml.ajaxButton("发送", () => {
       if (getAuthMobile.isDefined) {
         val api = new SMSServiceAPI(PuluoSMSType.UserRegistration,
           getAuthMobile.get.get, mock, Map.empty[String, String])
