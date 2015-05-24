@@ -110,7 +110,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
             onNoInput = () => {
               JsCmds.JsShowId("auth_code_row_name") &
                 JsCmds.JsShowId("auth_code_row_value") &
-                JsCmds.Alert("您还不是普罗体育的注册用户，请点击\"发送验证码\"一步完成认证")
+                JsCmds.Alert("您还不是普罗运动的注册用户，请点击\"发送验证码\"一步完成认证")
             },
             onSuccess = (newUser: PuluoUser) => {
               val couponDao = DaoApi.getInstance().couponDao()

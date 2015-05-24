@@ -78,6 +78,6 @@ trait PuluoAuthCodeSender extends Loggable {
           onFailure()
         }
       }
-    } else JsCmds.Alert("您已经是普罗体育的注册用户！")
+    } else JsCmds.Alert("您已经是普罗运动的注册用户！")
   }
 }
