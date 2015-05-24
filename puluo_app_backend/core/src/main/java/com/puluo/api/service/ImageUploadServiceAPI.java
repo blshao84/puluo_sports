@@ -68,15 +68,17 @@ public class ImageUploadServiceAPI extends
 		} else if (size > 1) {
 			this.error = ApiErrorResult.getError(21);
 		} else {
-			String fileName = images.get(0).fileName;
+			//
 			byte[] image = images.get(0).data;
+			String imageUUID = UUID.randomUUID().toString();
 			if (mock) {
+				String fileName = images.get(0).fileName;
 				this.rawResult = new ImageUploadServiceResult(
 						Strs.join(Configurations.imageServer,fileName),"success",image.length/1000);
 			} else {
-				String imageUUID = UUID.randomUUID().toString();
+				String fileName = images.get(0).fileName;
 				log.info(Strs.join("save image ",fileName," as ",imageUUID));
-				this.rawResult = PuluoService.image.saveImage(image, fileName);
+				this.rawResult = PuluoService.image.saveImage(image, imageUUID);
 			}
 			if (this.rawResult.isSuccess()) {
 				PuluoUserDao userDao = dsi.userDao();
@@ -87,7 +89,7 @@ public class ImageUploadServiceAPI extends
 				} else {
 					switch (image_type) {
 					case UserProfile:
-						userDao.updateProfile(user, null, null, fileName, null,
+						userDao.updateProfile(user, null, null,imageUUID, null,
 								null, null, null, null, null, null, null);
 						break;
 					case EventMemory:
@@ -100,7 +102,7 @@ public class ImageUploadServiceAPI extends
 							this.error = ApiErrorResult.getError(46);
 						} else {
 							PuluoEventMemory mem = new PuluoEventMemoryImpl(
-									UUID.randomUUID().toString(), fileName,
+									UUID.randomUUID().toString(), imageUUID,
 									event_uuid, user_uuid, "");
 							eventMemoryDao.saveEventMemory(mem);
 						}
@@ -121,7 +123,7 @@ public class ImageUploadServiceAPI extends
 								this.error = ApiErrorResult.getError(46);
 							} else {
 								PuluoEventPoster poster = new PuluoEventPosterImpl(
-										UUID.randomUUID().toString(), fileName,
+										UUID.randomUUID().toString(), imageUUID,
 										info.eventInfoUUID(), DateTime.now());
 								eventPoserDao.saveEventPhoto(poster);
 							}
