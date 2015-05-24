@@ -66,14 +66,14 @@ class Boot extends Loggable {
   def authenticate(r: Req): Boolean = {
     val token = PuluoResponseFactory.createParamMap(Seq("token")).values.headOption
     val verified = token.map(PuluoSessionManager.isLogin(_)).getOrElse(false)
-    logger.info(String.format("retrive token %s from request and verified = %s", token.toString, verified.toString))
+    logger.debug(String.format("retrive token %s from request and verified = %s", token.toString, verified.toString))
     verified
 
   }
 
   def addHeader(s: net.liftweb.http.provider.HTTPResponse): Unit = {
     val allowedOrigin = S.request.get.header("Origin").getOrElse("http://localhost:8100")
-    logger.info(s"allowedOrigin:${allowedOrigin}")
+    logger.debug(s"allowedOrigin:${allowedOrigin}")
     s.addHeaders(
       List( //HTTPParam("X-Lift-Version", LiftRules.liftVersion),
         HTTPParam("Access-Control-Allow-Origin", allowedOrigin),
