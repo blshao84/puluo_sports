@@ -9,7 +9,7 @@
 					<sub_button button_type="click" button_name="疲劳消除" button_key="INFO5"></sub_button>
 		</sub_button_group>
 	</button>
-	<button button_type="click" button_name="注册抢红包" button_key="REGISTER"></button>
+	<button button_type="click" button_name="注册得优惠" button_key="REGISTER"></button>
 	<button button_type="click" button_name="呼唤小伙伴" button_key="PROMOTION"></button>
 	<!--button button_type="click" button_name="我的普罗">
 		<sub_button_group>

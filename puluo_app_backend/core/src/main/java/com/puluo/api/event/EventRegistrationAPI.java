@@ -182,11 +182,13 @@ public class EventRegistrationAPI extends
 							coupon.validUntil()));
 				}
 				if (amount != 0.0) {
+					log.info(String.format("generating alipay order amount =%s",amount));
 					String paymentLink = AlipayUtil.generateDirectWAPLink(
 							savedOrder, mock);
 					return new EventRegistrationResult(paymentLink,
 							order.orderUUID(), false);
 				} else {
+					log.info(String.format("generating alipay order amount =%s",amount));
 					String out_trade_no = AlipayUtil.generateOrderID(
 							savedOrder, Configurations.orderIDBase);
 					PuluoAlipayAPI alipay = new PuluoAlipayAPI(
