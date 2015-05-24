@@ -71,7 +71,7 @@ public class PuluoRegistrationInvitationDaoImpl extends DalTemplate implements
 			String fromUUID) {
 		SqlReader reader = getReader();
 		String selectSQL = new StringBuilder().append("select * from ")
-				.append(super.getFullTableName()).append(" where from_user_uuid = ?")
+				.append(super.getFullTableName()).append(" where from_user_uuid = ? and coupon_uuid = ''")
 				.toString();
 		log.info(super.sqlRequestLog(selectSQL, fromUUID));
 		List<PuluoRegistrationInvitation> entities = reader.query(
@@ -86,7 +86,7 @@ public class PuluoRegistrationInvitationDaoImpl extends DalTemplate implements
 			String toUUID) {
 			SqlReader reader = getReader();
 			String selectSQL = new StringBuilder().append("select * from ")
-					.append(super.getFullTableName()).append(" where to_user_uuid = ?")
+					.append(super.getFullTableName()).append(" where to_user_uuid = ? and coupon_uuid = ''")
 					.toString();
 			log.info(super.sqlRequestLog(selectSQL, toUUID));
 			List<PuluoRegistrationInvitation> entities = reader.query(

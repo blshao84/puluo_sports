@@ -10,8 +10,8 @@ import com.puluo.api.PuluoAPI;
 import com.puluo.config.Configurations;
 import com.puluo.dao.PuluoCouponDao;
 import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.PuluoRegistrationInvitationDao;
 import com.puluo.dao.impl.DaoApi;
-import com.puluo.dao.impl.PuluoRegistrationInvitationDaoImpl;
 import com.puluo.entity.PuluoCoupon;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoPaymentOrder;
@@ -93,22 +93,23 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 								coupon.amount(), coupon.ownerUUID(), 
 								coupon.orderUUID(),coupon.locationUUID(), now));
 					}
-					PuluoRegistrationInvitationDaoImpl invitationDao = 
-							(PuluoRegistrationInvitationDaoImpl)DaoApi.getInstance().invitationDao();
+					PuluoRegistrationInvitationDao invitationDao = 
+							DaoApi.getInstance().invitationDao();
 					List<PuluoRegistrationInvitation> invitations = 
 							invitationDao.getUserReceivedInvitations(order.userId());
 					for(PuluoRegistrationInvitation i:invitations){
 						if(i.fromUUID()!=null){
 							log.info("give coupon to user "+i.fromUUID());
+						String couponUUID =UUID.randomUUID().toString();
 						couponDao.insertCoupon(new PuluoCouponImpl(
-								UUID.randomUUID().toString(),
+								couponUUID,
 								CouponType.Deduction, 
 								Configurations.registrationAwardAmount, 
 								i.fromUUID(), 
 								null,
 								Configurations.puluoLocation.locationId(), 
 								DateTime.now().plusDays(14)));
-						invitationDao.deleteByUUID(i.uuid());
+						invitationDao.updateCoupon(i.uuid(), couponUUID);
 						
 						}
 					}
