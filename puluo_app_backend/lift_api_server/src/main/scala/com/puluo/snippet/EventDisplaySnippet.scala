@@ -158,7 +158,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
     if (couponOptions.isEmpty) {
       ".couponDev" #> ""
     } else {
-      val opts = ("", "") :: couponOptions.toList
+      val opts = ("", "请选择优惠券") :: couponOptions.toList
       "#coupon" #> SHtml.ajaxSelect(opts, Empty, cid => {
         if (Strs.isEmpty(cid)) {
           JsCmds.Noop

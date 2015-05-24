@@ -129,7 +129,7 @@ public class WechatTextAPI extends WechatAPI{
 				msg = new WechatTextMessage(
 						"您已成功注册并将手机与微信绑定！"
 						+ "我们向您的账户中存入了一张普罗团课的免费体验券，"
-						+ "立刻点击‘炫酷课程’并注册您感兴趣的课程，然后加入我们吧！");
+						+ "立刻点击‘酷炫课程’并注册您感兴趣的课程，然后加入我们吧！");
 			} else if (api.error.equals(ApiErrorResult.getError(6))) {
 				dsi.wechatBindingDao().updateBinding(from_user, 0);
 				msg = new WechatTextMessage("抱歉，请您再次回复手机号已开始绑定");
