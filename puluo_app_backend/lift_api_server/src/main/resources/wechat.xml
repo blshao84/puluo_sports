@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <button_group>
-	<button button_type="click" button_name="热门活动">
+	<button button_type="click" button_name="酷炫课程">
 		<sub_button_group>
 					<sub_button button_type="click" button_name="尊巴" button_key="INFO1"></sub_button>
 					<sub_button button_type="click" button_name="瑜伽" button_key="INFO2"></sub_button>

@@ -87,7 +87,17 @@ public class WechatButtonAPI extends WechatAPI {
 	}
 
 	private WechatMessage createIntro() {
-		return new WechatTextMessage("什么是普罗的文案");
+		return new WechatTextMessage(
+				"时尚火爆的普罗运动有免费团课咯！！！\n"
+				+ "下班后疲惫无聊，除了吃饭压马路没别的好玩去处怎么办？"
+				+ "聚会交友想有趣、好玩儿又健康怎么办？一个人找不到伴儿一起健身怎么办？？"
+				+ "雾霾天空气不好还想运动怎么办？不想办健身卡又想健身怎么办？"
+				+ "那你就来普罗运动吧亲～扔掉枯燥器械、不办卡无年费、各路有趣教练、各式好玩儿健身团课，让你挑花眼！\n\n"
+				+ "限时优惠活动：\n"
+				+ "朋友圈转发或推荐给好友，好友通过你的推荐注册成功后，"
+				+ "你将获得一次免费上课代金券！多转多送，普罗团课等你来噢！\n"
+				+ "电话：010-59003866\n"
+				+ "地址：尚都SOHO西塔三层1308室。");
 	}
 
 	private WechatMessage createPromotion() {
