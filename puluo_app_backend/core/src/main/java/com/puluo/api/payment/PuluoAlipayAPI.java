@@ -2,6 +2,7 @@ package com.puluo.api.payment;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.joda.time.DateTime;
 
@@ -10,13 +11,16 @@ import com.puluo.config.Configurations;
 import com.puluo.dao.PuluoCouponDao;
 import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.dao.impl.PuluoRegistrationInvitationDaoImpl;
 import com.puluo.entity.PuluoCoupon;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoPaymentOrder;
+import com.puluo.entity.PuluoRegistrationInvitation;
 import com.puluo.entity.PuluoUser;
 import com.puluo.entity.impl.PuluoCouponImpl;
 import com.puluo.entity.payment.OrderEvent;
 import com.puluo.entity.payment.impl.OrderEventImpl;
+import com.puluo.enumeration.CouponType;
 import com.puluo.enumeration.OrderEventType;
 import com.puluo.enumeration.PuluoOrderStatus;
 import com.puluo.payment.alipay.AlipayNotify;
@@ -88,6 +92,25 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 								coupon.uuid(), coupon.couponType(), 
 								coupon.amount(), coupon.ownerUUID(), 
 								coupon.orderUUID(),coupon.locationUUID(), now));
+					}
+					PuluoRegistrationInvitationDaoImpl invitationDao = 
+							(PuluoRegistrationInvitationDaoImpl)DaoApi.getInstance().invitationDao();
+					List<PuluoRegistrationInvitation> invitations = 
+							invitationDao.getUserReceivedInvitations(order.userId());
+					for(PuluoRegistrationInvitation i:invitations){
+						if(i.fromUUID()!=null){
+							log.info("give coupon to user "+i.fromUUID());
+						couponDao.insertCoupon(new PuluoCouponImpl(
+								UUID.randomUUID().toString(),
+								CouponType.Deduction, 
+								Configurations.registrationAwardAmount, 
+								i.fromUUID(), 
+								null,
+								Configurations.puluoLocation.locationId(), 
+								DateTime.now().plusDays(14)));
+						invitationDao.deleteByUUID(i.uuid());
+						
+						}
 					}
 					if (Configurations.enableSMSNotification) {
 						if (!mock)
