@@ -39,7 +39,7 @@ trait UploadImage extends UploadFile {
   /**
    * accessable link from image server
    */
-  def link:String = Strs.join(Configurations.imageServer,imageUUID)
+  def link:String = Configurations.imgHttpLink(imageUUID)
 }
 
 object UserImage extends UserImage

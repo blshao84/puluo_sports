@@ -17,7 +17,6 @@ import com.puluo.config.Configurations;
 import com.puluo.result.ImageUploadServiceResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
-import com.puluo.util.Strs;
 
 public class PuluoImageService {
 	private final Log LOGGER = LogFactory.getLog(PuluoImageService.class);
@@ -56,7 +55,7 @@ public class PuluoImageService {
 			status = "success";
 		else
 			status = "failed";
-		String link = Strs.join(Configurations.imageServer,filePath);
+		String link = Configurations.imgHttpLink(filePath);
 		return new ImageUploadServiceResult(link, status,data.length/1000);
 	}
 

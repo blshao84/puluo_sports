@@ -11,32 +11,27 @@ public class Configurations {
 	private static String wechatAppId;
 	private static String wechatAppKey;
 	private static String webServer;
-	
+
 	public static final String puluoLocationName = "普罗总部";
-	public static final PuluoEventLocation puluoLocation =
-			DaoApi.getInstance().eventLocationDao().getEventLocationByName(puluoLocationName);
+	public static final PuluoEventLocation puluoLocation = DaoApi.getInstance()
+			.eventLocationDao().getEventLocationByName(puluoLocationName);
 	public static final PuluoEnvironment env = PuluoEnvironment
 			.getEnvironment();
 	public static final long orderIDBase = 10000;
 	public static final boolean enableSMSNotification = true;
-	public static final String imageServer = "http://img.puluosports.com/";
+	private static final String imageServer = "http://img.puluosports.com/";
 
-	public static final String[] wechatButtonInfo1List = {
-			"8kNscO0VuUHZEnKmy46tDHzNyxbeSJOqKrGNq_ghS-M"};
-	public static final String[] wechatButtonInfo2List = {
-			"-vZuTzpVFraYz4ukhBe1XukSdvKCejArfUxbKyVS-rg" };
-	public static final String[] wechatButtonInfo3List = {
-			"sUNdqgGPNPRmvHmgUDklvJYxA7fJ1dEyUz6Fil4ueiQ"};
-	public static final String[] wechatButtonInfo4List = { 
-		"sUNdqgGPNPRmvHmgUDklvAHTZV3BhSLjAIbw_uN5-GQ" };
-	public static final String[] wechatButtonInfo5List = { 
-	"lnI6lmKccENtVoJ4Ine_dnSvaKURrLMGg6NFYcG9Q2s" };
+	public static final String[] wechatButtonInfo1List = { "8kNscO0VuUHZEnKmy46tDHzNyxbeSJOqKrGNq_ghS-M" };
+	public static final String[] wechatButtonInfo2List = { "-vZuTzpVFraYz4ukhBe1XukSdvKCejArfUxbKyVS-rg" };
+	public static final String[] wechatButtonInfo3List = { "sUNdqgGPNPRmvHmgUDklvJYxA7fJ1dEyUz6Fil4ueiQ" };
+	public static final String[] wechatButtonInfo4List = { "sUNdqgGPNPRmvHmgUDklvAHTZV3BhSLjAIbw_uN5-GQ" };
+	public static final String[] wechatButtonInfo5List = { "lnI6lmKccENtVoJ4Ine_dnSvaKURrLMGg6NFYcG9Q2s" };
 	public static final String wechatCurriculum = "CpJlAUkrFja6edvm_4Ma-jkp5sRCffgm0yQRXBwSab4";
 	public static final String emptyImage = Strs.join(imageServer, "empty.jpg");
 
 	public static final Double minPrice = 0.0;
 	public static final Double registrationAwardAmount = 50.0;
-	
+
 	static {
 		switch (env) {
 		case PROD:
@@ -53,28 +48,38 @@ public class Configurations {
 			break;
 		}
 	}
-	
+
 	public static String webServer() {
 		return webServer;
 	}
-	
-	public static  WechatKey wechatKey() {
-		return new WechatKey(wechatAppKey,wechatAppId);
+
+	public static WechatKey wechatKey() {
+		return new WechatKey(wechatAppKey, wechatAppId);
 	}
-	
+
 	public static String wechatToken() {
 		return wechatToken;
 	}
-	
+
 	public static String wechatAppId() {
 		return wechatAppId;
 	}
-	
+
 	public static String wechatAppKey() {
 		return wechatAppKey;
 	}
-	
+
+	public static String imgHttpLink(String name) {
+		return  imgHttpLink(name,"");
+	}
+	public static String imgHttpLink(String name, String format) {
+		if (Strs.isEmpty(name))
+			return "";
+		return Strs.join(Configurations.imageServer, name, format);
+	}
+
 	public static void main(String[] args) {
 		System.out.println(puluoLocation.locationId());
 	}
+
 }

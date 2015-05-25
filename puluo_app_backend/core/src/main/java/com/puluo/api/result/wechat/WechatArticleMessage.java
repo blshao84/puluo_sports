@@ -8,7 +8,6 @@ import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.WechatMediaResource;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
-import com.puluo.util.Strs;
 import com.puluo.weichat.WechatNewsContentItem;
 
 public class WechatArticleMessage extends WechatMessage {
@@ -36,7 +35,7 @@ public class WechatArticleMessage extends WechatMessage {
 		this.page_url = item.url;
 		log.info(String.format("title=%s,desc=%s,url=%s",item.title,item.digest,item.content_source_url));
 		if (targetItem != null) {
-			this.image_url = Strs.join(Configurations.imageServer,targetItem.wechatName());
+			this.image_url = Configurations.imgHttpLink(targetItem.wechatName());
 		} else{
 			log.warn(String.format("content %s thumb_medial_id %s is not in DB",item.title,item.thumb_media_id));
 			this.image_url = "";

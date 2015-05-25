@@ -74,7 +74,7 @@ public class ImageUploadServiceAPI extends
 			if (mock) {
 				String fileName = images.get(0).fileName;
 				this.rawResult = new ImageUploadServiceResult(
-						Strs.join(Configurations.imageServer,fileName),"success",image.length/1000);
+						Configurations.imgHttpLink(fileName),"success",image.length/1000);
 			} else {
 				String fileName = images.get(0).fileName;
 				log.info(Strs.join("save image ",fileName," as ",imageUUID));

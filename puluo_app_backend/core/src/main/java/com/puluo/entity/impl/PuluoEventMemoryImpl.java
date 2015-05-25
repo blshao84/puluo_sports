@@ -36,7 +36,7 @@ public class PuluoEventMemoryImpl implements PuluoEventMemory {
 		if (image_name.equals("")) {
 			return Strs.join(Configurations.emptyImage);
 		} else {
-			return Strs.join(Configurations.imageServer, image_name);
+			return Configurations.imgHttpLink(image_name);
 		}
 	}
 

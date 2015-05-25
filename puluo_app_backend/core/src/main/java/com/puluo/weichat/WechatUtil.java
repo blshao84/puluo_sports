@@ -266,8 +266,7 @@ public class WechatUtil {
 		if (info.poster() != null && !info.poster().isEmpty()) {
 			img = info.poster().get(0).imageURL();
 		} else {
-			img = String.format("%s%s", Configurations.imageServer,
-					"empty.jpeg");
+			img = Configurations.imgHttpLink("empty.jpeg");
 		}
 		String page_url = Strs.join("http://",Configurations.webServer(),
 				"/single_event?uuid=", event.eventUUID(), "&user_uuid=",

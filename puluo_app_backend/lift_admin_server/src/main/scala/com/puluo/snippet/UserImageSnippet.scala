@@ -46,7 +46,7 @@ class UserImageSnippet extends Loggable {
     val imagesToRender:Seq[UserImage] = paginator.page
     ".image-results *" #> imagesToRender.zipWithIndex.map(em => {
       val (image, index) = em
-      "#image-link [src]" #> Strs.join(Configurations.imageServer,image.imageUUID,"!small") &
+      "#image-link [src]" #> Configurations.imgHttpLink(image.imageUUID,"!small") &
         "#image-name *" #> image.name.get &
         "#image-uuid *" #> image.imageUUID &
       "#image-delete" #> SHtml.ajaxButton("删除", () => {
