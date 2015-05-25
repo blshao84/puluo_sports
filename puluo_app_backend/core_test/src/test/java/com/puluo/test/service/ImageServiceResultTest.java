@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import com.puluo.config.Configurations;
 import com.puluo.service.PuluoImageService;
-import com.puluo.util.Strs;
  
 
 public class ImageServiceResultTest {
@@ -24,7 +23,7 @@ public class ImageServiceResultTest {
 		PuluoImageService mockImageService = new PuluoImageService(mockUpYun);
 		byte[] data = new byte[128];
 		String filePath = "test.jpg";
-		String link = Strs.join(Configurations.imageServer,filePath);
+		String link = Configurations.imgHttpLink(filePath);
 		String json = mockImageService.saveImage(data, filePath).toJson();
 		String expected = String.format("{\"image_link\":\"%s\",\"sizeInKB\":0,\"status\":\"success\"}",link);
 		String msg = String.format("PuluoImageService.saveImage should return %s", expected);

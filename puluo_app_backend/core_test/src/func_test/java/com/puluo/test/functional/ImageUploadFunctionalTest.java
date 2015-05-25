@@ -107,7 +107,7 @@ public class ImageUploadFunctionalTest extends APIFunctionalTest {
 				String thumbnail = DaoApi.getInstance().userDao()
 						.getByMobile(mobile1).thumbnail();
 				String expectedThumbnail = "puluoyundong.png";
-				String expectedLink = Strs.join(Configurations.imageServer,
+				String expectedLink = Configurations.imgHttpLink(
 						expectedThumbnail);
 				Assert.assertEquals(expectedLink, actualLink);
 				Assert.assertEquals(expectedThumbnail, thumbnail);
@@ -137,7 +137,7 @@ public class ImageUploadFunctionalTest extends APIFunctionalTest {
 				Assert.assertEquals(1, posters.size());
 				String thumbnailURL = posters.get(0).thumbnailURL();
 				String expectedThumbnail = "puluoyundong.png";
-				String expectedLink = Strs.join(Configurations.imageServer,
+				String expectedLink = Configurations.imgHttpLink(
 						expectedThumbnail);
 				String expectedThumbnailURL = Strs.join(expectedLink,"");
 				Assert.assertEquals(expectedLink, actualLink);
@@ -167,7 +167,7 @@ public class ImageUploadFunctionalTest extends APIFunctionalTest {
 				Assert.assertEquals(1, memories.size());
 				String thumbnailURL = memories.get(0).thumbnailURL();
 				String expectedThumbnail = "puluoyundong.png";
-				String expectedLink = Strs.join(Configurations.imageServer,
+				String expectedLink = Configurations.imgHttpLink(
 						expectedThumbnail);
 				String expectedThumbnailURL = Strs.join(expectedLink,"");
 				Assert.assertEquals(expectedLink, actualLink);

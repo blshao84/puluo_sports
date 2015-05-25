@@ -15,7 +15,6 @@ import com.puluo.entity.PuluoUser;
 import com.puluo.test.functional.util.APIFunctionalTest;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
-import com.puluo.util.Strs;
 
 public class UserUpdateFunctionalTest extends APIFunctionalTest {
 	
@@ -49,7 +48,7 @@ public class UserUpdateFunctionalTest extends APIFunctionalTest {
 			log.info(json);
 			JsonNode public_info = new JsonNode(super.getStringFromJson(json, info));
 			String expectedValue = null;
-			if(isThumbnail) expectedValue = Strs.join(Configurations.imageServer,value,""); else expectedValue = value;
+			if(isThumbnail) expectedValue = Configurations.imgHttpLink(value,""); else expectedValue = value;
 			Assert.assertEquals(key.replace("_", " ") + " should be " + value, expectedValue, super.getStringFromJson(public_info, key));
 		} catch (UnirestException e) {
 			e.printStackTrace();

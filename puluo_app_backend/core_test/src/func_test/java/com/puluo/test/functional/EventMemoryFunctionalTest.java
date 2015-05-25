@@ -16,7 +16,6 @@ import com.puluo.test.functional.util.EventFunctionalTestRunner;
 import com.puluo.test.functional.util.EventTestDataSource;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
-import com.puluo.util.Strs;
 
 public class EventMemoryFunctionalTest extends APIFunctionalTest {
 	public static Log log = LogFactory.getLog(EventMemoryFunctionalTest.class);
@@ -42,8 +41,8 @@ public class EventMemoryFunctionalTest extends APIFunctionalTest {
 				JsonNode json = callAPI("events/memory/" + dataSource.eventID1,
 						inputs(session));
 				Set<String> mem = new HashSet<String>();
-				mem.add(Strs.join(Configurations.imageServer,"1234.jpg"));
-				mem.add(Strs.join(Configurations.imageServer,"5678.jpg"));
+				mem.add(Configurations.imgHttpLink("1234.jpg"));
+				mem.add(Configurations.imgHttpLink("5678.jpg"));
 				compareMemory(json, mem);
 			}
 
