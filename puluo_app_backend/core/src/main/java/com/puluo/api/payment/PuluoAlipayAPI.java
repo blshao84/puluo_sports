@@ -83,36 +83,8 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 			} else {
 				boolean successUpdate = updateOrderStatus(order);
 				if (successUpdate) {
-					PuluoCouponDao couponDao = dsi.couponDao();
-					List<PuluoCoupon> coupons = couponDao.getByOrderUUID(order.orderUUID());
-					DateTime now =DateTime.now();
-					for(PuluoCoupon coupon:coupons){
-						log.info(Strs.join("update coupon ",coupon.uuid()," valid_unitl to now",TimeUtils.formatDate(now)));
-						couponDao.updateCoupon(new PuluoCouponImpl(
-								coupon.uuid(), coupon.couponType(), 
-								coupon.amount(), coupon.ownerUUID(), 
-								coupon.orderUUID(),coupon.locationUUID(), now));
-					}
-					PuluoRegistrationInvitationDao invitationDao = 
-							DaoApi.getInstance().invitationDao();
-					List<PuluoRegistrationInvitation> invitations = 
-							invitationDao.getUserReceivedInvitations(order.userId());
-					for(PuluoRegistrationInvitation i:invitations){
-						if(i.fromUUID()!=null){
-							log.info("give coupon to user "+i.fromUUID());
-						String couponUUID =UUID.randomUUID().toString();
-						couponDao.insertCoupon(new PuluoCouponImpl(
-								couponUUID,
-								CouponType.Deduction, 
-								Configurations.registrationAwardAmount, 
-								i.fromUUID(), 
-								null,
-								Configurations.puluoLocation.locationId(), 
-								DateTime.now().plusDays(14)));
-						invitationDao.updateCoupon(i.uuid(), couponUUID);
-						
-						}
-					}
+					invalidateCoupon(order.orderUUID());
+					grantNewCoupon(order.userId());
 					if (Configurations.enableSMSNotification) {
 						if (!mock)
 							sendNotification(order);
@@ -233,5 +205,40 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 		return trade_status.equals("TRADE_FINISHED")
 				|| trade_status.equals("TRADE_SUCCESS")
 				|| trade_status.equals("success");
+	}
+	
+	private void invalidateCoupon(String orderUUID) {
+		PuluoCouponDao couponDao = dsi.couponDao();
+		List<PuluoCoupon> coupons = couponDao.getByOrderUUID(orderUUID);
+		DateTime now =DateTime.now();
+		for(PuluoCoupon coupon:coupons){
+			log.info(Strs.join("update coupon ",coupon.uuid()," valid_unitl to now",TimeUtils.formatDate(now)));
+			couponDao.updateCoupon(new PuluoCouponImpl(
+					coupon.uuid(), coupon.couponType(), 
+					coupon.amount(), coupon.ownerUUID(), 
+					coupon.orderUUID(),coupon.locationUUID(), now));
+		}
+	}
+	
+	private void grantNewCoupon(String userUUID){
+		PuluoRegistrationInvitationDao invitationDao = dsi.invitationDao();
+		List<PuluoRegistrationInvitation> invitations = 
+				invitationDao.getUserReceivedInvitations(userUUID);
+		for(PuluoRegistrationInvitation i:invitations){
+			if(i.fromUUID()!=null){
+				log.info("give coupon to user "+i.fromUUID());
+			String couponUUID =UUID.randomUUID().toString();
+			dsi.couponDao().insertCoupon(new PuluoCouponImpl(
+					couponUUID,
+					CouponType.Deduction, 
+					Configurations.registrationAwardAmount, 
+					i.fromUUID(), 
+					null,
+					Configurations.puluoLocation.locationId(), 
+					DateTime.now().plusDays(14)));
+			invitationDao.updateCoupon(i.uuid(), couponUUID);
+			
+			}
+		}
 	}
 }
