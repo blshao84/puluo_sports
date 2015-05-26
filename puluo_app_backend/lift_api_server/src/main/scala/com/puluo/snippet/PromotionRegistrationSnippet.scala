@@ -29,8 +29,6 @@ object PromotionRegistrationSnippet extends PuluoSnippetUtil with PuluoAuthCodeS
   
   def getAuthMobile = mobile
 
-  def setAuthCode(ac: String) = authCode(Some(ac))
-
   def getAuthCode = authCode
 
   def render = {

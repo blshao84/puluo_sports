@@ -47,9 +47,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
   object authCode extends RequestVar[Option[String]](None)
 
   def getAuthMobile = mobile
-
-  def setAuthCode(ac: String) = authCode(Some(ac))
-
+  
   def getAuthCode = authCode
 
   def render = {
@@ -83,6 +81,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
         "#registered *" #> registered &
         "#remaining *" #> (event.capatcity() - registered) &
         "#desc *" #> info.description() &
+        "#auth_code" #> renderText(authCode) &
         renderSendAuthCode &
         renderCoupons(couponOptions, event, userFromLink) &
         renderMobile(userFromLink) &

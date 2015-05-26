@@ -27,7 +27,6 @@ import com.puluo.entity.PuluoUser
 trait PuluoAuthCodeSender extends Loggable {
   def mock: Boolean
   def getAuthMobile: RequestVar[Option[String]]
-  def setAuthCode(ac: String): Unit
   def getAuthCode: RequestVar[Option[String]]
 
   def renderSendAuthCode = {
@@ -40,7 +39,6 @@ trait PuluoAuthCodeSender extends Loggable {
           val ac = DaoApi.getInstance().authCodeRecordDao()
             .getRegistrationAuthCodeFromMobile(getAuthMobile.get.get).authCode()
           logger.info(s"Successfully load authCode=${ac} for mobile=${getAuthMobile.get.get}")
-          setAuthCode(ac)
           JsCmds.Alert("成功发送验证码，请输入收到的验证码并点击\"预订\"一步完成课程预订")
         } else {
           JsCmds.Alert("发送手机号失败，请确认正确输入手机号")
