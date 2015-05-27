@@ -60,6 +60,7 @@ class Boot extends Loggable {
       Menu("payment_success") / "payment_success" >> net.liftweb.sitemap.Loc.Hidden,
       Menu("payment") / "payment" >> net.liftweb.sitemap.Loc.Hidden,
       Menu("promotion") / "promotion" >> net.liftweb.sitemap.Loc.Hidden,
+      Menu("event") / "event" >> net.liftweb.sitemap.Loc.Hidden,
       Menu("single_event") / "single_event" >> net.liftweb.sitemap.Loc.Hidden))
   }
 

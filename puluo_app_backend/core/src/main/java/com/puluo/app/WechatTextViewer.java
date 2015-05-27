@@ -4,12 +4,16 @@ import com.puluo.weichat.PuluoWechatTokenCache;
 import com.puluo.weichat.WechatNewsContentItem;
 import com.puluo.weichat.WechatNewsItem;
 import com.puluo.weichat.WechatTextMediaListResult;
+import com.puluo.weichat.WechatUserInfo;
 import com.puluo.weichat.WechatUtil;
 
 public class WechatTextViewer {
 
 	public static void main(String[] args) {
-		dumpWechatText();
+		//dumpWechatText();
+		String token = PuluoWechatTokenCache.token();
+		WechatUserInfo user = WechatUtil.getUserInfo(token, "oNTPZs3zRWRyayWY7NDfBxo0m2dY");
+		System.out.println(user);
 
 	}
 

@@ -49,7 +49,7 @@ public class WechatUtil {
 	public final static String CREATE_BUTTON = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
 	public final static String GET_MEDIA = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=ACCESS_TOKEN";
 	public final static String GET_MEDIA_LIST = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=ACCESS_TOKEN";
-
+	public final static String GET_USER_INFO = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
 	/**
 	 * 获取access_token对象
 	 * 
@@ -82,6 +82,20 @@ public class WechatUtil {
 		return accessToken;
 	}
 
+	public static WechatUserInfo getUserInfo(String token,String openid) {
+		String requestUrl = GET_USER_INFO.replace("ACCESS_TOKEN", token).replace("OPENID", openid);
+		JSONObject jsonObject = httpsJsonRequest(requestUrl, "GET",null);
+		Gson gson = new Gson();
+		try {
+			return gson.fromJson(jsonObject.toString(),
+					WechatUserInfo.class);
+		} catch (JsonSyntaxException e) {
+			log.error("unable to parse :" + jsonObject.toString());
+			return null;
+		}
+
+	}
+	
 	public static WechatTextMediaListResult getTextMediaList(String token) {
 		return getTextMediaList(token, 0, 20);
 	}
