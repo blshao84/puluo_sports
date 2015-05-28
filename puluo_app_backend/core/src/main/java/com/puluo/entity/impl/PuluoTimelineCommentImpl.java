@@ -2,6 +2,8 @@ package com.puluo.entity.impl;
 
 import org.joda.time.DateTime;
 
+import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoTimelineComment;
 import com.puluo.entity.PuluoTimelinePost;
 import com.puluo.entity.PuluoUser;
@@ -18,9 +20,9 @@ public class PuluoTimelineCommentImpl implements PuluoTimelineComment {
 	//we never physically delete comments from db, only mark them as deleted
 	private final boolean deleted;
 
-	public PuluoTimelineCommentImpl(String comment_uuid, String uuid, String timeline_uuid,
+	public PuluoTimelineCommentImpl(String uuid, String timeline_uuid,
 			String fromUser_uuid, String toUser_uuid, String comment_content,
-			DateTime creationTimestamp, boolean read,boolean deleted) {
+			DateTime creationTimestamp, boolean read, boolean deleted) {
 		super();
 		this.uuid = uuid;
 		this.timeline_uuid = timeline_uuid;
@@ -59,20 +61,28 @@ public class PuluoTimelineCommentImpl implements PuluoTimelineComment {
 	
 	@Override
 	public PuluoTimelinePost timeline() {
-		// TODO Auto-generated method stub
-		return null;
+		return timeline(DaoApi.getInstance());
+	}
+
+	public PuluoTimelinePost timeline(PuluoDSI dsi) {
+		return dsi.postDao().getByUUID(timeline_uuid);
 	}
 
 	@Override
 	public PuluoUser fromUser() {
-		// TODO Auto-generated method stub
-		return null;
+		return fromUser(DaoApi.getInstance());
+	}
+
+	public PuluoUser fromUser(PuluoDSI dsi) {
+		return dsi.userDao().getByUUID(fromUser_uuid);
 	}
 
 	@Override
 	public PuluoUser toUser() {
-		// TODO Auto-generated method stub
-		return null;
+		return toUser(DaoApi.getInstance());
 	}
-
+	
+	public PuluoUser toUser(PuluoDSI dsi) {
+		return dsi.userDao().getByUUID(toUser_uuid);
+	}
 }

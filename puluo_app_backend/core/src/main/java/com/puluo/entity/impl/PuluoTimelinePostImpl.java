@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import com.puluo.dao.PuluoDSI;
+import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoTimelineComment;
 import com.puluo.entity.PuluoTimelineLike;
@@ -49,21 +51,31 @@ public class PuluoTimelinePostImpl implements PuluoTimelinePost {
 	// tables
 	@Override
 	public PuluoUser owner() {
-		return null;
+		return owner(DaoApi.getInstance());
+	}
+	
+	public PuluoUser owner(PuluoDSI dsi) {
+		return dsi.userDao().getByUUID(owner_uuid);
 	}
 	
 	@Override
 	public PuluoEvent event() {
-		return null;
+		return event(DaoApi.getInstance());
+	}
+
+	public PuluoEvent event(PuluoDSI dsi) {
+		return dsi.eventDao().getEventByUUID(event_uuid);
 	}
 
 	@Override
 	public List<PuluoTimelineLike> likes() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<PuluoTimelineComment> comments() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

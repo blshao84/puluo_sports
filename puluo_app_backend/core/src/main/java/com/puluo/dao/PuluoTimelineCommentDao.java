@@ -9,7 +9,7 @@ public interface PuluoTimelineCommentDao {
 	
 	public boolean createTable();
 	
-	public String saveTimelineComment(String timeline_uuid, String from_user_uuid, String comment);
+	public String saveTimelineComment(String timeline_uuid, String replier, String reply_to, String comment);
 	
 	public String removeTimelineComment(String comment_uuid);
 	

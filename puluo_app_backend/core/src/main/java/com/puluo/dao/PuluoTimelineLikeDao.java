@@ -1,5 +1,9 @@
 package com.puluo.dao;
 
+import java.util.List;
+
+import com.puluo.entity.PuluoTimelineLike;
+
 
 public interface PuluoTimelineLikeDao {
 	
@@ -9,5 +13,5 @@ public interface PuluoTimelineLikeDao {
 	
 	public String removeTimelineLike(String timeline_uuid, String from_user_uuid);
 	
-	public int getTotalLikes(String timeline_uuid);
+	public List<PuluoTimelineLike> getTotalLikes(String timeline_uuid);
 }
