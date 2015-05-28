@@ -12,10 +12,28 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
  
 public class FileIOUtil {
+	
+	public static byte[] readBytes(InputStream in) throws IOException {  
+		BufferedInputStream bufin = new BufferedInputStream(in);  
+        int buffSize = 1024;  
+        ByteArrayOutputStream out = new ByteArrayOutputStream(buffSize);  
+   
+        byte[] temp = new byte[buffSize];  
+        int size = 0;  
+        while ((size = bufin.read(temp)) != -1) {  
+            out.write(temp, 0, size);  
+        }  
+        bufin.close();  
+  
+        byte[] content = out.toByteArray();  
+        return content;  
+    }  
+	
 	public static byte[] read(String filename) throws IOException {  
 		  
         File f = new File(filename);  

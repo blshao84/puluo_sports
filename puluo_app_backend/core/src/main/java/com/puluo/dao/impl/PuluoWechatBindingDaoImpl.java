@@ -61,6 +61,13 @@ public class PuluoWechatBindingDaoImpl extends DalTemplate implements
 	public boolean deleteByUserMobile(String mobile){
 		return super.deleteByUniqueKey("user_mobile", mobile);
 	}
+	
+	public List<PuluoWechatBinding> getAll() {
+		SqlReader reader = getReader();
+		String selectSQL = new StringBuilder().append("select * from ")
+				.append(super.getFullTableName()).toString();
+		return  reader.query(selectSQL, new PuluoWechatBindingRowMapper());
+	}
 
 	@Override
 	public PuluoWechatBinding findByOpenId(String openId) {
