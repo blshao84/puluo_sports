@@ -11,6 +11,7 @@ import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoPrivateMessage;
 import com.puluo.entity.PuluoUser;
+import com.puluo.enumeration.SortDirection;
 import com.puluo.result.message.ListMessageResult;
 import com.puluo.result.message.MessageResult;
 import com.puluo.util.Log;
@@ -48,7 +49,7 @@ public class ListMessageAPI extends PuluoAPI<PuluoDSI, ListMessageResult> {
 		PuluoPrivateMessageDao messagedao = dsi.privateMessageDao();
 		DateTime now = DateTime.now();
 		List<PuluoPrivateMessage> messages = messagedao.getMessagesByUser(
-				from_user_uuid, to_user_uuid, since, now,limit,offset);
+				from_user_uuid, to_user_uuid, since, now,limit,offset,SortDirection.Asc);
 		List<MessageResult> messagelist = new ArrayList<MessageResult>();
 		for (int i = 0; i < messages.size(); i++) {
 			PuluoPrivateMessage msg = messages.get(i);

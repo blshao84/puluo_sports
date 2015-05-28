@@ -11,6 +11,7 @@ import com.puluo.dao.PuluoPrivateMessageDao;
 import com.puluo.entity.PuluoPrivateMessage;
 import com.puluo.entity.impl.PuluoPrivateMessageImpl;
 import com.puluo.enumeration.PuluoMessageType;
+import com.puluo.enumeration.SortDirection;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
@@ -205,7 +206,7 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 	@Override
 	public List<PuluoPrivateMessage> getMessagesByUser(String from_user_uuid,
 			String to_user_uuid, DateTime time_from, DateTime time_to,
-			int limit, int offset) {
+			int limit, int offset, SortDirection direction) {
 		try {
 			SqlReader reader = getReader();
 			StringBuilder selectSQL = new StringBuilder()
@@ -214,12 +215,12 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			String query = buildMessageQuery(from_user_uuid, to_user_uuid,
 					time_from, time_to);
 			selectSQL.append(query);
-			selectSQL.append(" order by created_at desc");
+			selectSQL.append(" order by created_at ").append(direction.toString());
 			if (limit > 0)
 				selectSQL.append(" limit ").append(limit);
 			if (offset > 0)
 				selectSQL.append(" offset ").append(offset);
-			selectSQL.append(") t order by t.created_at desc");
+			selectSQL.append(") t order by t.created_at ").append(direction.toString());
 			log.info(selectSQL.toString());
 			List<PuluoPrivateMessage> entities = reader.query(
 					selectSQL.toString(), new PrivateMessageMapper());

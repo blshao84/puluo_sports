@@ -13,6 +13,7 @@ import com.puluo.dao.impl.DaoTestApi;
 import com.puluo.entity.PuluoPrivateMessage;
 import com.puluo.entity.impl.PuluoPrivateMessageImpl;
 import com.puluo.enumeration.PuluoMessageType;
+import com.puluo.enumeration.SortDirection;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
@@ -142,19 +143,19 @@ public class PuluoPrivateMessageDaoTest {
 		log.info("testGetMessagesByUser start!");
 		
 		PuluoPrivateMessageDao messageDao = DaoTestApi.privateMessageDevDao;
-		List<PuluoPrivateMessage> messages = messageDao.getMessagesByUser(null, null, null, null,0,0);
+		List<PuluoPrivateMessage> messages = messageDao.getMessagesByUser(null, null, null, null,0,0,SortDirection.Desc);
 		Assert.assertEquals("messages' size should be 4", 4, messages.size());
-		messages = messageDao.getMessagesByUser(user2, null, null, null,0,0);
+		messages = messageDao.getMessagesByUser(user2, null, null, null,0,0,SortDirection.Desc);
 		Assert.assertEquals("messages' size should be 3", 3, messages.size());
-		messages = messageDao.getMessagesByUser(null, user3, null, null,0,0);
+		messages = messageDao.getMessagesByUser(null, user3, null, null,0,0,SortDirection.Desc);
 		Assert.assertEquals("messages' size should be 3", 3, messages.size());
-		messages = messageDao.getMessagesByUser(user2, null, TimeUtils.parseDateTime("2015-03-27 12:35:59"), null,0,0);
+		messages = messageDao.getMessagesByUser(user2, null, TimeUtils.parseDateTime("2015-03-27 12:35:59"), null,0,0,SortDirection.Desc);
 		Assert.assertEquals("messages' size should be 2", 2, messages.size());
-		messages = messageDao.getMessagesByUser(user2, user3, null, TimeUtils.parseDateTime("2015-03-30 12:35:59"),0,0);
+		messages = messageDao.getMessagesByUser(user2, user3, null, TimeUtils.parseDateTime("2015-03-30 12:35:59"),0,0,SortDirection.Desc);
 		Assert.assertEquals("messages' size should be 2", 2, messages.size());
-		messages = messageDao.getMessagesByUser(user1, user3, TimeUtils.parseDateTime("2015-03-27 12:35:59"), TimeUtils.parseDateTime("2015-03-27 12:35:59"),0,0);
+		messages = messageDao.getMessagesByUser(user1, user3, TimeUtils.parseDateTime("2015-03-27 12:35:59"), TimeUtils.parseDateTime("2015-03-27 12:35:59"),0,0,SortDirection.Desc);
 		Assert.assertEquals("messages' size should be 1", 1, messages.size());
-		messages = messageDao.getMessagesByUser(user2, user3, TimeUtils.parseDateTime("2015-03-28 12:36:59"), TimeUtils.parseDateTime("2015-03-29 12:34:59"),0,0);
+		messages = messageDao.getMessagesByUser(user2, user3, TimeUtils.parseDateTime("2015-03-28 12:36:59"), TimeUtils.parseDateTime("2015-03-29 12:34:59"),0,0,SortDirection.Desc);
 		Assert.assertEquals("messages' size should be 0", 0, messages.size());
 		
 		
