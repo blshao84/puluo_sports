@@ -1,11 +1,13 @@
 package com.puluo.api.service;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.joda.time.DateTime;
 
+import com.mashape.unirest.http.Unirest;
 import com.puluo.api.auth.UserRegistrationAPI;
 import com.puluo.api.event.EventSearchAPI;
 import com.puluo.api.result.wechat.WechatArticleMessage;
@@ -25,13 +27,18 @@ import com.puluo.enumeration.EventStatus;
 import com.puluo.enumeration.PuluoSMSType;
 import com.puluo.enumeration.SortDirection;
 import com.puluo.result.ApiErrorResult;
+import com.puluo.result.ImageUploadServiceResult;
+import com.puluo.service.PuluoService;
+import com.puluo.util.FileIOUtil;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.PasswordEncryptionUtil;
 import com.puluo.util.Strs;
+import com.puluo.weichat.PuluoWechatTokenCache;
+import com.puluo.weichat.WechatUserInfo;
 import com.puluo.weichat.WechatUtil;
 
-public class WechatTextAPI extends WechatAPI{
+public class WechatTextAPI extends WechatAPI {
 	public static Log log = LogFactory.getLog(WechatTextAPI.class);
 	public final String to_user;
 	public final String from_user;
@@ -90,7 +97,7 @@ public class WechatTextAPI extends WechatAPI{
 		case 0:
 			if (isMobile()) {
 				SMSServiceAPI api = new SMSServiceAPI(
-						PuluoSMSType.UserRegistration, content,false);
+						PuluoSMSType.UserRegistration, content, false);
 				api.execute();
 				if (api.error == null) {
 					dsi.wechatBindingDao().updateMobile(from_user, content);
@@ -118,16 +125,18 @@ public class WechatTextAPI extends WechatAPI{
 				// system
 				String newUserUUID = api.userUUID();
 				dsi.wechatBindingDao().updateBinding(from_user, 2);
-				dsi.couponDao().insertCoupon(new PuluoCouponImpl(
-					      UUID.randomUUID().toString(),
-					      CouponType.Deduction,
-					      Configurations.registrationAwardAmount,
-					      newUserUUID,
-					      null,
-					      Configurations.puluoLocation.locationId(),
-					      DateTime.now().plusDays(14)));
-				msg = new WechatTextMessage(
-						"您已成功注册并将手机与微信绑定！"
+				dsi.couponDao().insertCoupon(
+						new PuluoCouponImpl(UUID.randomUUID().toString(),
+								CouponType.Deduction,
+								Configurations.registrationAwardAmount,
+								newUserUUID, null, Configurations.puluoLocation
+										.locationId(), DateTime.now().plusDays(
+										14)));
+
+				PuluoUser user = dsi.userDao().getByMobile(binding.mobile());
+				updateUserInfo(user, from_user);
+
+				msg = new WechatTextMessage("您已成功注册并将手机与微信绑定！"
 						+ "我们向您的账户中存入了一张普罗团课的免费体验券，"
 						+ "立刻点击‘酷炫课程’并注册您感兴趣的课程，然后加入我们吧！");
 			} else if (api.error.equals(ApiErrorResult.getError(6))) {
@@ -141,7 +150,8 @@ public class WechatTextAPI extends WechatAPI{
 			}
 			break;
 		case 2:
-			msg = new WechatTextMessage("您已经成功将手机与微信绑定并且注册为普罗运动的会员，您收到的验证码为您的初始密码！");
+			msg = new WechatTextMessage(
+					"您已经成功将手机与微信绑定并且注册为普罗运动的会员，您收到的验证码为您的初始密码！");
 			break;
 		default:
 			dsi.wechatBindingDao().updateBinding(from_user, 0);
@@ -152,30 +162,32 @@ public class WechatTextAPI extends WechatAPI{
 	}
 
 	private WechatMessage processBindingMessage(PuluoWechatBinding binding) {
-		if("bd".equals(content)){
+		if ("bd".equals(content)) {
 			return new WechatTextMessage("您已经成功注册啦！");
 		} else {
-			EventSearchAPI api = new EventSearchAPI(
-				DateTime.now(),//today 
-				null, // don't restrict event_to_date
-				content, 
-				null, //ignore level
-				EventSortType.Price, 
-				SortDirection.Asc, 
-				0, 0, 0, //ignore location for now
-				EventStatus.Open, 
-				null,5,0); // any event type
+			EventSearchAPI api = new EventSearchAPI(DateTime.now(),// today
+					null, // don't restrict event_to_date
+					content, null, // ignore level
+					EventSortType.Price, SortDirection.Asc, 0, 0, 0, // ignore
+																		// location
+																		// for
+																		// now
+					EventStatus.Open, null, 5, 0); // any event type
 			api.execute();
 			List<PuluoEvent> events = api.searchedEvents;
 			log.info(String.format("searched %s events from wechat",
 					events.size()));
-			if(events.size()>0){
+			if (events.size() > 0) {
 				PuluoUser user = getUserFromOpenID(from_user);
 				String user_uuid;
-				if(user==null) user_uuid=""; else user_uuid=user.userUUID();
+				if (user == null)
+					user_uuid = "";
+				else
+					user_uuid = user.userUUID();
 				List<WechatArticleMessage> articles = new ArrayList<WechatArticleMessage>();
 				for (PuluoEvent e : events) {
-					articles.add(WechatUtil.createArticleMessageFromEvent(e,user_uuid));
+					articles.add(WechatUtil.createArticleMessageFromEvent(e,
+							user_uuid));
 				}
 				return new WechatNewsMessage(articles);
 			} else
@@ -185,10 +197,12 @@ public class WechatTextAPI extends WechatAPI{
 
 	private WechatMessage processNonBindingMessage() {
 		if (content.equals("bd")) {
-			dsi.wechatBindingDao().saveBinding(UUID.randomUUID().toString(), from_user);
+			dsi.wechatBindingDao().saveBinding(UUID.randomUUID().toString(),
+					from_user);
 			return new WechatTextMessage("请您微信回复手机号，两步即可完成绑定！");
 		} else
-			return new WechatTextMessage(Strs.join("您还没有注册喔！点击右下角'我的普罗'->'快速注册'，一键完成！"));
+			return new WechatTextMessage(
+					Strs.join("您还没有注册喔！点击右下角'我的普罗'->'快速注册'，一键完成！"));
 	}
 
 	private boolean isMobile() {
@@ -203,4 +217,63 @@ public class WechatTextAPI extends WechatAPI{
 		}
 	}
 
+	private void updateUserInfo(PuluoUser user, String openId) {
+		try {
+			String token = PuluoWechatTokenCache.token();
+			WechatUserInfo info = WechatUtil.getUserInfo(token, openId);
+			if (user != null && info != null) {
+				String firstName = null;
+				String thumbnail = null;
+				String sex = null;
+				String country = null;
+				String province = null;
+				String city = null;
+				if (Strs.isEmpty(user.firstName()))
+					firstName = info.nickname;
+				if (Strs.isEmpty(user.thumbnail()))
+					thumbnail = saveThumbnail(info.headimgurl);
+				if (Strs.isEmpty(sex)) {
+					if (info.sex == 1) {
+						sex = "男";
+					} else if (info.sex == 2) {
+						sex = "女";
+					} else
+						sex = null;
+				}
+				if (Strs.isEmpty(user.country()))
+					country = info.country;
+				if (Strs.isEmpty(user.state()))
+					province = info.province;
+				if (Strs.isEmpty(user.city()))
+					city = info.city;
+				if (firstName != null || thumbnail != null || sex != null
+						|| country != null || province != null || city != null) {
+					log.info(Strs.join("update user ", user.mobile(), "\n",
+							info.toString()));
+					dsi.userDao().updateProfile(user, info.nickname, null,
+							thumbnail, null, null, sex, null, info.country,
+							info.province, info.city, null);
+				} else {
+					log.warn(Strs.join("no update for user ", user.mobile()));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(Strs.join("failed to update user ",user.userUUID()," from wechat id ",openId));
+		}
+	}
+
+	private String saveThumbnail(String link) {
+		try {
+			InputStream in = Unirest.get(link).asBinary().getBody();
+			byte[] data = FileIOUtil.readBytes(in);
+			ImageUploadServiceResult res = PuluoService.image.saveImage(data,
+					UUID.randomUUID().toString());
+			return res.image_link;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
