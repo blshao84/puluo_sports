@@ -121,8 +121,7 @@ public class PuluoUserImpl implements PuluoUser {
 	@Override
 	public String thumbnail() {
 		if (thumbnail == null)
-			// FIXME: should have a default img!!!
-			return "";
+			return "empty_head";
 		else
 			return thumbnail;
 	}

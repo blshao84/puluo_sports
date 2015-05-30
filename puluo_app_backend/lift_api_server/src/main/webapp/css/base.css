@@ -1,0 +1,81 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* 禁止webkit横屏改变字体大小 */
+html { font-family: sans-serif; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
+/* 全局共用 */
+* { margin: 0px; padding: 0px; }
+img { border:0;}
+body {-webkit-user-select: none; -webkit-text-size-adjust: none; font-family: helvetica; color: #4C4C4C; font-size:14px; }
+ul, li { list-style: none; }
+a, button, label, textarea, div, select, option { -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+i, b { font-style: normal; }
+img { max-width: 100%; }
+a { color: #666; text-decoration: none; }
+a:hover { text-decoration: none; color: #444444; }
+li { overflow: hidden; list-style-type: none; }
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+h1, h2 { font-size: 1.5em; }
+/* 清除浮动 */
+.clearfix:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
+.clearfix { *zoom:1;
+}
+.wrapper { width: 100%; background: #ececec; }
+.fl { float: left; }
+.fr { float: right; }
+.clear { clear: both }
+.mt20 { margin-top:20px;}
+.mt12 { margin-top:12px;}
+.t-center { text-align:center;}
+.t-left { text-align:left;}
+.t-right { text-align:right;}
+.hidden { display:none;}
+.ml10 { margin-left:10px;}
+
+/*index*/
+body { width: 100%; height: 100%; background-color: #fff }
+.top-word { font-size:18px; height:50px; line-height:50px; padding:0 10px;}
+.banner { position:relative; z-index:999; /*background: url(../img/banner.jpg) no-repeat 0 0;*/ min-width: 320px; max-width:100%;margin:0 auto; height:50%;min-height:200px; overflow: hidden;background-size:100%;-webkit-box-sizing: border-box; -moz-box-sizing:border-box;}
+.ui-button { display: block; text-align: center; text-decoration: none; vertical-align: middle; cursor: pointer; width: 100%; font-size: 18px; line-height: 40px; height: 40px; color: #fff; *zoom:1;
+*overflow:visible;
+font-weight: 400; font-weight: bold\0; *font-weight:700;
+_font-weight: 700; background-color: #fa7111; border: 0; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; -webkit-box-shadow: 0 2px 0 #b76f09; -moz-box-shadow: 0 2px 0 #b76f09; box-shadow: 0 2px 0 #b76f09; }
+.ui-button:hover { background: #f87b24; color:#fff; }
+.button { padding:20px 30px;}
+.item { border-top:1px solid #ededed; margin:10px 0;}
+.item  li{ border-bottom:1px solid #ededed; line-height:24px; padding:10px 10px; font-size:14px; position:relative}
+.item li a { color:#3152fa}
+.item li i { position:absolute;top:12px;background-image:url(/image/sprite.png); background-repeat:no-repeat; width:18px; height:20px; vertical-align: middle;}
+.icon1 { background-position:-18px -7px; left:10px; }
+.icon2 { background-position:-18px -52px; left:10px; }
+.icon3 { background-position:-18px -98px; left:10px; }
+.icon4 { background-position:-18px -143px; left:10px; }
+.icon5 { background-position:-18px -188px; left:10px; }
+.icon6 { background-position:-18px -222px; left:10px; }
+.icon7 { background-position:-18px -267px; left:10px; }
+.icon8 { background-position:-18px -303px; left:10px; }
+.icon9 { background-position:-18px -348px; left:10px; }
+.icon10 { background-position:-18px -393px; left:10px; }
+.icon11 { background-position:-18px -438px; left:10px; }
+.ico-more { right:10px; background:-18px -348px;}
+.item-cont { margin-left:30px; display:inline-block}
+.cont h2 { font-size:16px; font-weight:normal; padding:0 10px;}
+/*.user { padding-bottom:50px;}*/
+.user li:last-child { border-bottom:0;}
+.head-pic { height:38px; width:38px;border-radius: 50%; display:inline-block; overflow:hidden; text-align:center; margin-top:2px;}
+.head-intro { display:inline-block; margin-left:10px; font-size:12px; line-height:18px}
+.head-intro h3 { color:#111; font-size:14px; line-height:24px;}
+
+.ft-menu { position:fixed; bottom:0; left:0; right:0; width:100%;  background:#fff; border-top:1px solid #ededed;  text-align:center; padding:15px 0}
+.ft-menu li { width:24%; text-align:center; display:inline-block;}
+.ft-menu i { display: inline-block; width:20px; height:20px; background-image:url(/image/sprite.png); background-repeat:no-repeat;}
+.menu-ico1 { background-position:-65px -282px;}
+.menu-ico2 { background-position:-134px -282px;}
+.menu-ico3 { background-position:-201px -282px;}
+.menu-ico4 { background-position:-267px -282px;}
+
+.ft-menu .cur .menu-ico1 { background-position:-65px -307px;}
+.ft-menu .cur .menu-ico2 { background-position:-134px -307px;}
+.ft-menu .cur .menu-ico3 { background-position:-201px -307px;}
+.ft-menu .cur .menu-ico4 { background-position:-267px -307px;}

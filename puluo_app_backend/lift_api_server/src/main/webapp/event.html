@@ -1,0 +1,85 @@
+<lift:surround with="bootstrap_base" at="content">
+<div data-lift="EventDisplaySnippet.render">
+<div id="event">
+<div id="name" class="top-word text-center">Weapon of Ass Reduction</div>
+<!--top--> 
+<!--banner-->
+<div class="banner"><img id="pic" class="img-responsive center-block" src="/image/banner.jpg"></div>
+<!--banner--> 
+<!--cont-->
+<div class="cont">
+	<ul class="item">
+		<li><i class="icon1"></i><span class="item-cont">时间：<span id="time"> 1.00-12.00 2015-09-28</span></span></li>
+		<li><i class="icon2"></i><span class="item-cont">教练：<span id="coach"> Mr. White</span></span></li>
+		<li><i class="icon3"></i><span class="item-cont">地址：<span id="loc"> 888yanping road</span></span></li>
+		<li><i class="icon4"></i><span class="item-cont">时长：<span id="duration"> 119 photos</span> 分钟</span></li>
+		<li><i class="icon5"></i>
+			<span class="item-cont">
+				价格：
+				<span class="priceDiv" style="TEXT-DECORATION: line-through" id="price"> 
+					119 photos
+				</span> 
+				元
+			</span>
+			</li>
+		<li><i class="icon6"></i>
+		<span class="item-cont">
+			折扣：
+			<span class="discountDiv" style="color:red;font-size:16px" id="discount"> 
+				119 photos
+			</span> 
+			元
+		</span>
+		</li>
+		<li><i class="icon7"></i><span class="item-cont">剩余：<span id="remaining"> 119 photos</span> 人</span></li>
+		<li><i class="icon8"></i><span class="item-cont">描述：<span id="desc"></span></span></li>
+		<li><i class="icon9"></i><span class="item-cont">电话：&nbsp;&nbsp;&nbsp;&nbsp;<span id="mobile"></span></span></li>
+		<li id="auth_code_row_name" style="display:none">
+			<i class="icon10"></i>
+			<span class="item-cont">
+				验证码：<span id="auth_code"></span>
+				&nbsp;&nbsp;&nbsp;&nbsp;	
+				<button id="send_auth_code" class="btn btn-primary"></button>
+			</span>
+		</li>
+		<li class="couponDev"><i class="icon11"></i><span class="item-cont">优惠券：<span id="coupon"></span></span></li>
+</ul>
+<div class="button"><span class="text-center" id="reserve-msg"></span><a id="reserve" href="javascript:void(0)" class="ui-button">Reserve</a></div>
+
+	<h2><span id="registered">23</span> 人注册</h2>
+	<ul class="item user">
+		<li>
+			<div class="head-pic"><img id="user_img" src="/image/head.jpg"></div>
+			<div class="head-intro ">
+				<h3 id="user_name">Michael Sabai</h3>
+			</div>
+		</li>
+	</ul>
+</div>
+</div>
+</div>
+<script>
+    function show() {
+        var box = document.getElementById("desc");
+        var text = box.innerHTML;
+        var newBox = document.createElement("span");
+        var btn = document.createElement("a");
+        newBox.innerHTML = text.substring(0, 100);
+        btn.innerHTML = text.length > 100 ? "...更多" : "";
+        btn.href = "###";
+        btn.onclick = function() {
+            if (btn.innerHTML == "...更多") {
+                btn.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;收起";
+                newBox.innerHTML = text;
+            } else {
+                btn.innerHTML = "...更多";
+                newBox.innerHTML = text.substring(0, 100);
+            }
+        }
+        box.innerHTML = "";
+        box.appendChild(newBox);
+        box.appendChild(btn);
+    }
+    show();
+</script>
+</lift:surround>

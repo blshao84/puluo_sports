@@ -40,7 +40,7 @@ public class PuluoEventPosterImpl implements PuluoEventPoster {
 		if (image_name.equals("")) {
 			return Strs.join(Configurations.emptyImage);
 		} else {
-			return Configurations.imgHttpLink(image_name);
+			return Strs.join(Configurations.imgHttpLink(image_name),"!rect");
 		}
 	}
 

@@ -4,12 +4,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 
+import com.puluo.result.ImageUploadServiceResult;
 import com.puluo.service.PuluoService;
 
 public class ImageUploader {
 
 	public static void main(String[] args) {
-		File file = new File("/Users/blshao/Downloads/empty.jpeg");
+		File file = new File("/Users/blshao/Desktop/puluo/puluo logo.jpg");
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		byte[] buf = new byte[1024];
 		FileInputStream fis = null;
@@ -20,11 +21,12 @@ public class ImageUploader {
 		        System.out.println("read " + readNum + " bytes,");
 		    }
 		} catch (Exception ex) {
+			ex.printStackTrace();
 		} 
 		byte[] bytes = bos.toByteArray();
-		String status = 
-				PuluoService.image.saveImage(bytes, "empty.jpg").status;
-		System.out.println(status);
+		ImageUploadServiceResult status = 
+				PuluoService.image.saveImage(bytes, "empty_head");
+		System.out.println(status.toJson());
 	}
 
 }
