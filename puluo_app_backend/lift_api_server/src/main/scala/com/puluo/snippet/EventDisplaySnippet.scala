@@ -115,7 +115,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
 	          } else {
 	            val coupons = DaoApi.getInstance().couponDao().getByUserUUID(user.userUUID(), true)
 	            val cmd = if (coupons.isEmpty()) JsCmds.Noop else JsCmds.Alert("您的账户中有优惠券噢！")
-	            cmd & JsCmds.RedirectTo(s"/single_event?uuid=${event.eventUUID}&user_uuid=${user.userUUID()}")
+	            cmd & JsCmds.RedirectTo(s"/event?uuid=${event.eventUUID}&user_uuid=${user.userUUID()}")
 	          }
 	        } else {
 	          verifyAuthCodeForRegistration(

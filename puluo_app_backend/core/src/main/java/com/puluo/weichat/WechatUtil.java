@@ -283,7 +283,7 @@ public class WechatUtil {
 			img = Configurations.imgHttpLink("empty.jpeg");
 		}
 		String page_url = Strs.join("http://",Configurations.webServer(),
-				"/single_event?uuid=", event.eventUUID(), "&user_uuid=",
+				"/event?uuid=", event.eventUUID(), "&user_uuid=",
 				user_uuid);
 		return new WechatArticleMessage(name, desc, img, page_url, false);
 	}
