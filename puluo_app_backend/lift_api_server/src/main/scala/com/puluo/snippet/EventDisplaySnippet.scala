@@ -39,6 +39,8 @@ import com.puluo.util.PuluoAuthCodeSender
 import org.joda.time.DateTime
 import com.puluo.enumeration.CouponType
 import com.puluo.entity.impl.PuluoEventAttendee
+import com.puluo.api.event.EventPromotionFactory
+import com.puluo.api.event.EventPromotionFactory
 
 object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender with Loggable {
   val mock = false
@@ -72,7 +74,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
       val address = if (loc == null) "" else loc.address()
       val pic = info.poster().headOption.map(_.imageURL()).getOrElse("empty.jpg")
       val attendees = event.attendees()
-      val isRegistered = attendees.find(_.uuid()==userUUID).isDefined
+      val isRegistered = attendees.find(_.uuid() == userUUID).isDefined
       "#pic [src]" #> s"${pic}" &
         "#name *" #> info.name() &
         "#time *" #> TimeUtils.formatDate(event.eventTime()) &
@@ -80,90 +82,93 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
         "#coach *" #> info.coachName() &
         "#duration *" #> info.duration() &
         renderPrice(event) &
-        renderRegisteredUsers(event,attendees) &
+        renderRegisteredUsers(event, attendees) &
         "#desc *" #> info.description() &
         "#auth_code" #> renderText(authCode) &
         renderSendAuthCode &
         renderCoupons(couponOptions, event, userFromLink) &
         renderMobile(userFromLink) &
-        renderReserve(userFromLink, event,isRegistered)
+        renderReserve(userFromLink, event, isRegistered)
     }
 
   }
 
-  private def renderRegisteredUsers(event: PuluoEvent,attendees:Seq[PuluoEventAttendee]) = {
+  private def renderRegisteredUsers(event: PuluoEvent, attendees: Seq[PuluoEventAttendee]) = {
     "#remaining *" #> (event.capatcity - attendees.size) &
-    "#registered *" #> attendees.size &
+      "#registered *" #> attendees.size &
       ".user *" #> attendees.map { user =>
         "#user_img [src]" #> s"${user.thumbnail()}!head" &
-        "#user_name *" #> user.name()
+          "#user_name *" #> user.name()
       }
   }
 
-  private def renderReserve(userFromLink: PuluoUser, event: PuluoEvent,isRegistered:Boolean) = {
-    if(isRegistered){
-      "#reserve" #> "您已经注册该课程" 
-    }else{
-	    val userDao = DaoApi.getInstance().userDao()
-	    "#reserve" #> SHtml.ajaxButton("预定", () => {
-	      if (mobile.isDefined) {
-	        val user = if (userFromLink != null) userFromLink
-	        else userDao.getByMobile(mobile.get.get)
-	        if (user != null) {
-	          if (userFromLink != null) {
-	            doEventRegistration(user, event)
-	          } else {
-	            val coupons = DaoApi.getInstance().couponDao().getByUserUUID(user.userUUID(), true)
-	            val cmd = if (coupons.isEmpty()) JsCmds.Noop else JsCmds.Alert("您的账户中有优惠券噢！")
-	            cmd & JsCmds.RedirectTo(s"/event?uuid=${event.eventUUID}&user_uuid=${user.userUUID()}")
-	          }
-	        } else {
-	          verifyAuthCodeForRegistration(
-	            onNoInput = () => {
-	              JsCmds.JsShowId("auth_code_row_name") &
-	                JsCmds.JsShowId("auth_code_row_value") &
-	                JsCmds.Alert("您还不是普罗运动的注册用户，请点击\"发送验证码\"一步完成认证")
-	            },
-	            onSuccess = (newUser: PuluoUser) => {
-	              val couponDao = DaoApi.getInstance().couponDao()
-	              couponDao.insertCoupon(new PuluoCouponImpl(
-	                UUID.randomUUID().toString(),
-	                CouponType.Deduction,
-	                Configurations.registrationAwardAmount,
-	                newUser.userUUID(),
-	                null,
-	                Configurations.puluoLocation.locationId(),
-	                DateTime.now.plusDays(14)))
-	              JsCmds.RedirectTo(s"/event?uuid=${event.eventUUID}&user_uuid=${newUser.userUUID()}")
-	
-	            },
-	            onFailure = () => {
-	              JsCmds.Alert("抱歉，您输入的验证码不正确")
-	            })
-	        }
-	      } else JsCmds.Alert("请输入您的电话")
-	    })
+  private def renderReserve(userFromLink: PuluoUser, event: PuluoEvent, isRegistered: Boolean) = {
+    if (isRegistered) {
+      "#reserve" #> "您已经注册该课程"
+    } else {
+      val userDao = DaoApi.getInstance().userDao()
+      "#reserve" #> SHtml.ajaxButton("预定", () => {
+        if (mobile.isDefined) {
+          val user = if (userFromLink != null) userFromLink
+          else userDao.getByMobile(mobile.get.get)
+          if (user != null) {
+            if (userFromLink != null) {
+              doEventRegistration(user, event)
+            } else {
+              val coupons = DaoApi.getInstance().couponDao().getByUserUUID(user.userUUID(), true)
+              val cmd = if (coupons.isEmpty()) JsCmds.Noop else JsCmds.Alert("您的账户中有优惠券噢！")
+              cmd & JsCmds.RedirectTo(s"/event?uuid=${event.eventUUID}&user_uuid=${user.userUUID()}")
+            }
+          } else {
+            verifyAuthCodeForRegistration(
+              onNoInput = () => {
+                JsCmds.JsShowId("auth_code_row_name") &
+                  JsCmds.JsShowId("auth_code_row_value") &
+                  JsCmds.Alert("您还不是普罗运动的注册用户，请点击\"发送验证码\"一步完成认证")
+              },
+              onSuccess = (newUser: PuluoUser) => {
+                val couponDao = DaoApi.getInstance().couponDao()
+                couponDao.insertCoupon(new PuluoCouponImpl(
+                  UUID.randomUUID().toString(),
+                  CouponType.Deduction,
+                  Configurations.registrationAwardAmount,
+                  newUser.userUUID(),
+                  null,
+                  Configurations.puluoLocation.locationId(),
+                  DateTime.now.plusDays(14)))
+                JsCmds.RedirectTo(s"/event?uuid=${event.eventUUID}&user_uuid=${newUser.userUUID()}")
+
+              },
+              onFailure = () => {
+                JsCmds.Alert("抱歉，您输入的验证码不正确")
+              })
+          }
+        } else JsCmds.Alert("请输入您的电话")
+      })
     }
   }
 
   private def doEventRegistration(user: PuluoUser, event: PuluoEvent) = {
-    val couponUUID: String = coupon.map(_.uuid()).getOrElse(null)
-    val api = new EventRegistrationAPI(event.eventUUID(), user.userUUID(), couponUUID, mock)
-    api.execute()
-    if (api.error == null) {
-      val order = DaoApi.getInstance().paymentDao().getOrderByUUID(api.orderUUID)
-      val amount = order.amount
-      if (amount == 0) {
-        JsCmds.Alert("恭喜您成功预订课程！") & JsCmds.Reload
-      } else {
-        val link = api.paymentLink
-        val uuid = UUID.randomUUID().toString()
-        val redirectLink = s"/payment?uuid=${uuid}"
-        AlipayLinkCache.put(uuid, link)
-        logger.info(s"jump to own iframe page ${uuid}=${redirectLink}")
-        JsCmds.RedirectTo(redirectLink)
-      }
-    } else JsCmds.Alert("注册课程时发生异常，请稍后再试")
+    val isEligible = EventPromotionFactory.checkReferalCount(event, user)
+    if (isEligible.second) {
+      val couponUUID: String = coupon.map(_.uuid()).getOrElse(null)
+      val api = new EventRegistrationAPI(event.eventUUID(), user.userUUID(), couponUUID, mock)
+      api.execute()
+      if (api.error == null) {
+        val order = DaoApi.getInstance().paymentDao().getOrderByUUID(api.orderUUID)
+        val amount = order.amount
+        if (amount == 0) {
+          JsCmds.Alert("恭喜您成功预订课程！") & JsCmds.Reload
+        } else {
+          val link = api.paymentLink
+          val uuid = UUID.randomUUID().toString()
+          val redirectLink = s"/payment?uuid=${uuid}"
+          AlipayLinkCache.put(uuid, link)
+          logger.info(s"jump to own iframe page ${uuid}=${redirectLink}")
+          JsCmds.RedirectTo(redirectLink)
+        }
+      } else JsCmds.Alert("注册课程时发生异常，请稍后再试")
+    } else JsCmds.Alert(isEligible.first)
   }
 
   private def renderCoupons(couponOptions: Seq[(String, String)], event: PuluoEvent, user: PuluoUser) = {
@@ -203,7 +208,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
     } else {
       "#price *" #> Strs.prettyDouble(event.price(), 2) &
         "#discount *" #> Strs.prettyDouble(event.discountedPrice(), 2) &
-      ".discountDiv [style]" #> "" &
+        ".discountDiv [style]" #> "" &
         ".priceDiv [style]" #> ""
     }
   }

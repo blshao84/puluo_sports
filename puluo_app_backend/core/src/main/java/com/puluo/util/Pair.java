@@ -14,8 +14,9 @@ import java.io.Serializable;
  */
 public class Pair<E1, E2> implements Serializable
 {
-    public E1 first;
-    public E2 second;
+	private static final long serialVersionUID = 1L;
+	public final E1 first;
+    public final E2 second;
 
     public Pair(E1 first, E2 second)
     {
@@ -34,30 +35,39 @@ public class Pair<E1, E2> implements Serializable
         return second;
     }
 
+   
     @Override
-    public int hashCode()
-    {
-        int hashFirst = first != null ? first.hashCode() : 0;
-        int hashSecond = second != null ? second.hashCode() : 0;
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((first == null) ? 0 : first.hashCode());
+		result = prime * result + ((second == null) ? 0 : second.hashCode());
+		return result;
+	}
 
-        return (hashFirst + hashSecond) * hashSecond + hashFirst;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pair other = (Pair) obj;
+		if (first == null) {
+			if (other.first != null)
+				return false;
+		} else if (!first.equals(other.first))
+			return false;
+		if (second == null) {
+			if (other.second != null)
+				return false;
+		} else if (!second.equals(other.second))
+			return false;
+		return true;
+	}
 
-    @Override
-    public boolean equals(Object other)
-    {
-        if (other instanceof Pair)
-        {
-            Pair otherPair = (Pair) other;
-            return ((this.first == otherPair.first || (this.first != null && otherPair.first != null && this.first
-                    .equals(otherPair.first))) && (this.second == otherPair.second || (this.second != null
-                    && otherPair.second != null && this.second.equals(otherPair.second))));
-        }
-
-        return false;
-    }
-
-    @Override
+	@Override
     public String toString()
     {
         return "(" + first + ", " + second + ")";

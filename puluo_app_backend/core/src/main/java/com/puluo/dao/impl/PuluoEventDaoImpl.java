@@ -284,11 +284,11 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 						.append(" price = " + event.originalPrice() + ",")
 						.append(" discounted_price = "
 								+ event.discountedPrice() + ",");
-				if (!Strs.isEmpty(event.eventInfo().eventInfoUUID())) {
+				if (!Strs.isEmpty(event.eventInfoUUID())) {
 					updateSQL.append(" info_uuid = '"
 							+ event.eventInfo().eventInfoUUID() + "',");
 				}
-				if (!Strs.isEmpty(event.eventLocation().locationId())) {
+				if (!Strs.isEmpty(event.eventLocationUUID())) {
 					updateSQL.append(" location_uuid = '"
 							+ event.eventLocation().locationId() + "',");
 				}
