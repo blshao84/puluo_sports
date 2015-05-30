@@ -59,7 +59,7 @@ public class PuluoEventPosterDaoTest {
 		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_5","image_url_5","event_info_uuid_0",DateTime.now().plusMinutes(1)));
 		List<PuluoEventPoster> posters = posterDao.getEventPosterByInfoUUID("event_info_uuid_0");
 		Assert.assertEquals("posters' size should be 5!", 5, posters.size());
-		String expectedImglink = Configurations.imgHttpLink("image_url_1");
+		String expectedImglink = Configurations.imgHttpLink("image_url_1!rect");
 		Assert.assertEquals("the first image url of the posters should be image_url_1!",expectedImglink , posters.get(0).imageURL());
 		log.info("testGetEventPoster done!");
 	}
@@ -72,8 +72,8 @@ public class PuluoEventPosterDaoTest {
 		posterDao.updateEventPhoto(new PuluoEventPosterImpl("uuid_6",null,null,DateTime.now()));
 		List<PuluoEventPoster> posters = posterDao.getEventPosterByInfoUUID("event_info_uuid_1");
 		PuluoEventPoster poster = posters.get(0);
-		String expectedImg = Configurations.imgHttpLink("image_url_6");
-		String expectedThumbnail = Configurations.imgHttpLink("image_url_6","");
+		String expectedImg = Configurations.imgHttpLink("image_url_6!rect");
+		String expectedThumbnail = Configurations.imgHttpLink("image_url_6!rect","");
 		Assert.assertEquals("poster's image url should be image_url_6!",expectedImg, poster.imageURL());
 		Assert.assertEquals("poster's thumbnail should be thumbnail_6", expectedThumbnail, poster.thumbnailURL());
 		log.info("testUpdateEventPoster done!");
