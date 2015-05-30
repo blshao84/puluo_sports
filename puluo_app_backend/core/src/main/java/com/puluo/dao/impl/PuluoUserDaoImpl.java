@@ -75,6 +75,12 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 	public boolean deleteByUserUUID(String uuid){
 		return super.deleteByUniqueKey("user_uuid", uuid);
 	}
+	
+	public List<PuluoUser> getAll(){
+		String query = new StringBuilder()
+		.append("select * from ").append(super.getFullTableName()).toString();
+		return getReader().query(query,new PuluoUserMapper() );
+	}
 
 	@Override
 	public boolean save(String mobile, String password) {
@@ -174,42 +180,7 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 				.append(" where user_uuid = ?").toString();
 		log.info(super.sqlRequestLog(selectSQL, uuid));
 		List<PuluoUser> entities = reader.query(selectSQL,
-				new Object[] { uuid }, new RowMapper<PuluoUser>() {
-					@Override
-					public PuluoUser mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						String[] array = rs.getArray("interests") != null ? (String[]) rs.getArray("interests").getArray() : new String[] {};
-						String user_type = rs.getString("user_type");
-						if (Strs.isEmpty(user_type)) {
-							user_type = PuluoUserType.User.name();
-							log.info("findUser: user_type为null, 默认设置为PuluoUserType.User!");
-						}
-						String sex = rs.getString("sex");
-						PuluoUserImpl puluoUser = new PuluoUserImpl(
-								rs.getString("user_uuid"),
-								rs.getString("mobile"),
-								array,
-								rs.getString("user_password"),
-								rs.getString("first_name"),
-								rs.getString("last_name"),
-								rs.getString("thumbnail"),
-								PuluoUserType.valueOf(user_type),
-								rs.getString("email"),
-								sex != null ? new String(sex + " ").charAt(0) : new String(" ").charAt(0),
-								rs.getString("zip"),
-								rs.getString("country"),
-								rs.getString("state"),
-								rs.getString("city"),
-								rs.getString("occupation"),
-								rs.getString("address"),
-								rs.getString("saying"),
-								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("birthday"))),
-								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at"))),
-								TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("updated_at"))),
-								rs.getBoolean("banned"));
-						return puluoUser;
-					}
-				});
+				new Object[] { uuid },new PuluoUserMapper() );
 		return verifyUniqueResult(entities);
 	}
 
@@ -381,4 +352,43 @@ public class PuluoUserDaoImpl extends DalTemplate implements PuluoUserDao {
 			throw new PuluoDatabaseException("更新profile时出错！");
 		}
 	}
+	
+	class PuluoUserMapper implements RowMapper<PuluoUser> {
+		@Override
+		public PuluoUser mapRow(ResultSet rs, int rowNum)
+				throws SQLException {
+			String[] array = rs.getArray("interests") != null ? (String[]) rs.getArray("interests").getArray() : new String[] {};
+			String user_type = rs.getString("user_type");
+			if (Strs.isEmpty(user_type)) {
+				user_type = PuluoUserType.User.name();
+				log.info("findUser: user_type为null, 默认设置为PuluoUserType.User!");
+			}
+			String sex = rs.getString("sex");
+			PuluoUserImpl puluoUser = new PuluoUserImpl(
+					rs.getString("user_uuid"),
+					rs.getString("mobile"),
+					array,
+					rs.getString("user_password"),
+					rs.getString("first_name"),
+					rs.getString("last_name"),
+					rs.getString("thumbnail"),
+					PuluoUserType.valueOf(user_type),
+					rs.getString("email"),
+					sex != null ? new String(sex + " ").charAt(0) : new String(" ").charAt(0),
+					rs.getString("zip"),
+					rs.getString("country"),
+					rs.getString("state"),
+					rs.getString("city"),
+					rs.getString("occupation"),
+					rs.getString("address"),
+					rs.getString("saying"),
+					TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("birthday"))),
+					TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at"))),
+					TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("updated_at"))),
+					rs.getBoolean("banned"));
+			return puluoUser;
+		}
+	}
 }
+
+

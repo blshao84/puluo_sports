@@ -41,7 +41,7 @@ import com.puluo.enumeration.CouponType
 import com.puluo.entity.impl.PuluoEventAttendee
 
 object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender with Loggable {
-  val mock = true
+  val mock = false
 
   object mobile extends RequestVar[Option[String]](None)
   object coupon extends RequestVar[Option[PuluoCoupon]](None)
@@ -154,7 +154,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
       val order = DaoApi.getInstance().paymentDao().getOrderByUUID(api.orderUUID)
       val amount = order.amount
       if (amount == 0) {
-        JsCmds.Alert("恭喜您成功预订课程！")
+        JsCmds.Alert("恭喜您成功预订课程！") & JsCmds.Reload
       } else {
         val link = api.paymentLink
         val uuid = UUID.randomUUID().toString()
