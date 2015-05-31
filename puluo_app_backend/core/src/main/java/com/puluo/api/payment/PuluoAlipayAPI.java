@@ -2,7 +2,6 @@ package com.puluo.api.payment;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import org.joda.time.DateTime;
 
@@ -10,17 +9,14 @@ import com.puluo.api.PuluoAPI;
 import com.puluo.config.Configurations;
 import com.puluo.dao.PuluoCouponDao;
 import com.puluo.dao.PuluoDSI;
-import com.puluo.dao.PuluoRegistrationInvitationDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoCoupon;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoPaymentOrder;
-import com.puluo.entity.PuluoRegistrationInvitation;
 import com.puluo.entity.PuluoUser;
 import com.puluo.entity.impl.PuluoCouponImpl;
 import com.puluo.entity.payment.OrderEvent;
 import com.puluo.entity.payment.impl.OrderEventImpl;
-import com.puluo.enumeration.CouponType;
 import com.puluo.enumeration.OrderEventType;
 import com.puluo.enumeration.PuluoOrderStatus;
 import com.puluo.payment.alipay.AlipayNotify;
@@ -84,7 +80,7 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 				boolean successUpdate = updateOrderStatus(order);
 				if (successUpdate) {
 					invalidateCoupon(order.orderUUID());
-					grantNewCoupon(order.userId());
+					PuluoCouponAPI.grantNewCoupon(order.userId());
 					if (Configurations.enableSMSNotification) {
 						if (!mock)
 							sendNotification(order);
@@ -220,25 +216,4 @@ public class PuluoAlipayAPI extends PuluoAPI<PuluoDSI, AlipaymentResult> {
 		}
 	}
 	
-	private void grantNewCoupon(String userUUID){
-		PuluoRegistrationInvitationDao invitationDao = dsi.invitationDao();
-		List<PuluoRegistrationInvitation> invitations = 
-				invitationDao.getUserReceivedInvitations(userUUID);
-		for(PuluoRegistrationInvitation i:invitations){
-			if(i.fromUUID()!=null){
-				log.info("give coupon to user "+i.fromUUID());
-			String couponUUID =UUID.randomUUID().toString();
-			dsi.couponDao().insertCoupon(new PuluoCouponImpl(
-					couponUUID,
-					CouponType.Deduction, 
-					Configurations.registrationAwardAmount, 
-					i.fromUUID(), 
-					null,
-					Configurations.puluoLocation.locationId(), 
-					DateTime.now().plusDays(14)));
-			invitationDao.updateCoupon(i.uuid(), couponUUID);
-			
-			}
-		}
-	}
 }

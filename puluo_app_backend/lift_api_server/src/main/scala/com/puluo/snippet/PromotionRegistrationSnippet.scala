@@ -26,7 +26,7 @@ object PromotionRegistrationSnippet extends PuluoSnippetUtil with PuluoAuthCodeS
   object mobile extends RequestVar[Option[String]](None)
   object authCode extends RequestVar[Option[String]](None)
   object uuid extends RequestVar[Option[String]](None)
-  
+
   def getAuthMobile = mobile
 
   def getAuthCode = authCode
@@ -82,15 +82,24 @@ object PromotionRegistrationSnippet extends PuluoSnippetUtil with PuluoAuthCodeS
       Configurations.puluoLocation.locationId(),
       DateTime.now.plusDays(14)))
 
+    couponDao.insertCoupon(new PuluoCouponImpl(
+      UUID.randomUUID().toString(),
+      CouponType.Deduction,
+      Configurations.registrationAwardAmount,
+      fromUUID,
+      null,
+      Configurations.puluoLocation.locationId(),
+      DateTime.now.plusDays(14)))
+
     val invitationDao = DaoApi.getInstance().invitationDao()
     invitationDao.insertInvitation(new PuluoRegistrationInvitationImpl(
-        UUID.randomUUID().toString(),
-        fromUUID,
-        newUser.userUUID(),
-        null,null,null));
-    val otherMsg = if(fromMobile=="puluo") "" else s"和您的好友 ${fromMobile}"
+      UUID.randomUUID().toString(),
+      fromUUID,
+      newUser.userUUID(),
+      null, null, null));
+    val otherMsg = if (fromMobile == "puluo") "" else s"和您的好友 ${fromMobile}"
     JsCmds.Alert(s"恭喜，注册成功！普罗运动已向您${otherMsg}的账户中各存人价值${Configurations.registrationAwardAmount}元的普罗运动免费体验券一张" +
-      "\n现在转发这个页面到朋友圈，每当您的朋友注册并体验一次普罗团课，您都将再获得一次免费体验券！") &
+      "\n现在转发这个页面到朋友圈，每当您的朋友注册一次普罗团课，您都将再获得一次免费体验券！") &
       JsCmds.RedirectTo(s"/promotion?uuid=${newUser.userUUID()}")
 
   }
