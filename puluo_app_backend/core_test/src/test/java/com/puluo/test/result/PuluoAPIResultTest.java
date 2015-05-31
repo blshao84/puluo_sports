@@ -371,7 +371,7 @@ public class PuluoAPIResultTest {
 				+ "\"memories\":[\"http://upyun.com/puluo/image1.jpg\","
 				+ "\"http://upyun.com/puluo/image2.jpg\""
 				+ "],"
-				+ "\"price\":0.0,"
+				+ "\"original_price\":0.0,\"discounted_price\":0.0,"
 				+ "\"attendees\":[{\"name\":\"Lei\",\"uuid\":\"0\",\"thumbnail\":\"http://upyun.com/puluo/thumbnail0.jpg\"},"
 				+ "{\"name\":\"Baolin\",\"uuid\":\"1\",\"thumbnail\":\"http://upyun.com/puluo/thumbnail1.jpg\"}],"
 				+ "\"registered\":false,"

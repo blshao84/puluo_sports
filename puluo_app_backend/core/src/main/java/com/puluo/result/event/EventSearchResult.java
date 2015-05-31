@@ -51,7 +51,8 @@ public class EventSearchResult extends HasJSON {
 					event_impl.registeredUsers(),
 					event_impl.capatcity(),
 					info.likes(), 
-					loc.latitude(),loc.longitude(), info.details(), images));
+					loc.latitude(),loc.longitude(), info.details(), 
+					images,event_impl.originalPrice(),event_impl.discountedPrice()));
 		}
 		return true;
 	}
@@ -71,7 +72,7 @@ public class EventSearchResult extends HasJSON {
 				"Weapons of Ass Reduction", 1427007059034L,
 				"888 Happy Mansion", "beijing", "86-555-5555", "Mr. Bob Smith",
 				"de305d54-75b4-431b-adb2-eb6b9e546014", thumbnails, 22, 30, 2,
-				39.92889, 116.38833, "Get fit with friends.", images));
+				39.92889, 116.38833, "Get fit with friends.", images,50,50));
 		return new EventSearchResult(details);
 	}
 }
@@ -93,13 +94,15 @@ class EventSearchResultDetail {
 	public EventLocationResult geo_location;
 	public String details;
 	public List<String> images;
+	public double original_price;
+	public double discounted_price;
 
 	public EventSearchResultDetail(String event_uuid, String status,
 			String event_name, long event_time, String address, String city,
 			String phone, String coach_name, String coach_uuid,
 			List<String> thumbnail, int registered_users, int capacity,
 			int likes, double latitude, double longitude, String details,
-			List<String> images) {
+			List<String> images,double original_price,double discounted_price) {
 		super();
 		this.event_uuid = event_uuid;
 		this.status = status;
@@ -117,5 +120,7 @@ class EventSearchResultDetail {
 		this.geo_location = new EventLocationResult(latitude, longitude);
 		this.details = details;
 		this.images = images;
+		this.original_price = original_price;
+		this.discounted_price = discounted_price;
 	}
 }

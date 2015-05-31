@@ -23,7 +23,8 @@ public class EventDetailResult extends HasJSON{
 	public EventLocationResult geo_location;
 	public String details;
 	public List<String> memories;
-	public double price;
+	public double original_price;
+	public double discounted_price;
 	public List<PuluoEventAttendee> attendees;
 	public boolean registered;
 	public int duration;
@@ -33,7 +34,7 @@ public class EventDetailResult extends HasJSON{
 			String city, String phone, String coach_name, String coach_uuid,
 			List<String> posters, int registered_users, int capacity, int likes,
 			EventLocationResult geo_location, String details, List<String> memories, 
-			double price, List<PuluoEventAttendee> attendees, boolean registered,int duration) {
+			double original_price,double discounted_price, List<PuluoEventAttendee> attendees, boolean registered,int duration) {
 		super();
 		this.status = status;
 		this.event_name = event_name;
@@ -50,7 +51,8 @@ public class EventDetailResult extends HasJSON{
 		this.geo_location = geo_location;
 		this.details = details;
 		this.memories = memories;
-		this.price = price;
+		this.original_price = original_price;
+		this.discounted_price = discounted_price;
 		this.attendees = attendees;
 		this.registered = registered;
 		this.duration = duration;
@@ -61,9 +63,9 @@ public class EventDetailResult extends HasJSON{
 			String city, String phone, String coach_name, String coach_uuid,
 			List<String> posters, int registered_users, int capacity, int likes,
 			double latitude, double longitude, String details, List<String> memories, 
-			double price, List<PuluoEventAttendee> attendees, boolean registered,int durations) {
+			double original_price,double discounted_price, List<PuluoEventAttendee> attendees, boolean registered,int durations) {
 		this(status, event_name, event_time, address, city, phone, coach_name, coach_uuid, posters, registered_users,
-				capacity, likes, new EventLocationResult(latitude, longitude), details, memories, price, attendees, registered,durations);
+				capacity, likes, new EventLocationResult(latitude, longitude), details, memories, original_price,discounted_price, attendees, registered,durations);
 	}
 	
 	public static EventDetailResult dummy() {
@@ -82,7 +84,7 @@ public class EventDetailResult extends HasJSON{
 		return new EventDetailResult("open", "Weapons of Ass Reduction", 
 				1427007059034L, "888 Happy Mansion", "beijing", "86-555-5555",
 				"Mr. Bob Smith", "de305d54-75b4-431b-adb2-eb6b9e546014", thumbnails, 
-				22, 30, 2,  new EventLocationResult(39.92889, 116.38833), "Get fit with friends.", images, 0.0, attendees, false,30);
+				22, 30, 2,  new EventLocationResult(39.92889, 116.38833), "Get fit with friends.", images, 0.0,0.0, attendees, false,30);
 	}
 }
 

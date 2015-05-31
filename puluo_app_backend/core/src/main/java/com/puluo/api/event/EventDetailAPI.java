@@ -60,7 +60,7 @@ public class EventDetailAPI extends PuluoAPI<PuluoDSI, EventDetailResult> {
 						event.registeredUsers(), event.capatcity(),
 						info.likes(), location.latitude(),
 						location.longitude(), info.details(), memoryImgs,
-						event.originalPrice(), event.attendees(),
+						event.originalPrice(),event.discountedPrice(), event.attendees(),
 						event.registered(user_uuid), info.duration());
 				rawResult = result;
 			} else {
