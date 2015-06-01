@@ -52,6 +52,12 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 			String paymentRef) {
 		return updateOrderForKey(order.orderUUID(), "payment_id", paymentRef);
 	}
+	
+
+	@Override
+	public boolean updateOrderAmount(PuluoPaymentOrder order, Double amount) {
+		return updateOrderForKey(order.orderUUID(), "amount", Strs.prettyDouble(amount, 0));
+	}
 
 	@Override
 	public boolean createTable() {

@@ -34,4 +34,6 @@ public interface PuluoPaymentDao {
 	public List<PuluoPaymentOrder> getPaidOrdersByEventUUID(String eventUUID);
 	
 	public List<PuluoPaymentOrder> getPaidOrdersByUserUUID(String userUUID, int limit);
+
+	public boolean updateOrderAmount(PuluoPaymentOrder order, Double amount);
 }
