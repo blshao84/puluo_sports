@@ -36,7 +36,7 @@ public class PuluoOrderEventDaoImpl extends DalTemplate implements
 					.append(" (uuid, created_at, order_uuid, type)")
 					.append("values ('" + event.eventUUID() + "', ")
 					.append("'" + TimeUtils.formatDate(event.createdAt()) + "', ")
-					.append("'" + event.order(dsi).orderUUID() + "', ")
+					.append("'" + event.orderUUID() + "', ")
 					.append("'" + event.eventType().name() + "')").toString();
 			log.info(Strs.join("SQL:",updateSQL));
 			getWriter().update(updateSQL);

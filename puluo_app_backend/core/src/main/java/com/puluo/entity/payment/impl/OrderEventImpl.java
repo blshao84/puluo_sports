@@ -56,4 +56,9 @@ public class OrderEventImpl implements OrderEvent {
 		return created_at;
 	}
 
+	@Override
+	public String orderUUID() {
+		return order_uuid;
+	}
+
 }

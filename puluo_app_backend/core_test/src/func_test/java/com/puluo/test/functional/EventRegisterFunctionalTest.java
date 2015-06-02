@@ -53,7 +53,7 @@ public class EventRegisterFunctionalTest extends APIFunctionalTest {
 		PuluoEventInfo info = new PuluoEventInfoImpl(info_uuid, "臀部炸弹",
 				"瘦臀、减脂", "James Bond", "007", "", "", 60, PuluoEventLevel.Level1, PuluoEventCategory.Others);
 		DaoApi.getInstance().eventInfoDao().saveEventInfo(info);
-		PuluoEvent event = new PuluoEventImpl(event_uuid, TimeUtils.parseDateTime("2015-06-01 00:00:00"),
+		PuluoEvent event = new PuluoEventImpl(event_uuid, TimeUtils.parseDateTime("2100-06-01 00:00:00"),
 				EventStatus.Open, 3, 15, 0.0, 0.0, info_uuid, location_uuid, 0);
 		PuluoEvent event2 = new PuluoEventImpl(event_uuid2, DateTime.now().minusDays(1),
 				EventStatus.Open, 3, 15, 10.0, 10.0, info_uuid, location_uuid, 0);
@@ -90,7 +90,7 @@ public class EventRegisterFunctionalTest extends APIFunctionalTest {
 				log.info(json);
 				String order = getStringFromJson(json, "order_uuid");
 				String paid = getPaid(json);
-				Assert.assertNotNull(order_uuid);
+				Assert.assertNotNull(order);
 				Assert.assertTrue("paid should be true", Boolean.valueOf(paid));
 				log.info("testOrderWithZero done!");
 			}

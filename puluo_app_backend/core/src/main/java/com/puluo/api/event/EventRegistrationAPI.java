@@ -116,8 +116,11 @@ public class EventRegistrationAPI extends
 			PuluoPaymentOrder order = new PuluoPaymentOrderImpl("", amount,
 					paymentTime, user_uuid, event_uuid,
 					PuluoOrderStatus.Undefined);
-			PuluoPaymentOrder savedOrder = updateOrderStatus(order);
-			return doPayment(savedOrder);
+			dsi.paymentDao().saveOrder(order);
+			PuluoPaymentOrder savedOrder = dsi.paymentDao().getOrderByUUID(
+					order.orderUUID());
+			PuluoPaymentOrder updatedOrder = updateOrderStatus(savedOrder);
+			return doPayment(updatedOrder);
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error("生成订单时发生未知错误");

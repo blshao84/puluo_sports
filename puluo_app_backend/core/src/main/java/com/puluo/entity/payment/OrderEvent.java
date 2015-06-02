@@ -12,5 +12,6 @@ public interface OrderEvent {
 	public PuluoPaymentOrder order(PuluoDSI dsi);
 	public OrderEventType eventType();
 	public DateTime createdAt();
+	public String orderUUID();
 	
 }

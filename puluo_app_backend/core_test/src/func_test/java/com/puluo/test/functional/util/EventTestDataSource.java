@@ -57,9 +57,9 @@ public class EventTestDataSource {
 	public String mobile = "1234567";
 	public String password = "abcdefg";
 	public DateTime event_date_0601 = TimeUtils
-			.parseDateTime("2000-06-01 13:30:00");
+			.parseDateTime("2100-06-01 13:30:00");
 	public DateTime event_date_0602 = TimeUtils
-			.parseDateTime("2000-06-02 10:30:00");
+			.parseDateTime("2100-06-02 10:30:00");
 	public DateTime event_date_21000601 = TimeUtils
 			.parseDateTime("2100-06-01 13:30:00");
 	public DateTime event_date_21000602 = TimeUtils
