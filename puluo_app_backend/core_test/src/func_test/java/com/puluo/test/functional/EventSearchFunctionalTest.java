@@ -71,7 +71,7 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
 						+ "\"event_to_date\":%s,\"limit\":200}", session,
-						TimeUtils.parseDateTime("2000-06-01 10:00:00").getMillis());
+						TimeUtils.parseDateTime("2016-06-01 10:00:00").getMillis());
 			}
 
 			@Override
@@ -97,8 +97,8 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 			public String inputs(String session) {
 				return String.format("{" + "\"token\":\"%s\","
 						+ "\"event_from_date\":%s,"+ "\"event_to_date\":%s,\"limit\":200}", session,
-						TimeUtils.parseDateTime("2000-06-02 14:00:00").getMillis(),
-						TimeUtils.parseDateTime("2000-06-02 12:00:00").getMillis());
+						TimeUtils.parseDateTime("2016-06-01 14:00:00").getMillis(),
+						TimeUtils.parseDateTime("2016-06-02 12:00:00").getMillis());
 			}
 
 			@Override
@@ -106,6 +106,8 @@ public class EventSearchFunctionalTest extends APIFunctionalTest {
 				JsonNode json = callAPI("events/search", inputs(session));
 				Set<String> expectedEvents = new HashSet<String>();
 				expectedEvents.add(dataSource.eventID3);
+				expectedEvents.add(dataSource.eventID2);
+				expectedEvents.add(dataSource.eventID1);
 				Set<String> actualEvents = extractUUID(json, new HashSet<String>());
 				Assert.assertEquals(expectedEvents, actualEvents);
 			}
