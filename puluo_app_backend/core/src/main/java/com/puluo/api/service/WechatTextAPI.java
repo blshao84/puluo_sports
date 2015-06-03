@@ -111,7 +111,7 @@ public class WechatTextAPI extends WechatAPI {
 				}
 			} else {
 				log.error(String.format("mobile %s format is wrong", content));
-				msg = new WechatTextMessage("抱歉，您还没有注册，请输入您的电话号码，一键搞定！");
+				msg = new WechatTextMessage("抱歉，您还没有注册，请切换到消息栏并输入您的电话号码，一键搞定！");
 			}
 			break;
 		case 1:

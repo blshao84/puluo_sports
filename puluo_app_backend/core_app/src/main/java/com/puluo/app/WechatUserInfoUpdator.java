@@ -41,11 +41,11 @@ public class WechatUserInfoUpdator {
 					String country = null;
 					String province = null;
 					String city = null;
-					if (Strs.isEmpty(user.firstName()))
+					if (Strs.isEmpty(user.firstName()) && !Strs.isEmpty(info.nickname))
 						firstName = info.nickname;
-					if (Strs.isEmpty(user.thumbnail()))
+					if (Strs.isEmpty(user.thumbnail()) && !Strs.isEmpty(info.headimgurl))
 						thumbnail = saveThumbnail(info.headimgurl);
-					if (Strs.isEmpty(sex)) {
+					if (Strs.isEmptyChar(user.sex())) {
 						if (info.sex == 1) {
 							sex = "男";
 						} else if (info.sex == 2) {
@@ -53,11 +53,11 @@ public class WechatUserInfoUpdator {
 						} else
 							sex = null;
 					}
-					if (Strs.isEmpty(user.country()))
+					if (Strs.isEmpty(user.country())&& !Strs.isEmpty(info.country))
 						country = info.country;
-					if (Strs.isEmpty(user.state()))
+					if (Strs.isEmpty(user.state())&& !Strs.isEmpty(info.province))
 						province = info.province;
-					if (Strs.isEmpty(user.city()))
+					if (Strs.isEmpty(user.city())&& !Strs.isEmpty(info.city))
 						city = info.city;
 					if (firstName != null || thumbnail != null || sex != null
 							|| country != null || province != null

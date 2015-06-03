@@ -76,6 +76,10 @@ public abstract class Strs {
 	public static boolean isEmpty(String str) {
 		return (str == null) || str.isEmpty();
 	}
+	
+	public static boolean isEmptyChar(char ch) {
+		return ch == ' ';
+	}
 
 	/**
 	 * 将一个集合合成一个字符串
