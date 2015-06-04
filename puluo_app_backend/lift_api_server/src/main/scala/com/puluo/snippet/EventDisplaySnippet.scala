@@ -88,7 +88,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
         renderSendAuthCode &
         renderCoupons(couponOptions, event, userFromLink) &
         renderMobile(userFromLink) &
-        renderReserve(userFromLink, event, isRegistered)
+        renderReserve(userFromLink, event, isRegistered,attendees.size)
     }
 
   }
@@ -102,49 +102,53 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
       }
   }
 
-  private def renderReserve(userFromLink: PuluoUser, event: PuluoEvent, isRegistered: Boolean) = {
+  private def renderReserve(userFromLink: PuluoUser, event: PuluoEvent, isRegistered: Boolean, attendeeCnt: Int) = {
     if (isRegistered) {
       "#reserve" #> "您已经注册该课程"
     } else {
-      val userDao = DaoApi.getInstance().userDao()
-      "#reserve" #> SHtml.ajaxButton("预定", () => {
-        if (mobile.isDefined) {
-          val user = if (userFromLink != null) userFromLink
-          else userDao.getByMobile(mobile.get.get)
-          if (user != null) {
-            if (userFromLink != null) {
-              doEventRegistration(user, event)
+      if (attendeeCnt >= event.capatcity()) {
+        "#reserve" #> "抱歉！！！课程太火爆已经定满了！下次记得早点哟~"
+      } else {
+        val userDao = DaoApi.getInstance().userDao()
+        "#reserve" #> SHtml.ajaxButton("预定", () => {
+          if (mobile.isDefined) {
+            val user = if (userFromLink != null) userFromLink
+            else userDao.getByMobile(mobile.get.get)
+            if (user != null) {
+              if (userFromLink != null) {
+                doEventRegistration(user, event)
+              } else {
+                val coupons = DaoApi.getInstance().couponDao().getByUserUUID(user.userUUID(), true)
+                val cmd = if (coupons.isEmpty()) JsCmds.Noop else JsCmds.Alert("您的账户中有优惠券噢！")
+                cmd & JsCmds.RedirectTo(s"/event?uuid=${event.eventUUID}&user_uuid=${user.userUUID()}")
+              }
             } else {
-              val coupons = DaoApi.getInstance().couponDao().getByUserUUID(user.userUUID(), true)
-              val cmd = if (coupons.isEmpty()) JsCmds.Noop else JsCmds.Alert("您的账户中有优惠券噢！")
-              cmd & JsCmds.RedirectTo(s"/event?uuid=${event.eventUUID}&user_uuid=${user.userUUID()}")
-            }
-          } else {
-            verifyAuthCodeForRegistration(
-              onNoInput = () => {
-                JsCmds.JsShowId("auth_code_row_name") &
-                  JsCmds.JsShowId("auth_code_row_value") &
-                  JsCmds.Alert("您还不是普罗运动的注册用户，请点击\"发送验证码\"一步完成认证")
-              },
-              onSuccess = (newUser: PuluoUser) => {
-                val couponDao = DaoApi.getInstance().couponDao()
-                couponDao.insertCoupon(new PuluoCouponImpl(
-                  UUID.randomUUID().toString(),
-                  CouponType.Deduction,
-                  Configurations.registrationAwardAmount,
-                  newUser.userUUID(),
-                  null,
-                  Configurations.puluoLocation.locationId(),
-                  DateTime.now.plusDays(14)))
-                JsCmds.RedirectTo(s"/event?uuid=${event.eventUUID}&user_uuid=${newUser.userUUID()}")
+              verifyAuthCodeForRegistration(
+                onNoInput = () => {
+                  JsCmds.JsShowId("auth_code_row_name") &
+                    JsCmds.JsShowId("auth_code_row_value") &
+                    JsCmds.Alert("您还不是普罗运动的注册用户，请点击\"发送验证码\"一步完成认证")
+                },
+                onSuccess = (newUser: PuluoUser) => {
+                  val couponDao = DaoApi.getInstance().couponDao()
+                  couponDao.insertCoupon(new PuluoCouponImpl(
+                    UUID.randomUUID().toString(),
+                    CouponType.Deduction,
+                    Configurations.registrationAwardAmount,
+                    newUser.userUUID(),
+                    null,
+                    Configurations.puluoLocation.locationId(),
+                    DateTime.now.plusDays(14)))
+                  JsCmds.RedirectTo(s"/event?uuid=${event.eventUUID}&user_uuid=${newUser.userUUID()}")
 
-              },
-              onFailure = () => {
-                JsCmds.Alert("抱歉，您输入的验证码不正确")
-              })
-          }
-        } else JsCmds.Alert("请输入您的电话")
-      })
+                },
+                onFailure = () => {
+                  JsCmds.Alert("抱歉，您输入的验证码不正确")
+                })
+            }
+          } else JsCmds.Alert("请输入您的电话")
+        })
+      }
     }
   }
 
