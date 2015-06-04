@@ -191,7 +191,8 @@ public class WechatTextAPI extends WechatAPI {
 				}
 				return new WechatNewsMessage(articles);
 			} else
-				return new WechatTextMessage("没有找到您感兴趣的课程");
+				return new WechatTextMessage("如果您希望寻找其他运动课程，很抱歉，暂时没有找到您感兴趣的活动。"
+						+ "如果您对普罗运动有任何意见、建议或疑问，小普已经收到，会马上恢复您！");
 		}
 	}
 
