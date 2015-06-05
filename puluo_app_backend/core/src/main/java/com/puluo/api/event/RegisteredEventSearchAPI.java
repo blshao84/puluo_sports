@@ -16,11 +16,12 @@ import com.puluo.result.event.EventSearchResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 
-public class RegisteredEventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
+public class RegisteredEventSearchAPI extends
+		PuluoAPI<PuluoDSI, EventSearchResult> {
 	public static Log log = LogFactory.getLog(RegisteredEventSearchAPI.class);
 	public String userUUID;
 	public List<PuluoEvent> searchedEvents;
-	
+
 	public RegisteredEventSearchAPI(String userUUID) {
 		this(userUUID, DaoApi.getInstance());
 	}
@@ -34,13 +35,21 @@ public class RegisteredEventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResu
 	public void execute() {
 		log.info(String.format("开始根据用户%s已注册的活动", userUUID));
 		PuluoPaymentDao payment_dao = dsi.paymentDao();
-		List<PuluoPaymentOrder> orders = payment_dao.getPaidOrdersByUserUUID(userUUID);
+		List<PuluoPaymentOrder> orders = payment_dao
+				.getPaidOrdersByUserUUID(userUUID);
 		searchedEvents = new ArrayList<PuluoEvent>();
 		PuluoEventDao event_dao = dsi.eventDao();
-		for (PuluoPaymentOrder order: orders) {
-			searchedEvents.add(event_dao.getEventByUUID(order.eventId()));
+		for (PuluoPaymentOrder order : orders) {
+			PuluoEvent e = event_dao.getEventByUUID(order.eventId());
+			if (e != null) {
+				searchedEvents.add(e);
+			} else {
+				log.warn(String.format(
+						"event uuid %s in order %s doesn't event",
+						order.eventId(), order.orderUUID()));
+			}
 		}
-		Collections.sort(searchedEvents, new Comparator<PuluoEvent>(){
+		Collections.sort(searchedEvents, new Comparator<PuluoEvent>() {
 			@Override
 			public int compare(PuluoEvent o1, PuluoEvent o2) {
 				return o1.eventTime().compareTo(o2.eventTime());
