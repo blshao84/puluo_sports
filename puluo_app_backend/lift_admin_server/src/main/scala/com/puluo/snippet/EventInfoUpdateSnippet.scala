@@ -44,6 +44,7 @@ import com.puluo.entity.PuluoUser
 import com.puluo.dao.PuluoDSI
 import com.puluo.entity.impl.PuluoEventPosterImpl
 import org.joda.time.DateTime
+import com.puluo.enumeration.PuluoEventPosterType
 
 class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
   object uuid extends RequestVar[Option[String]](None)
@@ -118,7 +119,7 @@ class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
       if (ui.isDefined) {
         val imageName = ui.get.imageUUID
         val imageUUID = UUID.randomUUID().toString()
-        val newEventPoster = new PuluoEventPosterImpl(imageUUID, imageName, eventInfoUUID, DateTime.now())
+        val newEventPoster = new PuluoEventPosterImpl(imageUUID, imageName, eventInfoUUID, DateTime.now(),PuluoEventPosterType.POSTER)
         //we always save a new image link for event info
         posterDao.saveEventPhoto(newEventPoster)
       } else true
@@ -181,7 +182,7 @@ class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
       val posters = theInfo.poster()
       val posterVars = Seq(poster1,poster2,poster3,poster4,poster5)
       posters zip posterVars map {
-        case(p,v) => v(Some(p.imageURL()))
+        case(p,v) => v(Some(p.imageName()))
       }
     }
   }

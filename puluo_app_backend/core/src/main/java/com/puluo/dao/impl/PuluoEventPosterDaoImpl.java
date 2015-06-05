@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import com.puluo.dao.PuluoEventPosterDao;
 import com.puluo.entity.PuluoEventPoster;
 import com.puluo.entity.impl.PuluoEventPosterImpl;
+import com.puluo.enumeration.PuluoEventPosterType;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
@@ -32,6 +33,7 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 				.append("image_url text, ")
 				.append("thumbnail text, ")
 				.append("event_info_uuid text, ")
+				.append("poster_type text, ")
 				.append("created_at timestamp)")
 				.toString();
 			log.info(createSQL);
@@ -84,10 +86,11 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 			if (resCnt==0) {
 				updateSQL = new StringBuilder().append("insert into ")
 						.append(super.getFullTableName())
-						.append(" (event_poster_uuid, image_url, event_info_uuid, created_at)")
+						.append(" (event_poster_uuid, image_url, event_info_uuid,poster_type, created_at)")
 						.append(" values ('" + photo.imageId() + "', ")
 						.append(Strs.isEmpty(photo.imageName()) ? "null" : "'" + photo.imageName() + "'").append(", ")
 						.append(Strs.isEmpty(photo.eventInfoUUID()) ? "null" : "'" + photo.eventInfoUUID() + "'").append(", ")
+						.append("'").append(photo.posterType().name()).append("', ")
 						.append(Strs.isEmpty(TimeUtils.formatDate(photo.createdAt())) ? "now()::timestamp" : "'" + TimeUtils.formatDate(photo.createdAt()) + "'").append(")")
 						.toString();
 				log.info(Strs.join("SQL:",updateSQL));
@@ -134,6 +137,10 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 					updateSQL.append(" event_info_uuid = '" + photo.eventInfoUUID() + "',");
 					comma = true;
 				}
+				if (photo.posterType()!=null) {
+					updateSQL.append(" poster_type = '" + photo.posterType().name() + "',");
+					comma = true;
+				}
 				if (comma) {
 					updateSQL.deleteCharAt(updateSQL.length()-1);
 				}
@@ -172,7 +179,8 @@ class PuluoEventPosterMapper implements RowMapper<PuluoEventPoster> {
 				rs.getString("event_poster_uuid"),
 				rs.getString("image_url"),
 				rs.getString("event_info_uuid"),
-				TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at"))));
+				TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("created_at"))),
+				PuluoEventPosterType.valueOf(rs.getString("poster_type")));
 		return eventPoster;
 	}
 }

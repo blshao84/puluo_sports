@@ -29,6 +29,7 @@ import com.puluo.entity.impl.PuluoPaymentOrderImpl;
 import com.puluo.enumeration.EventStatus;
 import com.puluo.enumeration.PuluoEventCategory;
 import com.puluo.enumeration.PuluoEventLevel;
+import com.puluo.enumeration.PuluoEventPosterType;
 import com.puluo.enumeration.PuluoOrderStatus;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
@@ -154,10 +155,10 @@ public class EventTestDataSource {
 				null);
 
 		PuluoEventPoster poster1 = new PuluoEventPosterImpl(posterID1,
-				"xyz.jpg", infoID1, DateTime.now());
+				"xyz.jpg", infoID1, DateTime.now(),PuluoEventPosterType.POSTER);
 
 		PuluoEventPoster poster2 = new PuluoEventPosterImpl(posterID2,
-				"abc.jpg", infoID2, DateTime.now());
+				"abc.jpg", infoID2, DateTime.now(),PuluoEventPosterType.POSTER);
 		
 		PuluoPaymentOrder payment = new PuluoPaymentOrderImpl(UUID.randomUUID().toString(), 0.0,
 				DateTime.now(), user.userUUID(), eventID1, PuluoOrderStatus.Paid);

@@ -7,6 +7,7 @@ import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEventInfo;
 import com.puluo.entity.PuluoEventPoster;
+import com.puluo.enumeration.PuluoEventPosterType;
 import com.puluo.util.Strs;
 
 public class PuluoEventPosterImpl implements PuluoEventPoster {
@@ -14,21 +15,18 @@ public class PuluoEventPosterImpl implements PuluoEventPoster {
 	private final String image_name;
 	private final String event_info_uuid;
 	private final DateTime created_at;
-	private PuluoDSI dsi;
+	private final PuluoEventPosterType poster_type;
 
 	public PuluoEventPosterImpl(String uuid, String image_name,
-			String event_info_uuid, DateTime created_at, PuluoDSI dsi) {
+			String event_info_uuid, DateTime created_at, PuluoEventPosterType poster_type) {
 		super();
 		this.uuid = uuid;
 		this.image_name = image_name;
 		this.event_info_uuid = event_info_uuid;
 		this.created_at = created_at;
+		this.poster_type = poster_type;
 	}
 
-	public PuluoEventPosterImpl(String uuid, String image_name,
-			String event_info_uuid, DateTime created_at) {
-		this(uuid, image_name, event_info_uuid, created_at, DaoApi.getInstance());
-	}
 
 	@Override
 	public String imageId() {
@@ -56,6 +54,10 @@ public class PuluoEventPosterImpl implements PuluoEventPoster {
 
 	@Override
 	public PuluoEventInfo eventInfo() {
+		return eventInfo(DaoApi.getInstance());
+	}
+	
+	public PuluoEventInfo eventInfo(PuluoDSI dsi) {
 		return dsi.eventInfoDao().getEventInfoByUUID(event_info_uuid);
 	}
 
@@ -67,5 +69,10 @@ public class PuluoEventPosterImpl implements PuluoEventPoster {
 	@Override
 	public String imageName() {
 		return image_name;
+	}
+	
+	@Override
+	public PuluoEventPosterType posterType() {
+		return poster_type;
 	}
 }

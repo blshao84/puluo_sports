@@ -20,6 +20,7 @@ import com.puluo.entity.PuluoEventPoster;
 import com.puluo.entity.PuluoUser;
 import com.puluo.entity.impl.PuluoEventMemoryImpl;
 import com.puluo.entity.impl.PuluoEventPosterImpl;
+import com.puluo.enumeration.PuluoEventPosterType;
 import com.puluo.enumeration.PuluoImageType;
 import com.puluo.result.ApiErrorResult;
 import com.puluo.result.ImageUploadServiceResult;
@@ -122,9 +123,10 @@ public class ImageUploadServiceAPI extends
 								this.rawResult = null;
 								this.error = ApiErrorResult.getError(46);
 							} else {
+								//FIXME: should pass in poster type
 								PuluoEventPoster poster = new PuluoEventPosterImpl(
 										UUID.randomUUID().toString(), imageUUID,
-										info.eventInfoUUID(), DateTime.now());
+										info.eventInfoUUID(), DateTime.now(),PuluoEventPosterType.POSTER);
 								eventPoserDao.saveEventPhoto(poster);
 							}
 						}
