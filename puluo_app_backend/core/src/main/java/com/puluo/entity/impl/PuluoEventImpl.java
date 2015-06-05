@@ -14,6 +14,7 @@ import com.puluo.entity.PuluoEventMemory;
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.PuluoUser;
 import com.puluo.enumeration.EventStatus;
+import com.puluo.util.Strs;
 
 public class PuluoEventImpl implements PuluoEvent {
 	private final String uuid;
@@ -178,7 +179,9 @@ public class PuluoEventImpl implements PuluoEvent {
 		for (PuluoPaymentOrder order : orders) {
 			user = dsi.userDao().getByUUID(order.userId());
 			if (user != null) {
-				attendees.add(new PuluoEventAttendee(user.name(), user
+				String name;
+				if(Strs.isEmpty(user.name().trim())) name = "匿名"; else name = user.name();
+				attendees.add(new PuluoEventAttendee(name, user
 						.userUUID(), user.thumbnailURL()));
 			}
 		}
