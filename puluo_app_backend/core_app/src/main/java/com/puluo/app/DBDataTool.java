@@ -32,8 +32,8 @@ public class DBDataTool {
 	public static void main(String[] args) {
 		// fixUserThumbnail();
 		// grantCoupons();
-		// createWeeklyEvents();
-		registerEvent();
+		createWeeklyEvents();
+		//registerEvent();
 	}
 
 	@SuppressWarnings("unused")
@@ -75,7 +75,7 @@ public class DBDataTool {
 		PuluoEventDao eventDao = DaoApi.getInstance().eventDao();
 		List<PuluoEvent> events = eventDao.findEvents(
 				DateTime.now().minusDays(7), DateTime.now(), null, null, null,
-				null, 0, 0, 0, null, null, 100, 0);
+				null, 0, 0, 0, EventStatus.Open, null, 100, 0);
 		System.out.println(events.size());
 		for (PuluoEvent e : events) {
 			String uuid = UUID.randomUUID().toString();

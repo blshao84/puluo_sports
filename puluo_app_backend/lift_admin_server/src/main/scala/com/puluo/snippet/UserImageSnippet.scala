@@ -27,38 +27,79 @@ import com.puluo.entity.PuluoAdmin
 import com.puluo.snippet.util.SortedChineseMapperPaginator
 import com.puluo.service.PuluoService
 
-class UserImageSnippet extends Loggable {
+object ImageUsage extends Enumeration {
+  type ImageUsage = Value
+  val UserIcon = Value("用户头像")
+  val EventIcon = Value("课程ICON")
+  val EventPoster = Value("课程精选")
+  val EventMemory = Value("课程集锦")
 
+  val usageOptions = ("", "") :: values.map(v => (v.toString(), v.toString())).toList
+}
+class UserImageSnippet extends Loggable {
+  object usages extends RequestVar[Map[String, ImageUsage.ImageUsage]](Map.empty)
+  object usageIDs extends RequestVar[Map[String, String]](Map.empty)
   def paginator = {
     val user = PuluoAdmin.currentUser.get
     val col = UserImage.createdAt
     val p = new SortedChineseMapperPaginator(UserImage, col, (col.dbColumnName, col)) {
-      override def isAscending = true
-      override def itemsPerPage = 10
+      override def isAscending = false
+      override def itemsPerPage = 30
     }
     p.constantParams = Seq(By(UserImage.mobile, user.mobile.get))
     p
   }
 
- def paginate = paginator.paginate _
+  def paginate = paginator.paginate _
 
   def render = {
-    val imagesToRender:Seq[UserImage] = paginator.page
+    val imagesToRender: Seq[UserImage] = paginator.page
     ".image-results *" #> imagesToRender.zipWithIndex.map(em => {
       val (image, index) = em
-      "#image-link [src]" #> Configurations.imgHttpLink(image.imageUUID,"!small") &
+      val imageUUID = image.imageUUID
+      val currentUsage = usages.get(imageUUID)
+      val currentUsageID = usageIDs.get(imageUUID)
+      "#image-link [src]" #> Configurations.imgHttpLink(image.imageUUID, "!small") &
         "#image-name *" #> image.name.get &
-        "#image-uuid *" #> image.imageUUID &
-      "#image-delete" #> SHtml.ajaxButton("删除", () => {
-        if (image.id.get >= 0) {
-          image.delete_!
-          val res = PuluoService.image.deleteImage(image.imageUUID);
-          if(!res.isSuccess()){
-            logger.error(s"image ${image.imageUUID} is not deleted from the server")
+        "#image-uuid *" #> imageUUID &
+        "#image-usage-id *" #> SHtml.ajaxText(currentUsageID, id => {
+          if (!id.trim().isEmpty()) {
+            val newUsageIDs = usageIDs.get ++ Map(imageUUID -> id)
+            usageIDs(newUsageIDs)
           }
-        }
-        JsCmds.Reload
-      })
+          JsCmds.Noop
+        }) &
+        "#image-usage *" #> SHtml.ajaxSelect(ImageUsage.usageOptions, Empty, s => {
+          if (!s.isEmpty()) {
+            val newUsages = usages.get ++ Map(imageUUID -> ImageUsage.withName(s))
+            usages(newUsages)
+          }
+          JsCmds.Noop
+        }) &
+        "#image-update" #> SHtml.ajaxButton("更新用途", () => updateImageUsage(imageUUID)) &
+        "#image-delete" #> SHtml.ajaxButton("删除", () => {
+          if (image.id.get >= 0) {
+            image.delete_!
+            val res = PuluoService.image.deleteImage(image.imageUUID);
+            if (!res.isSuccess()) {
+              logger.error(s"image ${image.imageUUID} is not deleted from the server")
+            }
+          }
+          JsCmds.Reload
+        })
     })
   }
+
+  private def updateImageUsage(imgUUID: String) =
+    (usages.get.get(imgUUID), usageIDs.get.get(imgUUID)) match {
+      case (Some(usage), Some(usageID)) => JsCmds.Noop//doUpdateImage(usage, usageID, imgUUID)
+      case _ => JsCmds.Noop
+    }
+  /*private def doUpdateImage(usage: ImageUsage.ImageUsage, usageID: String, imgUUID: String) = 
+  usage match{
+    case ImageUsage.UserIcon =>
+    case ImageUsage.EventIcon
+    case ImageUsage.Event
+    JsCmds.Noop
+  }*/
 }

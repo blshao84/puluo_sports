@@ -47,7 +47,7 @@ public class EventDetailAPI extends PuluoAPI<PuluoDSI, EventDetailResult> {
 				List<PuluoEventPoster> posters = info.poster();
 				List<PuluoEventMemory> memories = event.memory();
 				
-				for (int i = 0; i < posters.size(); i++)
+				for (int i = 1; i < posters.size(); i++)
 					posterImgs.add(posters.get(i).thumbnailURL());
 				for (int j = 0; j < memories.size(); j++)
 					memoryImgs.add(memories.get(j).thumbnailURL());

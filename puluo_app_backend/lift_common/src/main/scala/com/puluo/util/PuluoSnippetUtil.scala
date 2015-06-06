@@ -29,6 +29,7 @@ trait PuluoSnippetUtil {
     val hide = if (cond) "display: none;" else ""
     s"#${id} [style]" #> hide
   }
+  
   def renderText(v: RequestVar[Option[String]]) = {
     SHtml.ajaxText(v.getOrElse(""), s => {
       v(Some(s.trim()))
