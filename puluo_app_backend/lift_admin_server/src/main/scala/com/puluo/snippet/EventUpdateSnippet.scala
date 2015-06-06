@@ -56,6 +56,7 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
   object month extends RequestVar[Option[Int]](None)
   object day extends RequestVar[Option[Int]](None)
   object hour extends RequestVar[Option[Int]](None)
+  object minute extends RequestVar[Option[Int]](None)
   object price extends RequestVar[Option[Double]](None)
   object discount extends RequestVar[Option[Double]](None)
   object hottest extends RequestVar[Option[String]](None)
@@ -92,6 +93,7 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
       "#month" #> renderInt(month) &
       "#day" #> renderInt(day) &
       "#hour" #> renderInt(hour) &
+      "#minute" #> renderInt(minute) &
       "#price" #> renderDouble(price) &
       "#discount-price" #> renderDouble(discount) &
       "#status" #> renderSimpleSelect(eventStatus, status) &
@@ -115,6 +117,7 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
         month(Some(dt.getMonthOfYear()))
         day(Some(dt.getDayOfMonth()))
         hour(Some(dt.getHourOfDay()))
+        minute(Some(dt.getMinuteOfHour()))
       }
       if (e.price() != 0.0) price(Some(e.originalPrice()))
       if (e.discountedPrice() != 0.0) discount(Some(e.discountedPrice()))
@@ -131,9 +134,13 @@ class EventUpdateSnippet extends PuluoSnippetUtil with Loggable {
     val locEntity = locDao.getEventLocationByUUID(locId.getOrElse(""))
     if (infoEntity != null) {
       if (locEntity != null) {
-        if (year.isDefined && month.isDefined && day.isDefined && hour.isDefined) {
+        if (year.isDefined && 
+            month.isDefined && 
+            day.isDefined && 
+            hour.isDefined &&
+            minute.isDefined) {
           val eventTime = TimeUtils.parseDateTime(
-            s"${year.get.get}-${month.get.get}-${day.get.get} ${hour.get.get}:0:0")
+            s"${year.get.get}-${month.get.get}-${day.get.get} ${hour.get.get}:${minute.get.get}:0")
           if (eventTime != null) {
             val eventStatus = EventStatus.valueOf(status.get.get)
             val eventHottest = hottest.map(_.toInt).getOrElse(0)
