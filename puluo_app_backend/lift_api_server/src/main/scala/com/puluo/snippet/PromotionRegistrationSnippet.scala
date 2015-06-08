@@ -35,6 +35,7 @@ object PromotionRegistrationSnippet extends PuluoSnippetUtil with PuluoAuthCodeS
 
     renderSendAuthCode &
       "#mobile" #> renderText(mobile) &
+      "#auth_code" #> renderText(authCode) &
       renderRegister
 
   }
