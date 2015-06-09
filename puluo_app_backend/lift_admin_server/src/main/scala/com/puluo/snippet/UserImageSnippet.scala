@@ -26,6 +26,12 @@ import com.puluo.util.Strs
 import com.puluo.entity.PuluoAdmin
 import com.puluo.snippet.util.SortedChineseMapperPaginator
 import com.puluo.service.PuluoService
+import com.puluo.dao.impl.DaoApi
+import com.puluo.entity.impl.PuluoEventInfoImpl
+import com.puluo.entity.impl.PuluoEventPosterImpl
+import com.puluo.enumeration.PuluoEventPosterType
+import org.joda.time.DateTime
+import com.puluo.entity.impl.PuluoEventMemoryImpl
 
 object ImageUsage extends Enumeration {
   type ImageUsage = Value
@@ -57,19 +63,19 @@ class UserImageSnippet extends Loggable {
     ".image-results *" #> imagesToRender.zipWithIndex.map(em => {
       val (image, index) = em
       val imageUUID = image.imageUUID
-      val currentUsage = usages.get(imageUUID)
-      val currentUsageID = usageIDs.get(imageUUID)
+      val currentUsage = usages.get.get(imageUUID)
+      val currentUsageID = usageIDs.get.get(imageUUID)
       "#image-link [src]" #> Configurations.imgHttpLink(image.imageUUID, "!small") &
         "#image-name *" #> image.name.get &
         "#image-uuid *" #> imageUUID &
-        "#image-usage-id *" #> SHtml.ajaxText(currentUsageID, id => {
+        ".image-usage-id *" #> SHtml.ajaxText(currentUsageID.getOrElse(""), id => {
           if (!id.trim().isEmpty()) {
             val newUsageIDs = usageIDs.get ++ Map(imageUUID -> id)
             usageIDs(newUsageIDs)
           }
           JsCmds.Noop
         }) &
-        "#image-usage *" #> SHtml.ajaxSelect(ImageUsage.usageOptions, Empty, s => {
+        ".image-usage *" #> SHtml.ajaxSelect(ImageUsage.usageOptions, Empty, s => {
           if (!s.isEmpty()) {
             val newUsages = usages.get ++ Map(imageUUID -> ImageUsage.withName(s))
             usages(newUsages)
@@ -92,14 +98,56 @@ class UserImageSnippet extends Loggable {
 
   private def updateImageUsage(imgUUID: String) =
     (usages.get.get(imgUUID), usageIDs.get.get(imgUUID)) match {
-      case (Some(usage), Some(usageID)) => JsCmds.Noop//doUpdateImage(usage, usageID, imgUUID)
+      case (Some(usage), Some(usageID)) => JsCmds.Noop //doUpdateImage(usage, usageID, imgUUID)
       case _ => JsCmds.Noop
     }
-  /*private def doUpdateImage(usage: ImageUsage.ImageUsage, usageID: String, imgUUID: String) = 
-  usage match{
-    case ImageUsage.UserIcon =>
-    case ImageUsage.EventIcon
-    case ImageUsage.Event
-    JsCmds.Noop
-  }*/
+
+  private def doUpdateImage(usage: ImageUsage.ImageUsage, usageID: String, imgUUID: String) = {
+    val dsi = DaoApi.getInstance()
+    usage match {
+      case ImageUsage.UserIcon => {
+        val user = dsi.userDao().getByUUID(usageID)
+        if (user == null) JsCmds.Alert(s"更新用户${usageID}不存在") else {
+          val newUser = dsi.userDao().updateProfile(user, null, null, imgUUID, null, null, null, null, null, null, null, null)
+          if (newUser == null) JsCmds.Alert("更新用户头像失败") else JsCmds.Alert("成功更新用户头像")
+        }
+      }
+      case ImageUsage.EventIcon => {
+        val info = dsi.eventInfoDao().getEventInfoByUUID(usageID)
+        if (info == null) JsCmds.Alert(s"更新的活动信息不存在") else {
+          val newEventInfo = new PuluoEventInfoImpl(
+            info.eventInfoUUID(),
+            info.name(),
+            info.description,
+            info.coachName(),
+            info.coachUUID(),
+            imgUUID,
+            info.details,
+            info.duration, info.level, info.eventType());
+          val success = dsi.eventInfoDao().updateEventInfo(newEventInfo)
+          if (success) JsCmds.Alert("成功更新用户头像") else JsCmds.Alert("更新用户头像失败")
+        }
+      }
+      case ImageUsage.EventPoster => {
+        val info = dsi.eventInfoDao().getEventInfoByUUID(usageID)
+        if (info == null) JsCmds.Alert(s"更新的活动信息不存在") else {
+          val poster = new PuluoEventPosterImpl(
+            UUID.randomUUID().toString(),
+            imgUUID,
+            usageID, DateTime.now, PuluoEventPosterType.POSTER)
+          dsi.eventPosterDao().saveEventPhoto(poster)
+        }
+      }
+      case ImageUsage.EventMemory => {
+        val event = dsi.eventDao().getEventByUUID(usageID)
+        if (event == null) JsCmds.Alert(s"更新的课程信息不存在") else {
+          val mem = new PuluoEventMemoryImpl(
+            UUID.randomUUID().toString(),
+            imgUUID,
+            usageID, "", "")
+          dsi.eventMemoryDao().saveEventMemory(mem)
+        }
+      }
+    }
+  }
 }
