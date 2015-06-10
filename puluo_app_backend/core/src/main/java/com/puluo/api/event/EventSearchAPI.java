@@ -17,6 +17,7 @@ import com.puluo.enumeration.SortDirection;
 import com.puluo.result.event.EventSearchResult;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
+import com.puluo.util.Strs;
 import com.puluo.util.TimeUtils;
 
 public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
@@ -75,7 +76,7 @@ public class EventSearchAPI extends PuluoAPI<PuluoDSI, EventSearchResult> {
 						sort, sort_direction, latitude.toString(),
 						longitude.toString(), range_from.toString(),limit,offset));
 		PuluoEventDao event_dao = dsi.eventDao();
-		if (keyword.trim().isEmpty())
+		if (Strs.isEmpty(keyword))
 			keyword = null;
 		searchedEvents = event_dao.findEvents(
 				getTodayMidNight(event_from_date),

@@ -62,6 +62,7 @@ class Boot extends Loggable {
       Menu("promotion2") / "promotion2" >> net.liftweb.sitemap.Loc.Hidden,
       Menu("promotion") / "promotion" >> net.liftweb.sitemap.Loc.Hidden,
       Menu("event") / "event" >> net.liftweb.sitemap.Loc.Hidden,
+      Menu("event_tab") / "event_tab" >> net.liftweb.sitemap.Loc.Hidden,
       Menu("single_event") / "single_event" >> net.liftweb.sitemap.Loc.Hidden))
   }
 

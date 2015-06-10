@@ -74,7 +74,7 @@ public abstract class Strs {
 	 * @return
 	 */
 	public static boolean isEmpty(String str) {
-		return (str == null) || str.isEmpty();
+		return (str == null) || str.trim().isEmpty();
 	}
 	
 	public static boolean isEmptyChar(char ch) {
