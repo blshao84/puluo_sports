@@ -72,7 +72,7 @@ object EventListSnippet extends PuluoSnippetUtil with Loggable {
   private def renderOneEvent(event:PuluoEvent) = {
     val info = event.eventInfo()
     val thumbnail = info.poster().headOption.map(_.thumbnailURL()).getOrElse(Configurations.emptyImage)
-    "#event-link [href]" #> s"/event=?uuid=${event.eventUUID()}" &
+    "#event-link [href]" #> s"/event?uuid=${event.eventUUID()}" &
     "#event-thumbnail [src]" #> thumbnail &
     "#event-name" #> info.name() &
     "#event-time" #> TimeUtils.formatDate(event.eventTime()) &
