@@ -260,7 +260,9 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			String selectSQL = new StringBuilder()
 					.append("select d.* from ( select to_user_uuid, max(created_at) as max_time from ")
 					.append(super.getFullTableName())
-					.append(" where from_user_uuid = ? group by to_user_uuid) s ")
+					.append(" where message_type <> '")
+					.append(PuluoMessageType.FriendRequest.name())
+					.append("' and from_user_uuid = ? group by to_user_uuid) s ")
 					.append("join ").append(super.getFullTableName())
 					.append(" d on s.to_user_uuid = d.to_user_uuid")
 					.append(" and s.max_time = d.created_at").toString();
@@ -286,7 +288,9 @@ public class PuluoPrivateMessageDaoImpl extends DalTemplate implements
 			String selectSQL = new StringBuilder()
 					.append("select d.* from ( select from_user_uuid, max(created_at) as max_time from ")
 					.append(super.getFullTableName())
-					.append(" where to_user_uuid = ? group by from_user_uuid) s ")
+					.append(" where message_type <> '")
+					.append(PuluoMessageType.FriendRequest.name())
+					.append("' and to_user_uuid = ? group by from_user_uuid) s ")
 					.append("join ").append(super.getFullTableName())
 					.append(" d on s.from_user_uuid = d.from_user_uuid")
 					.append(" and s.max_time = d.created_at").toString();
