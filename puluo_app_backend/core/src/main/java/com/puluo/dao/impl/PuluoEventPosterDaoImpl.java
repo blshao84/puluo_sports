@@ -110,6 +110,7 @@ public class PuluoEventPosterDaoImpl extends DalTemplate implements
 		SqlReader reader = getReader();
 		StringBuilder selectSQL = new StringBuilder().append("select * from ")
 				.append(super.getFullTableName()).append(" where event_info_uuid = ? order by created_at desc limit 5");
+		log.info(selectSQL);
 		List<PuluoEventPoster> entities = reader.query(selectSQL.toString(), new Object[]{event_info_uuid},
 				new PuluoEventPosterMapper());
 		return entities;

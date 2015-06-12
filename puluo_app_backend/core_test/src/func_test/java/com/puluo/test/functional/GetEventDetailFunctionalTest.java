@@ -198,8 +198,9 @@ public class GetEventDetailFunctionalTest extends APIFunctionalTest {
 		Set<String> posterThumbnails = new HashSet<String>();
 		Set<String> memoryThumbnails = new HashSet<String>();
 		Set<String> expectedAttendees = new HashSet<String>();
-		for (PuluoEventPoster p : eventPosters) {
-			posterThumbnails.add(p.thumbnailURL());
+		//starting from 1, because the EventDetaiAPI returns posters from the second one
+		for (int i=1;i<eventPosters.size();i++) {
+			posterThumbnails.add(eventPosters.get(i).thumbnailURL());
 		}
 		for (PuluoEventMemory m : eventMemories) {
 			memoryThumbnails.add(m.thumbnailURL());
