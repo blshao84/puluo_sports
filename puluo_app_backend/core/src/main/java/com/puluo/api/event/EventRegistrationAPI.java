@@ -70,7 +70,7 @@ public class EventRegistrationAPI extends
 			this.error = ApiErrorResult.getError(1);
 		} else if (event.registeredUsers() >= event.capatcity()) {
 			this.error = ApiErrorResult.getError(51);
-		} else if (event.eventTime().isBefore(DateTime.now())) {
+		} else if (event.eventEndTime().isBefore(DateTime.now())) {
 			this.error = ApiErrorResult.getError(52);
 		} else {
 			PuluoPaymentOrder order = dsi.paymentDao().getOrderByEvent(

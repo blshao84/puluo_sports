@@ -10,6 +10,7 @@ public interface PuluoEvent {
 
 	String eventUUID();
 	DateTime eventTime();
+	DateTime eventEndTime();
 	String statusName();
 	int registeredUsers();
 	int capatcity();

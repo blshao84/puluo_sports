@@ -218,4 +218,9 @@ public class PuluoEventImpl implements PuluoEvent {
 		return location_uuid;
 	}
 
+	@Override
+	public DateTime eventEndTime() {
+		return eventTime().plusMinutes(this.eventInfo().duration());
+	}
+
 }

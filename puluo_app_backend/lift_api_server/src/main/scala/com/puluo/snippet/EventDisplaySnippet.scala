@@ -60,9 +60,11 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
     val userUUID = S.param("user_uuid").getOrElse("")
     val userFromLink = userDao.getByUUID(userUUID)
     val event = dsi.eventDao().getEventByUUID(eventUUID)
-    if (event == null || event.eventTime().isBefore(DateTime.now)) {
+    if (event == null) {
       "#event" #> "课程不存在"
-    } else {
+    } else if(event.eventEndTime().isBefore(DateTime.now)){
+      "#event" #> "课程已结束"
+    }else {
       //get valid coupons
       val coupons = dsi.couponDao().getByUserUUID(userUUID, true).filter(_.locationUUID() == event.eventLocationUUID())
       val couponOptions = coupons.sortBy(_.validUntil().getMillis()).
