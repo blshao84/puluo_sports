@@ -123,10 +123,10 @@ public class ImageUploadServiceAPI extends
 								this.rawResult = null;
 								this.error = ApiErrorResult.getError(46);
 							} else {
-								//FIXME: should pass in poster type
+								//FIXME: should pass in poster type and rank
 								PuluoEventPoster poster = new PuluoEventPosterImpl(
 										UUID.randomUUID().toString(), imageUUID,
-										info.eventInfoUUID(), DateTime.now(),PuluoEventPosterType.POSTER);
+										info.eventInfoUUID(), DateTime.now(),PuluoEventPosterType.POSTER,1);
 								eventPoserDao.saveEventPhoto(poster);
 							}
 						}

@@ -27,7 +27,7 @@ public class PuluoEventPosterDaoTest {
 		log.info("setUpDB start!");
 		PuluoEventPosterDao posterDao = DaoTestApi.eventPosterDevDao;
 		posterDao.createTable();
-		PuluoEventPoster photo = new PuluoEventPosterImpl("uuid_0","image_url_0","event_info_uuid_0",DateTime.now(),PuluoEventPosterType.POSTER);
+		PuluoEventPoster photo = new PuluoEventPosterImpl("uuid_0","image_url_0","event_info_uuid_0",DateTime.now(),PuluoEventPosterType.POSTER,1);
 		posterDao.saveEventPhoto(photo);
 		log.info("setUpDB done!");
 	}
@@ -44,7 +44,7 @@ public class PuluoEventPosterDaoTest {
 	@Test
 	public void testSaveDupPoster() {
 		log.info("testSaveDupPoster start!");
-		boolean success = DaoTestApi.eventPosterDevDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_0","image_url_0","event_info_uuid_0",DateTime.now(),PuluoEventPosterType.POSTER));
+		boolean success = DaoTestApi.eventPosterDevDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_0","image_url_0","event_info_uuid_0",DateTime.now(),PuluoEventPosterType.POSTER,1));
 		Assert.assertFalse("save a duplicate poster should fail!", success);
 		log.info("testSaveDupPoster done!");
 	}
@@ -53,12 +53,12 @@ public class PuluoEventPosterDaoTest {
 	public void testGetEventPoster() {
 		log.info("testGetEventPoster start!");
 		PuluoEventPosterDao posterDao = DaoTestApi.eventPosterDevDao;
-		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_1","image_url_1","event_info_uuid_0",DateTime.now().plusMinutes(5),PuluoEventPosterType.POSTER));
-		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_2","image_url_2","event_info_uuid_0",DateTime.now().plusMinutes(4),PuluoEventPosterType.POSTER));
-		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_3","image_url_3","event_info_uuid_0",DateTime.now().plusMinutes(3),PuluoEventPosterType.POSTER));
-		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_4","image_url_4","event_info_uuid_0",DateTime.now().plusMinutes(2),PuluoEventPosterType.POSTER));
-		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_5","image_url_5","event_info_uuid_0",DateTime.now().plusMinutes(1),PuluoEventPosterType.POSTER));
-		List<PuluoEventPoster> posters = posterDao.getEventPosterByInfoUUID("event_info_uuid_0");
+		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_1","image_url_1","event_info_uuid_2",DateTime.now().plusMinutes(5),PuluoEventPosterType.POSTER,1));
+		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_2","image_url_2","event_info_uuid_2",DateTime.now().plusMinutes(4),PuluoEventPosterType.POSTER,2));
+		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_3","image_url_3","event_info_uuid_2",DateTime.now().plusMinutes(3),PuluoEventPosterType.POSTER,3));
+		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_4","image_url_4","event_info_uuid_2",DateTime.now().plusMinutes(2),PuluoEventPosterType.POSTER,4));
+		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_5","image_url_5","event_info_uuid_2",DateTime.now().plusMinutes(1),PuluoEventPosterType.POSTER,5));
+		List<PuluoEventPoster> posters = posterDao.getEventPosterByInfoUUID("event_info_uuid_2");
 		Assert.assertEquals("posters' size should be 5!", 5, posters.size());
 		String expectedImglink = Configurations.imgHttpLink("image_url_1!rect");
 		Assert.assertEquals("the first image url of the posters should be image_url_1!",expectedImglink , posters.get(0).imageURL());
@@ -69,8 +69,8 @@ public class PuluoEventPosterDaoTest {
 	public void testUpdateEventPoster() {
 		log.info("testUpdateEventPoster start!");
 		PuluoEventPosterDao posterDao = DaoTestApi.eventPosterDevDao;
-		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_6","image_url_6","event_info_uuid_1",DateTime.now(),PuluoEventPosterType.POSTER));
-		posterDao.updateEventPhoto(new PuluoEventPosterImpl("uuid_6",null,null,DateTime.now(),PuluoEventPosterType.POSTER));
+		posterDao.saveEventPhoto(new PuluoEventPosterImpl("uuid_6","image_url_6","event_info_uuid_1",DateTime.now(),PuluoEventPosterType.POSTER,1));
+		posterDao.updateEventPhoto(new PuluoEventPosterImpl("uuid_6",null,null,DateTime.now(),PuluoEventPosterType.POSTER,2));
 		List<PuluoEventPoster> posters = posterDao.getEventPosterByInfoUUID("event_info_uuid_1");
 		PuluoEventPoster poster = posters.get(0);
 		String expectedImg = Configurations.imgHttpLink("image_url_6!rect");

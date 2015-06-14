@@ -57,6 +57,13 @@ public class PuluoEventInfoDaoImpl extends DalTemplate implements
 			return false;
 		}
 	}
+	
+	public List<PuluoEventInfo> getAll() {
+		SqlReader reader = getReader();
+		String selectSQL = new StringBuilder().append("select * from ")
+				.append(super.getFullTableName()).toString();
+		return reader.query(selectSQL.toString(),new PuluoEventInfoRowMapper());
+	}
 
 	@Override
 	public List<PuluoEventInfo> findEventInfo(String keyword) {

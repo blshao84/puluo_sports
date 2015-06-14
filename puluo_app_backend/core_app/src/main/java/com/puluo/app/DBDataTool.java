@@ -10,11 +10,15 @@ import org.joda.time.DateTime;
 import com.puluo.config.Configurations;
 import com.puluo.dao.PuluoCouponDao;
 import com.puluo.dao.PuluoEventDao;
+import com.puluo.dao.PuluoEventPosterDao;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.dao.impl.PuluoEventInfoDaoImpl;
 import com.puluo.dao.impl.PuluoUserDaoImpl;
 import com.puluo.dao.impl.PuluoWechatBindingDaoImpl;
 import com.puluo.entity.PuluoEvent;
+import com.puluo.entity.PuluoEventInfo;
+import com.puluo.entity.PuluoEventPoster;
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.PuluoUser;
 import com.puluo.entity.PuluoWechatBinding;
@@ -32,8 +36,21 @@ public class DBDataTool {
 	public static void main(String[] args) {
 		// fixUserThumbnail();
 		// grantCoupons();
-		createWeeklyEvents();
+		//createWeeklyEvents();
 		//registerEvent();
+		fixPosterRank();
+	}
+	
+	private static void fixPosterRank() {
+		PuluoEventInfoDaoImpl eventInfoDaoImpl = (PuluoEventInfoDaoImpl)DaoApi.getInstance().eventInfoDao();
+		PuluoEventPosterDao posterDao = DaoApi.getInstance().eventPosterDao();
+		List<PuluoEventInfo> infos = eventInfoDaoImpl.getAll();
+		for(PuluoEventInfo info:infos){
+			List<PuluoEventPoster> posters = posterDao.getEventPosterByInfoUUID(info.eventInfoUUID());
+			for(int i=0;i<posters.size();i++){
+				posterDao.updatePosterRank(posters.get(i).imageId(), i+1);
+			}
+		}
 	}
 
 	@SuppressWarnings("unused")

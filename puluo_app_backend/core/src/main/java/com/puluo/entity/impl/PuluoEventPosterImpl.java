@@ -16,15 +16,18 @@ public class PuluoEventPosterImpl implements PuluoEventPoster {
 	private final String event_info_uuid;
 	private final DateTime created_at;
 	private final PuluoEventPosterType poster_type;
+	private final int poster_rank;
 
 	public PuluoEventPosterImpl(String uuid, String image_name,
-			String event_info_uuid, DateTime created_at, PuluoEventPosterType poster_type) {
+			String event_info_uuid, DateTime created_at,
+			PuluoEventPosterType poster_type,int poster_rank) {
 		super();
 		this.uuid = uuid;
 		this.image_name = image_name;
 		this.event_info_uuid = event_info_uuid;
 		this.created_at = created_at;
 		this.poster_type = poster_type;
+		this.poster_rank = poster_rank;
 	}
 
 
@@ -74,5 +77,11 @@ public class PuluoEventPosterImpl implements PuluoEventPoster {
 	@Override
 	public PuluoEventPosterType posterType() {
 		return poster_type;
+	}
+
+
+	@Override
+	public int rank() {
+		return poster_rank;
 	}
 }

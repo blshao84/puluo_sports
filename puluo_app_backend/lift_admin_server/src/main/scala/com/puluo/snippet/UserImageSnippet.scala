@@ -134,7 +134,8 @@ class UserImageSnippet extends Loggable {
           val poster = new PuluoEventPosterImpl(
             UUID.randomUUID().toString(),
             imgUUID,
-            usageID, DateTime.now, PuluoEventPosterType.POSTER)
+            usageID, DateTime.now, 
+            PuluoEventPosterType.POSTER,0)//FIXME: should fix this!!
           dsi.eventPosterDao().saveEventPhoto(poster)
         }
       }

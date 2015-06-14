@@ -10,4 +10,5 @@ public interface PuluoEventPosterDao {
 	public List<PuluoEventPoster> getEventPosterByInfoUUID(String event_info_uuid);
 	public PuluoEventPoster getEventPosterByUUID(String uuid);
 	public boolean updateEventPhoto(PuluoEventPoster photo);
+	public boolean updatePosterRank(String poster_uuid,int rank);
 }

@@ -14,4 +14,5 @@ public interface PuluoEventPoster {
 	PuluoEventInfo eventInfo();
 	DateTime createdAt();
 	PuluoEventPosterType posterType();
+	int rank();
 }

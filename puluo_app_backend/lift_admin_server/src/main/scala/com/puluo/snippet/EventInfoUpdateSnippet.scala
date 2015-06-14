@@ -111,7 +111,7 @@ class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
       "#update" #> SHtml.ajaxButton("更新", () => doUpdate)
   }
 
-  private def savePoster(eventInfoUUID: String, poster: RequestVar[Option[String]]): Boolean = {
+  private def savePoster(eventInfoUUID: String, poster: RequestVar[Option[String]],rank:Int): Boolean = {
     val posterDao = DaoApi.getInstance().eventPosterDao()
     if (poster.isDefined) {
       val posterUUID = poster.get.get
@@ -119,7 +119,9 @@ class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
       if (ui.isDefined) {
         val imageName = ui.get.imageUUID
         val imageUUID = UUID.randomUUID().toString()
-        val newEventPoster = new PuluoEventPosterImpl(imageUUID, imageName, eventInfoUUID, DateTime.now(),PuluoEventPosterType.POSTER)
+        val newEventPoster = new PuluoEventPosterImpl(
+            imageUUID, imageName, eventInfoUUID, 
+            DateTime.now(),PuluoEventPosterType.POSTER,rank)
         //we always save a new image link for event info
         posterDao.saveEventPhoto(newEventPoster)
       } else true
@@ -158,11 +160,11 @@ class EventInfoUpdateSnippet extends PuluoSnippetUtil with Loggable {
     val success = dsi.eventInfoDao().upsertEventInfo(newInfo)
     val msg = if (success) {
       val successSavePoster = (
-        savePoster(infoUUID, poster1) &&
-        savePoster(infoUUID, poster2) &&
-        savePoster(infoUUID, poster3) &&
-        savePoster(infoUUID, poster4) &&
-        savePoster(infoUUID, poster5))
+        savePoster(infoUUID, poster1,1) &&
+        savePoster(infoUUID, poster2,2) &&
+        savePoster(infoUUID, poster3,3) &&
+        savePoster(infoUUID, poster4,4) &&
+        savePoster(infoUUID, poster5,5))
       if (successSavePoster) {
         "成功更新活动信息"
       } else "成功更新活动信息，但保存活动官方图片时出错"
