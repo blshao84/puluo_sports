@@ -9,10 +9,12 @@ import com.puluo.api.result.wechat.WechatMessage;
 import com.puluo.api.result.wechat.WechatNewsMessage;
 import com.puluo.api.result.wechat.WechatTextMessage;
 import com.puluo.config.Configurations;
+import com.puluo.dao.PuluoWechatBindingDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.PuluoUser;
+import com.puluo.entity.PuluoWechatBinding;
 import com.puluo.enumeration.WechatButtonType;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
@@ -42,6 +44,7 @@ public class WechatButtonAPI extends WechatAPI {
 		} else if (event.toLowerCase().equals("unsubscribe")) {
 			// TODO: should log this for further stat!!
 			log.info("user unsubscribe through wechat button");
+			this.buttonType = WechatButtonType.UNSUBSCRIBE;
 		} else
 			throw new Exception(String.format(
 					"Unexpected wechat button request:event=%s,eventKey=%s",
@@ -51,6 +54,8 @@ public class WechatButtonAPI extends WechatAPI {
 	public WechatMessage process() throws Exception {
 		if (buttonType != null) {
 			switch (buttonType) {
+			case UNSUBSCRIBE:
+				return resetBinding();
 			case SUBSCRIBE:
 				return createIntro();
 			case INFO1:
@@ -84,6 +89,16 @@ public class WechatButtonAPI extends WechatAPI {
 			}
 		} else
 			return new WechatTextMessage("");
+	}
+
+	private WechatMessage resetBinding() {
+		String openId = params.get("FromUserName");
+		PuluoWechatBindingDao bindingDao = DaoApi.getInstance().wechatBindingDao();
+		PuluoWechatBinding binding = bindingDao.findByOpenId(openId);
+		if(binding!=null){
+			bindingDao.updateBinding(openId, 0);
+		}
+		return new WechatTextMessage("");
 	}
 
 	private WechatMessage createIntro() {
