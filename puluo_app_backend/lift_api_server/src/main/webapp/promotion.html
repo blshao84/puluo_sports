@@ -1,29 +1,23 @@
-<lift:surround with="bootstrap_base" at="content">
+<lift:surround with="bootstrap_base2" at="content">
 <div class="row"  data-lift="PromotionRegistrationSnippet.render">
-<div class="panel panel-default">
-<div class="panel-body"><img src="image/promotion.jpg" alt="" class="img-responsive center-block" />
+<!--div class="yh-pic"></div-->
+<div class="login-box">
+	<div class="ipt-box">
+		<input id="mobile" name="" type="text" class="ipt-mobile">
+	</div>
+	<div class="ipt-wrap clearfix">
+        	<div class="ipt-box fl" style="width:145px;">
+		<input id="auth_code" type="text" class="input" style="width:145px" placeholder="输入验证码"/>
+		
+		</div>
+		<div class="fl ml10"><a id="send_auth_code" class="send-button">发送验证码</a></div>
+	</div>
+	<p class="popbox-link but-wrap"><a id="register" class="ui-button">提交</a></p>
 </div>
 </div>
-<table class="table table-hover table-bordered">
-	<tbody>
-		<tr>
-			<td>手机</td>
-			<td><input id="mobile"/></td>
-		</tr>
-		<tr>
-			<td>验证码</td>
-			<td>
-				<input id="auth_code"/>  
-				<button id="send_auth_code" class="btn btn-danger">发送</button>
-			</td>
-		</tr>
-	</tbody>
-</table>
-<button id="register" style="margin-top:15px;margin-bottom:15px" class="col-xs-6 col-xs-offset-3 btn btn-primary">预定</button> 	
-</div>
-<div class="panel panel-default">
+<!--div class="panel panel-default">
 <div class="panel-heading text-center" style="font-size:30px"><strong>关注普罗运动公众号 免费体验酷炫健身课</strong></div>
 <div class="panel-body"><img src="image/puluo_qrcode.jpg" alt="" class="img-responsive center-block" />
 </div>
-</div>
+</div-->
 </lift:surround>
