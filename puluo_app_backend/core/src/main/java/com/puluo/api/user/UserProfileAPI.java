@@ -69,7 +69,7 @@ public class UserProfileAPI extends PuluoAPI<PuluoDSI, UserProfileResult> {
 				privateInfo = new UserPrivateProfileResult(
 				user.email(), 
 				String.valueOf(user.sex()),
-				TimeUtils.formatDate(user.birthday()), 
+				TimeUtils.formatBirthday(user.birthday()), 
 				user.occupation(),
 				user.country(), 
 				user.state(), 

@@ -66,14 +66,14 @@ public class UserProfileFunctionalTest extends APIFunctionalTest {
 		dao.save(mobile1, password1);
 		PuluoUser user1 = dao.getByMobile(mobile1);
 		dao.updateProfile(user1, "user1", "user1", "http://upyun.com/puluo/user1.jpg",
-				"i am user1","user1@puluo.com","M", null,
+				"i am user1","user1@puluo.com","M",  "1984-09-01",
 				null, null, null, null);
 		uuid1 = user1.userUUID();
 		
 		dao.save(mobile2, password2);
 		PuluoUser user2 = dao.getByMobile(mobile2);
 		dao.updateProfile(user2, "user2", "user2", "http://upyun.com/puluo/user2.jpg", 
-				"i am user2","user2@puluo.com","M", null,
+				"i am user2","user2@puluo.com","M",null,
 				null, null, null, null);
 		uuid2 = user2.userUUID();
 		
@@ -196,10 +196,12 @@ public class UserProfileFunctionalTest extends APIFunctionalTest {
 				log.info(json);
 				String uuid = getStringFromJson(json, "uuid");
 				String email = getStringFromJson(json, "private_info","email");
+				String birth = getStringFromJson(json, "private_info","birthday");
 				String saying = getStringFromJson(json, "public_info","saying");
 				Assert.assertEquals("mobile1 should get his own private info, expect email to be non-empty","user1@puluo.com", email);
 				Assert.assertEquals("should return user's saying ", "i am user1", saying);
 				Assert.assertEquals("uuid should be " + uuid1, uuid1, uuid);
+				Assert.assertEquals("birthday should be " + uuid1, "1984-09-01", birth);
 				
 				JsonNode private_info = new JsonNode(getStringFromJson(json, "private_info"));
 				List<JsonNode> pendings = getJsonArrayFromJson(private_info, "pending");
