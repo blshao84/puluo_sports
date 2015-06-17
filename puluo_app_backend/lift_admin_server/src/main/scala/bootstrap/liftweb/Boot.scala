@@ -43,7 +43,7 @@ class Boot extends Loggable {
     val (ip,user) = if(env == "production") {
       ("localhost:5432","puluoprod")
     } else ("183.131.76.93:2345","puluodev")
-    val dsiUri = s"jdbc:postgresql://${ip}/puluo"
+    val dsiUri = s"jdbc:postgresql://${ip}/puluodb"
     val dsiDriver = "org.postgresql.Driver"
     logger.info("dsiUri=%s,dsiDriver=%s".format(dsiUri, dsiDriver))
     new StandardDBVendor(dsiDriver, dsiUri, Full(user), Full("puLuo20!5")) {
