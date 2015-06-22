@@ -198,4 +198,16 @@
 	<bean id="invitationDao" class="com.puluo.dao.impl.PuluoRegistrationInvitationDaoImpl" parent="testDevDao">
 		<property name="fullTableName" value="puluo_registration_invitation"></property>
 	</bean>
+	
+	<bean id="postDevDao" class="com.puluo.dao.impl.PuluoTimelineDaoImpl" parent="testDevDao">
+		<property name="fullTableName" value="puluo_post"></property>
+	</bean>
+	
+	<bean id="postCommentDevDao" class="com.puluo.dao.impl.PuluoTimelineCommentDaoImpl" parent="testDevDao">
+		<property name="fullTableName" value="puluo_post_comment"></property>
+	</bean>
+	
+	<bean id="postLikeDevDao" class="com.puluo.dao.impl.PuluoTimelineLikeDaoImpl" parent="testDevDao">
+		<property name="fullTableName" value="puluo_post_like"></property>
+	</bean>
 </beans>

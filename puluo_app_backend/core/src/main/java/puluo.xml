@@ -130,7 +130,7 @@
 	</bean>
 	
 	<bean id="postDao" class="com.puluo.dao.impl.PuluoTimelineDaoImpl" parent="dalTemplate">
-		<property name="fullTableName" value="puluo_event_location"></property>
+		<property name="fullTableName" value="puluo_post"></property>
 	</bean>
 	
 	<bean id="postCommentDao" class="com.puluo.dao.impl.PuluoTimelineCommentDaoImpl" parent="dalTemplate">

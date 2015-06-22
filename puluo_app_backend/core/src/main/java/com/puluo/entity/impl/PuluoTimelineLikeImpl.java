@@ -9,15 +9,17 @@ import com.puluo.entity.PuluoTimelinePost;
 import com.puluo.entity.PuluoUser;
 
 public class PuluoTimelineLikeImpl implements PuluoTimelineLike {
-	
+
+	private String uuid;
 	private String timeline_uuid;
 	private String user_uuid;
 	private String user_name;
 	private DateTime created_at;
 
-	public PuluoTimelineLikeImpl(String timeline_uuid, String user_uuid,
+	public PuluoTimelineLikeImpl(String uuid, String timeline_uuid, String user_uuid,
 			String user_name, DateTime created_at) {
 		super();
+		this.uuid = uuid;
 		this.timeline_uuid = timeline_uuid;
 		this.user_uuid = user_uuid;
 		this.user_name = user_name;
@@ -60,5 +62,10 @@ public class PuluoTimelineLikeImpl implements PuluoTimelineLike {
 
 	public PuluoUser user(PuluoDSI dsi) {
 		return dsi.userDao().getByUUID(user_uuid);
+	}
+
+	@Override
+	public String likeUUID() {
+		return uuid;
 	}
 }
