@@ -36,9 +36,9 @@ public class DBDataTool {
 	public static void main(String[] args) {
 		// fixUserThumbnail();
 		// grantCoupons();
-		//createWeeklyEvents();
+		createWeeklyEvents();
 		//registerEvent();
-		fixPosterRank();
+		//fixPosterRank();
 	}
 	
 	private static void fixPosterRank() {

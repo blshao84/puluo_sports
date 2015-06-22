@@ -211,8 +211,9 @@ public class WechatButtonAPI extends WechatAPI {
 	}
 
 	private WechatMessage createCurriculum() {
-		return new WechatTextMessage("精彩课程，敬请期待！");
-		// return new WechatImageMessage(Configurations.wechatCurriculum);
+		String[] list = new String[1];
+		list[0] = Configurations.wechatCurriculum;
+		return createInfo(list);
 	}
 
 	private WechatMessage createInfo(String[] mediaList) {

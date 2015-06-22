@@ -2,6 +2,7 @@
 <button_group>
 	<button button_type="click" button_name="酷炫课程">
 		<sub_button_group>
+					<sub_button button_type="click" button_name="课程表" button_key="CURRICULUM"></sub_button>
 					<sub_button button_type="click" button_name="尊巴" button_key="INFO1"></sub_button>
 					<sub_button button_type="click" button_name="瑜伽" button_key="INFO2"></sub_button>
 					<sub_button button_type="click" button_name="燃爆腰腹" button_key="INFO3"></sub_button>

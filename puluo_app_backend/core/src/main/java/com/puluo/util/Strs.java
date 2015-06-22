@@ -18,6 +18,15 @@ public abstract class Strs {
 	public static final String BLANK = "";
 	public static final String NULL = null;
 
+	public static boolean isLong(String str) {
+		try {
+			Long.parseLong(str);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
+
 	/**
 	 * 构建一个重复的字符串,如?,?,?,?
 	 * 
@@ -76,7 +85,7 @@ public abstract class Strs {
 	public static boolean isEmpty(String str) {
 		return (str == null) || str.trim().isEmpty();
 	}
-	
+
 	public static boolean isEmptyChar(char ch) {
 		return ch == ' ';
 	}
