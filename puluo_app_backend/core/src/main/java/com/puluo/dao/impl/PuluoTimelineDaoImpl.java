@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import com.puluo.dao.PuluoDSI;
 import com.puluo.dao.PuluoTimelineDao;
 import com.puluo.entity.PuluoTimelinePost;
 import com.puluo.entity.impl.PuluoTimelinePostImpl;
@@ -101,8 +102,7 @@ public class PuluoTimelineDaoImpl extends DalTemplate implements PuluoTimelineDa
 		}
 	}
 
-	@Override
-	public boolean saveTimeline(PuluoTimelinePost timeline) {
+	public boolean saveTimeline(PuluoTimelinePost timeline, PuluoDSI dsi) {
 		try {
 			SqlReader reader = getReader();
 			String querySQL = new StringBuilder()
@@ -117,9 +117,9 @@ public class PuluoTimelineDaoImpl extends DalTemplate implements PuluoTimelineDa
 						.append(super.getFullTableName())
 						.append(" (uuid, event_uuid, owner_uuid, content, created_at, updated_at)")
 						.append(" values ('" + timeline.timelineUUID() + "', '" 
-								+ timeline.event().eventUUID() + "', "
-								+ timeline.owner().userUUID() + "', "
-								+ timeline.content() +"','"
+								+ ((PuluoTimelinePostImpl)timeline).event(dsi).eventUUID() + "', '"
+								+ ((PuluoTimelinePostImpl)timeline).owner(dsi).userUUID() + "', '"
+								+ timeline.content() +"', '"
 								+ TimeUtils.formatDate(timeline.createdAt()) + "', now()::timestamp)");
 				String insertSQL = sb.toString();
 				log.info(Strs.join("SQL:", insertSQL));
@@ -132,6 +132,11 @@ public class PuluoTimelineDaoImpl extends DalTemplate implements PuluoTimelineDa
 			log.info(e.getMessage());
 			return false;
 		}
+	}
+
+	@Override
+	public boolean saveTimeline(PuluoTimelinePost timeline) {
+		return saveTimeline(timeline, DaoApi.getInstance());
 	}
 
 	@Override

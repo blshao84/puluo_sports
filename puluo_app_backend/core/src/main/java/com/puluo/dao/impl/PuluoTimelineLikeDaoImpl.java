@@ -26,7 +26,8 @@ public class PuluoTimelineLikeDaoImpl extends DalTemplate implements PuluoTimeli
 			String createSQL = new StringBuilder().append("create table ")
 					.append(super.getFullTableName())
 					.append(" (id serial primary key, ")
-					.append("timeline_uuid text unique, ")
+					.append("uuid text unique, ")
+					.append("timeline_uuid text not null, ")
 					.append("user_uuid text not null, ")
 					.append("user_name text, ")
 					.append("created_at timestamp)").toString();
@@ -44,6 +45,12 @@ public class PuluoTimelineLikeDaoImpl extends DalTemplate implements PuluoTimeli
 					.append(" (timeline_uuid)").toString();
 			log.info(indexSQL2);
 			getWriter().execute(indexSQL2);
+			
+			String indexSQL3 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_uuid on ")
+					.append(super.getFullTableName())
+					.append(" (uuid)").toString();
+			log.info(indexSQL3);
+			getWriter().execute(indexSQL3);
 			
 			return true;
 		} catch (Exception e) {
@@ -74,7 +81,7 @@ public class PuluoTimelineLikeDaoImpl extends DalTemplate implements PuluoTimeli
 	public String removeTimelineLike(String timeline_uuid, String from_user_uuid) {
 		try {
 			StringBuilder sb = new StringBuilder()
-					.append("delete ")
+					.append("delete from ")
 					.append(super.getFullTableName())
 					.append(" where timeline_uuid = '" + timeline_uuid + "' and user_uuid ='" + from_user_uuid + "'");
 			String updateSQL = sb.toString();
@@ -110,6 +117,7 @@ public class PuluoTimelineLikeDaoImpl extends DalTemplate implements PuluoTimeli
 		public PuluoTimelineLike mapRow(ResultSet rs, int rowNum)
 				throws SQLException {
 			PuluoTimelineLike like = new PuluoTimelineLikeImpl(
+					rs.getString("uuid"),
 					rs.getString("timeline_uuid"),
 					rs.getString("user_uuid"),
 					rs.getString("user_name"),

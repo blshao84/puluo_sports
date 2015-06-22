@@ -33,7 +33,7 @@ public class PuluoTimelineCommentDaoImpl extends DalTemplate implements PuluoTim
 					.append("to_user_uuid text not null, ")
 					.append("comment_content text not null, ")
 					.append("created_at timestamp, ")
-					.append("read boolean default true, ")
+					.append("read boolean default false, ")
 					.append("deleted boolean default false)").toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
