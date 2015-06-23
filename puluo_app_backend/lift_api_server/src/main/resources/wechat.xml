@@ -2,16 +2,20 @@
 <button_group>
 	<button button_type="click" button_name="酷炫课程">
 		<sub_button_group>
-					<sub_button button_type="click" button_name="课程表" button_key="CURRICULUM"></sub_button>
 					<sub_button button_type="click" button_name="尊巴" button_key="INFO1"></sub_button>
 					<sub_button button_type="click" button_name="瑜伽" button_key="INFO2"></sub_button>
 					<sub_button button_type="click" button_name="燃爆腰腹" button_key="INFO3"></sub_button>
-					<!--sub_button button_type="click" button_name="街舞" button_key="INFO4"></sub_button-->
+					<sub_button button_type="click" button_name="普罗小斑课" button_key="INFO4"></sub_button>
 					<sub_button button_type="click" button_name="疲劳消除" button_key="INFO5"></sub_button>
 		</sub_button_group>
 	</button>
-	<button button_type="click" button_name="绑定抢优惠" button_key="REGISTER"></button>
-	<button button_type="click" button_name="呼唤小伙伴" button_key="PROMOTION"></button>
+	<button button_type="click" button_name="课程表" button_key="CURRICULUM"></button>
+	<button button_type="click" button_name="我的普罗">
+		<sub_button_group>
+			<sub_button button_type="click" button_name="绑定抢优惠" button_key="REGISTER"></sub_button>
+			<sub_button button_type="click" button_name="呼唤小伙伴" button_key="PROMOTION"></sub_button>
+		</sub_button_group>
+	</button>
 	<!--button button_type="click" button_name="我的普罗">
 		<sub_button_group>
 			<sub_button button_type="click" button_name="普罗是什么" button_key="INTRODUCTION"></sub_button>
