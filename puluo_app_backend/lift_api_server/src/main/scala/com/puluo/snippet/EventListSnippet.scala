@@ -56,7 +56,7 @@ object EventListSnippet extends PuluoSnippetUtil with Loggable {
   def render = {
     val now = DateTime.now()
     val fromDate = now//.minusDays(now.dayOfWeek().get -1)
-    val toDate = now.plusDays(7-now.dayOfWeek().get)
+    val toDate = now.plusDays(14-now.dayOfWeek().get)
     val api = new EventSearchAPI(
          fromDate, 
          toDate,

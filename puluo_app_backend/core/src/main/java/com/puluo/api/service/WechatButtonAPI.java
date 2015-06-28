@@ -11,6 +11,7 @@ import com.puluo.api.result.wechat.WechatTextMessage;
 import com.puluo.config.Configurations;
 import com.puluo.dao.PuluoWechatBindingDao;
 import com.puluo.dao.impl.DaoApi;
+import com.puluo.dao.impl.PuluoWechatBindingDaoImpl;
 import com.puluo.entity.PuluoEvent;
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.PuluoUser;
@@ -179,6 +180,11 @@ public class WechatButtonAPI extends WechatAPI {
 		String fromUser = params.get("FromUserName");
 		String time = params.get("CreateTime");
 		String type = params.get("MsgType");
+		PuluoWechatBinding binding = DaoApi.getInstance().wechatBindingDao().findByOpenId(fromUser);
+		if(binding!=null){
+			log.info("find binding and it will be deleted");
+			((PuluoWechatBindingDaoImpl)DaoApi.getInstance().wechatBindingDao()).deleteByUserMobile(binding.mobile());
+		}
 		WechatTextAPI textAPI = new WechatTextAPI(toUser, fromUser, time, type,
 				"bd");
 		log.info(String.format(
