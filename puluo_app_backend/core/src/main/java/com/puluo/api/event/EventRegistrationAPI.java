@@ -48,7 +48,7 @@ public class EventRegistrationAPI extends
 
 	public EventRegistrationAPI(String event_uuid, String user_uuid,
 			PuluoPartner source,boolean mock) {
-		this(event_uuid, user_uuid, null, mock, DaoApi.getInstance());
+		this(event_uuid, user_uuid,null,source, mock, DaoApi.getInstance());
 	}
 
 	public EventRegistrationAPI(String event_uuid, String user_uuid,
