@@ -10,6 +10,7 @@ import com.puluo.dao.PuluoPaymentDao;
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.impl.PuluoPaymentOrderImpl;
 import com.puluo.enumeration.PuluoOrderStatus;
+import com.puluo.enumeration.PuluoPartner;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.jdbc.SqlReader;
 import com.puluo.util.Log;
@@ -71,6 +72,7 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 					.append("payment_time timestamp, ")
 					.append("user_id text, ")
 					.append("event_id text, ")
+					.append("source text,")
 					.append("status text)").toString();
 			log.info(createSQL);
 			getWriter().execute(createSQL);
@@ -124,7 +126,8 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 					TimeUtils.parseDateTime(TimeUtils.formatDate(rs.getTimestamp("payment_time"))),
 					rs.getString("user_id"),
 					rs.getString("event_id"),
-					PuluoOrderStatus.valueOf(rs.getString("status")));
+					PuluoOrderStatus.valueOf(rs.getString("status")),
+					PuluoPartner.valueOf(rs.getString("source")));
 			return paymentOrder;
 		}
 	}
@@ -167,13 +170,14 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 				} else {
 					updateSQL = new StringBuilder().append("insert into ")
 							.append(super.getFullTableName())
-							.append(" (order_uuid, payment_id, amount, payment_time, user_id, event_id, status)")
+							.append(" (order_uuid, payment_id, amount, payment_time, user_id, event_id,source, status)")
 							.append("values ('" + order.orderUUID() + "', ")
 							.append(Strs.isEmpty(order.paymentId()) ? "null" : "'" + order.paymentId() + "'").append(", ")
 							.append(order.amount()).append(", ")
 							.append(Strs.isEmpty(TimeUtils.formatDate(order.paymentTime())) ? "null" : "'" + TimeUtils.formatDate(order.paymentTime()) + "'").append(", ")
 							.append(Strs.isEmpty(order.userId()) ? "null" : "'" + order.userId() + "'").append(", ")
 							.append(Strs.isEmpty(order.eventId()) ? "null" : "'" + order.eventId() + "'").append(", ")
+							.append("'" + order.source().name() + "', ")
 							.append("'" + order.status().name() + "'").append(")")
 							.toString();
 					log.info(Strs.join("SQL: ", updateSQL));
@@ -216,6 +220,7 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 				if (!Strs.isEmpty(order.eventId())) {
 					updateSQL.append(" event_id = '" + order.eventId() + "',");
 				}
+				updateSQL.append(" source = '" + order.source().name() + "', ");
 				updateSQL.append(" status = '" + order.status().name() + "'");
 				updateSQL.append(" where order_uuid = '" + order.orderUUID() + "'");
 				log.info(Strs.join("SQL: ", updateSQL.toString()));

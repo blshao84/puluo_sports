@@ -31,6 +31,7 @@ import com.puluo.enumeration.PuluoEventCategory;
 import com.puluo.enumeration.PuluoEventLevel;
 import com.puluo.enumeration.PuluoEventPosterType;
 import com.puluo.enumeration.PuluoOrderStatus;
+import com.puluo.enumeration.PuluoPartner;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
 import com.puluo.util.TimeUtils;
@@ -161,7 +162,7 @@ public class EventTestDataSource {
 				"abc.jpg", infoID2, DateTime.now(),PuluoEventPosterType.POSTER,2);
 		
 		PuluoPaymentOrder payment = new PuluoPaymentOrderImpl(UUID.randomUUID().toString(), 0.0,
-				DateTime.now(), user.userUUID(), eventID1, PuluoOrderStatus.Paid);
+				DateTime.now(), user.userUUID(), eventID1, PuluoOrderStatus.Paid,PuluoPartner.PuluoWeb);
 		orderID = payment.orderUUID();
 
 		dsi.eventInfoDao().saveEventInfo(eventInfo1);

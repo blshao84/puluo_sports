@@ -41,6 +41,7 @@ import com.puluo.enumeration.CouponType
 import com.puluo.entity.impl.PuluoEventAttendee
 import com.puluo.api.event.EventPromotionFactory
 import com.puluo.api.event.EventPromotionFactory
+import com.puluo.enumeration.PuluoPartner
 
 object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender with Loggable {
   val mock = false
@@ -58,13 +59,14 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
     val userDao = DaoApi.getInstance().userDao()
     val eventUUID = S.param("uuid").getOrElse("")
     val userUUID = S.param("user_uuid").getOrElse("")
+    val source = getSource
     val userFromLink = userDao.getByUUID(userUUID)
     val event = dsi.eventDao().getEventByUUID(eventUUID)
     if (event == null) {
       "#event" #> "课程不存在"
-    } else if(event.eventEndTime().isBefore(DateTime.now)){
+    } else if (event.eventEndTime().isBefore(DateTime.now)) {
       "#event" #> "课程已结束"
-    }else {
+    } else {
       //get valid coupons
       val coupons = dsi.couponDao().getByUserUUID(userUUID, true).filter(_.locationUUID() == event.eventLocationUUID())
       val couponOptions = coupons.sortBy(_.validUntil().getMillis()).
@@ -90,7 +92,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
         renderSendAuthCode &
         renderCoupons(couponOptions, event, userFromLink) &
         renderMobile(userFromLink) &
-        renderReserve(userFromLink, event, isRegistered,attendees.size)
+        renderReserve(userFromLink, event, isRegistered, attendees.size, source)
     }
 
   }
@@ -104,7 +106,12 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
       }
   }
 
-  private def renderReserve(userFromLink: PuluoUser, event: PuluoEvent, isRegistered: Boolean, attendeeCnt: Int) = {
+  private def renderReserve(
+    userFromLink: PuluoUser,
+    event: PuluoEvent,
+    isRegistered: Boolean,
+    attendeeCnt: Int,
+    source: PuluoPartner) = {
     if (isRegistered) {
       "#reserve" #> "您已经注册该课程"
     } else {
@@ -118,7 +125,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
             else userDao.getByMobile(mobile.get.get)
             if (user != null) {
               if (userFromLink != null) {
-                doEventRegistration(user, event)
+                doEventRegistration(user, event, source)
               } else {
                 val coupons = DaoApi.getInstance().couponDao().getByUserUUID(user.userUUID(), true)
                 val cmd = if (coupons.isEmpty()) JsCmds.Noop else JsCmds.Alert("您的账户中有优惠券噢！")
@@ -154,11 +161,11 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
     }
   }
 
-  private def doEventRegistration(user: PuluoUser, event: PuluoEvent) = {
+  private def doEventRegistration(user: PuluoUser, event: PuluoEvent, source: PuluoPartner) = {
     val isEligible = EventPromotionFactory.checkReferalCount(event, user)
     if (isEligible.second) {
       val couponUUID: String = coupon.map(_.uuid()).getOrElse(null)
-      val api = new EventRegistrationAPI(event.eventUUID(), user.userUUID(), couponUUID, mock)
+      val api = new EventRegistrationAPI(event.eventUUID(), user.userUUID(), couponUUID, source, mock)
       api.execute()
       if (api.error == null) {
         val order = DaoApi.getInstance().paymentDao().getOrderByUUID(api.orderUUID)
@@ -217,5 +224,17 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
         ".discountDiv [style]" #> "" &
         ".priceDiv [style]" #> ""
     }
+  }
+
+  private def getSource = {
+    S.param("source").map(src =>
+      try {
+        PuluoPartner.valueOf(src)
+      } catch {
+        case e: Exception => {
+          logger.warn("miss source use PuluoWeb instead")
+          PuluoPartner.PuluoWeb
+        }
+      }).getOrElse(PuluoPartner.PuluoWeb)
   }
 }

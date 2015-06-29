@@ -29,6 +29,7 @@ import com.puluo.entity.impl.PuluoPaymentOrderImpl;
 import com.puluo.enumeration.CouponType;
 import com.puluo.enumeration.EventStatus;
 import com.puluo.enumeration.PuluoOrderStatus;
+import com.puluo.enumeration.PuluoPartner;
 import com.puluo.util.Strs;
 
 public class DBDataTool {
@@ -128,7 +129,7 @@ public class DBDataTool {
 					&& Strs.isEmpty(user.lastName())) {
 				PuluoPaymentOrder order = new PuluoPaymentOrderImpl(
 						"DO NOT NEED A PAYMENT!", 0, DateTime.now(),
-						user.userUUID(), eventID, PuluoOrderStatus.Paid);
+						user.userUUID(), eventID, PuluoOrderStatus.Paid,PuluoPartner.PuluoWeb);
 				DaoApi.getInstance().paymentDao().saveOrder(order);
 				cnt++;
 			}

@@ -14,6 +14,7 @@ import com.puluo.dao.impl.DaoTestApi;
 import com.puluo.entity.PuluoPaymentOrder;
 import com.puluo.entity.impl.PuluoPaymentOrderImpl;
 import com.puluo.enumeration.PuluoOrderStatus;
+import com.puluo.enumeration.PuluoPartner;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
@@ -33,13 +34,13 @@ public class PuluoPaymentDaoTest {
 		log.info("setUpDB start!");
 		PuluoPaymentDao paymentDao = DaoTestApi.paymentDevDao;
 		PuluoPaymentOrder payment_order_1 = new PuluoPaymentOrderImpl(UUID.randomUUID().toString(), 0.01,
-				DateTime.now(), UUID.randomUUID().toString(), event_id_1, PuluoOrderStatus.Undefined);
+				DateTime.now(), UUID.randomUUID().toString(), event_id_1, PuluoOrderStatus.Undefined,PuluoPartner.PuluoWeb);
 		PuluoPaymentOrder payment_order_2 = new PuluoPaymentOrderImpl(UUID.randomUUID().toString(), 0.02,
-				DateTime.now(), UUID.randomUUID().toString(), event_id_1, PuluoOrderStatus.Undefined);
+				DateTime.now(), UUID.randomUUID().toString(), event_id_1, PuluoOrderStatus.Undefined,PuluoPartner.PuluoWeb);
 		PuluoPaymentOrder payment_order_3 = new PuluoPaymentOrderImpl(UUID.randomUUID().toString(), 0.03,
-				DateTime.now(), user_uuid, event_id_2, PuluoOrderStatus.Paid);
+				DateTime.now(), user_uuid, event_id_2, PuluoOrderStatus.Paid,PuluoPartner.PuluoWeb);
 		PuluoPaymentOrder payment_order_4 = new PuluoPaymentOrderImpl(UUID.randomUUID().toString(), 0.04,
-				DateTime.now(), UUID.randomUUID().toString(), event_id_2, PuluoOrderStatus.Undefined);
+				DateTime.now(), UUID.randomUUID().toString(), event_id_2, PuluoOrderStatus.Undefined,PuluoPartner.PuluoWeb);
 		paymentDao.createTable();
 		paymentDao.saveOrder(payment_order_1);
 		paymentDao.saveOrder(payment_order_2);
@@ -104,7 +105,7 @@ public class PuluoPaymentDaoTest {
 		log.info("testSaveDuplicateOrder start!");
 		PuluoPaymentDao paymentDao = DaoTestApi.paymentDevDao;
 		PuluoPaymentOrder payment_order = new PuluoPaymentOrderImpl(UUID.randomUUID().toString(), 0.03,
-				DateTime.now(), user_uuid, event_id_2, PuluoOrderStatus.Paying);
+				DateTime.now(), user_uuid, event_id_2, PuluoOrderStatus.Paying,PuluoPartner.PuluoWeb);
 		boolean fail = paymentDao.saveOrder(payment_order);
 		Assert.assertFalse("saving a dupplicate order should be failed", fail);
 		log.info("testSaveDuplicateOrder done!");
@@ -119,7 +120,7 @@ public class PuluoPaymentDaoTest {
 		String userID = UUID.randomUUID().toString();
 		String eventID = UUID.randomUUID().toString();
 		PuluoPaymentOrder payment_order_2 = new PuluoPaymentOrderImpl(payment_order_1.orderNumericID(), payment_order_1.orderUUID(), paymentId, 0.03,
-				DateTime.now().minusMinutes(1), userID, eventID, PuluoOrderStatus.Paying);
+				DateTime.now().minusMinutes(1), userID, eventID, PuluoOrderStatus.Paying,PuluoPartner.PuluoWeb);
 		paymentDao.updateOrder(payment_order_2);
 		PuluoPaymentOrder payment_order_3 = paymentDao.getOrderByUUID(order_uuid_2);
 		Assert.assertEquals("the payment id should be " + paymentId, paymentId, payment_order_3.paymentId());

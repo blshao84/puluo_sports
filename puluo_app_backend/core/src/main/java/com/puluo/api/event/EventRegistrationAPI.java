@@ -23,6 +23,7 @@ import com.puluo.entity.payment.impl.OrderEventImpl;
 import com.puluo.entity.payment.impl.PuluoOrderStateMachine;
 import com.puluo.enumeration.OrderEventType;
 import com.puluo.enumeration.PuluoOrderStatus;
+import com.puluo.enumeration.PuluoPartner;
 import com.puluo.payment.alipay.AlipayUtil;
 import com.puluo.result.ApiErrorResult;
 import com.puluo.result.event.EventRegistrationResult;
@@ -37,29 +38,31 @@ public class EventRegistrationAPI extends
 	public final String event_uuid;
 	public final String user_uuid;
 	public final String coupon_uuid;
+	public final PuluoPartner source;
 	public final boolean mock;
 
 	public EventRegistrationAPI(String event_uuid, String user_uuid,
-			boolean mock, PuluoDSI dsi) {
-		this(event_uuid, user_uuid, null, mock, dsi);
+			PuluoPartner source,boolean mock, PuluoDSI dsi) {
+		this(event_uuid, user_uuid, null,source, mock, dsi);
 	}
 
 	public EventRegistrationAPI(String event_uuid, String user_uuid,
-			boolean mock) {
+			PuluoPartner source,boolean mock) {
 		this(event_uuid, user_uuid, null, mock, DaoApi.getInstance());
 	}
 
 	public EventRegistrationAPI(String event_uuid, String user_uuid,
-			String coupon_uuid, boolean mock) {
-		this(event_uuid, user_uuid, coupon_uuid, mock, DaoApi.getInstance());
+			String coupon_uuid,PuluoPartner source, boolean mock) {
+		this(event_uuid, user_uuid, coupon_uuid,source, mock, DaoApi.getInstance());
 	}
 
 	public EventRegistrationAPI(String event_uuid, String user_uuid,
-			String coupon_uuid, boolean mock, PuluoDSI dsi) {
+			String coupon_uuid,PuluoPartner source, boolean mock, PuluoDSI dsi) {
 		this.dsi = dsi;
 		this.event_uuid = event_uuid;
 		this.user_uuid = user_uuid;
 		this.coupon_uuid = coupon_uuid;
+		this.source = source;
 		this.mock = mock;
 	}
 
@@ -115,7 +118,7 @@ public class EventRegistrationAPI extends
 			DateTime paymentTime = DateTime.now();
 			PuluoPaymentOrder order = new PuluoPaymentOrderImpl("", amount,
 					paymentTime, user_uuid, event_uuid,
-					PuluoOrderStatus.Undefined);
+					PuluoOrderStatus.Undefined,source);
 			dsi.paymentDao().saveOrder(order);
 			PuluoPaymentOrder savedOrder = dsi.paymentDao().getOrderByUUID(
 					order.orderUUID());

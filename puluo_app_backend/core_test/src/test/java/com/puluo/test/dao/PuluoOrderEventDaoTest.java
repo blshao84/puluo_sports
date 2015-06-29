@@ -19,6 +19,7 @@ import com.puluo.entity.payment.OrderEvent;
 import com.puluo.entity.payment.impl.OrderEventImpl;
 import com.puluo.enumeration.OrderEventType;
 import com.puluo.enumeration.PuluoOrderStatus;
+import com.puluo.enumeration.PuluoPartner;
 import com.puluo.jdbc.DalTemplate;
 import com.puluo.util.Log;
 import com.puluo.util.LogFactory;
@@ -36,7 +37,7 @@ public class PuluoOrderEventDaoTest {
 		PuluoPaymentDao paymentDao = DaoTestApi.paymentDevDao;
 		PuluoPaymentOrder paymentOrder = new PuluoPaymentOrderImpl(UUID.randomUUID().toString(), 0.01,
 				DateTime.now(), UUID.randomUUID().toString(), UUID.randomUUID().toString(),
-				PuluoOrderStatus.Undefined);
+				PuluoOrderStatus.Undefined,PuluoPartner.PuluoWeb);
 		paymentDao.createTable();
 		paymentDao.saveOrder(paymentOrder);
 		order_uuid_1 = paymentOrder.orderUUID();

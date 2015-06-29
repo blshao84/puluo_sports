@@ -42,7 +42,7 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
     val session = PuluoSessionManager.getSession(token)
     val userUUID = session.userUUID()
     val mock = params.get("mock").map(_=="true").getOrElse(false)
-    val api = new EventRegistrationAPI(eventUUID, userUUID,mock)
+    val api = new EventRegistrationAPI(eventUUID, userUUID,PuluoPartner.PuluoApp,mock)
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)
   }
