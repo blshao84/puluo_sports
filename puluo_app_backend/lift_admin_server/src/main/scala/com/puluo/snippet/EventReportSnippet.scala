@@ -77,11 +77,11 @@ class EventReportSnippet extends PuluoSnippetUtil with Loggable {
   }
 
   private def generateCSV = {
-    val header = Seq("ID", "电话", "姓名", "锁号", "是否拿毛巾").mkString(",")
-    val content = orders.get.zipWithIndex.map {
+    val header = Seq("ID", "电话", "姓名", "锁号", "是否拿毛巾","组织").mkString(",")
+    val content = orders.get.sortBy(_.source().name()).zipWithIndex.map {
       case (order, index) =>
         val (mobile, name) = extractNameAndMobile(order)
-        Seq(index, mobile, name, "", "").mkString(",")
+        Seq(index, mobile, name, "", "",order.source().name()).mkString(",")
     }.mkString("\n")
     s"${header}\n${content}"
   }
@@ -89,7 +89,8 @@ class EventReportSnippet extends PuluoSnippetUtil with Loggable {
     val (mobile, name) = extractNameAndMobile(order)
     "#id *" #> index &
       "#mobile *" #> mobile &
-      "#name *" #> name
+      "#name *" #> name &
+      "#source *" #> order.source().name()
   }
 
   private def extractNameAndMobile(order: PuluoPaymentOrder): (String, String) = {
