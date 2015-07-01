@@ -109,7 +109,7 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 			
 			return true;
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			e.printStackTrace();;
 			return false;
 		}
 	}
@@ -148,7 +148,7 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 					selectSQL.toString(), new Object[] {value}, new PuluoPaymentOrderMapper());
 			return super.verifyUniqueResult(entities);
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			e.printStackTrace();;
 			return null;
 		}
 	}
@@ -275,7 +275,7 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 					selectSQL.toString(), new Object[] {eventUUID}, new PuluoPaymentOrderMapper());
 			return entities;
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			e.printStackTrace();;
 			return null;
 		}
 	}
@@ -293,7 +293,7 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 					selectSQL.toString(), new Object[] {eventUUID, userUUID}, new PuluoPaymentOrderMapper());
 			return super.verifyUniqueResult(entities);
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			e.printStackTrace();;
 			return null;
 		}
 	}
@@ -311,7 +311,7 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 					selectSQL.toString(), new Object[] {userUUID}, new PuluoPaymentOrderMapper());
 			return entities;
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			e.printStackTrace();;
 			return null;
 		}
 	}
@@ -329,7 +329,7 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 					selectSQL.toString(), new Object[] {eventUUID}, new PuluoPaymentOrderMapper());
 			return entities;
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			e.printStackTrace();;
 			return null;
 		}
 	}
@@ -349,7 +349,8 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 					selectSQL.toString(), new Object[] {userUUID}, new PuluoPaymentOrderMapper());
 			return entities;
 		} catch (Exception e) {
-			log.error(e.getMessage());
+		
+			e.printStackTrace();;
 			return null;
 		}
 	}
