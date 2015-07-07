@@ -22,9 +22,9 @@ public class Configurations {
 	private static final String imageServer = "http://img.puluosports.com/";
 
 	public static final String[] wechatButtonInfo1List = { "8kNscO0VuUHZEnKmy46tDHzNyxbeSJOqKrGNq_ghS-M" };
-	public static final String[] wechatButtonInfo2List = { "-vZuTzpVFraYz4ukhBe1XukSdvKCejArfUxbKyVS-rg" };
-	public static final String[] wechatButtonInfo3List = { "2aPPBwl7ReUS6nO_0Ug5wVIuSOw9zvReYcY1Xlwe_4o" };
-	public static final String[] wechatButtonInfo4List = { "8Upsb609zGi5YCBEuc7L3bDYqL_tWU-ywHLsEivZiLo" };
+	public static final String[] wechatButtonInfo2List = { "Rz6zoUBhHJKZkppYxPLuw1Mqu1VmAOEYYvWWa-l7cyg" };
+	public static final String[] wechatButtonInfo3List = { "yIqSjydNaMkCfo9lbvNMZL_ROCrHi8qEyrHcZ0aL3KQ" };
+	public static final String[] wechatButtonInfo4List = { "yIqSjydNaMkCfo9lbvNMZHAGDNj7WARJFASvOBhpjMk" };
 	public static final String[] wechatButtonInfo5List = { "lnI6lmKccENtVoJ4Ine_dnSvaKURrLMGg6NFYcG9Q2s" };
 	public static final String wechatCurriculum = "5vxnJeFsocaRBpI5ATV3GiVIWK2hp89iQ1MtAa2dUjk";
 	public static final String emptyImage = Strs.join(imageServer, "empty.jpg");

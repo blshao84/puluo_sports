@@ -3,10 +3,10 @@
 	<button button_type="click" button_name="酷炫课程">
 		<sub_button_group>
 					<sub_button button_type="click" button_name="热力尊巴" button_key="INFO1"></sub_button>
-					<sub_button button_type="click" button_name="哈他瑜伽" button_key="INFO2"></sub_button>
-					<sub_button button_type="click" button_name="普罗小斑" button_key="INFO4"></sub_button>
+					<sub_button button_type="click" button_name="瑜伽之夜" button_key="INFO2"></sub_button>
 					<sub_button button_type="click" button_name="燃爆腰腹" button_key="INFO3"></sub_button>
 					<sub_button button_type="click" button_name="疲劳消除" button_key="INFO5"></sub_button>
+					<sub_button button_type="click" button_name="优雅爵士" button_key="INFO4"></sub_button>
 		</sub_button_group>
 	</button>
 	<button button_type="click" button_name="课程表" button_key="CURRICULUM"></button>
