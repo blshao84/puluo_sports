@@ -26,6 +26,7 @@ public class WechatArticleMessage extends WechatMessage {
 		List<WechatMediaResource> res = dao.getResourceByNewsID(newsId);
 		WechatMediaResource targetItem = null;
 		for(WechatMediaResource it:res){
+			log.info(String.format("db resource = %s, item title = %s",it.wechatNewsItemTitle(),item.title));
 			if(it.wechatNewsItemTitle().equals(item.title)){
 				targetItem = it;
 			}
