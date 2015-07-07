@@ -24,7 +24,7 @@
 		<property name="driverClass" value="org.postgresql.Driver" />
 		<!-- 相应驱动的jdbcUrl,你懂的 -->
 		<property name="jdbcUrl"
-			value="jdbc:postgresql://183.131.76.93:2345/puluodb" />
+			value="jdbc:postgresql://localhost:2345/puluodb" />
 		<!-- 数据库的用户名 -->
 		<property name="username" value="puluodev" />
 		<!-- 数据库的密码 -->
@@ -51,7 +51,7 @@
 		<property name="driverClass" value="org.postgresql.Driver" />
 		<!-- 相应驱动的jdbcUrl,你懂的 -->
 		<property name="jdbcUrl"
-			value="jdbc:postgresql://183.131.76.93:2345/puluodb" />
+			value="jdbc:postgresql://localhost:2345/puluodb" />
 		<!-- 数据库的用户名 -->
 		<property name="username" value="puluodev" />
 		<!-- 数据库的密码 -->

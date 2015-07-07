@@ -65,6 +65,8 @@ public class ApiErrorResult extends HasJSON {
 		errors.add(new ApiErrorResult(48, "黑名单更新接口错误", "操作未定义", ""));
 		errors.add(new ApiErrorResult(49, "黑名单更新接口错误", "更新黑名单失败", ""));
 		errors.add(new ApiErrorResult(50, "黑名单更新接口错误", "无法将用户自己加入黑名单", ""));
+		errors.add(new ApiErrorResult(53, "取消订单接口错误", "订单不存在", ""));
+		errors.add(new ApiErrorResult(54, "取消订单接口错误", "订单未支付", ""));
 		errors.add(new ApiErrorResult(100, "系统错误", "处理请求时出现异常", ""));
 		for(ApiErrorResult e:errors){
 			error_registry.put(e.id, e);

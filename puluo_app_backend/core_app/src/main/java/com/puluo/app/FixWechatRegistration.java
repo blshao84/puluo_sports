@@ -8,8 +8,8 @@ import com.puluo.util.TimeUtils;
 
 public class FixWechatRegistration {
 	public static void main(String[] args) {
-		String fromUser= "oNTPZsxLYRbIukPVe610OCb3ff7o";
-		WechatTextAPI api = new WechatTextAPI("", fromUser, TimeUtils.formatDate(DateTime.now()), "", "360534");
+		String fromUser= "oNTPZs9OupjcdKCMrbi_yBTmWaoY";
+		WechatTextAPI api = new WechatTextAPI("", fromUser, TimeUtils.formatDate(DateTime.now()), "", "183254");
 		WechatMessage msg= api.process();
 		System.out.println(msg.toString());
 	}

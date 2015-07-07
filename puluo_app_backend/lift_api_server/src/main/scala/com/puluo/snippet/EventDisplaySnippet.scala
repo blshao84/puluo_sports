@@ -113,7 +113,9 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
     attendeeCnt: Int,
     source: PuluoPartner) = {
     if (isRegistered) {
-      "#reserve" #> "您已经注册该课程"
+      "#reserve" #> SHtml.ajaxButton("取消预定",()=>{
+        JsCmds.Noop
+      })
     } else {
       if (attendeeCnt >= event.capatcity()) {
         "#reserve" #> "抱歉！！！课程太火爆已经定满了！下次记得早点哟~"
@@ -160,6 +162,7 @@ object EventDisplaySnippet extends PuluoSnippetUtil with PuluoAuthCodeSender wit
       }
     }
   }
+
 
   private def doEventRegistration(user: PuluoUser, event: PuluoEvent, source: PuluoPartner) = {
     val isEligible = EventPromotionFactory.checkReferalCount(event, user)

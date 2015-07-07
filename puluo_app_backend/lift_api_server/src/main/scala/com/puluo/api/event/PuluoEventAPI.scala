@@ -22,8 +22,21 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
     case "events" :: "detail" :: eventUUID :: Nil Post _ => doGetEventDetail(eventUUID)
     case "events" :: "memory" :: eventUUID :: Nil Post _ => doGetEventMemory(eventUUID)
     case "events" :: "search" :: Nil Post _ => doEventSearch()
+    case "events" :: "cancel" :: Nil Post _ => callWithAuthParam(
+        Map(
+        "event_uuid" -> ErrorResponseResult(15).copy(message = "event_uuid")
+        ))(doCancelEvent)
   }
   
+  private def doCancelEvent(params:Map[String,String]) = {
+    val token = params("token")
+    val eventUUID = params("event_uuid")
+    val session = PuluoSessionManager.getSession(token)
+    val userUUID = session.userUUID()
+    val api = new EventCancellationAPI(eventUUID,userUUID)
+    safeRun(api)
+    PuluoResponseFactory.createJSONResponse(api)
+  }
   private def doGetRegisteredEvents(params:Map[String,String]) = {
     val token = PuluoResponseFactory.createParamMap(Seq("token")).values.head
     val session = PuluoSessionManager.getSession(token)

@@ -77,11 +77,6 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 			log.info(createSQL);
 			getWriter().execute(createSQL);
 			
-			String updateSQL = new StringBuilder().append("alter table ")
-					.append(super.getFullTableName())
-					.append(" add constraint " + super.getFullTableName() + "_pk_user_n_event unique(user_id, event_id)").toString();
-			log.info(updateSQL);
-			getWriter().execute(updateSQL);
 			
 			String indexSQL1 = new StringBuilder().append("create index " + super.getFullTableName() + "_i_order_num_id on ")
 					.append(super.getFullTableName())
@@ -220,6 +215,8 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 				if (!Strs.isEmpty(order.eventId())) {
 					updateSQL.append(" event_id = '" + order.eventId() + "',");
 				}
+				
+				//FIXME: should check for null
 				updateSQL.append(" source = '" + order.source().name() + "', ");
 				updateSQL.append(" status = '" + order.status().name() + "'");
 				updateSQL.append(" where order_uuid = '" + order.orderUUID() + "'");
@@ -287,7 +284,8 @@ public class PuluoPaymentDaoImpl extends DalTemplate implements PuluoPaymentDao{
 			String selectSQL = new StringBuilder()
 					.append("select * from ")
 					.append(super.getFullTableName())
-					.append(" where event_id = ? and user_id = ?").toString();
+					.append(" where event_id = ? and user_id = ? and status != '")
+					.append(PuluoOrderStatus.Cancel.name()).append("'").toString();
 			log.info(super.sqlRequestLog(selectSQL,eventUUID,userUUID));
 			List<PuluoPaymentOrder> entities = reader.query(
 					selectSQL.toString(), new Object[] {eventUUID, userUUID}, new PuluoPaymentOrderMapper());

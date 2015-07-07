@@ -12,6 +12,7 @@ import com.puluo.weichat.PuluoWechatTokenCache;
 import com.puluo.weichat.WechatImageMediaListResult;
 import com.puluo.weichat.WechatNewsContentItem;
 import com.puluo.weichat.WechatNewsItem;
+import com.puluo.weichat.WechatPermMediaItemResult;
 import com.puluo.weichat.WechatRichMediaItem;
 import com.puluo.weichat.WechatTextMediaListResult;
 import com.puluo.weichat.WechatUtil;
@@ -19,7 +20,22 @@ import com.puluo.weichat.WechatUtil;
 public class WechatImageUploader {
 
 	public static void main(String[] args) {
-		saveWechatImages();
+		//saveWechatImages();
+		saveWechatText();
+
+	}
+
+	public static void saveWechatText() {
+		String token = PuluoWechatTokenCache.token();
+		String mediaID = "sUNdqgGPNPRmvHmgUDklvCGx9KBe7zTL2wWFRPnz6so";
+		WechatPermMediaItemResult res = WechatUtil.getTextMedia(token, mediaID);
+		for (WechatNewsContentItem ci : res.news_item) {
+			System.out.println(ci.thumb_media_id + "->" + ci.title);
+			WechatMediaResourceDao dao = DaoApi.getInstance()
+					.wechatMediaResourceDao();
+			doSaveImage(token, ci.thumb_media_id, UUID.randomUUID().toString(),
+					ci.title, mediaID);
+		}
 
 	}
 
@@ -37,14 +53,17 @@ public class WechatImageUploader {
 				System.out.println(ci.thumb_media_id + "->" + ci.title);
 				WechatMediaResourceDao dao = DaoApi.getInstance()
 						.wechatMediaResourceDao();
-				if(dao.getResourceByMediaID(ci.thumb_media_id)==null){
-					doSaveImage(token,ci.thumb_media_id,UUID.randomUUID().toString(),ci.title,item.media_id);
+				if (dao.getResourceByMediaID(ci.thumb_media_id) == null) {
+					doSaveImage(token, ci.thumb_media_id, UUID.randomUUID()
+							.toString(), ci.title, item.media_id);
 				} else {
-					System.out.println("image is already saved, ignore this time ...");
+					System.out
+							.println("image is already saved, ignore this time ...");
 				}
 			}
 		}
-		WechatImageMediaListResult res = WechatUtil.getImageMediaList(token, "image");
+		WechatImageMediaListResult res = WechatUtil.getImageMediaList(token,
+				"image");
 		System.out.println(res);
 		WechatRichMediaItem item;
 		for (int i = 0; i < res.item.size(); i++) {
@@ -66,7 +85,7 @@ public class WechatImageUploader {
 			}
 			System.out.println(item.media_id + "," + name + "," + itemTitle
 					+ "," + newsId);
-			doSaveImage(token,item.media_id,name,itemTitle,newsId);
+			doSaveImage(token, item.media_id, name, itemTitle, newsId);
 		}
 	}
 

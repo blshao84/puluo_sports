@@ -11,6 +11,7 @@ import com.puluo.config.Configurations;
 import com.puluo.dao.PuluoCouponDao;
 import com.puluo.dao.PuluoEventDao;
 import com.puluo.dao.PuluoEventPosterDao;
+import com.puluo.dao.PuluoPaymentDao;
 import com.puluo.dao.PuluoUserDao;
 import com.puluo.dao.impl.DaoApi;
 import com.puluo.dao.impl.PuluoEventInfoDaoImpl;
@@ -31,6 +32,7 @@ import com.puluo.enumeration.EventStatus;
 import com.puluo.enumeration.PuluoOrderStatus;
 import com.puluo.enumeration.PuluoPartner;
 import com.puluo.util.Strs;
+import com.puluo.util.TimeUtils;
 
 public class DBDataTool {
 
@@ -38,18 +40,37 @@ public class DBDataTool {
 		// fixUserThumbnail();
 		// grantCoupons();
 		createWeeklyEvents();
-		//registerEvent();
-		//fixPosterRank();
+		// registerEvent();
+		// fixPosterRank();
 	}
 	
+	private static void fakeOrders() {
+		String idevent = "4a131632-ae98-4e5e-9f42-65d45a32451c";
+		PuluoPaymentOrder order1 = new PuluoPaymentOrderImpl(
+				311,UUID.randomUUID().toString(),"",0, DateTime.now(),"af48bfb1-36eb-4304-be95-e5f4fb08bc1e", idevent,PuluoOrderStatus.Paid , PuluoPartner.PuluoWeb);
+		PuluoPaymentOrder order2 = new PuluoPaymentOrderImpl(
+				312,UUID.randomUUID().toString(),"",0, DateTime.now(),"0d874681-934c-4df1-a935-d07195f0d5e7", idevent,PuluoOrderStatus.Paid , PuluoPartner.PuluoWeb);
+		PuluoPaymentOrder order3 = new PuluoPaymentOrderImpl(
+				313,UUID.randomUUID().toString(),"",0, DateTime.now(),"630eaa80-7dde-4919-b55b-6dd8add30ea5", idevent,PuluoOrderStatus.Paid , PuluoPartner.PuluoWeb);
+		PuluoPaymentOrder order4 = new PuluoPaymentOrderImpl(
+				314,UUID.randomUUID().toString(),"",0, DateTime.now(),"dcfa8988-7f98-45bb-b114-a609f19d3365", idevent,PuluoOrderStatus.Paid , PuluoPartner.PuluoWeb);
+		PuluoPaymentDao dao = DaoApi.getInstance().paymentDao();
+		dao.saveOrder(order1);
+		dao.saveOrder(order2);
+		dao.saveOrder(order3);
+		dao.saveOrder(order4);
+	}
+
 	private static void fixPosterRank() {
-		PuluoEventInfoDaoImpl eventInfoDaoImpl = (PuluoEventInfoDaoImpl)DaoApi.getInstance().eventInfoDao();
+		PuluoEventInfoDaoImpl eventInfoDaoImpl = (PuluoEventInfoDaoImpl) DaoApi
+				.getInstance().eventInfoDao();
 		PuluoEventPosterDao posterDao = DaoApi.getInstance().eventPosterDao();
 		List<PuluoEventInfo> infos = eventInfoDaoImpl.getAll();
-		for(PuluoEventInfo info:infos){
-			List<PuluoEventPoster> posters = posterDao.getEventPosterByInfoUUID(info.eventInfoUUID());
-			for(int i=0;i<posters.size();i++){
-				posterDao.updatePosterRank(posters.get(i).imageId(), i+1);
+		for (PuluoEventInfo info : infos) {
+			List<PuluoEventPoster> posters = posterDao
+					.getEventPosterByInfoUUID(info.eventInfoUUID());
+			for (int i = 0; i < posters.size(); i++) {
+				posterDao.updatePosterRank(posters.get(i).imageId(), i + 1);
 			}
 		}
 	}
@@ -91,8 +112,10 @@ public class DBDataTool {
 	@SuppressWarnings("unused")
 	private static void createWeeklyEvents() {
 		PuluoEventDao eventDao = DaoApi.getInstance().eventDao();
+		DateTime from = TimeUtils.parseDateTime("2015-07-04 00:00:00");
+		DateTime to = TimeUtils.parseDateTime("2015-07-04 23:59:59");
 		List<PuluoEvent> events = eventDao.findEvents(
-				DateTime.now().minusDays(7), DateTime.now(), null, null, null,
+				from,to, null, null, null,
 				null, 0, 0, 0, EventStatus.Open, null, 100, 0);
 		System.out.println(events.size());
 		for (PuluoEvent e : events) {
@@ -121,7 +144,7 @@ public class DBDataTool {
 		int cnt = 0;
 		int index = 0;
 		int size = users.size();
-		while (cnt < 1 && index<size) {
+		while (cnt < 1 && index < size) {
 			PuluoUser user = users.get(index);
 			index++;
 			if (!attendeeUUIDs.contains(user.userUUID())
@@ -129,7 +152,8 @@ public class DBDataTool {
 					&& Strs.isEmpty(user.lastName())) {
 				PuluoPaymentOrder order = new PuluoPaymentOrderImpl(
 						"DO NOT NEED A PAYMENT!", 0, DateTime.now(),
-						user.userUUID(), eventID, PuluoOrderStatus.Paid,PuluoPartner.PuluoWeb);
+						user.userUUID(), eventID, PuluoOrderStatus.Paid,
+						PuluoPartner.PuluoWeb);
 				DaoApi.getInstance().paymentDao().saveOrder(order);
 				cnt++;
 			}
