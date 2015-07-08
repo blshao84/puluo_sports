@@ -22,9 +22,22 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
     case "events" :: "detail" :: eventUUID :: Nil Post _ => doGetEventDetail(eventUUID)
     case "events" :: "memory" :: eventUUID :: Nil Post _ => doGetEventMemory(eventUUID)
     case "events" :: "search" :: Nil Post _ => doEventSearch()
+    case "events" :: "cancel" :: Nil Post _ => callWithAuthParam(
+      Map(
+        "event_uuid" -> ErrorResponseResult(15).copy(message = "event_uuid")))(doCancelEvent)
   }
-  
-  private def doGetRegisteredEvents(params:Map[String,String]) = {
+
+  private def doCancelEvent(params: Map[String, String]) = {
+    val token = params("token")
+    val eventUUID = params("event_uuid")
+    val session = PuluoSessionManager.getSession(token)
+    val userUUID = session.userUUID()
+    val api = new EventCancellationAPI(eventUUID, userUUID)
+    safeRun(api)
+    PuluoResponseFactory.createJSONResponse(api)
+  }
+
+  private def doGetRegisteredEvents(params: Map[String, String]) = {
     val token = PuluoResponseFactory.createParamMap(Seq("token")).values.head
     val session = PuluoSessionManager.getSession(token)
     val userUUID = session.userUUID()
@@ -33,21 +46,21 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)
   }
-  
 
   private def doRegister(eventUUID: String) = {
     //token must exist because it's authenticated
-    val params = PuluoResponseFactory.createParamMap(Seq("token","mock"))
+    val params = PuluoResponseFactory.createParamMap(Seq("token", "mock"))
     val token = params("token")
     val session = PuluoSessionManager.getSession(token)
     val userUUID = session.userUUID()
-    val mock = params.get("mock").map(_=="true").getOrElse(false)
-    val api = new EventRegistrationAPI(eventUUID, userUUID,PuluoPartner.PuluoApp,mock)
+    val mock = params.get("mock").map(_ == "true").getOrElse(false)
+    val api = new EventRegistrationAPI(eventUUID, userUUID, PuluoPartner.PuluoApp, mock)
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)
   }
 
-  private def doGetEventDetail(eventUUID: String) = {val token = PuluoResponseFactory.createParamMap(Seq("token")).values.head
+  private def doGetEventDetail(eventUUID: String) = {
+    val token = PuluoResponseFactory.createParamMap(Seq("token")).values.head
     val session = PuluoSessionManager.getSession(token)
     val userUUID = session.userUUID()
     val api = new EventDetailAPI(eventUUID, userUUID)
@@ -74,7 +87,7 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
   private def doEventSearch() = {
     val params = PuluoResponseFactory.createParamMap(Seq(
       "event_from_date", "event_to_date", "keyword", "level", "sort", "sort_direction",
-      "user_lattitude", "user_longitude", "status", "type","limit","offset"))
+      "user_lattitude", "user_longitude", "status", "type", "limit", "offset"))
     val eventFromDate: DateTime = getEventDate(params, "event_from_date")
     val eventToDate: DateTime = getEventDate(params, "event_to_date")
     logger.info(s"creating event search api with:\n${params.mkString("\n")}")
@@ -128,9 +141,9 @@ object PuluoEventAPI extends RestHelper with PuluoAPIUtil with Loggable {
       locationToDouble(params.get("user_longitude"))) match {
         case (Some(lattitude), Some(longitude)) => {
           logger.info("api has longitude and lattitude")
-          new EventSearchAPI(eventFromDate, eventToDate, keyword, level, sort, sortDirection, lattitude, longitude, 0.0, status, category,limit,offset)
+          new EventSearchAPI(eventFromDate, eventToDate, keyword, level, sort, sortDirection, lattitude, longitude, 0.0, status, category, limit, offset)
         }
-        case _ => new EventSearchAPI(eventFromDate, eventToDate, keyword, level, sort, sortDirection, 0.0, 0.0, 0.0, status, category,limit,offset)
+        case _ => new EventSearchAPI(eventFromDate, eventToDate, keyword, level, sort, sortDirection, 0.0, 0.0, 0.0, status, category, limit, offset)
       }
     safeRun(api)
     PuluoResponseFactory.createJSONResponse(api)

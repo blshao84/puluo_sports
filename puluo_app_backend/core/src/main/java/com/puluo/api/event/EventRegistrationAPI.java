@@ -84,10 +84,10 @@ public class EventRegistrationAPI extends
 			} else {
 				PuluoOrderStatus status = order.status();
 				if (status.isCancel()) {
-					log.error(String.format("订单(uuid is %s)已经被取消",
+					log.error(String.format("订单(uuid is %s)已经被取消,重新更新订单",
 							order.orderUUID()));
-					this.error = ApiErrorResult.getError(2);
-					this.rawResult = null;
+					EventRegistrationResult result = updateOrder(order);
+					this.rawResult = result;
 				} else if (status.isPaid()) {
 					this.rawResult = new EventRegistrationResult("",
 							order.orderUUID(), true);
@@ -172,6 +172,9 @@ public class EventRegistrationAPI extends
 			dsi.paymentDao().updateOrderStatus(updatedOrder, nextStatus2);
 			break;
 		case Paying:
+			break;
+		case Cancel:
+			//TODO:should handle re-opened canceled orders
 			break;
 		default:
 			break;
