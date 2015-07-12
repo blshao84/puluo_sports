@@ -167,7 +167,7 @@ public class PuluoEventDaoImpl extends DalTemplate implements PuluoEventDao {
 				.append("select e.* from ")
 				.append(super.getFullTableName()
 						+ " e, puluo_event_info i, puluo_event_location l")
-				.append(" where e.info_uuid = i.event_info_uuid and e.location_uuid = l.location_uuid");
+				.append(" where e.hottest >=0 and e.info_uuid = i.event_info_uuid and e.location_uuid = l.location_uuid");
 		for (String tmp : params) {
 			selectSQL.append(tmp);
 		}
