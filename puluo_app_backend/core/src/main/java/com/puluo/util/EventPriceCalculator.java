@@ -17,7 +17,7 @@ public class EventPriceCalculator {
 			return 0.0;
 		} else {
 			if (coupon != null && user != null) {
-				Double eventPrice = event.price();
+				Double eventPrice = calculate(event, user);
 				Double couponDiscount = coupon.amount();
 				String couponUser = coupon.ownerUUID();
 				if (couponUser.equals(user.userUUID()) && coupon.isValid()) {
