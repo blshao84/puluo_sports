@@ -65,7 +65,17 @@ public class PuluoOrderStateMachine {
 	}
 
 	private static PuluoOrderStatus fromCancelState(OrderEvent event) {
-		return PuluoOrderStatus.Undefined;
+		PuluoOrderStatus status = PuluoOrderStatus.Undefined;
+		switch (event.eventType()) {
+		case PayOrderEvent:
+			status = PuluoOrderStatus.Paying;
+			break;
+		default:
+			status = PuluoOrderStatus.Undefined;
+			break;
+		}
+
+		return status;
 	}
 
 	private static PuluoOrderStatus fromCompleteState(OrderEvent event) {

@@ -83,27 +83,35 @@ public class EventCancellationTest extends APIFunctionalTest {
 			
 			@Override
 			public void run(String session) throws UnirestException {
+
+				log.info("testCancelEvent start!");
 				JsonNode json = callAPI("/events/payment/" + event_uuid, inputs(session));
 				log.info(json);
 				String order = getStringFromJson(json, "order_uuid");
+				String paid = getStringFromJson(json, "paid");
 				Assert.assertNotNull(order);
-				json = callAPI("/events/registered", inputs(session));
-				log.info(json);
+				Assert.assertTrue("paid should be true", Boolean.valueOf(paid));
+				log.info("Paid order has been completed!");
+				
 				json = callAPI("/events/cancel", inputs(session));
 				log.info(json);
-				order_uuid = order;
+				order = getStringFromJson(json, "order_uuid");
+				String success = getStringFromJson(json, "success");
+				Assert.assertNotNull(order);
+				Assert.assertTrue("success should be true", Boolean.valueOf(success));
 				PuluoPaymentOrder payment = DaoApi.getInstance().paymentDao().getOrderByUUID(order);
 				Assert.assertEquals(PuluoOrderStatus.Cancel, payment.status());
-				json = callAPI("/events/registered", inputs(session));
-				log.info(json);
+				log.info("Paid order has been cancelled!");
+				
 				json = callAPI("/events/payment/" + event_uuid, inputs(session));
 				log.info(json);
 				order = getStringFromJson(json, "order_uuid");
+				paid = getStringFromJson(json, "paid");
 				Assert.assertNotNull(order);
-				json = callAPI("/events/registered", inputs(session));
-				log.info(json);
+				Assert.assertTrue("paid should be true", Boolean.valueOf(paid));
+				log.info("Cancelled order has been re-paid!");
 				
-
+				log.info("testCancelEvent end!");
 			}
 			
 			@Override

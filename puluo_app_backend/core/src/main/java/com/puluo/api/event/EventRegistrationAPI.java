@@ -174,7 +174,14 @@ public class EventRegistrationAPI extends
 		case Paying:
 			break;
 		case Cancel:
-			//TODO:should handle re-opened canceled orders
+			// 取消状态的订单，重新支付，OrderEvent记PayOrderEvent
+			OrderEvent event4 = new OrderEventImpl(updatedOrder.orderUUID(),
+					OrderEventType.PayOrderEvent);
+			dsi.orderEventDao().saveOrderEvent(event4);
+			//Order的下一个状态为Paying
+			PuluoOrderStatus nextStatus3 = PuluoOrderStateMachine.nextState(
+					updatedOrder, event4);
+			dsi.paymentDao().updateOrderStatus(updatedOrder, nextStatus3);
 			break;
 		default:
 			break;
