@@ -99,10 +99,14 @@ public class OrderStateMachineTest {
 	public void testFromCancel() {
 		PuluoPaymentOrder order = mock(PuluoPaymentOrderImpl.class);
 		when(order.status()).thenReturn(PuluoOrderStatus.Cancel);
+		
+		verifyDefinedEvent(order, OrderEventType.PayOrderEvent,
+				PuluoOrderStatus.Paying);
+		
 		OrderEventType[] undefinedEvents = { OrderEventType.CancelOrderEvent,
 				OrderEventType.CompleteOrderEvent,
 				OrderEventType.ConfirmOrderEvent,
-				OrderEventType.DropOrderEvent, OrderEventType.PayOrderEvent,
+				OrderEventType.DropOrderEvent,
 				OrderEventType.PlaceOrderEvent };
 		verifyUndefinedEvents(order, undefinedEvents);
 	}
