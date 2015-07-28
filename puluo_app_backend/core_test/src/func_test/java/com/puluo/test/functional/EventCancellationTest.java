@@ -111,6 +111,7 @@ public class EventCancellationTest extends APIFunctionalTest {
 				Assert.assertTrue("paid should be true", Boolean.valueOf(paid));
 				log.info("Cancelled order has been re-paid!");
 				
+				order_uuid = getStringFromJson(json, "order_uuid");
 				log.info("testCancelEvent end!");
 			}
 			
